@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <!-- Fixes. -->
+    <style name="CardView">
+        <item name="cardBackgroundColor">@color/card_background_light</item>
+        <item name="cardCornerRadius">@dimen/cardview_default_radius</item>
+        <item name="cardElevation">@dimen/cardview_default_elevation</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardPreventCornerOverlap">false</item>
+    </style>
+    <style name="CardView.Dark">
+        <item name="cardBackgroundColor">@color/card_background_dark</item>
+    </style>
+    <style name="CardView.Light">
+        <item name="cardBackgroundColor">@color/card_background_light</item>
+    </style>
+
+    <!-- Additions. -->
+    <style name="TextAppearance.AppCompat.Body1.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Body2.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Button.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Caption.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Display1.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Display2.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Display3.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Display4.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Headline.Inverse">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:attr/textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:attr/textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:attr/textColorLinkInverse</item>
+    </style>
+
+    <style name="Base.TextAppearance.Douya.Widget.ActionBar.Menu" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textSize">@dimen/abc_text_size_menu_material</item>
+    </style>
+
+    <style name="TextAppearance.Douya.Widget.ActionBar.Menu" parent="@style/Base.TextAppearance.Douya.Widget.ActionBar.Menu">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Widget.Douya.Toolbar.Button.Navigation" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:paddingLeft">0dp</item>
+    </style>
+</resources>

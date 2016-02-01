@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      ~ Unable to use a SwipeRefreshLayout here, because web page can set an onTouchListener for
+      ~ custom scrolling, but SwipeRefreshLayout has no knowledge of this and will intercept the
+      ~ touch event.
+      -->
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/toolbar_height" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:visibility="gone" />
+
+    <!-- Don't set background color on this layout because it will mess up with wrap_content. -->
+    <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->
+    <me.zhanghai.android.douya.ui.AppBarWrapperLayout
+        android:id="@+id/appbar_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="?actionBarTheme">
+
+        <include layout="@layout/webview_acitivity_toolbar" />
+    </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
+</merge>

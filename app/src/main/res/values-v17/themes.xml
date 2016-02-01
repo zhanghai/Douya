@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <style name="ThemeOverlay.Preference" parent="Base.ThemeOverlay.Preference">
+        <item name="android:listPreferredItemPaddingStart">@dimen/screen_edge_horizontal_margin</item>
+        <item name="android:listPreferredItemPaddingEnd">@dimen/screen_edge_horizontal_margin</item>
+    </style>
+</resources>

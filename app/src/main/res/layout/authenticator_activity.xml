@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Using android:layout_marginTop here to compensate for CardView's margin. -->
+        <!-- Using dp as unit for android:textSize because this TextView functions as imagery. -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/screen_edge_horizontal_margin"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="72dp"
+            tools:ignore="SpUsage" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Using app:cardMaxElevation as margin. -->
+        <me.zhanghai.android.douya.ui.FriendlyCardView
+            android:layout_width="@dimen/card_view_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/screen_edge_horizontal_margin_negative_half"
+            android:layout_marginBottom="@dimen/screen_edge_horizontal_margin_negative_half"
+            app:cardMaxElevation="@dimen/screen_edge_horizontal_margin">
+
+            <LinearLayout
+                android:id="@+id/form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+                    android:id="@+id/username_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
+                    android:layout_marginRight="@dimen/card_content_horizontal_margin_with_4dp_padding"
+                    android:layout_marginTop="@dimen/card_content_vertical_margin_large"
+                    app:errorEnabled="true">
+
+                    <me.zhanghai.android.materialedittext.MaterialEditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/auth_username"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1" />
+                </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+
+                <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+                    android:id="@+id/password_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
+                    android:layout_marginRight="@dimen/card_content_horizontal_margin_with_4dp_padding"
+                    app:errorEnabled="true">
+
+                    <me.zhanghai.android.materialedittext.MaterialEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/auth_password"
+                        android:imeActionId="@+id/ime_login"
+                        android:imeActionLabel="@string/auth_log_in"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1" />
+                </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
+                    android:layout_marginRight="@dimen/card_content_horizontal_margin_with_4dp_padding"
+                    android:text="@string/auth_log_in"
+                    style="@style/Widget.AppCompat.Button.Colored" />
+
+                <Button
+                    android:id="@+id/register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_action_margin_with_4dp_padding"
+                    android:layout_marginRight="@dimen/card_action_margin_with_4dp_padding"
+                    android:layout_marginTop="@dimen/card_action_margin"
+                    android:layout_marginBottom="@dimen/card_action_margin"
+                    android:layout_gravity="right"
+                    android:text="@string/auth_register"
+                    android:textColor="?android:textColorHint"
+                    style="?borderlessButtonStyle" />
+            </LinearLayout>
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                style="@style/Widget.MaterialProgressBar.ProgressBar" />
+        </me.zhanghai.android.douya.ui.FriendlyCardView>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="@dimen/weight_1_when_tablet" />
+    </LinearLayout>
+</ScrollView>

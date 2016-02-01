@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/navigation_group_primary"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/home_icon_black_24dp"
+            android:title="@string/navigation_home" />
+
+        <item
+            android:id="@+id/navigation_book"
+            android:icon="@drawable/book_icon_black_24dp"
+            android:title="@string/navigation_book" />
+
+        <item
+            android:id="@+id/navigation_music"
+            android:icon="@drawable/music_icon_black_24dp"
+            android:title="@string/navigation_music" />
+
+        <item
+            android:id="@+id/navigation_movie"
+            android:icon="@drawable/movie_icon_black_24dp"
+            android:title="@string/navigation_movie" />
+    </group>
+
+    <!-- Set an id on this group to show a divider. -->
+    <group android:id="@+id/navigation_group_secondary" >
+
+        <item
+            android:id="@+id/navigation_settings"
+            android:icon="@drawable/settings_icon_black_24dp"
+            android:title="@string/navigation_settings" />
+
+        <item
+            android:id="@+id/navigation_feedback"
+            android:icon="@drawable/feedback_icon_black_24dp"
+            android:title="@string/navigation_feedback" />
+    </group>
+</menu>

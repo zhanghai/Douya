@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/card_background_light">
+
+    <me.zhanghai.android.douya.broadcast.ui.BroadcastLayout
+        android:id="@+id/broadcast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:paddingLeft="@dimen/card_content_horizontal_margin_with_12dp_padding"
+        android:paddingRight="@dimen/card_content_horizontal_margin_with_12dp_padding"
+        android:orientation="horizontal"
+        style="?buttonBarStyle">
+
+        <Button
+            android:id="@+id/view_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/broadcast_view_activity"
+            android:textColor="?android:textColorLink"
+            style="?borderlessButtonStyle" />
+    </LinearLayout>
+</LinearLayout>

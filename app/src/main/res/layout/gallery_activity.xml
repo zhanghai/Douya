@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <me.zhanghai.android.douya.ui.FriendlyViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Don't set background color on this layout because it will mess up with wrap_content. -->
+    <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->
+    <!-- Use a wrapping layout to clip toolbar in order to avoid overlap with status bar. -->
+    <FrameLayout
+        android:id="@+id/appbar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="?actionBarTheme">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:elevation="@dimen/appbar_elevation"
+            android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+            android:paddingRight="@dimen/screen_edge_horizontal_margin"
+            android:background="@color/dark_50_percent"
+            app:navigationIcon="@drawable/back_icon_white_24dp"
+            app:popupTheme="?actionBarPopupTheme"
+            app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+    </FrameLayout>
+</merge>

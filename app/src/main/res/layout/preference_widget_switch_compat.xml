@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<!--
+  ~ This overrides
+  ~ com.android.support/preference-v7/23.1.1/res/layout/preference_widget_switch_compat.xml
+  ~ for using FriendlySwitchCompat instead of SwitchCompat.
+  -->
+
+<!-- Layout used by SwitchPreference for the switch widget style. This is inflated
+     inside android.R.layout.preference. -->
+<android.support.v7.widget.FriendlySwitchCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/switchWidget"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusable="false"
+    android:clickable="false"
+    android:background="@null" />

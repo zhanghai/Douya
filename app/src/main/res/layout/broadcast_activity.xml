@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- This layout ensures correct z-order during transition. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="@dimen/card_activity_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/card_activity_horizontal_margin"
+            android:layout_marginRight="@dimen/card_activity_horizontal_margin"
+            android:layout_marginTop="@dimen/toolbar_height"
+            android:layout_marginBottom="@dimen/toolbar_height"
+            android:background="@color/grey_100"
+            android:transitionName="@string/transition_name_broadcast">
+
+            <me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/broadcast_comment_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical"
+                    android:scrollbarStyle="outsideOverlay" />
+            </me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout>
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone"
+                style="@style/Widget.MaterialProgressBar.ProgressBar" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <!-- TODO: Add a compatible shadow. -->
+    <!--
+      ~ Set android:clickable="true" so that user's touch on this layout won't be handled by parent
+      ~ which will finish the activity.
+      -->
+    <LinearLayout
+        android:layout_width="@dimen/card_activity_width"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/toolbar_height"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginLeft="@dimen/card_activity_horizontal_margin"
+        android:layout_marginRight="@dimen/card_activity_horizontal_margin"
+        android:paddingLeft="@dimen/toolbar_edit_left_margin"
+        android:paddingRight="@dimen/toolbar_button_right_margin"
+        android:background="@color/card_background_light"
+        android:clickable="true"
+        android:elevation="@dimen/appbar_elevation"
+        android:orientation="horizontal">
+
+        <me.zhanghai.android.materialedittext.MaterialEditText
+            android:id="@+id/comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/toolbar_edit_right_margin"
+            android:hint="@string/broadcast_send_comment_hint"
+            android:maxLines="4">
+            <requestFocus />
+        </me.zhanghai.android.materialedittext.MaterialEditText>
+
+        <ImageButton
+            android:id="@+id/send"
+            android:layout_width="@dimen/touch_target_size"
+            android:layout_height="@dimen/touch_target_size"
+            android:layout_gravity="center_vertical"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/broadcast_send_comment"
+            android:padding="@dimen/icon_button_padding"
+            android:src="@drawable/send_icon_black_24dp"
+            android:tint="?colorAccent" />
+    </LinearLayout>
+
+    <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->
+    <me.zhanghai.android.douya.ui.AppBarWrapperLayout
+        android:id="@+id/appbar_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:elevation="@dimen/appbar_elevation"
+            android:theme="?actionBarTheme">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+                android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
+                app:navigationIcon="@drawable/back_icon_white_24dp"
+                app:popupTheme="?actionBarPopupTheme"
+                app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+        </LinearLayout>
+    </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
+</merge>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <fragment
+        android:id="@+id/settings"
+        android:name="me.zhanghai.android.douya.settings.ui.SettingsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/toolbar_height" />
+
+    <me.zhanghai.android.douya.ui.AppBarWrapperLayout
+        android:id="@+id/appbar_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:elevation="@dimen/appbar_elevation"
+            android:theme="?actionBarTheme">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+                android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
+                app:navigationIcon="@drawable/back_icon_white_24dp"
+                app:popupTheme="?actionBarPopupTheme"
+                app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+        </LinearLayout>
+    </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
+</merge>

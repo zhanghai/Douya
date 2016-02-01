@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <selector>
+            <item android:state_enabled="false" android:state_activated="true">
+                <shape android:shape="oval">
+                    <solid android:color="@color/green_100" />
+                </shape>
+            </item>
+            <item android:state_enabled="false">
+                <shape android:shape="oval">
+                    <solid android:color="@color/green_300" />
+                </shape>
+            </item>
+            <item android:state_activated="true">
+                <shape android:shape="oval">
+                    <solid android:color="@color/green_500" />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@color/grey_200" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+
+    <!-- FIXME: Use an oval background instead. -->
+    <item android:drawable="@drawable/abc_item_background_holo_light" />
+</layer-list>

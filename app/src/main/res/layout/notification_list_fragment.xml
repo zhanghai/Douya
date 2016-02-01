@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<me.zhanghai.android.douya.ui.DispatchInsetsFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:progressDistanceOffset="@dimen/status_bar_height">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notification_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="true"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay" />
+    </me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout>
+
+    <!-- For fitsSystemWindows. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone"
+            style="@style/Widget.MaterialProgressBar.ProgressBar" />
+    </FrameLayout>
+</me.zhanghai.android.douya.ui.DispatchInsetsFrameLayout>

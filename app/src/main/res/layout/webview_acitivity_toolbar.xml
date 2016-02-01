@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:elevation="@dimen/appbar_elevation"
+    android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+    android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
+    android:background="?colorPrimary"
+    app:navigationIcon="@drawable/back_icon_white_24dp"
+    app:popupTheme="?actionBarPopupTheme"
+    app:titleMarginStart="@dimen/toolbar_title_left_margin">
+
+    <include layout="@layout/toolbar_progress"/>
+</android.support.v7.widget.Toolbar>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<!-- HACK: Use 1px negative margin to workaround white frame of CardView. -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="-1px"
+    android:layout_marginRight="-1px"
+    android:orientation="vertical">
+
+    <me.zhanghai.android.douya.ui.AutoGoneTextView
+        android:id="@+id/rebroadcasted_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+        android:layout_marginTop="@dimen/card_vertical_space_half"
+        android:layout_marginBottom="@dimen/card_header_bottom_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="?android:textColorTertiary" />
+
+    <me.zhanghai.android.douya.ui.FriendlyCardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/card_horizontal_margin"
+        android:layout_marginRight="@dimen/card_horizontal_margin"
+        android:layout_marginTop="@dimen/card_vertical_margin"
+        android:layout_marginBottom="@dimen/card_vertical_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardMaxElevation="@dimen/card_elevation">
+
+        <me.zhanghai.android.douya.broadcast.ui.BroadcastLayout
+            android:id="@+id/broadcast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </me.zhanghai.android.douya.ui.FriendlyCardView>
+</LinearLayout>

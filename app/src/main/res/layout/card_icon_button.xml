@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <me.zhanghai.android.douya.ui.TintStateListImageView
+        android:id="@+id/cardiconbutton_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="9dp"
+        android:background="@drawable/card_icon_button_background"
+        app:tint="@drawable/card_icon_button_tint"
+        android:duplicateParentState="true" />
+
+    <me.zhanghai.android.douya.ui.AutoGoneTextView
+        android:id="@+id/cardiconbutton_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+</merge>

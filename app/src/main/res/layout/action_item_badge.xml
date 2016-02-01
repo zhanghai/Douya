@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:minWidth="@dimen/abc_action_button_min_width_material"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/abc_action_button_min_height_material"
+    android:layout_gravity="center"
+    android:background="?attr/actionBarItemBackground">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:gravity="center"
+        android:scaleType="center" />
+
+    <TextView
+        android:id="@+id/badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="4dp"
+        android:paddingBottom="1dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="1dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+</FrameLayout>

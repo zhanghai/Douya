@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:theme="?actionBarTheme">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+            android:paddingRight="@dimen/screen_edge_horizontal_margin"
+            android:paddingTop="@dimen/screen_edge_horizontal_margin"
+            android:paddingBottom="@dimen/screen_edge_horizontal_margin"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-24dp"
+                android:text="@string/about_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_words"
+                style="@style/TextAppearance.AppCompat.Headline" />
+
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                style="@style/TextAppearance.AppCompat.Subhead" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/about_credit"
+                style="@style/TextAppearance.AppCompat.Subhead" />
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+        android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
+        android:theme="?actionBarTheme"
+        app:navigationIcon="@drawable/back_icon_white_24dp"
+        app:popupTheme="?actionBarPopupTheme" />
+</merge>

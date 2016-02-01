@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <item name="match_parent" type="dimen" format="integer">-1</item>
+    <item name="wrap_content" type="dimen" format="integer">-2</item>
+
+    <item name="weight_1_when_phone" type="dimen" format="float">1</item>
+    <item name="weight_1_when_tablet" type="dimen" format="float">0</item>
+
+    <dimen name="status_bar_height">25dp</dimen>
+    <dimen name="screen_edge_horizontal_margin">16dp</dimen>
+    <dimen name="screen_edge_horizontal_margin_negative_half">-8dp</dimen>
+    <dimen name="content_horizontal_margin">72dp</dimen>
+    <dimen name="content_horizontal_margin_from_screen_edge">56dp</dimen>
+    <dimen name="content_horizontal_margin_from_screen_edge_with_40dp_padding">16dp</dimen>
+    <dimen name="toolbar_navigation_button_left_margin">-2dp</dimen>
+    <dimen name="toolbar_title_left_margin">18dp</dimen>
+    <dimen name="toolbar_button_right_margin">2dp</dimen>
+    <dimen name="toolbar_overflow_button_right_margin">-6dp</dimen>
+    <dimen name="toolbar_edit_left_margin">12dp</dimen>
+    <dimen name="toolbar_edit_right_margin">18dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="tab_height">48dp</dimen>
+    <dimen name="toolbar_hide_offset">-54dp</dimen>
+    <dimen name="toolbar_and_tab_height">104dp</dimen>
+    <dimen name="toolbar_and_tab_hide_offset">-110dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="drawer_max_width">320dp</dimen>
+    <dimen name="list_padding_vertical">8dp</dimen>
+    <dimen name="single_line_list_item_height">56dp</dimen>
+    <dimen name="two_line_list_item_height">72dp</dimen>
+    <dimen name="three_line_list_item_height">88dp</dimen>
+    <!-- Using hard-coded 1dp as height for shared-element transition on Android 5.0 -->
+    <dimen name="horizontal_divider_height">1dp</dimen>
+    <!-- 3x toolbar height per Material Design Spec. -->
+    <dimen name="scrim_height">168dp</dimen>
+    <dimen name="card_list_horizontal_padding">0dp</dimen>
+    <dimen name="card_activity_width">@dimen/match_parent</dimen>
+    <dimen name="card_activity_horizontal_margin">0dp</dimen>
+    <dimen name="card_view_width">@dimen/match_parent</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <!-- See RoundRectDrawableWithShadow.calculate(Vertical)Padding(). -->
+    <dimen name="card_shadow_horizontal_margin">-2dp</dimen>
+    <dimen name="card_shadow_vertical_margin">-3dp</dimen>
+    <dimen name="card_vertical_space">16dp</dimen>
+    <dimen name="card_vertical_space_half">8dp</dimen>
+    <dimen name="card_horizontal_margin">@dimen/card_shadow_horizontal_margin</dimen>
+    <dimen name="card_vertical_margin">5dp</dimen>
+    <dimen name="card_header_bottom_margin">-4dp</dimen>
+    <dimen name="card_corner_radius">0dp</dimen>
+    <dimen name="card_content_horizontal_margin">16dp</dimen>
+    <dimen name="card_content_horizontal_margin_with_4dp_padding">12dp</dimen>
+    <dimen name="card_content_horizontal_margin_with_8dp_padding">8dp</dimen>
+    <dimen name="card_content_horizontal_margin_with_12dp_padding">4dp</dimen>
+    <dimen name="card_content_horizontal_space">16dp</dimen>
+    <dimen name="card_content_horizontal_space_with_4dp_padding">12dp</dimen>
+    <dimen name="card_content_horizontal_space_with_12dp_padding">4dp</dimen>
+    <dimen name="card_content_horizontal_space_with_16dp_padding">0dp</dimen>
+    <dimen name="card_content_vertical_margin_large">24dp</dimen>
+    <dimen name="card_content_vertical_margin">16dp</dimen>
+    <dimen name="card_content_vertical_margin_with_4dp_padding">12dp</dimen>
+    <dimen name="card_content_vertical_margin_with_12dp_padding">4dp</dimen>
+    <dimen name="card_content_vertical_margin_small">8dp</dimen>
+    <dimen name="card_content_vertical_space">16dp</dimen>
+    <dimen name="card_content_vertical_space_with_4dp_padding">12dp</dimen>
+    <dimen name="card_action_margin">8dp</dimen>
+    <dimen name="card_action_margin_with_4dp_padding">4dp</dimen>
+    <dimen name="card_action_margin_with_8dp_padding">0dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="touch_target_size">48dp</dimen>
+    <dimen name="toolbar_button_size">48dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
+    <dimen name="avatar_padding">4dp</dimen>
+    <dimen name="avatar_small_padding">12dp</dimen>
+    <dimen name="icon_button_padding">12dp</dimen>
+    <!-- Fab internally sets a 14dp margin on pre-Lollipop devices. -->
+    <dimen name="fab_margin">2dp</dimen>
+    <dimen name="dialog_padding_horizontal_with_4dp_padding">20dp</dimen>
+
+    <dimen name="image_max_height">640dp</dimen>
+</resources>

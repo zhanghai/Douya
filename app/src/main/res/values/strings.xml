@@ -1,0 +1,207 @@
+<resources>
+
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="close">关闭</string>
+    <string name="no">否</string>
+    <string name="reload">重新加载</string>
+    <string name="yes">是</string>
+
+    <string name="activity_not_found">未找到可处理此操作的应用程序</string>
+    <string name="copied_to_clipboard_format">已复制到剪贴板：\n%1$s</string>
+
+    <string name="just_now">刚刚</string>
+    <string name="minute_format">%1$d分钟前</string>
+    <string name="hour_format">%1$d小时前</string>
+    <string name="today_hour_minute_pattern">今天 HH:mm</string>
+    <string name="yesterday_hour_minute_pattern">昨天 HH:mm</string>
+    <string name="month_day_hour_minute_pattern">M月d日 HH:mm</string>
+    <string name="date_hour_minute_pattern">Y年M月d日 HH:mm</string>
+
+    <!-- Overrides strings in LicensesDialog. -->
+    <string name="notices_title">@string/settings_open_source_licenses_title</string>
+    <string name="notices_close">@string/close</string>
+
+    <string name="app_name">豆芽</string>
+
+    <string name="api_error_parse">解析错误</string>
+    <string name="api_error_unknown_v2">未知 V2 错误</string>
+    <string name="api_error_need_permission">需要权限</string>
+    <string name="api_error_uri_not_found">资源不存在</string>
+    <string name="api_error_missing_args">参数不足</string>
+    <string name="api_error_image_too_large">图片过大</string>
+    <string name="api_error_has_ban_word">包含违禁词语</string>
+    <string name="api_error_input_too_short">输入过短</string>
+    <string name="api_error_target_not_found">对象不存在</string>
+    <string name="api_error_need_captcha">需要验证码</string>
+    <string name="api_error_image_unknown">未知图片格式</string>
+    <string name="api_error_image_wrong_format">图片格式错误</string>
+    <string name="api_error_image_wrong_ck">私有图片访问验证错误</string>
+    <string name="api_error_image_ck_expired">私有图片验证过期</string>
+    <string name="api_error_title_missing">缺少标题</string>
+    <string name="api_error_desc_missing">缺少描述</string>
+    <string name="api_error_unknown">未知错误</string>
+
+    <string name="api_error_token_invalid_request_scheme">请求协议错误</string>
+    <string name="api_error_token_invalid_request_method">请求方法错误</string>
+    <string name="api_error_token_access_token_is_missing">缺少 access_token</string>
+    <string name="api_error_token_invalid_access_token">access_token 无效</string>
+    <string name="api_error_token_invalid_apikey">API Key 无效</string>
+    <string name="api_error_token_apikey_is_blocked">API Key 已被禁用</string>
+    <string name="api_error_token_access_token_has_expired">access_token 已过期</string>
+    <string name="api_error_token_invalid_request_uri">请求地址无效</string>
+    <string name="api_error_token_invalid_credencial1">用户未授权此访问</string>
+    <string name="api_error_token_invalid_credencial2">API Key 未申请此权限</string>
+    <string name="api_error_token_not_trial_user">不是测试用户</string>
+    <string name="api_error_token_rate_limit_exceeded1">用户访问速度限制</string>
+    <string name="api_error_token_rate_limit_exceeded2">IP 访问速度限制</string>
+    <string name="api_error_token_required_parameter_is_missing">缺少参数</string>
+    <string name="api_error_token_unsupported_grant_type">不支持的 grant_type</string>
+    <string name="api_error_token_unsupported_response_type">不支持的 response_type</string>
+    <string name="api_error_token_client_secret_mismatch">client_secret 不匹配</string>
+    <string name="api_error_token_redirect_uri_mismatch">redirect_uri 不匹配</string>
+    <string name="api_error_token_invalid_authorization_code">authorization_code 无效</string>
+    <string name="api_error_token_invalid_refresh_token">refresh_token 无效</string>
+    <string name="api_error_token_username_password_mismatch">用户名与密码不匹配</string>
+    <string name="api_error_token_invalid_user">用户不存在或已删除</string>
+    <string name="api_error_token_user_has_blocked">用户已被屏蔽</string>
+    <string name="api_error_token_access_token_has_expired_since_password_changed">access_token 因用户修改密码过期</string>
+    <string name="api_error_token_access_token_has_not_expired">access_token 尚未过期</string>
+    <string name="api_error_token_invalid_request_scope">访问 scope 无效</string>
+    <string name="api_error_token_invalid_request_source">访问来源无效</string>
+    <string name="api_error_token_thirdparty_login_auth_failed">第三方授权错误</string>
+    <string name="api_error_token_user_locked">用户已被锁定</string>
+
+    <string name="api_error_broadcast_not_found">广播不存在</string>
+    <string name="api_error_broadcast_author_banned">广播作者已被封禁</string>
+
+    <string name="api_error_like_broadcast_already_liked">你已经赞过这条广播了</string>
+    <string name="api_error_like_broadcast_not_liked_yet">你还没有赞过这条广播</string>
+
+    <string name="api_error_rebroadcast_broadcast_already_rebroadcasted">你已经转播过这条广播了</string>
+    <string name="api_error_rebroadcast_broadcast_not_rebroadcasted_yet">你还没有转播过这条广播</string>
+
+    <string name="auth_title_new">登录豆芽</string>
+    <string name="auth_title_add">添加账户</string>
+    <string name="auth_title_update">更新密码</string>
+    <string name="auth_title_confirm">确认密码</string>
+    <string name="auth_username">用户名</string>
+    <string name="auth_password">密码</string>
+    <string name="auth_log_in">登录</string>
+    <string name="auth_register">没有账户？现在注册</string>
+    <string name="auth_error_empty_username">请输入用户名</string>
+    <string name="auth_error_empty_password">请输入密码</string>
+    <string name="auth_error_invalid_response">服务器应答无效</string>
+    <string name="auth_error_unknown">未知错误</string>
+    <string name="auth_select_account">选择账户</string>
+
+    <string name="gallery_title">查看照片</string>
+    <string name="gallery_load_timeout">加载超时</string>
+    <string name="gallery_load_error">加载错误</string>
+
+    <string name="webview_title">查看网页</string>
+    <string name="webview_copy_url">复制链接</string>
+    <string name="webview_copy_url_empty">链接为空</string>
+    <string name="webview_open_in_browser">在浏览器中打开</string>
+
+    <string name="navigation_home">首页</string>
+    <string name="navigation_book">读书</string>
+    <string name="navigation_music">音乐</string>
+    <string name="navigation_movie">电影</string>
+    <string name="navigation_settings">设置</string>
+    <string name="navigation_feedback">反馈</string>
+
+    <string name="main_notification">提醒</string>
+    <string name="main_doumail">豆邮</string>
+    <string name="main_search">搜索</string>
+
+    <string name="home_broadcast">友邻广播</string>
+    <string name="home_nine_and_quater">九点一刻</string>
+    <string name="home_discover">浏览发现</string>
+    <string name="home_online">线上活动</string>
+
+    <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
+    <string name="broadcast_time_action_format">%1$s %2$s</string>
+    <string name="broadcast_image_list_count_format">%1$d 张照片</string>
+    <string name="broadcast_like">赞</string>
+    <string name="broadcast_comment">回应</string>
+    <string name="broadcast_rebroadcast">转播</string>
+    <string name="broadcast_like_error_cannot_like_oneself">不能赞自己的广播</string>
+    <string name="broadcast_like_successful">已赞</string>
+    <string name="broadcast_like_failed_format">点赞失败，%1$s</string>
+    <string name="broadcast_unlike_successful">已取消赞</string>
+    <string name="broadcast_unlike_failed_format">取消赞失败，%1$s</string>
+    <string name="broadcast_rebroadcast_error_cannot_rebroadcast_oneself">不能转播自己的广播</string>
+    <string name="broadcast_rebroadcast_successful">已转播</string>
+    <string name="broadcast_rebroadcast_failed_format">转播失败，%1$s</string>
+    <string name="broadcast_unrebroadcast_successful">已取消转播</string>
+    <string name="broadcast_unrebroadcast_failed_format">取消转播失败，%1$s</string>
+    <string name="broadcast_view_activity">查看赞和转播的人</string>
+    <string name="broadcast_comment_action_title">回应选项</string>
+    <string name="broadcast_comment_action_reply_to">回应此人</string>
+    <string name="broadcast_comment_action_copy_text">复制回应</string>
+    <string name="broadcast_comment_action_delete">删除回应</string>
+    <string name="broadcast_comment_delete_confirm">确定要删除这条回应吗？</string>
+    <string name="broadcast_comment_delete_successful">已删除回应</string>
+    <string name="broadcast_comment_delete_failed_format">删除回应失败，%1$s</string>
+    <string name="broadcast_send_comment_hint">我的回应…</string>
+    <string name="broadcast_send_comment_hint_disabled">@string/broadcast_send_comment_disabled</string>
+    <string name="broadcast_send_comment_disabled">这条广播不支持回应</string>
+    <string name="broadcast_send_comment">加上去</string>
+    <string name="broadcast_send_comment_error_empty">说点什么吧…</string>
+    <string name="broadcast_send_comment_successful">回应已发送</string>
+    <string name="broadcast_send_comment_failed_format">发送回应失败，%1$s</string>
+    <string name="broadcast_copy_text">复制文本</string>
+    <string name="broadcast_copy_text_not_loaded">广播还没有加载好</string>
+    <string name="broadcast_delete">删除广播</string>
+    <string name="broadcast_delete_confirm">确定要删除这条广播吗？</string>
+    <string name="broadcast_delete_successful">已删除广播</string>
+    <string name="broadcast_delete_failed_format">删除广播失败，%1$s</string>
+    <string name="broadcast_likers_title_format">%1$d 人赞</string>
+    <string name="broadcast_likers_title_empty">暂无赞</string>
+    <string name="broadcast_rebroadcasters_title_format">%1$d 人转播</string>
+    <string name="broadcast_rebroadcasters_title_empty">暂无转播</string>
+
+    <string name="settings_title">设置</string>
+    <string name="settings_misc_title">其他</string>
+    <string name="settings_auto_refresh_home_title">打开时自动刷新主页</string>
+    <string name="settings_show_title_for_link_entity_title">显示完整链接文本</string>
+    <string name="settings_show_title_for_link_entity_summary">替换经过 dou.bz 缩短的链接</string>
+    <string name="settings_open_url_with_title">打开链接的方式</string>
+    <string name="settings_open_url_with_summary">%1$s</string>
+    <string-array name="settings_open_url_with_entries">
+        <item>内置浏览器</item>
+        <item>系统打开方式</item>
+        <item>Custom Tabs</item>
+    </string-array>
+    <string name="settings_always_copy_to_clipboard_as_text_title">总是复制纯文本到剪贴板</string>
+    <string name="settings_always_copy_to_clipboard_as_text_summary">可以避免部分输入法的粘贴功能问题</string>
+    <string name="settings_about_title">关于</string>
+    <string name="settings_open_source_licenses_title">开放源代码许可</string>
+    <string name="settings_about_douya_title">关于豆芽</string>
+
+    <string name="about_title">关于</string>
+    <string name="about_name">@string/app_name</string>
+    <string name="about_words">Douban, Yet Another</string>
+    <string name="about_version_format">版本 %1$s</string>
+    <string name="about_credit">梦断代码</string>
+    <string name="about_konami_code_detected">彩蛋正在计划中</string>
+
+    <string name="pref_key_active_account_name">key_active_account_name</string>
+    <string name="pref_default_value_active_account_name">@null</string>
+    <string name="pref_key_auto_refresh_home">key_auto_refresh_home</string>
+    <bool name="pref_default_value_auto_refresh_home">true</bool>
+    <string name="pref_key_show_title_for_link_entity">key_show_title_for_link_entity</string>
+    <bool name="pref_default_value_show_title_for_link_entity">true</bool>
+    <string name="pref_key_open_url_with">key_open_url_with</string>
+    <string-array name="pref_entry_values_open_url_with">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="pref_default_value_open_url_with">0</string>
+    <string name="pref_key_always_copy_to_clipboard_as_text">key_always_copy_to_clipboard_as_text</string>
+    <bool name="pref_default_value_always_copy_to_clipboard_as_text">true</bool>
+
+    <string name="transition_name_broadcast">broadcast</string>
+</resources>

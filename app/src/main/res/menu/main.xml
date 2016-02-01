@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_notification"
+        android:orderInCategory="100"
+        android:title="@string/main_notification"
+        app:actionLayout="@layout/action_item_badge"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_doumail"
+        android:icon="@drawable/mail_icon_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/main_doumail"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/search_icon_white_24dp"
+        android:title="@string/main_search"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+</menu>

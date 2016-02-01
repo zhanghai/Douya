@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+    <dimen name="toolbar_height">48dp</dimen>
+    <dimen name="toolbar_hide_offset">-54dp</dimen>
+    <dimen name="toolbar_and_tab_height">96dp</dimen>
+    <dimen name="toolbar_and_tab_hide_offset">-102dp</dimen>
+    <dimen name="scrim_height">144dp</dimen>
+</resources>

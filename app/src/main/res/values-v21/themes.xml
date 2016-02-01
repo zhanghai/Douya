@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <style name="Theme.Douya.ScrimStatusBar">
+        <item name="android:statusBarColor">@color/system_window_scrim</item>
+    </style>
+
+    <style name="Theme.Douya.MainActivity.ColdStart">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
+    </style>
+
+    <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery">
+        <item name="android:navigationBarColor">@color/dark_70_percent</item>
+        <item name="android:statusBarColor">@color/dark_70_percent</item>
+    </style>
+</resources>

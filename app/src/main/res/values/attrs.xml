@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <declare-styleable name="CardIconButton">
+        <attr name="android:src" />
+        <attr name="android:text" />
+    </declare-styleable>
+
+    <declare-styleable name="FriendlySwipeRefreshLayout">
+        <attr name="progressOffset" format="dimension|reference" />
+        <attr name="progressDistanceOffset" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageLayout">
+        <attr name="fillOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="InsetBackgroundFrameLayout">
+        <attr name="insetBackground" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RatioHeightRecyclerView">
+        <attr name="ratio" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TintStateListImageView">
+        <attr name="tint" format="color|reference" />
+    </declare-styleable>
+</resources>

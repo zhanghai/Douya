@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- LayoutParams will be set the same as parent after inflation. -->
+    <me.zhanghai.android.douya.ui.RatioImageView
+        android:id="@+id/imagelayout_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="@dimen/image_max_height" />
+
+    <ImageView
+        android:id="@+id/imagelayout_gif"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+        android:layout_marginRight="@dimen/card_content_horizontal_margin"
+        android:layout_marginTop="@dimen/card_content_vertical_space"
+        android:layout_marginBottom="@dimen/card_content_vertical_space"
+        android:layout_gravity="left|bottom"
+        android:background="@color/dark_30_percent"
+        android:src="@drawable/gif_icon_white_36dp" />
+</merge>

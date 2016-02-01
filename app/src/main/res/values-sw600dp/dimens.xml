@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <item name="weight_1_when_phone" type="dimen" format="float">0</item>
+    <item name="weight_1_when_tablet" type="dimen" format="float">1</item>
+
+    <dimen name="screen_edge_horizontal_margin">24dp</dimen>
+    <dimen name="screen_edge_horizontal_margin_negative_half">-12dp</dimen>
+    <dimen name="content_horizontal_margin">80dp</dimen>
+    <dimen name="toolbar_navigation_button_left_margin">6dp</dimen>
+    <dimen name="toolbar_button_right_margin">10dp</dimen>
+    <dimen name="toolbar_overflow_button_right_margin">-4dp</dimen>
+    <dimen name="toolbar_edit_left_margin">20dp</dimen>
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="toolbar_hide_offset">-70dp</dimen>
+    <dimen name="toolbar_and_tab_height">112dp</dimen>
+    <dimen name="toolbar_and_tab_hide_offset">-118dp</dimen>
+    <dimen name="single_line_list_item_height">64dp</dimen>
+    <dimen name="two_line_list_item_height">80dp</dimen>
+    <dimen name="three_line_list_item_height">96dp</dimen>
+    <dimen name="scrim_height">192dp</dimen>
+    <dimen name="card_list_horizontal_padding">12dp</dimen>
+    <dimen name="card_activity_horizontal_margin">@dimen/content_horizontal_margin</dimen>
+    <dimen name="card_view_width">600dp</dimen>
+    <dimen name="card_vertical_space">24dp</dimen>
+    <dimen name="card_vertical_space_half">12dp</dimen>
+    <dimen name="card_horizontal_margin">10dp</dimen>
+    <dimen name="card_vertical_margin">9dp</dimen>
+    <dimen name="card_header_bottom_margin">-8dp</dimen>
+    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="toolbar_button_size">56dp</dimen>
+
+    <!-- Fab internally sets a 14dp margin on pre-Lollipop devices. -->
+    <dimen name="fab_margin">10dp</dimen>
+</resources>

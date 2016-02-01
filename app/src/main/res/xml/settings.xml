@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_misc_title">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_key_auto_refresh_home"
+            android:defaultValue="@bool/pref_default_value_auto_refresh_home"
+            android:title="@string/settings_auto_refresh_home_title" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_key_show_title_for_link_entity"
+            android:defaultValue="@bool/pref_default_value_show_title_for_link_entity"
+            android:title="@string/settings_show_title_for_link_entity_title"
+            android:summary="@string/settings_show_title_for_link_entity_summary" />
+
+        <ListPreference
+            android:key="@string/pref_key_open_url_with"
+            android:entryValues="@array/pref_entry_values_open_url_with"
+            android:defaultValue="@string/pref_default_value_open_url_with"
+            android:title="@string/settings_open_url_with_title"
+            android:summary="@string/settings_open_url_with_summary"
+            android:entries="@array/settings_open_url_with_entries" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_key_always_copy_to_clipboard_as_text"
+            android:defaultValue="@bool/pref_default_value_always_copy_to_clipboard_as_text"
+            android:title="@string/settings_always_copy_to_clipboard_as_text_title"
+            android:summary="@string/settings_always_copy_to_clipboard_as_text_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_about_title">
+
+        <me.zhanghai.android.douya.settings.ui.LicensesDialogPreference
+            android:title="@string/settings_open_source_licenses_title" />
+
+        <Preference
+            android:title="@string/settings_about_douya_title">
+            <intent
+                android:targetPackage="me.zhanghai.android.douya"
+                android:targetClass="me.zhanghai.android.douya.settings.ui.AboutActivity" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

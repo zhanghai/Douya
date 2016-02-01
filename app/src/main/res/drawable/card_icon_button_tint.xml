@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false" android:state_activated="true" android:color="@color/grey_600" />
+
+    <item android:state_enabled="false" android:color="@android:color/white" />
+
+    <item android:state_activated="true" android:color="@android:color/white" />
+
+    <item android:color="@color/grey_600" />
+</selector>

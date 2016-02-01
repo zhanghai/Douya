@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <color name="green_100">#c8e6c9</color>
+    <color name="green_300">#81c784</color>
+    <color name="green_500">#4caf50</color>
+    <color name="green_700">#388e3c</color>
+
+    <color name="grey_50">#fafafa</color>
+    <color name="grey_100">#f5f5f5</color>
+    <color name="grey_200">#eeeeee</color>
+    <color name="grey_300">#e0e0e0</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_800">#424242</color>
+
+    <color name="dark_30_percent">#4d000000</color>
+    <color name="dark_50_percent">#80000000</color>
+    <color name="dark_70_percent">#b3000000</color>
+
+    <color name="system_window_scrim">#44000000</color>
+
+    <color name="window_background_light">@color/grey_50</color>
+    <color name="card_background_light">@android:color/white</color>
+    <color name="card_background_dark">@color/grey_800</color>
+
+    <color name="douya_primary">@color/green_500</color>
+    <color name="douya_primary_dark">@color/green_700</color>
+    <color name="douya_primary_dark_without_system_window_scrim">#4dc252</color>
+</resources>

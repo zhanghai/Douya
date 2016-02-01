@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_content_vertical_margin_with_4dp_padding"
+        android:layout_marginBottom="@dimen/card_content_vertical_space_with_4dp_padding"
+        android:paddingLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
+        android:paddingRight="@dimen/card_content_horizontal_margin">
+
+        <me.zhanghai.android.douya.ui.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/touch_target_size"
+            android:layout_height="@dimen/touch_target_size"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/avatar_padding" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_alignTop="@id/avatar"
+            android:layout_marginLeft="@dimen/card_content_horizontal_space_with_4dp_padding"
+            android:layout_marginTop="@dimen/avatar_padding"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/time_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/name"
+            android:layout_alignBottom="@id/avatar"
+            android:layout_marginBottom="@dimen/avatar_padding"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
+    </RelativeLayout>
+
+    <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
+        android:id="@+id/attachment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:paddingBottom="@dimen/card_content_vertical_space"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground">
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/horizontal_divider_height"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/card_content_vertical_space"
+            android:background="?dividerHorizontal" />
+
+        <ImageView
+            android:id="@+id/attachment_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/divider"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/attachment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/attachment_image"
+            android:layout_below="@id/divider"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <me.zhanghai.android.douya.ui.AutoGoneTextView
+            android:id="@+id/attachment_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/attachment_title"
+            android:layout_below="@id/attachment_title"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+    </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
+
+    <me.zhanghai.android.douya.ui.ImageLayout
+        android:id="@+id/single_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:fillOrientation="horizontal" />
+
+    <FrameLayout
+        android:id="@+id/image_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <me.zhanghai.android.douya.ui.RatioHeightRecyclerView
+            android:id="@+id/image_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ratio="6:5" />
+
+        <FrameLayout
+            android:id="@+id/image_list_description_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scrim_height"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/image_list_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+                android:layout_marginRight="@dimen/card_content_horizontal_margin"
+                android:layout_marginTop="@dimen/card_content_vertical_space"
+                android:layout_marginBottom="@dimen/card_content_vertical_space"
+                android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1.Inverse" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <Space
+        android:id="@+id/text_space"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/card_content_vertical_space" />
+
+    <me.zhanghai.android.douya.ui.AutoGoneTextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+        android:layout_marginRight="@dimen/card_content_horizontal_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_content_vertical_space"
+        android:layout_marginBottom="@dimen/card_content_vertical_margin_small"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:orientation="horizontal">
+
+        <me.zhanghai.android.douya.ui.CardIconButton
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/broadcast_like"
+            android:src="@drawable/like_icon_black_18dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <me.zhanghai.android.douya.ui.CardIconButton
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@string/broadcast_comment"
+            android:src="@drawable/comment_icon_black_18dp" />
+
+        <me.zhanghai.android.douya.ui.CardIconButton
+            android:id="@+id/rebroadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/broadcast_rebroadcast"
+            android:src="@drawable/rebroadcast_icon_black_18dp" />
+    </LinearLayout>
+</merge>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <color name="preference_fallback_accent_color">@color/douya_primary</color>
+
+    <style name="Base.ThemeOverlay.Preference" parent="">
+
+        <item name="listPreferredItemPaddingLeft">@dimen/screen_edge_horizontal_margin</item>
+        <item name="listPreferredItemPaddingRight">@dimen/screen_edge_horizontal_margin</item>
+
+        <item name="preferenceScreenStyle">@style/Preference.PreferenceScreen.Material</item>
+        <item name="preferenceFragmentStyle">@style/PreferenceFragment</item>
+        <item name="preferenceCategoryStyle">@style/Preference.Category.Material</item>
+        <item name="preferenceStyle">@style/Preference.Material</item>
+        <item name="preferenceInformationStyle">@style/Preference.Information.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.CheckBoxPreference.Material</item>
+        <item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat.Material</item>
+        <item name="switchPreferenceStyle">@style/Preference.SwitchPreference.Material</item>
+        <item name="dialogPreferenceStyle">@style/Preference.DialogPreference.Material</item>
+        <item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference.Material</item>
+        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material</item>
+    </style>
+
+    <style name="ThemeOverlay.Preference" parent="Base.ThemeOverlay.Preference" />
+
+    <style name="Theme.Douya" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="actionModeBackground">@color/background_material_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">@color/window_background_light</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Fixes. -->
+        <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
+        <item name="android:textColorLink">?colorAccent</item>
+        <!-- NOTE: The following two framework attributes are v11. Anyway. -->
+        <item name="dividerHorizontal">?android:dividerHorizontal</item>
+        <item name="dividerVertical">?android:dividerHorizontal</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
+
+        <item name="colorPrimary">@color/douya_primary</item>
+        <item name="colorPrimaryDark">@color/douya_primary_dark</item>
+        <item name="colorAccent">@color/douya_primary</item>
+
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference</item>
+    </style>
+
+    <style name="Theme.Douya.NoDisplay">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoDisplay">true</item>
+    </style>
+
+    <style name="Theme.Douya.TransparentBackground">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Theme.Douya.DarkBackground" parent="Theme.Douya.TransparentBackground">
+        <item name="android:windowBackground">@color/dark_70_percent</item>
+    </style>
+
+    <style name="Theme.Douya.PrimaryColorBackground">
+        <item name="android:windowBackground">?colorPrimary</item>
+    </style>
+
+    <style name="Theme.Douya.ScrimStatusBar"/>
+
+    <style name="Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar">
+        <item name="android:windowBackground">@color/grey_200</item>
+    </style>
+
+    <style name="Theme.Douya.MainActivity.ColdStart">
+        <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
+    </style>
+
+    <style name="Base.Theme.Douya.Gallery" parent="Theme.AppCompat">
+
+        <item name="actionModeBackground">@color/background_material_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Fixes. -->
+        <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
+        <item name="android:textColorLink">?colorAccent</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
+
+        <item name="colorPrimary">@color/douya_primary</item>
+        <item name="colorPrimaryDark">@color/douya_primary_dark</item>
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />
+
+    <style name="Theme.Douya.DialogWhenLarge" parent="Theme.AppCompat.Light.DialogWhenLarge">
+
+        <!-- From Theme.AppCompat.Light.DarkActionBar. -->
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="actionBarWidgetTheme">@null</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+
+        <item name="actionModeBackground">@color/background_material_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Fixes. -->
+        <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
+        <item name="android:textColorLink">?colorAccent</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
+
+        <item name="colorPrimary">@color/douya_primary</item>
+        <item name="colorPrimaryDark">@color/douya_primary_dark</item>
+        <item name="colorAccent">@color/douya_primary</item>
+    </style>
+</resources>

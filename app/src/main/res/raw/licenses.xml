@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<notices>
+
+    <notice>
+        <name>PhotoView</name>
+        <url>https://github.com/chrisbanes/PhotoView</url>
+        <copyright>Copyright 2011, 2012 Chris Banes</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>Glide</name>
+        <url>https://github.com/bumptech/glide</url>
+        <copyright>Copyright 2014 Google, Inc.</copyright>
+        <license>BSD 2-Clause License</license>
+    </notice>
+
+    <notice>
+        <name>Gson</name>
+        <url>https://github.com/google/gson</url>
+        <copyright>Copyright 2008 Google Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>ButterKnife</name>
+        <url>https://github.com/JakeWharton/butterknife</url>
+        <copyright>Copyright 2013 Jake Wharton</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>DiskLruCache</name>
+        <url>https://github.com/JakeWharton/DiskLruCache/</url>
+        <copyright>Copyright 2012 Jake Wharton&lt;br&gt;Copyright 2011 The Android Open Source Project</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>ThreeTenABP</name>
+        <url>https://github.com/JakeWharton/ThreeTenABP/</url>
+        <copyright>Copyright 2015 Jake Wharton</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>Volley</name>
+        <url>https://github.com/mcxiaoke/android-volley</url>
+        <copyright>Copyright 2014 Xiaoke Zhang&lt;br&gt;Copyright 2011 The Android Open Source Project</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>EventBus</name>
+        <url>https://github.com/greenrobot/EventBus</url>
+        <copyright>Copyright 2012 greenrobot</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>CustomTabsHelper</name>
+        <url>https://github.com/DreaminginCodeZH/CustomTabsHelper</url>
+        <copyright>Copyright 2015 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>MaterialEditText</name>
+        <url>https://github.com/DreaminginCodeZH/MaterialEditText</url>
+        <copyright>Copyright 2015 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>MaterialProgressBar</name>
+        <url>https://github.com/DreaminginCodeZH/MaterialProgressBar</url>
+        <copyright>Copyright 2015 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>SystemUiHelper</name>
+        <url>https://github.com/DreaminginCodeZH/SystemUiHelper</url>
+        <copyright>Copyright 2015 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+</notices>

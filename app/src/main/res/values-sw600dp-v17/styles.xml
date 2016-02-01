@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <!-- Fixes -->
+    <style name="PreferenceFragmentList.Material">
+        <item name="android:paddingStart">@dimen/content_horizontal_margin_from_screen_edge</item>
+        <item name="android:paddingEnd">@dimen/content_horizontal_margin_from_screen_edge</item>
+    </style>
+</resources>
