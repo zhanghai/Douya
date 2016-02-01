@@ -4,6 +4,20 @@ Douban, Yet Another.
 
 另一个叫豆芽的应用。
 
+## 开放源代码
+
+由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，给有兴趣者[做些 HACKING](http://www.catb.org/jargon/html/H/hacker.html)。
+
+以下是之前关于豆芽的说明。
+
+## 预览
+
+图片：
+
+![屏幕截图 1](screenshot/01.png) ![屏幕截图 2](screenshot/02.jpg)
+
+视频：[去往优酷的链接](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html)。
+
 ## 关于名字
 
 豆芽的名字取自“Douban, [Yet Another](https://en.wikipedia.org/wiki/Yet_another)”的缩写和中文词语“豆芽”的拼音正好相同的巧合。
