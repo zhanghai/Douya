@@ -27,11 +27,22 @@ public class Notification implements Parcelable {
 
     public String time;
 
-    public void fixText() {
+    private void fixText() {
         int index = text.lastIndexOf("回复");
         if (index == text.length() - "回复".length()) {
             text = text.substring(0, index) + "回应";
         }
+    }
+
+    private void fixTime() {
+        if (time.startsWith("\"") && time.endsWith("\"")) {
+            time = time.substring(1, time.length() - 1);
+        }
+    }
+
+    public void fix() {
+        fixText();
+        fixTime();
     }
 
 

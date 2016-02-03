@@ -55,9 +55,9 @@ public class ApiRequests {
             protected Response<NotificationList> parseNetworkResponse(NetworkResponse response) {
                 Response<NotificationList> superResponse = super.parseNetworkResponse(response);
                 if (superResponse.isSuccess()) {
-                    // Fix for Frodo API text.
+                    // Fix for Frodo API.
                     for (Notification notification : superResponse.result.notifications) {
-                        notification.fixText();
+                        notification.fix();
                     }
                 }
                 return superResponse;
