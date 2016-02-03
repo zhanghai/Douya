@@ -15,6 +15,7 @@ import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.chrono.IsoChronology;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
+import org.threeten.bp.format.DateTimeParseException;
 
 import me.zhanghai.android.douya.R;
 
@@ -38,6 +39,9 @@ public class TimeUtils {
     private static final Duration MINUTE_PATTERN_DURATION = Duration.ofHours(1);
     private static final Duration HOUR_PATTERN_DURATION = Duration.ofHours(2);
 
+    /**
+     * @throws DateTimeParseException
+     */
     public static ZonedDateTime parseDoubanDateTime(String doubanDateTime) {
         return ZonedDateTime.of(LocalDateTime.parse(doubanDateTime, DOUBAN_DATE_TIME_FORMATTER),
                 DOUBAN_ZONED_ID);
@@ -80,6 +84,12 @@ public class TimeUtils {
     }
 
     public static String formatDoubanDateTime(String doubanDateTime, Context context) {
-        return formatDateTime(parseDoubanDateTime(doubanDateTime), context);
+        try {
+            return formatDateTime(parseDoubanDateTime(doubanDateTime), context);
+        } catch (DateTimeParseException e) {
+            LogUtils.e("Unable to parse date time: " + doubanDateTime);
+            e.printStackTrace();
+            return doubanDateTime;
+        }
     }
 }
