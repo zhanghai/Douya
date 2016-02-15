@@ -2,7 +2,7 @@
 
 Douban, Yet Another.
 
-另一个叫豆芽的应用。
+另一个 Material Design 的豆瓣应用。
 
 ## 开放源代码
 
@@ -16,7 +16,7 @@ Douban, Yet Another.
 
 ![屏幕截图 1](screenshot/01.png) ![屏幕截图 2](screenshot/02.jpg)
 
-视频：[去往优酷的链接](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html)。
+视频：[优酷链接](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html)。
 
 ## 关于名字
 
