@@ -35,6 +35,7 @@ import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
 import me.zhanghai.android.douya.ui.RatioHeightRecyclerView;
 import me.zhanghai.android.douya.link.UriHandler;
+import me.zhanghai.android.douya.ui.TimeActionTextView;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -54,7 +55,7 @@ public class BroadcastLayout extends LinearLayout {
     @Bind(R.id.name)
     public TextView mNameText;
     @Bind(R.id.time_action)
-    public TextView mTimeActionText;
+    public TimeActionTextView mTimeActionText;
     @Bind(R.id.attachment)
     public RelativeLayout mAttachmentLayout;
     @Bind(R.id.attachment_image)
@@ -165,7 +166,7 @@ public class BroadcastLayout extends LinearLayout {
             }
         });
         mNameText.setText(broadcast.author.name);
-        mTimeActionText.setText(broadcast.getActionWithTime(context));
+        mTimeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
 
         boolean isRebind = mBoundBroadcastId != null && mBoundBroadcastId == broadcast.id;
         // Attachment and text should not change on rebind.

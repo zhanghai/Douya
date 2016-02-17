@@ -83,6 +83,10 @@ public class TimeUtils {
         }
     }
 
+    /**
+     * Use {@link me.zhanghai.android.douya.ui.TimeTextView} instead if the text is to be set on a
+     * {@code TextView}.
+     */
     public static String formatDoubanDateTime(String doubanDateTime, Context context) {
         try {
             return formatDateTime(parseDoubanDateTime(doubanDateTime), context);

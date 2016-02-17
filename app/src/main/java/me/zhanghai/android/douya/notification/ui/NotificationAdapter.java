@@ -21,6 +21,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.Notification;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
+import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -65,7 +66,7 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
         });
         holder.textText.setText(notification.text);
         holder.textText.setTextColor(notification.read ? mTextColorSecondary : mTextColorPrimary);
-        holder.timeText.setText(TimeUtils.formatDoubanDateTime(notification.time, context));
+        holder.timeText.setDoubanTime(notification.time);
     }
 
     private void markNotificationAsRead(Notification notification) {
@@ -78,7 +79,7 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
         @Bind(R.id.text)
         public TextView textText;
         @Bind(R.id.time)
-        public TextView timeText;
+        public TimeTextView timeText;
 
         public ViewHolder(View itemView) {
             super(itemView);

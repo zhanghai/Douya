@@ -38,7 +38,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold" />
 
-    <TextView
+    <me.zhanghai.android.douya.ui.TimeTextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

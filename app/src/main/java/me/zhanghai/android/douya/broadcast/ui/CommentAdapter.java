@@ -20,9 +20,9 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Comment;
 import me.zhanghai.android.douya.ui.ClickableSimpleAdapter;
 import me.zhanghai.android.douya.link.UriHandler;
+import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
-import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapter.ViewHolder> {
@@ -59,7 +59,7 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
             }
         });
         holder.nameText.setText(comment.author.name);
-        holder.timeText.setText(TimeUtils.formatDoubanDateTime(comment.createdAt, context));
+        holder.timeText.setDoubanTime(comment.createdAt);
         holder.textText.setText(comment.getContentWithEntities(context));
     }
 
@@ -75,7 +75,7 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
         @Bind(R.id.name)
         public TextView nameText;
         @Bind(R.id.time)
-        public TextView timeText;
+        public TimeTextView timeText;
         @Bind(R.id.text)
         public TextView textText;
 
