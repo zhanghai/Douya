@@ -95,7 +95,7 @@
 
     <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
-        android:id="@+id/appbar_wrapper"
+        android:id="@+id/appBarWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

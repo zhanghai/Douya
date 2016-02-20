@@ -15,50 +15,11 @@
     tools:context=".main.ui.MainActivity">
 
     <me.zhanghai.android.douya.ui.InsetBackgroundFrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        app:insetBackground="@color/douya_primary_dark_without_system_window_scrim">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <me.zhanghai.android.douya.ui.AppBarWrapperLayout
-            android:id="@+id/appbar_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?colorPrimary"
-                android:elevation="@dimen/appbar_elevation"
-                android:theme="?actionBarTheme">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
-                    android:paddingRight="@dimen/toolbar_button_right_margin"
-                    app:navigationIcon="@drawable/menu_icon_white_24dp"
-                    app:popupTheme="?actionBarPopupTheme"
-                    app:titleMarginStart="@dimen/toolbar_title_left_margin" />
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabIndicatorColor="@android:color/white"
-                    app:tabMode="scrollable"
-                    app:tabPaddingStart="@dimen/screen_edge_horizontal_margin"
-                    app:tabPaddingEnd="@dimen/screen_edge_horizontal_margin" />
-            </LinearLayout>
-        </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
-    </me.zhanghai.android.douya.ui.InsetBackgroundFrameLayout>
+        app:insetBackground="@color/douya_primary_dark_without_system_window_scrim" />
 
     <me.zhanghai.android.douya.ui.FullscreenNavigationView
         android:id="@+id/navigation"
@@ -69,7 +30,7 @@
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/navigation" />
 
-    <me.zhanghai.android.douya.ui.MaxDimesionDispatchInsetsFrameLayout
+    <me.zhanghai.android.douya.ui.MaxDimensionDispatchInsetsFrameLayout
         android:id="@+id/notification_list_drawer"
         android:layout_width="wrap_content"
         android:maxWidth="@dimen/drawer_max_width"
@@ -83,5 +44,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/notification_list_fragment"/>
-    </me.zhanghai.android.douya.ui.MaxDimesionDispatchInsetsFrameLayout>
+    </me.zhanghai.android.douya.ui.MaxDimensionDispatchInsetsFrameLayout>
 </me.zhanghai.android.douya.ui.DispatchInsetsDrawerLayout>

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
   ~ All Rights Reserved.
   -->
 
-<merge
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.ui.MainActivity">
 
-    <fragment
-        android:id="@+id/settings"
-        android:name="me.zhanghai.android.douya.settings.ui.SettingsFragment"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/toolbar_height" />
+        android:layout_height="match_parent" />
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
         android:id="@+id/appBarWrapper"
@@ -34,10 +36,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
-                android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
-                app:navigationIcon="@drawable/back_icon_white_24dp"
+                android:paddingRight="@dimen/toolbar_button_right_margin"
+                app:navigationIcon="@drawable/menu_icon_white_24dp"
                 app:popupTheme="?actionBarPopupTheme"
                 app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@android:color/white"
+                app:tabMode="scrollable"
+                app:tabPaddingStart="@dimen/screen_edge_horizontal_margin"
+                app:tabPaddingEnd="@dimen/screen_edge_horizontal_margin" />
         </LinearLayout>
     </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
-</merge>
+</FrameLayout>

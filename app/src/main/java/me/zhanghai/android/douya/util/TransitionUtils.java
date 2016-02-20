@@ -66,12 +66,22 @@ public class TransitionUtils {
             return;
         }
 
-        View appbar = activity.findViewById(R.id.appbar_wrapper);
+        setupTransitionForAppBar(activity);
+
+        postponeTransitionUntilDecorViewPreDraw(activity);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setupTransitionForAppBar(Activity activity) {
+
+        if (!shouldEnableTransition()) {
+            return;
+        }
+
+        View appbar = activity.findViewById(R.id.appBarWrapper);
         if (appbar != null) {
             appbar.setTransitionName(TRANSITION_NAME_APPBAR);
         }
-
-        postponeTransitionUntilDecorViewPreDraw(activity);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -132,7 +142,7 @@ public class TransitionUtils {
             sharedElementList.add(Pair.create(sharedView, sharedView.getTransitionName()));
         }
 
-        View appbar = activity.findViewById(R.id.appbar_wrapper);
+        View appbar = activity.findViewById(R.id.appBarWrapper);
         if (appbar != null) {
             sharedElementList.add(Pair.create(appbar, appbar.getTransitionName()));
         }

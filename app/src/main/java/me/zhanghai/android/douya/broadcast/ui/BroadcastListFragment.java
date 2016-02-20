@@ -44,6 +44,7 @@ import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.ui.AppBarManager;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingSlopListener;
@@ -87,6 +88,16 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
     private boolean mCanLoadMore;
 
     private boolean mLoadingBroadcastList;
+
+    public static BroadcastListFragment newInstance() {
+        //noinspection deprecation
+        return new BroadcastListFragment();
+    }
+
+    /**
+     * @deprecated Use {@link #newInstance()} instead.
+     */
+    public BroadcastListFragment() {}
 
     @Nullable
     @Override
@@ -132,23 +143,24 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
         mBroadcastAdapter = new BroadcastAdapter(broadcastList, this);
         mAdapter = new LoadMoreAdapter(R.layout.load_more_card_item, mBroadcastAdapter);
         mBroadcastList.setAdapter(mAdapter);
+        final AppBarManager appBarManager = (AppBarManager) getParentFragment();
         mBroadcastList.addOnScrollListener(new OnVerticalScrollWithPagingSlopListener(activity) {
             @Override
             public void onScrolledUp(int dy) {
                 if (!RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
-                    activity.showAppbar();
+                    appBarManager.showAppBar();
                 } else {
                     super.onScrolledUp(dy);
                 }
             }
             @Override
             public void onScrolledUp() {
-                activity.showAppbar();
+                appBarManager.showAppBar();
             }
             @Override
             public void onScrolledDown() {
                 if (RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
-                    activity.hideAppbar();
+                    appBarManager.hideAppBar();
                 }
             }
             @Override

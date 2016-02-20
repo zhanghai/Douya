@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListFragment;
+import me.zhanghai.android.douya.home.HomeFragment;
 import me.zhanghai.android.douya.notification.ui.NotificationListFragment;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.ui.ActionItemBadge;
@@ -46,21 +48,13 @@ public class MainActivity extends AppCompatActivity
     private TextView mNavigationHeaderNameText;
     @Bind(R.id.notification_list_drawer)
     View mNotificationDrawer;
-    @Bind(R.id.appbar_wrapper)
-    AppBarWrapperLayout mAppBarWrapperLayout;
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-    @Bind(R.id.tab)
-    TabLayout mTabLayout;
-    @Bind(R.id.viewPager)
-    ViewPager mViewPager;
+    @Bind(R.id.container)
+    FrameLayout mContainerLayout;
 
     private MenuItem mNotificationMenu;
     private int mUnreadNotificationCount;
 
     private NotificationListFragment mNotificationListFragment;
-
-    private TabFragmentPagerAdapter mTabAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +85,6 @@ public class MainActivity extends AppCompatActivity
         TransitionUtils.setupTransitionAfterSetContentView(this);
         ButterKnife.bind(this);
 
-        mNotificationListFragment = (NotificationListFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.notification_list_fragment);
-        mNotificationListFragment.setUnreadNotificationCountListener(this);
-
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         mNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -122,14 +109,15 @@ public class MainActivity extends AppCompatActivity
         // FIXME: Check remembered checked position.
         mNavigationView.getMenu().getItem(0).setChecked(true);
 
-        mTabAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
-        mTabAdapter.addTab(new BroadcastListFragment(), getString(R.string.home_broadcast));
-        mTabAdapter.addTab(new Fragment(), getString(R.string.home_nine_and_quater));
-        mTabAdapter.addTab(new Fragment(), getString(R.string.home_discover));
-        mTabAdapter.addTab(new Fragment(), getString(R.string.home_online));
-        mViewPager.setOffscreenPageLimit(3);
-        mViewPager.setAdapter(mTabAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mNotificationListFragment = (NotificationListFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.notification_list_fragment);
+        mNotificationListFragment.setUnreadNotificationCountListener(this);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, HomeFragment.newInstance())
+                    .commit();
+        }
     }
 
     @Override
@@ -179,12 +167,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(SettingsActivity.makeIntent(this));
     }
 
-    public void hideAppbar() {
-        mAppBarWrapperLayout.hide();
-    }
-
-    public void showAppbar() {
-        mAppBarWrapperLayout.show();
+    public void setToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        TransitionUtils.setupTransitionForAppBar(this);
     }
 
     public void refreshNotificationList() {

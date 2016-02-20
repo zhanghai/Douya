@@ -41,7 +41,7 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    @Bind(R.id.appbar_wrapper)
+    @Bind(R.id.appBarWrapper)
     AppBarWrapperLayout mAppbarWrapperLayout;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
