@@ -136,7 +136,8 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
                     scroll - mScroll);
             if (mScroll == scroll) {
                 break;
-            } else if (mScrollingChildIndex == 0 || mScrollingChildIndex == indexMax) {
+            } else if ((step < 0 && mScrollingChildIndex == 0)
+                    || (step > 0 && mScrollingChildIndex == indexMax)) {
                 break;
             }
         }

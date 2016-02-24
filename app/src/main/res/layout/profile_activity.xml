@@ -36,13 +36,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ProfileActivity"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1600dp"
+                    android:text="ProfileActivityEnd"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
             </LinearLayout>
         </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
     </LinearLayout>
