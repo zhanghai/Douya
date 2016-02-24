@@ -222,6 +222,25 @@ public class ViewUtils {
         viewGroup.addView(newChild, index);
     }
 
+    public static void setHeight(View view, int height) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams.height == height) {
+            return;
+        }
+        layoutParams.height = height;
+        view.setLayoutParams(layoutParams);
+    }
+
+    public static void setSize(View view, int size) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams.width == size && layoutParams.height == size) {
+            return;
+        }
+        layoutParams.width = size;
+        layoutParams.height = size;
+        view.setLayoutParams(layoutParams);
+    }
+
     public static void setTextViewBold(TextView textView, boolean bold) {
 
         Typeface typeface = textView.getTypeface();
@@ -279,5 +298,14 @@ public class ViewUtils {
 
     public static void setVisibleOrInvisible(View view, boolean visible) {
         view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    public static void setWidth(View view, int width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams.width == width) {
+            return;
+        }
+        layoutParams.width = width;
+        view.setLayoutParams(layoutParams);
     }
 }

@@ -11,19 +11,34 @@ import android.content.UriMatcher;
 import android.net.Uri;
 
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
+import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.util.UriUtils;
 
 public class DoubanUriHandler {
 
-    private static final String AUTHORITY = "douban.com";
+    private static final String AUTHORITY = "www.douban.com";
+    private static final String AUTHORITY_FRODO = "douban.com";
 
     private enum UriType {
-        BROADCAST("status/#");
 
+        BROADCAST("people/*/status/#"),
+        BROADCAST_FRODO(AUTHORITY_FRODO, "status/#"),
+        USER("people/*");
+
+        String mAuthority;
         String mPath;
 
-        UriType(String path) {
+        UriType(String authority, String path) {
+            mAuthority = authority;
             mPath = path;
+        }
+
+        UriType(String path) {
+            this(AUTHORITY, path);
+        }
+
+        public String getAuthority() {
+            return mAuthority;
         }
 
         public String getPath() {
@@ -35,7 +50,7 @@ public class DoubanUriHandler {
     static {
         MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         for (UriType uriType : UriType.values()) {
-            MATCHER.addURI(AUTHORITY, uriType.getPath(), uriType.ordinal());
+            MATCHER.addURI(uriType.getAuthority(), uriType.getPath(), uriType.ordinal());
         }
     }
 
@@ -52,7 +67,11 @@ public class DoubanUriHandler {
         Intent intent;
         switch (uriType) {
             case BROADCAST:
+            case BROADCAST_FRODO:
                 intent = BroadcastActivity.makeIntent(context, UriUtils.parseId(uri));
+                break;
+            case USER:
+                intent = ProfileActivity.makeIntent(context, uri.getLastPathSegment());
                 break;
             default:
                 return false;

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<me.zhanghai.android.douya.ui.FlexibleSpaceScrollLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profile.ProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <me.zhanghai.android.douya.ui.ProfileHeaderView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="flexibleSpaceScrollableChild"
+
+            android:background="@color/douya_primary">
+
+        </me.zhanghai.android.douya.ui.ProfileHeaderView>
+
+        <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:tag="flexibleSpaceScrollableChild"
+
+            android:background="@color/window_background_light">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ProfileActivity"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </LinearLayout>
+        </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
+    </LinearLayout>
+</me.zhanghai.android.douya.ui.FlexibleSpaceScrollLayout>
