@@ -14,9 +14,9 @@ import android.support.v4.widget.ScrollerCompatIcs;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-public class FriendlyScrollerCompat extends ScrollerCompat {
+public class FriendlyScrollerCompat {
 
-    private static final String TAG = "FriendlyScrollerCompat";
+    ScrollerCompat mScrollerCompat;
 
     FriendlyScrollerCompatImpl mImpl;
 
@@ -60,7 +60,8 @@ public class FriendlyScrollerCompat extends ScrollerCompat {
     }
 
     FriendlyScrollerCompat(Context context, Interpolator interpolator) {
-        super(context, interpolator);
+
+        mScrollerCompat = ScrollerCompat.create(context, interpolator);
 
         if (Build.VERSION.SDK_INT >= 9) { // Gingerbread
             mImpl = new FriendlyScrollerCompatImplGingerbread();
@@ -75,7 +76,7 @@ public class FriendlyScrollerCompat extends ScrollerCompat {
      * @return The start X offset as an absolute distance from the origin.
      */
     public final int getStartX() {
-        return mImpl.getStartX(mScroller);
+        return mImpl.getStartX(mScrollerCompat.mScroller);
     }
 
     /**
@@ -84,6 +85,71 @@ public class FriendlyScrollerCompat extends ScrollerCompat {
      * @return The start Y offset as an absolute distance from the origin.
      */
     public final int getStartY() {
-        return mImpl.getStartY(mScroller);
+        return mImpl.getStartY(mScrollerCompat.mScroller);
+    }
+
+
+    public boolean isFinished() {
+        return mScrollerCompat.isFinished();
+    }
+
+    public int getCurrX() {
+        return mScrollerCompat.getCurrX();
+    }
+
+    public int getCurrY() {
+        return mScrollerCompat.getCurrY();
+    }
+
+    public int getFinalX() {
+        return mScrollerCompat.getFinalX();
+    }
+
+    public int getFinalY() {
+        return mScrollerCompat.getFinalY();
+    }
+
+    public float getCurrVelocity() {
+        return mScrollerCompat.getCurrVelocity();
+    }
+
+    public boolean computeScrollOffset() {
+        return mScrollerCompat.computeScrollOffset();
+    }
+
+    public void startScroll(int startX, int startY, int dx, int dy) {
+        mScrollerCompat.startScroll(startX, startY, dx, dy);
+    }
+
+    public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+        mScrollerCompat.startScroll(startX, startY, dx, dy, duration);
+    }
+
+    public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY) {
+        mScrollerCompat.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY);
+    }
+
+    public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY, int overX, int overY) {
+        mScrollerCompat.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY, overX, overY);
+    }
+
+    public boolean springBack(int startX, int startY, int minX, int maxX, int minY, int maxY) {
+        return mScrollerCompat.springBack(startX, startY, minX, maxX, minY, maxY);
+    }
+
+    public void abortAnimation() {
+        mScrollerCompat.abortAnimation();
+    }
+
+    public void notifyVerticalEdgeReached(int startY, int finalY, int overY) {
+        mScrollerCompat.notifyVerticalEdgeReached(startY, finalY, overY);
+    }
+
+    public void notifyHorizontalEdgeReached(int startX, int finalX, int overX) {
+        mScrollerCompat.notifyHorizontalEdgeReached(startX, finalX, overX);
+    }
+
+    public boolean isOverScrolled() {
+        return mScrollerCompat.isOverScrolled();
     }
 }

@@ -5,7 +5,6 @@
 
 package android.support.v7.widget;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -23,10 +22,6 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.appcompat.R;
 import android.support.v7.text.AllCapsTransformationMethod;
-import android.support.v7.widget.DrawableUtils;
-import android.support.v7.widget.TintManager;
-import android.support.v7.widget.TintTypedArray;
-import android.support.v7.widget.ViewUtils;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -55,13 +50,12 @@ import android.widget.CompoundButton;
  * property controls the text displayed in the label for the switch, whereas the
  * {@link #setTextOff(CharSequence) off} and {@link #setTextOn(CharSequence) on} text
  * controls the text on the thumb. Similarly, the
- * {@link #setTextAppearance(Context, int) textAppearance} and the related
+ * {@link #setTextAppearance(android.content.Context, int) textAppearance} and the related
  * setTypeface() methods control the typeface and style of label text, whereas the
- * {@link #setSwitchTextAppearance(Context, int) switchTextAppearance} and
+ * {@link #setSwitchTextAppearance(android.content.Context, int) switchTextAppearance} and
  * the related seSwitchTypeface() methods control that of the thumb.
  */
-@SuppressLint("PrivateResource")
-@SuppressWarnings("unused")
+@SuppressWarnings({"privateResource", "unused"})
 public class FriendlySwitchCompat extends CompoundButton {
     private static final int THUMB_ANIMATION_DURATION = 250;
 
@@ -137,7 +131,7 @@ public class FriendlySwitchCompat extends CompoundButton {
     @SuppressWarnings("hiding")
     private final Rect mTempRect = new Rect();
 
-    private final TintManager mTintManager;
+    private final AppCompatDrawableManager mDrawableManager;
 
     private static final int[] CHECKED_STATE_SET = {
             android.R.attr.state_checked
@@ -208,7 +202,7 @@ public class FriendlySwitchCompat extends CompoundButton {
             setSwitchTextAppearance(context, appearance);
         }
 
-        mTintManager = a.getTintManager();
+        mDrawableManager = AppCompatDrawableManager.get();
 
         a.recycle();
 
@@ -400,7 +394,7 @@ public class FriendlySwitchCompat extends CompoundButton {
      * @param resId Resource ID of a track drawable
      */
     public void setTrackResource(int resId) {
-        setTrackDrawable(mTintManager.getDrawable(resId));
+        setTrackDrawable(mDrawableManager.getDrawable(getContext(), resId));
     }
 
     /**
@@ -430,7 +424,7 @@ public class FriendlySwitchCompat extends CompoundButton {
      * @param resId Resource ID of a thumb drawable
      */
     public void setThumbResource(int resId) {
-        setThumbDrawable(mTintManager.getDrawable(resId));
+        setThumbDrawable(mDrawableManager.getDrawable(getContext(), resId));
     }
 
     /**
@@ -801,10 +795,6 @@ public class FriendlySwitchCompat extends CompoundButton {
         // recursively with a different value, so load the REAL value...
         checked = isChecked();
 
-        // PATCH: Framework Switch won't check for isShown(), although Chris Banes added it in
-        // support library. See
-        // https://github.com/android/platform_frameworks_support/commit/87638543a7f772792e77f4bb260e6dc117c52674
-        //if (getWindowToken() != null && ViewCompat.isLaidOut(this) && isShown()) {
         if (getWindowToken() != null && ViewCompat.isLaidOut(this)) {
             animateThumbToCheckedState(checked);
         } else {
@@ -1119,6 +1109,7 @@ public class FriendlySwitchCompat extends CompoundButton {
             }
 
             cancelPositionAnimator();
+            setThumbPosition(isChecked() ? 1 : 0);
         }
     }
 
