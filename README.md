@@ -2,11 +2,11 @@
 
 Douban, Yet Another.
 
-另一个 Material Design 的豆瓣应用。
+另一个 Material Design 的豆瓣客户端。
 
 ## 开放源代码
 
-由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，给有兴趣者[做些 HACKING](http://www.catb.org/jargon/html/H/hacker.html)。
+由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，给有兴趣者[做些](HACKING.md) [HACKING](http://www.catb.org/jargon/html/H/hacker.html)。
 
 以下是之前关于豆芽的说明。
 
@@ -178,15 +178,7 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 - [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
 
-数千行代码，以及公开发布的努力。
-
-### 其他
-
-技术选型、全局架构、代码组织、问题解决、复杂度，这些始终都是实现的难点，其中辛苦和付出不用多言。
-
 ## 第三方库
-
-（按照全名排列）
 
 - [PhotoView](https://github.com/chrisbanes/PhotoView)
 - [Glide](https://github.com/bumptech/glide)
