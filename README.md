@@ -1,6 +1,8 @@
 # 豆芽
 
-Douban, Yet Another.
+[English version](README-en.md)
+
+> Douban, Yet Another.
 
 另一个 Material Design 的豆瓣客户端。
 
@@ -193,9 +195,9 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 
 为此项目诞生的五个开源库：
 
-- [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)，800+ Star
-- [MaterialProgressBar](https://github.com/DreaminginCodeZH/MaterialProgressBar)，500+ Star
-- [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)，200+ Star
+- [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)，800+ Stars
+- [MaterialProgressBar](https://github.com/DreaminginCodeZH/MaterialProgressBar)，500+ Stars
+- [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)，200+ Stars
 - [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
 
