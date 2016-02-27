@@ -12,7 +12,7 @@ Of course I'm not recommending you to [decompile](http://www.javadecompilers.com
 
 Once you've got the credentials, you need to fill them into the constant fields in [ApiCredential.java](app/src/main/java/me/zhanghai/android/douya/network/api/ApiCredential.java).
 
-## Optional: Ignoring the changes in git
+## (Optional) Ignore the change in git
 
 ```bash
 git update-index --assume-unchanged app/src/main/java/me/zhanghai/android/douya/network/api/ApiCredential.java
