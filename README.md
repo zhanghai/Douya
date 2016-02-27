@@ -8,7 +8,18 @@ Douban, Yet Another.
 
 由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，给有兴趣者[做些 HACKING](http://www.catb.org/jargon/html/H/hacker.html)。
 
-以下是之前关于豆芽的说明。
+以下是关于豆芽的说明。
+
+## 部分特性
+
+- Material Design
+- 首页友邻广播
+- [启动速度优化](#启动速度)
+- [界面动画](#界面动画)
+- [支持屏幕旋转](#屏幕旋转)
+- [平板多列视图](#平板适配)
+- 支持使用 Custom Tabs 打开网页
+- 支持切换长/短链接显示
 
 ## 预览
 
@@ -27,17 +38,6 @@ Douban, Yet Another.
 <img src="screenshot/10-tablet-landscape.png" width="61.7%" /></p>
 
 视频：[优酷链接](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html)。
-
-部分特性：
-
-- Material Design
-- 首页友邻广播
-- [启动速度优化](#启动速度)
-- [界面动画](#界面动画)
-- [支持屏幕旋转](#屏幕旋转)
-- [平板多列视图](#平板适配)
-- 支持使用 Custom Tabs 打开网页
-- 支持切换长/短链接显示
 
 ## 关于名字
 
