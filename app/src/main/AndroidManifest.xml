@@ -16,6 +16,9 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
 
+    <!-- For HackyApiCredentialHelper. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".DouyaApplication"
         android:allowBackup="true"
