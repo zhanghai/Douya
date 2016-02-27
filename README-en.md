@@ -31,7 +31,10 @@ Images:
 <img src="screenshot/09-tablet-portrait.jpg" width="34.7%" />
 <img src="screenshot/10-tablet-landscape.png" width="61.7%" /></p>
 
-Video: [Youku](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html).
+Video:
+
+- [Vimeo](https://vimeo.com/156952508)
+- [Youku](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html)
 
 ## Implementation
 
