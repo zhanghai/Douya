@@ -14,28 +14,17 @@ Douban, Yet Another.
 
 图片：
 
-<style>
-.phone-port {
-max-width: 32% !important
-}
-.tablet-port {
-max-width: 34.7% !important
-}
-.tablet-land {
-max-width: 61.7% !important
-}
-</style>
-<p><img class="phone-port" src="screenshot/00-main.png" />
-<img class="phone-port" src="screenshot/01-immersive.jpg" />
-<img class="phone-port" src="screenshot/02-gallery.jpg" />
-<img class="phone-port" src="screenshot/03-broadcast-menu.png" />
-<img class="phone-port" src="screenshot/04-broadcast-activity.png" />
-<img class="phone-port" src="screenshot/05-send-comment.png" />
-<img class="phone-port" src="screenshot/06-comment-action.png" />
-<img class="phone-port" src="screenshot/07-settings.png" />
-<img class="phone-port" src="screenshot/08-licenses.png" />
-<img class="tablet-port" src="screenshot/09-tablet-portrait.jpg" />
-<img class="tablet-land" src="screenshot/10-tablet-landscape.png" /></p>
+<p><img src="screenshot/00-main.png" width="32%" />
+<img src="screenshot/01-immersive.jpg" width="32%" />
+<img src="screenshot/02-gallery.jpg" width="32%" />
+<img src="screenshot/03-broadcast-menu.png" width="32%" />
+<img src="screenshot/04-broadcast-activity.png" width="32%" />
+<img src="screenshot/05-send-comment.png" width="32%" />
+<img src="screenshot/06-comment-action.png" width="32%" />
+<img src="screenshot/07-settings.png" width="32%" />
+<img src="screenshot/08-licenses.png" width="32%" />
+<img src="screenshot/09-tablet-portrait.jpg" width="34.7%" />
+<img src="screenshot/10-tablet-landscape.png" width="61.7%" /></p>
 
 视频：[优酷链接](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html)。
 
