@@ -6,7 +6,7 @@ You need a valid pair of API key and secret to make requests to Douban API.
 
 Currently Douban has [closed API key application for individuals](https://developers.douban.com/apikey/), so you have to get your own from somewhere else.
 
-Of course I'm not recommending you to [decompile](http://www.javadecompilers.com/apk) [the official app](http://www.douban.com/doubanapp/redirect?download=Android) for this.
+Of course I'm absolutely not recommending you to get one by [decompiling](http://www.javadecompilers.com/apk) [the official app](http://www.douban.com/doubanapp/redirect?download=Android).
 
 ## Fill in the credentials
 
