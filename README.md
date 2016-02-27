@@ -6,7 +6,7 @@ Douban, Yet Another.
 
 ## 开放源代码
 
-由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，给有兴趣者[做些](HACKING.md) [HACKING](http://www.catb.org/jargon/html/H/hacker.html)。
+由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，给有兴趣者[做些 HACKING](http://www.catb.org/jargon/html/H/hacker.html)。
 
 以下是之前关于豆芽的说明。
 
@@ -203,3 +203,11 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 - [MaterialProgressBar](https://github.com/DreaminginCodeZH/MaterialProgressBar)
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
 - [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)
+
+## 关于发布
+
+由于没有可用的 API Key，暂时无法公开发布直接可用的 APK。请参考 [HACKING.md](HACKING.md)，自行构建即可使用。
+
+请不要安装从不可靠的来源获取的 APK，以免泄漏您的用户名和密码。
+
+稍后可能考虑将 API Key 实现为可调整的设置。
