@@ -28,6 +28,17 @@ Douban, Yet Another.
 
 视频：[优酷链接](http://v.youku.com/v_show/id_XMTQyMDE5ODk0MA==.html)。
 
+部分特性：
+
+- Material Design
+- 首页友邻广播
+- [启动速度优化](#启动速度)
+- [界面动画](#界面动画)
+- [支持屏幕旋转](#屏幕旋转)
+- [平板多列视图](#平板适配)
+- 支持使用 Custom Tabs 打开网页
+- 支持切换长/短链接显示
+
 ## 关于名字
 
 豆芽的名字取自“Douban, [Yet Another](https://en.wikipedia.org/wiki/Yet_another)”的缩写和中文词语“豆芽”的拼音正好相同的巧合。
