@@ -25,8 +25,18 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        overridePendingTransition(0, 0);
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.profile_activity);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        overridePendingTransition(0, 0);
     }
 }

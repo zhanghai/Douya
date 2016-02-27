@@ -114,11 +114,14 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
                             + NestedScrollView.class.getSimpleName() + ".");
                 }
                 mScrollableChildren.add(child);
-            }
-            if (child instanceof ViewGroup) {
+            } else if (child instanceof ViewGroup) {
                 addScrollableChildren((ViewGroup) child);
             }
         }
+    }
+
+    public int getScroll() {
+        return mScroll;
     }
 
     public void scrollBy(int delta) {
@@ -217,11 +220,16 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
                 clearVelocityTrackerIfHas();
                 if (!mIsBeingDragged) {
                     startDrag();
+                } else {
+                    restartDrag();
                 }
                 break;
 
             case MotionEvent.ACTION_MOVE: {
                 float deltaY = getMotionEventY(event) - mLastMotionY;
+                if (deltaY == 0) {
+                    break;
+                }
                 if (!mIsBeingDragged && Math.abs(deltaY) > mTouchSlop) {
                     startDrag();
                     if (deltaY > 0) {
@@ -231,16 +239,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
                     }
                 }
                 if (mIsBeingDragged) {
-                    int oldScroll = mScroll;
-                    scrollBy((int) -deltaY);
-                    deltaY += mScroll - oldScroll;
-                    if (deltaY < 0) {
-                        mEdgeEffectBottom.onPull(-deltaY / getHeight(),
-                                1f - getMotionEventX(event) / getWidth());
-                        if (!mEdgeEffectBottom.isFinished()) {
-                            ViewCompat.postInvalidateOnAnimation(this);
-                        }
-                    }
+                    onDrag(event, deltaY);
                 }
                 break;
             }
@@ -285,6 +284,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
+
         if (MotionEventCompat_isFromSource(event, InputDeviceCompat.SOURCE_CLASS_POINTER)) {
             if (event.getActionMasked() == MotionEvent.ACTION_SCROLL) {
                 if (!mIsBeingDragged) {
@@ -298,6 +298,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
                 }
             }
         }
+
         return super.onGenericMotionEvent(event);
     }
 
@@ -305,6 +306,27 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
         mScroller.abortAnimation();
         requestParentDisallowInterceptTouchEventIfHas(true);
         mIsBeingDragged = true;
+    }
+
+    private void restartDrag() {
+        mScroller.abortAnimation();
+    }
+
+    protected void onDrag(MotionEvent event, float delta) {
+        int oldScroll = mScroll;
+        scrollBy((int) -delta);
+        delta += mScroll - oldScroll;
+        if (delta < 0) {
+            pullEdgeEffectBottom(event, delta);
+        }
+    }
+
+    protected void pullEdgeEffectBottom(MotionEvent event, float delta) {
+        mEdgeEffectBottom.onPull(-delta / getHeight(),
+                1f - getMotionEventX(event) / getWidth());
+        if (!mEdgeEffectBottom.isFinished()) {
+            ViewCompat.postInvalidateOnAnimation(this);
+        }
     }
 
     private void endDrag(boolean cancelled) {
@@ -316,6 +338,13 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
 
         mEdgeEffectBottom.onRelease();
 
+        onDragEnd(cancelled);
+
+        mActivePointerId = INVALID_POINTER_ID;
+        recycleVelocityTrackerIfHas();
+    }
+
+    protected void onDragEnd(boolean cancelled) {
         int flingDelta = 0;
         if (!cancelled) {
             float velocity = getCurrentVelocity();
@@ -324,14 +353,6 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
                 flingDelta = mScroller.getFinalY() - mScroller.getStartY();
             }
         }
-        onDragEnd(flingDelta);
-
-        mActivePointerId = INVALID_POINTER_ID;
-        recycleVelocityTrackerIfHas();
-    }
-
-    private void onDragEnd(int flingDelta) {
-        // TODO
     }
 
     @Override
@@ -415,7 +436,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
         }
     }
 
-    private void recycleVelocityTrackerIfHas() {
+    protected void recycleVelocityTrackerIfHas() {
         if (mVelocityTracker != null) {
             mVelocityTracker.recycle();
             mVelocityTracker = null;
