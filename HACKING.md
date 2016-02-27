@@ -10,14 +10,13 @@ Of course I'm not recommending you to [decompile](http://www.javadecompilers.com
 
 ## Fill in the credentials
 
-Once you've got the credentials, you need to fill them into the constant fields in [ApiCredential.java](app/src/main/java/me/zhanghai/android/douya/network/api/ApiCredential.java).
+Once you've got the credentials, you need to provide them to Douya. Put the following files on you SD card:
 
-## (Optional) Ignore the change in git
+- `(Your SD card path)/Douya/API_KEY`: The content of which should be an API key for Douban.
+- `(Your SD card path)/Douya/API_SECRET`: The content of which should be an API secret for Douban.
 
-```bash
-git update-index --assume-unchanged app/src/main/java/me/zhanghai/android/douya/network/api/ApiCredential.java
-```
+The path and file names are case sensitive.
 
-## Compile your own APK
+## Get the app!
 
-Open this project in Android Studio, and you are now ready to build your own!
+Download and install the app from [the latest release](https://github.com/DreaminginCodeZH/Douya/releases/latest).

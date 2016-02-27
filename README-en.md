@@ -78,12 +78,10 @@ Most data are fetched from network while some of them are cached for offline.
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
 - [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)
 
-## About publishing
+## Using
 
 Due to the closing up of [API key application for individual developers](http://developers.douban.com/apikey/), this app is not likely to be available to public in APK form. So I decided to make it open source and allow people to do more [hacking](http://www.catb.org/jargon/html/H/hacker.html) on it.
 
-You can refer to [HACKING.md](HACKING.md) for building your own APK with valid API credentials.
+You can refer to [HACKING.md](HACKING.md) for providing API credentials and running the app.
 
 Please don't install APKs from untrusted sources, so that you won't leak your username and password.
-
-Maybe I'll make API key a configurable setting in the app someday :P
