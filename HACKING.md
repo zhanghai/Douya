@@ -17,6 +17,8 @@ Once you've got the credentials, you need to provide them to Douya. Put the foll
 
 The path and file names are case sensitive.
 
+Note that if you have started the app before these files are ready, you need to force stop and restart the app to make it reload the files.
+
 ## Get the app!
 
 Download and install the app from [the latest release](https://github.com/DreaminginCodeZH/Douya/releases/latest).
