@@ -6,7 +6,7 @@ You need a valid pair of API key and secret to make requests to Douban API.
 
 Currently Douban has [closed API key application for individuals](https://developers.douban.com/apikey/), so you have to get your own from somewhere else.
 
-Of course I'm absolutely not recommending you to get one by [decompiling](http://www.javadecompilers.com/apk) [an old enough version of the official app](https://apkpure.com/%E8%B1%86%E7%93%A3/com.douban.frodo).
+Of course I'm absolutely not recommending you to get one by [decompiling](http://www.javadecompilers.com/apk) [an old enough version of the official app](https://apkpure.com/豆瓣/com.douban.frodo?version=3.0.1&grep=OkVolley.getInstance().init).
 
 ## Fill in the credentials
 
