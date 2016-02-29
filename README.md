@@ -224,4 +224,6 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 
 请参考 [HACKING.md](HACKING.md)，自行提供 API Key 和 Secret 即可使用。
 
+暂时没有内置的更新渠道，请关注本项目的 Release。
+
 请不要安装从不可靠的来源获取的 APK，以免泄漏您的用户名和密码。
