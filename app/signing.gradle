@@ -1,0 +1,10 @@
+android {
+    signingConfigs {
+        release {
+            storeFile file("<STORE_FILE>")
+            storePassword System.console() != null ? System.console().readLine("\nKeystore password: ") : ""
+            keyAlias "<KEY_ALIAS>"
+            keyPassword System.console() != null ? System.console().readLine("\nKey password: ") : ""
+        }
+    }
+}
