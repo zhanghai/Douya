@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -53,7 +54,7 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
         if (oldOffset == offset || offset < 0) {
             return;
         }
-        getChildAt(0).offsetTopAndBottom(offset - oldOffset);
+        ViewCompat.offsetTopAndBottom(getChildAt(0), offset - oldOffset);
     }
 
     @Override
