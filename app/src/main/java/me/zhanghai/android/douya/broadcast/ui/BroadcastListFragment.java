@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,6 +37,7 @@ import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.broadcast.app.HomeBroadcastListCache;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
+import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.main.ui.MainActivity;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
@@ -49,6 +51,7 @@ import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingSlopListener;
 import me.zhanghai.android.douya.util.Callback;
+import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -80,6 +83,8 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
     RecyclerView mBroadcastList;
     @Bind(R.id.progress)
     ProgressBar mProgress;
+    @Bind(R.id.send)
+    FloatingActionButton mSendFab;
 
     private RetainDataFragment mRetainDataFragment;
 
@@ -148,24 +153,37 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
             @Override
             public void onScrolledUp(int dy) {
                 if (!RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
-                    appBarManager.showAppBar();
+                    onShow();
                 } else {
                     super.onScrolledUp(dy);
                 }
             }
             @Override
             public void onScrolledUp() {
+                onShow();
+            }
+            private void onShow() {
                 appBarManager.showAppBar();
+                mSendFab.show();
             }
             @Override
             public void onScrolledDown() {
                 if (RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
                     appBarManager.hideAppBar();
+                    mSendFab.hide();
                 }
             }
             @Override
             public void onScrolledToBottom() {
                 loadBroadcastList(true);
+            }
+        });
+
+        CheatSheetUtils.setup(mSendFab);
+        mSendFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSendBroadcast();
             }
         });
 
@@ -494,6 +512,11 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
 
     private void saveHomeBroadcastListToCache(List<Broadcast> broadcastList) {
         HomeBroadcastListCache.put(broadcastList, getActivity());
+    }
+
+    private void onSendBroadcast() {
+        // FIXME: Create a SendBroadcastActivity.
+        UriHandler.open("https://www.douban.com/#isay-cont", getActivity());
     }
 
     private static class ViewState {

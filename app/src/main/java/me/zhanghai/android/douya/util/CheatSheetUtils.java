@@ -55,6 +55,8 @@ public class CheatSheetUtils {
      * the given text will be shown either above (default) or below the view (if there isn't room
      * above it).
      *
+     * @deprecated Use {@link #setup(View)} instead.
+     *
      * @param view      The view to add a cheat sheet for.
      * @param textResId The string resource containing the text to show on long-press.
      */
@@ -72,6 +74,8 @@ public class CheatSheetUtils {
      * View.OnLongClickListener}. When the view is long-pressed, a {@link Toast} with
      * the given text will be shown either above (default) or below the view (if there isn't room
      * above it).
+     *
+     * @deprecated Use {@link #setup(View)} instead.
      *
      * @param view The view to add a cheat sheet for.
      * @param text The text to show on long-press.
