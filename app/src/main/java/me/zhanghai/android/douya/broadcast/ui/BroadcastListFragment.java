@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -47,6 +46,7 @@ import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.AppBarManager;
+import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingSlopListener;
@@ -84,7 +84,7 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
     @Bind(R.id.progress)
     ProgressBar mProgress;
     @Bind(R.id.send)
-    FloatingActionButton mSendFab;
+    FriendlyFloatingActionButton mSendFab;
 
     private RetainDataFragment mRetainDataFragment;
 

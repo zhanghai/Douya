@@ -38,7 +38,7 @@
         android:visibility="gone"
         style="@style/Widget.MaterialProgressBar.ProgressBar" />
 
-    <android.support.design.widget.FloatingActionButton
+    <me.zhanghai.android.douya.ui.FriendlyFloatingActionButton
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
