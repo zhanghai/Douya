@@ -188,7 +188,7 @@ Android 本身的资源系统提供了对不同配置的很好支持，通过建
 
 ### 启动速度
 
-Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前会加载应用主题中的背景作为预览，而默认背景是白色，与应用在上部拥有绿色 AppBar 的效果不相匹配。
+Android 默认在冷启动应用进程只能够调用 `Activity.onCreate()` 前会加载应用主题中的背景作为预览，而默认背景是白色，与应用在上部拥有绿色 AppBar 的效果不相匹配。
 
 为了生成适应于不同屏幕大小、系统版本的图片，我使用 bash 编写了一系列脚本，并实现了一个通用的模板化 SVG 格式，详情见 [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart) 和 [AndroidSVGScripts](https://github.com/DreaminginCodeZH/AndroidSVGScripts)。
 
