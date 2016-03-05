@@ -303,13 +303,13 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
     }
 
     private void startDrag() {
-        mScroller.abortAnimation();
+        abortScrollerAnimation();
         requestParentDisallowInterceptTouchEventIfHas(true);
         mIsBeingDragged = true;
     }
 
     private void restartDrag() {
-        mScroller.abortAnimation();
+        abortScrollerAnimation();
     }
 
     protected void onDrag(MotionEvent event, float delta) {
@@ -363,7 +363,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
             scrollTo(scrollerCurrY);
             if (mScroll > oldScroll && scrollerCurrY > mScroll) {
                 mEdgeEffectBottom.onAbsorb((int) mScroller.getCurrVelocity());
-                mScroller.abortAnimation();
+                abortScrollerAnimation();
             }
             ViewCompat.postInvalidateOnAnimation(this);
         }
@@ -451,12 +451,30 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
         return mVelocityTracker.getYVelocity(mActivePointerId);
     }
 
+    protected void abortScrollerAnimation() {
+        mScroller.abortAnimation();
+    }
+
     private void requestParentDisallowInterceptTouchEventIfHas(boolean disallowIntercept) {
         ViewParent viewParent = getParent();
         if (viewParent != null) {
             viewParent.requestDisallowInterceptTouchEvent(disallowIntercept);
         }
     }
+
+    public static final IntProperty<FlexibleSpaceScrollLayout> SCROLL =
+            new IntProperty<FlexibleSpaceScrollLayout>("scroll") {
+
+                @Override
+                public Integer get(FlexibleSpaceScrollLayout object) {
+                    return object.getScroll();
+                }
+
+                @Override
+                public void setValue(FlexibleSpaceScrollLayout object, int value) {
+                    object.scrollTo(value);
+                }
+            };
 
     private float View_getScrollFactor() {
         if (mView_verticalScrollFactor == Float.MIN_VALUE) {

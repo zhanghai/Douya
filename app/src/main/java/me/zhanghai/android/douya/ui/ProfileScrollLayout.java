@@ -5,31 +5,73 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.app.Activity;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import butterknife.BindColor;
+import butterknife.BindInt;
+import butterknife.ButterKnife;
+import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.ViewUtils;
+
 public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
 
-    private boolean mFinishing;
+    @BindInt(android.R.integer.config_shortAnimTime)
+    int mOffsetAnimationTime;
+    @BindColor(R.color.dark_70_percent)
+    int mBackgroundColor;
+
+    private ColorDrawable mBackgroundDrawable;
+
+    private Listener mListener;
+
+    private boolean mExiting;
 
     public ProfileScrollLayout(Context context) {
         super(context);
+
+        init();
     }
 
     public ProfileScrollLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        init();
     }
 
     public ProfileScrollLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        init();
     }
 
     public ProfileScrollLayout(Context context, AttributeSet attrs, int defStyleAttr,
                                int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+
+        init();
+    }
+
+    private void init() {
+
+        ButterKnife.bind(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE | SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            setFitsSystemWindows(true);
+        }
+
+        mBackgroundDrawable = new ColorDrawable(mBackgroundColor);
+        me.zhanghai.android.douya.util.ViewCompat.setBackground(this, mBackgroundDrawable);
     }
 
     @Override
@@ -42,7 +84,7 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
     }
 
     public int getOffset() {
-        return getChildAt(0).getTop();
+        return getChildAt(0).getTop() - getPaddingTop();
     }
 
     public void offsetBy(int delta) {
@@ -55,11 +97,17 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
             return;
         }
         ViewCompat.offsetTopAndBottom(getChildAt(0), offset - oldOffset);
+        updateBackground(offset);
+    }
+
+    private void updateBackground(int offset) {
+        float fraction = Math.max(0, 1 - (float) offset / (getHeight() - getPaddingTop()));
+        mBackgroundDrawable.setAlpha((int) (fraction * 0xFF));
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (mFinishing) {
+        if (mExiting) {
             return false;
         } else {
             return super.onInterceptTouchEvent(event);
@@ -68,7 +116,7 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mFinishing) {
+        if (mExiting) {
             return false;
         } else {
             return super.onTouchEvent(event);
@@ -77,7 +125,7 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-        if (mFinishing) {
+        if (mExiting) {
             return false;
         } else {
             return super.onGenericMotionEvent(event);
@@ -107,17 +155,84 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
     @Override
     protected void onDragEnd(boolean cancelled) {
         if (getOffset() > 0) {
-            finish();
+            exit();
         } else {
             super.onDragEnd(cancelled);
         }
     }
 
-    private void finish() {
+    public Listener getListener() {
+        return mListener;
+    }
 
-        mFinishing = true;
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
+
+    public void enter() {
+        ViewUtils.postOnPreDraw(this, new Runnable() {
+            @Override
+            public void run() {
+                animateEnter();
+            }
+        });
+    }
+
+    private void animateEnter() {
+        ObjectAnimator animator = ObjectAnimator.ofInt(this, OFFSET, getHeight(), 0);
+        animator.setDuration(mOffsetAnimationTime);
+        animator.setInterpolator(new LinearOutSlowInInterpolator());
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (mListener != null) {
+                    mListener.onEnterAnimationEnd();
+                }
+            }
+        });
+        animator.start();
+    }
+
+    public void exit() {
+
+        mExiting = true;
+        abortScrollerAnimation();
         recycleVelocityTrackerIfHas();
 
-        ((Activity) getContext()).finish();
+        animateExit();
+    }
+
+    private void animateExit() {
+        ObjectAnimator animator = ObjectAnimator.ofInt(this, OFFSET, getOffset(), getHeight());
+        animator.setDuration(mOffsetAnimationTime);
+        animator.setInterpolator(new FastOutLinearInInterpolator());
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (mListener != null) {
+                    mListener.onExitAnimationEnd();
+                }
+            }
+        });
+        animator.start();
+    }
+
+    public static final IntProperty<ProfileScrollLayout> OFFSET =
+            new IntProperty<ProfileScrollLayout>("offset") {
+
+                @Override
+                public Integer get(ProfileScrollLayout object) {
+                    return object.getOffset();
+                }
+
+                @Override
+                public void setValue(ProfileScrollLayout object, int value) {
+                    object.offsetTo(value);
+                }
+            };
+
+    public interface Listener {
+        void onEnterAnimationEnd();
+        void onExitAnimationEnd();
     }
 }
