@@ -56,19 +56,19 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
     public FlexibleSpaceScrollLayout(Context context) {
         super(context);
 
-        init(context, null, 0, 0);
+        init(getContext(), null, 0, 0);
     }
 
     public FlexibleSpaceScrollLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(context, attrs, 0, 0);
+        init(getContext(), attrs, 0, 0);
     }
 
     public FlexibleSpaceScrollLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(context, attrs, defStyleAttr, 0);
+        init(getContext(), attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -76,7 +76,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
                                      int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(context, attrs, defStyleAttr, defStyleRes);
+        init(getContext(), attrs, defStyleAttr, defStyleRes);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

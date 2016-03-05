@@ -7,10 +7,12 @@ package me.zhanghai.android.douya.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Outline;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,20 +38,47 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
 
     public ProfileHeaderLayout(Context context) {
         super(context);
+
+        init();
     }
 
     public ProfileHeaderLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        init();
     }
 
     public ProfileHeaderLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ProfileHeaderLayout(Context context, AttributeSet attrs, int defStyleAttr,
                                int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+
+        init();
+    }
+
+    private void init() {
+        // HACK: We need to delegate the outline so that elevation can work.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setOutlineProvider(new ViewOutlineProvider() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    // We cannot use mAppBarLayout.getOutlineProvider.getOutline() because the
+                    // bounds of it is not kept in sync when this method is called.
+                    // HACK: Workaround the fact that we must provided an outline before we are
+                    // measured.
+                    int height = getHeight();
+                    int top = height > 0 ? height - computeAppBarHeightAfterInitialMeasure() : 0;
+                    outline.setRect(0, top, getWidth(), height);
+                }
+            });
+        }
     }
 
     @Override
@@ -66,14 +95,17 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             mAppBarLayout.getLayoutParams().height = height / 2;
         } else {
-            int height = getLayoutParams().height;
-            int maxHeight = getMaxHeight();
-            int minHeight = getMinHeight();
-            float fraction = MathUtils.unlerp(minHeight, maxHeight, height);
-            mAppBarLayout.getLayoutParams().height = MathUtils.lerp(minHeight, maxHeight / 2,
-                    fraction);
+            mAppBarLayout.getLayoutParams().height = computeAppBarHeightAfterInitialMeasure();
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private int computeAppBarHeightAfterInitialMeasure() {
+        int height = getLayoutParams().height;
+        int maxHeight = getMaxHeight();
+        int minHeight = getMinHeight();
+        float fraction = MathUtils.unlerp(minHeight, maxHeight, height);
+        return MathUtils.lerp(minHeight, maxHeight / 2, fraction);
     }
 
     @Override

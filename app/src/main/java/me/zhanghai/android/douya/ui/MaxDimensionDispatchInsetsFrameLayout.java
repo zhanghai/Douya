@@ -27,27 +27,27 @@ public class MaxDimensionDispatchInsetsFrameLayout extends DispatchInsetsFrameLa
     public MaxDimensionDispatchInsetsFrameLayout(Context context) {
         super(context);
 
-        init(context, null, 0, 0);
+        init(getContext(), null, 0, 0);
     }
 
     public MaxDimensionDispatchInsetsFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(context, attrs, 0, 0);
+        init(getContext(), attrs, 0, 0);
     }
 
     public MaxDimensionDispatchInsetsFrameLayout(Context context, AttributeSet attrs,
                                                  int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(context, attrs, defStyleAttr, 0);
+        init(getContext(), attrs, defStyleAttr, 0);
     }
 
     public MaxDimensionDispatchInsetsFrameLayout(Context context, AttributeSet attrs,
                                                  int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(context, attrs, defStyleAttr, defStyleRes);
+        init(getContext(), attrs, defStyleAttr, defStyleRes);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

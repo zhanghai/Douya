@@ -20,19 +20,19 @@ public class FriendlyCardView extends CardView {
     public FriendlyCardView(Context context) {
         super(context);
 
-        init(context, null, 0);
+        init(getContext(), null, 0);
     }
 
     public FriendlyCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(context, attrs, 0);
+        init(getContext(), attrs, 0);
     }
 
     public FriendlyCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(context, attrs, defStyleAttr);
+        init(getContext(), attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {

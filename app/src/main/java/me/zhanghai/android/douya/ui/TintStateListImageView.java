@@ -5,47 +5,37 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import me.zhanghai.android.douya.R;
 
 /**
  * Use app:tint instead of android:tint for a ColorStateList.
  */
-public class TintStateListImageView extends ImageView {
+public class TintStateListImageView extends AppCompatImageView {
 
     private ColorStateList mTintList;
 
     public TintStateListImageView(Context context) {
         super(context);
 
-        init(context, null, 0, 0);
+        init(getContext(), null, 0, 0);
     }
 
     public TintStateListImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(context, attrs, 0, 0);
+        init(getContext(), attrs, 0, 0);
     }
 
     public TintStateListImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(context, attrs, defStyleAttr, 0);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public TintStateListImageView(Context context, AttributeSet attrs, int defStyleAttr,
-                                  int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-
-        init(context, attrs, defStyleAttr, defStyleRes);
+        init(getContext(), attrs, defStyleAttr, 0);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

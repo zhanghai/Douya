@@ -30,12 +30,14 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
 
     public FriendlySwipeRefreshLayout(Context context) {
         super(context);
-        init(context, null);
+
+        init(getContext(), null);
     }
 
     public FriendlySwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+
+        init(getContext(), attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {

@@ -22,6 +22,7 @@
         <me.zhanghai.android.douya.ui.ProfileHeaderLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="@dimen/appbar_elevation"
             android:tag="flexibleSpaceScrollableChild">
 
             <View
@@ -37,7 +38,6 @@
                 android:layout_height="0dp"
                 android:layout_alignParentBottom="true"
                 android:background="?colorPrimary"
-                android:elevation="@dimen/appbar_elevation"
                 android:orientation="vertical"
                 android:theme="?actionBarTheme">
 
@@ -63,6 +63,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <View
+                    android:id="@+id/shadow_compat"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:background="?android:windowContentOverlay" />
 
                 <TextView
                     android:layout_width="match_parent"
