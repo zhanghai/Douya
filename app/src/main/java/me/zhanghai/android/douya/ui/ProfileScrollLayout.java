@@ -26,7 +26,7 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
 
     @BindInt(android.R.integer.config_shortAnimTime)
-    int mOffsetAnimationTime;
+    int mShortAnimationTime;
     @BindColor(R.color.dark_70_percent)
     int mBackgroundColor;
 
@@ -181,7 +181,7 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
 
     private void animateEnter() {
         ObjectAnimator animator = ObjectAnimator.ofInt(this, OFFSET, getHeight(), 0);
-        animator.setDuration(mOffsetAnimationTime);
+        animator.setDuration(mShortAnimationTime);
         animator.setInterpolator(new LinearOutSlowInInterpolator());
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -205,7 +205,7 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
 
     private void animateExit() {
         ObjectAnimator animator = ObjectAnimator.ofInt(this, OFFSET, getOffset(), getHeight());
-        animator.setDuration(mOffsetAnimationTime);
+        animator.setDuration(mShortAnimationTime);
         animator.setInterpolator(new FastOutLinearInInterpolator());
         animator.addListener(new AnimatorListenerAdapter() {
             @Override

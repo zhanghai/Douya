@@ -132,7 +132,6 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
         if (mScroll == scroll) {
             return;
         }
-        // FIXME: mScrollingChildIndex == -1
         for (int indexMax = mScrollableChildren.size() - 1, step = scroll - mScroll > 0 ? 1 : -1; ;
              mScrollingChildIndex += step) {
             mScroll += scrollChildBy(mScrollableChildren.get(mScrollingChildIndex),
