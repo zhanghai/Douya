@@ -34,6 +34,8 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
+    private Listener mListener;
+
     private int mScroll;
 
     public ProfileHeaderLayout(Context context) {
@@ -108,6 +110,14 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
         return MathUtils.lerp(minHeight, maxHeight / 2, fraction);
     }
 
+    public Listener getListener() {
+        return mListener;
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
+
     @Override
     public int getScroll() {
         return mScroll;
@@ -115,13 +125,24 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
 
     @Override
     public void scrollBy(int delta) {
+
         int maxHeight = getMaxHeight();
-        int newScroll = MathUtils.clamp(mScroll + delta, 0, maxHeight - getMinHeight());
+        int maxScroll = maxHeight - getMinHeight();
+        int newScroll = MathUtils.clamp(mScroll + delta, 0, maxScroll);
         if (mScroll == newScroll) {
             return;
         }
         ViewUtils.setHeight(this, maxHeight - newScroll);
+        int oldScroll = mScroll;
         mScroll = newScroll;
+
+        if (mListener != null) {
+            if (oldScroll < maxScroll && newScroll == maxScroll) {
+                mListener.onHeaderReachedTop();
+            } else if (oldScroll == maxScroll && newScroll < oldScroll) {
+                mListener.onHeaderLeftTop();
+            }
+        }
     }
 
     private int getMinHeight() {
@@ -134,5 +155,10 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
             return ((View) viewParent).getHeight() * 2 / 3;
         }
         return 0;
+    }
+
+    public interface Listener {
+        void onHeaderReachedTop();
+        void onHeaderLeftTop();
     }
 }

@@ -20,6 +20,7 @@
         android:orientation="vertical">
 
         <me.zhanghai.android.douya.ui.ProfileHeaderLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/appbar_elevation"
