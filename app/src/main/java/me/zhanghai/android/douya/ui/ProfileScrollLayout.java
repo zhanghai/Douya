@@ -101,7 +101,8 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
     }
 
     private void updateBackground(int offset) {
-        float fraction = Math.max(0, 1 - (float) offset / (getHeight() - getPaddingTop()));
+        float fraction = Math.max(0, 1 - (float) offset
+                / (getHeight() - getPaddingTop() - getPaddingBottom()));
         mBackgroundDrawable.setAlpha((int) (fraction * 0xFF));
     }
 

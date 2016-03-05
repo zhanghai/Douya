@@ -18,7 +18,7 @@
     <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->
     <!-- Use a wrapping layout to clip toolbar in order to avoid overlap with status bar. -->
     <FrameLayout
-        android:id="@+id/appbar"
+        android:id="@+id/appBar"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

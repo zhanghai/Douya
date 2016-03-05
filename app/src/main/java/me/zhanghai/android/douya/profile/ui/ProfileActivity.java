@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +24,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Bind(R.id.scroll)
     ProfileScrollLayout mScrollLayout;
+    @Bind(R.id.dismiss)
+    View mDismissView;
 
     public static Intent makeIntent(Context context, String userIdOrUid) {
         return new Intent(context, ProfileActivity.class)
@@ -53,10 +56,21 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
         mScrollLayout.enter();
+
+        mDismissView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exit();
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
+        exit();
+    }
+
+    private void exit() {
         mScrollLayout.exit();
     }
 

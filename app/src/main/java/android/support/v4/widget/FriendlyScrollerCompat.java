@@ -23,6 +23,7 @@ public class FriendlyScrollerCompat {
     interface FriendlyScrollerCompatImpl {
         int getStartX(Object scroller);
         int getStartY(Object scroller);
+        void forceFinished(Object scroller, boolean finished);
     }
 
     static class FriendlyScrollerCompatImplBase implements FriendlyScrollerCompatImpl {
@@ -36,6 +37,11 @@ public class FriendlyScrollerCompat {
         public int getStartY(Object scroller) {
             return ((Scroller) scroller).getStartY();
         }
+
+        @Override
+        public void forceFinished(Object scroller, boolean finished) {
+            ((Scroller) scroller).forceFinished(finished);
+        }
     }
 
     static class FriendlyScrollerCompatImplGingerbread implements FriendlyScrollerCompatImpl {
@@ -48,6 +54,11 @@ public class FriendlyScrollerCompat {
         @Override
         public int getStartY(Object scroller) {
             return FriendlyScrollerCompatGingerbread.getStartY(scroller);
+        }
+
+        @Override
+        public void forceFinished(Object scroller, boolean finished) {
+            FriendlyScrollerCompatGingerbread.forceFinished(scroller, finished);
         }
     }
 
@@ -88,6 +99,14 @@ public class FriendlyScrollerCompat {
         return mImpl.getStartY(mScrollerCompat.mScroller);
     }
 
+    /**
+     * Force the finished field to a particular value.
+     *
+     * @param finished The new finished value.
+     */
+    public void forceFinished(boolean finished) {
+        mImpl.forceFinished(mScrollerCompat.mScroller, finished);
+    }
 
     public boolean isFinished() {
         return mScrollerCompat.isFinished();

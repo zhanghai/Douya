@@ -7,6 +7,7 @@
 
 <me.zhanghai.android.douya.ui.ProfileScrollLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll"
     android:layout_width="match_parent"
@@ -18,14 +19,37 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <me.zhanghai.android.douya.ui.ProfileHeaderView
+        <me.zhanghai.android.douya.ui.ProfileHeaderLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="flexibleSpaceScrollableChild"
+            android:tag="flexibleSpaceScrollableChild">
 
-            android:background="@color/douya_primary">
+            <View
+                android:id="@+id/dismiss"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_above="@id/appBar"/>
 
-        </me.zhanghai.android.douya.ui.ProfileHeaderView>
+            <LinearLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentBottom="true"
+                android:background="?colorPrimary"
+                android:elevation="@dimen/appbar_elevation"
+                android:orientation="vertical"
+                android:theme="?actionBarTheme">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:paddingRight="@dimen/toolbar_button_right_margin"
+                    app:popupTheme="?actionBarPopupTheme"
+                    app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+            </LinearLayout>
+        </me.zhanghai.android.douya.ui.ProfileHeaderLayout>
 
         <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
             android:layout_width="match_parent"

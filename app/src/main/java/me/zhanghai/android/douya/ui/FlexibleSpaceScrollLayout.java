@@ -362,7 +362,10 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
             int scrollerCurrY = mScroller.getCurrY();
             scrollTo(scrollerCurrY);
             if (mScroll > oldScroll && scrollerCurrY > mScroll) {
+                // We did scroll down for some y and the target y is beyond our range.
                 mEdgeEffectBottom.onAbsorb((int) mScroller.getCurrVelocity());
+            }
+            if (scrollerCurrY < 0 || scrollerCurrY > mScroll) {
                 abortScrollerAnimation();
             }
             ViewCompat.postInvalidateOnAnimation(this);

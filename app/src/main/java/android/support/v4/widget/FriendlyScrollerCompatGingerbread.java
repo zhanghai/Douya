@@ -16,4 +16,8 @@ public class FriendlyScrollerCompatGingerbread {
     public static int getStartY(Object scroller) {
         return ((OverScroller) scroller).getStartY();
     }
+
+    public static void forceFinished(Object scroller, boolean finished) {
+        ((OverScroller) scroller).forceFinished(finished);
+    }
 }

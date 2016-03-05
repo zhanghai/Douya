@@ -8,11 +8,16 @@ package me.zhanghai.android.douya.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewParent;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.MathUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -20,32 +25,53 @@ import me.zhanghai.android.douya.util.ViewUtils;
  * Set the initial layout_height to match_parent or wrap_content instead a specific value so that
  * the view measures itself correctly for the first time.
  */
-public class ProfileHeaderView extends RelativeLayout implements FlexibleSpaceView {
+public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpaceView {
+
+    @Bind(R.id.appBar)
+    LinearLayout mAppBarLayout;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     private int mScroll;
 
-    public ProfileHeaderView(Context context) {
+    public ProfileHeaderLayout(Context context) {
         super(context);
     }
 
-    public ProfileHeaderView(Context context, AttributeSet attrs) {
+    public ProfileHeaderLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ProfileHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ProfileHeaderLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ProfileHeaderView(Context context, AttributeSet attrs, int defStyleAttr,
-                             int defStyleRes) {
+    public ProfileHeaderLayout(Context context, AttributeSet attrs, int defStyleAttr,
+                               int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+        ButterKnife.bind(this);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(getMaxHeight(), MeasureSpec.EXACTLY);
+            int height = getMaxHeight();
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            mAppBarLayout.getLayoutParams().height = height / 2;
+        } else {
+            int height = getLayoutParams().height;
+            int maxHeight = getMaxHeight();
+            int minHeight = getMinHeight();
+            float fraction = MathUtils.unlerp(minHeight, maxHeight, height);
+            mAppBarLayout.getLayoutParams().height = MathUtils.lerp(minHeight, maxHeight / 2,
+                    fraction);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -67,8 +93,7 @@ public class ProfileHeaderView extends RelativeLayout implements FlexibleSpaceVi
     }
 
     private int getMinHeight() {
-        // FIXME
-        return 56 * 3;
+        return mToolbar.getHeight();
     }
 
     private int getMaxHeight() {
