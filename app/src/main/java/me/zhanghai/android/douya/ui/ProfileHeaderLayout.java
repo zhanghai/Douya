@@ -27,7 +27,7 @@ import me.zhanghai.android.douya.util.ViewUtils;
  * Set the initial layout_height to match_parent or wrap_content instead a specific value so that
  * the view measures itself correctly for the first time.
  */
-public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpaceView {
+public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpaceHeaderView {
 
     @Bind(R.id.appBar)
     LinearLayout mAppBarLayout;
@@ -124,25 +124,35 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
     }
 
     @Override
-    public void scrollBy(int delta) {
+    public int getScrollExtent() {
+        return getMaxHeight() - getMinHeight();
+    }
 
-        int maxHeight = getMaxHeight();
-        int maxScroll = maxHeight - getMinHeight();
-        int newScroll = MathUtils.clamp(mScroll + delta, 0, maxScroll);
-        if (mScroll == newScroll) {
+    @Override
+    public void scrollTo(int scroll) {
+
+        int scrollExtent = getScrollExtent();
+        scroll = MathUtils.clamp(scroll, 0, scrollExtent);
+        if (mScroll == scroll) {
             return;
         }
-        ViewUtils.setHeight(this, maxHeight - newScroll);
+
+        ViewUtils.setHeight(this, getMaxHeight() - scroll);
         int oldScroll = mScroll;
-        mScroll = newScroll;
+        mScroll = scroll;
 
         if (mListener != null) {
-            if (oldScroll < maxScroll && newScroll == maxScroll) {
+            if (oldScroll < scrollExtent && mScroll == scrollExtent) {
                 mListener.onHeaderReachedTop();
-            } else if (oldScroll == maxScroll && newScroll < oldScroll) {
+            } else if (oldScroll == scrollExtent && mScroll < oldScroll) {
                 mListener.onHeaderLeftTop();
             }
         }
+    }
+
+    @Override
+    public void scrollBy(int delta) {
+        scrollTo(mScroll + delta);
     }
 
     private int getMinHeight() {

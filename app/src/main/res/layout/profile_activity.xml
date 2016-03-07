@@ -5,7 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<me.zhanghai.android.douya.ui.ProfileScrollLayout
+<me.zhanghai.android.douya.ui.ProfileLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,76 +14,67 @@
     android:layout_height="match_parent"
     tools:context=".profile.ProfileActivity">
 
-    <LinearLayout
+    <me.zhanghai.android.douya.ui.ProfileHeaderLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/appbar_elevation">
+
+        <View
+            android:id="@+id/dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/appBar"/>
+
+        <LinearLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:background="?colorPrimary"
+            android:orientation="vertical"
+            android:theme="?actionBarTheme">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:paddingRight="@dimen/toolbar_button_right_margin"
+                app:popupTheme="?actionBarPopupTheme"
+                app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+        </LinearLayout>
+    </me.zhanghai.android.douya.ui.ProfileHeaderLayout>
+
+    <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/window_background_light"
+        android:fillViewport="true">
 
-        <me.zhanghai.android.douya.ui.ProfileHeaderLayout
-            android:id="@+id/header"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/appbar_elevation"
-            android:tag="flexibleSpaceScrollableChild">
+            android:orientation="vertical">
 
             <View
-                android:id="@+id/dismiss"
+                android:id="@+id/shadow_compat"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_above="@id/appBar"/>
+                android:layout_height="18dp"
+                android:background="?android:windowContentOverlay" />
 
-            <LinearLayout
-                android:id="@+id/appBar"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_alignParentBottom="true"
-                android:background="?colorPrimary"
-                android:orientation="vertical"
-                android:theme="?actionBarTheme">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    android:paddingRight="@dimen/toolbar_button_right_margin"
-                    app:popupTheme="?actionBarPopupTheme"
-                    app:titleMarginStart="@dimen/toolbar_title_left_margin" />
-            </LinearLayout>
-        </me.zhanghai.android.douya.ui.ProfileHeaderLayout>
-
-        <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:tag="flexibleSpaceScrollableChild"
-
-            android:background="@color/window_background_light">
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="ProfileActivity"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-                <View
-                    android:id="@+id/shadow_compat"
-                    android:layout_width="match_parent"
-                    android:layout_height="18dp"
-                    android:background="?android:windowContentOverlay" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ProfileActivity"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1600dp"
-                    android:text="ProfileActivityEnd"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-            </LinearLayout>
-        </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
-    </LinearLayout>
-</me.zhanghai.android.douya.ui.ProfileScrollLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1600dp"
+                android:text="ProfileActivityEnd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        </LinearLayout>
+    </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
+</me.zhanghai.android.douya.ui.ProfileLayout>

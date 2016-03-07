@@ -21,17 +21,13 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import java.util.ArrayList;
-import java.util.List;
+import me.zhanghai.android.douya.util.MathUtils;
 
-public class FlexibleSpaceScrollLayout extends FrameLayout {
-
-    public static final String TAG_FLEXIBLE_SPACE_SCROLLABLE_CHILD = "flexibleSpaceScrollableChild";
+public class FlexibleSpaceLayout extends LinearLayout {
 
     private static final int INVALID_POINTER_ID = -1;
 
@@ -39,41 +35,42 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
     private int mMinimumFlingVelocity;
     private int mMaximumFlingVelocity;
 
-    private FriendlyScrollerCompat mScroller;
-    private EdgeEffectCompat mEdgeEffectBottom;
+    private FlexibleSpaceHeaderView mHeaderView;
+    private FlexibleSpaceScrollView mScrollView;
 
     private int mScroll;
-    private List<View> mScrollableChildren = new ArrayList<>();
-    private int mScrollingChildIndex;
 
     private boolean mIsBeingDragged;
     private int mActivePointerId;
     private float mLastMotionY;
     private VelocityTracker mVelocityTracker;
 
+    private FriendlyScrollerCompat mScroller;
+    private EdgeEffectCompat mEdgeEffectBottom;
+
     private float mView_verticalScrollFactor = Float.MIN_VALUE;
 
-    public FlexibleSpaceScrollLayout(Context context) {
+    public FlexibleSpaceLayout(Context context) {
         super(context);
 
         init(getContext(), null, 0, 0);
     }
 
-    public FlexibleSpaceScrollLayout(Context context, AttributeSet attrs) {
+    public FlexibleSpaceLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         init(getContext(), attrs, 0, 0);
     }
 
-    public FlexibleSpaceScrollLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FlexibleSpaceLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         init(getContext(), attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public FlexibleSpaceScrollLayout(Context context, AttributeSet attrs, int defStyleAttr,
-                                     int defStyleRes) {
+    public FlexibleSpaceLayout(Context context, AttributeSet attrs, int defStyleAttr,
+                               int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         init(getContext(), attrs, defStyleAttr, defStyleRes);
@@ -83,6 +80,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
 
         setFocusable(true);
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
+        setOrientation(VERTICAL);
         setWillNotDraw(false);
 
         ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
@@ -98,66 +96,29 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        addScrollableChildren(this);
-    }
-
-    private void addScrollableChildren(ViewGroup viewGroup) {
-        for (int i = 0, childCount = viewGroup.getChildCount(); i < childCount; ++i) {
-            View child = viewGroup.getChildAt(i);
-            Object childTag = child.getTag();
-            if (childTag != null && childTag.equals(TAG_FLEXIBLE_SPACE_SCROLLABLE_CHILD)) {
-                if (!(child instanceof FlexibleSpaceView || child instanceof ScrollView
-                        || child instanceof NestedScrollView)) {
-                    throw new IllegalStateException("Child at index " + i
-                            + " must be an instance of " + FlexibleSpaceView.class.getSimpleName()
-                            + ", " + ScrollView.class.getSimpleName() + " or "
-                            + NestedScrollView.class.getSimpleName() + ".");
-                }
-                mScrollableChildren.add(child);
-            } else if (child instanceof ViewGroup) {
-                addScrollableChildren((ViewGroup) child);
-            }
-        }
+        mHeaderView = (FlexibleSpaceHeaderView) getChildAt(0);
+        mScrollView = (FlexibleSpaceScrollView) getChildAt(1);
     }
 
     public int getScroll() {
         return mScroll;
     }
 
-    public void scrollBy(int delta) {
-        scrollTo(mScroll + delta);
-    }
-
     public void scrollTo(int scroll) {
+
         if (mScroll == scroll) {
             return;
         }
-        for (int indexMax = mScrollableChildren.size() - 1, step = scroll - mScroll > 0 ? 1 : -1; ;
-             mScrollingChildIndex += step) {
-            mScroll += scrollChildBy(mScrollableChildren.get(mScrollingChildIndex),
-                    scroll - mScroll);
-            if (mScroll == scroll) {
-                break;
-            } else if ((step < 0 && mScrollingChildIndex == 0)
-                    || (step > 0 && mScrollingChildIndex == indexMax)) {
-                break;
-            }
-        }
+
+        mHeaderView.scrollTo(scroll);
+        scroll = Math.max(0, scroll - mHeaderView.getScroll());
+        mScrollView.scrollTo(0, scroll);
+
+        mScroll = mHeaderView.getScroll() + mScrollView.getScrollY();
     }
 
-    private int scrollChildBy(View child, int delta) {
-        if (child instanceof FlexibleSpaceView) {
-            FlexibleSpaceView flexibleSpaceView = ((FlexibleSpaceView) child);
-            int oldScroll = flexibleSpaceView.getScroll();
-            flexibleSpaceView.scrollBy(delta);
-            return flexibleSpaceView.getScroll() - oldScroll;
-        } else if (child instanceof ScrollView || child instanceof NestedScrollView) {
-            int oldScrollY = child.getScrollY();
-            child.scrollBy(0, delta);
-            return child.getScrollY() - oldScrollY;
-        } else {
-            throw new RuntimeException("Should not reach here.");
-        }
+    public void scrollBy(int delta) {
+        scrollTo(mScroll + delta);
     }
 
     private void fling(float velocity) {
@@ -380,7 +341,7 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
             int width = getWidth();
             int height = getHeight();
             canvas.translate(-width, height);
-            canvas.rotate(180, getWidth(), 0);
+            canvas.rotate(180, width, 0);
             mEdgeEffectBottom.setSize(width, height);
             if (mEdgeEffectBottom.draw(canvas)) {
                 ViewCompat.postInvalidateOnAnimation(this);
@@ -464,16 +425,16 @@ public class FlexibleSpaceScrollLayout extends FrameLayout {
         }
     }
 
-    public static final IntProperty<FlexibleSpaceScrollLayout> SCROLL =
-            new IntProperty<FlexibleSpaceScrollLayout>("scroll") {
+    public static final IntProperty<FlexibleSpaceLayout> SCROLL =
+            new IntProperty<FlexibleSpaceLayout>("scroll") {
 
                 @Override
-                public Integer get(FlexibleSpaceScrollLayout object) {
+                public Integer get(FlexibleSpaceLayout object) {
                     return object.getScroll();
                 }
 
                 @Override
-                public void setValue(FlexibleSpaceScrollLayout object, int value) {
+                public void setValue(FlexibleSpaceLayout object, int value) {
                     object.scrollTo(value);
                 }
             };

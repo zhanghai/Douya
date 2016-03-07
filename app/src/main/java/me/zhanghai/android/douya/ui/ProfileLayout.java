@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
+public class ProfileLayout extends FlexibleSpaceLayout {
 
     @BindInt(android.R.integer.config_shortAnimTime)
     int mShortAnimationTime;
@@ -36,26 +36,26 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
 
     private boolean mExiting;
 
-    public ProfileScrollLayout(Context context) {
+    public ProfileLayout(Context context) {
         super(context);
 
         init();
     }
 
-    public ProfileScrollLayout(Context context, AttributeSet attrs) {
+    public ProfileLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         init();
     }
 
-    public ProfileScrollLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ProfileLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         init();
     }
 
-    public ProfileScrollLayout(Context context, AttributeSet attrs, int defStyleAttr,
-                               int defStyleRes) {
+    public ProfileLayout(Context context, AttributeSet attrs, int defStyleAttr,
+                         int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         init();
@@ -74,30 +74,26 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
         me.zhanghai.android.douya.util.ViewCompat.setBackground(this, mBackgroundDrawable);
     }
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
-        if (getChildCount() != 1) {
-            throw new IllegalStateException("Must have one and only one child");
-        }
-    }
-
     public int getOffset() {
         return getChildAt(0).getTop() - getPaddingTop();
     }
 
-    public void offsetBy(int delta) {
-        offsetTo(getOffset() + delta);
-    }
-
     public void offsetTo(int offset) {
+
         int oldOffset = getOffset();
         if (oldOffset == offset || offset < 0) {
             return;
         }
-        ViewCompat.offsetTopAndBottom(getChildAt(0), offset - oldOffset);
+
+        int delta = offset - oldOffset;
+        for (int i = 0; i < getChildCount(); ++i) {
+            ViewCompat.offsetTopAndBottom(getChildAt(i), delta);
+        }
         updateBackground(offset);
+    }
+
+    public void offsetBy(int delta) {
+        offsetTo(getOffset() + delta);
     }
 
     private void updateBackground(int offset) {
@@ -218,16 +214,16 @@ public class ProfileScrollLayout extends FlexibleSpaceScrollLayout {
         animator.start();
     }
 
-    public static final IntProperty<ProfileScrollLayout> OFFSET =
-            new IntProperty<ProfileScrollLayout>("offset") {
+    public static final IntProperty<ProfileLayout> OFFSET =
+            new IntProperty<ProfileLayout>("offset") {
 
                 @Override
-                public Integer get(ProfileScrollLayout object) {
+                public Integer get(ProfileLayout object) {
                     return object.getOffset();
                 }
 
                 @Override
-                public void setValue(ProfileScrollLayout object, int value) {
+                public void setValue(ProfileLayout object, int value) {
                     object.offsetTo(value);
                 }
             };

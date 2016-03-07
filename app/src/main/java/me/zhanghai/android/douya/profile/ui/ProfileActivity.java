@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.profile.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -17,7 +16,7 @@ import butterknife.BindColor;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.ui.ProfileHeaderLayout;
-import me.zhanghai.android.douya.ui.ProfileScrollLayout;
+import me.zhanghai.android.douya.ui.ProfileLayout;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -32,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     private int mStatusBarColorFullscreen;
 
     @Bind(R.id.scroll)
-    ProfileScrollLayout mScrollLayout;
+    ProfileLayout mScrollLayout;
     @Bind(R.id.header)
     ProfileHeaderLayout mHeaderLayout;
     @Bind(R.id.dismiss)
@@ -54,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0, this);
 
-        mScrollLayout.setListener(new ProfileScrollLayout.Listener() {
+        mScrollLayout.setListener(new ProfileLayout.Listener() {
             @Override
             public void onEnterAnimationEnd() {
 
