@@ -14,18 +14,15 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.FriendlyScrollerCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-
-import me.zhanghai.android.douya.util.MathUtils;
 
 public class FlexibleSpaceLayout extends LinearLayout {
 
@@ -96,8 +93,33 @@ public class FlexibleSpaceLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mHeaderView = (FlexibleSpaceHeaderView) getChildAt(0);
-        mScrollView = (FlexibleSpaceScrollView) getChildAt(1);
+        findHeaderAndScrollView(this);
+    }
+
+    private void findHeaderAndScrollView(ViewGroup viewGroup) {
+        if (viewGroup.getChildCount() == 1) {
+            View child = viewGroup.getChildAt(0);
+            if (child instanceof ViewGroup) {
+                findHeaderAndScrollView((ViewGroup) child);
+            } else {
+                throw new IllegalStateException("The only child must be a ViewGroup.");
+            }
+        } else if (viewGroup.getChildCount() == 2) {
+            View firstChild = viewGroup.getChildAt(0);
+            if (!(firstChild instanceof FlexibleSpaceHeaderView)) {
+                throw new IllegalStateException(
+                        "The first child must be a FlexibleSpaceHeaderView.");
+            }
+            mHeaderView = (FlexibleSpaceHeaderView) firstChild;
+            View secondChild = viewGroup.getChildAt(1);
+            if (!(secondChild instanceof FlexibleSpaceScrollView)) {
+                throw new IllegalStateException(
+                        "The second child must be a FlexibleSpaceScrollView.");
+            }
+            mScrollView = (FlexibleSpaceScrollView) secondChild;
+        } else {
+            throw new IllegalStateException("Must have one or two children.");
+        }
     }
 
     public int getScroll() {

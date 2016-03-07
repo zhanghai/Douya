@@ -16,6 +16,7 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import butterknife.BindColor;
 import butterknife.BindInt;
@@ -31,6 +32,8 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     int mBackgroundColor;
 
     private ColorDrawable mBackgroundDrawable;
+
+    private View mChild;
 
     private Listener mListener;
 
@@ -74,8 +77,18 @@ public class ProfileLayout extends FlexibleSpaceLayout {
         me.zhanghai.android.douya.util.ViewCompat.setBackground(this, mBackgroundDrawable);
     }
 
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+        if (getChildCount() != 1) {
+            throw new IllegalStateException("Must have one child.");
+        }
+        mChild = getChildAt(0);
+    }
+
     public int getOffset() {
-        return getChildAt(0).getTop() - getPaddingTop();
+        return mChild.getTop() - getPaddingTop();
     }
 
     public void offsetTo(int offset) {
@@ -85,10 +98,7 @@ public class ProfileLayout extends FlexibleSpaceLayout {
             return;
         }
 
-        int delta = offset - oldOffset;
-        for (int i = 0; i < getChildCount(); ++i) {
-            ViewCompat.offsetTopAndBottom(getChildAt(i), delta);
-        }
+        ViewCompat.offsetTopAndBottom(mChild, offset - oldOffset);
         updateBackground(offset);
     }
 
@@ -106,27 +116,24 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (mExiting) {
             return false;
-        } else {
-            return super.onInterceptTouchEvent(event);
         }
+        return super.onInterceptTouchEvent(event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mExiting) {
             return false;
-        } else {
-            return super.onTouchEvent(event);
         }
+        return super.onTouchEvent(event);
     }
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         if (mExiting) {
             return false;
-        } else {
-            return super.onGenericMotionEvent(event);
         }
+        return super.onGenericMotionEvent(event);
     }
 
     @Override
