@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.support.v4.view.InputDeviceCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.FriendlyScrollerCompat;
 import android.util.AttributeSet;
@@ -24,9 +26,15 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
 
+import butterknife.BindInt;
+import butterknife.ButterKnife;
+
 public class FlexibleSpaceLayout extends LinearLayout {
 
     private static final int INVALID_POINTER_ID = -1;
+
+    @BindInt(android.R.integer.config_mediumAnimTime)
+    int mMediumAnimationTime;
 
     private int mTouchSlop;
     private int mMinimumFlingVelocity;
@@ -36,6 +44,7 @@ public class FlexibleSpaceLayout extends LinearLayout {
     private FlexibleSpaceScrollView mScrollView;
 
     private int mScroll;
+    private boolean mHeaderCollapsed;
 
     private boolean mIsBeingDragged;
     private int mActivePointerId;
@@ -74,6 +83,8 @@ public class FlexibleSpaceLayout extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+
+        ButterKnife.bind(this);
 
         setFocusable(true);
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
@@ -136,7 +147,13 @@ public class FlexibleSpaceLayout extends LinearLayout {
         scroll = Math.max(0, scroll - mHeaderView.getScroll());
         mScrollView.scrollTo(0, scroll);
 
-        mScroll = mHeaderView.getScroll() + mScrollView.getScrollY();
+        int headerScroll = mHeaderView.getScroll();
+        mScroll = headerScroll + mScrollView.getScrollY();
+        if (headerScroll == 0) {
+            mHeaderCollapsed = false;
+        } else if (headerScroll == mHeaderView.getScrollExtent()) {
+            mHeaderCollapsed = true;
+        }
     }
 
     public void scrollBy(int delta) {
@@ -327,31 +344,59 @@ public class FlexibleSpaceLayout extends LinearLayout {
     }
 
     protected void onDragEnd(boolean cancelled) {
-        int flingDelta = 0;
+
+        boolean startedFling = false;
         if (!cancelled) {
             float velocity = getCurrentVelocity();
             if (Math.abs(velocity) > mMinimumFlingVelocity) {
                 fling(-velocity);
-                flingDelta = mScroller.getFinalY() - mScroller.getStartY();
+                startedFling = true;
             }
+        }
+
+        if (!startedFling && mScroll > 0 && mScroll < mHeaderView.getScrollExtent()) {
+            snapHeaderView();
         }
     }
 
     @Override
     public void computeScroll() {
+
         if (mScroller.computeScrollOffset()) {
+
             int oldScroll = mScroll;
             int scrollerCurrY = mScroller.getCurrY();
             scrollTo(scrollerCurrY);
-            if (mScroll > oldScroll && scrollerCurrY > mScroll) {
-                // We did scroll down for some y and the target y is beyond our range.
-                mEdgeEffectBottom.onAbsorb((int) mScroller.getCurrVelocity());
+
+            int headerScrollExtent = mHeaderView.getScrollExtent();
+            int scrollerFinalY = mScroller.getFinalY();
+            if (mScroll > 0 && mScroll < headerScrollExtent
+                    && scrollerFinalY > 0 && scrollerFinalY < headerScrollExtent) {
+
+                mScroller.forceFinished(true);
+                snapHeaderView();
+
+            } else {
+
+                if (mScroll > oldScroll && scrollerCurrY > mScroll) {
+                    // We did scroll down for some y and the target y is beyond our range.
+                    mEdgeEffectBottom.onAbsorb((int) mScroller.getCurrVelocity());
+                }
+                if (scrollerCurrY < 0 || scrollerCurrY > mScroll) {
+                    abortScrollerAnimation();
+                }
+                ViewCompat.postInvalidateOnAnimation(this);
             }
-            if (scrollerCurrY < 0 || scrollerCurrY > mScroll) {
-                abortScrollerAnimation();
-            }
-            ViewCompat.postInvalidateOnAnimation(this);
         }
+    }
+
+    private void snapHeaderView() {
+        mScroller.forceFinished(true);
+        ObjectAnimator animator = ObjectAnimator.ofInt(this, SCROLL, mScroll,
+                mHeaderCollapsed ? 0 : mHeaderView.getScrollExtent());
+        animator.setDuration(mMediumAnimationTime);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+        animator.start();
     }
 
     @Override
