@@ -17,7 +17,7 @@
         android:paddingLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
         android:paddingRight="@dimen/card_content_horizontal_margin">
 
-        <me.zhanghai.android.douya.ui.CircleImageView
+        <me.zhanghai.android.douya.ui.SimpleCircleImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"

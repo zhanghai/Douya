@@ -49,6 +49,21 @@
                     app:popupTheme="?actionBarPopupTheme"
                     app:titleMarginStart="@dimen/toolbar_title_left_margin" />
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/avatar_container"
+                android:layout_width="@dimen/profile_large_avatar_size"
+                android:layout_height="@dimen/profile_large_avatar_size">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="@dimen/profile_large_avatar_size"
+                    android:layout_height="@dimen/profile_large_avatar_size"
+                    android:clickable="true"
+                    android:src="?colorPrimaryDark"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="3dp" />
+            </FrameLayout>
         </me.zhanghai.android.douya.ui.ProfileHeaderLayout>
 
         <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView

@@ -15,7 +15,7 @@
     android:orientation="vertical"
     android:theme="?actionBarTheme">
 
-    <me.zhanghai.android.douya.ui.CircleImageView
+    <me.zhanghai.android.douya.ui.SimpleCircleImageView
         android:id="@+id/avatar"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size" />

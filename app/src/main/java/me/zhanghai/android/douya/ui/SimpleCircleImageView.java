@@ -35,7 +35,7 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-public class CircleImageView extends ImageView {
+public class SimpleCircleImageView extends ImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -59,26 +59,26 @@ public class CircleImageView extends ImageView {
     private boolean mReady;
     private boolean mSetupPending;
 
-    public CircleImageView(Context context) {
+    public SimpleCircleImageView(Context context) {
         super(context);
 
         init();
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public SimpleCircleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         init();
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public SimpleCircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CircleImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SimpleCircleImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         init();

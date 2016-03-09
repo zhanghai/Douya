@@ -15,7 +15,7 @@
     android:focusable="true"
     android:foreground="?selectableItemBackground">
 
-    <me.zhanghai.android.douya.ui.CircleImageView
+    <me.zhanghai.android.douya.ui.SimpleCircleImageView
         android:id="@+id/avatar"
         android:layout_width="@dimen/touch_target_size"
         android:layout_height="@dimen/touch_target_size"

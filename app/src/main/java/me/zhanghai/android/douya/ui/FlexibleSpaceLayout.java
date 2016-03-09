@@ -373,7 +373,7 @@ public class FlexibleSpaceLayout extends LinearLayout {
             if (mScroll > 0 && mScroll < headerScrollExtent
                     && scrollerFinalY > 0 && scrollerFinalY < headerScrollExtent) {
 
-                mScroller.forceFinished(true);
+                forceScrollerFinished();
                 snapHeaderView();
 
             } else {
@@ -391,7 +391,6 @@ public class FlexibleSpaceLayout extends LinearLayout {
     }
 
     private void snapHeaderView() {
-        mScroller.forceFinished(true);
         ObjectAnimator animator = ObjectAnimator.ofInt(this, SCROLL, mScroll,
                 mHeaderCollapsed ? 0 : mHeaderView.getScrollExtent());
         animator.setDuration(mMediumAnimationTime);
@@ -483,6 +482,10 @@ public class FlexibleSpaceLayout extends LinearLayout {
 
     protected void abortScrollerAnimation() {
         mScroller.abortAnimation();
+    }
+
+    private void forceScrollerFinished() {
+        mScroller.forceFinished(true);
     }
 
     private void requestParentDisallowInterceptTouchEventIfHas(boolean disallowIntercept) {
