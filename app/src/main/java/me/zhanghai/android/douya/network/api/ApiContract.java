@@ -61,7 +61,7 @@ public interface ApiContract {
 
         interface UserInfo {
 
-            String URL_FORMAT = API_HOST + "user/%s";
+            String URL_FORMAT = API_HOST + "lifestream/user/%s";
 
             String UID_CURRENT = "~me";
         }
