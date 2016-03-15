@@ -231,15 +231,6 @@ public class ViewUtils {
         view.setLayoutParams(layoutParams);
     }
 
-    public static void setMargin(View view, int left, int top, int right, int bottom) {
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)
-                view.getLayoutParams();
-        layoutParams.leftMargin = left;
-        layoutParams.topMargin = top;
-        layoutParams.rightMargin = right;
-        layoutParams.bottomMargin = bottom;
-    }
-
     public static void setSize(View view, int size) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams.width == size && layoutParams.height == size) {

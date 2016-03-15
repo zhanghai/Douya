@@ -13,10 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
-import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import butterknife.Bind;
 import butterknife.BindDimen;
@@ -30,7 +28,7 @@ import me.zhanghai.android.douya.util.ViewUtils;
  * Set the initial layout_height to match_parent or wrap_content instead a specific value so that
  * the view measures itself correctly for the first time.
  */
-public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpaceHeaderView {
+public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHeaderView {
 
     @BindDimen(R.dimen.profile_large_avatar_size)
     int mLargeAvatarSize;
@@ -41,6 +39,8 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
     @BindDimen(R.dimen.profile_small_avatar_margin_top)
     int mSmallAvatarMarginTop;
 
+    @Bind(R.id.dismiss)
+    View mDismissView;
     @Bind(R.id.appBar)
     LinearLayout mAppBarLayout;
     @Bind(R.id.toolbar)
@@ -94,7 +94,7 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
                     // HACK: Workaround the fact that we must provided an outline before we are
                     // measured.
                     int height = getHeight();
-                    int top = height > 0 ? height - computeAppBarHeight() : 0;
+                    int top = height > 0 ? height - computeVisibleAppBarHeight() : 0;
                     outline.setRect(0, top, getWidth(), height);
                 }
             });
@@ -114,21 +114,30 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
         if (MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY) {
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.EXACTLY);
         }
-
-        int appBarHeight = computeAppBarHeight();
-        mAppBarLayout.getLayoutParams().height = appBarHeight;
-
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        int dismissViewHeight = height - computeVisibleAppBarHeight();
+        mDismissView.getLayoutParams().height = dismissViewHeight;
+
+        MarginLayoutParams appBarLayoutLayoutParams =
+                (MarginLayoutParams) mAppBarLayout.getLayoutParams();
+        appBarLayoutLayoutParams.topMargin = dismissViewHeight;
+        // So that the layout remains stable.
+        appBarLayoutLayoutParams.height = getAppBarMaxHeight();
+
         int avatarContainerSizeHalf = mAvatarContainerLayout.getLayoutParams().width / 2;
-        int avatarMarginTop = height - appBarHeight - avatarContainerSizeHalf;
+        int avatarMarginTop = dismissViewHeight - avatarContainerSizeHalf;
         float avatarHorizontalFraction = avatarMarginTop < mSmallAvatarMarginTop ?
                 MathUtils.unlerp(mSmallAvatarMarginTop, -avatarContainerSizeHalf, avatarMarginTop)
                 : 0;
         avatarMarginTop = Math.max(mSmallAvatarMarginTop, avatarMarginTop);
         int avatarMarginLeft = MathUtils.lerp(width / 2 - avatarContainerSizeHalf,
                 mSmallAvatarMarginLeft, avatarHorizontalFraction);
-        ViewUtils.setMargin(mAvatarContainerLayout, avatarMarginLeft, avatarMarginTop, 0, 0);
+        MarginLayoutParams avatarContainerLayoutParams =
+                (MarginLayoutParams) mAvatarContainerLayout.getLayoutParams();
+        avatarContainerLayoutParams.leftMargin = avatarMarginLeft;
+        avatarContainerLayoutParams.topMargin = avatarMarginTop;
         float avatarScale = MathUtils.lerp(1, (float) mSmallAvatarSize / mLargeAvatarSize,
                 avatarHorizontalFraction);
         mAvatarImage.setPivotX(0);
@@ -139,13 +148,17 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    private int getAppBarMaxHeight() {
+        return mMaxHeight / 2;
+    }
+
+    private int computeVisibleAppBarHeight() {
+        return MathUtils.lerp(getAppBarMaxHeight(), getMinHeight(), getFraction());
+    }
+
     private float getFraction() {
         int scrollExtent = getScrollExtent();
         return scrollExtent > 0 ? (float) mScroll / scrollExtent : 0;
-    }
-
-    private int computeAppBarHeight() {
-        return MathUtils.lerp(mMaxHeight / 2, getMinHeight(), getFraction());
     }
 
     public Listener getListener() {

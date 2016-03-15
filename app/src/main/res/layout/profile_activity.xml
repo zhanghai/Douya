@@ -28,15 +28,12 @@
             <View
                 android:id="@+id/dismiss"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_above="@id/appBar"/>
+                android:layout_height="0dp" />
 
             <LinearLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_alignParentBottom="true"
                 android:background="?colorPrimary"
                 android:orientation="vertical"
                 android:theme="?actionBarTheme">
