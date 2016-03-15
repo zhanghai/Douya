@@ -210,7 +210,15 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     }
 
     private void animateExit() {
-        ObjectAnimator animator = ObjectAnimator.ofInt(this, OFFSET, getOffset(), getHeight());
+
+        int offset = getOffset();
+        int height = getHeight();
+        if (offset >= height) {
+            mListener.onExitAnimationEnd();
+            return;
+        }
+
+        ObjectAnimator animator = ObjectAnimator.ofInt(this, OFFSET, offset, height);
         animator.setDuration(mShortAnimationTime);
         animator.setInterpolator(new FastOutLinearInInterpolator());
         animator.addListener(new AnimatorListenerAdapter() {
