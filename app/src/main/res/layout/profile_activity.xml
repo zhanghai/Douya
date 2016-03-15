@@ -48,6 +48,37 @@
                     android:paddingRight="@dimen/toolbar_button_right_margin"
                     app:popupTheme="?actionBarPopupTheme"
                     app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+
+                        android:text="梦断代码" />
+
+                    <TextView
+                        android:id="@+id/signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+
+                        android:text="乐天知命。" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize">
+
+                </LinearLayout>
             </LinearLayout>
 
             <FrameLayout
@@ -60,9 +91,10 @@
                     android:layout_width="@dimen/profile_large_avatar_size"
                     android:layout_height="@dimen/profile_large_avatar_size"
                     android:clickable="true"
-                    android:src="?colorPrimaryDark"
+                    android:src="@drawable/profile_avatar_icon_white_128dp"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="3dp" />
+                    app:civ_border_width="3dp"
+                    app:civ_fill_color="?colorPrimaryDark" />
             </FrameLayout>
         </me.zhanghai.android.douya.ui.ProfileHeaderLayout>
 

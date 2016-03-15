@@ -200,7 +200,13 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
 
     // Should be called by ProfileLayout.onMeasure() before its super call.
     public void setMaxHeight(int maxHeight) {
+
+        if (mMaxHeight == maxHeight) {
+            return;
+        }
+
         mMaxHeight = maxHeight;
+        ViewUtils.setHeight(mAppBarLayout, mMaxHeight);
     }
 
     public interface Listener {

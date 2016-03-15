@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import butterknife.Bind;
@@ -36,6 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
     ProfileHeaderLayout mHeaderLayout;
     @Bind(R.id.dismiss)
     View mDismissView;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     public static Intent makeIntent(Context context, String userIdOrUid) {
         return new Intent(context, ProfileActivity.class)
@@ -55,10 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         mScrollLayout.setListener(new ProfileLayout.Listener() {
             @Override
-            public void onEnterAnimationEnd() {
-
-            }
-
+            public void onEnterAnimationEnd() {}
             @Override
             public void onExitAnimationEnd() {
                 finish();
@@ -84,6 +84,9 @@ public class ProfileActivity extends AppCompatActivity {
                 exit();
             }
         });
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(null);
     }
 
     @Override
