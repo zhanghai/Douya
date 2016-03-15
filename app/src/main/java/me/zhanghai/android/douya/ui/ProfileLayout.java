@@ -8,15 +8,15 @@ package me.zhanghai.android.douya.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.BindColor;
 import butterknife.BindInt;
@@ -31,9 +31,10 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     @BindColor(R.color.dark_70_percent)
     int mBackgroundColor;
 
-    private ColorDrawable mBackgroundDrawable;
+    private ColorDrawable mWindowBackground;
 
-    private View mChild;
+    private ViewGroup mOffsetContainer;
+    private ProfileHeaderLayout mProfileHeaderLayout;
 
     private Listener mListener;
 
@@ -68,48 +69,50 @@ public class ProfileLayout extends FlexibleSpaceLayout {
 
         ButterKnife.bind(this);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE | SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            setFitsSystemWindows(true);
-        }
-
-        mBackgroundDrawable = new ColorDrawable(mBackgroundColor);
-        me.zhanghai.android.douya.util.ViewCompat.setBackground(this, mBackgroundDrawable);
+        mWindowBackground = new ColorDrawable(mBackgroundColor);
+        ((Activity) getContext()).getWindow().setBackgroundDrawable(mWindowBackground);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        if (getChildCount() != 1) {
-            throw new IllegalStateException("Must have one child.");
-        }
-        mChild = getChildAt(0);
+        // HACK: Coupled with specific XML hierarchy.
+        mOffsetContainer = (ViewGroup) getChildAt(0);
+        mProfileHeaderLayout = (ProfileHeaderLayout) mOffsetContainer.getChildAt(0);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        int headerMaxHeight = MeasureSpec.getSize(heightMeasureSpec) * 2 / 3;
+        mProfileHeaderLayout.setMaxHeight(headerMaxHeight);
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     public int getOffset() {
-        return mChild.getTop() - getPaddingTop();
+        // View.offsetTopAndBottom causes transient invalid layout position when animating in.
+        return (int) mOffsetContainer.getTranslationY();
     }
 
     public void offsetTo(int offset) {
 
-        int oldOffset = getOffset();
-        if (oldOffset == offset || offset < 0) {
+        if (offset < 0 || getOffset() == offset) {
             return;
         }
 
-        ViewCompat.offsetTopAndBottom(mChild, offset - oldOffset);
-        updateBackground(offset);
+        mOffsetContainer.setTranslationY(offset);
+        updateWindowBackground(offset);
     }
 
     public void offsetBy(int delta) {
         offsetTo(getOffset() + delta);
     }
 
-    private void updateBackground(int offset) {
-        float fraction = Math.max(0, 1 - (float) offset
-                / (getHeight() - getPaddingTop() - getPaddingBottom()));
-        mBackgroundDrawable.setAlpha((int) (fraction * 0xFF));
+    private void updateWindowBackground(int offset) {
+        float fraction = Math.max(0, 1 - (float) offset / getHeight());
+        mWindowBackground.setAlpha((int) (fraction * 0xFF));
     }
 
     @Override

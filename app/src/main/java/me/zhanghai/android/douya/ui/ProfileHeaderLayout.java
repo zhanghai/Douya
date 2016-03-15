@@ -50,6 +50,8 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
     @Bind(R.id.avatar)
     CircleImageView mAvatarImage;
 
+    private int mMaxHeight;
+
     private Listener mListener;
 
     private int mScroll;
@@ -110,7 +112,7 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         if (MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(getMaxHeight(), MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.EXACTLY);
         }
 
         int appBarHeight = computeAppBarHeight();
@@ -143,7 +145,7 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
     }
 
     private int computeAppBarHeight() {
-        return MathUtils.lerp(getMaxHeight() / 2, getMinHeight(), getFraction());
+        return MathUtils.lerp(mMaxHeight / 2, getMinHeight(), getFraction());
     }
 
     public Listener getListener() {
@@ -161,7 +163,7 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
 
     @Override
     public int getScrollExtent() {
-        return getMaxHeight() - getMinHeight();
+        return mMaxHeight - getMinHeight();
     }
 
     @Override
@@ -173,7 +175,7 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
             return;
         }
 
-        ViewUtils.setHeight(this, getMaxHeight() - scroll);
+        ViewUtils.setHeight(this, mMaxHeight - scroll);
         int oldScroll = mScroll;
         mScroll = scroll;
 
@@ -192,15 +194,13 @@ public class ProfileHeaderLayout extends RelativeLayout implements FlexibleSpace
     }
 
     private int getMinHeight() {
-        return mToolbar.getHeight();
+        // So that we don't need to wait until measure.
+        return mToolbar.getLayoutParams().height;
     }
 
-    private int getMaxHeight() {
-        ViewParent viewParent = getParent();
-        if (viewParent instanceof View) {
-            return ((View) viewParent).getHeight() * 2 / 3;
-        }
-        return 0;
+    // Should be called by ProfileLayout.onMeasure() before its super call.
+    public void setMaxHeight(int maxHeight) {
+        mMaxHeight = maxHeight;
     }
 
     public interface Listener {
