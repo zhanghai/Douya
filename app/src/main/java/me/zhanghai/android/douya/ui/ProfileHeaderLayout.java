@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.BindDimen;
@@ -45,6 +46,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     LinearLayout mAppBarLayout;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.toolbar_title)
+    TextView mToolbarTitle;
     @Bind(R.id.avatar_container)
     FrameLayout mAvatarContainerLayout;
     @Bind(R.id.avatar)
@@ -144,6 +147,14 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mAvatarImage.setPivotY(0);
         mAvatarImage.setScaleX(avatarScale);
         mAvatarImage.setScaleY(avatarScale);
+
+        for (int i = 0, count = mAppBarLayout.getChildCount(); i < count; ++i) {
+            View child = mAppBarLayout.getChildAt(i);
+            if (child != mToolbar) {
+                child.setAlpha(Math.max(0, 1 - getFraction() * 2));
+            }
+        }
+        mToolbarTitle.setAlpha(Math.max(0, getFraction() * 2 - 1));
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

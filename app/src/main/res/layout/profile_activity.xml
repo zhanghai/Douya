@@ -44,17 +44,29 @@
                     android:layout_height="?actionBarSize"
                     android:paddingRight="@dimen/toolbar_button_right_margin"
                     app:popupTheme="?actionBarPopupTheme"
-                    app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+                    app:titleMarginStart="@dimen/toolbar_title_left_margin">
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/content_horizontal_margin"
+                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+
+                        android:text="梦断代码" />
+                </android.support.v7.widget.Toolbar>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_marginTop="8dp"
+                    android:paddingTop="16dp"
+                    android:animateLayoutChanges="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <TextView
+                    <me.zhanghai.android.douya.ui.AutoGoneTextView
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -62,7 +74,7 @@
 
                         android:text="梦断代码" />
 
-                    <TextView
+                    <me.zhanghai.android.douya.ui.AutoGoneTextView
                         android:id="@+id/signature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -71,11 +83,19 @@
                         android:text="乐天知命。" />
                 </LinearLayout>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize">
 
-                </LinearLayout>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|top"
+                        android:layout_marginTop="-6dp"
+                        style="?borderlessButtonStyle"
+
+                        android:text="已关注" />
+                </FrameLayout>
             </LinearLayout>
 
             <FrameLayout
