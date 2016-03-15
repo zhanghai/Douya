@@ -61,7 +61,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_marginTop="8dp"
-                    android:paddingTop="16dp"
+                    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                    android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                    android:paddingTop="12dp"
                     android:animateLayoutChanges="true"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -70,6 +72,8 @@
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:minHeight="36dp"
+                        android:gravity="center_vertical"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
 
                         android:text="梦断代码" />
@@ -78,14 +82,28 @@
                         android:id="@+id/signature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:minHeight="24dp"
+                        android:gravity="center_vertical"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 
                         android:text="乐天知命。" />
+
+                    <me.zhanghai.android.douya.ui.AutoGoneTextView
+                        android:id="@+id/location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="24dp"
+                        android:gravity="center_vertical"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+
+                        android:text="常居 浙江杭州" />
                 </LinearLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize">
+                    android:layout_height="?actionBarSize"
+                    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                    android:paddingRight="@dimen/screen_edge_horizontal_margin">
 
                     <Button
                         android:layout_width="wrap_content"
@@ -94,7 +112,9 @@
                         android:layout_marginTop="-6dp"
                         style="?borderlessButtonStyle"
 
-                        android:text="已关注" />
+                        android:drawableLeft="@drawable/mutual_icon_white_24dp"
+                        android:drawablePadding="2dp"
+                        android:text="互相关注" />
                 </FrameLayout>
             </LinearLayout>
 
