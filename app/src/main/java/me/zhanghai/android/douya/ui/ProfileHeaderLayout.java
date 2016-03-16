@@ -142,13 +142,13 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         // So that the layout remains stable.
         appBarLayoutLayoutParams.height = getAppBarMaxHeight();
 
-        int avatarContainerSizeHalf = mAvatarContainerLayout.getLayoutParams().width / 2;
-        int avatarMarginTop = dismissViewHeight - avatarContainerSizeHalf;
+        int largeAvatarSizeHalf = mLargeAvatarSize / 2;
+        int avatarMarginTop = dismissViewHeight - largeAvatarSizeHalf;
         float avatarHorizontalFraction = avatarMarginTop < mSmallAvatarMarginTop ?
-                MathUtils.unlerp(mSmallAvatarMarginTop, -avatarContainerSizeHalf, avatarMarginTop)
+                MathUtils.unlerp(mSmallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop)
                 : 0;
         avatarMarginTop = Math.max(mSmallAvatarMarginTop, avatarMarginTop);
-        int avatarMarginLeft = MathUtils.lerp(width / 2 - avatarContainerSizeHalf,
+        int avatarMarginLeft = MathUtils.lerp(width / 2 - largeAvatarSizeHalf,
                 mSmallAvatarMarginLeft, avatarHorizontalFraction);
         MarginLayoutParams avatarContainerLayoutParams =
                 (MarginLayoutParams) mAvatarContainerLayout.getLayoutParams();
@@ -156,10 +156,10 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         avatarContainerLayoutParams.topMargin = avatarMarginTop;
         float avatarScale = MathUtils.lerp(1, (float) mSmallAvatarSize / mLargeAvatarSize,
                 avatarHorizontalFraction);
-        mAvatarImage.setPivotX(0);
-        mAvatarImage.setPivotY(0);
-        mAvatarImage.setScaleX(avatarScale);
-        mAvatarImage.setScaleY(avatarScale);
+        mAvatarContainerLayout.setPivotX(0);
+        mAvatarContainerLayout.setPivotY(0);
+        mAvatarContainerLayout.setScaleX(avatarScale);
+        mAvatarContainerLayout.setScaleY(avatarScale);
 
         for (int i = 0, count = mAppBarLayout.getChildCount(); i < count; ++i) {
             View child = mAppBarLayout.getChildAt(i);
@@ -254,12 +254,15 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mLocationText.setText(null);
         ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton, 0, 0, 0,
                 0);
-        mFollowButton.setText(null);
+        ViewUtils.setVisibleOrGone(mFollowButton, false);
     }
 
     public void bindUserInfo(UserInfo userInfo) {
         Context context = getContext();
-        ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.largeAvatar, context);
+        if (!ViewUtils.isVisible(mAvatarImage)) {
+            // HACK: Don't load avatar again if already loaded by bindUser().
+            ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.largeAvatar, context);
+        }
         mToolbarUsernameText.setText(userInfo.name);
         mUsernameText.setText(userInfo.name);
         mSignatureText.setText(userInfo.signature);
@@ -284,6 +287,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
             followDrawableId = R.drawable.add_icon_white_24dp;
             followStringId = R.string.profile_follow;
         }
+        ViewUtils.setVisibleOrGone(mFollowButton, true);
         ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
                 followDrawableId, 0, 0, 0);
         mFollowButton.setText(followStringId);

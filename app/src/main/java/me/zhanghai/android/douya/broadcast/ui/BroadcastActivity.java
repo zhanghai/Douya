@@ -390,19 +390,17 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
                                          LoadBroadcastState state) {
 
         if (successful) {
-
             setBroadcast(result);
-            setBroadcastRefreshing(false);
-            mLoadingBroadcastOrCommentList = false;
-            if (state.loadCommentList) {
-                loadCommentList(false);
-            }
         } else {
-
             LogUtils.e(error.toString());
             ToastUtils.show(ApiError.getErrorString(error, this), this);
-            setBroadcastRefreshing(false);
-            mLoadingBroadcastOrCommentList = false;
+        }
+
+        setBroadcastRefreshing(false);
+        mLoadingBroadcastOrCommentList = false;
+
+        if (successful && state.loadCommentList) {
+            loadCommentList(false);
         }
     }
 
@@ -441,7 +439,6 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
                                            VolleyError error, LoadCommentListState state) {
 
         if (successful) {
-
             List<Comment> commentList = result.comments;
             mCanLoadMoreComments = commentList.size() == state.count;
             if (state.loadMore) {
@@ -449,15 +446,16 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
             } else {
                 mCommentAdapter.replace(commentList);
             }
-            setCommentsRefreshing(false, state.loadMore);
-            mLoadingBroadcastOrCommentList = false;
-            fixCommentCount();
         } else {
-
             LogUtils.e(error.toString());
             ToastUtils.show(ApiError.getErrorString(error, this), this);
-            setCommentsRefreshing(false, state.loadMore);
-            mLoadingBroadcastOrCommentList = false;
+        }
+
+        setCommentsRefreshing(false, state.loadMore);
+        mLoadingBroadcastOrCommentList = false;
+
+        if (successful) {
+            fixCommentCount();
         }
     }
 
@@ -490,6 +488,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
             EventBus.getDefault().post(new BroadcastUpdatedEvent(result));
             ToastUtils.show(state.like ? R.string.broadcast_like_successful
                     : R.string.broadcast_unlike_successful, this);
+
         } else {
 
             LogUtils.e(error.toString());
@@ -559,6 +558,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
             EventBus.getDefault().post(new BroadcastUpdatedEvent(result));
             ToastUtils.show(state.rebroadcast ? R.string.broadcast_rebroadcast_successful
                     : R.string.broadcast_unrebroadcast_successful, this);
+
         } else {
 
             LogUtils.e(error.toString());
@@ -642,9 +642,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     private void onDeleteCommentResponse(boolean successful, Boolean result, VolleyError error,
                                          DeleteCommentState state) {
-
         if (successful) {
-
             ToastUtils.show(R.string.broadcast_comment_delete_successful, this);
             EventBus.getDefault().post(new BroadcastCommentDeletedEvent(mBroadcastId,
                     state.commentId));
@@ -654,7 +652,6 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
                 EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
             }
         } else {
-
             LogUtils.e(error.toString());
             ToastUtils.show(getString(R.string.broadcast_comment_delete_failed_format,
                     ApiError.getErrorString(error, this)), this);
@@ -684,7 +681,6 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     private void onSendCommentResponse(boolean successful, Comment result, VolleyError error) {
 
         if (successful) {
-
             if (!mCanLoadMoreComments) {
                 mCommentAdapter.add(result);
                 fixCommentCount();
@@ -694,7 +690,6 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
             mBroadcastCommentList.scrollToPosition(mAdapter.getItemCount() - 1);
             mCommentEdit.setText(null);
         } else {
-
             LogUtils.e(error.toString());
             ToastUtils.show(getString(R.string.broadcast_send_comment_failed_format,
                     ApiError.getErrorString(error, this)), this);
@@ -756,14 +751,11 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     private void onDeleteBroadcastResponse(boolean successful, Broadcast result,
                                            VolleyError error) {
-
         if (successful) {
-
             ToastUtils.show(R.string.broadcast_delete_successful, this);
             EventBus.getDefault().post(new BroadcastDeletedEvent(mBroadcastId));
             finish();
         } else {
-
             LogUtils.e(error.toString());
             ToastUtils.show(getString(R.string.broadcast_delete_failed_format,
                     ApiError.getErrorString(error, this)), this);

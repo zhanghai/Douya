@@ -42,7 +42,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
-                    android:paddingRight="@dimen/toolbar_button_right_margin"
+                    android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
                     app:popupTheme="?actionBarPopupTheme"
                     app:titleMarginStart="@dimen/toolbar_title_left_margin">
 
@@ -51,9 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/content_horizontal_margin"
-                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-
-                        android:text="梦断代码" />
+                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
                 </android.support.v7.widget.Toolbar>
 
                 <LinearLayout
@@ -75,8 +73,7 @@
                         android:minHeight="36dp"
                         android:gravity="center_vertical"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-
-                        android:text="梦断代码" />
+                        android:textSize="26sp" />
 
                     <me.zhanghai.android.douya.ui.AutoGoneTextView
                         android:id="@+id/signature"
@@ -84,9 +81,7 @@
                         android:layout_height="wrap_content"
                         android:minHeight="24dp"
                         android:gravity="center_vertical"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-
-                        android:text="乐天知命。" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                     <me.zhanghai.android.douya.ui.AutoGoneTextView
                         android:id="@+id/location"
@@ -94,9 +89,7 @@
                         android:layout_height="wrap_content"
                         android:minHeight="24dp"
                         android:gravity="center_vertical"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-
-                        android:text="常居 浙江杭州" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 </LinearLayout>
 
                 <FrameLayout
@@ -113,10 +106,8 @@
                         android:layout_gravity="center_horizontal|top"
                         android:layout_marginTop="-6dp"
                         android:drawablePadding="2dp"
-                        style="?borderlessButtonStyle"
-
-                        android:drawableLeft="@drawable/mutual_icon_white_24dp"
-                        android:text="互相关注" />
+                        android:visibility="gone"
+                        style="?borderlessButtonStyle" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -126,14 +117,21 @@
                 android:layout_height="@dimen/profile_large_avatar_size">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/avatar"
                     android:layout_width="@dimen/profile_large_avatar_size"
                     android:layout_height="@dimen/profile_large_avatar_size"
-                    android:clickable="true"
                     android:src="@drawable/profile_avatar_icon_white_128dp"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp"
                     app:civ_fill_color="?colorPrimaryDark" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="@dimen/profile_large_avatar_size"
+                    android:layout_height="@dimen/profile_large_avatar_size"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="3dp" />
             </FrameLayout>
         </me.zhanghai.android.douya.ui.ProfileHeaderLayout>
 
@@ -143,30 +141,32 @@
             android:background="@color/window_background_light"
             android:fillViewport="true">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- TODO -->
+                </LinearLayout>
+
+                <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar" />
 
                 <View
-                    android:id="@+id/shadow_compat"
                     android:layout_width="match_parent"
                     android:layout_height="18dp"
                     android:background="?android:windowContentOverlay" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ProfileActivity"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1600dp"
-                    android:text="ProfileActivityEnd"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-            </LinearLayout>
+            </FrameLayout>
         </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
     </LinearLayout>
 </me.zhanghai.android.douya.ui.ProfileLayout>

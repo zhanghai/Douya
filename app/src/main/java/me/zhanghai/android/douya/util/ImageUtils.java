@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Image;
@@ -27,12 +28,33 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadProfileAvatar(ImageView view, String url, Context context) {
+    public static void loadProfileAvatar(final ImageView view, String url, Context context) {
+        ViewUtils.fadeOut(view);
         Glide.with(context)
                 .load(url)
-                .placeholder(R.drawable.profile_avatar_icon_white_128dp)
                 .dontAnimate()
                 .dontTransform()
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model,
+                                               Target<GlideDrawable> target,
+                                               boolean isFirstResource) {
+                        if (e == null) {
+                            new NullPointerException().printStackTrace();
+                        } else {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model,
+                                                   Target<GlideDrawable> target,
+                                                   boolean isFromMemoryCache,
+                                                   boolean isFirstResource) {
+                        ViewUtils.fadeIn(view);
+                        return false;
+                    }
+                })
                 .into(view);
     }
 

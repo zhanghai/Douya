@@ -28,6 +28,7 @@ import me.zhanghai.android.douya.network.api.info.Attachment;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.Image;
 import me.zhanghai.android.douya.network.api.info.Photo;
+import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.CardIconButton;
 import me.zhanghai.android.douya.ui.GalleryActivity;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
@@ -162,7 +163,7 @@ public class BroadcastLayout extends LinearLayout {
         mAvatarImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                UriHandler.open(broadcast.author.alt, context);
+                context.startActivity(ProfileActivity.makeIntent(context, broadcast.author));
             }
         });
         mNameText.setText(broadcast.author.name);

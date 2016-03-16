@@ -37,13 +37,18 @@ class HackyApiCredentialHelper {
             LogUtils.e("File " + file + " does not exist.");
             return "";
         }
+        FileInputStream fileInputStream = null;
         try {
-            return IoUtils.inputStreamToString(new FileInputStream(file),
-                    StandardCharsetsCompat.UTF_8.name())
+            fileInputStream = new FileInputStream(file);
+            return IoUtils.inputStreamToString(fileInputStream, StandardCharsetsCompat.UTF_8.name())
                     .trim();
         } catch (IOException e) {
             e.printStackTrace();
             return "";
+        } finally {
+            if (fileInputStream != null) {
+                IoUtils.close(fileInputStream);
+            }
         }
     }
 }

@@ -35,6 +35,11 @@ public class ViewUtils {
 
     public static void fadeOut(final View view, int duration) {
         if (view.getVisibility() != View.VISIBLE || view.getAlpha() == 0) {
+            // Cancel any starting animation.
+            view.animate()
+                    .alpha(0)
+                    .setDuration(0)
+                    .start();
             return;
         }
         view.animate()
@@ -63,6 +68,11 @@ public class ViewUtils {
 
     public static void fadeIn(View view, int duration) {
         if (view.getVisibility() == View.VISIBLE && view.getAlpha() == 1) {
+            // Cancel any starting animation.
+            view.animate()
+                    .alpha(1)
+                    .setDuration(0)
+                    .start();
             return;
         }
         view.setAlpha(0);
