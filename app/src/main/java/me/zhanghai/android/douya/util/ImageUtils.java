@@ -27,6 +27,15 @@ public class ImageUtils {
                 .into(view);
     }
 
+    public static void loadProfileAvatar(ImageView view, String url, Context context) {
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.profile_avatar_icon_white_128dp)
+                .dontAnimate()
+                .dontTransform()
+                .into(view);
+    }
+
     public static void loadImage(RatioImageView view, Image image, Context context) {
         view.setRatio(image.width, image.height);
         Glide.with(context)

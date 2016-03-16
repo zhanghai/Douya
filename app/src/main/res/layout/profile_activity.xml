@@ -47,7 +47,7 @@
                     app:titleMarginStart="@dimen/toolbar_title_left_margin">
 
                     <TextView
-                        android:id="@+id/toolbar_title"
+                        android:id="@+id/toolbar_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/content_horizontal_margin"
@@ -103,17 +103,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-                    android:paddingRight="@dimen/screen_edge_horizontal_margin">
+                    android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                    android:animateLayoutChanges="true">
 
                     <Button
+                        android:id="@+id/follow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|top"
                         android:layout_marginTop="-6dp"
+                        android:drawablePadding="2dp"
                         style="?borderlessButtonStyle"
 
                         android:drawableLeft="@drawable/mutual_icon_white_24dp"
-                        android:drawablePadding="2dp"
                         android:text="互相关注" />
                 </FrameLayout>
             </LinearLayout>

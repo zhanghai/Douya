@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import butterknife.Bind;
@@ -103,5 +105,35 @@ public class ProfileActivity extends AppCompatActivity {
         super.finish();
 
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        // TODO: Block or unblock.
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_send_doumail:
+                // TODO
+                return true;
+            case R.id.action_block:
+                // TODO
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

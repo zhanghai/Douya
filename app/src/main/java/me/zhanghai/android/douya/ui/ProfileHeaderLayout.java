@@ -10,9 +10,11 @@ import android.content.Context;
 import android.graphics.Outline;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,7 +24,11 @@ import butterknife.BindDimen;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.network.api.info.UserInfo;
+import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.MathUtils;
+import me.zhanghai.android.douya.util.ViewCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
@@ -46,18 +52,25 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     LinearLayout mAppBarLayout;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
-    TextView mToolbarTitle;
+    @Bind(R.id.toolbar_username)
+    TextView mToolbarUsernameText;
+    @Bind(R.id.username)
+    TextView mUsernameText;
+    @Bind(R.id.signature)
+    TextView mSignatureText;
+    @Bind(R.id.location)
+    TextView mLocationText;
+    @Bind(R.id.follow)
+    Button mFollowButton;
     @Bind(R.id.avatar_container)
     FrameLayout mAvatarContainerLayout;
     @Bind(R.id.avatar)
     CircleImageView mAvatarImage;
 
     private int mMaxHeight;
+    private int mScroll;
 
     private Listener mListener;
-
-    private int mScroll;
 
     public ProfileHeaderLayout(Context context) {
         super(context);
@@ -154,7 +167,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
                 child.setAlpha(Math.max(0, 1 - getFraction() * 2));
             }
         }
-        mToolbarTitle.setAlpha(Math.max(0, getFraction() * 2 - 1));
+        mToolbarUsernameText.setAlpha(Math.max(0, getFraction() * 2 - 1));
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -231,6 +244,49 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
 
         mMaxHeight = maxHeight;
         ViewUtils.setHeight(mAppBarLayout, mMaxHeight);
+    }
+
+    public void bindUser(User user) {
+        ImageUtils.loadProfileAvatar(mAvatarImage, user.largeAvatar, getContext());
+        mToolbarUsernameText.setText(user.name);
+        mUsernameText.setText(user.name);
+        mSignatureText.setText(null);
+        mLocationText.setText(null);
+        ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton, 0, 0, 0,
+                0);
+        mFollowButton.setText(null);
+    }
+
+    public void bindUserInfo(UserInfo userInfo) {
+        Context context = getContext();
+        ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.largeAvatar, context);
+        mToolbarUsernameText.setText(userInfo.name);
+        mUsernameText.setText(userInfo.name);
+        mSignatureText.setText(userInfo.signature);
+        if (!TextUtils.isEmpty(userInfo.locationName)) {
+            mLocationText.setText(context.getString(R.string.profile_location_format,
+                    userInfo.locationName));
+        } else {
+            // TODO
+            mLocationText.setText(null);
+        }
+        int followDrawableId;
+        int followStringId;
+        if (userInfo.isFollowing) {
+            if (userInfo.isFollower) {
+                followDrawableId = R.drawable.mutual_icon_white_24dp;
+                followStringId = R.string.profile_following_mutual;
+            } else {
+                followDrawableId = R.drawable.ok_icon_white_24dp;
+                followStringId = R.string.profile_following;
+            }
+        } else {
+            followDrawableId = R.drawable.add_icon_white_24dp;
+            followStringId = R.string.profile_follow;
+        }
+        ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
+                followDrawableId, 0, 0, 0);
+        mFollowButton.setText(followStringId);
     }
 
     public interface Listener {

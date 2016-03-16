@@ -7,7 +7,9 @@ package me.zhanghai.android.douya.util;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.view.View;
+import android.widget.TextView;
 
 public class ViewCompat {
 
@@ -19,6 +21,16 @@ public class ViewCompat {
             view.setBackgroundDrawable(background);
         } else {
             view.setBackground(background);
+        }
+    }
+
+    public static void setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(
+            TextView textView, @DrawableRes int start, @DrawableRes int top, @DrawableRes int end,
+            @DrawableRes int bottom) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            textView.setCompoundDrawablesWithIntrinsicBounds(start, top, end, bottom);
+        } else {
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end, bottom);
         }
     }
 }

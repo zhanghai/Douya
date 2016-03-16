@@ -163,6 +163,13 @@
     <string name="broadcast_rebroadcasters_title_format">%1$d 人转播</string>
     <string name="broadcast_rebroadcasters_title_empty">暂无转播</string>
 
+    <string name="profile_location_format">常居 %1$s</string>
+    <string name="profile_follow">关注此人</string>
+    <string name="profile_following">已关注</string>
+    <string name="profile_following_mutual">互相关注</string>
+    <string name="profile_send_doumail">发豆邮</string>
+    <string name="profile_block">加入黑名单</string>
+
     <string name="settings_title">设置</string>
     <string name="settings_misc_title">其他</string>
     <string name="settings_auto_refresh_home_title">打开时自动刷新主页</string>
