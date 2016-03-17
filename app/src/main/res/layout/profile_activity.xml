@@ -100,7 +100,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
+                    android:layout_height="58dp"
                     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                     android:paddingRight="@dimen/screen_edge_horizontal_margin"
                     android:animateLayoutChanges="true">
