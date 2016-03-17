@@ -5,7 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<me.zhanghai.android.douya.ui.ProfileLayout
+<me.zhanghai.android.douya.profile.ui.ProfileLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <me.zhanghai.android.douya.ui.ProfileHeaderLayout
+        <me.zhanghai.android.douya.profile.ui.ProfileHeaderLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp" />
             </FrameLayout>
-        </me.zhanghai.android.douya.ui.ProfileHeaderLayout>
+        </me.zhanghai.android.douya.profile.ui.ProfileHeaderLayout>
 
         <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
             android:layout_width="match_parent"
@@ -169,4 +169,4 @@
             </FrameLayout>
         </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
     </LinearLayout>
-</me.zhanghai.android.douya.ui.ProfileLayout>
+</me.zhanghai.android.douya.profile.ui.ProfileLayout>

@@ -90,6 +90,14 @@ public class ViewUtils {
         fadeIn(view, getShortAnimTime(view));
     }
 
+    public static void fadeToVisibility(View view, boolean visible) {
+        if (visible) {
+            fadeIn(view);
+        } else {
+            fadeOut(view);
+        }
+    }
+
     public static void crossfade(View fromView, View toView, int duration) {
         fadeOut(fromView, duration);
         fadeIn(toView, duration);

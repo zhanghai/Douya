@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.ui;
+package me.zhanghai.android.douya.profile.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -26,6 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.network.api.info.UserInfo;
+import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.MathUtils;
 import me.zhanghai.android.douya.util.ViewCompat;

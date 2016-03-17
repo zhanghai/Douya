@@ -33,8 +33,6 @@ import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.network.api.info.UserInfo;
-import me.zhanghai.android.douya.ui.ProfileHeaderLayout;
-import me.zhanghai.android.douya.ui.ProfileLayout;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -252,28 +250,24 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
         ApiRequest<UserInfo> request = ApiRequests.newUserInfoRequest(mUserIdOrUid, this);
         RequestFragment.startRequest(REQUEST_CODE_LOAD_USER_INFO, request, null, this);
 
-        mLoadingUserInfo = true;
-        ViewUtils.setVisibleOrGone(mProgress, true);
+        setLoadingUserInfo(true);
     }
 
     private void onLoadUserInfoResponse(boolean successful, UserInfo result, VolleyError error) {
 
         if (successful) {
-            setUserInfo(result);
+            EventBus.getDefault().post(new UserInfoUpdatedEvent(result));
         } else {
             LogUtils.e(error.toString());
             ToastUtils.show(ApiError.getErrorString(error, this), this);
         }
 
-        ViewUtils.setVisibleOrGone(mProgress, false);
-        mLoadingUserInfo = false;
+        setLoadingUserInfo(false);
     }
 
-    private void setUserInfo(UserInfo userInfo) {
-        mUserInfo = userInfo;
-        mUser = mUserInfo;
-        mUserIdOrUid = String.valueOf(mUserInfo.id);
-        mHeaderLayout.bindUserInfo(mUserInfo);
+    private void setLoadingUserInfo(boolean loading) {
+        mLoadingUserInfo = loading;
+        ViewUtils.fadeToVisibility(mProgress, mLoadingUserInfo);
     }
 
     @Keep
@@ -282,5 +276,12 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
         if (TextUtils.equals(mUserIdOrUid, String.valueOf(userInfo.id))) {
             setUserInfo(userInfo);
         }
+    }
+
+    private void setUserInfo(UserInfo userInfo) {
+        mUserInfo = userInfo;
+        mUser = mUserInfo;
+        mUserIdOrUid = String.valueOf(mUserInfo.id);
+        mHeaderLayout.bindUserInfo(mUserInfo);
     }
 }

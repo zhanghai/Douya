@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.ui;
+package me.zhanghai.android.douya.profile.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -11,7 +11,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
@@ -22,6 +21,8 @@ import butterknife.BindColor;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.ui.FlexibleSpaceLayout;
+import me.zhanghai.android.douya.ui.IntProperty;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileLayout extends FlexibleSpaceLayout {
