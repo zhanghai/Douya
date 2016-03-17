@@ -20,7 +20,6 @@ import android.widget.ProgressBar;
 import com.android.volley.VolleyError;
 
 import butterknife.Bind;
-import butterknife.BindColor;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
@@ -34,7 +33,6 @@ import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.network.api.info.UserInfo;
 import me.zhanghai.android.douya.util.LogUtils;
-import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -49,10 +47,6 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     public static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
     private static final String RETAIN_DATA_KEY_USER_INFO = KEY_PREFIX + "user_info";
-
-    @BindColor(android.R.color.transparent)
-    int mStatusBarColorTransparent;
-    private int mStatusBarColorFullscreen;
 
     @Bind(R.id.scroll)
     ProfileLayout mScrollLayout;
@@ -97,7 +91,6 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
 
         setContentView(R.layout.profile_activity);
         ButterKnife.bind(this);
-        mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0, this);
 
         CustomTabsHelperFragment.attachTo(this);
         mRetainDataFragment = RetainDataFragment.attachTo(this);
@@ -111,19 +104,6 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
             }
         });
         mScrollLayout.enter();
-
-        StatusBarColorUtils.set(mStatusBarColorTransparent, this);
-        mHeaderLayout.setListener(new ProfileHeaderLayout.Listener() {
-            @Override
-            public void onHeaderReachedTop() {
-                StatusBarColorUtils.animateTo(mStatusBarColorFullscreen, ProfileActivity.this);
-            }
-
-            @Override
-            public void onHeaderLeftTop() {
-                StatusBarColorUtils.animateTo(mStatusBarColorTransparent, ProfileActivity.this);
-            }
-        });
 
         mDismissView.setOnClickListener(new View.OnClickListener() {
             @Override

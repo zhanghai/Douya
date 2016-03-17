@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.profile.ui;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Outline;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.BindColor;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,6 +31,7 @@ import me.zhanghai.android.douya.network.api.info.UserInfo;
 import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.MathUtils;
+import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ViewCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -38,6 +41,9 @@ import me.zhanghai.android.douya.util.ViewUtils;
  */
 public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHeaderView {
 
+    @BindColor(android.R.color.transparent)
+    int mStatusBarColorTransparent;
+    private int mStatusBarColorFullscreen;
     @BindDimen(R.dimen.profile_large_avatar_size)
     int mLargeAvatarSize;
     @BindDimen(R.dimen.profile_small_avatar_size)
@@ -70,8 +76,6 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
 
     private int mMaxHeight;
     private int mScroll;
-
-    private Listener mListener;
 
     public ProfileHeaderLayout(Context context) {
         super(context);
@@ -123,6 +127,11 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         super.onFinishInflate();
 
         ButterKnife.bind(this);
+        Context context = getContext();
+        mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0,
+                context);
+
+        StatusBarColorUtils.set(mStatusBarColorTransparent, (Activity) context);
     }
 
     @Override
@@ -186,14 +195,6 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         return scrollExtent > 0 ? (float) mScroll / scrollExtent : 0;
     }
 
-    public Listener getListener() {
-        return mListener;
-    }
-
-    public void setListener(Listener listener) {
-        mListener = listener;
-    }
-
     @Override
     public int getScroll() {
         return mScroll;
@@ -217,12 +218,10 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         int oldScroll = mScroll;
         mScroll = scroll;
 
-        if (mListener != null) {
-            if (oldScroll < scrollExtent && mScroll == scrollExtent) {
-                mListener.onHeaderReachedTop();
-            } else if (oldScroll == scrollExtent && mScroll < oldScroll) {
-                mListener.onHeaderLeftTop();
-            }
+        if (oldScroll < scrollExtent && mScroll == scrollExtent) {
+            StatusBarColorUtils.animateTo(mStatusBarColorFullscreen, (Activity) getContext());
+        } else if (oldScroll == scrollExtent && mScroll < oldScroll) {
+            StatusBarColorUtils.animateTo(mStatusBarColorTransparent, (Activity) getContext());
         }
     }
 
@@ -292,10 +291,5 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
                 followDrawableId, 0, 0, 0);
         mFollowButton.setText(followStringId);
-    }
-
-    public interface Listener {
-        void onHeaderReachedTop();
-        void onHeaderLeftTop();
     }
 }
