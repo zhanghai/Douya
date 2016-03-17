@@ -273,7 +273,8 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     @Keep
     public void onEventMainThread(UserInfoUpdatedEvent event) {
         UserInfo userInfo = event.userInfo;
-        if (TextUtils.equals(mUserIdOrUid, String.valueOf(userInfo.id))) {
+        if (TextUtils.equals(mUserIdOrUid, String.valueOf(userInfo.id))
+                || TextUtils.equals(mUserIdOrUid, userInfo.uid)) {
             setUserInfo(userInfo);
         }
     }
