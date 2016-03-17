@@ -61,7 +61,6 @@
                     android:layout_marginTop="8dp"
                     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                     android:paddingRight="@dimen/screen_edge_horizontal_margin"
-                    android:paddingTop="12dp"
                     android:animateLayoutChanges="true"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -100,7 +99,8 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="66dp"
+                    android:layout_marginTop="-16dp"
                     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                     android:paddingRight="@dimen/screen_edge_horizontal_margin"
                     android:animateLayoutChanges="true">
@@ -110,7 +110,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|top"
-                        android:layout_marginTop="-6dp"
                         android:drawablePadding="2dp"
                         android:visibility="gone"
                         style="?borderlessButtonStyle" />
