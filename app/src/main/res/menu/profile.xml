@@ -19,8 +19,14 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_block"
+        android:id="@+id/action_blacklist"
         android:orderInCategory="100"
-        android:title="@string/profile_block"
+        android:title="@string/profile_blacklist"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_report_abuse"
+        android:orderInCategory="100"
+        android:title="@string/report_abuse"
         app:showAsAction="never" />
 </menu>

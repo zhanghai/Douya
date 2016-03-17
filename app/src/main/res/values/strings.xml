@@ -7,8 +7,9 @@
     <string name="reload">重新加载</string>
     <string name="yes">是</string>
 
-    <string name="activity_not_found">未找到可处理此操作的应用程序</string>
+    <string name="activity_not_found">未找到可处理此操作的应用</string>
     <string name="copied_to_clipboard_format">已复制到剪贴板：\n%1$s</string>
+    <string name="report_abuse">举报不良信息</string>
 
     <string name="just_now">刚刚</string>
     <string name="minute_format">%1$d分钟前</string>
@@ -173,7 +174,7 @@
     <string name="profile_following">已关注</string>
     <string name="profile_following_mutual">互相关注</string>
     <string name="profile_send_doumail">发豆邮</string>
-    <string name="profile_block">加入黑名单</string>
+    <string name="profile_blacklist">加入黑名单</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_misc_title">其他</string>

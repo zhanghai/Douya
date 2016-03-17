@@ -200,7 +200,10 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
             case R.id.action_send_doumail:
                 // TODO
                 return true;
-            case R.id.action_block:
+            case R.id.action_blacklist:
+                // TODO
+                return true;
+            case R.id.action_report_abuse:
                 // TODO
                 return true;
             default:
