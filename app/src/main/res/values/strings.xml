@@ -17,6 +17,10 @@
     <string name="yesterday_hour_minute_pattern">昨天 HH:mm</string>
     <string name="month_day_hour_minute_pattern">M月d日 HH:mm</string>
     <string name="date_hour_minute_pattern">Y年M月d日 HH:mm</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="month_day_pattern">M月d日</string>
+    <string name="date_pattern">Y年M月d日</string>
 
     <!-- Overrides strings in LicensesDialog. -->
     <string name="notices_title">@string/settings_open_source_licenses_title</string>
@@ -163,7 +167,8 @@
     <string name="broadcast_rebroadcasters_title_format">%1$d 人转播</string>
     <string name="broadcast_rebroadcasters_title_empty">暂无转播</string>
 
-    <string name="profile_location_format">常居 %1$s</string>
+    <string name="profile_joined_at_format">%1$s 加入</string>
+    <string name="profile_joined_at_and_location_format">%1$s 加入，常居 %2$s</string>
     <string name="profile_follow">关注此人</string>
     <string name="profile_following">已关注</string>
     <string name="profile_following_mutual">互相关注</string>

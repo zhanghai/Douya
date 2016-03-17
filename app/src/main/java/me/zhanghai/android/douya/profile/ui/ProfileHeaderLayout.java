@@ -11,7 +11,6 @@ import android.content.Context;
 import android.graphics.Outline;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
@@ -29,6 +28,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.network.api.info.UserInfo;
 import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
+import me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.MathUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
@@ -65,8 +65,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     TextView mUsernameText;
     @Bind(R.id.signature)
     TextView mSignatureText;
-    @Bind(R.id.location)
-    TextView mLocationText;
+    @Bind(R.id.joined_at_location)
+    JoinedAtLocationAutoGoneTextView mJoinedAtLocationText;
     @Bind(R.id.follow)
     Button mFollowButton;
     @Bind(R.id.avatar_container)
@@ -251,7 +251,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mToolbarUsernameText.setText(user.name);
         mUsernameText.setText(user.name);
         mSignatureText.setText(null);
-        mLocationText.setText(null);
+        mJoinedAtLocationText.setText(null);
         ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton, 0, 0, 0,
                 0);
         ViewUtils.setVisibleOrGone(mFollowButton, false);
@@ -266,13 +266,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mToolbarUsernameText.setText(userInfo.name);
         mUsernameText.setText(userInfo.name);
         mSignatureText.setText(userInfo.signature);
-        if (!TextUtils.isEmpty(userInfo.locationName)) {
-            mLocationText.setText(context.getString(R.string.profile_location_format,
-                    userInfo.locationName));
-        } else {
-            // TODO
-            mLocationText.setText(null);
-        }
+        mJoinedAtLocationText.setJoinedAtAndLocation(userInfo.created, userInfo.locationName);
         int followDrawableId;
         int followStringId;
         if (userInfo.isFollowing) {

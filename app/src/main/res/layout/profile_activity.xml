@@ -71,7 +71,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minHeight="36dp"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
+                        android:maxLines="1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         android:textSize="26sp" />
 
@@ -80,15 +82,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minHeight="24dp"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
+                        android:maxLines="1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-                    <me.zhanghai.android.douya.ui.AutoGoneTextView
-                        android:id="@+id/location"
+                    <me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView
+                        android:id="@+id/joined_at_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minHeight="24dp"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
+                        android:maxLines="1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 </LinearLayout>
 

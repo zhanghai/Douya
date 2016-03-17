@@ -19,7 +19,7 @@ import me.zhanghai.android.douya.util.TimeUtils;
 
 public class TimeTextView extends TextView {
 
-    private static final int UPDATE_TIME_TEXT_INTERVAL_MILLI = 60 * 1000;
+    private static final int UPDATE_TIME_TEXT_INTERVAL_MILLI = 30 * 1000;
 
     private final Runnable mUpdateTimeTextRunnable = new Runnable() {
         @Override
@@ -73,9 +73,13 @@ public class TimeTextView extends TextView {
     private void updateTimeText() {
         removeCallbacks(mUpdateTimeTextRunnable);
         if (mTime != null) {
-            setTimeText(TimeUtils.formatDateTime(mTime, getContext()));
+            setTimeText(formatTime(mTime));
             postDelayed(mUpdateTimeTextRunnable, UPDATE_TIME_TEXT_INTERVAL_MILLI);
         }
+    }
+
+    protected String formatTime(ZonedDateTime time) {
+        return TimeUtils.formatDateTime(time, getContext());
     }
 
     protected void setTimeText(String timeText) {
