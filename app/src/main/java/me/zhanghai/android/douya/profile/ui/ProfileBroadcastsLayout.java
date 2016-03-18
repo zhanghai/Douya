@@ -25,6 +25,7 @@ import me.zhanghai.android.douya.network.api.info.Image;
 import me.zhanghai.android.douya.network.api.info.Photo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
+import me.zhanghai.android.douya.util.ContentStateLayout;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -34,6 +35,8 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
     @Bind(R.id.title)
     TextView mTitleText;
+    @Bind(R.id.contentState)
+    ContentStateLayout mContentStateLayout;
     @Bind(R.id.broadcast_list)
     LinearLayout mBroadcastList;
     @Bind(R.id.view_all)
@@ -62,7 +65,11 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    private void bind(final String userIdOrUid, List<Broadcast> broadcastList) {
+    public void setLoading() {
+        mContentStateLayout.setLoading();
+    }
+
+    public void bind(final String userIdOrUid, List<Broadcast> broadcastList) {
 
         final Context context = getContext();
         View.OnClickListener viewAllListener = new OnClickListener() {
@@ -77,7 +84,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         int i = 0;
         for (final Broadcast broadcast : broadcastList) {
 
-            if (i > BROADCAST_COUNT_MAX) {
+            if (i >= BROADCAST_COUNT_MAX) {
                 break;
             }
 
@@ -86,8 +93,8 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
             }
 
             if (i >= mBroadcastList.getChildCount()) {
-                LayoutInflater.from(context).inflate(R.layout.profile_broadcast_item,
-                        mBroadcastList);
+                LayoutInflater.from(context)
+                        .inflate(R.layout.profile_broadcast_item, mBroadcastList);
             }
             View broadcastLayout = mBroadcastList.getChildAt(i);
             BroadcastLayoutHolder holder = (BroadcastLayoutHolder) broadcastLayout.getTag();
@@ -124,9 +131,14 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
             ++i;
         }
+        mContentStateLayout.setLoaded(i != 0);
         for (int count = mBroadcastList.getChildCount(); i < count; ++i) {
             ViewUtils.setVisibleOrGone(mBroadcastList.getChildAt(i), false);
         }
+    }
+
+    public void setError() {
+        mContentStateLayout.setError();
     }
 
     static class BroadcastLayoutHolder {

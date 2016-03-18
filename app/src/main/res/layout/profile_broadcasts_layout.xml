@@ -7,8 +7,10 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:divider="?dividerHorizontal"
     android:orientation="vertical"
     android:showDividers="middle">
@@ -25,25 +27,48 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="@string/profile_broadcast_title"
+        android:text="@string/profile_broadcasts_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="?android:textColorSecondary" />
 
-    <LinearLayout
-        android:id="@+id/broadcast_list"
+    <me.zhanghai.android.douya.util.ContentStateLayout
+        android:id="@+id/contentState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="?dividerHorizontal"
-        android:dividerPadding="@dimen/card_content_horizontal_margin"
-        android:orientation="vertical"
-        android:showDividers="middle">
+        android:minHeight="@dimen/two_line_list_item_height"
+        app:contentView="@id/broadcast_list"
+        app:animationEnabled="false">
 
-        <include layout="@layout/profile_broadcast_item" />
+        <LinearLayout
+            android:id="@+id/broadcast_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="?dividerHorizontal"
+            android:dividerPadding="@dimen/card_content_horizontal_margin"
+            android:orientation="vertical"
+            android:showDividers="middle" />
 
-        <include layout="@layout/profile_broadcast_item" />
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+            android:layout_marginRight="@dimen/card_content_horizontal_margin"
+            android:text="@string/profile_broadcasts_empty"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-        <include layout="@layout/profile_broadcast_item" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+            android:layout_marginRight="@dimen/card_content_horizontal_margin"
+            android:text="@string/load_error"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </me.zhanghai.android.douya.util.ContentStateLayout>
 
     <TextView
         android:id="@+id/view_all"

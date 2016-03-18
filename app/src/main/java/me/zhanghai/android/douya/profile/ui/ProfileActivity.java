@@ -15,9 +15,10 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.android.volley.VolleyError;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,20 +26,25 @@ import de.greenrobot.event.EventBus;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
+import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
+import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.network.api.info.UserInfo;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
-import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileActivity extends AppCompatActivity implements RequestFragment.Listener {
 
+    private static final int BROADCAST_COUNT_PER_LOAD = 20;
+
     private static final int REQUEST_CODE_LOAD_USER_INFO = 0;
+    private static final int REQUEST_CODE_LOAD_BROADCAST_LIST = 1;
 
     private static final String KEY_PREFIX = ProfileActivity.class.getName() + '.';
 
@@ -49,6 +55,9 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     private static final String RETAIN_DATA_KEY_USER_INFO = KEY_PREFIX + "user_info";
     private static final String RETAIN_DATA_KEY_LOADING_USER_INFO = KEY_PREFIX
             + "loading_user_info";
+    private static final String RETAIN_DATA_KEY_BROADCAST_LIST = KEY_PREFIX + "broadcast_list";
+    private static final String RETAIN_DATA_KEY_LOADING_BROADCAST_LIST = KEY_PREFIX
+            + "loading_broadcast_list";
 
     @Bind(R.id.scroll)
     ProfileLayout mScrollLayout;
@@ -60,16 +69,17 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     Toolbar mToolbar;
     @Bind(R.id.broadcasts)
     ProfileBroadcastsLayout mBroadcastsLayout;
-    @Bind(R.id.progress)
-    ProgressBar mProgress;
 
     private String mUserIdOrUid;
     private User mUser;
     private UserInfo mUserInfo;
 
+    private List<Broadcast> mBroadcastList;
+
     private RetainDataFragment mRetainDataFragment;
 
     private boolean mLoadingUserInfo;
+    private boolean mLoadingBroadcastList;
 
     public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, ProfileActivity.class)
@@ -140,8 +150,15 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
             }
         }
 
+        mBroadcastList = mRetainDataFragment.remove(RETAIN_DATA_KEY_BROADCAST_LIST);
+        if (mBroadcastList != null) {
+            mBroadcastsLayout.bind(mUserIdOrUid, mBroadcastList);
+        }
+
         mLoadingUserInfo = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_LOADING_USER_INFO,
                 false);
+        mLoadingBroadcastList = mRetainDataFragment.removeBoolean(
+                RETAIN_DATA_KEY_LOADING_BROADCAST_LIST, false);
     }
 
     @Override
@@ -150,6 +167,8 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
 
         mRetainDataFragment.put(RETAIN_DATA_KEY_USER_INFO, mUserInfo);
         mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_USER_INFO, mLoadingUserInfo);
+        mRetainDataFragment.put(RETAIN_DATA_KEY_BROADCAST_LIST, mBroadcastList);
+        mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_BROADCAST_LIST, mLoadingBroadcastList);
     }
 
     @Override
@@ -158,6 +177,9 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
 
         if (mUserInfo == null) {
             loadUserInfo();
+        }
+        if (mBroadcastList == null) {
+            loadBroadcastList();
         }
 
         EventBus.getDefault().register(this);
@@ -226,6 +248,10 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
             case REQUEST_CODE_LOAD_USER_INFO:
                 onLoadUserInfoResponse(successful, (UserInfo) result, error);
                 break;
+            case REQUEST_CODE_LOAD_BROADCAST_LIST:
+                //noinspection unchecked
+                onLoadBroadcastListResponse(successful, (List<Broadcast>) result, error);
+                break;
             default:
                 LogUtils.w("Unknown request code " + requestCode + ", with successful=" + successful
                         + ", result=" + result + ", error=" + error);
@@ -237,11 +263,10 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
         if (mLoadingUserInfo) {
             return;
         }
+        mLoadingUserInfo = true;
 
         ApiRequest<UserInfo> request = ApiRequests.newUserInfoRequest(mUserIdOrUid, this);
         RequestFragment.startRequest(REQUEST_CODE_LOAD_USER_INFO, request, null, this);
-
-        setLoadingUserInfo(true);
     }
 
     private void onLoadUserInfoResponse(boolean successful, UserInfo result, VolleyError error) {
@@ -253,12 +278,7 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
             ToastUtils.show(ApiError.getErrorString(error, this), this);
         }
 
-        setLoadingUserInfo(false);
-    }
-
-    private void setLoadingUserInfo(boolean loading) {
-        mLoadingUserInfo = loading;
-        ViewUtils.fadeToVisibility(mProgress, mLoadingUserInfo);
+        mLoadingUserInfo = false;
     }
 
     @Keep
@@ -274,5 +294,42 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
         mUser = mUserInfo;
         mUserIdOrUid = String.valueOf(mUserInfo.id);
         mHeaderLayout.bindUserInfo(mUserInfo);
+    }
+
+    private void loadBroadcastList() {
+
+        if (mLoadingBroadcastList) {
+            return;
+        }
+        mLoadingBroadcastList = true;
+        mBroadcastsLayout.setLoading();
+
+        ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(mUserIdOrUid,
+                null, null, BROADCAST_COUNT_PER_LOAD, this);
+        RequestFragment.startRequest(REQUEST_CODE_LOAD_BROADCAST_LIST, request, null, this);
+    }
+
+    private void onLoadBroadcastListResponse(boolean successful, List<Broadcast> result,
+                                             VolleyError error) {
+
+        if (successful) {
+            mBroadcastsLayout.bind(mUserIdOrUid, result);
+        } else {
+            mBroadcastsLayout.setError();
+            LogUtils.e(error.toString());
+            ToastUtils.show(ApiError.getErrorString(error, this), this);
+        }
+
+        mLoadingBroadcastList = false;
+    }
+
+    @Keep
+    public void onEventMainThread(BroadcastUpdatedEvent event) {
+        // TODO
+    }
+
+    @Keep
+    public void onEventMainThread(BroadcastDeletedEvent event) {
+        // TODO
     }
 }

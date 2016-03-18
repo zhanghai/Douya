@@ -5,8 +5,8 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -30,17 +30,14 @@ public class ApiRequests {
     private ApiRequests() {}
 
     public static ApiRequest<UserInfo> newUserInfoRequest(String userIdOrUid, Context context) {
+
+        if (TextUtils.isEmpty(userIdOrUid)) {
+            userIdOrUid = ApiContract.Request.UserInfo.UID_CURRENT;
+        }
+
         return new ApiRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.UserInfo.URL_FORMAT, userIdOrUid),
                 new TypeToken<UserInfo>() {}, context);
-    }
-
-    public static ApiRequest<UserInfo> newUserInfoRequest(long userId, Context context) {
-        return newUserInfoRequest(String.valueOf(userId), context);
-    }
-
-    public static ApiRequest<UserInfo> newCurrentUserInfoRequest(Context context) {
-        return newUserInfoRequest(ApiContract.Request.UserInfo.UID_CURRENT, context);
     }
 
     @Frodo
@@ -74,17 +71,16 @@ public class ApiRequests {
         return request;
     }
 
-    // Lint warns about formatting with an Object (Long), but not long.
-    @SuppressLint("DefaultLocale")
-    public static ApiRequest<List<Broadcast>> newBroadcastListRequest(Long userId, String topic,
-                                                                      Long untilId, Integer count,
+    public static ApiRequest<List<Broadcast>> newBroadcastListRequest(String userIdOrUid,
+                                                                      String topic, Long untilId,
+                                                                      Integer count,
                                                                       Context context) {
 
         String url;
-        if (userId == null && topic == null) {
+        if (TextUtils.isEmpty(userIdOrUid) && TextUtils.isEmpty(topic)) {
             url = ApiContract.Request.BroadcastList.Urls.HOME;
-        } else if (topic == null) {
-            url = String.format(ApiContract.Request.BroadcastList.Urls.USER_FORMAT, userId);
+        } else if (TextUtils.isEmpty(topic)) {
+            url = String.format(ApiContract.Request.BroadcastList.Urls.USER_FORMAT, userIdOrUid);
         } else {
             url = ApiContract.Request.BroadcastList.Urls.TOPIC;
         }

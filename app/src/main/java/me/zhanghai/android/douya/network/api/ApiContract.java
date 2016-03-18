@@ -79,7 +79,7 @@ public interface ApiContract {
 
             interface Urls {
                 String HOME = API_HOST + "lifestream/home_timeline";
-                String USER_FORMAT = API_HOST + "lifestream/user_timeline/%d";
+                String USER_FORMAT = API_HOST + "lifestream/user_timeline/%s";
                 String TOPIC = API_HOST + "lifestream/topics";
             }
 

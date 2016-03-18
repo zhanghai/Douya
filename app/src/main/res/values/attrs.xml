@@ -12,6 +12,14 @@
         <attr name="android:text" />
     </declare-styleable>
 
+    <declare-styleable name="ContentStateLayout">
+        <attr name="animationEnabled" format="boolean|reference" />
+        <attr name="loadingView" format="reference" />
+        <attr name="contentView" format="reference" />
+        <attr name="emptyView" format="reference" />
+        <attr name="errorView" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="FriendlySwipeRefreshLayout">
         <attr name="progressOffset" format="dimension|reference" />
         <attr name="progressDistanceOffset" format="dimension|reference" />

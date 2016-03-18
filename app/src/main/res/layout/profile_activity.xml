@@ -169,19 +169,7 @@
                         app:cardMaxElevation="@dimen/card_elevation" />
                 </LinearLayout>
 
-                <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-                    android:id="@+id/progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true"
-                    android:visibility="gone"
-                    style="@style/Widget.MaterialProgressBar.ProgressBar" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="18dp"
-                    android:background="?android:windowContentOverlay" />
+                <include layout="@layout/appbar_shadow_compat" />
             </FrameLayout>
         </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
     </LinearLayout>
