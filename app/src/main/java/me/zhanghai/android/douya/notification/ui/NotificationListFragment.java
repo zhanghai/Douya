@@ -121,13 +121,9 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
             }
         });
 
-        Boolean canLoadMore = mRetainDataFragment.remove(RETAIN_DATA_KEY_CAN_LOAD_MORE);
-        mCanLoadMore = canLoadMore != null ? canLoadMore : true;
-
-        Boolean loadingNotificationList = mRetainDataFragment.remove(
-                RETAIN_DATA_KEY_LOADING_NOTIFICATION_LIST);
-        mLoadingNotificationList = loadingNotificationList != null ? loadingNotificationList
-                : false;
+        mCanLoadMore = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_CAN_LOAD_MORE, true);
+        mLoadingNotificationList = mRetainDataFragment.removeBoolean(
+                RETAIN_DATA_KEY_LOADING_NOTIFICATION_LIST, false);
 
         // View only saves state influenced by user action, so we have to do this ourselves.
         ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);

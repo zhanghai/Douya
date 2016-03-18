@@ -116,13 +116,17 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     private boolean mSendingComment;
 
-    public static Intent makeIntent(Context context, Broadcast broadcast, boolean comment) {
+    public static Intent makeIntent(Broadcast broadcast, Context context) {
         return new Intent(context, BroadcastActivity.class)
-                .putExtra(BroadcastActivity.EXTRA_BROADCAST, broadcast)
+                .putExtra(BroadcastActivity.EXTRA_BROADCAST, broadcast);
+    }
+
+    public static Intent makeIntent(Broadcast broadcast, boolean comment, Context context) {
+        return makeIntent(broadcast, context)
                 .putExtra(BroadcastActivity.EXTRA_COMMENT, comment);
     }
 
-    public static Intent makeIntent(Context context, long broadcastId) {
+    public static Intent makeIntent(long broadcastId, Context context) {
         return new Intent(context, BroadcastActivity.class)
                 .putExtra(BroadcastActivity.EXTRA_BROADCAST_ID, broadcastId);
     }
@@ -197,9 +201,8 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
             }
         });
 
-        Boolean canLoadMoreComments = mRetainDataFragment.remove(
-                RETAIN_DATA_KEY_CAN_LOAD_MORE_COMMENTS);
-        mCanLoadMoreComments = canLoadMoreComments != null ? canLoadMoreComments : true;
+        mCanLoadMoreComments = mRetainDataFragment.removeBoolean(
+                RETAIN_DATA_KEY_CAN_LOAD_MORE_COMMENTS, true);
 
         CheatSheetUtils.setup(mSendButton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
@@ -209,10 +212,8 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
             }
         });
 
-        Boolean loadingBroadcastOrCommentList = mRetainDataFragment.remove(
-                RETAIN_DATA_KEY_LOADING_BROADCAST_OR_COMMENT_LIST);
-        mLoadingBroadcastOrCommentList = loadingBroadcastOrCommentList != null ?
-                loadingBroadcastOrCommentList : false;
+        mLoadingBroadcastOrCommentList = mRetainDataFragment.removeBoolean(
+                RETAIN_DATA_KEY_LOADING_BROADCAST_OR_COMMENT_LIST, false);
 
         Boolean sendingComment = mRetainDataFragment.remove(RETAIN_DATA_KEY_SENDING_COMMENT);
         if (sendingComment != null) {

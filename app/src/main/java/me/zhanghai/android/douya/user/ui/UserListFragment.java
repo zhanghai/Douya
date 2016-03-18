@@ -107,11 +107,9 @@ public abstract class UserListFragment extends Fragment implements RequestFragme
             }
         });
 
-        Boolean canLoadMore = mRetainDataFragment.remove(RETAIN_DATA_KEY_CAN_LOAD_MORE);
-        mCanLoadMore = canLoadMore != null ? canLoadMore : true;
-
-        Boolean loadingUserList = mRetainDataFragment.remove(RETAIN_DATA_KEY_LOADING_USER_LIST);
-        mLoadingUserList = loadingUserList != null ? loadingUserList : false;
+        mCanLoadMore = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_CAN_LOAD_MORE, true);
+        mLoadingUserList = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_LOADING_USER_LIST,
+                false);
 
         // View only saves state influenced by user action, so we have to do this ourselves.
         ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);

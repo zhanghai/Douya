@@ -187,12 +187,9 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
             }
         });
 
-        Boolean canLoadMore = mRetainDataFragment.remove(RETAIN_DATA_KEY_CAN_LOAD_MORE);
-        mCanLoadMore = canLoadMore != null ? canLoadMore : true;
-
-        Boolean loadingBroadcastList = mRetainDataFragment.remove(
-                RETAIN_DATA_KEY_LOADING_BROADCAST_LIST);
-        mLoadingBroadcastList = loadingBroadcastList != null ? loadingBroadcastList : false;
+        mCanLoadMore = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_CAN_LOAD_MORE, true);
+        mLoadingBroadcastList = mRetainDataFragment.removeBoolean(
+                RETAIN_DATA_KEY_LOADING_BROADCAST_LIST, false);
 
         // View only saves state influenced by user action, so we have to do this ourselves.
         ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);
@@ -466,7 +463,7 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
 
     private void openBroadcast(Broadcast broadcast, View sharedView, boolean comment) {
         Activity activity = getActivity();
-        Intent intent = BroadcastActivity.makeIntent(getActivity(), broadcast, comment);
+        Intent intent = BroadcastActivity.makeIntent(broadcast, comment, getActivity());
         Bundle options = TransitionUtils.makeActivityOptionsBundle(activity, sharedView);
         ActivityCompat.startActivity(activity, intent, options);
     }

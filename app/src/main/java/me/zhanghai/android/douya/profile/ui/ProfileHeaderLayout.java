@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Outline;
 import android.os.Build;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
@@ -32,7 +33,6 @@ import me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.MathUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
-import me.zhanghai.android.douya.util.ViewCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
@@ -252,8 +252,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mUsernameText.setText(user.name);
         mSignatureText.setText(null);
         mJoinedAtLocationText.setText(null);
-        ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton, 0, 0, 0,
-                0);
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton, 0, 0, 0, 0);
         ViewUtils.setVisibleOrGone(mFollowButton, false);
     }
 
@@ -266,7 +265,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mToolbarUsernameText.setText(userInfo.name);
         mUsernameText.setText(userInfo.name);
         mSignatureText.setText(userInfo.signature);
-        mJoinedAtLocationText.setJoinedAtAndLocation(userInfo.created, userInfo.locationName);
+        mJoinedAtLocationText.setJoinedAtAndLocation(userInfo.createdAt, userInfo.locationName);
         int followDrawableId;
         int followStringId;
         if (userInfo.isFollowing) {
@@ -282,7 +281,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
             followStringId = R.string.profile_follow;
         }
         ViewUtils.setVisibleOrGone(mFollowButton, true);
-        ViewCompat.setTextViewCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
                 followDrawableId, 0, 0, 0);
         mFollowButton.setText(followStringId);
     }

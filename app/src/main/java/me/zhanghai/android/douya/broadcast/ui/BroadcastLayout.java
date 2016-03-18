@@ -163,14 +163,14 @@ public class BroadcastLayout extends LinearLayout {
         mAvatarImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(ProfileActivity.makeIntent(context, broadcast.author));
+                context.startActivity(ProfileActivity.makeIntent(broadcast.author, context));
             }
         });
         mNameText.setText(broadcast.author.name);
         mTimeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
 
         boolean isRebind = mBoundBroadcastId != null && mBoundBroadcastId == broadcast.id;
-        // Attachment and text should not change on rebind.
+        // HACK: Attachment and text should not change on rebind.
         if (!isRebind) {
 
             Attachment attachment = broadcast.attachment;

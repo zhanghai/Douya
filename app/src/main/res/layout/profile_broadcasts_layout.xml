@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="?dividerHorizontal"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:text="@string/profile_broadcast_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="?android:textColorSecondary" />
+
+    <LinearLayout
+        android:id="@+id/broadcast_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="?dividerHorizontal"
+        android:dividerPadding="@dimen/card_content_horizontal_margin"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <include layout="@layout/profile_broadcast_item" />
+
+        <include layout="@layout/profile_broadcast_item" />
+
+        <include layout="@layout/profile_broadcast_item" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/view_all"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:drawableLeft="@drawable/forward_icon_grey600_24dp"
+        android:drawablePadding="12dp"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:text="@string/view_all"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="?android:textColorSecondary" />
+</LinearLayout>

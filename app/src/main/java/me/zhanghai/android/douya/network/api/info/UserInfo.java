@@ -20,7 +20,8 @@ public class UserInfo extends User {
     @SerializedName("blocking")
     public boolean isBlocking;
 
-    public String created;
+    @SerializedName("created")
+    public String createdAt;
 
     @SerializedName("desc")
     public String description;
@@ -76,7 +77,7 @@ public class UserInfo extends User {
         albumCount = in.readInt();
         isBlocked = in.readByte() != 0;
         isBlocking = in.readByte() != 0;
-        created = in.readString();
+        createdAt = in.readString();
         description = in.readString();
         followerCount = in.readInt();
         isFollowing = in.readByte() != 0;
@@ -104,7 +105,7 @@ public class UserInfo extends User {
         dest.writeInt(albumCount);
         dest.writeByte(isBlocked ? (byte) 1 : (byte) 0);
         dest.writeByte(isBlocking ? (byte) 1 : (byte) 0);
-        dest.writeString(created);
+        dest.writeString(createdAt);
         dest.writeString(description);
         dest.writeInt(followerCount);
         dest.writeByte(isFollowing ? (byte) 1 : (byte) 0);

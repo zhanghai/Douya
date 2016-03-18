@@ -52,6 +52,11 @@ public class RetainDataFragment extends Fragment {
         return (T) mData.remove(key);
     }
 
+    public boolean removeBoolean(String key, boolean defaultValue) {
+        Boolean b = remove(key);
+        return b != null ? b : defaultValue;
+    }
+
     public void put(String key, Object value) {
         mData.put(key, value);
     }

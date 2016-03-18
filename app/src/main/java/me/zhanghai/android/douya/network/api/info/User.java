@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.network.api.info;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -32,6 +33,10 @@ public class User implements Parcelable {
     public String type;
 
     public String uid;
+
+    public boolean hasIdOrUid(String idOrUid) {
+        return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
+    }
 
 
     public static final Creator<User> CREATOR = new Creator<User>() {

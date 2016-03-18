@@ -47,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     public static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
     private static final String RETAIN_DATA_KEY_USER_INFO = KEY_PREFIX + "user_info";
+    private static final String RETAIN_DATA_KEY_LOADING_USER_INFO = KEY_PREFIX
+            + "loading_user_info";
 
     @Bind(R.id.scroll)
     ProfileLayout mScrollLayout;
@@ -56,6 +58,8 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     View mDismissView;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.broadcasts)
+    ProfileBroadcastsLayout mBroadcastsLayout;
     @Bind(R.id.progress)
     ProgressBar mProgress;
 
@@ -67,17 +71,17 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
 
     private boolean mLoadingUserInfo;
 
-    public static Intent makeIntent(Context context, String userIdOrUid) {
+    public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, ProfileActivity.class)
                 .putExtra(ProfileActivity.EXTRA_USER_ID_OR_UID, userIdOrUid);
     }
 
-    public static Intent makeIntent(Context context, User user) {
+    public static Intent makeIntent(User user, Context context) {
         return new Intent(context, ProfileActivity.class)
                 .putExtra(ProfileActivity.EXTRA_USER, user);
     }
 
-    public static Intent makeIntent(Context context, UserInfo userInfo) {
+    public static Intent makeIntent(UserInfo userInfo, Context context) {
         return new Intent(context, ProfileActivity.class)
                 .putExtra(ProfileActivity.EXTRA_USER_INFO, userInfo);
     }
@@ -135,6 +139,9 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
                 }
             }
         }
+
+        mLoadingUserInfo = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_LOADING_USER_INFO,
+                false);
     }
 
     @Override
@@ -142,6 +149,7 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
         super.onSaveInstanceState(outState);
 
         mRetainDataFragment.put(RETAIN_DATA_KEY_USER_INFO, mUserInfo);
+        mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_USER_INFO, mLoadingUserInfo);
     }
 
     @Override
@@ -256,8 +264,7 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     @Keep
     public void onEventMainThread(UserInfoUpdatedEvent event) {
         UserInfo userInfo = event.userInfo;
-        if (TextUtils.equals(mUserIdOrUid, String.valueOf(userInfo.id))
-                || TextUtils.equals(mUserIdOrUid, userInfo.uid)) {
+        if (userInfo.hasIdOrUid(mUserIdOrUid)) {
             setUserInfo(userInfo);
         }
     }
