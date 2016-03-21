@@ -70,15 +70,16 @@ public class RatioHeightRecyclerView extends RecyclerView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         if (mRatio > 0) {
-            int width = getMeasuredWidth();
-            int height = Math.round(width / this.mRatio);
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            int width = MeasureSpec.getSize(widthMeasureSpec);
+            int height = Math.round(width / mRatio);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 height = Math.max(height, getMinimumHeight());
             }
-            setMeasuredDimension(width, height);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
         }
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }
