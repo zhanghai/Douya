@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.app;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +15,7 @@ import java.util.Map;
 /**
  * A Fragment that can retain data passed in, and remove them once your instance is recreated.
  */
-public class RetainDataFragment extends Fragment {
+public class RetainDataFragment extends RetainedFragment {
 
     private static final String FRAGMENT_TAG = RetainDataFragment.class.getName();
 
@@ -59,14 +58,6 @@ public class RetainDataFragment extends Fragment {
 
     public void put(String key, Object value) {
         mData.put(key, value);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setRetainInstance(true);
-        setUserVisibleHint(false);
     }
 
     public void onDestroy() {

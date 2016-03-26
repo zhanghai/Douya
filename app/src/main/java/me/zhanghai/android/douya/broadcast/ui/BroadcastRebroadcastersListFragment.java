@@ -7,10 +7,10 @@ package me.zhanghai.android.douya.broadcast.ui;
 
 import java.util.List;
 
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.broadcast.content.BroadcastRebroadcasterListResource;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.user.content.UserListResource;
 
 public class BroadcastRebroadcastersListFragment extends BroadcastUserListFragment {
 
@@ -26,9 +26,8 @@ public class BroadcastRebroadcastersListFragment extends BroadcastUserListFragme
     }
 
     @Override
-    protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newBroadcastRebroadcasterListRequest(getBroadcast().id, start, count,
-                getActivity());
+    protected UserListResource onAttachUserListResource() {
+        return BroadcastRebroadcasterListResource.attachTo(getBroadcast().id, this);
     }
 
     @Override

@@ -33,7 +33,7 @@ import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.app.RetainDataFragment;
-import me.zhanghai.android.douya.broadcast.app.HomeBroadcastListCache;
+import me.zhanghai.android.douya.broadcast.content.HomeBroadcastListCache;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.link.UriHandler;

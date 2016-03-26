@@ -6,13 +6,14 @@
 package me.zhanghai.android.douya.network;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+import me.zhanghai.android.douya.app.TargetedRetainedFragment;
 
 /**
  * An one-shot Fragment for performing a {@link Request} safely across Activity re-creation.
@@ -22,12 +23,10 @@ import com.android.volley.VolleyError;
  *
  * @param <T> The type of parsed response the request expects.
  */
-public class RequestFragment<T, S> extends Fragment {
+public class RequestFragment<T, S> extends TargetedRetainedFragment {
 
     private static final String TAG = RequestFragment.class.getName();
 
-    private boolean mTargetedAtActivity;
-    private int mActivityRequestCode;
     private S mRequestState;
 
     private Request<T> mRequest;
@@ -39,29 +38,37 @@ public class RequestFragment<T, S> extends Fragment {
 
     public static <T, S> void startRequest(int requestCode, Request<T> request, S requestState,
                                            FragmentActivity targetActivity) {
-        new RequestFragment<T, S>()
-                .addTo(targetActivity)
-                .targetAtActivity(requestCode)
-                .setState(requestState)
-                .startRequest(request, targetActivity);
+        RequestFragment<T, S> fragment = addTo(targetActivity);
+        fragment.targetAtActivity(requestCode);
+        fragment.setState(requestState);
+        fragment.startRequest(request, targetActivity);
+    }
+
+    public static <T, S> void startRequest(Request<T> request, S requestState,
+                                           FragmentActivity targetActivity) {
+        startRequest(REQUEST_CODE_INVALID, request, requestState, targetActivity);
     }
 
     public static <T, S> void startRequest(int requestCode, Request<T> request, S requestState,
                                            Fragment targetFragment) {
         FragmentActivity activity = targetFragment.getActivity();
-        new RequestFragment<T, S>()
-                .addTo(activity)
-                .targetAtFragment(targetFragment, requestCode)
-                .setState(requestState)
-                .startRequest(request, activity);
+        RequestFragment<T, S> fragment = addTo(activity);
+        fragment.targetAtFragment(targetFragment, requestCode);
+        fragment.setState(requestState);
+        fragment.startRequest(request, activity);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static <T, S> void startRequest(Request<T> request, S requestState,
+                                           Fragment targetFragment) {
+        startRequest(REQUEST_CODE_INVALID, request, requestState, targetFragment);
+    }
 
-        setRetainInstance(true);
-        setUserVisibleHint(false);
+    private static <T, S> RequestFragment<T, S> addTo(FragmentActivity activity) {
+        RequestFragment<T, S> fragment = new RequestFragment<>();
+        activity.getSupportFragmentManager().beginTransaction()
+                .add(fragment, null)
+                .commit();
+        return fragment;
     }
 
     @Override
@@ -79,41 +86,16 @@ public class RequestFragment<T, S> extends Fragment {
 
         if (mRequest != null) {
             mRequest.cancel();
-            mRequest = null;
+            clearRequest();
         }
     }
 
-    @Override
-    public void setTargetFragment(Fragment fragment, int requestCode) {
-        throw new UnsupportedOperationException("Target fragment is managed within this fragment");
-    }
-
-    private RequestFragment<T, S> addTo(FragmentActivity activity) {
-        activity.getSupportFragmentManager().beginTransaction()
-                .add(this, null)
-                .commit();
-        return this;
-    }
-
-    private RequestFragment<T, S> targetAtActivity(int requestCode) {
-        mTargetedAtActivity = true;
-        mActivityRequestCode = requestCode;
-        return this;
-    }
-
-    private RequestFragment<T, S> targetAtFragment(Fragment fragment, int requestCode) {
-        mTargetedAtActivity = false;
-        super.setTargetFragment(fragment, requestCode);
-        return this;
-    }
-
-    private RequestFragment<T, S> setState(S requestState) {
+    private void setState(S requestState) {
         mRequestState = requestState;
-        return this;
     }
 
     // Need to pass in a context here because getActivity() returns null when we are just added.
-    private RequestFragment<T, S> startRequest(Request<T> request, Context context) {
+    private void startRequest(Request<T> request, Context context) {
 
         mRequest = request;
         mRequest
@@ -131,12 +113,10 @@ public class RequestFragment<T, S> extends Fragment {
                 });
 
         Volley.getInstance(context).addToRequestQueue(mRequest);
-
-        return this;
     }
 
     private void onResult(T result) {
-        mRequest = null;
+        clearRequest();
         if (isResumed()) {
             deliverResponse(true, result, null);
         } else {
@@ -145,12 +125,18 @@ public class RequestFragment<T, S> extends Fragment {
     }
 
     private void onError(VolleyError error) {
-        mRequest = null;
+        clearRequest();
         if (isResumed()) {
             deliverResponse(false, null, error);
         } else {
             addPendingError(error);
         }
+    }
+
+    private void clearRequest() {
+        mRequest.setListener(null);
+        mRequest.setErrorListener(null);
+        mRequest = null;
     }
 
     private void addPendingResult(T result) {
@@ -167,20 +153,10 @@ public class RequestFragment<T, S> extends Fragment {
 
     private void deliverResponse(boolean successful, T result, VolleyError error) {
 
-        Listener<T, S> listener;
-        int requestCode;
-        if (mTargetedAtActivity) {
-            //noinspection unchecked
-            listener = (Listener<T, S>) getActivity();
-            requestCode = mActivityRequestCode;
-        } else {
-            //noinspection unchecked
-            listener = (Listener<T, S>) getTargetFragment();
-            requestCode = getTargetRequestCode();
-        }
-
+        //noinspection unchecked
+        Listener<T, S> listener = (Listener<T, S>) getTarget();
         if (listener != null) {
-            listener.onVolleyResponse(requestCode, successful, result, error, mRequestState);
+            listener.onVolleyResponse(getRequestCode(), successful, result, error, mRequestState);
         } else {
             Log.e(TAG, "listener is null when trying to deliver response");
         }

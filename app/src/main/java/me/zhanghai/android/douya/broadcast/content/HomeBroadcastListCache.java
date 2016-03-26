@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.broadcast.app;
+package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
 import android.os.Handler;

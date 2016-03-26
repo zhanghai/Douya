@@ -14,14 +14,16 @@ import java.util.List;
 public abstract class SimpleAdapter<T, VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH> {
 
-    private List<T> mList;
+    private List<T> mList = new ArrayList<>();
 
     public SimpleAdapter() {
         this(null);
     }
 
     public SimpleAdapter(List<T> list) {
-        mList = list != null ? list : new ArrayList<T>();
+        if (list != null) {
+            mList.addAll(list);
+        }
     }
 
     public List<T> getList() {

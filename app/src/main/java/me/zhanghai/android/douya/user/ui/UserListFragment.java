@@ -25,10 +25,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
-import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.user.content.UserListResource;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
@@ -36,18 +35,11 @@ import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public abstract class UserListFragment extends Fragment implements RequestFragment.Listener {
-
-    private static final int USER_COUNT_PER_LOAD = 20;
-
-    private static final int REQUEST_CODE_LOAD_USER_LIST = 0;
+public abstract class UserListFragment extends Fragment implements UserListResource.Listener {
 
     // We are the base class so we cannot use constants here.
     private final String KEY_PREFIX = getClass().getName() + '.';
 
-    private final String RETAIN_DATA_KEY_USER_LIST = KEY_PREFIX + "user_list";
-    private final String RETAIN_DATA_KEY_CAN_LOAD_MORE = KEY_PREFIX + "can_load_more";
-    private final String RETAIN_DATA_KEY_LOADING_USER_LIST = KEY_PREFIX + "loading_user_list";
     private final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
 
     @Bind(R.id.swipe_refresh)
@@ -57,13 +49,11 @@ public abstract class UserListFragment extends Fragment implements RequestFragme
     @Bind(R.id.progress)
     ProgressBar mProgress;
 
-    private RetainDataFragment mRetainDataFragment;
-
     private UserAdapter mUserAdapter;
     private LoadMoreAdapter mAdapter;
-    private boolean mCanLoadMore;
 
-    private boolean mLoadingUserList;
+    private UserListResource mUserListResource;
+    private RetainDataFragment mRetainDataFragment;
 
     @Nullable
     @Override
@@ -83,12 +73,13 @@ public abstract class UserListFragment extends Fragment implements RequestFragme
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mUserListResource = onAttachUserListResource();
         mRetainDataFragment = RetainDataFragment.attachTo(this);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadUserList(false);
+                mUserListResource.load(false);
             }
         });
 
@@ -96,20 +87,15 @@ public abstract class UserListFragment extends Fragment implements RequestFragme
         //mUserList.setHasFixedSize(true);
         mUserList.setItemAnimator(new NoChangeAnimationItemAnimator());
         mUserList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        List<User> userList = mRetainDataFragment.remove(RETAIN_DATA_KEY_USER_LIST);
-        mUserAdapter = new UserAdapter(userList);
+        mUserAdapter = new UserAdapter(mUserListResource.get());
         mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mUserAdapter);
         mUserList.setAdapter(mAdapter);
         mUserList.addOnScrollListener(new OnVerticalScrollListener() {
             @Override
             public void onScrolledToBottom() {
-                loadUserList(true);
+                mUserListResource.load(true);
             }
         });
-
-        mCanLoadMore = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_CAN_LOAD_MORE, true);
-        mLoadingUserList = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_LOADING_USER_LIST,
-                false);
 
         // View only saves state influenced by user action, so we have to do this ourselves.
         ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);
@@ -120,94 +106,43 @@ public abstract class UserListFragment extends Fragment implements RequestFragme
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
         super.onSaveInstanceState(outState);
 
-        mRetainDataFragment.put(RETAIN_DATA_KEY_USER_LIST, mUserAdapter.getList());
-        mRetainDataFragment.put(RETAIN_DATA_KEY_CAN_LOAD_MORE, mCanLoadMore);
-        mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_USER_LIST, mLoadingUserList);
         mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Only auto-load when initially empty, not loaded but empty.
-        if (mUserAdapter.getItemCount() == 0 && mCanLoadMore) {
-            loadUserList(false);
-        }
-    }
-
-    private ViewState onSaveViewState() {
-        return new ViewState(mProgress.getVisibility(), mAdapter.isProgressVisible());
-    }
-
-    private void onRestoreViewState(ViewState state) {
-        mProgress.setVisibility(state.progressVisibility);
-        mAdapter.setProgressVisible(state.adapterProgressVisible);
-    }
+    protected abstract UserListResource onAttachUserListResource();
 
     @Override
-    public void onVolleyResponse(int requestCode, boolean successful, Object result,
-                                 VolleyError error, Object requestState) {
-        switch (requestCode) {
-            case REQUEST_CODE_LOAD_USER_LIST:
-                //noinspection unchecked
-                onLoadUserListResponse(successful, (List<User>) result, error,
-                        (LoadUserListState) requestState);
-                break;
-            default:
-                LogUtils.w("Unknown request code " + requestCode + ", with successful=" + successful
-                        + ", result=" + result + ", error=" + error);
-        }
-    }
-
-    private void loadUserList(boolean loadMore) {
-
-        if (mLoadingUserList || (loadMore && !mCanLoadMore)) {
-            return;
-        }
-
-        // Flawed API design: should use untilId instead of start.
-        Integer start = loadMore ? mUserAdapter.getItemCount() : null;
-        int count = USER_COUNT_PER_LOAD;
-        ApiRequest<List<User>> request = onCreateRequest(start, count);
-        LoadUserListState state = new LoadUserListState(loadMore, count);
-        RequestFragment.startRequest(REQUEST_CODE_LOAD_USER_LIST, request, state, this);
-
-        mLoadingUserList = true;
+    public void onLoadUserList(int requestCode, boolean loadMore) {
         setRefreshing(true, loadMore);
     }
 
-    protected abstract ApiRequest<List<User>> onCreateRequest(Integer start, Integer count);
+    @Override
+    public void onLoadUserListComplete(int requestCode, boolean loadMore) {
+        setRefreshing(false, loadMore);
+    }
 
-    private void onLoadUserListResponse(boolean successful, List<User> result, VolleyError error,
-                                        LoadUserListState state) {
+    @Override
+    public void onUserListAppended(int requestCode, List<User> appendedUserList) {
+        mUserAdapter.addAll(appendedUserList);
+        onUserListUpdated(mUserListResource.get());
+    }
 
-        Activity activity = getActivity();
-        if (successful) {
-
-            mCanLoadMore = result.size() == state.count;
-            if (state.loadMore) {
-                mUserAdapter.addAll(result);
-            } else {
-                mUserAdapter.replace(result);
-            }
-            setRefreshing(false, state.loadMore);
-            mLoadingUserList = false;
-
-            onUserListUpdated(mUserAdapter.getList());
-        } else {
-
-            LogUtils.e(error.toString());
-            ToastUtils.show(ApiError.getErrorString(error, activity), activity);
-            setRefreshing(false, state.loadMore);
-            mLoadingUserList = false;
-        }
+    @Override
+    public void onUserListChanged(int requestCode, List<User> newUserList) {
+        mUserAdapter.replace(newUserList);
+        onUserListUpdated(mUserListResource.get());
     }
 
     protected void onUserListUpdated(List<User> userList) {}
+
+    @Override
+    public void onLoadUserListError(int requestCode, VolleyError error) {
+        LogUtils.e(error.toString());
+        Activity activity = getActivity();
+        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
+    }
 
     private void setRefreshing(boolean refreshing, boolean loadMore) {
         mSwipeRefreshLayout.setEnabled(!refreshing);
@@ -219,15 +154,13 @@ public abstract class UserListFragment extends Fragment implements RequestFragme
                 && loadMore);
     }
 
-    private static class LoadUserListState {
+    private ViewState onSaveViewState() {
+        return new ViewState(mProgress.getVisibility(), mAdapter.isProgressVisible());
+    }
 
-        public boolean loadMore;
-        public int count;
-
-        public LoadUserListState(boolean loadMore, int count) {
-            this.loadMore = loadMore;
-            this.count = count;
-        }
+    private void onRestoreViewState(ViewState state) {
+        mProgress.setVisibility(state.progressVisibility);
+        mAdapter.setProgressVisible(state.adapterProgressVisible);
     }
 
     private static class ViewState {
