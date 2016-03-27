@@ -8,8 +8,6 @@ package me.zhanghai.android.douya.broadcast.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,7 +31,8 @@ import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.app.RetainDataFragment;
-import me.zhanghai.android.douya.broadcast.content.HomeBroadcastListCache;
+import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
+import me.zhanghai.android.douya.broadcast.content.HomeBroadcastListResource;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.link.UriHandler;
@@ -44,13 +43,11 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
-import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.AppBarManager;
 import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingSlopListener;
-import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -58,24 +55,16 @@ import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class BroadcastListFragment extends Fragment implements RequestFragment.Listener,
-        BroadcastAdapter.Listener {
+// TODO: Separate into HomeBroadcastListFragment and BroadcastListFragment.
+public class BroadcastListFragment extends Fragment implements BroadcastListResource.Listener,
+        RequestFragment.Listener, BroadcastAdapter.Listener {
 
-    private static final int BROADCAST_COUNT_PER_LOAD = 20;
-
-    private static final int REQUEST_CODE_LOAD_BROADCAST_LIST = 0;
     private static final int REQUEST_CODE_LIKE_BROADCAST = 1;
     private static final int REQUEST_CODE_REBROADCAST_BROADCAST = 2;
 
     private static final String KEY_PREFIX = BroadcastListFragment.class.getName() + '.';
 
-    private static final String RETAIN_DATA_KEY_BROADCAST_LIST = KEY_PREFIX + "broadcast_list";
-    private static final String RETAIN_DATA_KEY_CAN_LOAD_MORE = KEY_PREFIX + "can_load_more";
-    private static final String RETAIN_DATA_KEY_LOADING_BROADCAST_LIST = KEY_PREFIX
-            + "loading_broadcast_list";
     private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
-
-    private final Handler mHandler = new Handler();
 
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -86,13 +75,11 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
     @Bind(R.id.send)
     FriendlyFloatingActionButton mSendFab;
 
+    private BroadcastListResource mBroadcastListResource;
     private RetainDataFragment mRetainDataFragment;
 
     private BroadcastAdapter mBroadcastAdapter;
     private LoadMoreAdapter mAdapter;
-    private boolean mCanLoadMore;
-
-    private boolean mLoadingBroadcastList;
 
     public static BroadcastListFragment newInstance() {
         //noinspection deprecation
@@ -125,12 +112,14 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
         final MainActivity activity = (MainActivity) getActivity();
 
         CustomTabsHelperFragment.attachTo(this);
+        mBroadcastListResource = HomeBroadcastListResource.attachTo(this);
         mRetainDataFragment = RetainDataFragment.attachTo(this);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadBroadcastList(false);
+                mBroadcastListResource.load(false);
+                // FIXME
                 activity.refreshNotificationList();
             }
         });
@@ -144,8 +133,7 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
         } else {
             mBroadcastList.setLayoutManager(new LinearLayoutManager(activity));
         }
-        List<Broadcast> broadcastList = mRetainDataFragment.remove(RETAIN_DATA_KEY_BROADCAST_LIST);
-        mBroadcastAdapter = new BroadcastAdapter(broadcastList, this);
+        mBroadcastAdapter = new BroadcastAdapter(mBroadcastListResource.get(), this);
         mAdapter = new LoadMoreAdapter(R.layout.load_more_card_item, mBroadcastAdapter);
         mBroadcastList.setAdapter(mAdapter);
         final AppBarManager appBarManager = (AppBarManager) getParentFragment();
@@ -175,7 +163,7 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
             }
             @Override
             public void onScrolledToBottom() {
-                loadBroadcastList(true);
+                mBroadcastListResource.load(true);
             }
         });
 
@@ -187,10 +175,6 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
             }
         });
 
-        mCanLoadMore = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_CAN_LOAD_MORE, true);
-        mLoadingBroadcastList = mRetainDataFragment.removeBoolean(
-                RETAIN_DATA_KEY_LOADING_BROADCAST_LIST, false);
-
         // View only saves state influenced by user action, so we have to do this ourselves.
         ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);
         if (viewState != null) {
@@ -200,35 +184,17 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
         super.onSaveInstanceState(outState);
 
-        mRetainDataFragment.put(RETAIN_DATA_KEY_BROADCAST_LIST, mBroadcastAdapter.getList());
-        mRetainDataFragment.put(RETAIN_DATA_KEY_CAN_LOAD_MORE, mCanLoadMore);
-        mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_BROADCAST_LIST, mLoadingBroadcastList);
         mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onDestroy() {
+        super.onDestroy();
 
-        EventBus.getDefault().register(this);
-
-        // Only auto-load when initially empty, not loaded but empty.
-        if (mBroadcastAdapter.getItemCount() == 0 && mCanLoadMore) {
-            loadHomeBroadcastList();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBus.getDefault().unregister(this);
-
-        if (mBroadcastAdapter.getItemCount() > 0) {
-            saveHomeBroadcastListToCache(mBroadcastAdapter.getList());
+        if (isRemoving()) {
+            mBroadcastListResource.remove();
         }
     }
 
@@ -245,11 +211,6 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
     public void onVolleyResponse(int requestCode, boolean successful, Object result,
                                  VolleyError error, Object requestState) {
         switch (requestCode) {
-            case REQUEST_CODE_LOAD_BROADCAST_LIST:
-                //noinspection unchecked
-                onLoadBroadcastListResponse(successful, (List<Broadcast>) result, error,
-                        (LoadBroadcastListState) requestState);
-                break;
             case REQUEST_CODE_LIKE_BROADCAST:
                 onLikeBroadcastResponse(successful, (Broadcast) result, error,
                         (LikeBroadcastState) requestState);
@@ -264,48 +225,41 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
         }
     }
 
-    private void loadBroadcastList(boolean loadMore) {
-
-        if (mLoadingBroadcastList || (loadMore && !mCanLoadMore)) {
-            return;
-        }
-
-        Long untilId = null;
-        int itemCount = mBroadcastAdapter.getItemCount();
-        if (loadMore && itemCount > 0) {
-            untilId = mBroadcastAdapter.getItemId(itemCount - 1);
-        }
-        int count = BROADCAST_COUNT_PER_LOAD;
-        ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(null, null,
-                untilId, count, getActivity());
-        LoadBroadcastListState state = new LoadBroadcastListState(loadMore, count);
-        RequestFragment.startRequest(REQUEST_CODE_LOAD_BROADCAST_LIST, request, state, this);
-
-        mLoadingBroadcastList = true;
+    @Override
+    public void onLoadBroadcastList(int requestCode, boolean loadMore) {
         setRefreshing(true, loadMore);
     }
 
-    private void onLoadBroadcastListResponse(boolean successful, List<Broadcast> result,
-                                             VolleyError error, LoadBroadcastListState state) {
+    @Override
+    public void onLoadBroadcastListComplete(int requestCode, boolean loadMore) {
+        setRefreshing(false, loadMore);
+    }
 
+    @Override
+    public void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList) {
+        mBroadcastAdapter.addAll(appendedBroadcastList);
+    }
+
+    @Override
+    public void onBroadcastListChanged(int requestCode, List<Broadcast> newBroadcastList) {
+        mBroadcastAdapter.replace(newBroadcastList);
+    }
+
+    @Override
+    public void onLoadBroadcastListError(int requestCode, VolleyError error) {
+        LogUtils.e(error.toString());
         Activity activity = getActivity();
-        if (successful) {
+        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
+    }
 
-            mCanLoadMore = result.size() == state.count;
-            if (state.loadMore) {
-                mBroadcastAdapter.addAll(result);
-            } else {
-                mBroadcastAdapter.replace(result);
-            }
-            setRefreshing(false, state.loadMore);
-            mLoadingBroadcastList = false;
-        } else {
+    @Override
+    public void onBroadcastChanged(int requestCode, int position, Broadcast newBroadcast) {
+        mBroadcastAdapter.set(position, newBroadcast);
+    }
 
-            LogUtils.e(error.toString());
-            ToastUtils.show(ApiError.getErrorString(error, activity), activity);
-            setRefreshing(false, state.loadMore);
-            mLoadingBroadcastList = false;
-        }
+    @Override
+    public void onBroadcastRemoved(int requestCode, int position) {
+        mBroadcastAdapter.remove(position);
     }
 
     private void setRefreshing(boolean refreshing, boolean loadMore) {
@@ -468,49 +422,6 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
         ActivityCompat.startActivity(activity, intent, options);
     }
 
-    @Keep
-    public void onEventMainThread(BroadcastUpdatedEvent event) {
-        mBroadcastAdapter.updateBroadcast(event.broadcast);
-    }
-
-    @Keep
-    public void onEventMainThread(BroadcastDeletedEvent event) {
-        mBroadcastAdapter.removeBroadcastById(event.broadcastId);
-    }
-
-    private void loadHomeBroadcastList() {
-        HomeBroadcastListCache.get(mHandler, new Callback<List<Broadcast>>() {
-            @Override
-            public void onValue(List<Broadcast> broadcastList) {
-                if (isRemoving()) {
-                    return;
-                }
-                boolean hasCache = broadcastList != null && broadcastList.size() > 0;
-                if (hasCache) {
-                    mBroadcastAdapter.replace(broadcastList);
-                }
-                if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue(getActivity())) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isRemoving()) {
-                                return;
-                            }
-                            if (!mBroadcastAdapter.getList().isEmpty()) {
-                                mSwipeRefreshLayout.setRefreshing(true);
-                            }
-                            loadBroadcastList(false);
-                        }
-                    });
-                }
-            }
-        }, getActivity());
-    }
-
-    private void saveHomeBroadcastListToCache(List<Broadcast> broadcastList) {
-        HomeBroadcastListCache.put(broadcastList, getActivity());
-    }
-
     private void onSendBroadcast() {
         // FIXME: Create a SendBroadcastActivity.
         UriHandler.open("https://www.douban.com/#isay-cont", getActivity());
@@ -524,17 +435,6 @@ public class BroadcastListFragment extends Fragment implements RequestFragment.L
         public ViewState(int progressVisibility, boolean adapterProgressVisible) {
             this.progressVisibility = progressVisibility;
             this.adapterProgressVisible = adapterProgressVisible;
-        }
-    }
-
-    private static class LoadBroadcastListState {
-
-        public boolean loadMore;
-        public int count;
-
-        public LoadBroadcastListState(boolean loadMore, int count) {
-            this.loadMore = loadMore;
-            this.count = count;
         }
     }
 

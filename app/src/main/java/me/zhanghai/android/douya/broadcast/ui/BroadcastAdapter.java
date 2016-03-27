@@ -35,6 +35,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         setHasStableIds(true);
     }
 
+// FIXME: Move this to a common place.
     public Broadcast findBroadcastById(long broadcastId) {
         int count = getItemCount();
         for (int i = 0; i < count; ++i) {
@@ -47,35 +48,6 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
             }
         }
         return null;
-    }
-
-    public void updateBroadcast(Broadcast updatedBroadcast) {
-        int count = getItemCount();
-        for (int i = 0; i < count; ++i) {
-            Broadcast broadcast = getItem(i);
-            if (broadcast.id == updatedBroadcast.id) {
-                set(i, updatedBroadcast);
-            } else if (broadcast.rebroadcastedBroadcast != null
-                    && broadcast.rebroadcastedBroadcast.id == updatedBroadcast.id) {
-                broadcast.rebroadcastedBroadcast = updatedBroadcast;
-                notifyItemChanged(i);
-            }
-        }
-    }
-
-    public void removeBroadcastById(long broadcastId) {
-        int count = getItemCount();
-        for (int i = 0; i < count; ) {
-            Broadcast broadcast = getItem(i);
-            if (broadcast.id == broadcastId
-                    || (broadcast.rebroadcastedBroadcast != null
-                        && broadcast.rebroadcastedBroadcast.id == broadcastId)) {
-                remove(i);
-                --count;
-            } else {
-                ++i;
-            }
-        }
     }
 
     @Override

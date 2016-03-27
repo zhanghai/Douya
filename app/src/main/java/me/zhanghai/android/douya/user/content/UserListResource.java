@@ -10,12 +10,12 @@ import com.android.volley.VolleyError;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.User;
 
-public abstract class UserListResource extends TargetedRetainedFragment
+public abstract class UserListResource extends ResourceFragment
         implements RequestFragment.Listener<List<User>, UserListResource.State> {
 
     private static final int DEFAULT_COUNT_PER_LOAD = 20;
@@ -47,13 +47,13 @@ public abstract class UserListResource extends TargetedRetainedFragment
             return;
         }
 
-        Integer start = loadMore ? mUserList.size() : null;
+        mLoading = true;
+        getListener().onLoadUserList(getRequestCode(), loadMore);
+
+        Integer start = loadMore ? (mUserList != null ? mUserList.size() : 0) : null;
         ApiRequest<List<User>> request = onCreateRequest(start, count);
         State state = new State(loadMore, count);
         RequestFragment.startRequest(request, state, this);
-
-        mLoading = true;
-        getListener().onLoadUserList(getRequestCode(), loadMore);
     }
 
     public void load(boolean loadMore) {

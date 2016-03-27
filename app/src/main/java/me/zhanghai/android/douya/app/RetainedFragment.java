@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.app;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 /**
  * In order to retain instance, this fragment should always be attached to the host activity
@@ -20,5 +21,27 @@ public class RetainedFragment extends Fragment {
 
         setRetainInstance(true);
         setUserVisibleHint(false);
+    }
+
+    public static <T extends RetainedFragment> T findByTag(FragmentActivity activity, String tag) {
+        //noinspection unchecked
+        return (T) activity.getSupportFragmentManager().findFragmentByTag(tag);
+    }
+
+    public void addTo(FragmentActivity activity, String tag) {
+        activity.getSupportFragmentManager().beginTransaction()
+                .add(this, tag)
+                .commit();
+    }
+
+    public void remove() {
+
+        if (isRemoving()) {
+            return;
+        }
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .remove(this)
+                .commit();
     }
 }

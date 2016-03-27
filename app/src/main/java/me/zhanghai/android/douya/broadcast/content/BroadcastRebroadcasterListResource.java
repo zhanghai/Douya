@@ -5,24 +5,16 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.User;
-import me.zhanghai.android.douya.user.content.UserListResource;
 
-public class BroadcastRebroadcasterListResource extends UserListResource {
-
-    private static final String KEY_PREFIX = BroadcastRebroadcasterListResource.class.getName()
-            + '.';
-
-    public static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
+public class BroadcastRebroadcasterListResource extends BroadcastUserListResource {
 
     private static final String FRAGMENT_TAG_DEFAULT =
             BroadcastRebroadcasterListResource.class.getName();
@@ -30,9 +22,7 @@ public class BroadcastRebroadcasterListResource extends UserListResource {
     private static BroadcastRebroadcasterListResource newInstance(long broadcastId) {
         //noinspection deprecation
         BroadcastRebroadcasterListResource resource = new BroadcastRebroadcasterListResource();
-        Bundle arguments = new Bundle();
-        arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
-        resource.setArguments(arguments);
+        resource.setArguments(broadcastId);
         return resource;
     }
 
@@ -61,9 +51,7 @@ public class BroadcastRebroadcasterListResource extends UserListResource {
                                                                String tag, boolean targetAtActivity,
                                                                Fragment targetFragment,
                                                                int requestCode) {
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        BroadcastRebroadcasterListResource resource =
-                (BroadcastRebroadcasterListResource) fragmentManager.findFragmentByTag(tag);
+        BroadcastRebroadcasterListResource resource = findByTag(activity, tag);
         if (resource == null) {
             resource = newInstance(broadcastId);
             if (targetAtActivity) {
@@ -71,9 +59,7 @@ public class BroadcastRebroadcasterListResource extends UserListResource {
             } else {
                 resource.targetAtFragment(targetFragment, requestCode);
             }
-            fragmentManager.beginTransaction()
-                    .add(resource, tag)
-                    .commit();
+            resource.addTo(activity, tag);
         }
         return resource;
     }
@@ -85,7 +71,7 @@ public class BroadcastRebroadcasterListResource extends UserListResource {
 
     @Override
     protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newBroadcastRebroadcasterListRequest(
-                getArguments().getLong(EXTRA_BROADCAST_ID), start, count, getActivity());
+        return ApiRequests.newBroadcastRebroadcasterListRequest(getBroadcastId(), start, count,
+                getActivity());
     }
 }

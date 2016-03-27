@@ -37,7 +37,7 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public abstract class UserListFragment extends Fragment implements UserListResource.Listener {
 
-    // We are the base class so we cannot use constants here.
+    // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
 
     private final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
@@ -109,6 +109,15 @@ public abstract class UserListFragment extends Fragment implements UserListResou
         super.onSaveInstanceState(outState);
 
         mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (isRemoving()) {
+            mUserListResource.remove();
+        }
     }
 
     protected abstract UserListResource onAttachUserListResource();
