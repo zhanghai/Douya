@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.app;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FriendlyFragment;
@@ -12,14 +13,23 @@ import android.text.TextUtils;
 
 import java.util.List;
 
+import me.zhanghai.android.douya.util.FragmentUtils;
+
 public class TargetedRetainedFragment extends RetainedFragment {
 
     public static final int REQUEST_CODE_INVALID = -1;
 
+    private static final String KEY_PREFIX = TargetedRetainedFragment.class.getName() + '.';
+
+    public static final String EXTRA_TARGETED_AT_ACTIVITY = KEY_PREFIX + "targeted_at_activity";
+    public static final String EXTRA_TARGET_FRAGMENT_TAG = KEY_PREFIX + "target_fragment_tag";
+    public static final String EXTRA_REQUEST_CODE = KEY_PREFIX + "request_code";
+
     private boolean mTargetedAtActivity;
     private String mTargetFragmentTag;
-    private Fragment mTargetFragment;
     private int mRequestCode = REQUEST_CODE_INVALID;
+
+    private Fragment mTargetFragment;
 
     /**
      * Should be called in {@link Fragment#onDestroy()}.
@@ -33,7 +43,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
             // have to walk through its ancestors.
             while (targetFragment != null) {
                 if (targetFragment.isRemoving()) {
-                    remove();
+                    FragmentUtils.remove(this);
                     break;
                 }
                 targetFragment = targetFragment.getParentFragment();
@@ -42,8 +52,9 @@ public class TargetedRetainedFragment extends RetainedFragment {
     }
 
     protected void targetAtActivity(int requestCode) {
-        mTargetedAtActivity = true;
-        mRequestCode = requestCode;
+        Bundle arguments = FragmentUtils.ensureArguments(this);
+        arguments.putBoolean(EXTRA_TARGETED_AT_ACTIVITY, true);
+        arguments.putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 
     protected void targetAtActivity() {
@@ -51,17 +62,28 @@ public class TargetedRetainedFragment extends RetainedFragment {
     }
 
     protected void targetAtFragment(Fragment fragment, int requestCode) {
-        mTargetedAtActivity = false;
+        Bundle arguments = FragmentUtils.ensureArguments(this);
+        arguments.putBoolean(EXTRA_TARGETED_AT_ACTIVITY, false);
         String tag = fragment.getTag();
         if (TextUtils.isEmpty(tag)) {
             throw new IllegalArgumentException("Target fragment must have a tag");
         }
-        mTargetFragmentTag = tag;
-        mRequestCode = requestCode;
+        arguments.putString(EXTRA_TARGET_FRAGMENT_TAG, tag);
+        arguments.putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 
     protected void targetAtFragment(Fragment fragment) {
         targetAtFragment(fragment, REQUEST_CODE_INVALID);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle arguments = getArguments();
+        mTargetedAtActivity = arguments.getBoolean(EXTRA_TARGETED_AT_ACTIVITY);
+        mTargetFragmentTag = arguments.getString(EXTRA_TARGET_FRAGMENT_TAG);
+        mRequestCode = arguments.getInt(EXTRA_REQUEST_CODE);
     }
 
     // Don't use get/setTargetFragment(); It can only target at fragments under the same fragment

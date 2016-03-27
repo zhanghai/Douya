@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Comment;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 /**
  * Simple dialog for comment action. Requires the host activity to implement
@@ -42,11 +43,10 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
                                                           boolean canDelete) {
         //noinspection deprecation
         CommentActionDialogFragment fragment = new CommentActionDialogFragment();
-        Bundle arguments = new Bundle();
+        Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putParcelable(EXTRA_COMMENT, comment);
         arguments.putBoolean(EXTRA_CAN_REPLY_TO, canReplyTo);
         arguments.putBoolean(EXTRA_CAN_DELETE, canDelete);
-        fragment.setArguments(arguments);
         return fragment;
     }
 

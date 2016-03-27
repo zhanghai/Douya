@@ -12,17 +12,18 @@ import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.user.content.UserListResource;
 
-public class BroadcastRebroadcastersListFragment extends BroadcastUserListFragment {
+public class BroadcastRebroadcasterListFragment extends BroadcastUserListFragment {
 
     /**
      * @deprecated Use {@link #newInstance(Broadcast)} instead.
      */
-    public BroadcastRebroadcastersListFragment() {}
+    public BroadcastRebroadcasterListFragment() {}
 
-    public static BroadcastRebroadcastersListFragment newInstance(Broadcast broadcast) {
+    public static BroadcastRebroadcasterListFragment newInstance(Broadcast broadcast) {
         //noinspection deprecation
-        return (BroadcastRebroadcastersListFragment) new BroadcastRebroadcastersListFragment()
-                .setArguments(broadcast);
+        BroadcastRebroadcasterListFragment fragment = new BroadcastRebroadcasterListFragment();
+        fragment.setArguments(broadcast);
+        return fragment;
     }
 
     @Override

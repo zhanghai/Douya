@@ -23,6 +23,7 @@ import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastListResource extends ResourceFragment
         implements RequestFragment.Listener<List<Broadcast>, BroadcastListResource.State> {
@@ -34,6 +35,9 @@ public class BroadcastListResource extends ResourceFragment
 
     public final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
     public final String EXTRA_TOPIC = KEY_PREFIX + "topic";
+
+    private String mUserIdOrUid;
+    private String mTopic;
 
     private List<Broadcast> mBroadcastList;
 
@@ -75,7 +79,7 @@ public class BroadcastListResource extends ResourceFragment
                                                   FragmentActivity activity, String tag,
                                                   boolean targetAtActivity, Fragment targetFragment,
                                                   int requestCode) {
-        BroadcastListResource resource = findByTag(activity, tag);
+        BroadcastListResource resource = FragmentUtils.findByTag(activity, tag);
         if (resource == null) {
             resource = newInstance(userIdOrUid, topic);
             if (targetAtActivity) {
@@ -83,7 +87,7 @@ public class BroadcastListResource extends ResourceFragment
             } else {
                 resource.targetAtFragment(targetFragment, requestCode);
             }
-            resource.addTo(activity, tag);
+            FragmentUtils.add(resource, activity, tag);
         }
         return resource;
     }
@@ -94,18 +98,26 @@ public class BroadcastListResource extends ResourceFragment
     public BroadcastListResource() {}
 
     protected void setArguments(String userIdOrUid, String topic) {
-        Bundle arguments = new Bundle();
+        Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         arguments.putString(EXTRA_TOPIC, topic);
-        setArguments(arguments);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle arguments = getArguments();
+        mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
+        mTopic = arguments.getString(EXTRA_TOPIC);
     }
 
     protected String getUserIdOrUid() {
-        return getArguments().getString(EXTRA_USER_ID_OR_UID);
+        return mUserIdOrUid;
     }
 
     protected String getTopic() {
-        return getArguments().getString(EXTRA_TOPIC);
+        return mTopic;
     }
 
     /**

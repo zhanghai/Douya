@@ -14,6 +14,7 @@ import java.util.List;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.Callback;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class HomeBroadcastListResource extends BroadcastListResource {
 
@@ -51,7 +52,7 @@ public class HomeBroadcastListResource extends BroadcastListResource {
     private static HomeBroadcastListResource attachTo(FragmentActivity activity, String tag,
                                                       boolean targetAtActivity,
                                                       Fragment targetFragment, int requestCode) {
-        HomeBroadcastListResource resource = findByTag(activity, tag);
+        HomeBroadcastListResource resource = FragmentUtils.findByTag(activity, tag);
         if (resource == null) {
             resource = newInstance();
             if (targetAtActivity) {
@@ -59,7 +60,7 @@ public class HomeBroadcastListResource extends BroadcastListResource {
             } else {
                 resource.targetAtFragment(targetFragment, requestCode);
             }
-            resource.addTo(activity, tag);
+            FragmentUtils.add(resource, activity, tag);
         }
         return resource;
     }

@@ -21,8 +21,9 @@ public class BroadcastLikerListFragment extends BroadcastUserListFragment {
 
     public static BroadcastLikerListFragment newInstance(Broadcast broadcast) {
         //noinspection deprecation
-        return (BroadcastLikerListFragment) new BroadcastLikerListFragment()
-                .setArguments(broadcast);
+        BroadcastLikerListFragment fragment = new BroadcastLikerListFragment();
+        fragment.setArguments(broadcast);
+        return fragment;
     }
 
     @Override

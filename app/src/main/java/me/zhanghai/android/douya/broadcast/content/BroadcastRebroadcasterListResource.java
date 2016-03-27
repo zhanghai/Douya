@@ -13,6 +13,7 @@ import java.util.List;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastRebroadcasterListResource extends BroadcastUserListResource {
 
@@ -51,7 +52,7 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
                                                                String tag, boolean targetAtActivity,
                                                                Fragment targetFragment,
                                                                int requestCode) {
-        BroadcastRebroadcasterListResource resource = findByTag(activity, tag);
+        BroadcastRebroadcasterListResource resource = FragmentUtils.findByTag(activity, tag);
         if (resource == null) {
             resource = newInstance(broadcastId);
             if (targetAtActivity) {
@@ -59,7 +60,7 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
             } else {
                 resource.targetAtFragment(targetFragment, requestCode);
             }
-            resource.addTo(activity, tag);
+            FragmentUtils.add(resource, activity, tag);
         }
         return resource;
     }

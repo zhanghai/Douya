@@ -5,9 +5,8 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
-import android.os.Bundle;
-
 import me.zhanghai.android.douya.user.content.UserListResource;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public abstract class BroadcastUserListResource extends UserListResource {
 
@@ -17,9 +16,7 @@ public abstract class BroadcastUserListResource extends UserListResource {
     public final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
 
     protected void setArguments(long broadcastId) {
-        Bundle arguments = new Bundle();
-        arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
-        setArguments(arguments);
+        FragmentUtils.ensureArguments(this).putLong(EXTRA_BROADCAST_ID, broadcastId);
     }
 
     protected long getBroadcastId() {

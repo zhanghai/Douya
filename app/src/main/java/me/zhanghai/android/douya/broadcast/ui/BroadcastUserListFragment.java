@@ -15,6 +15,7 @@ import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.user.ui.UserListFragment;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public abstract class BroadcastUserListFragment extends UserListFragment {
 
@@ -25,11 +26,8 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
 
     private Broadcast mBroadcast;
 
-    protected BroadcastUserListFragment setArguments(Broadcast broadcast) {
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(EXTRA_BROADCAST, broadcast);
-        setArguments(arguments);
-        return this;
+    protected void setArguments(Broadcast broadcast) {
+        FragmentUtils.ensureArguments(this).putParcelable(EXTRA_BROADCAST, broadcast);
     }
 
     @Override

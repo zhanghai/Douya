@@ -20,6 +20,7 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 @SuppressWarnings("unused")
 public class SimpleDialogFragment extends DialogFragment {
@@ -407,7 +408,9 @@ public class SimpleDialogFragment extends DialogFragment {
 
         public SimpleDialogFragment build() {
 
-            Bundle arguments = new Bundle();
+            SimpleDialogFragment fragment = new SimpleDialogFragment();
+
+            Bundle arguments = FragmentUtils.ensureArguments(fragment);
             arguments.putInt(ARGUMENT_REQUEST_CODE, mRequestCode);
             arguments.putInt(ARGUMENT_THEME, mTheme);
             arguments.putInt(ARGUMENT_ICON_ID, mIconId);
@@ -421,9 +424,7 @@ public class SimpleDialogFragment extends DialogFragment {
             arguments.putCharSequence(ARGUMENT_NEGATIVE_BUTTON_TEXT, mNegativeButtonText);
             arguments.putBoolean(ARGUMENT_CANCELABLE, mCancelable);
 
-            SimpleDialogFragment simpleDialogFragment = new SimpleDialogFragment();
-            simpleDialogFragment.setArguments(arguments);
-            return simpleDialogFragment;
+            return fragment;
         }
     }
 }

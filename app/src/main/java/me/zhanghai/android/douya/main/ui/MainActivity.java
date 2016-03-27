@@ -34,6 +34,7 @@ import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.ui.ActionItemBadge;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
 import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
+import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public class MainActivity extends AppCompatActivity
@@ -114,9 +115,7 @@ public class MainActivity extends AppCompatActivity
         mNotificationListFragment.setUnreadNotificationCountListener(this);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, HomeFragment.newInstance())
-                    .commit();
+            FragmentUtils.add(HomeFragment.newInstance(), this, R.id.container);
         }
     }
 

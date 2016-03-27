@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Comment;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment {
 
@@ -32,9 +33,8 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     public static ConfirmDeleteCommentDialogFragment newInstance(Comment comment) {
         //noinspection deprecation
         ConfirmDeleteCommentDialogFragment fragment = new ConfirmDeleteCommentDialogFragment();
-        Bundle arguments = new Bundle();
+        Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putParcelable(EXTRA_COMMENT, comment);
-        fragment.setArguments(arguments);
         return fragment;
     }
 

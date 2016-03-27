@@ -7,10 +7,11 @@ package me.zhanghai.android.douya.app;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 /**
  * A Fragment that can retain data passed in, and remove them once your instance is recreated.
@@ -22,14 +23,10 @@ public class RetainDataFragment extends RetainedFragment {
     private Map<String, Object> mData = new HashMap<>();
 
     public static RetainDataFragment attachTo(FragmentActivity activity) {
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        RetainDataFragment fragment = (RetainDataFragment) fragmentManager
-                .findFragmentByTag(FRAGMENT_TAG);
+        RetainDataFragment fragment = FragmentUtils.findByTag(activity, FRAGMENT_TAG);
         if (fragment == null) {
             fragment = new RetainDataFragment();
-            fragmentManager.beginTransaction()
-                    .add(fragment, FRAGMENT_TAG)
-                    .commit();
+            FragmentUtils.add(fragment, activity, FRAGMENT_TAG);
         }
         return fragment;
     }

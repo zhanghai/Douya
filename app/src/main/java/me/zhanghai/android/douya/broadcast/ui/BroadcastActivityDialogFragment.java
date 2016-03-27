@@ -29,6 +29,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
 
@@ -59,9 +60,7 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
     public static BroadcastActivityDialogFragment newInstance(Broadcast broadcast) {
         //noinspection deprecation
         BroadcastActivityDialogFragment fragment = new BroadcastActivityDialogFragment();
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(EXTRA_BROADCAST, broadcast);
-        fragment.setArguments(arguments);
+        FragmentUtils.ensureArguments(fragment).putParcelable(EXTRA_BROADCAST, broadcast);
         return fragment;
     }
 
@@ -109,7 +108,7 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
             public Fragment createFragment() {
-                return BroadcastRebroadcastersListFragment.newInstance(mBroadcast);
+                return BroadcastRebroadcasterListFragment.newInstance(mBroadcast);
             }
         }, null);
         updateTabTitle();

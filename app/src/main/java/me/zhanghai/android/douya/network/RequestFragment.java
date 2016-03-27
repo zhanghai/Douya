@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 /**
  * An one-shot Fragment for performing a {@link Request} safely across Activity re-creation.
@@ -38,7 +39,8 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
 
     public static <T, S> void startRequest(int requestCode, Request<T> request, S requestState,
                                            FragmentActivity targetActivity) {
-        RequestFragment<T, S> fragment = addTo(targetActivity);
+        RequestFragment<T, S> fragment = new RequestFragment<>();
+        FragmentUtils.add(fragment, targetActivity);
         fragment.targetAtActivity(requestCode);
         fragment.setState(requestState);
         fragment.startRequest(request, targetActivity);
@@ -51,8 +53,9 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
 
     public static <T, S> void startRequest(int requestCode, Request<T> request, S requestState,
                                            Fragment targetFragment) {
+        RequestFragment<T, S> fragment = new RequestFragment<>();
         FragmentActivity activity = targetFragment.getActivity();
-        RequestFragment<T, S> fragment = addTo(activity);
+        FragmentUtils.add(fragment, activity);
         fragment.targetAtFragment(targetFragment, requestCode);
         fragment.setState(requestState);
         fragment.startRequest(request, activity);
@@ -61,14 +64,6 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
     public static <T, S> void startRequest(Request<T> request, S requestState,
                                            Fragment targetFragment) {
         startRequest(REQUEST_CODE_INVALID, request, requestState, targetFragment);
-    }
-
-    private static <T, S> RequestFragment<T, S> addTo(FragmentActivity activity) {
-        RequestFragment<T, S> fragment = new RequestFragment<>();
-        activity.getSupportFragmentManager().beginTransaction()
-                .add(fragment, null)
-                .commit();
-        return fragment;
     }
 
     @Override
@@ -166,14 +161,7 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
         mPendingResult = null;
         mPendingError = null;
 
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            activity.getSupportFragmentManager().beginTransaction()
-                    .remove(this)
-                    .commit();
-        } else {
-            Log.e(TAG, "getActivity() return null when trying to remove this fragment");
-        }
+        FragmentUtils.remove(this);
     }
 
     public interface Listener<T, S> {
