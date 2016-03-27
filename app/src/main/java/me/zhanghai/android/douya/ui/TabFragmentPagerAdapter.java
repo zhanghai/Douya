@@ -15,26 +15,26 @@ import java.util.List;
 
 public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private List<Fragment> mFragmentList = new ArrayList<>();
+    private List<FragmentCreator> mFragmentCreatorList = new ArrayList<>();
     private List<CharSequence> mTitleList = new ArrayList<>();
 
     public TabFragmentPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
-    public void addTab(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
+    public void addTab(FragmentCreator fragmentCreator, String title) {
+        mFragmentCreatorList.add(fragmentCreator);
         mTitleList.add(title);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+        return mFragmentCreatorList.get(position).createFragment();
     }
 
     @Override
     public int getCount() {
-        return mFragmentList.size();
+        return mFragmentCreatorList.size();
     }
 
     @Override
@@ -55,5 +55,9 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
         if (position < tabLayout.getTabCount()) {
             tabLayout.getTabAt(position).setText(title);
         }
+    }
+
+    public interface FragmentCreator {
+        Fragment createFragment();
     }
 }

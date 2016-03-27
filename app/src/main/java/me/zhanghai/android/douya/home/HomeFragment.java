@@ -69,11 +69,31 @@ public class HomeFragment extends Fragment implements AppBarManager {
         activity.setToolbar(mToolbar);
 
         mTabAdapter = new TabFragmentPagerAdapter(getChildFragmentManager());
-        mTabAdapter.addTab(BroadcastListFragment.newInstance(), getString(R.string.home_broadcast));
-        mTabAdapter.addTab(new Fragment(), getString(R.string.home_nine_and_quater));
-        mTabAdapter.addTab(new Fragment(), getString(R.string.home_discover));
-        mTabAdapter.addTab(new Fragment(), getString(R.string.home_online));
-        mViewPager.setOffscreenPageLimit(3);
+        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
+            @Override
+            public Fragment createFragment() {
+                return BroadcastListFragment.newInstance();
+            }
+        }, getString(R.string.home_broadcast));
+        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
+            @Override
+            public Fragment createFragment() {
+                return new Fragment();
+            }
+        }, getString(R.string.home_nine_and_quater));
+        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
+            @Override
+            public Fragment createFragment() {
+                return new Fragment();
+            }
+        }, getString(R.string.home_discover));
+        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
+            @Override
+            public Fragment createFragment() {
+                return new Fragment();
+            }
+        }, getString(R.string.home_online));
+        mViewPager.setOffscreenPageLimit(mTabAdapter.getCount() - 1);
         mViewPager.setAdapter(mTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }
