@@ -78,6 +78,22 @@ public class TimeTextView extends TextView {
         }
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        if (mTime != null) {
+            updateTimeText();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        removeCallbacks(mUpdateTimeTextRunnable);
+    }
+
     protected String formatTime(ZonedDateTime time) {
         return TimeUtils.formatDateTime(time, getContext());
     }
