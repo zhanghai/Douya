@@ -7,7 +7,7 @@ package me.zhanghai.android.douya.ui;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
@@ -18,8 +18,12 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
     private List<FragmentCreator> mFragmentCreatorList = new ArrayList<>();
     private List<CharSequence> mTitleList = new ArrayList<>();
 
-    public TabFragmentPagerAdapter(FragmentManager fragmentManager) {
-        super(fragmentManager);
+    public TabFragmentPagerAdapter(FragmentActivity activity) {
+        super(activity.getSupportFragmentManager());
+    }
+
+    public TabFragmentPagerAdapter(Fragment fragment) {
+        super(fragment.getChildFragmentManager());
     }
 
     public void addTab(FragmentCreator fragmentCreator, String title) {

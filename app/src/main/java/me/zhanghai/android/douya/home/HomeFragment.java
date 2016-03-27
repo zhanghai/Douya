@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements AppBarManager {
         MainActivity activity = (MainActivity) getActivity();
         activity.setToolbar(mToolbar);
 
-        mTabAdapter = new TabFragmentPagerAdapter(getChildFragmentManager());
+        mTabAdapter = new TabFragmentPagerAdapter(this);
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
             public Fragment createFragment() {

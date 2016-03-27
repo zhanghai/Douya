@@ -99,7 +99,7 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mTabAdapter = new TabFragmentPagerAdapter(getChildFragmentManager());
+        mTabAdapter = new TabFragmentPagerAdapter(this);
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
             public Fragment createFragment() {
