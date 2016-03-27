@@ -55,7 +55,7 @@ import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-// TODO: Separate into HomeBroadcastListFragment and BroadcastListFragment.
+// TODO: Split into HomeBroadcastListFragment and BroadcastListFragment.
 public class BroadcastListFragment extends Fragment implements BroadcastListResource.Listener,
         RequestFragment.Listener, BroadcastAdapter.Listener {
 
