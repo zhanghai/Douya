@@ -35,7 +35,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         setHasStableIds(true);
     }
 
-// FIXME: Move this to a common place.
+    // FIXME: Move this to a common place.
     public Broadcast findBroadcastById(long broadcastId) {
         int count = getItemCount();
         for (int i = 0; i < count; ++i) {
