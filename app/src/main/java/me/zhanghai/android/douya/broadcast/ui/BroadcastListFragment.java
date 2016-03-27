@@ -193,9 +193,7 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
     public void onDestroy() {
         super.onDestroy();
 
-        if (isRemoving()) {
-            mBroadcastListResource.remove();
-        }
+        mBroadcastListResource.detach();
     }
 
     private ViewState onSaveViewState() {

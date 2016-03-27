@@ -115,9 +115,7 @@ public abstract class UserListFragment extends Fragment implements UserListResou
     public void onDestroy() {
         super.onDestroy();
 
-        if (isRemoving()) {
-            mUserListResource.remove();
-        }
+        mUserListResource.detach();
     }
 
     protected abstract UserListResource onAttachUserListResource();

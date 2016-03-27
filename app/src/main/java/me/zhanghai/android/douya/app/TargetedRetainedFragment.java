@@ -14,6 +14,21 @@ public class TargetedRetainedFragment extends RetainedFragment {
     private boolean mTargetedAtActivity;
     private int mActivityRequestCode = REQUEST_CODE_INVALID;
 
+    public void detach() {
+        if (!mTargetedAtActivity) {
+            Fragment targetFragment = getTargetFragment();
+            // isRemoving() is not set when child fragment is destroyed due to parent removal, so we
+            // have to walk through its ancestors.
+            while (targetFragment != null) {
+                if (targetFragment.isRemoving()) {
+                    remove();
+                    break;
+                }
+                targetFragment = targetFragment.getParentFragment();
+            }
+        }
+    }
+
     protected void targetAtActivity(int requestCode) {
         mTargetedAtActivity = true;
         mActivityRequestCode = requestCode;
