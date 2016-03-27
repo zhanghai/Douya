@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
@@ -20,6 +21,7 @@ import android.view.KeyEvent;
 
 import me.zhanghai.android.douya.R;
 
+@SuppressWarnings("unused")
 public class SimpleDialogFragment extends DialogFragment {
 
     private static final String ARGUMENT_REQUEST_CODE = "request_code";
@@ -35,13 +37,14 @@ public class SimpleDialogFragment extends DialogFragment {
     private static final String ARGUMENT_NEGATIVE_BUTTON_TEXT = "negative_button_text";
     private static final String ARGUMENT_CANCELABLE = "cancelable";
 
+    public static final int REQUEST_CODE_INVALID = -1;
+
     private SimpleDialogListener mListener;
     private int mRequestCode;
 
-    private static SimpleDialogFragment makeClose(Fragment targetFragment, int requestCode,
-                                                  Integer titleId, int messageId, Context context) {
+    private static SimpleDialogFragment makeClose(int requestCode, Integer titleId, int messageId,
+                                                  Context context) {
         return new Builder(context)
-                .setTargetFragment(targetFragment)
                 .setRequestCode(requestCode)
                 .setTitle(titleId)
                 .setMessage(messageId)
@@ -49,32 +52,23 @@ public class SimpleDialogFragment extends DialogFragment {
                 .build();
     }
 
-    public static SimpleDialogFragment makeClose(Fragment fragment, int requestCode,
-                                                 Integer titleId, int messageId) {
-        return makeClose(fragment, requestCode, titleId, messageId, fragment.getActivity());
+    public static SimpleDialogFragment makeClose(Integer titleId, int messageId, Context context) {
+        return makeClose(REQUEST_CODE_INVALID, titleId, messageId, context);
+    }
+
+    public static SimpleDialogFragment makeClose(int requestCode, Integer titleId, int messageId,
+                                                 Fragment fragment) {
+        return makeClose(requestCode, titleId, messageId, fragment.getActivity());
     }
 
     public static SimpleDialogFragment makeClose(Integer titleId, int messageId,
                                                  Fragment fragment) {
-        // NOTE: Prevent message from being sent to parent activity unexpectedly.
-        return makeClose(fragment, 0, titleId, messageId);
+        return makeClose(REQUEST_CODE_INVALID, titleId, messageId, fragment);
     }
 
-    public static SimpleDialogFragment makeClose(Activity activity, int requestCode,
-                                                 Integer titleId, int messageId) {
-        return makeClose(null, requestCode, titleId, messageId, activity);
-    }
-
-    public static SimpleDialogFragment makeClose(Integer titleId, int messageId,
-                                                 Activity activity) {
-        return makeClose(activity, 0, titleId, messageId);
-    }
-
-    private static SimpleDialogFragment makeOkCancel(Fragment targetFragment, int requestCode,
-                                                     Integer titleId, int messageId,
-                                                     Context context) {
+    private static SimpleDialogFragment makeOkCancel(int requestCode, Integer titleId,
+                                                     int messageId, Context context) {
         return new Builder(context)
-                .setTargetFragment(targetFragment)
                 .setRequestCode(requestCode)
                 .setTitle(titleId)
                 .setMessage(messageId)
@@ -83,30 +77,24 @@ public class SimpleDialogFragment extends DialogFragment {
                 .build();
     }
 
-    public static SimpleDialogFragment makeOkCancel(Fragment fragment, int requestCode,
-                                                    Integer titleId, int messageId) {
-        return makeOkCancel(fragment, requestCode, titleId, messageId, fragment.getActivity());
+    public static SimpleDialogFragment makeOkCancel(Integer titleId, int messageId,
+                                                    Context context) {
+        return makeOkCancel(REQUEST_CODE_INVALID, titleId, messageId, context);
+    }
+
+    public static SimpleDialogFragment makeOkCancel(int requestCode, Integer titleId, int messageId,
+                                                    Fragment fragment) {
+        return makeOkCancel(requestCode, titleId, messageId, fragment.getActivity());
     }
 
     public static SimpleDialogFragment makeOkCancel(Integer titleId, int messageId,
                                                     Fragment fragment) {
-        return makeOkCancel(fragment, 0, titleId, messageId);
+        return makeOkCancel(REQUEST_CODE_INVALID, titleId, messageId, fragment);
     }
 
-    public static SimpleDialogFragment makeOkCancel(Activity activity, int requestCode,
-                                                    Integer titleId, int messageId) {
-        return makeOkCancel(null, requestCode, titleId, messageId, activity);
-    }
-
-    public static SimpleDialogFragment makeOkCancel(Integer titleId, int messageId,
-                                                    Activity activity) {
-        return makeOkCancel(activity, 0, titleId, messageId);
-    }
-
-    private static SimpleDialogFragment makeYesNo(Fragment targetFragment, int requestCode,
-                                                 Integer titleId, int messageId, Context context) {
+    private static SimpleDialogFragment makeYesNo(int requestCode, Integer titleId, int messageId,
+                                                  Context context) {
         return new Builder(context)
-                .setTargetFragment(targetFragment)
                 .setRequestCode(requestCode)
                 .setTitle(titleId)
                 .setMessage(messageId)
@@ -115,31 +103,24 @@ public class SimpleDialogFragment extends DialogFragment {
                 .build();
     }
 
-    public static SimpleDialogFragment makeYesNo(Fragment fragment, int requestCode,
-                                                 Integer titleId, int messageId) {
-        return makeYesNo(fragment, requestCode, titleId, messageId, fragment.getActivity());
+    public static SimpleDialogFragment makeYesNo(Integer titleId, int messageId, Context context) {
+        return makeYesNo(REQUEST_CODE_INVALID, titleId, messageId, context);
+    }
+
+    public static SimpleDialogFragment makeYesNo(int requestCode, Integer titleId, int messageId,
+                                                 Fragment fragment) {
+        return makeYesNo(requestCode, titleId, messageId, fragment.getActivity());
     }
 
     public static SimpleDialogFragment makeYesNo(Integer titleId, int messageId,
                                                  Fragment fragment) {
-        return makeYesNo(fragment, 0, titleId, messageId);
+        return makeYesNo(REQUEST_CODE_INVALID, titleId, messageId, fragment);
     }
 
-    public static SimpleDialogFragment makeYesNo(Activity activity, int requestCode,
-                                                 Integer titleId, int messageId) {
-        return makeYesNo(null, requestCode, titleId, messageId, activity);
-    }
-
-    public static SimpleDialogFragment makeYesNo(Integer titleId, int messageId,
-                                                 Activity activity) {
-        return makeYesNo(activity, 0, titleId, messageId);
-    }
-
-    public static SimpleDialogFragment makeSingleChoice(Fragment targetFragment, int requestCode,
-                                                        Integer titleId, CharSequence[] items,
-                                                        int checkedItem, Context context) {
+    public static SimpleDialogFragment makeSingleChoice(int requestCode, Integer titleId,
+                                                        CharSequence[] items, int checkedItem,
+                                                        Context context) {
         return new Builder(context)
-                .setTargetFragment(targetFragment)
                 .setRequestCode(requestCode)
                 .setTitle(titleId)
                 .setSingleChoice(items, checkedItem)
@@ -147,46 +128,38 @@ public class SimpleDialogFragment extends DialogFragment {
                 .build();
     }
 
-    public static SimpleDialogFragment makeSingleChoice(Fragment fragment, int requestCode,
-                                                        Integer titleId, CharSequence[] items,
-                                                        int checkedItem) {
-        return makeSingleChoice(fragment, requestCode, titleId, items, checkedItem,
-                fragment.getActivity());
+    public static SimpleDialogFragment makeSingleChoice(Integer titleId, CharSequence[] items,
+                                                        int checkedItem, Context context) {
+        return makeSingleChoice(REQUEST_CODE_INVALID, titleId, items, checkedItem, context);
+    }
+
+    public static SimpleDialogFragment makeSingleChoice(int requestCode, Integer titleId,
+                                                        CharSequence[] items, int checkedItem,
+                                                        Fragment fragment) {
+        return makeSingleChoice(requestCode, titleId, items, checkedItem, fragment.getActivity());
     }
 
     public static SimpleDialogFragment makeSingleChoice(Integer titleId, CharSequence[] items,
                                                         int checkedItem, Fragment fragment) {
-        return makeSingleChoice(fragment, 0, titleId, items, checkedItem);
-    }
-
-    public static SimpleDialogFragment makeSingleChoice(Activity activity, int requestCode,
-                                                        Integer titleId, CharSequence[] items,
-                                                        int checkedItem) {
-        return makeSingleChoice(null, requestCode, titleId, items, checkedItem, activity);
-    }
-
-    public static SimpleDialogFragment makeSingleChoice(Integer titleId, CharSequence[] items,
-                                                        int checkedItem, Activity activity) {
-        return makeSingleChoice(activity, 0, titleId, items, checkedItem);
+        return makeSingleChoice(REQUEST_CODE_INVALID, titleId, items, checkedItem, fragment);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Fragment targetFragment = getTargetFragment();
-        if (targetFragment == null) {
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment == null) {
             Activity activity = getActivity();
             if (activity instanceof SimpleDialogListenerProvider) {
                 mListener = ((SimpleDialogListenerProvider) activity).getDialogListener();
             }
-            mRequestCode = getArguments().getInt(ARGUMENT_REQUEST_CODE);
         } else {
-            if (targetFragment instanceof SimpleDialogListenerProvider) {
-                mListener = ((SimpleDialogListenerProvider) targetFragment).getDialogListener();
+            if (parentFragment instanceof SimpleDialogListenerProvider) {
+                mListener = ((SimpleDialogListenerProvider) parentFragment).getDialogListener();
             }
-            mRequestCode = getTargetRequestCode();
         }
+        mRequestCode = getArguments().getInt(ARGUMENT_REQUEST_CODE);
     }
 
     @NonNull
@@ -251,6 +224,7 @@ public class SimpleDialogFragment extends DialogFragment {
                 .setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent keyEvent) {
+                        //noinspection SimplifiableIfStatement
                         if (mListener != null) {
                             return mListener.onKey(mRequestCode, keyCode, keyEvent);
                         } else {
@@ -294,14 +268,19 @@ public class SimpleDialogFragment extends DialogFragment {
         return (AlertDialog) getDialog();
     }
 
+    @Deprecated
     public void show(FragmentManager manager) {
         show(manager, null);
     }
 
-    public void showIfNotAdded(FragmentManager manager) {
-        if (!isAdded()) {
-            show(manager);
-        }
+    public void show(FragmentActivity activity) {
+        //noinspection deprecation
+        show(activity.getSupportFragmentManager());
+    }
+
+    public void show(Fragment fragment) {
+        //noinspection deprecation
+        show(fragment.getChildFragmentManager());
     }
 
     public static class SimpleDialogListener {
@@ -324,7 +303,6 @@ public class SimpleDialogFragment extends DialogFragment {
 
         private Context mContext;
 
-        private Fragment mTargetFragment;
         private int mRequestCode;
         private int mTheme;
         private int mIconId;
@@ -340,11 +318,6 @@ public class SimpleDialogFragment extends DialogFragment {
 
         public Builder(Context context) {
             mContext = context;
-        }
-
-        public Builder setTargetFragment(Fragment fragment) {
-            mTargetFragment = fragment;
-            return this;
         }
 
         public Builder setRequestCode(int requestCode) {
@@ -435,9 +408,7 @@ public class SimpleDialogFragment extends DialogFragment {
         public SimpleDialogFragment build() {
 
             Bundle arguments = new Bundle();
-            if (mTargetFragment == null) {
-                arguments.putInt(ARGUMENT_REQUEST_CODE, mRequestCode);
-            }
+            arguments.putInt(ARGUMENT_REQUEST_CODE, mRequestCode);
             arguments.putInt(ARGUMENT_THEME, mTheme);
             arguments.putInt(ARGUMENT_ICON_ID, mIconId);
             arguments.putCharSequence(ARGUMENT_TITLE, mTitle);
@@ -451,9 +422,6 @@ public class SimpleDialogFragment extends DialogFragment {
             arguments.putBoolean(ARGUMENT_CANCELABLE, mCancelable);
 
             SimpleDialogFragment simpleDialogFragment = new SimpleDialogFragment();
-            if (mTargetFragment != null) {
-                simpleDialogFragment.setTargetFragment(mTargetFragment, mRequestCode);
-            }
             simpleDialogFragment.setArguments(arguments);
             return simpleDialogFragment;
         }
