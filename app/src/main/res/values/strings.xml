@@ -178,7 +178,7 @@
     <string name="profile_send_doumail">发豆邮</string>
     <string name="profile_blacklist">加入黑名单</string>
     <string name="profile_broadcasts_title">广播</string>
-    <string name="profile_broadcasts_empty">还没有发过广播</string>
+    <string name="profile_broadcasts_empty">最近没有发广播</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_misc_title">其他</string>

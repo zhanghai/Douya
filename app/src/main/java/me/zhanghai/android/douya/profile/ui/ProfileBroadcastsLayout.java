@@ -101,6 +101,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
             if (holder == null) {
                 holder = new BroadcastLayoutHolder(broadcastLayout);
                 broadcastLayout.setTag(holder);
+                ViewUtils.setTextViewLinkClickable(holder.textText);
             }
 
             // HACK: Should not change on rebind.

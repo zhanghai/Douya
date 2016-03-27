@@ -313,7 +313,8 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
                                              VolleyError error) {
 
         if (successful) {
-            mBroadcastsLayout.bind(mUserIdOrUid, result);
+            mBroadcastList = result;
+            mBroadcastsLayout.bind(mUserIdOrUid, mBroadcastList);
         } else {
             mBroadcastsLayout.setError();
             LogUtils.e(error.toString());
