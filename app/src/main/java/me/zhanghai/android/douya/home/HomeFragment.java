@@ -51,9 +51,14 @@ public class HomeFragment extends Fragment implements AppBarManager {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        return inflater.inflate(R.layout.home_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         ButterKnife.bind(this, view);
-        return view;
     }
 
     @Override
