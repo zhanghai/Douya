@@ -86,8 +86,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
             throw new IllegalStateException("Target fragment not set");
         }
         if (mTargetFragment == null) {
-            mTargetFragment = FriendlyFragment.findByWho(getActivity().getSupportFragmentManager(),
-                    mTargetFragmentWho);
+            mTargetFragment = FriendlyFragment.findByWho(getActivity(), mTargetFragmentWho);
         }
         if (mTargetFragment == null) {
             throw new IllegalStateException("Target fragment not found");
