@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FriendlyFragment;
+import android.text.TextUtils;
+
+import java.util.List;
 
 public class FragmentUtils {
 
@@ -21,6 +25,22 @@ public class FragmentUtils {
             fragment.setArguments(arguments);
         }
         return arguments;
+    }
+
+    @Deprecated
+    public static <T> T findById(FragmentManager fragmentManager, int id) {
+        //noinspection unchecked
+        return (T) fragmentManager.findFragmentById(id);
+    }
+
+    public static <T> T findById(FragmentActivity activity, int id) {
+        //noinspection deprecation
+        return findById(activity.getSupportFragmentManager(), id);
+    }
+
+    public static <T> T findById(Fragment parentFragment, int id) {
+        //noinspection deprecation
+        return findById(parentFragment.getChildFragmentManager(), id);
     }
 
     @Deprecated

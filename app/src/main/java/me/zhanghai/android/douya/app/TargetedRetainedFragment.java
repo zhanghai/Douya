@@ -7,11 +7,7 @@ package me.zhanghai.android.douya.app;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FriendlyFragment;
-import android.text.TextUtils;
-
-import java.util.List;
 
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -22,11 +18,11 @@ public class TargetedRetainedFragment extends RetainedFragment {
     private static final String KEY_PREFIX = TargetedRetainedFragment.class.getName() + '.';
 
     public static final String EXTRA_TARGETED_AT_ACTIVITY = KEY_PREFIX + "targeted_at_activity";
-    public static final String EXTRA_TARGET_FRAGMENT_TAG = KEY_PREFIX + "target_fragment_tag";
+    public static final String EXTRA_TARGET_FRAGMENT_WHO = KEY_PREFIX + "target_fragment_who";
     public static final String EXTRA_REQUEST_CODE = KEY_PREFIX + "request_code";
 
     private boolean mTargetedAtActivity;
-    private String mTargetFragmentTag;
+    private String mTargetFragmentWho;
     private int mRequestCode = REQUEST_CODE_INVALID;
 
     private Fragment mTargetFragment;
@@ -64,11 +60,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
     protected void targetAtFragment(Fragment fragment, int requestCode) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putBoolean(EXTRA_TARGETED_AT_ACTIVITY, false);
-        String tag = fragment.getTag();
-        if (TextUtils.isEmpty(tag)) {
-            throw new IllegalArgumentException("Target fragment must have a tag");
-        }
-        arguments.putString(EXTRA_TARGET_FRAGMENT_TAG, tag);
+        arguments.putString(EXTRA_TARGET_FRAGMENT_WHO, FriendlyFragment.getWho(fragment));
         arguments.putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 
@@ -82,7 +74,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
 
         Bundle arguments = getArguments();
         mTargetedAtActivity = arguments.getBoolean(EXTRA_TARGETED_AT_ACTIVITY);
-        mTargetFragmentTag = arguments.getString(EXTRA_TARGET_FRAGMENT_TAG);
+        mTargetFragmentWho = arguments.getString(EXTRA_TARGET_FRAGMENT_WHO);
         mRequestCode = arguments.getInt(EXTRA_REQUEST_CODE);
     }
 
@@ -90,38 +82,17 @@ public class TargetedRetainedFragment extends RetainedFragment {
     // manager.
     // The timing of calling this method can be tricky; However in most cases it will work.
     protected Fragment getTargetFragmentFriendly() {
-        if (mTargetedAtActivity || mTargetFragmentTag == null) {
+        if (mTargetedAtActivity || mTargetFragmentWho == null) {
             throw new IllegalStateException("Target fragment not set");
         }
         if (mTargetFragment == null) {
-            mTargetFragment = findFragmentByTagRecursively(
-                    getActivity().getSupportFragmentManager(), mTargetFragmentTag);
+            mTargetFragment = FriendlyFragment.findByWho(getActivity().getSupportFragmentManager(),
+                    mTargetFragmentWho);
+        }
+        if (mTargetFragment == null) {
+            throw new IllegalStateException("Target fragment not found");
         }
         return mTargetFragment;
-    }
-
-    private static Fragment findFragmentByTagRecursively(FragmentManager fragmentManager,
-                                                         String tag) {
-        List<Fragment> fragments = fragmentManager.getFragments();
-        if (fragments == null) {
-            return null;
-        }
-        // Prefer a top-level result.
-        for (Fragment fragment : fragments) {
-            if (fragment != null && TextUtils.equals(fragment.getTag(), tag)) {
-                return fragment;
-            }
-        }
-        for (Fragment fragment : fragments) {
-            if (fragment != null && FriendlyFragment.hasChildFragmentManager(fragment)) {
-                Fragment result = findFragmentByTagRecursively(fragment.getChildFragmentManager(),
-                        tag);
-                if (result != null) {
-                    return result;
-                }
-            }
-        }
-        return null;
     }
 
     @Override
