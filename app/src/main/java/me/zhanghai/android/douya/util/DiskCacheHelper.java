@@ -23,18 +23,20 @@ public class DiskCacheHelper {
     // 2M
     private static final int MAX_DISK_CACHE_BYTES = 2 * 1024 * 1024;
 
-    private static DiskCache sDiskCache;
     private static final Object DISK_CACHE_LOCK = new Object();
+    private static volatile DiskCache sDiskCache;
 
     private static final ExecutorService sExecutorService = Executors.newSingleThreadExecutor();
 
     private DiskCacheHelper() {}
 
     public static DiskCache get(Context context) {
-        synchronized (DISK_CACHE_LOCK) {
-            if (sDiskCache == null) {
-                sDiskCache = DiskCache.open(new File(context.getCacheDir(),
-                                BuildConfig.APPLICATION_ID), 0, MAX_DISK_CACHE_BYTES);
+        if (sDiskCache == null) {
+            synchronized (DISK_CACHE_LOCK) {
+                if (sDiskCache == null) {
+                    sDiskCache = DiskCache.open(new File(context.getCacheDir(),
+                            BuildConfig.APPLICATION_ID), 0, MAX_DISK_CACHE_BYTES);
+                }
             }
         }
         return sDiskCache;
