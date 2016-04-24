@@ -39,19 +39,11 @@ public class LicensesDialogPreference extends DialogPreference {
             // fragment manager.
             FragmentManager fragmentManager = preferenceFragment.getFragmentManager();
             if(fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
-                LicensesDialogFragment.Builder builder = new LicensesDialogFragment.Builder(
-                        preferenceFragment.getActivity());
-                try {
-                    builder.setNotices(R.raw.licenses);
-                } catch (Exception e) {
-                    // LicensesDialogFragment.Builder.setNotices(int) says that it throws Exception
-                    // for unknown reason.
-                    // Should never happen.
-                    throw new RuntimeException(e);
-                }
-                LicensesDialogFragment dialogFragment = builder
-                        .setUseAppCompat(true)
-                        .build();
+                LicensesDialogFragment dialogFragment =
+                        new LicensesDialogFragment.Builder(preferenceFragment.getActivity())
+                                .setNotices(R.raw.licenses)
+                                .setUseAppCompat(true)
+                                .build();
                 dialogFragment.setTargetFragment(preferenceFragment, 0);
                 dialogFragment.show(fragmentManager, DIALOG_FRAGMENT_TAG);
             }
