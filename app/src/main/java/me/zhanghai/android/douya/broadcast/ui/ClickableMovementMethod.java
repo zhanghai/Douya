@@ -6,17 +6,12 @@
 package me.zhanghai.android.douya.broadcast.ui;
 
 import android.text.Layout;
-import android.text.NoCopySpan;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.BaseMovementMethod;
 import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
-import android.text.method.ScrollingMovementMethod;
 import android.text.style.ClickableSpan;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 
 /**
