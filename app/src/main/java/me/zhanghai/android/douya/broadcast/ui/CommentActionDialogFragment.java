@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.broadcast.ui;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
