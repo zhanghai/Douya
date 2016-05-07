@@ -32,13 +32,18 @@ import me.zhanghai.android.douya.broadcast.ui.ClickableMovementMethod;
 
 public class ViewUtils {
 
-    public static void fadeOut(final View view, int duration, final boolean gone) {
+    public static void fadeOut(final View view, int duration, final boolean gone,
+                               final Runnable nextRunnable) {
         if (view.getVisibility() != View.VISIBLE || view.getAlpha() == 0) {
             // Cancel any starting animation.
             view.animate()
                     .alpha(0)
                     .setDuration(0)
                     .start();
+            view.setVisibility(gone ? View.GONE : View.INVISIBLE);
+            if (nextRunnable != null) {
+                nextRunnable.run();
+            }
             return;
         }
         view.animate()
@@ -55,10 +60,17 @@ public class ViewUtils {
                     public void onAnimationEnd(Animator animator) {
                         if (!mCanceled) {
                             view.setVisibility(gone ? View.GONE : View.INVISIBLE);
+                            if (nextRunnable != null) {
+                                nextRunnable.run();
+                            }
                         }
                     }
                 })
                 .start();
+    }
+
+    public static void fadeOut(View view, int duration, boolean gone) {
+        fadeOut(view, duration, gone, null);
     }
 
     public static void fadeOut(View view, boolean gone) {
@@ -116,6 +128,24 @@ public class ViewUtils {
 
     public static void crossfade(View fromView, View toView) {
         crossfade(fromView, toView, true);
+    }
+
+    public static void fadeOutThenFadeIn(final View fromView, final View toView, final int duration,
+                                         final boolean gone) {
+        fadeOut(fromView, duration, gone, new Runnable() {
+            @Override
+            public void run() {
+                fadeIn(toView, duration);
+            }
+        });
+    }
+
+    public static void fadeOutThenFadeIn(View fromView, View toView, boolean gone) {
+        fadeOutThenFadeIn(fromView, toView, getShortAnimTime(fromView), gone);
+    }
+
+    public static void fadeOutThenFadeIn(final View fromView, final View toView) {
+        fadeOutThenFadeIn(fromView, toView, true);
     }
 
     public static float dpToPx(float dp, Context context) {
