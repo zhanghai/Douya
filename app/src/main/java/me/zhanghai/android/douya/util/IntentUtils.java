@@ -38,10 +38,15 @@ public class IntentUtils {
                 .setAction(ACTION_INSTALL_SHORTCUT);
     }
 
+    public static Intent makeLaunchApp(String packageName, Context context) {
+        return context.getPackageManager().getLaunchIntentForPackage(packageName);
+    }
+
     public static Intent makePickFile() {
         return new Intent(Intent.ACTION_GET_CONTENT)
                 .setType(MIME_TYPE_ANY)
                 .addCategory(Intent.CATEGORY_OPENABLE);
+        // TODO: addFlags(Intent.GRANT*) for permission?
     }
 
     // NOTE: Before Build.VERSION_CODES.JELLY_BEAN htmlText will be no-op.
@@ -75,5 +80,9 @@ public class IntentUtils {
 
     public static Intent makeView(Uri uri) {
         return new Intent(Intent.ACTION_VIEW, uri);
+    }
+
+    public static Intent makeViewAppInMarket(String packageName) {
+        return makeView(Uri.parse("market://details?id=" + packageName));
     }
 }
