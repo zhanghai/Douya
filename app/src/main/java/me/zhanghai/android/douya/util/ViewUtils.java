@@ -14,7 +14,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -33,7 +32,7 @@ import me.zhanghai.android.douya.broadcast.ui.ClickableMovementMethod;
 
 public class ViewUtils {
 
-    public static void fadeOut(final View view, int duration) {
+    public static void fadeOut(final View view, int duration, final boolean gone) {
         if (view.getVisibility() != View.VISIBLE || view.getAlpha() == 0) {
             // Cancel any starting animation.
             view.animate()
@@ -49,21 +48,25 @@ public class ViewUtils {
                 .setListener(new AnimatorListenerAdapter() {
                     private boolean mCanceled = false;
                     @Override
-                    public void onAnimationCancel(Animator animation) {
+                    public void onAnimationCancel(Animator animator) {
                         mCanceled = true;
                     }
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         if (!mCanceled) {
-                            view.setVisibility(View.INVISIBLE);
+                            view.setVisibility(gone ? View.GONE : View.INVISIBLE);
                         }
                     }
                 })
                 .start();
     }
 
-    public static void fadeOut(final View view) {
-        fadeOut(view, getShortAnimTime(view));
+    public static void fadeOut(View view, boolean gone) {
+        fadeOut(view, getShortAnimTime(view), gone);
+    }
+
+    public static void fadeOut(View view) {
+        fadeOut(view, true);
     }
 
     public static void fadeIn(View view, int duration) {
@@ -90,21 +93,29 @@ public class ViewUtils {
         fadeIn(view, getShortAnimTime(view));
     }
 
-    public static void fadeToVisibility(View view, boolean visible) {
+    public static void fadeToVisibility(View view, boolean visible, boolean gone) {
         if (visible) {
             fadeIn(view);
         } else {
-            fadeOut(view);
+            fadeOut(view, gone);
         }
     }
 
-    public static void crossfade(View fromView, View toView, int duration) {
-        fadeOut(fromView, duration);
+    public static void fadeToVisibility(View view, boolean visible) {
+        fadeToVisibility(view, visible, true);
+    }
+
+    public static void crossfade(View fromView, View toView, int duration, boolean gone) {
+        fadeOut(fromView, duration, gone);
         fadeIn(toView, duration);
     }
 
+    public static void crossfade(View fromView, View toView, boolean gone) {
+        crossfade(fromView, toView, getShortAnimTime(fromView), gone);
+    }
+
     public static void crossfade(View fromView, View toView) {
-        crossfade(fromView, toView, getShortAnimTime(fromView));
+        crossfade(fromView, toView, true);
     }
 
     public static float dpToPx(float dp, Context context) {
