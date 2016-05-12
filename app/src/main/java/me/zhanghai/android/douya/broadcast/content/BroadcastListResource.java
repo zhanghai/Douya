@@ -176,9 +176,16 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     @Override
-    public void onVolleyResponse(int requestCode, boolean successful, List<Broadcast> result,
-                                 VolleyError error, State requestState) {
-        onLoadComplete(successful, result, error, requestState.loadMore, requestState.count);
+    public void onVolleyResponse(int requestCode, final boolean successful,
+                                 final List<Broadcast> result, final VolleyError error,
+                                 final State requestState) {
+        postOnResumed(new Runnable() {
+            @Override
+            public void run() {
+                onLoadComplete(successful, result, error, requestState.loadMore,
+                        requestState.count);
+            }
+        });
     }
 
     private void onLoadComplete(boolean successful, List<Broadcast> broadcastList,

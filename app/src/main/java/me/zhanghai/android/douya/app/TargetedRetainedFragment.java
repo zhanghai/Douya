@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.app;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FriendlyFragment;
+import android.text.TextUtils;
 
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -22,10 +23,8 @@ public class TargetedRetainedFragment extends RetainedFragment {
     public static final String EXTRA_REQUEST_CODE = KEY_PREFIX + "request_code";
 
     private boolean mTargetedAtActivity;
-    private String mTargetFragmentWho;
-    private int mRequestCode = REQUEST_CODE_INVALID;
-
     private Fragment mTargetFragment;
+    private int mRequestCode = REQUEST_CODE_INVALID;
 
     /**
      * Should be called in {@link Fragment#onDestroy()}.
@@ -34,15 +33,15 @@ public class TargetedRetainedFragment extends RetainedFragment {
         if (!mTargetedAtActivity) {
             // Because this is called inside our target's onDestroy, it cannot be already detached,
             // so we can always find it.
-            Fragment targetFragment = getTargetFragmentFriendly();
+            Fragment fragment = mTargetFragment;
             // isRemoving() is not set when child fragment is destroyed due to parent removal, so we
             // have to walk through its ancestors.
-            while (targetFragment != null) {
-                if (targetFragment.isRemoving()) {
+            while (fragment != null) {
+                if (fragment.isRemoving()) {
                     FragmentUtils.remove(this);
                     break;
                 }
-                targetFragment = targetFragment.getParentFragment();
+                fragment = fragment.getParentFragment();
             }
         }
     }
@@ -74,24 +73,44 @@ public class TargetedRetainedFragment extends RetainedFragment {
 
         Bundle arguments = getArguments();
         mTargetedAtActivity = arguments.getBoolean(EXTRA_TARGETED_AT_ACTIVITY);
-        mTargetFragmentWho = arguments.getString(EXTRA_TARGET_FRAGMENT_WHO);
         mRequestCode = arguments.getInt(EXTRA_REQUEST_CODE);
+    }
+
+    // Must be after onCreate() so that all child fragment managers has restored their state.
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        findTargetFragmentIf();
     }
 
     // Don't use get/setTargetFragment(); It can only target at fragments under the same fragment
     // manager.
     // The timing of calling this method can be tricky; However in most cases it will work.
-    protected Fragment getTargetFragmentFriendly() {
-        if (mTargetedAtActivity || mTargetFragmentWho == null) {
+    private void findTargetFragmentIf() {
+
+        if (mTargetedAtActivity || mTargetFragment != null) {
+            return;
+        }
+
+        String who = getArguments().getString(EXTRA_TARGET_FRAGMENT_WHO);
+        if (TextUtils.isEmpty(who)) {
             throw new IllegalStateException("Target fragment not set");
         }
-        if (mTargetFragment == null) {
-            mTargetFragment = FriendlyFragment.findByWho(getActivity(), mTargetFragmentWho);
-        }
+        mTargetFragment = FriendlyFragment.findByWho(getActivity(), who);
         if (mTargetFragment == null) {
             throw new IllegalStateException("Target fragment not found");
         }
-        return mTargetFragment;
+    }
+
+    private void saveTargetFragmentIf() {
+
+        if (mTargetedAtActivity) {
+            return;
+        }
+
+        getArguments().putString(EXTRA_TARGET_FRAGMENT_WHO,
+                FriendlyFragment.getWho(mTargetFragment));
     }
 
     @Override
@@ -105,7 +124,8 @@ public class TargetedRetainedFragment extends RetainedFragment {
         if (mTargetedAtActivity) {
             return getActivity();
         } else {
-            return getTargetFragmentFriendly();
+            findTargetFragmentIf();
+            return mTargetFragment;
         }
     }
 

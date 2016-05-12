@@ -63,9 +63,15 @@ public abstract class UserListResource extends ResourceFragment
     protected abstract ApiRequest<List<User>> onCreateRequest(Integer start, Integer count);
 
     @Override
-    public void onVolleyResponse(int requestCode, boolean successful, List<User> result,
-                                 VolleyError error, State requestState) {
-        onLoadComplete(successful, result, error, requestState.loadMore, requestState.count);
+    public void onVolleyResponse(int requestCode, final boolean successful, final List<User> result,
+                                 final VolleyError error, final State requestState) {
+        postOnResumed(new Runnable() {
+            @Override
+            public void run() {
+                onLoadComplete(successful, result, error, requestState.loadMore,
+                        requestState.count);
+            }
+        });
     }
 
     private void onLoadComplete(boolean successful, List<User> userList, VolleyError error,

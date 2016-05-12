@@ -5,7 +5,9 @@
 
 package me.zhanghai.android.douya.network;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -22,56 +24,66 @@ import me.zhanghai.android.douya.util.FragmentUtils;
  * <p>Response will only be delivered when this Fragment is in resumed state. This Fragment will be
  * automatically removed once response delivery is done.</p>
  *
+ * <p>Response is not guaranteed to be delivered if this fragment (and its hosting activity) gets
+ * destroyed, because it is impossible to continue tracking the request in this case. The recreated
+ * instance of this fragment will then remove itself.</p>
+ *
  * @param <T> The type of parsed response the request expects.
  */
 public class RequestFragment<T, S> extends TargetedRetainedFragment {
 
     private static final String TAG = RequestFragment.class.getName();
 
+    private Request<T> mRequest;
     private S mRequestState;
 
-    private Request<T> mRequest;
-
-    private boolean mHasPendingResponse = false;
-    private boolean mPendingSuccessful;
-    private T mPendingResult = null;
-    private VolleyError mPendingError = null;
-
-    public static <T, S> void startRequest(int requestCode, Request<T> request, S requestState,
-                                           FragmentActivity targetActivity) {
-        RequestFragment<T, S> fragment = new RequestFragment<>();
-        FragmentUtils.add(fragment, targetActivity);
+    public static <T, S> void startRequest(Request<T> request, S requestState,
+                                           FragmentActivity targetActivity, int requestCode) {
+        RequestFragment<T, S> fragment = new RequestFragment<>(request, requestState);
         fragment.targetAtActivity(requestCode);
-        fragment.setState(requestState);
-        fragment.startRequest(request, targetActivity);
+        fragment.startRequest(targetActivity);
+        FragmentUtils.add(fragment, targetActivity);
     }
 
     public static <T, S> void startRequest(Request<T> request, S requestState,
                                            FragmentActivity targetActivity) {
-        startRequest(REQUEST_CODE_INVALID, request, requestState, targetActivity);
+        startRequest(request, requestState, targetActivity, REQUEST_CODE_INVALID);
     }
 
-    public static <T, S> void startRequest(int requestCode, Request<T> request, S requestState,
-                                           Fragment targetFragment) {
-        RequestFragment<T, S> fragment = new RequestFragment<>();
-        FragmentActivity activity = targetFragment.getActivity();
-        FragmentUtils.add(fragment, activity);
+    public static <T, S> void startRequest(Request<T> request, S requestState,
+                                           Fragment targetFragment, int requestCode) {
+        RequestFragment<T, S> fragment = new RequestFragment<>(request, requestState);
         fragment.targetAtFragment(targetFragment, requestCode);
-        fragment.setState(requestState);
-        fragment.startRequest(request, activity);
+        FragmentActivity activity = targetFragment.getActivity();
+        fragment.startRequest(activity);
+        FragmentUtils.add(fragment, activity);
     }
 
     public static <T, S> void startRequest(Request<T> request, S requestState,
                                            Fragment targetFragment) {
-        startRequest(REQUEST_CODE_INVALID, request, requestState, targetFragment);
+        startRequest(request, requestState, targetFragment, REQUEST_CODE_INVALID);
+    }
+
+    /**
+     * @deprecated Use {@code startRequest()} instead.
+     */
+    public RequestFragment() {}
+
+    @SuppressLint("ValidFragment")
+    private RequestFragment(Request<T> request, S requestState) {
+        mRequest = request;
+        mRequestState = requestState;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        if (mHasPendingResponse) {
-            deliverResponse(mPendingSuccessful, mPendingResult, mPendingError);
+        if (mRequest == null) {
+            // We are being created because a previous instance is destroyed with its activity.
+            // Since it's impossible for us to listen to the request in this case, we'll just ignore
+            // it and remove this fragment.
+            FragmentUtils.remove(this);
         }
     }
 
@@ -85,65 +97,39 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
         }
     }
 
-    private void setState(S requestState) {
-        mRequestState = requestState;
-    }
-
     // Need to pass in a context here because getActivity() returns null when we are just added.
-    private void startRequest(Request<T> request, Context context) {
-
-        mRequest = request;
+    private void startRequest(Context context) {
         mRequest
                 .setListener(new Response.Listener<T>() {
                     @Override
                     public void onResponse(T response) {
-                        onResult(response);
+                        onVolleyResponse(true, response, null);
                     }
                 })
                 .setErrorListener(new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onError(error);
+                        onVolleyResponse(false, null, error);
                     }
                 });
-
         Volley.getInstance(context).addToRequestQueue(mRequest);
     }
 
-    private void onResult(T result) {
+    private void onVolleyResponse(final boolean successful, final T result,
+                                  final VolleyError error) {
         clearRequest();
-        if (isResumed()) {
-            deliverResponse(true, result, null);
-        } else {
-            addPendingResult(result);
-        }
-    }
-
-    private void onError(VolleyError error) {
-        clearRequest();
-        if (isResumed()) {
-            deliverResponse(false, null, error);
-        } else {
-            addPendingError(error);
-        }
+        postOnResumed(new Runnable() {
+            @Override
+            public void run() {
+                deliverResponse(successful, result, error);
+            }
+        });
     }
 
     private void clearRequest() {
         mRequest.setListener(null);
         mRequest.setErrorListener(null);
         mRequest = null;
-    }
-
-    private void addPendingResult(T result) {
-        mHasPendingResponse = true;
-        mPendingSuccessful = true;
-        mPendingResult = result;
-    }
-
-    private void addPendingError(VolleyError error) {
-        mHasPendingResponse = true;
-        mPendingSuccessful = false;
-        mPendingError = error;
     }
 
     private void deliverResponse(boolean successful, T result, VolleyError error) {
@@ -157,9 +143,6 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
         }
 
         mRequestState = null;
-        mHasPendingResponse = false;
-        mPendingResult = null;
-        mPendingError = null;
 
         FragmentUtils.remove(this);
     }
