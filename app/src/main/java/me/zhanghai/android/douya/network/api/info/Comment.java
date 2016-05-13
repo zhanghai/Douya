@@ -30,6 +30,10 @@ public class Comment implements Parcelable {
 
     public String source;
 
+    public boolean isAuthorOneself(Context context) {
+        return author.isOneself(context);
+    }
+
     public CharSequence getContentWithEntities(Context context) {
         return Entity.applyEntities(content, entities, context);
     }

@@ -266,7 +266,7 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
         mLoadingUserInfo = true;
 
         ApiRequest<UserInfo> request = ApiRequests.newUserInfoRequest(mUserIdOrUid, this);
-        RequestFragment.startRequest(REQUEST_CODE_LOAD_USER_INFO, request, null, this);
+        RequestFragment.startRequest(request, null, this, REQUEST_CODE_LOAD_USER_INFO);
     }
 
     private void onLoadUserInfoResponse(boolean successful, UserInfo result, VolleyError error) {
@@ -306,7 +306,7 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
 
         ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(mUserIdOrUid,
                 null, null, BROADCAST_COUNT_PER_LOAD, this);
-        RequestFragment.startRequest(REQUEST_CODE_LOAD_BROADCAST_LIST, request, null, this);
+        RequestFragment.startRequest(request, null, this, REQUEST_CODE_LOAD_BROADCAST_LIST);
     }
 
     private void onLoadBroadcastListResponse(boolean successful, List<Broadcast> result,

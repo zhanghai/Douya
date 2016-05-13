@@ -26,22 +26,16 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
 import me.zhanghai.android.douya.broadcast.content.HomeBroadcastListResource;
-import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
-import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
+import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
+import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.main.ui.MainActivity;
-import me.zhanghai.android.douya.network.RequestFragment;
-import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.ui.AppBarManager;
 import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
@@ -49,18 +43,15 @@ import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingSlopListener;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
-import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 // TODO: Split into HomeBroadcastListFragment and BroadcastListFragment.
 public class BroadcastListFragment extends Fragment implements BroadcastListResource.Listener,
-        RequestFragment.Listener, BroadcastAdapter.Listener {
-
-    private static final int REQUEST_CODE_LIKE_BROADCAST = 1;
-    private static final int REQUEST_CODE_REBROADCAST_BROADCAST = 2;
+        BroadcastAdapter.Listener {
 
     private static final String KEY_PREFIX = BroadcastListFragment.class.getName() + '.';
 
@@ -206,24 +197,6 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
     }
 
     @Override
-    public void onVolleyResponse(int requestCode, boolean successful, Object result,
-                                 VolleyError error, Object requestState) {
-        switch (requestCode) {
-            case REQUEST_CODE_LIKE_BROADCAST:
-                onLikeBroadcastResponse(successful, (Broadcast) result, error,
-                        (LikeBroadcastState) requestState);
-                break;
-            case REQUEST_CODE_REBROADCAST_BROADCAST:
-                onRebroadcastBroadcastResponse(successful, (Broadcast) result, error,
-                        (RebroadcastBroadcastState) requestState);
-                break;
-            default:
-                LogUtils.w("Unknown request code " + requestCode + ", with successful=" + successful
-                        + ", result=" + result + ", error=" + error);
-        }
-    }
-
-    @Override
     public void onLoadBroadcastList(int requestCode, boolean loadMore) {
         setRefreshing(true, loadMore);
     }
@@ -260,6 +233,16 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
         mBroadcastAdapter.remove(position);
     }
 
+    @Override
+    public void onBroadcastWriteCompleted(int requestCode, int position) {
+        mBroadcastAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void onBroadcastWriteStarted(int requestCode, int position) {
+        mBroadcastAdapter.notifyItemChanged(position);
+    }
+
     private void setRefreshing(boolean refreshing, boolean loadMore) {
         mSwipeRefreshLayout.setEnabled(!refreshing);
         if (!refreshing) {
@@ -271,134 +254,13 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
     }
 
     @Override
-    public boolean onLikeBroadcast(long itemId, Broadcast broadcast, boolean like) {
-
-        Activity activity = getActivity();
-
-        if (broadcast.author.id == AccountUtils.getUserId(activity)) {
-            ToastUtils.show(R.string.broadcast_like_error_cannot_like_oneself, activity);
-            return false;
-        }
-
-        ApiRequest<Broadcast> request = ApiRequests.newLikeBroadcastRequest(broadcast.id, like,
-                activity);
-        LikeBroadcastState state = new LikeBroadcastState(itemId, broadcast.id, like);
-        RequestFragment.startRequest(REQUEST_CODE_LIKE_BROADCAST, request, state, this);
-        return true;
-    }
-
-    private void onLikeBroadcastResponse(boolean successful, Broadcast result, VolleyError error,
-                                         LikeBroadcastState state) {
-
-        Activity activity = getActivity();
-        if (successful) {
-
-            EventBus.getDefault().post(new BroadcastUpdatedEvent(result));
-            ToastUtils.show(state.like ? R.string.broadcast_like_successful
-                    : R.string.broadcast_unlike_successful, getActivity());
-        } else {
-
-            LogUtils.e(error.toString());
-            boolean notified = false;
-            if (error instanceof ApiError) {
-                // Correct our local state if needed.
-                ApiError apiError = (ApiError) error;
-                Boolean shouldBeLiked = null;
-                if (apiError.code == Codes.LikeBroadcast.ALREADY_LIKED) {
-                    shouldBeLiked = true;
-                } else if (apiError.code == Codes.LikeBroadcast.NOT_LIKED_YET) {
-                    shouldBeLiked = false;
-                }
-                if (shouldBeLiked != null) {
-                    Broadcast broadcast = mBroadcastAdapter.findBroadcastById(state.broadcastId);
-                    if (broadcast != null) {
-                        broadcast.fixLiked(shouldBeLiked);
-                        EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
-                        notified = true;
-                    }
-                }
-            }
-            if (!notified) {
-                // Must notify changed to reset pending status so that off-screen
-                // items will be invalidated.
-                mBroadcastAdapter.notifyItemChangedById(state.itemId);
-            }
-            ToastUtils.show(activity.getString(state.like ? R.string.broadcast_like_failed_format
-                            : R.string.broadcast_unlike_failed_format,
-                    ApiError.getErrorString(error, activity)), activity);
-        }
+    public void onLikeBroadcast(Broadcast broadcast, boolean like) {
+        LikeBroadcastManager.getInstance().write(broadcast, like, getActivity());
     }
 
     @Override
-    public boolean onRebroadcastBroadcast(long itemId, Broadcast broadcast, boolean rebroadcast) {
-
-        Activity activity = getActivity();
-
-        if (broadcast.author.id == AccountUtils.getUserId(activity)) {
-            ToastUtils.show(R.string.broadcast_rebroadcast_error_cannot_rebroadcast_oneself,
-                    activity);
-            return false;
-        }
-
-        ApiRequest<Broadcast> request = ApiRequests.newRebroadcastBroadcastRequest(broadcast.id,
-                rebroadcast, getActivity());
-        RebroadcastBroadcastState state = new RebroadcastBroadcastState(itemId, broadcast.id,
-                rebroadcast);
-        RequestFragment.startRequest(REQUEST_CODE_REBROADCAST_BROADCAST, request, state, this);
-        return true;
-    }
-
-    private void onRebroadcastBroadcastResponse(boolean successful, Broadcast result,
-                                                VolleyError error,
-                                                RebroadcastBroadcastState state) {
-
-        Activity activity = getActivity();
-        if (successful) {
-
-            if (!state.rebroadcast) {
-                // Delete the rebroadcast broadcast by user. Must be done before we
-                // update the broadcast so that we can retrieve rebroadcastId for the
-                // old one.
-                Broadcast broadcast = mBroadcastAdapter.findBroadcastById(state.broadcastId);
-                if (broadcast != null && broadcast.rebroadcastId != null) {
-                    EventBus.getDefault().post(new BroadcastDeletedEvent(broadcast.rebroadcastId));
-                }
-            }
-            EventBus.getDefault().post(new BroadcastUpdatedEvent(result));
-            ToastUtils.show(state.rebroadcast ? R.string.broadcast_rebroadcast_successful
-                    : R.string.broadcast_unrebroadcast_successful, activity);
-        } else {
-
-            LogUtils.e(error.toString());
-            boolean notified = false;
-            if (error instanceof ApiError) {
-                // Correct our local state if needed.
-                ApiError apiError = (ApiError) error;
-                Boolean shouldBeRebroadcasted = null;
-                if (apiError.code == Codes.RebroadcastBroadcast.ALREADY_REBROADCASTED) {
-                    shouldBeRebroadcasted = true;
-                } else if (apiError.code == Codes.RebroadcastBroadcast.NOT_REBROADCASTED_YET) {
-                    shouldBeRebroadcasted = false;
-                }
-                if (shouldBeRebroadcasted != null) {
-                    Broadcast broadcast = mBroadcastAdapter.findBroadcastById(state.broadcastId);
-                    if (broadcast != null) {
-                        broadcast.fixRebroacasted(shouldBeRebroadcasted);
-                        EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
-                        notified = true;
-                    }
-                }
-            }
-            if (!notified) {
-                // Must notify changed to reset pending status so that off-screen
-                // items will be invalidated.
-                mBroadcastAdapter.notifyItemChangedById(state.itemId);
-            }
-            ToastUtils.show(activity.getString(state.rebroadcast ?
-                            R.string.broadcast_rebroadcast_failed_format
-                            : R.string.broadcast_unrebroadcast_failed_format,
-                    ApiError.getErrorString(error, activity)), activity);
-        }
+    public void onRebroadcastBroadcast(Broadcast broadcast, boolean rebroadcast) {
+        RebroadcastBroadcastManager.getInstance().write(broadcast, rebroadcast, getActivity());
     }
 
     @Override
@@ -433,32 +295,6 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
         public ViewState(int progressVisibility, boolean adapterProgressVisible) {
             this.progressVisibility = progressVisibility;
             this.adapterProgressVisible = adapterProgressVisible;
-        }
-    }
-
-    private static class LikeBroadcastState {
-
-        public long itemId;
-        public long broadcastId;
-        public boolean like;
-
-        public LikeBroadcastState(long itemId, long broadcastId, boolean like) {
-            this.itemId = itemId;
-            this.broadcastId = broadcastId;
-            this.like = like;
-        }
-    }
-
-    private static class RebroadcastBroadcastState {
-
-        public long itemId;
-        public long broadcastId;
-        public boolean rebroadcast;
-
-        public RebroadcastBroadcastState(long itemId, long broadcastId, boolean rebroadcast) {
-            this.itemId = itemId;
-            this.broadcastId = broadcastId;
-            this.rebroadcast = rebroadcast;
         }
     }
 }

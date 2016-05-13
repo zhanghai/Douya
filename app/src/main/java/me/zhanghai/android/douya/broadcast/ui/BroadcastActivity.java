@@ -33,7 +33,6 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
@@ -316,7 +315,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
         Broadcast broadcast = mBroadcastAdapter.getBroadcast();
         boolean hasBroadcast = broadcast != null;
         menu.findItem(R.id.action_copy_text).setVisible(hasBroadcast);
-        boolean canDelete = hasBroadcast && broadcast.author.id == AccountUtils.getUserId(this);
+        boolean canDelete = hasBroadcast && broadcast.isAuthorOneself(this);
         menu.findItem(R.id.action_delete).setVisible(canDelete);
         return true;
     }
@@ -381,7 +380,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
         ApiRequest<Broadcast> request = ApiRequests.newBroadcastRequest(mBroadcastId, this);
         LoadBroadcastState state = new LoadBroadcastState(loadCommentList);
-        RequestFragment.startRequest(REQUEST_CODE_LOAD_BROADCAST, request, state, this);
+        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LOAD_BROADCAST);
 
         mLoadingBroadcastOrCommentList = true;
         setBroadcastRefreshing(true);
@@ -430,7 +429,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
         ApiRequest<CommentList> request = ApiRequests.newBroadcastCommentListRequest(mBroadcastId,
                 start, count, this);
         LoadCommentListState state = new LoadCommentListState(loadMore, count);
-        RequestFragment.startRequest(REQUEST_CODE_LOAD_COMMENT_LIST, request, state, this);
+        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LOAD_COMMENT_LIST);
 
         mLoadingBroadcastOrCommentList = true;
         setCommentsRefreshing(true, loadMore);
@@ -469,7 +468,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     public boolean onLike(boolean like) {
 
         if (mBroadcastAdapter.hasBroadcast()
-                && mBroadcastAdapter.getBroadcast().author.id == AccountUtils.getUserId(this)) {
+                && mBroadcastAdapter.getBroadcast().isAuthorOneself(this)) {
             ToastUtils.show(R.string.broadcast_like_error_cannot_like_oneself, this);
             return false;
         }
@@ -477,7 +476,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
         ApiRequest<Broadcast> request = ApiRequests.newLikeBroadcastRequest(mBroadcastId, like,
                 this);
         LikeState state = new LikeState(like);
-        RequestFragment.startRequest(REQUEST_CODE_LIKE, request, state, this);
+        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LIKE);
         return true;
     }
 
@@ -527,7 +526,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     public boolean onRebroadcast(boolean rebroadcast) {
 
         if (mBroadcastAdapter.hasBroadcast()
-                && mBroadcastAdapter.getBroadcast().author.id == AccountUtils.getUserId(this)) {
+                && mBroadcastAdapter.getBroadcast().isAuthorOneself(this)) {
             ToastUtils.show(R.string.broadcast_rebroadcast_error_cannot_rebroadcast_oneself, this);
             return false;
         }
@@ -535,7 +534,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
         ApiRequest<Broadcast> request = ApiRequests.newRebroadcastBroadcastRequest(mBroadcastId,
                 rebroadcast, this);
         RebroadcastState state = new RebroadcastState(rebroadcast);
-        RequestFragment.startRequest(REQUEST_CODE_REBROADCAST, request, state, this);
+        RequestFragment.startRequest(request, state, this, REQUEST_CODE_REBROADCAST);
         return true;
     }
 
@@ -576,7 +575,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
                         shouldBeRebroadcasted = false;
                     }
                     if (shouldBeRebroadcasted != null) {
-                        broadcast.fixRebroacasted(shouldBeRebroadcasted);
+                        broadcast.fixRebroadcasted(shouldBeRebroadcasted);
                         EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
                         notified = true;
                     }
@@ -610,10 +609,9 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     private void onShowCommentAction(Comment comment) {
         boolean canReplyTo = canSendComment();
-        long userId = AccountUtils.getUserId(this);
         boolean canDelete = (mBroadcastAdapter.hasBroadcast()
-                && mBroadcastAdapter.getBroadcast().author.id == userId)
-                || comment.author.id == userId;
+                && mBroadcastAdapter.getBroadcast().isAuthorOneself(this))
+                || comment.isAuthorOneself(this);
         CommentActionDialogFragment.show(comment, canReplyTo, canDelete, this);
     }
 
@@ -636,9 +634,8 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     @Override
     public void deleteComment(Comment comment) {
-        RequestFragment.startRequest(REQUEST_CODE_DELETE_COMMENT,
-                ApiRequests.newDeleteBroadcastCommentRequest(mBroadcastId, comment.id, this),
-                new DeleteCommentState(comment.id), this);
+        RequestFragment.startRequest(ApiRequests.newDeleteBroadcastCommentRequest(mBroadcastId, comment.id, this), new DeleteCommentState(comment.id), this, REQUEST_CODE_DELETE_COMMENT
+        );
     }
 
     private void onDeleteCommentResponse(boolean successful, Boolean result, VolleyError error,
@@ -674,7 +671,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
         ApiRequest<Comment> request = ApiRequests.newSendBroadcastCommentRequest(mBroadcastId,
                 comment, this);
-        RequestFragment.startRequest(REQUEST_CODE_SEND_COMMENT, request, null, this);
+        RequestFragment.startRequest(request, null, this, REQUEST_CODE_SEND_COMMENT);
 
         setSendingComment(true);
     }
@@ -746,8 +743,8 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     @Override
     public void deleteBroadcast() {
-        RequestFragment.startRequest(REQUEST_CODE_DELETE_BROADCAST,
-                ApiRequests.newDeleteBroadcastRequest(mBroadcastId, this), null, this);
+        RequestFragment.startRequest(ApiRequests.newDeleteBroadcastRequest(mBroadcastId, this), null, this, REQUEST_CODE_DELETE_BROADCAST
+        );
     }
 
     private void onDeleteBroadcastResponse(boolean successful, Broadcast result,

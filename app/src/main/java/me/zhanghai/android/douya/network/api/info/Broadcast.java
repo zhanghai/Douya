@@ -71,6 +71,14 @@ public class Broadcast implements Parcelable {
 
     public String type;
 
+    public boolean isAuthorOneself(Context context) {
+        return author != null && author.isOneself(context);
+    }
+
+    public String getAuthorName() {
+        return isInterest ? interestType : author.name;
+    }
+
     public CharSequence getTextWithEntities(Context context) {
         return Entity.applyEntities(text, entities, context);
     }
@@ -94,13 +102,14 @@ public class Broadcast implements Parcelable {
         return rebroadcastId != null || rebroadcastedFix;
     }
 
-    public void fixRebroacasted(boolean rebroadcasted) {
+    public void fixRebroadcasted(boolean rebroadcasted) {
         if (isRebroadcasted() != rebroadcasted) {
             if (rebroadcasted) {
                 rebroadcastedFix = true;
                 ++rebroadcastCount;
             } else {
                 rebroadcastId = null;
+                rebroadcastedFix = false;
                 --rebroadcastCount;
             }
         }
@@ -108,7 +117,7 @@ public class Broadcast implements Parcelable {
 
     public String getRebroadcastedBy(Context context) {
         return rebroadcastedBroadcast != null ?
-                context.getString(R.string.broadcast_rebroadcasted_by_format, author.name)
+                context.getString(R.string.broadcast_rebroadcasted_by_format, getAuthorName())
                 : null;
     }
 
@@ -130,12 +139,12 @@ public class Broadcast implements Parcelable {
     }
 
     public String getClipboradLabel() {
-        return author.name;
+        return getAuthorName();
     }
 
     public String getClipboardText(Context context) {
         StringBuilder builder = new StringBuilder()
-                .append(author.name)
+                .append(getAuthorName())
                 .append(' ')
                 .append(getActionWithTime(context));
         if (attachment != null) {

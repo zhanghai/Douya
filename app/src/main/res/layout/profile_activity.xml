@@ -143,8 +143,7 @@
         <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/window_background_light"
-            android:fillViewport="true">
+            android:background="@color/window_background_light">
 
             <FrameLayout
                 android:layout_width="match_parent"

@@ -19,6 +19,8 @@ import de.greenrobot.event.EventBus;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
+import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
+import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
@@ -255,6 +257,40 @@ public class BroadcastListResource extends ResourceFragment
         }
     }
 
+    @Keep
+    public void onEventMainThread(BroadcastWriteStartedEvent event) {
+
+        if (mBroadcastList == null) {
+            return;
+        }
+
+        for (int i = 0, size = mBroadcastList.size(); i < size; ++i) {
+            Broadcast broadcast = mBroadcastList.get(i);
+            if (broadcast.id == event.broadcastId
+                    || (broadcast.rebroadcastedBroadcast != null
+                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
+                getListener().onBroadcastWriteStarted(getRequestCode(), i);
+            }
+        }
+    }
+
+    @Keep
+    public void onEventMainThread(BroadcastWriteFinishedEvent event) {
+
+        if (mBroadcastList == null) {
+            return;
+        }
+
+        for (int i = 0, size = mBroadcastList.size(); i < size; ++i) {
+            Broadcast broadcast = mBroadcastList.get(i);
+            if (broadcast.id == event.broadcastId
+                    || (broadcast.rebroadcastedBroadcast != null
+                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
+                getListener().onBroadcastWriteCompleted(getRequestCode(), i);
+            }
+        }
+    }
+
     protected void setLoading(boolean loading) {
         mLoading = loading;
     }
@@ -294,5 +330,7 @@ public class BroadcastListResource extends ResourceFragment
         void onLoadBroadcastListError(int requestCode, VolleyError error);
         void onBroadcastChanged(int requestCode, int position, Broadcast newBroadcast);
         void onBroadcastRemoved(int requestCode, int position);
+        void onBroadcastWriteStarted(int requestCode, int position);
+        void onBroadcastWriteCompleted(int requestCode, int position);
     }
 }

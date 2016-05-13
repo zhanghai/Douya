@@ -25,6 +25,10 @@ import me.zhanghai.android.douya.network.api.info.NotificationList;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.network.api.info.UserInfo;
 
+/**
+ * The {@code context} argument is only used for
+ * {@code Volley.getInstance(context).getAuthenticator()}.
+ */
 public class ApiRequests {
 
     private ApiRequests() {}
@@ -35,7 +39,7 @@ public class ApiRequests {
             userIdOrUid = ApiContract.Request.UserInfo.UID_CURRENT;
         }
 
-        return new ApiRequest<>(ApiRequest.Method.GET,
+        return new LifeStreamRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.UserInfo.URL_FORMAT, userIdOrUid),
                 new TypeToken<UserInfo>() {}, context);
     }
@@ -85,7 +89,7 @@ public class ApiRequests {
             url = ApiContract.Request.BroadcastList.Urls.TOPIC;
         }
 
-        ApiRequest<List<Broadcast>> request = new ApiRequest<>(ApiRequest.Method.GET, url,
+        ApiRequest<List<Broadcast>> request = new LifeStreamRequest<>(ApiRequest.Method.GET, url,
                 new TypeToken<List<Broadcast>>() {}, context);
 
         if (untilId != null) {
@@ -109,7 +113,7 @@ public class ApiRequests {
 
     public static ApiRequest<Broadcast> newBroadcastRequest(long broadcastId, Context context) {
 
-        return new ApiRequest<>(ApiRequest.Method.GET,
+        return new LifeStreamRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.Broadcast.URL_FORMAT, broadcastId),
                 new TypeToken<Broadcast>() {}, context);
     }
@@ -119,7 +123,7 @@ public class ApiRequests {
                                                                          Integer count,
                                                                          Context context) {
 
-        ApiRequest<CommentList> request = new ApiRequest<>(ApiRequest.Method.GET,
+        ApiRequest<CommentList> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.BroadcastCommentList.URL_FORMAT, broadcastId),
                 new TypeToken<CommentList>() {}, context);
 
@@ -136,7 +140,7 @@ public class ApiRequests {
     public static ApiRequest<Broadcast> newLikeBroadcastRequest(long broadcastId, boolean like,
                                                                 Context context) {
 
-        return new ApiRequest<>(like ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
+        return new LifeStreamRequest<>(like ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
                 String.format(ApiContract.Request.LikeBroadcast.URL_FORMAT, broadcastId),
                 new TypeToken<Broadcast>() {}, context);
     }
@@ -145,7 +149,8 @@ public class ApiRequests {
                                                                        boolean rebroadcast,
                                                                        Context context) {
 
-        return new ApiRequest<>(rebroadcast ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
+        return new LifeStreamRequest<>(rebroadcast ? ApiRequest.Method.POST
+                : ApiRequest.Method.DELETE,
                 String.format(ApiContract.Request.RebroadcastBroadcast.URL_FORMAT, broadcastId),
                 new TypeToken<Broadcast>() {}, context);
     }
@@ -154,7 +159,7 @@ public class ApiRequests {
                                                                       Integer start, Integer count,
                                                                       Context context) {
 
-        ApiRequest<List<User>> request = new ApiRequest<>(ApiRequest.Method.GET,
+        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.BroadcastLikerList.URL_FORMAT, broadcastId),
                 new TypeToken<List<User>>() {}, context);
 
@@ -173,7 +178,7 @@ public class ApiRequests {
                                                                               Integer count,
                                                                               Context context) {
 
-        ApiRequest<List<User>> request = new ApiRequest<>(ApiRequest.Method.GET,
+        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.BroadcastRebroadcasterList.URL_FORMAT,
                         broadcastId), new TypeToken<List<User>>() {}, context);
 
@@ -192,7 +197,7 @@ public class ApiRequests {
     public static ApiRequest<Boolean> newDeleteBroadcastCommentRequest(long broadcastId,
                                                                        long commentId,
                                                                        Context context) {
-        return new ApiRequest<>(ApiRequest.Method.DELETE, String.format(
+        return new LifeStreamRequest<>(ApiRequest.Method.DELETE, String.format(
                 ApiContract.Request.DeleteBroadcastComment.URL_FORMAT, broadcastId, commentId),
                 new TypeToken<Boolean>() {}, context);
     }
@@ -201,7 +206,7 @@ public class ApiRequests {
                                                                      String comment,
                                                                      Context context) {
 
-        ApiRequest<Comment> request = new ApiRequest<>(ApiRequest.Method.POST,
+        ApiRequest<Comment> request = new LifeStreamRequest<>(ApiRequest.Method.POST,
                 String.format(ApiContract.Request.SendBroadcastComment.URL_FORMAT, broadcastId),
                 new TypeToken<Comment>() {}, context);
 
@@ -212,7 +217,7 @@ public class ApiRequests {
 
     public static ApiRequest<Broadcast> newDeleteBroadcastRequest(long broadcastId,
                                                                   Context context) {
-        return new ApiRequest<>(ApiRequest.Method.DELETE,
+        return new LifeStreamRequest<>(ApiRequest.Method.DELETE,
                 String.format(ApiContract.Request.DeleteBroadcast.URL_FORMAT, broadcastId),
                 new TypeToken<Broadcast>() {}, context);
     }

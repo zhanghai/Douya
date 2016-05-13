@@ -236,12 +236,12 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
     private void onStartAuth() {
 
         TokenRequest request = new TokenRequest(mUsername, mPassword);
-        RequestFragment.startRequest(REQUEST_CODE_AUTH, request, null, this);
+        RequestFragment.startRequest(request, null, this, REQUEST_CODE_AUTH);
 
         mUsernameLayout.setError(null);
         mPasswordLayout.setError(null);
         mLoginButton.setEnabled(false);
-        ViewUtils.crossfade(mFormLayout, mProgress);
+        ViewUtils.crossfade(mFormLayout, mProgress, false);
         mShowingProgress = true;
     }
 

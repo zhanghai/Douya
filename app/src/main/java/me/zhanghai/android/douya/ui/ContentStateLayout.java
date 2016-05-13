@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.util;
+package me.zhanghai.android.douya.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -19,6 +19,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ContentStateLayout extends FrameLayout {
 
@@ -142,7 +143,7 @@ public class ContentStateLayout extends FrameLayout {
         if (animate) {
             ViewUtils.fadeToVisibility(view, visible);
         } else {
-            ViewUtils.setVisibleOrInvisible(view, visible);
+            ViewUtils.setVisibleOrGone(view, visible);
         }
     }
 

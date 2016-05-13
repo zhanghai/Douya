@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.broadcast.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.network.api.info.Attachment;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.Image;
@@ -159,14 +161,20 @@ public class BroadcastLayout extends LinearLayout {
 
         final Context context = getContext();
 
-        ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar, context);
-        mAvatarImage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(ProfileActivity.makeIntent(broadcast.author, context));
-            }
-        });
-        mNameText.setText(broadcast.author.name);
+        if (broadcast.isInterest) {
+            mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.recommendation_avatar_icon_grey600_40dp));
+            mAvatarImage.setOnClickListener(null);
+        } else {
+            ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar, context);
+            mAvatarImage.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(ProfileActivity.makeIntent(broadcast.author, context));
+                }
+            });
+        }
+        mNameText.setText(broadcast.getAuthorName());
         mTimeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
 
         boolean isRebind = mBoundBroadcastId != null && mBoundBroadcastId == broadcast.id;
@@ -236,9 +244,18 @@ public class BroadcastLayout extends LinearLayout {
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());
-        mLikeButton.setActivated(broadcast.liked);
-        mLikeButton.setEnabled(true);
+        LikeBroadcastManager likeBroadcastManager = LikeBroadcastManager.getInstance();
+        if (likeBroadcastManager.isWriting(broadcast.id)) {
+            // The appearance is reversed, for that we can set enabled to false and the button will
+            // appear as nearly otherwise.
+            mLikeButton.setActivated(!likeBroadcastManager.isWritingLike(broadcast.id));
+            mLikeButton.setEnabled(false);
+        } else {
+            mLikeButton.setActivated(broadcast.liked);
+            mLikeButton.setEnabled(true);
+        }
         mRebroadcastButton.setActivated(broadcast.isRebroadcasted());
+        // TODO
         mRebroadcastButton.setEnabled(true);
         mCommentButton.setText(broadcast.getCommentCountString());
 

@@ -33,6 +33,9 @@ public class ApiRequest<T> extends Request<T> {
     private Authenticator mAuthenticator;
     private String mAuthToken;
 
+    /**
+     * @param context Only used for {@code Volley.getInstance(context).getAuthenticator()}.
+     */
     public ApiRequest(int method, String url, Type type, Context context) {
         super(method, url);
 
@@ -45,6 +48,9 @@ public class ApiRequest<T> extends Request<T> {
         addParam(ApiContract.Request.Base.API_KEY, ApiContract.Request.API_KEY);
     }
 
+    /**
+     * @param context Only used for {@code Volley.getInstance(context).getAuthenticator()}.
+     */
     public ApiRequest(int method, String url, TypeToken<T> typeToken, Context context) {
         this(method, url, typeToken.getType(), context);
     }

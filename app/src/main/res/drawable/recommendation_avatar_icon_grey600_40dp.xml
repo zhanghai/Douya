@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="20"
+    android:viewportHeight="20">
+
+    <path
+        android:fillColor="#FF757575"
+        android:pathData="M9.99,0C4.47,0 0,4.48 0,10s4.47,10 9.99,10C15.52,20 20,15.52 20,10S15.52,0 9.99,0zm4.24,16L10,13.45 5.77,16l1.12,-4.81 -3.73,-3.23 4.92,-0.42L10,3l1.92,4.53 4.92,0.42 -3.73,3.23L14.23,16z"/>
+</vector>

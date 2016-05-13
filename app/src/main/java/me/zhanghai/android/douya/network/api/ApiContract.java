@@ -59,6 +59,13 @@ public interface ApiContract {
             String OS_ROM = "os_rom";
         }
 
+        interface LifeStream {
+            String VERSION = "version";
+            interface Versions {
+                int TWO = 2;
+            }
+        }
+
         interface UserInfo {
 
             String URL_FORMAT = API_HOST + "lifestream/user/%s";

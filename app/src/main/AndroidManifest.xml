@@ -8,15 +8,15 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="me.zhanghai.android.douya" >
+    package="me.zhanghai.android.douya">
 
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <!-- For HackyApiCredentialHelper. -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
         android:name=".DouyaApplication"
@@ -47,8 +47,8 @@
 
         <activity
             android:name=".ui.WebViewActivity"
-            android:label="@string/webview_title"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/webview_title" />
 
         <activity
             android:name=".ui.GalleryActivity"
@@ -60,10 +60,9 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Douya.MainActivity.ColdStart">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -93,11 +92,13 @@
             android:name=".account.app.AuthenticatorService"
             tools:ignore="ExportedService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator"/>
         </service>
+
+        <service android:name=".content.ResourceWriterService" />
     </application>
 </manifest>

@@ -231,7 +231,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         ApiRequest<NotificationList> request = ApiRequests.newNotificationListRequest(start, count,
                 getActivity());
         LoadNotificationListState state = new LoadNotificationListState(loadMore, count);
-        RequestFragment.startRequest(REQUEST_CODE_LOAD_NOTIFICATION_LIST, request, state, this);
+        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LOAD_NOTIFICATION_LIST);
 
         mLoadingNotificationList = true;
         setRefreshing(true, loadMore);

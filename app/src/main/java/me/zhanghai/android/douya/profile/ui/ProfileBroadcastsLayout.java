@@ -25,7 +25,7 @@ import me.zhanghai.android.douya.network.api.info.Image;
 import me.zhanghai.android.douya.network.api.info.Photo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
-import me.zhanghai.android.douya.util.ContentStateLayout;
+import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 

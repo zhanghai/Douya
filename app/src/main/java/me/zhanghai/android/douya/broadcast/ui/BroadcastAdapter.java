@@ -62,7 +62,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Broadcast originalBroadcast = getItem(position);
+        Broadcast originalBroadcast = getItem(position);
         holder.rebroadcastedByText.setText(originalBroadcast.getRebroadcastedBy(
                 RecyclerViewUtils.getContext(holder)));
         final Broadcast broadcast = originalBroadcast.rebroadcastedBroadcast != null ?
@@ -77,18 +77,13 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         holder.broadcastLayout.mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mListener.onLikeBroadcast(originalBroadcast.id, broadcast, !broadcast.liked)) {
-                    holder.broadcastLayout.mLikeButton.setEnabled(false);
-                }
+                mListener.onLikeBroadcast(broadcast, !broadcast.liked);
             }
         });
         holder.broadcastLayout.mRebroadcastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mListener.onRebroadcastBroadcast(originalBroadcast.id, broadcast,
-                        !broadcast.isRebroadcasted())) {
-                    holder.broadcastLayout.mRebroadcastButton.setEnabled(false);
-                }
+                mListener.onRebroadcastBroadcast(broadcast, !broadcast.isRebroadcasted());
             }
         });
         holder.broadcastLayout.mCommentButton.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +111,8 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
     }
 
     public interface Listener {
-        boolean onLikeBroadcast(long itemId, Broadcast broadcast, boolean like);
-        boolean onRebroadcastBroadcast(long itemId, Broadcast broadcast, boolean rebroadcast);
+        void onLikeBroadcast(Broadcast broadcast, boolean like);
+        void onRebroadcastBroadcast(Broadcast broadcast, boolean rebroadcast);
         void onCommentBroadcast(Broadcast broadcast, View sharedView);
         void onOpenBroadcast(Broadcast broadcast, View sharedView);
     }

@@ -5,11 +5,14 @@
 
 package me.zhanghai.android.douya.network.api.info;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+
+import me.zhanghai.android.douya.account.util.AccountUtils;
 
 public class User implements Parcelable {
 
@@ -36,6 +39,10 @@ public class User implements Parcelable {
 
     public boolean hasIdOrUid(String idOrUid) {
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
+    }
+
+    public boolean isOneself(Context context) {
+        return id == AccountUtils.getUserId(context);
     }
 
 

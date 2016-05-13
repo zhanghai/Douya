@@ -70,9 +70,9 @@ public class DoubanUriHandler {
             case BROADCAST_FRODO:
                 intent = BroadcastActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
-//            case USER:
-//                intent = ProfileActivity.makeIntent(uri.getLastPathSegment(), context);
-//                break;
+            case USER:
+                intent = ProfileActivity.makeIntent(uri.getLastPathSegment(), context);
+                break;
             default:
                 return false;
         }

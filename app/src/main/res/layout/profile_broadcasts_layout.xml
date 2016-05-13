@@ -10,7 +10,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:animateLayoutChanges="true"
     android:divider="?dividerHorizontal"
     android:orientation="vertical"
     android:showDividers="middle">
@@ -31,11 +30,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="?android:textColorSecondary" />
 
-    <me.zhanghai.android.douya.util.ContentStateLayout
+    <me.zhanghai.android.douya.ui.ContentStateLayout
         android:id="@+id/contentState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/two_line_list_item_height"
+        android:animateLayoutChanges="true"
         app:contentView="@id/broadcast_list"
         app:animationEnabled="false">
 
@@ -68,7 +68,7 @@
             android:text="@string/load_error"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    </me.zhanghai.android.douya.util.ContentStateLayout>
+    </me.zhanghai.android.douya.ui.ContentStateLayout>
 
     <TextView
         android:id="@+id/view_all"
