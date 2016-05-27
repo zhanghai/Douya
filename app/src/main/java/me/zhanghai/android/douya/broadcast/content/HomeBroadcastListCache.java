@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.zhanghai.android.douya.network.api.info.Broadcast;
@@ -31,6 +32,8 @@ public class HomeBroadcastListCache {
         if (broadcastList.size() > MAX_LIST_SIZE) {
             broadcastList = broadcastList.subList(0, MAX_LIST_SIZE);
         }
-        DiskCacheHelper.putGson(KEY, broadcastList, new TypeToken<List<Broadcast>>() {}, context);
+        // NOTE: Defend against ConcurrentModificationException.
+        DiskCacheHelper.putGson(KEY, new ArrayList<>(broadcastList),
+                new TypeToken<List<Broadcast>>() {}, context);
     }
 }
