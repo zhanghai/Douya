@@ -163,6 +163,13 @@ public class Broadcast implements Parcelable {
         return builder.toString();
     }
 
+    public static String makeTransitionName(long id) {
+        return "broadcast-" + id;
+    }
+
+    public String makeTransitionName() {
+        return makeTransitionName(id);
+    }
 
     public static final Parcelable.Creator<Broadcast> CREATOR =
             new Parcelable.Creator<Broadcast>() {

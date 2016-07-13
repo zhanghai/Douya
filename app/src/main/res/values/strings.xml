@@ -220,6 +220,4 @@
     <string name="pref_default_value_open_url_with">0</string>
     <string name="pref_key_always_copy_to_clipboard_as_text">key_always_copy_to_clipboard_as_text</string>
     <bool name="pref_default_value_always_copy_to_clipboard_as_text">true</bool>
-
-    <string name="transition_name_broadcast">broadcast</string>
 </resources>

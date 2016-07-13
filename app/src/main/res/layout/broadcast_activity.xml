@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <FrameLayout
+            android:id="@+id/shared"
             android:layout_width="@dimen/card_activity_width"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -22,8 +23,7 @@
             android:layout_marginRight="@dimen/card_activity_horizontal_margin"
             android:layout_marginTop="@dimen/toolbar_height"
             android:layout_marginBottom="@dimen/toolbar_height"
-            android:background="@color/grey_100"
-            android:transitionName="@string/transition_name_broadcast">
+            android:background="@color/grey_100">
 
             <me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout
                 android:id="@+id/swipe_refresh"

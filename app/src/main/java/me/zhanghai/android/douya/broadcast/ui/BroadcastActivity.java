@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Keep;
 import android.support.v4.app.SharedElementCallback;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -78,6 +79,8 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastRes
     FrameLayout mContentLayout;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.shared)
+    View mSharedView;
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.broadcast_comment_list)
@@ -144,6 +147,8 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastRes
         });
 
         setSupportActionBar(mToolbar);
+
+        ViewCompat.setTransitionName(mSharedView, Broadcast.makeTransitionName(broadcastId));
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -80,13 +80,13 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
                 mListener.onCommentBroadcast(broadcast, getSharedView(holder));
             }
         });
+        ViewCompat.setTransitionName(getSharedView(holder), broadcast.makeTransitionName());
     }
 
     private static View getSharedView(ViewHolder holder) {
         Context context = holder.itemView.getContext();
         // HACK: Transition is so hard to work with, but this gives a better effect.
         View view = ViewUtils.hasSw600dp(context) ? holder.cardView : holder.broadcastLayout;
-        ViewCompat.setTransitionName(view, context.getString(R.string.transition_name_broadcast));
         return view;
     }
 
