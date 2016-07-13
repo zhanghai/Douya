@@ -11,6 +11,19 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 public class DouyaApplication extends Application {
 
+    private static DouyaApplication sInstance;
+
+    public DouyaApplication() {
+        sInstance = this;
+    }
+
+    /**
+     * @deprecated This is hacky.
+     */
+    public static DouyaApplication getInstance() {
+        return sInstance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

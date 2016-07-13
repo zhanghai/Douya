@@ -100,5 +100,13 @@
         </service>
 
         <service android:name=".content.ResourceWriterService" />
+
+        <receiver
+            android:name=".network.api.credential.SetApiCredentialReceiver"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="me.zhanghai.android.douya.intent.action.SET_API_CREDENTIAL" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

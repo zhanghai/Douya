@@ -7,6 +7,8 @@ package me.zhanghai.android.douya.network.api;
 
 import android.os.Build;
 
+import me.zhanghai.android.douya.network.api.credential.ApiCredential;
+
 public interface ApiContract {
 
     interface Request {
