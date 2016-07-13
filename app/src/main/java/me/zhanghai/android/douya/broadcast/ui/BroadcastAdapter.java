@@ -35,24 +35,9 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         setHasStableIds(true);
     }
 
-    // FIXME: Move this to a common place.
-    public Broadcast findBroadcastById(long broadcastId) {
-        int count = getItemCount();
-        for (int i = 0; i < count; ++i) {
-            Broadcast broadcast = getItem(i);
-            if (broadcast.id == broadcastId) {
-                return broadcast;
-            } else if (broadcast.rebroadcastedBroadcast != null
-                    && broadcast.rebroadcastedBroadcast.id == broadcastId) {
-                return broadcast.rebroadcastedBroadcast;
-            }
-        }
-        return null;
-    }
-
     @Override
     public long getItemId(int position) {
-        return getList().get(position).id;
+        return getItem(position).id;
     }
 
     @Override
@@ -77,7 +62,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         holder.broadcastLayout.mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onLikeBroadcast(broadcast, !broadcast.liked);
+                mListener.onLikeBroadcast(broadcast, !broadcast.isLiked);
             }
         });
         holder.broadcastLayout.mRebroadcastButton.setOnClickListener(new View.OnClickListener() {

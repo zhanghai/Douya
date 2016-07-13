@@ -30,21 +30,23 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
-import me.zhanghai.android.douya.eventbus.BroadcastCommentDeletedEvent;
-import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
-import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
-import me.zhanghai.android.douya.network.RequestFragment;
-import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
+import me.zhanghai.android.douya.broadcast.content.BroadcastCommentCountFixer;
+import me.zhanghai.android.douya.broadcast.content.BroadcastCommentListResource;
+import me.zhanghai.android.douya.broadcast.content.BroadcastResource;
+import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastCommentManager;
+import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastManager;
+import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
+import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
+import me.zhanghai.android.douya.broadcast.content.SendBroadcastCommentManager;
+import me.zhanghai.android.douya.eventbus.BroadcastCommentSendErrorEvent;
+import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.Comment;
-import me.zhanghai.android.douya.network.api.info.CommentList;
 import me.zhanghai.android.douya.ui.ClickableSimpleAdapter;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
@@ -58,19 +60,11 @@ import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class BroadcastActivity extends AppCompatActivity implements RequestFragment.Listener,
-        SingleBroadcastAdapter.OnActionListener, CommentActionDialogFragment.Listener,
-        ConfirmDeleteCommentDialogFragment.Listener, ConfirmDeleteBroadcastDialogFragment.Listener {
-
-    private static final int COMMENT_COUNT_PER_LOAD = 20;
-
-    private static final int REQUEST_CODE_LOAD_BROADCAST = 0;
-    private static final int REQUEST_CODE_LOAD_COMMENT_LIST = 1;
-    private static final int REQUEST_CODE_LIKE = 2;
-    private static final int REQUEST_CODE_REBROADCAST = 3;
-    private static final int REQUEST_CODE_DELETE_COMMENT = 4;
-    private static final int REQUEST_CODE_SEND_COMMENT = 5;
-    private static final int REQUEST_CODE_DELETE_BROADCAST = 6;
+// TODO: Split into BroadcastFragment.
+public class BroadcastActivity extends AppCompatActivity implements BroadcastResource.Listener,
+        SingleBroadcastAdapter.Listener, BroadcastCommentListResource.Listener,
+        CommentActionDialogFragment.Listener, ConfirmDeleteCommentDialogFragment.Listener,
+        ConfirmDeleteBroadcastDialogFragment.Listener {
 
     private static final String KEY_PREFIX = BroadcastActivity.class.getName() + '.';
 
@@ -78,13 +72,6 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     public static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
     public static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
 
-    private static final String RETAIN_DATA_KEY_BROADCAST = KEY_PREFIX + "broadcast";
-    private static final String RETAIN_DATA_KEY_COMMENT_LIST = KEY_PREFIX + "comment_list";
-    private static final String RETAIN_DATA_KEY_CAN_LOAD_MORE_COMMENTS = KEY_PREFIX
-            + "can_load_more_comments";
-    private static final String RETAIN_DATA_KEY_LOADING_BROADCAST_OR_COMMENT_LIST = KEY_PREFIX
-            + "loading_broadcast_or_comment_list";
-    private static final String RETAIN_DATA_KEY_SENDING_COMMENT = KEY_PREFIX + "sending_comment";
     private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
 
     @Bind(android.R.id.content)
@@ -102,18 +89,13 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     @Bind(R.id.send)
     ImageButton mSendButton;
 
-    private long mBroadcastId;
-
+    private BroadcastResource mBroadcastResource;
+    private BroadcastCommentListResource mCommentListResource;
     private RetainDataFragment mRetainDataFragment;
 
     private SingleBroadcastAdapter mBroadcastAdapter;
     private CommentAdapter mCommentAdapter;
     private LoadMoreAdapter mAdapter;
-    private boolean mCanLoadMoreComments;
-
-    private boolean mLoadingBroadcastOrCommentList;
-
-    private boolean mSendingComment;
 
     public static Intent makeIntent(Broadcast broadcast, Context context) {
         return new Intent(context, BroadcastActivity.class)
@@ -143,48 +125,40 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
         ButterKnife.bind(this);
 
         CustomTabsHelperFragment.attachTo(this);
+        Intent intent = getIntent();
+        long broadcastId = intent.getLongExtra(EXTRA_BROADCAST_ID, -1);
+        Broadcast broadcast = intent.getParcelableExtra(EXTRA_BROADCAST);
+        if (broadcast != null) {
+            // Be consistent with what the user will see first.
+            broadcastId = broadcast.id;
+        }
+        mBroadcastResource = BroadcastResource.attachTo(broadcastId, broadcast, this);
+        mCommentListResource = BroadcastCommentListResource.attachTo(broadcastId, this);
         mRetainDataFragment = RetainDataFragment.attachTo(this);
 
         mContentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 supportFinishAfterTransition();
             }
         });
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadBroadcast(true);
+                mBroadcastResource.load();
+                mCommentListResource.load(false);
             }
         });
 
         mBroadcastCommentList.setHasFixedSize(true);
         mBroadcastCommentList.setItemAnimator(new NoChangeAnimationItemAnimator());
         mBroadcastCommentList.setLayoutManager(new LinearLayoutManager(this));
-        Broadcast broadcast = mRetainDataFragment.remove(RETAIN_DATA_KEY_BROADCAST);
-        Intent intent = getIntent();
-        // Be consistent with what the user will see first.
-        if (broadcast == null) {
-            broadcast = intent.getParcelableExtra(EXTRA_BROADCAST);
-        }
-        if (broadcast == null) {
-            if (intent.hasExtra(EXTRA_BROADCAST_ID)) {
-                mBroadcastId = intent.getLongExtra(EXTRA_BROADCAST_ID, -1);
-            } else {
-                // TODO: Read from uri.
-                //broadcastId = intent.getData();
-            }
-        } else {
-            mBroadcastId = broadcast.id;
-        }
         mBroadcastAdapter = new SingleBroadcastAdapter(null, this);
-        setBroadcast(broadcast);
-        List<Comment> commentList = mRetainDataFragment.remove(RETAIN_DATA_KEY_COMMENT_LIST);
-        mCommentAdapter = new CommentAdapter(commentList,
+        setBroadcast(mBroadcastResource.get());
+        mCommentAdapter = new CommentAdapter(mCommentListResource.get(),
                 new ClickableSimpleAdapter.OnItemClickListener<Comment, CommentAdapter.ViewHolder>() {
                     @Override
                     public void onItemClick(RecyclerView parent, Comment item,
@@ -196,12 +170,9 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
         mBroadcastCommentList.setAdapter(mAdapter);
         mBroadcastCommentList.addOnScrollListener(new OnVerticalScrollListener() {
             public void onScrolledToBottom() {
-                loadCommentList(true);
+                mCommentListResource.load(true);
             }
         });
-
-        mCanLoadMoreComments = mRetainDataFragment.removeBoolean(
-                RETAIN_DATA_KEY_CAN_LOAD_MORE_COMMENTS, true);
 
         CheatSheetUtils.setup(mSendButton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
@@ -210,14 +181,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
                 onSendComment();
             }
         });
-
-        mLoadingBroadcastOrCommentList = mRetainDataFragment.removeBoolean(
-                RETAIN_DATA_KEY_LOADING_BROADCAST_OR_COMMENT_LIST, false);
-
-        Boolean sendingComment = mRetainDataFragment.remove(RETAIN_DATA_KEY_SENDING_COMMENT);
-        if (sendingComment != null) {
-            setSendingComment(sendingComment);
-        }
+        updateSendCommentStatus();
 
         // View only saves state influenced by user action, so we have to do this ourselves.
         ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);
@@ -231,7 +195,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
                 TransitionUtils.postAfterTransition(this, new Runnable() {
                     @Override
                     public void run() {
-                        onComment();
+                        onShowSendComment();
                     }
                 });
             }
@@ -239,15 +203,31 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        EventBusUtils.register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        EventBusUtils.unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mBroadcastResource.detach();
+        mCommentListResource.detach();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        mRetainDataFragment.put(RETAIN_DATA_KEY_BROADCAST, mBroadcastAdapter.getBroadcast());
-        mRetainDataFragment.put(RETAIN_DATA_KEY_COMMENT_LIST, mCommentAdapter.getList());
-        mRetainDataFragment.put(RETAIN_DATA_KEY_CAN_LOAD_MORE_COMMENTS, mCanLoadMoreComments);
-        mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_BROADCAST_OR_COMMENT_LIST,
-                mLoadingBroadcastOrCommentList);
-        mRetainDataFragment.put(RETAIN_DATA_KEY_SENDING_COMMENT, mSendingComment);
         mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
     }
 
@@ -258,28 +238,6 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     private void onRestoreViewState(ViewState state) {
         mProgress.setVisibility(state.progressVisibility);
         mAdapter.setProgressVisible(state.adapterProgressVisible);
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-
-        // Only auto-load when initially empty, not loaded but empty.
-        boolean autoLoadComments = mCommentAdapter.getItemCount() == 0 && mCanLoadMoreComments;
-        if (mBroadcastAdapter.getItemCount() == 0) {
-            loadBroadcast(autoLoadComments);
-        } else if (autoLoadComments) {
-            loadCommentList(false);
-        }
-
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -312,7 +270,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        Broadcast broadcast = mBroadcastAdapter.getBroadcast();
+        Broadcast broadcast = mBroadcastResource.get();
         boolean hasBroadcast = broadcast != null;
         menu.findItem(R.id.action_copy_text).setVisible(hasBroadcast);
         boolean canDelete = hasBroadcast && broadcast.isAuthorOneself(this);
@@ -338,75 +296,78 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     }
 
     @Override
-    public void onVolleyResponse(int requestCode, boolean successful, Object result,
-                                 VolleyError error, Object requestState) {
-        switch (requestCode) {
-            case REQUEST_CODE_LOAD_BROADCAST:
-                onLoadBroadcastResponse(successful, (Broadcast) result, error,
-                        (LoadBroadcastState) requestState);
-                break;
-            case REQUEST_CODE_LOAD_COMMENT_LIST:
-                onLoadCommentListResponse(successful, (CommentList) result, error,
-                        (LoadCommentListState) requestState);
-                break;
-            case REQUEST_CODE_LIKE:
-                onLikeResponse(successful, (Broadcast) result, error, (LikeState) requestState);
-                break;
-            case REQUEST_CODE_REBROADCAST:
-                onRebroadcastResponse(successful, (Broadcast) result, error,
-                        (RebroadcastState) requestState);
-                break;
-            case REQUEST_CODE_DELETE_COMMENT:
-                onDeleteCommentResponse(successful, (Boolean) result, error,
-                        (DeleteCommentState) requestState);
-                break;
-            case REQUEST_CODE_SEND_COMMENT:
-                onSendCommentResponse(successful, (Comment) result, error);
-                break;
-            case REQUEST_CODE_DELETE_BROADCAST:
-                onDeleteBroadcastResponse(successful, (Broadcast) result, error);
-                break;
-            default:
-                LogUtils.w("Unknown request code " + requestCode + ", with successful=" + successful
-                        + ", result=" + result + ", error=" + error);
-        }
-    }
-
-    private void loadBroadcast(boolean loadCommentList) {
-
-        if (mLoadingBroadcastOrCommentList) {
-            return;
-        }
-
-        ApiRequest<Broadcast> request = ApiRequests.newBroadcastRequest(mBroadcastId, this);
-        LoadBroadcastState state = new LoadBroadcastState(loadCommentList);
-        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LOAD_BROADCAST);
-
-        mLoadingBroadcastOrCommentList = true;
+    public void onLoadBroadcastStarted(int requestCode) {
         setBroadcastRefreshing(true);
     }
 
-    private void onLoadBroadcastResponse(boolean successful, Broadcast result, VolleyError error,
-                                         LoadBroadcastState state) {
-
-        if (successful) {
-            setBroadcast(result);
-        } else {
-            LogUtils.e(error.toString());
-            ToastUtils.show(ApiError.getErrorString(error, this), this);
-        }
-
+    @Override
+    public void onLoadBroadcastFinished(int requestCode) {
         setBroadcastRefreshing(false);
-        mLoadingBroadcastOrCommentList = false;
+    }
 
-        if (successful && state.loadCommentList) {
-            loadCommentList(false);
-        }
+    @Override
+    public void onLoadBroadcastError(int requestCode, VolleyError error) {
+        LogUtils.e(error.toString());
+        ToastUtils.show(ApiError.getErrorString(error, this), this);
+    }
+
+    @Override
+    public void onBroadcastChanged(int requestCode, Broadcast newBroadcast) {
+        setBroadcast(newBroadcast);
+    }
+
+    @Override
+    public void onBroadcastRemoved(int requestCode) {
+        finish();
+    }
+
+    @Override
+    public void onBroadcastWriteStarted(int requestCode) {
+        mBroadcastAdapter.notifyBroadcastChanged();
+    }
+
+    @Override
+    public void onBroadcastWriteFinished(int requestCode) {
+        mBroadcastAdapter.notifyBroadcastChanged();
+    }
+
+    @Override
+    public void onLoadCommentListStarted(int requestCode, boolean loadMore) {
+        setCommentsRefreshing(true, loadMore);
+    }
+
+    @Override
+    public void onLoadCommentListFinished(int requestCode, boolean loadMore) {
+        setCommentsRefreshing(false, loadMore);
+    }
+
+    @Override
+    public void onLoadCommentListError(int requestCode, VolleyError error) {
+        LogUtils.e(error.toString());
+        ToastUtils.show(ApiError.getErrorString(error, this), this);
+    }
+
+    @Override
+    public void onCommentListChanged(int requestCode, List<Comment> newCommentList) {
+        mCommentAdapter.replace(newCommentList);
+        BroadcastCommentCountFixer.onCommentListChanged(mBroadcastResource, mCommentListResource);
+    }
+
+    @Override
+    public void onCommentListAppended(int requestCode, List<Comment> appendedCommentList) {
+        mCommentAdapter.addAll(appendedCommentList);
+        BroadcastCommentCountFixer.onCommentListChanged(mBroadcastResource, mCommentListResource);
+    }
+
+    @Override
+    public void onCommentRemoved(int requestCode, int position) {
+        mCommentAdapter.remove(position);
+        BroadcastCommentCountFixer.onCommentRemoved(mBroadcastResource);
     }
 
     private void setBroadcast(Broadcast broadcast) {
         mBroadcastAdapter.setBroadcast(broadcast);
-        updateSendCommentEnabled();
+        updateSendCommentStatus();
     }
 
     private void setBroadcastRefreshing(boolean refreshing) {
@@ -418,193 +379,29 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
                 && mBroadcastAdapter.getItemCount() == 0);
     }
 
-    private void loadCommentList(boolean loadMore) {
-
-        if (mLoadingBroadcastOrCommentList || (loadMore && !mCanLoadMoreComments)) {
-            return;
-        }
-
-        Integer start = loadMore ? mCommentAdapter.getItemCount() : null;
-        final int count = COMMENT_COUNT_PER_LOAD;
-        ApiRequest<CommentList> request = ApiRequests.newBroadcastCommentListRequest(mBroadcastId,
-                start, count, this);
-        LoadCommentListState state = new LoadCommentListState(loadMore, count);
-        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LOAD_COMMENT_LIST);
-
-        mLoadingBroadcastOrCommentList = true;
-        setCommentsRefreshing(true, loadMore);
-    }
-
-    private void onLoadCommentListResponse(boolean successful, CommentList result,
-                                           VolleyError error, LoadCommentListState state) {
-
-        if (successful) {
-            List<Comment> commentList = result.comments;
-            mCanLoadMoreComments = commentList.size() == state.count;
-            if (state.loadMore) {
-                mCommentAdapter.addAll(commentList);
-            } else {
-                mCommentAdapter.replace(commentList);
-            }
-        } else {
-            LogUtils.e(error.toString());
-            ToastUtils.show(ApiError.getErrorString(error, this), this);
-        }
-
-        setCommentsRefreshing(false, state.loadMore);
-        mLoadingBroadcastOrCommentList = false;
-
-        if (successful) {
-            fixCommentCount();
-        }
-    }
-
     private void setCommentsRefreshing(boolean refreshing, boolean loadMore) {
         mAdapter.setProgressVisible(refreshing && (mCommentAdapter.getItemCount() == 0
                 || loadMore));
     }
 
     @Override
-    public boolean onLike(boolean like) {
-
-        if (mBroadcastAdapter.hasBroadcast()
-                && mBroadcastAdapter.getBroadcast().isAuthorOneself(this)) {
-            ToastUtils.show(R.string.broadcast_like_error_cannot_like_oneself, this);
-            return false;
-        }
-
-        ApiRequest<Broadcast> request = ApiRequests.newLikeBroadcastRequest(mBroadcastId, like,
-                this);
-        LikeState state = new LikeState(like);
-        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LIKE);
-        return true;
-    }
-
-    private void onLikeResponse(boolean successful, Broadcast result, VolleyError error,
-                                LikeState state) {
-
-        if (successful) {
-
-            EventBus.getDefault().post(new BroadcastUpdatedEvent(result));
-            ToastUtils.show(state.like ? R.string.broadcast_like_successful
-                    : R.string.broadcast_unlike_successful, this);
-
-        } else {
-
-            LogUtils.e(error.toString());
-            Broadcast broadcast = mBroadcastAdapter.getBroadcast();
-            if (broadcast != null) {
-                boolean notified = false;
-                if (error instanceof ApiError) {
-                    // Correct our local state if needed.
-                    ApiError apiError = (ApiError) error;
-                    Boolean shouldBeLiked = null;
-                    if (apiError.code == Codes.LikeBroadcast.ALREADY_LIKED) {
-                        shouldBeLiked = true;
-                    } else if (apiError.code == Codes.LikeBroadcast.NOT_LIKED_YET) {
-                        shouldBeLiked = false;
-                    }
-                    if (shouldBeLiked != null) {
-                        broadcast.fixLiked(shouldBeLiked);
-                        EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
-                        notified = true;
-                    }
-                }
-                if (!notified) {
-                    // Must notify changed to reset pending status so that off-screen
-                    // items will be invalidated.
-                    mBroadcastAdapter.notifyBroadcastChanged();
-                }
-            }
-            ToastUtils.show(getString(state.like ? R.string.broadcast_like_failed_format
-                            : R.string.broadcast_unlike_failed_format,
-                    ApiError.getErrorString(error, this)), this);
-        }
+    public void onLike(Broadcast broadcast, boolean like) {
+        LikeBroadcastManager.getInstance().write(broadcast, like, this);
     }
 
     @Override
-    public boolean onRebroadcast(boolean rebroadcast) {
-
-        if (mBroadcastAdapter.hasBroadcast()
-                && mBroadcastAdapter.getBroadcast().isAuthorOneself(this)) {
-            ToastUtils.show(R.string.broadcast_rebroadcast_error_cannot_rebroadcast_oneself, this);
-            return false;
-        }
-
-        ApiRequest<Broadcast> request = ApiRequests.newRebroadcastBroadcastRequest(mBroadcastId,
-                rebroadcast, this);
-        RebroadcastState state = new RebroadcastState(rebroadcast);
-        RequestFragment.startRequest(request, state, this, REQUEST_CODE_REBROADCAST);
-        return true;
-    }
-
-    private void onRebroadcastResponse(boolean successful, Broadcast result, VolleyError error,
-                                       RebroadcastState state) {
-
-        if (successful) {
-
-            if (!state.rebroadcast) {
-                // Delete the rebroadcast broadcast by user. Must be done before we update the
-                // broadcast so that we can retrieve rebroadcastId for the old one.
-                // This will not finish this activity, because this activity displays the
-                // rebroadcasted broadcast instead of the rebroadcast broadcast itself, and this is
-                // the desired behavior since it won't surprise user, and user can have the chance
-                // to undo it.
-                Broadcast broadcast = mBroadcastAdapter.getBroadcast();
-                if (broadcast != null && broadcast.rebroadcastId != null) {
-                    EventBus.getDefault().post(new BroadcastDeletedEvent(broadcast.rebroadcastId));
-                }
-            }
-            EventBus.getDefault().post(new BroadcastUpdatedEvent(result));
-            ToastUtils.show(state.rebroadcast ? R.string.broadcast_rebroadcast_successful
-                    : R.string.broadcast_unrebroadcast_successful, this);
-
-        } else {
-
-            LogUtils.e(error.toString());
-            Broadcast broadcast = mBroadcastAdapter.getBroadcast();
-            if (broadcast != null) {
-                boolean notified = false;
-                if (error instanceof ApiError) {
-                    // Correct our local state if needed.
-                    ApiError apiError = (ApiError) error;
-                    Boolean shouldBeRebroadcasted = null;
-                    if (apiError.code == Codes.RebroadcastBroadcast.ALREADY_REBROADCASTED) {
-                        shouldBeRebroadcasted = true;
-                    } else if (apiError.code == Codes.RebroadcastBroadcast.NOT_REBROADCASTED_YET) {
-                        shouldBeRebroadcasted = false;
-                    }
-                    if (shouldBeRebroadcasted != null) {
-                        broadcast.fixRebroadcasted(shouldBeRebroadcasted);
-                        EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
-                        notified = true;
-                    }
-                }
-                if (!notified) {
-                    // Must notify changed to reset pending status so that off-screen
-                    // items will be invalidated.
-                    mBroadcastAdapter.notifyBroadcastChanged();
-                }
-            }
-            ToastUtils.show(getString(state.rebroadcast ?
-                            R.string.broadcast_rebroadcast_failed_format
-                            : R.string.broadcast_unrebroadcast_failed_format,
-                    ApiError.getErrorString(error, this)), this);
-        }
+    public void onRebroadcast(Broadcast broadcast, boolean rebroadcast) {
+        RebroadcastBroadcastManager.getInstance().write(broadcast, rebroadcast, this);
     }
 
     @Override
-    public void onComment() {
-        if (canSendComment()) {
-            ImeUtils.showIme(mCommentEdit);
-        } else {
-            ToastUtils.show(R.string.broadcast_send_comment_disabled, this);
-        }
+    public void onComment(Broadcast broadcast) {
+        onShowSendComment();
     }
 
     @Override
-    public void onViewActivity() {
-        BroadcastActivityDialogFragment.show(mBroadcastAdapter.getBroadcast(), this);
+    public void onViewActivity(Broadcast broadcast) {
+        BroadcastActivityDialogFragment.show(broadcast, this);
     }
 
     private void onShowCommentAction(Comment comment) {
@@ -619,7 +416,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
     public void onReplyToComment(Comment comment) {
         mCommentEdit.getText().replace(mCommentEdit.getSelectionStart(),
                 mCommentEdit.getSelectionEnd(), DoubanUtils.getAtUserString(comment.author));
-        onComment();
+        onShowSendComment();
     }
 
     @Override
@@ -634,25 +431,15 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     @Override
     public void deleteComment(Comment comment) {
-        RequestFragment.startRequest(ApiRequests.newDeleteBroadcastCommentRequest(mBroadcastId, comment.id, this), new DeleteCommentState(comment.id), this, REQUEST_CODE_DELETE_COMMENT
-        );
+        DeleteBroadcastCommentManager.getInstance().write(mBroadcastResource.getBroadcastId(),
+                comment.id, this);
     }
 
-    private void onDeleteCommentResponse(boolean successful, Boolean result, VolleyError error,
-                                         DeleteCommentState state) {
-        if (successful) {
-            ToastUtils.show(R.string.broadcast_comment_delete_successful, this);
-            EventBus.getDefault().post(new BroadcastCommentDeletedEvent(mBroadcastId,
-                    state.commentId));
-            if (mBroadcastAdapter.hasBroadcast()) {
-                Broadcast broadcast = mBroadcastAdapter.getBroadcast();
-                --broadcast.commentCount;
-                EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
-            }
+    private void onShowSendComment() {
+        if (canSendComment()) {
+            ImeUtils.showIme(mCommentEdit);
         } else {
-            LogUtils.e(error.toString());
-            ToastUtils.show(getString(R.string.broadcast_comment_delete_failed_format,
-                    ApiError.getErrorString(error, this)), this);
+            ToastUtils.show(R.string.broadcast_send_comment_disabled, this);
         }
     }
 
@@ -669,59 +456,45 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     private void sendComment(String comment) {
 
-        ApiRequest<Comment> request = ApiRequests.newSendBroadcastCommentRequest(mBroadcastId,
+        SendBroadcastCommentManager.getInstance().write(mBroadcastResource.getBroadcastId(),
                 comment, this);
-        RequestFragment.startRequest(request, null, this, REQUEST_CODE_SEND_COMMENT);
 
-        setSendingComment(true);
+        updateSendCommentStatus();
     }
 
-    private void onSendCommentResponse(boolean successful, Comment result, VolleyError error) {
-
-        if (successful) {
-            if (!mCanLoadMoreComments) {
-                mCommentAdapter.add(result);
-                fixCommentCount();
-            } else {
-                ToastUtils.show(R.string.broadcast_send_comment_successful, this);
-            }
+    @Keep
+    public void onEventMainThread(BroadcastCommentSentEvent event) {
+        if (event.broadcastId == mBroadcastResource.getBroadcastId()) {
             mBroadcastCommentList.scrollToPosition(mAdapter.getItemCount() - 1);
             mCommentEdit.setText(null);
-        } else {
-            LogUtils.e(error.toString());
-            ToastUtils.show(getString(R.string.broadcast_send_comment_failed_format,
-                    ApiError.getErrorString(error, this)), this);
+            updateSendCommentStatus();
         }
+    }
 
-        setSendingComment(false);
+    @Keep
+    public void onEventMainThread(BroadcastCommentSendErrorEvent event) {
+        if (event.broadcastId == mBroadcastResource.getBroadcastId()) {
+            updateSendCommentStatus();
+        }
     }
 
     private boolean canSendComment() {
-        return mBroadcastAdapter.hasBroadcast() && mBroadcastAdapter.getBroadcast().canComment();
+        Broadcast broadcast = mBroadcastResource.get();
+        return broadcast != null && broadcast.canComment();
     }
 
-    private void updateSendCommentEnabled() {
+    private void updateSendCommentStatus() {
         boolean canSendComment = canSendComment();
-        boolean enabled = canSendComment && !mSendingComment;
+        SendBroadcastCommentManager manager = SendBroadcastCommentManager.getInstance();
+        long broadcastId = mBroadcastResource.getBroadcastId();
+        boolean sendingComment = manager.isWriting(broadcastId);
+        boolean enabled = canSendComment && !sendingComment;
         mCommentEdit.setEnabled(enabled);
         mSendButton.setEnabled(enabled);
         mCommentEdit.setHint(canSendComment ? R.string.broadcast_send_comment_hint
                 : R.string.broadcast_send_comment_hint_disabled);
-    }
-
-    private void setSendingComment(boolean sendingComment) {
-        mSendingComment = sendingComment;
-        updateSendCommentEnabled();
-    }
-
-    private void fixCommentCount() {
-        Broadcast broadcast = mBroadcastAdapter.getBroadcast();
-        if (broadcast != null) {
-            int commentCount = mCommentAdapter.getItemCount();
-            if (broadcast.commentCount < commentCount) {
-                broadcast.commentCount = commentCount;
-                EventBus.getDefault().post(new BroadcastUpdatedEvent(broadcast));
-            }
+        if (sendingComment) {
+            mCommentEdit.setText(manager.getComment(broadcastId));
         }
     }
 
@@ -743,36 +516,7 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
 
     @Override
     public void deleteBroadcast() {
-        RequestFragment.startRequest(ApiRequests.newDeleteBroadcastRequest(mBroadcastId, this), null, this, REQUEST_CODE_DELETE_BROADCAST
-        );
-    }
-
-    private void onDeleteBroadcastResponse(boolean successful, Broadcast result,
-                                           VolleyError error) {
-        if (successful) {
-            ToastUtils.show(R.string.broadcast_delete_successful, this);
-            EventBus.getDefault().post(new BroadcastDeletedEvent(mBroadcastId));
-            finish();
-        } else {
-            LogUtils.e(error.toString());
-            ToastUtils.show(getString(R.string.broadcast_delete_failed_format,
-                    ApiError.getErrorString(error, this)), this);
-        }
-    }
-
-    @Keep
-    public void onEventMainThread(BroadcastUpdatedEvent event) {
-        Broadcast broadcast = event.broadcast;
-        if (broadcast.id == mBroadcastId) {
-            setBroadcast(broadcast);
-        }
-    }
-
-    @Keep
-    public void onEventMainThread(BroadcastCommentDeletedEvent event) {
-        if (event.broadcastId == mBroadcastId) {
-            mCommentAdapter.removeById(event.commentId);
-        }
+        DeleteBroadcastManager.getInstance().write(mBroadcastResource.getBroadcastId(), this);
     }
 
     private static class ViewState {
@@ -783,53 +527,6 @@ public class BroadcastActivity extends AppCompatActivity implements RequestFragm
         public ViewState(int progressVisibility, boolean adapterProgressVisible) {
             this.progressVisibility = progressVisibility;
             this.adapterProgressVisible = adapterProgressVisible;
-        }
-    }
-
-    private static class LoadBroadcastState {
-
-        public boolean loadCommentList;
-
-        public LoadBroadcastState(boolean loadCommentList) {
-            this.loadCommentList = loadCommentList;
-        }
-    }
-
-    private static class LoadCommentListState {
-
-        public boolean loadMore;
-        public int count;
-
-        public LoadCommentListState(boolean loadMore, int count) {
-            this.loadMore = loadMore;
-            this.count = count;
-        }
-    }
-
-    private static class LikeState {
-
-        public boolean like;
-
-        public LikeState(boolean like) {
-            this.like = like;
-        }
-    }
-
-    private static class RebroadcastState {
-
-        public boolean rebroadcast;
-
-        public RebroadcastState(boolean rebroadcast) {
-            this.rebroadcast = rebroadcast;
-        }
-    }
-
-    private static class DeleteCommentState {
-
-        public long commentId;
-
-        public DeleteCommentState(long commentId) {
-            this.commentId = commentId;
         }
     }
 }

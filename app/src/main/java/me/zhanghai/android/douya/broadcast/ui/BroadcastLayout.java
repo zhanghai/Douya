@@ -26,6 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
+import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.network.api.info.Attachment;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.Image;
@@ -251,12 +252,19 @@ public class BroadcastLayout extends LinearLayout {
             mLikeButton.setActivated(!likeBroadcastManager.isWritingLike(broadcast.id));
             mLikeButton.setEnabled(false);
         } else {
-            mLikeButton.setActivated(broadcast.liked);
+            mLikeButton.setActivated(broadcast.isLiked);
             mLikeButton.setEnabled(true);
         }
-        mRebroadcastButton.setActivated(broadcast.isRebroadcasted());
-        // TODO
-        mRebroadcastButton.setEnabled(true);
+        RebroadcastBroadcastManager rebroadcastBroadcastManager =
+                RebroadcastBroadcastManager.getInstance();
+        if (rebroadcastBroadcastManager.isWriting(broadcast.id)) {
+            mRebroadcastButton.setActivated(!rebroadcastBroadcastManager.isWritingRebroadcast(
+                    broadcast.id));
+            mRebroadcastButton.setEnabled(false);
+        } else {
+            mRebroadcastButton.setActivated(broadcast.isRebroadcasted());
+            mRebroadcastButton.setEnabled(true);
+        }
         mCommentButton.setText(broadcast.getCommentCountString());
 
         mBoundBroadcastId = broadcast.id;

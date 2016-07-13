@@ -34,7 +34,7 @@ public class UserAdapter extends SimpleAdapter<User, UserAdapter.ViewHolder> {
 
     @Override
     public long getItemId(int position) {
-        return getList().get(position).id;
+        return getItem(position).id;
     }
 
     @Override

@@ -19,14 +19,14 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class SingleBroadcastAdapter
         extends RecyclerView.Adapter<SingleBroadcastAdapter.ViewHolder> {
 
-    private OnActionListener mOnActionListener;
+    private Listener mListener;
 
     private Broadcast mBroadcast;
 
-    public SingleBroadcastAdapter(Broadcast broadcast, OnActionListener listener) {
+    public SingleBroadcastAdapter(Broadcast broadcast, Listener listener) {
 
         mBroadcast = broadcast;
-        mOnActionListener = listener;
+        mListener = listener;
 
         setHasStableIds(true);
     }
@@ -73,33 +73,30 @@ public class SingleBroadcastAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.broadcastLayout.bindBroadcast(mBroadcast);
+        final Broadcast broadcast = mBroadcast;
+        holder.broadcastLayout.bindBroadcast(broadcast);
         holder.broadcastLayout.mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mOnActionListener.onLike(!mBroadcast.liked)) {
-                    holder.broadcastLayout.mLikeButton.setEnabled(false);
-                }
+                mListener.onLike(broadcast, !broadcast.isLiked);
             }
         });
         holder.broadcastLayout.mRebroadcastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mOnActionListener.onRebroadcast(!mBroadcast.isRebroadcasted())) {
-                    holder.broadcastLayout.mRebroadcastButton.setEnabled(false);
-                }
+                mListener.onRebroadcast(broadcast, !broadcast.isRebroadcasted());
             }
         });
         holder.broadcastLayout.mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnActionListener.onComment();
+                mListener.onComment(broadcast);
             }
         });
         holder.viewActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnActionListener.onViewActivity();
+                mListener.onViewActivity(broadcast);
             }
         });
     }
@@ -109,11 +106,11 @@ public class SingleBroadcastAdapter
         holder.broadcastLayout.releaseBroadcast();
     }
 
-    public interface OnActionListener {
-        boolean onLike(boolean like);
-        boolean onRebroadcast(boolean rebroadcast);
-        void onComment();
-        void onViewActivity();
+    public interface Listener {
+        void onLike(Broadcast broadcast, boolean like);
+        void onRebroadcast(Broadcast broadcast, boolean rebroadcast);
+        void onComment(Broadcast broadcast);
+        void onViewActivity(Broadcast broadcast);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

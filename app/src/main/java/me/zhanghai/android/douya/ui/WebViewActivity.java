@@ -149,7 +149,6 @@ public class WebViewActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setProgressVisible(boolean visible) {

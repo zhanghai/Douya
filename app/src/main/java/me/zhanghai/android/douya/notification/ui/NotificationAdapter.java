@@ -45,7 +45,7 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
 
     @Override
     public long getItemId(int position) {
-        return getList().get(position).id;
+        return getItem(position).id;
     }
 
     @Override

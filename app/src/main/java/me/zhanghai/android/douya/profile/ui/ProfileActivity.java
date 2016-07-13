@@ -22,12 +22,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
@@ -182,14 +182,14 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
             loadBroadcastList();
         }
 
-        EventBus.getDefault().register(this);
+        EventBusUtils.register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        EventBus.getDefault().unregister(this);
+        EventBusUtils.unregister(this);
     }
 
     @Override
@@ -272,7 +272,7 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     private void onLoadUserInfoResponse(boolean successful, UserInfo result, VolleyError error) {
 
         if (successful) {
-            EventBus.getDefault().post(new UserInfoUpdatedEvent(result));
+            EventBusUtils.postAsync(new UserInfoUpdatedEvent(result));
         } else {
             LogUtils.e(error.toString());
             ToastUtils.show(ApiError.getErrorString(error, this), this);

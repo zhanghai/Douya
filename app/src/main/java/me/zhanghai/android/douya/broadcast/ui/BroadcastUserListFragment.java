@@ -10,8 +10,8 @@ import android.support.annotation.Keep;
 
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.network.api.info.User;
 import me.zhanghai.android.douya.user.ui.UserListFragment;
@@ -41,20 +41,20 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
     public void onStart(){
         super.onStart();
 
-        EventBus.getDefault().register(this);
+        EventBusUtils.register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        EventBus.getDefault().unregister(this);
+        EventBusUtils.unregister(this);
     }
 
     @Override
     protected void onUserListUpdated(List<User> userList) {
         if (onUpdateBroadcast(mBroadcast, userList)) {
-            EventBus.getDefault().post(new BroadcastUpdatedEvent(mBroadcast));
+            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast));
         }
     }
 

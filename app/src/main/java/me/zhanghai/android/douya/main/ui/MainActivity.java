@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity
 
     public void setToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TransitionUtils.setupTransitionForAppBar(this);
     }
 

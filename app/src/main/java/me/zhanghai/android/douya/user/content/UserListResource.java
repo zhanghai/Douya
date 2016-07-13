@@ -115,13 +115,13 @@ public abstract class UserListResource extends ResourceFragment
         void onLoadUserList(int requestCode, boolean loadMore);
         void onLoadUserListComplete(int requestCode, boolean loadMore);
         /**
-         * @param appendedUserList Unmodifiable.
-         */
-        void onUserListAppended(int requestCode, List<User> appendedUserList);
-        /**
          * @param newUserList Unmodifiable.
          */
         void onUserListChanged(int requestCode, List<User> newUserList);
+        /**
+         * @param appendedUserList Unmodifiable.
+         */
+        void onUserListAppended(int requestCode, List<User> appendedUserList);
         void onLoadUserListError(int requestCode, VolleyError error);
     }
 }

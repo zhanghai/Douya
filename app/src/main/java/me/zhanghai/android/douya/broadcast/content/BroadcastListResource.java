@@ -15,12 +15,12 @@ import com.android.volley.VolleyError;
 import java.util.Collections;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
@@ -133,7 +133,7 @@ public class BroadcastListResource extends ResourceFragment
     public void onStart() {
         super.onStart();
 
-        EventBus.getDefault().register(this);
+        EventBusUtils.register(this);
 
         if (mBroadcastList == null || (mBroadcastList.isEmpty() && mCanLoadMore)) {
             loadOnStart();
@@ -144,7 +144,7 @@ public class BroadcastListResource extends ResourceFragment
     public void onStop() {
         super.onStop();
 
-        EventBus.getDefault().unregister(this);
+        EventBusUtils.unregister(this);
     }
 
     public void load(boolean loadMore, int count) {
@@ -154,7 +154,7 @@ public class BroadcastListResource extends ResourceFragment
         }
 
         mLoading = true;
-        getListener().onLoadBroadcastList(getRequestCode(), loadMore);
+        getListener().onLoadBroadcastListStarted(getRequestCode(), loadMore);
 
         Long untilId = null;
         if (loadMore && mBroadcastList != null) {
@@ -184,17 +184,17 @@ public class BroadcastListResource extends ResourceFragment
         postOnResumed(new Runnable() {
             @Override
             public void run() {
-                onLoadComplete(successful, result, error, requestState.loadMore,
+                onLoadFinished(successful, result, error, requestState.loadMore,
                         requestState.count);
             }
         });
     }
 
-    private void onLoadComplete(boolean successful, List<Broadcast> broadcastList,
+    private void onLoadFinished(boolean successful, List<Broadcast> broadcastList,
                                 VolleyError error, boolean loadMore, int count) {
 
         mLoading = false;
-        getListener().onLoadBroadcastListComplete(getRequestCode(), loadMore);
+        getListener().onLoadBroadcastListFinished(getRequestCode(), loadMore);
 
         if (successful) {
             mCanLoadMore = broadcastList.size() == count;
@@ -217,16 +217,15 @@ public class BroadcastListResource extends ResourceFragment
             return;
         }
 
-        Broadcast updatedBroadcast = event.broadcast;
         for (int i = 0, size = mBroadcastList.size(); i < size; ++i) {
             Broadcast broadcast = mBroadcastList.get(i);
             boolean changed = false;
-            if (broadcast.id == updatedBroadcast.id) {
-                mBroadcastList.set(i, updatedBroadcast);
+            if (broadcast.id == event.broadcast.id) {
+                mBroadcastList.set(i, event.broadcast);
                 changed = true;
             } else if (broadcast.rebroadcastedBroadcast != null
-                    && broadcast.rebroadcastedBroadcast.id == updatedBroadcast.id) {
-                broadcast.rebroadcastedBroadcast = updatedBroadcast;
+                    && broadcast.rebroadcastedBroadcast.id == event.broadcast.id) {
+                broadcast.rebroadcastedBroadcast = event.broadcast;
                 changed = true;
             }
             if (changed) {
@@ -242,12 +241,11 @@ public class BroadcastListResource extends ResourceFragment
             return;
         }
 
-        long removedBroadcastId = event.broadcastId;
         for (int i = 0, size = mBroadcastList.size(); i < size; ) {
             Broadcast broadcast = mBroadcastList.get(i);
-            if (broadcast.id == removedBroadcastId
+            if (broadcast.id == event.broadcastId
                     || (broadcast.rebroadcastedBroadcast != null
-                        && broadcast.rebroadcastedBroadcast.id == removedBroadcastId)) {
+                        && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
                 mBroadcastList.remove(i);
                 getListener().onBroadcastRemoved(getRequestCode(), i);
                 --size;
@@ -286,7 +284,7 @@ public class BroadcastListResource extends ResourceFragment
             if (broadcast.id == event.broadcastId
                     || (broadcast.rebroadcastedBroadcast != null
                     && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
-                getListener().onBroadcastWriteCompleted(getRequestCode(), i);
+                getListener().onBroadcastWriteFinished(getRequestCode(), i);
             }
         }
     }
@@ -317,20 +315,20 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     public interface Listener {
-        void onLoadBroadcastList(int requestCode, boolean loadMore);
-        void onLoadBroadcastListComplete(int requestCode, boolean loadMore);
-        /**
-         * @param appendedBroadcastList Unmodifiable.
-         */
-        void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList);
+        void onLoadBroadcastListStarted(int requestCode, boolean loadMore);
+        void onLoadBroadcastListFinished(int requestCode, boolean loadMore);
+        void onLoadBroadcastListError(int requestCode, VolleyError error);
         /**
          * @param newBroadcastList Unmodifiable.
          */
         void onBroadcastListChanged(int requestCode, List<Broadcast> newBroadcastList);
-        void onLoadBroadcastListError(int requestCode, VolleyError error);
+        /**
+         * @param appendedBroadcastList Unmodifiable.
+         */
+        void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList);
         void onBroadcastChanged(int requestCode, int position, Broadcast newBroadcast);
         void onBroadcastRemoved(int requestCode, int position);
         void onBroadcastWriteStarted(int requestCode, int position);
-        void onBroadcastWriteCompleted(int requestCode, int position);
+        void onBroadcastWriteFinished(int requestCode, int position);
     }
 }

@@ -5,13 +5,11 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-public class BroadcastCommentDeletedEvent {
+public class CommentDeletedEvent {
 
-    public long broadcastId;
     public long commentId;
 
-    public BroadcastCommentDeletedEvent(long broadcastId, long commentId) {
-        this.broadcastId = broadcastId;
+    public CommentDeletedEvent(long commentId) {
         this.commentId = commentId;
     }
 }

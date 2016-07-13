@@ -9,8 +9,8 @@ apply from: 'signing.gradle'
 
 android {
 
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
     // For customization of Volley to build.
     useLibrary 'org.apache.http.legacy'
 
@@ -36,13 +36,13 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.android.support:customtabs:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:preference-v7:23.4.0'
-    compile 'com.android.support:preference-v14:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:cardview-v7:24.0.0'
+    compile 'com.android.support:customtabs:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:preference-v7:24.0.0'
+    compile 'com.android.support:preference-v14:24.0.0'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.commit451:PhotoView:1.2.4'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.github.bumptech.glide:volley-integration:1.3.1@aar'

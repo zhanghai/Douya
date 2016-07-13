@@ -36,7 +36,7 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
 
     @Override
     public long getItemId(int position) {
-        return getList().get(position).id;
+        return getItem(position).id;
     }
 
     @Override

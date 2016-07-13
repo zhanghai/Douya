@@ -174,17 +174,17 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
 
         mBroadcastListResource.detach();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
     }
 
     private ViewState onSaveViewState() {
@@ -197,18 +197,20 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
     }
 
     @Override
-    public void onLoadBroadcastList(int requestCode, boolean loadMore) {
+    public void onLoadBroadcastListStarted(int requestCode, boolean loadMore) {
         setRefreshing(true, loadMore);
     }
 
     @Override
-    public void onLoadBroadcastListComplete(int requestCode, boolean loadMore) {
+    public void onLoadBroadcastListFinished(int requestCode, boolean loadMore) {
         setRefreshing(false, loadMore);
     }
 
     @Override
-    public void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList) {
-        mBroadcastAdapter.addAll(appendedBroadcastList);
+    public void onLoadBroadcastListError(int requestCode, VolleyError error) {
+        LogUtils.e(error.toString());
+        Activity activity = getActivity();
+        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
     }
 
     @Override
@@ -217,10 +219,8 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
     }
 
     @Override
-    public void onLoadBroadcastListError(int requestCode, VolleyError error) {
-        LogUtils.e(error.toString());
-        Activity activity = getActivity();
-        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
+    public void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList) {
+        mBroadcastAdapter.addAll(appendedBroadcastList);
     }
 
     @Override
@@ -234,7 +234,7 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
     }
 
     @Override
-    public void onBroadcastWriteCompleted(int requestCode, int position) {
+    public void onBroadcastWriteFinished(int requestCode, int position) {
         mBroadcastAdapter.notifyItemChanged(position);
     }
 

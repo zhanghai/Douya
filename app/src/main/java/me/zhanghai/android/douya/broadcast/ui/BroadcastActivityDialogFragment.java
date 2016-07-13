@@ -24,9 +24,9 @@ import android.widget.Button;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -131,14 +131,14 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
     public void onStart(){
         super.onStart();
 
-        EventBus.getDefault().register(this);
+        EventBusUtils.register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        EventBus.getDefault().unregister(this);
+        EventBusUtils.unregister(this);
     }
 
     @Keep

@@ -41,7 +41,7 @@ public class Broadcast implements Parcelable {
     public boolean isInterest;
 
     @SerializedName("liked")
-    public boolean liked;
+    public boolean isLiked;
 
     @SerializedName("like_count")
     public int likeCount;
@@ -84,9 +84,9 @@ public class Broadcast implements Parcelable {
     }
 
     public void fixLiked(boolean liked) {
-        if (this.liked != liked) {
-            this.liked = liked;
-            if (this.liked) {
+        if (this.isLiked != liked) {
+            this.isLiked = liked;
+            if (this.isLiked) {
                 ++likeCount;
             } else {
                 --likeCount;
@@ -187,7 +187,7 @@ public class Broadcast implements Parcelable {
         id = in.readLong();
         interestType = in.readString();
         isInterest = in.readByte() != 0;
-        liked = in.readByte() != 0;
+        isLiked = in.readByte() != 0;
         likeCount = in.readInt();
         images = in.createTypedArrayList(Image.CREATOR);
         photos = in.createTypedArrayList(Photo.CREATOR);
@@ -218,7 +218,7 @@ public class Broadcast implements Parcelable {
         dest.writeLong(id);
         dest.writeString(interestType);
         dest.writeByte(isInterest ? (byte) 1 : (byte) 0);
-        dest.writeByte(liked ? (byte) 1 : (byte) 0);
+        dest.writeByte(isLiked ? (byte) 1 : (byte) 0);
         dest.writeInt(likeCount);
         dest.writeTypedList(images);
         dest.writeTypedList(photos);

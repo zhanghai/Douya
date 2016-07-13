@@ -131,14 +131,14 @@ public abstract class UserListFragment extends Fragment implements UserListResou
     }
 
     @Override
-    public void onUserListAppended(int requestCode, List<User> appendedUserList) {
-        mUserAdapter.addAll(appendedUserList);
+    public void onUserListChanged(int requestCode, List<User> newUserList) {
+        mUserAdapter.replace(newUserList);
         onUserListUpdated(mUserListResource.get());
     }
 
     @Override
-    public void onUserListChanged(int requestCode, List<User> newUserList) {
-        mUserAdapter.replace(newUserList);
+    public void onUserListAppended(int requestCode, List<User> appendedUserList) {
+        mUserAdapter.addAll(appendedUserList);
         onUserListUpdated(mUserListResource.get());
     }
 

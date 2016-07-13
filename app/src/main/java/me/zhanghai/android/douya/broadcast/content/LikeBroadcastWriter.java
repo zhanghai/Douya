@@ -10,12 +10,12 @@ import android.support.annotation.Keep;
 
 import com.android.volley.VolleyError;
 
-import de.greenrobot.event.EventBus;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
@@ -38,7 +38,7 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
         mBroadcast = broadcast;
         mLike = like;
 
-        EventBus.getDefault().register(this);
+        EventBusUtils.register(this);
     }
 
     LikeBroadcastWriter(long broadcastId, boolean like, LikeBroadcastManager manager) {
@@ -66,7 +66,14 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
     public void onStart() {
         super.onStart();
 
-        EventBus.getDefault().post(new BroadcastWriteStartedEvent(mBroadcastId));
+        EventBusUtils.postAsync(new BroadcastWriteStartedEvent(mBroadcastId));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        EventBusUtils.unregister(this);
     }
 
     @Override
@@ -75,7 +82,7 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
         ToastUtils.show(mLike ? R.string.broadcast_like_successful
                 : R.string.broadcast_unlike_successful, getContext());
 
-        EventBus.getDefault().post(new BroadcastUpdatedEvent(response));
+        EventBusUtils.postAsync(new BroadcastUpdatedEvent(response));
 
         stopSelf();
     }
@@ -101,30 +108,23 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
             }
             if (shouldBeLiked != null) {
                 mBroadcast.fixLiked(shouldBeLiked);
-                EventBus.getDefault().post(new BroadcastUpdatedEvent(mBroadcast));
+                EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast));
                 notified = true;
             }
         }
         if (!notified) {
             // Must notify to reset pending status. Off-screen items also needs to be invalidated.
-            EventBus.getDefault().post(new BroadcastWriteFinishedEvent(mBroadcastId));
+            EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId));
         }
 
         stopSelf();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        EventBus.getDefault().unregister(this);
-    }
-
+    // Doesn't hurt if it is from ourselves.
     @Keep
     public void onEventMainThread(BroadcastUpdatedEvent event) {
-        Broadcast updatedBroadcast = event.broadcast;
-        if (updatedBroadcast.id == mBroadcast.id) {
-            mBroadcast = updatedBroadcast;
+        if (event.broadcast.id == mBroadcast.id) {
+            mBroadcast = event.broadcast;
         }
     }
 }

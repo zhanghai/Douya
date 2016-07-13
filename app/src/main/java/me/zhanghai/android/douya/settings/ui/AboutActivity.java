@@ -38,7 +38,6 @@ public class AboutActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("");
 
         // Seems that ScrollView intercepts touch event, so we have to set the onTouchListener on a
