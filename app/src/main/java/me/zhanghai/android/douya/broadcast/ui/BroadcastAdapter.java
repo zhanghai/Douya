@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
@@ -104,11 +104,11 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.rebroadcasted_by)
+        @BindView(R.id.rebroadcasted_by)
         public TextView rebroadcastedByText;
-        @Bind(R.id.card)
+        @BindView(R.id.card)
         public CardView cardView;
-        @Bind(R.id.broadcast)
+        @BindView(R.id.broadcast)
         public BroadcastLayout broadcastLayout;
 
         public ViewHolder(View itemView) {

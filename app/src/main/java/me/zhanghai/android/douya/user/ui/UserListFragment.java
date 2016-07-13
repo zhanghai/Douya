@@ -21,7 +21,7 @@ import com.android.volley.VolleyError;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
@@ -42,11 +42,11 @@ public abstract class UserListFragment extends Fragment implements UserListResou
 
     private final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
 
-    @Bind(R.id.swipe_refresh)
+    @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.user_list)
+    @BindView(R.id.user_list)
     RecyclerView mUserList;
-    @Bind(R.id.progress)
+    @BindView(R.id.progress)
     ProgressBar mProgress;
 
     private UserAdapter mUserAdapter;

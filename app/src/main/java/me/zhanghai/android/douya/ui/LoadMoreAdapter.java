@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -107,7 +107,7 @@ public class LoadMoreAdapter extends MergeAdapter {
 
         static class ViewHolder extends RecyclerView.ViewHolder {
 
-            @Bind(R.id.progress)
+            @BindView(R.id.progress)
             public ProgressBar progress;
 
             public ViewHolder(View itemView) {

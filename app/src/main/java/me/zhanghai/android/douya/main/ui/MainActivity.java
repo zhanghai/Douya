@@ -22,34 +22,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
-import me.zhanghai.android.douya.broadcast.ui.BroadcastListFragment;
 import me.zhanghai.android.douya.home.HomeFragment;
 import me.zhanghai.android.douya.notification.ui.NotificationListFragment;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.ui.ActionItemBadge;
-import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
-import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public class MainActivity extends AppCompatActivity
         implements NotificationListFragment.UnreadNotificationCountListener {
 
-    @Bind(R.id.drawer)
+    @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.navigation)
+    @BindView(R.id.navigation)
     NavigationView mNavigationView;
     private LinearLayout mNavigationHeaderLayout;
     private ImageView mNavigationHeaderAvatarImage;
     private TextView mNavigationHeaderNameText;
-    @Bind(R.id.notification_list_drawer)
+    @BindView(R.id.notification_list_drawer)
     View mNotificationDrawer;
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     FrameLayout mContainerLayout;
 
     private MenuItem mNotificationMenu;

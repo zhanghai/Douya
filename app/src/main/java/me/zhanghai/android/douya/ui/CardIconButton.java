@@ -16,15 +16,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 
 public class CardIconButton extends LinearLayout {
 
-    @Bind(R.id.cardiconbutton_image)
+    @BindView(R.id.cardiconbutton_image)
     ImageView mImage;
-    @Bind(R.id.cardiconbutton_text)
+    @BindView(R.id.cardiconbutton_text)
     TextView mText;
 
     public CardIconButton(Context context) {

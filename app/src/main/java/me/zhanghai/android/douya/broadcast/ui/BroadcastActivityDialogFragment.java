@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
@@ -37,15 +37,15 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
 
     public static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
 
-    @Bind(R.id.tab)
+    @BindView(R.id.tab)
     TabLayout mTabLayout;
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager mViewPager;
-    @Bind(android.R.id.button1)
+    @BindView(android.R.id.button1)
     Button mPositiveButton;
-    @Bind(android.R.id.button2)
+    @BindView(android.R.id.button2)
     Button mNegativeButton;
-    @Bind(android.R.id.button3)
+    @BindView(android.R.id.button3)
     Button mNeutralButton;
 
     private TabFragmentPagerAdapter mTabAdapter;

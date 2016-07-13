@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
@@ -59,11 +59,11 @@ public class UserAdapter extends SimpleAdapter<User, UserAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.avatar)
+        @BindView(R.id.avatar)
         public ImageView avatarImage;
-        @Bind(R.id.name)
+        @BindView(R.id.name)
         public TextView nameText;
-        @Bind(R.id.description)
+        @BindView(R.id.description)
         public TextView descriptionText;
 
         public ViewHolder(View itemView) {

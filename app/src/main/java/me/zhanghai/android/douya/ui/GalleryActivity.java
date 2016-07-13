@@ -16,8 +16,8 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.BindInt;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Image;
@@ -33,9 +33,9 @@ public class GalleryActivity extends AppCompatActivity {
     @BindInt(android.R.integer.config_mediumAnimTime)
     int mToolbarHideDuration;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager mViewPager;
 
     private SystemUiHelper mSystemUiHelper;

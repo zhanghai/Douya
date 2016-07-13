@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Image;
@@ -25,9 +25,9 @@ public class ImageLayout extends FrameLayout {
     public static final int FILL_ORIENTATION_HORIZONTAL = 0;
     public static final int FILL_ORIENTATION_VERTICAL = 1;
 
-    @Bind(R.id.imagelayout_image)
+    @BindView(R.id.imagelayout_image)
     RatioImageView mImageView;
-    @Bind(R.id.imagelayout_gif)
+    @BindView(R.id.imagelayout_gif)
     ImageView mGifImage;
 
     public ImageLayout(Context context) {

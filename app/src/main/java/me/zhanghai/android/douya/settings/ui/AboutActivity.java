@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.ui.KonamiCodeDetector;
@@ -22,11 +22,11 @@ import me.zhanghai.android.douya.util.ToastUtils;
 
 public class AboutActivity extends AppCompatActivity {
 
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     LinearLayout mContainerLayout;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.version)
+    @BindView(R.id.version)
     TextView mVersionText;
 
     @Override

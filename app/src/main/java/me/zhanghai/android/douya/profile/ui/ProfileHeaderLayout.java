@@ -20,9 +20,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.BindDimen;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.zhanghai.android.douya.R;
@@ -53,25 +53,25 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     @BindDimen(R.dimen.profile_small_avatar_margin_top)
     int mSmallAvatarMarginTop;
 
-    @Bind(R.id.dismiss)
+    @BindView(R.id.dismiss)
     View mDismissView;
-    @Bind(R.id.appBar)
+    @BindView(R.id.appBar)
     LinearLayout mAppBarLayout;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_username)
+    @BindView(R.id.toolbar_username)
     TextView mToolbarUsernameText;
-    @Bind(R.id.username)
+    @BindView(R.id.username)
     TextView mUsernameText;
-    @Bind(R.id.signature)
+    @BindView(R.id.signature)
     TextView mSignatureText;
-    @Bind(R.id.joined_at_location)
+    @BindView(R.id.joined_at_location)
     JoinedAtLocationAutoGoneTextView mJoinedAtLocationText;
-    @Bind(R.id.follow)
+    @BindView(R.id.follow)
     Button mFollowButton;
-    @Bind(R.id.avatar_container)
+    @BindView(R.id.avatar_container)
     FrameLayout mAvatarContainerLayout;
-    @Bind(R.id.avatar)
+    @BindView(R.id.avatar)
     CircleImageView mAvatarImage;
 
     private int mMaxHeight;

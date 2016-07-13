@@ -8,14 +8,13 @@ package me.zhanghai.android.douya.notification.ui;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
@@ -23,7 +22,6 @@ import me.zhanghai.android.douya.network.api.info.Notification;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
-import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class NotificationAdapter extends SimpleAdapter<Notification,
@@ -76,9 +74,9 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.text)
+        @BindView(R.id.text)
         public TextView textText;
-        @Bind(R.id.time)
+        @BindView(R.id.time)
         public TimeTextView timeText;
 
         public ViewHolder(View itemView) {

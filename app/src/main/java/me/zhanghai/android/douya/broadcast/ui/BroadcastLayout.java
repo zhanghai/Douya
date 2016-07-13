@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
@@ -54,39 +54,39 @@ import me.zhanghai.android.douya.util.ViewUtils;
  */
 public class BroadcastLayout extends LinearLayout {
 
-    @Bind(R.id.avatar)
+    @BindView(R.id.avatar)
     public ImageView mAvatarImage;
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     public TextView mNameText;
-    @Bind(R.id.time_action)
+    @BindView(R.id.time_action)
     public TimeActionTextView mTimeActionText;
-    @Bind(R.id.attachment)
+    @BindView(R.id.attachment)
     public RelativeLayout mAttachmentLayout;
-    @Bind(R.id.attachment_image)
+    @BindView(R.id.attachment_image)
     public ImageView mAttachmentImage;
-    @Bind(R.id.attachment_title)
+    @BindView(R.id.attachment_title)
     public TextView mAttachmentTitleText;
-    @Bind(R.id.attachment_description)
+    @BindView(R.id.attachment_description)
     public TextView mAttachmentDescriptionText;
-    @Bind(R.id.single_image)
+    @BindView(R.id.single_image)
     public ImageLayout mSingleImageLayout;
-    @Bind(R.id.image_list_layout)
+    @BindView(R.id.image_list_layout)
     public FrameLayout mImageListLayout;
-    @Bind(R.id.image_list_description_layout)
+    @BindView(R.id.image_list_description_layout)
     public FrameLayout mImageListDescriptionLayout;
-    @Bind(R.id.image_list_description)
+    @BindView(R.id.image_list_description)
     public TextView mImageListDescriptionText;
-    @Bind(R.id.image_list)
+    @BindView(R.id.image_list)
     public RatioHeightRecyclerView mImageList;
-    @Bind(R.id.text_space)
+    @BindView(R.id.text_space)
     public Space mTextSpace;
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     public TextView mTextText;
-    @Bind(R.id.like)
+    @BindView(R.id.like)
     public CardIconButton mLikeButton;
-    @Bind(R.id.comment)
+    @BindView(R.id.comment)
     public CardIconButton mCommentButton;
-    @Bind(R.id.rebroadcast)
+    @BindView(R.id.rebroadcast)
     public CardIconButton mRebroadcastButton;
 
     private HorizontalImageAdapter mImageListAdapter;

@@ -22,7 +22,7 @@ import com.android.volley.VolleyError;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
@@ -60,11 +60,11 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
 
     private final Handler mHandler = new Handler();
 
-    @Bind(R.id.swipe_refresh)
+    @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.notification_list)
+    @BindView(R.id.notification_list)
     RecyclerView mNotificationList;
-    @Bind(R.id.progress)
+    @BindView(R.id.progress)
     ProgressBar mProgress;
 
     private RetainDataFragment mRetainDataFragment;

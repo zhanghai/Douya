@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Comment;
@@ -70,13 +70,13 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.avatar)
+        @BindView(R.id.avatar)
         public ImageView avatarImage;
-        @Bind(R.id.name)
+        @BindView(R.id.name)
         public TextView nameText;
-        @Bind(R.id.time)
+        @BindView(R.id.time)
         public TimeTextView timeText;
-        @Bind(R.id.text)
+        @BindView(R.id.text)
         public TextView textText;
 
         public ViewHolder(View itemView) {

@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListFragment;
@@ -26,13 +26,13 @@ import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
 
 public class HomeFragment extends Fragment implements AppBarManager {
 
-    @Bind(R.id.appBarWrapper)
+    @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppBarWrapperLayout;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.tab)
+    @BindView(R.id.tab)
     TabLayout mTabLayout;
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager mViewPager;
 
     private TabFragmentPagerAdapter mTabAdapter;

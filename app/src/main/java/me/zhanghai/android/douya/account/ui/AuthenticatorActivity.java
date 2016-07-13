@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.android.volley.ParseError;
 import com.android.volley.VolleyError;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.info.AccountContract;
@@ -62,19 +62,19 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
     private static final String RETAIN_DATA_KEY_PASSWORD = KEY_PREFIX + "password";
     private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
 
-    @Bind(R.id.form)
+    @BindView(R.id.form)
     View mFormLayout;
-    @Bind(R.id.username_layout)
+    @BindView(R.id.username_layout)
     TextInputLayout mUsernameLayout;
-    @Bind(R.id.username)
+    @BindView(R.id.username)
     EditText mUsernameEdit;
-    @Bind(R.id.password_layout)
+    @BindView(R.id.password_layout)
     TextInputLayout mPasswordLayout;
-    @Bind(R.id.password)
+    @BindView(R.id.password)
     EditText mPasswordEdit;
-    @Bind(R.id.login)
+    @BindView(R.id.login)
     Button mLoginButton;
-    @Bind(R.id.progress)
+    @BindView(R.id.progress)
     ProgressBar mProgress;
 
     private RetainDataFragment mRetainDataFragment;

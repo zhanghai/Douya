@@ -24,7 +24,7 @@ import com.android.volley.VolleyError;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
@@ -57,13 +57,13 @@ public class BroadcastListFragment extends Fragment implements BroadcastListReso
 
     private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
 
-    @Bind(R.id.swipe_refresh)
+    @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.broadcast_list)
+    @BindView(R.id.broadcast_list)
     RecyclerView mBroadcastList;
-    @Bind(R.id.progress)
+    @BindView(R.id.progress)
     ProgressBar mProgress;
-    @Bind(R.id.send)
+    @BindView(R.id.send)
     FriendlyFloatingActionButton mSendFab;
 
     private BroadcastListResource mBroadcastListResource;

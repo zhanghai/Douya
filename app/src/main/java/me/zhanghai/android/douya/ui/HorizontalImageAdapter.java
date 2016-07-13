@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Space;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Image;
@@ -60,9 +60,9 @@ public class HorizontalImageAdapter
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.image)
+        @BindView(R.id.image)
         public ImageLayout imageLayout;
-        @Bind(R.id.divider)
+        @BindView(R.id.divider)
         public Space dividerSpace;
 
         public ViewHolder(View itemView) {

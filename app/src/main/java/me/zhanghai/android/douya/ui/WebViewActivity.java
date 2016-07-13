@@ -30,8 +30,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import butterknife.Bind;
 import butterknife.BindDimen;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ClipboardUtils;
@@ -41,15 +41,15 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    @Bind(R.id.appBarWrapper)
+    @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppbarWrapperLayout;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_progress)
+    @BindView(R.id.toolbar_progress)
     ProgressBar mProgress;
-    @Bind(R.id.web)
+    @BindView(R.id.web)
     WebView mWebView;
-    @Bind(R.id.error)
+    @BindView(R.id.error)
     TextView mErrorText;
 
     @BindDimen(R.dimen.toolbar_height)

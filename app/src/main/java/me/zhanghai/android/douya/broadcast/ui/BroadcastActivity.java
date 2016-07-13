@@ -29,7 +29,7 @@ import com.android.volley.VolleyError;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
@@ -75,21 +75,21 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastRes
 
     private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
 
-    @Bind(android.R.id.content)
+    @BindView(android.R.id.content)
     FrameLayout mContentLayout;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.shared)
+    @BindView(R.id.shared)
     View mSharedView;
-    @Bind(R.id.swipe_refresh)
+    @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.broadcast_comment_list)
+    @BindView(R.id.broadcast_comment_list)
     RecyclerView mBroadcastCommentList;
-    @Bind(R.id.progress)
+    @BindView(R.id.progress)
     ProgressBar mProgress;
-    @Bind(R.id.comment)
+    @BindView(R.id.comment)
     EditText mCommentEdit;
-    @Bind(R.id.send)
+    @BindView(R.id.send)
     ImageButton mSendButton;
 
     private BroadcastResource mBroadcastResource;

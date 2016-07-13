@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
@@ -33,13 +33,13 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
     private static final int BROADCAST_COUNT_MAX = 3;
 
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     TextView mTitleText;
-    @Bind(R.id.contentState)
+    @BindView(R.id.contentState)
     ContentStateLayout mContentStateLayout;
-    @Bind(R.id.broadcast_list)
+    @BindView(R.id.broadcast_list)
     LinearLayout mBroadcastList;
-    @Bind(R.id.view_all)
+    @BindView(R.id.view_all)
     TextView mViewAllText;
 
     public ProfileBroadcastsLayout(Context context) {
@@ -144,11 +144,11 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
     static class BroadcastLayoutHolder {
 
-        @Bind(R.id.image)
+        @BindView(R.id.image)
         public ImageView image;
-        @Bind(R.id.text)
+        @BindView(R.id.text)
         public TextView textText;
-        @Bind(R.id.time_action)
+        @BindView(R.id.time_action)
         public TimeActionTextView timeActionText;
         public long boundBroadcastId;
 

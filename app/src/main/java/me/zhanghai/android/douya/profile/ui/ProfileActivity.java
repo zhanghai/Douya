@@ -20,7 +20,7 @@ import com.android.volley.VolleyError;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
@@ -59,15 +59,15 @@ public class ProfileActivity extends AppCompatActivity implements RequestFragmen
     private static final String RETAIN_DATA_KEY_LOADING_BROADCAST_LIST = KEY_PREFIX
             + "loading_broadcast_list";
 
-    @Bind(R.id.scroll)
+    @BindView(R.id.scroll)
     ProfileLayout mScrollLayout;
-    @Bind(R.id.header)
+    @BindView(R.id.header)
     ProfileHeaderLayout mHeaderLayout;
-    @Bind(R.id.dismiss)
+    @BindView(R.id.dismiss)
     View mDismissView;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.broadcasts)
+    @BindView(R.id.broadcasts)
     ProfileBroadcastsLayout mBroadcastsLayout;
 
     private String mUserIdOrUid;

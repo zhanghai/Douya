@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.Broadcast;
@@ -115,9 +115,9 @@ public class SingleBroadcastAdapter
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.broadcast)
+        @BindView(R.id.broadcast)
         public BroadcastLayout broadcastLayout;
-        @Bind(R.id.view_activity)
+        @BindView(R.id.view_activity)
         public Button viewActivityButton;
 
         public ViewHolder(View itemView) {
