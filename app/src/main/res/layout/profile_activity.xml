@@ -12,7 +12,7 @@
     android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.ProfileActivity">
+    tools:context=".profile.ui.ProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

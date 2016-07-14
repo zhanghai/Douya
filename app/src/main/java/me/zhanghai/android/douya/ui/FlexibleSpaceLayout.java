@@ -521,7 +521,6 @@ public class FlexibleSpaceLayout extends LinearLayout {
                 throw new IllegalStateException(
                         "Expected theme to define listPreferredItemHeight.");
             }
-
         }
         return mView_verticalScrollFactor;
     }
