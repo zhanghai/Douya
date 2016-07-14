@@ -25,7 +25,7 @@ import android.support.v7.app.AppCompatActivity;
  * is never set or if it is set to null then error {@link AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  */
-public class AppCompatAccountAuthenticatorActivity extends AppCompatActivity {
+public abstract class AppCompatAccountAuthenticatorActivity extends AppCompatActivity {
     private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
     private Bundle mResultBundle = null;
 

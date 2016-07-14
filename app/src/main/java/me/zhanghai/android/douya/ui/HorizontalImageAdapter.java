@@ -41,13 +41,13 @@ public class HorizontalImageAdapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.imageLayout.loadImage(getItem(position));
         holder.imageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mOnImageClickListener != null) {
-                    mOnImageClickListener.onImageClick(position);
+                    mOnImageClickListener.onImageClick(holder.getAdapterPosition());
                 }
             }
         });

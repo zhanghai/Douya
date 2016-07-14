@@ -103,6 +103,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         init();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void init() {
         // HACK: We need to delegate the outline so that elevation can work.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

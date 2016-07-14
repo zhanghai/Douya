@@ -37,9 +37,7 @@
         android:layout_alignParentTop="true"
         android:ellipsize="end"
         android:maxLines="3"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-
-        android:text="广播正文" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <me.zhanghai.android.douya.ui.TimeActionTextView
         android:id="@+id/time_action"
@@ -52,7 +50,5 @@
         android:ellipsize="end"
         android:gravity="bottom"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-
-        android:text="今天 12:34" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
