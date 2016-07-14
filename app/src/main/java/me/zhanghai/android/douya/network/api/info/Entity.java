@@ -29,7 +29,7 @@ public class Entity implements Parcelable {
 
     public String title;
 
-    public static CharSequence applyEntities(CharSequence text, List<Entity> entityList,
+    public static CharSequence applyEntities(String text, List<Entity> entityList,
                                              Context context) {
 
         if (TextUtils.isEmpty(text) || entityList.isEmpty()) {
@@ -48,18 +48,21 @@ public class Entity implements Parcelable {
                         + lastTextIndex);
                 continue;
             }
-            builder.append(text.subSequence(lastTextIndex, entity.start));
+            int entityStart = text.offsetByCodePoints(lastTextIndex, entity.start - lastTextIndex);
+            int entityEnd = text.offsetByCodePoints(entityStart, entity.end - entity.start);
+            builder.append(text.subSequence(lastTextIndex, entityStart));
             CharSequence entityTitle = entity.title;
             if (!Settings.SHOW_TITLE_FOR_LINK_ENTITY.getValue(context)
                     && Patterns.WEB_URL.matcher(entityTitle).matches()) {
-                entityTitle = text.subSequence(entity.start, entity.end);
+                entityTitle = text.subSequence(entityStart, entityEnd);
             }
-            int entityStart = builder.length();
+            int entityStartInAppliedText = builder.length();
             builder
                     .append(entityTitle)
-                    .setSpan(new UriSpan(entity.href), entityStart,
-                            entityStart + entityTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            lastTextIndex = entity.end;
+                    .setSpan(new UriSpan(entity.href), entityStartInAppliedText,
+                            entityStartInAppliedText + entityTitle.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            lastTextIndex = entityEnd;
         }
         if (lastTextIndex != text.length()) {
             builder.append(text.subSequence(lastTextIndex, text.length()));
