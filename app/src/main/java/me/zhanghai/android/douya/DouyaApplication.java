@@ -9,6 +9,8 @@ import android.app.Application;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import me.zhanghai.android.douya.fabric.FabricUtils;
+
 public class DouyaApplication extends Application {
 
     private static DouyaApplication sInstance;
@@ -29,5 +31,7 @@ public class DouyaApplication extends Application {
         super.onCreate();
 
         AndroidThreeTen.init(this);
+
+        FabricUtils.init(this);
     }
 }
