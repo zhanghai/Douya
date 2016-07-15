@@ -73,6 +73,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     private static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
     private static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
     private static final String EXTRA_SHOW_SEND_COMMENT = KEY_PREFIX + "show_send_comment";
+    private static final String EXTRA_TITLE = KEY_PREFIX + "title";
 
     @BindView(R.id.container)
     FrameLayout mContainerLayout;
@@ -96,6 +97,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     private long mBroadcastId;
     private Broadcast mBroadcast;
     private boolean mShowSendComment;
+    private String mTitle;
 
     private BroadcastAndCommentListResource mBroadcastAndCommentListResource;
 
@@ -104,18 +106,19 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     private LoadMoreAdapter mAdapter;
 
     public static BroadcastFragment newInstance(long broadcastId, Broadcast broadcast,
-                                                boolean showSendComment) {
+                                                boolean showSendComment, String title) {
         //noinspection deprecation
         BroadcastFragment fragment = new BroadcastFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
         arguments.putParcelable(EXTRA_BROADCAST, broadcast);
         arguments.putBoolean(EXTRA_SHOW_SEND_COMMENT, showSendComment);
+        arguments.putString(EXTRA_TITLE, title);
         return fragment;
     }
 
     /**
-     * @deprecated Use {@link #newInstance(long, Broadcast, boolean)} instead.
+     * @deprecated Use {@link #newInstance(long, Broadcast, boolean, String)} instead.
      */
     public BroadcastFragment() {}
 
@@ -131,6 +134,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             mBroadcastId = arguments.getLong(EXTRA_BROADCAST_ID);
         }
         mShowSendComment = arguments.getBoolean(EXTRA_SHOW_SEND_COMMENT);
+        mTitle = arguments.getString(EXTRA_TITLE);
 
         setHasOptionsMenu(true);
     }
@@ -158,7 +162,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                 mBroadcast, this);
 
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
-//        activity.setTitle(getTitle());
+        activity.setTitle(getTitle());
         activity.setSupportActionBar(mToolbar);
 
         mContainerLayout.setOnClickListener(new View.OnClickListener() {
@@ -285,6 +289,10 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private String getTitle() {
+        return !TextUtils.isEmpty(mTitle) ? mTitle : getString(R.string.broadcast_title);
     }
 
     @Override

@@ -21,6 +21,7 @@ public class BroadcastActivity extends AppCompatActivity {
     private static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
     private static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
     private static final String EXTRA_SHOW_SEND_COMMENT = KEY_PREFIX + "show_send_comment";
+    private static final String EXTRA_TITLE = KEY_PREFIX + "title";
 
     public static Intent makeIntent(long broadcastId, Context context) {
         return new Intent(context, BroadcastActivity.class)
@@ -32,9 +33,11 @@ public class BroadcastActivity extends AppCompatActivity {
                 .putExtra(EXTRA_BROADCAST, broadcast);
     }
 
-    public static Intent makeIntent(Broadcast broadcast, boolean showSendComment, Context context) {
+    public static Intent makeIntent(Broadcast broadcast, boolean showSendComment, String title,
+                                    Context context) {
         return makeIntent(broadcast, context)
-                .putExtra(EXTRA_SHOW_SEND_COMMENT, showSendComment);
+                .putExtra(EXTRA_SHOW_SEND_COMMENT, showSendComment)
+                .putExtra(EXTRA_TITLE, title);
     }
 
     @Override
@@ -54,9 +57,10 @@ public class BroadcastActivity extends AppCompatActivity {
             long broadcastId = intent.getLongExtra(EXTRA_BROADCAST_ID, -1);
             Broadcast broadcast = intent.getParcelableExtra(EXTRA_BROADCAST);
             boolean showSendComment = intent.getBooleanExtra(EXTRA_SHOW_SEND_COMMENT, false);
+            String title = intent.getStringExtra(EXTRA_TITLE);
             FragmentUtils.add(
-                    BroadcastFragment.newInstance(broadcastId, broadcast, showSendComment), this,
-                    android.R.id.content);
+                    BroadcastFragment.newInstance(broadcastId, broadcast, showSendComment, title),
+                    this, android.R.id.content);
         }
     }
 }

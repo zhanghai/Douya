@@ -70,13 +70,11 @@
 
         <activity
             android:name=".broadcast.ui.BroadcastActivity"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Douya.DarkBackground"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".profile.ui.ProfileActivity"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Douya.TransparentBackground"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
