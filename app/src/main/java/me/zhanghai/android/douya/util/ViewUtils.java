@@ -28,7 +28,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import me.zhanghai.android.douya.broadcast.ui.ClickableMovementMethod;
+import me.zhanghai.android.douya.ui.ClickableMovementMethod;
 
 public class ViewUtils {
 
