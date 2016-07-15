@@ -29,8 +29,8 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarMan
 
     private static final String KEY_PREFIX = BroadcastListActivityFragment.class.getName() + '.';
 
-    private static final String EXTRA_USER = KEY_PREFIX + "user";
     private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private static final String EXTRA_USER = KEY_PREFIX + "user";
     private static final String EXTRA_TOPIC = KEY_PREFIX + "topic";
 
     @BindView(R.id.appBarWrapper)
@@ -38,23 +38,23 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarMan
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    private User mUser;
     private String mUserIdOrUid;
+    private User mUser;
     private String mTopic;
 
-    public static BroadcastListActivityFragment newInstance(User user, String userIdOrUid,
+    public static BroadcastListActivityFragment newInstance(String userIdOrUid, User user,
                                                             String topic) {
         //noinspection deprecation
         BroadcastListActivityFragment fragment = new BroadcastListActivityFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putParcelable(EXTRA_USER, user);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        arguments.putParcelable(EXTRA_USER, user);
         arguments.putString(EXTRA_TOPIC, topic);
         return fragment;
     }
 
     /**
-     * @deprecated Use {@link #newInstance(User, String, String)} instead.
+     * @deprecated Use {@link #newInstance(String, User, String)} instead.
      */
     public BroadcastListActivityFragment() {}
 

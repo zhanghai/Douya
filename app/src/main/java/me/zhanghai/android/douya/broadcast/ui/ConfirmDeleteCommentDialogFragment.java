@@ -9,7 +9,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
@@ -64,9 +64,9 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
         return (Listener) getActivity();
     }
 
-    public static void show(Comment comment, FragmentActivity activity) {
+    public static void show(Comment comment, Fragment fragment) {
         ConfirmDeleteCommentDialogFragment.newInstance(comment)
-                .show(activity.getSupportFragmentManager(), null);
+                .show(fragment.getChildFragmentManager(), null);
     }
 
     public interface Listener {

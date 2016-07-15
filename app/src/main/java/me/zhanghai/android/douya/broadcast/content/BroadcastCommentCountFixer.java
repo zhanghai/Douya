@@ -16,9 +16,8 @@ public class BroadcastCommentCountFixer {
 
     private BroadcastCommentCountFixer() {}
 
-    public static void onCommentRemoved(BroadcastResource broadcastResource) {
+    public static void onCommentRemoved(Broadcast broadcast) {
 
-        Broadcast broadcast = broadcastResource.get();
         if (broadcast == null) {
             return;
         }
@@ -27,15 +26,10 @@ public class BroadcastCommentCountFixer {
         EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast));
     }
 
-    public static void onCommentListChanged(BroadcastResource broadcastResource,
-                                            CommentListResource commentListResource) {
+    public static void onCommentListChanged(Broadcast broadcast,
+                                            List<Comment> commentList) {
 
-        Broadcast broadcast = broadcastResource.get();
-        if (broadcast == null) {
-            return;
-        }
-        List<Comment> commentList = commentListResource.get();
-        if (commentList == null) {
+        if (broadcast == null || commentList == null) {
             return;
         }
 

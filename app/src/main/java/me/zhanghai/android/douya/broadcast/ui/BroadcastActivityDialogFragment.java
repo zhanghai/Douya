@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -162,8 +161,8 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
         return count > 0 ? getString(formatResId, count) : getString(emptyResId);
     }
 
-    public static void show(Broadcast broadcast, FragmentActivity activity) {
+    public static void show(Broadcast broadcast, Fragment fragment) {
         BroadcastActivityDialogFragment.newInstance(broadcast)
-                .show(activity.getSupportFragmentManager(), null);
+                .show(fragment.getChildFragmentManager(), null);
     }
 }

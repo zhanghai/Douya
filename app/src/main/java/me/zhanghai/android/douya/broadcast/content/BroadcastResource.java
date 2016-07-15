@@ -124,6 +124,16 @@ public class BroadcastResource extends ResourceFragment
         return mBroadcast;
     }
 
+    public boolean isEmpty() {
+        // Can be called before onCreate() is called.
+        ensureBroadcastAndIdFromArguments();
+        return mBroadcast == null;
+    }
+
+    public boolean isLoading() {
+        return mLoading;
+    }
+
     private void ensureBroadcastAndIdFromArguments() {
         if (mBroadcast == null) {
             mBroadcast = getArguments().getParcelable(EXTRA_BROADCAST);

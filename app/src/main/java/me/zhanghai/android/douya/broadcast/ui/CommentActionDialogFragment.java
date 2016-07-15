@@ -9,7 +9,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
@@ -18,8 +18,7 @@ import me.zhanghai.android.douya.network.api.info.Comment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 /**
- * Simple dialog for comment action. Requires the host activity to implement
- * {@link Listener}.
+ * Simple dialog for comment action. Requires the host fragment to implement {@link Listener}.
  */
 public class CommentActionDialogFragment extends AppCompatDialogFragment {
 
@@ -158,13 +157,13 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
     }
 
     private Listener getListener() {
-        return (Listener) getActivity();
+        return (Listener) getParentFragment();
     }
 
     public static void show(Comment comment, boolean canReplyTo, boolean canDelete,
-                            FragmentActivity activity) {
+                            Fragment fragment) {
         CommentActionDialogFragment.newInstance(comment, canReplyTo, canDelete)
-                .show(activity.getSupportFragmentManager(), null);
+                .show(fragment.getChildFragmentManager(), null);
     }
 
     public interface Listener {

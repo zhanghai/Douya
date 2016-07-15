@@ -108,7 +108,7 @@ public class TransitionUtils {
         postponeTransitionUntilDecorViewPreDraw(activity);
     }
 
-    // FIXME: Should always use fragments.
+    // FIXME: Duplicate code.
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setupTransitionForAppBar(Activity activity) {
 
@@ -139,13 +139,13 @@ public class TransitionUtils {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void setEnterReturnExplode(Activity activity) {
+    public static void setEnterReturnExplode(Fragment fragment) {
 
         if (!shouldEnableTransition()) {
             return;
         }
 
-        Window window = activity.getWindow();
+        Window window = fragment.getActivity().getWindow();
         Transition explode = new Explode()
                 .excludeTarget(android.R.id.statusBarBackground, true)
                 .excludeTarget(android.R.id.navigationBarBackground, true);
@@ -154,7 +154,7 @@ public class TransitionUtils {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void postAfterTransition(Activity activity, Runnable runnable) {
+    public static void postAfterTransition(Fragment fragment, Runnable runnable) {
 
         if (!shouldEnableTransition()) {
             runnable.run();
@@ -163,6 +163,7 @@ public class TransitionUtils {
 
         // HACK: Horrible hack, because we have no good way of being notified at the end of
         // transition.
+        Activity activity = fragment.getActivity();
         activity.getWindow().getDecorView().postDelayed(runnable,
                 ViewUtils.getMediumAnimTime(activity));
     }

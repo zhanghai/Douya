@@ -9,15 +9,13 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
 import me.zhanghai.android.douya.R;
 
 public class ConfirmDeleteBroadcastDialogFragment extends AppCompatDialogFragment {
-
-    private static final String KEY_PREFIX = ConfirmDeleteBroadcastDialogFragment.class.getName() + '.';
 
     /**
      * @deprecated Use {@link #newInstance()} instead.
@@ -48,9 +46,9 @@ public class ConfirmDeleteBroadcastDialogFragment extends AppCompatDialogFragmen
         return (Listener) getActivity();
     }
 
-    public static void show(FragmentActivity activity) {
+    public static void show(Fragment fragment) {
         ConfirmDeleteBroadcastDialogFragment.newInstance()
-                .show(activity.getSupportFragmentManager(), null);
+                .show(fragment.getChildFragmentManager(), null);
     }
 
     public interface Listener {

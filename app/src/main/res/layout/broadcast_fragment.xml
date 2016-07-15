@@ -5,9 +5,12 @@
   ~ All Rights Reserved.
   -->
 
-<merge
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <!-- This layout ensures correct z-order during transition. -->
     <FrameLayout
@@ -119,4 +122,4 @@
                 app:titleMarginStart="@dimen/toolbar_title_left_margin" />
         </LinearLayout>
     </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
-</merge>
+</FrameLayout>

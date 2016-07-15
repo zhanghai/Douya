@@ -18,18 +18,18 @@ public class BroadcastListActivity extends AppCompatActivity {
 
     private static final String KEY_PREFIX = BroadcastListActivity.class.getName() + '.';
 
-    private static final String EXTRA_USER = KEY_PREFIX + "user";
     private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private static final String EXTRA_USER = KEY_PREFIX + "user";
     private static final String EXTRA_TOPIC = KEY_PREFIX + "topic";
-
-    public static Intent makeIntent(User user, Context context) {
-        return new Intent(context, BroadcastListActivity.class)
-                .putExtra(BroadcastListActivity.EXTRA_USER, user);
-    }
 
     public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, BroadcastListActivity.class)
                 .putExtra(BroadcastListActivity.EXTRA_USER_ID_OR_UID, userIdOrUid);
+    }
+
+    public static Intent makeIntent(User user, Context context) {
+        return new Intent(context, BroadcastListActivity.class)
+                .putExtra(BroadcastListActivity.EXTRA_USER, user);
     }
 
     public static Intent makeIntent(String topic, boolean unused, Context context) {
@@ -51,10 +51,10 @@ public class BroadcastListActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            User user = intent.getParcelableExtra(EXTRA_USER);
             String userIdOrUid = intent.getStringExtra(EXTRA_USER_ID_OR_UID);
+            User user = intent.getParcelableExtra(EXTRA_USER);
             String topic = intent.getStringExtra(EXTRA_TOPIC);
-            FragmentUtils.add(BroadcastListActivityFragment.newInstance(user, userIdOrUid, topic),
+            FragmentUtils.add(BroadcastListActivityFragment.newInstance(userIdOrUid, user, topic),
                     this, android.R.id.content);
         }
     }

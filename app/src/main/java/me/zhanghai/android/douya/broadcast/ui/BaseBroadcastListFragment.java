@@ -237,9 +237,9 @@ public abstract class BaseBroadcastListFragment extends Fragment
         openBroadcast(broadcast, sharedView, false);
     }
 
-    private void openBroadcast(Broadcast broadcast, View sharedView, boolean comment) {
+    private void openBroadcast(Broadcast broadcast, View sharedView, boolean showSendComment) {
         Activity activity = getActivity();
-        Intent intent = BroadcastActivity.makeIntent(broadcast, comment, getActivity());
+        Intent intent = BroadcastActivity.makeIntent(broadcast, showSendComment, getActivity());
         Bundle options = TransitionUtils.makeActivityOptionsBundle(activity, sharedView);
         ActivityCompat.startActivity(activity, intent, options);
     }

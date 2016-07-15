@@ -29,12 +29,25 @@ public abstract class CommentListResource extends ResourceFragment
 
     private boolean mCanLoadMore = true;
     private boolean mLoading;
+    private boolean mLoadingMore;
 
     /**
      * @return Unmodifiable comment list, or {@code null}.
      */
     public List<Comment> get() {
         return mCommentList != null ? Collections.unmodifiableList(mCommentList) : null;
+    }
+
+    public boolean isEmpty() {
+        return mCommentList == null || mCommentList.isEmpty();
+    }
+
+    public boolean isLoading() {
+        return mLoading;
+    }
+
+    public boolean isLoadingMore() {
+        return mLoadingMore;
     }
 
     @Override
@@ -62,7 +75,8 @@ public abstract class CommentListResource extends ResourceFragment
         }
 
         mLoading = true;
-        getListener().onLoadCommentListStarted(getRequestCode(), loadMore);
+        mLoadingMore = loadMore;
+        getListener().onLoadCommentListStarted(getRequestCode());
 
         Integer start = loadMore && mCommentList != null ? mCommentList.size() : null;
         ApiRequest<CommentList> request = onCreateRequest(start, count);
@@ -93,7 +107,8 @@ public abstract class CommentListResource extends ResourceFragment
                                 VolleyError error, boolean loadMore, int count) {
 
         mLoading = false;
-        getListener().onLoadCommentListFinished(getRequestCode(), loadMore);
+        mLoadingMore = false;
+        getListener().onLoadCommentListFinished(getRequestCode());
 
         if (successful) {
             mCanLoadMore = commentList.size() == count;
@@ -151,8 +166,8 @@ public abstract class CommentListResource extends ResourceFragment
     }
 
     public interface Listener {
-        void onLoadCommentListStarted(int requestCode, boolean loadMore);
-        void onLoadCommentListFinished(int requestCode, boolean loadMore);
+        void onLoadCommentListStarted(int requestCode);
+        void onLoadCommentListFinished(int requestCode);
         void onLoadCommentListError(int requestCode, VolleyError error);
         /**
          * @param newCommentList Unmodifiable.
