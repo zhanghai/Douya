@@ -25,6 +25,12 @@ class ApiCredentialManager {
     public static void setApiCredential(String apiKey, String apiSecret, Context context) {
         Settings.API_KEY.putValue(apiKey, context);
         Settings.API_SECRET.putValue(apiSecret, context);
-        System.exit(0);
+        // HACK: Delay for SharedPreference to persist.
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                System.exit(0);
+            }
+        }, 100);
     }
 }
