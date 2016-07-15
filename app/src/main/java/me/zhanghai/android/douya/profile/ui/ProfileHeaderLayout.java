@@ -248,7 +248,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     public void bindUser(User user) {
-        ImageUtils.loadProfileAvatar(mAvatarImage, user.largeAvatar, getContext());
+        ImageUtils.loadProfileAvatar(mAvatarImage, user.getLargeAvatarOrAvatar(), getContext());
         mToolbarUsernameText.setText(user.name);
         mUsernameText.setText(user.name);
         mSignatureText.setText(null);
@@ -261,7 +261,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         Context context = getContext();
         if (!ViewUtils.isVisible(mAvatarImage)) {
             // HACK: Don't load avatar again if already loaded by bindUser().
-            ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.largeAvatar, context);
+            ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.getLargeAvatarOrAvatar(), context);
         }
         mToolbarUsernameText.setText(userInfo.name);
         mUsernameText.setText(userInfo.name);

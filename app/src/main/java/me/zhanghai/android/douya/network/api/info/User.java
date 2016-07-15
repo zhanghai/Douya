@@ -16,6 +16,9 @@ import me.zhanghai.android.douya.account.util.AccountUtils;
 
 public class User implements Parcelable {
 
+    private static final String LARGE_AVATAR_DEFAULT =
+            "https://img3.doubanio.com/icon/user_large.jpg";
+
     public static final String TYPE_SITE = "site";
     public static final String TYPE_USER = "user";
 
@@ -28,6 +31,9 @@ public class User implements Parcelable {
     @SerializedName("is_suicide")
     public boolean isSuicided;
 
+    /**
+     * @deprecated Use {@link #getLargeAvatarOrAvatar()} instead.
+     */
     @SerializedName("large_avatar")
     public String largeAvatar;
 
@@ -36,6 +42,10 @@ public class User implements Parcelable {
     public String type;
 
     public String uid;
+
+    public String getLargeAvatarOrAvatar() {
+        return !TextUtils.equals(largeAvatar, LARGE_AVATAR_DEFAULT)? largeAvatar : avatar;
+    }
 
     public boolean hasIdOrUid(String idOrUid) {
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
