@@ -99,13 +99,7 @@ public class ApiRequests {
             request.addParam(ApiContract.Request.BroadcastList.COUNT, String.valueOf(count));
         }
         if (topic != null) {
-            try {
-                @Frodo
-                String encodedTopic = URLEncoder.encode(topic, Charset.defaultCharset().name());
-                request.addParam(ApiContract.Request.BroadcastList.Q, encodedTopic);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            request.addParam(ApiContract.Request.BroadcastList.Q, topic);
         }
 
         return request;

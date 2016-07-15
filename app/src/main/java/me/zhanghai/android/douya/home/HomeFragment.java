@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.broadcast.ui.BroadcastListFragment;
-import me.zhanghai.android.douya.main.ui.MainActivity;
+import me.zhanghai.android.douya.broadcast.ui.HomeBroadcastListFragment;
 import me.zhanghai.android.douya.ui.AppBarManager;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
 import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
@@ -65,14 +65,14 @@ public class HomeFragment extends Fragment implements AppBarManager {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        MainActivity activity = (MainActivity) getActivity();
-        activity.setToolbar(mToolbar);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(mToolbar);
 
         mTabAdapter = new TabFragmentPagerAdapter(this);
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
             public Fragment createFragment() {
-                return BroadcastListFragment.newInstance();
+                return HomeBroadcastListFragment.newInstance();
             }
         }, getString(R.string.home_broadcast));
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
@@ -99,12 +99,12 @@ public class HomeFragment extends Fragment implements AppBarManager {
     }
 
     @Override
-    public void hideAppBar() {
-        mAppBarWrapperLayout.hide();
+    public void showAppBar() {
+        mAppBarWrapperLayout.show();
     }
 
     @Override
-    public void showAppBar() {
-        mAppBarWrapperLayout.show();
+    public void hideAppBar() {
+        mAppBarWrapperLayout.hide();
     }
 }

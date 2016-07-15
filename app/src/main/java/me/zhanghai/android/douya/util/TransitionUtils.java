@@ -9,7 +9,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.transition.Explode;
 import android.transition.Transition;
@@ -57,6 +59,41 @@ public class TransitionUtils {
         window.setSharedElementsUseOverlay(false);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void postponeTransition(Activity activity) {
+
+        if (!shouldEnableTransition()) {
+            return;
+        }
+
+        ActivityCompat.postponeEnterTransition(activity);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setupTransitionOnActivityCreated(Fragment fragment) {
+
+        if (!shouldEnableTransition()) {
+            return;
+        }
+
+        setupTransitionForAppBar(fragment);
+
+        ActivityCompat.startPostponedEnterTransition(fragment.getActivity());
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setupTransitionForAppBar(Fragment fragment) {
+
+        if (!shouldEnableTransition()) {
+            return;
+        }
+
+        View appbar = fragment.getView().findViewById(R.id.appBarWrapper);
+        if (appbar != null) {
+            appbar.setTransitionName(TRANSITION_NAME_APPBAR);
+        }
+    }
+
     // AppCompatDelegateImplV7.setContentView() removes all views under android.R.id.content, so we
     // have to do this after it.
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -71,6 +108,7 @@ public class TransitionUtils {
         postponeTransitionUntilDecorViewPreDraw(activity);
     }
 
+    // FIXME: Should always use fragments.
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setupTransitionForAppBar(Activity activity) {
 

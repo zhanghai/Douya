@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.main.ui;
 
 import android.os.StrictMode;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -163,8 +164,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(SettingsActivity.makeIntent(this));
     }
 
-    public void setToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
+    @Override
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
+
         TransitionUtils.setupTransitionForAppBar(this);
     }
 

@@ -7,7 +7,7 @@ package me.zhanghai.android.douya.ui;
 
 public interface AppBarManager {
 
-    void hideAppBar();
-
     void showAppBar();
+
+    void hideAppBar();
 }

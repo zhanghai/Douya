@@ -127,6 +127,10 @@
     <string name="home_discover">浏览发现</string>
     <string name="home_online">线上活动</string>
 
+    <string name="broadcast_list_title_default">广播列表</string>
+    <string name="broadcast_list_title_user_format">%s 的广播</string>
+    <string name="broadcast_list_title_topic_format">#%s#</string>
+
     <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
     <string name="broadcast_time_action_format">%1$s %2$s</string>
     <string name="broadcast_image_list_count_format">%1$d 张照片</string>

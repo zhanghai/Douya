@@ -45,6 +45,7 @@ public class BroadcastListResource extends ResourceFragment
 
     private boolean mCanLoadMore = true;
     private boolean mLoading;
+    private boolean mLoadingMore;
 
     private static final String FRAGMENT_TAG_DEFAULT = BroadcastListResource.class.getName();
 
@@ -129,6 +130,18 @@ public class BroadcastListResource extends ResourceFragment
         return mBroadcastList != null ? Collections.unmodifiableList(mBroadcastList) : null;
     }
 
+    public boolean isEmpty() {
+        return mBroadcastList == null || mBroadcastList.isEmpty();
+    }
+
+    public boolean isLoading() {
+        return mLoading;
+    }
+
+    public boolean isLoadingMore() {
+        return mLoadingMore;
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -154,7 +167,8 @@ public class BroadcastListResource extends ResourceFragment
         }
 
         mLoading = true;
-        getListener().onLoadBroadcastListStarted(getRequestCode(), loadMore);
+        mLoadingMore = loadMore;
+        getListener().onLoadBroadcastListStarted(getRequestCode());
 
         Long untilId = null;
         if (loadMore && mBroadcastList != null) {
@@ -194,7 +208,8 @@ public class BroadcastListResource extends ResourceFragment
                                 VolleyError error, boolean loadMore, int count) {
 
         mLoading = false;
-        getListener().onLoadBroadcastListFinished(getRequestCode(), loadMore);
+        mLoadingMore = false;
+        getListener().onLoadBroadcastListFinished(getRequestCode());
 
         if (successful) {
             mCanLoadMore = broadcastList.size() == count;
@@ -315,8 +330,8 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     public interface Listener {
-        void onLoadBroadcastListStarted(int requestCode, boolean loadMore);
-        void onLoadBroadcastListFinished(int requestCode, boolean loadMore);
+        void onLoadBroadcastListStarted(int requestCode);
+        void onLoadBroadcastListFinished(int requestCode);
         void onLoadBroadcastListError(int requestCode, VolleyError error);
         /**
          * @param newBroadcastList Unmodifiable.

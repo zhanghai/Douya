@@ -26,6 +26,9 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
     private static final int DEFAULT_CIRCLE_DISTANCE_DP = 64;
 
     private int mSize = DEFAULT;
+    private int mCircleDiameter;
+    private int mDefaultCircleDistance;
+
     private CanChildScrollUpCallback mCanChildScrollUpCallback;
 
     public FriendlySwipeRefreshLayout(Context context) {
@@ -42,6 +45,9 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
 
     private void init(Context context, AttributeSet attrs) {
 
+        updateCircleDiameter();
+        mDefaultCircleDistance = ViewUtils.dpToPxInt(DEFAULT_CIRCLE_DISTANCE_DP, context);
+
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.FriendlySwipeRefreshLayout, 0, 0);
         int progressOffset = a.getDimensionPixelOffset(
@@ -51,17 +57,37 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
         a.recycle();
 
         if (progressOffset != 0 || progressDistanceOffset != 0) {
-            // TODO: Intercept calls to setSize().
-            int circleDiameterDp = mSize == DEFAULT ? CIRCLE_DIAMETER_DP : CIRCLE_DIAMETER_LARGE_DP;
-            circleDiameterDp += CIRCLE_SHADOW_DP;
-            int progressStart = progressOffset - ViewUtils.dpToPxInt(circleDiameterDp, context);
-            int progressEnd = progressStart + ViewUtils.dpToPxInt(DEFAULT_CIRCLE_DISTANCE_DP
-                    , context) + progressDistanceOffset;
-            setProgressViewOffset(false, progressStart, progressEnd);
+            setProgressViewOffset(progressOffset, progressDistanceOffset);
         }
 
         setColorSchemeColors(ViewUtils.getColorFromAttrRes(R.attr.colorPrimary, Color.BLACK,
                 context));
+    }
+
+    @Override
+    public void setSize(int size) {
+        super.setSize(size);
+
+        if (size == LARGE || size == DEFAULT) {
+            mSize = size;
+            updateCircleDiameter();
+        }
+    }
+
+    private void updateCircleDiameter() {
+        int circleDiameterDp = mSize == DEFAULT ? CIRCLE_DIAMETER_DP : CIRCLE_DIAMETER_LARGE_DP;
+        circleDiameterDp += CIRCLE_SHADOW_DP;
+        mCircleDiameter = ViewUtils.dpToPxInt(circleDiameterDp, getContext());
+    }
+
+    public void setProgressViewOffset(int offset, int distanceOffset) {
+        int progressStart = offset - mCircleDiameter;
+        int progressEnd = progressStart + mDefaultCircleDistance + distanceOffset;
+        setProgressViewOffset(false, progressStart, progressEnd);
+    }
+
+    public void setProgressViewOffset(int offset) {
+        setProgressViewOffset(offset, 0);
     }
 
     public CanChildScrollUpCallback getCanChildScrollUpCallback() {

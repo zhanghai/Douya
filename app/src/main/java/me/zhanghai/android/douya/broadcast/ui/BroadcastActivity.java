@@ -69,9 +69,9 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastRes
 
     private static final String KEY_PREFIX = BroadcastActivity.class.getName() + '.';
 
-    public static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
-    public static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
-    public static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
+    private static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
+    private static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
+    private static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
 
     private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
 

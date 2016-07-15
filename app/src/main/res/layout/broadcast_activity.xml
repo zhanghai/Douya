@@ -99,12 +99,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Extraneous layout for transition (?) -->
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorPrimary"
             android:elevation="@dimen/appbar_elevation"
+            android:orientation="vertical"
             android:theme="?actionBarTheme">
 
             <android.support.v7.widget.Toolbar

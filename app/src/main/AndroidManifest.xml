@@ -65,6 +65,10 @@
         </activity>
 
         <activity
+            android:name=".broadcast.ui.BroadcastListActivity"
+            android:theme="@style/Theme.Douya" />
+
+        <activity
             android:name=".broadcast.ui.BroadcastActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Douya.DarkBackground"

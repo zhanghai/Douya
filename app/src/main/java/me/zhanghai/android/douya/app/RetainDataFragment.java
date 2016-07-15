@@ -11,10 +11,13 @@ import android.support.v4.app.FragmentActivity;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 /**
  * A Fragment that can retain data passed in, and remove them once your instance is recreated.
+ *
+ * @deprecated Use {@link ResourceFragment} for state.
  */
 public class RetainDataFragment extends RetainedFragment {
 
