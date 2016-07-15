@@ -25,6 +25,7 @@ public class LoadMoreAdapter extends MergeAdapter {
 
         adapters = getAdapters();
         mViewAdapter = (LoadMoreViewAdapter) adapters[adapters.length - 1];
+        mViewAdapter.setParentAdapter(this);
     }
 
     private static RecyclerView.Adapter<?>[] mergeAdapters(RecyclerView.Adapter<?>[] adapters,
@@ -47,6 +48,8 @@ public class LoadMoreAdapter extends MergeAdapter {
 
         private int mLoadMoreLayoutRes;
 
+        private boolean mShowingItem;
+
         private ViewHolder mViewHolder;
         private boolean mProgressVisible;
 
@@ -57,13 +60,44 @@ public class LoadMoreAdapter extends MergeAdapter {
             setHasStableIds(true);
         }
 
+        // We need to postpone this until the super call of our parent is completed.
+        public void setParentAdapter(final LoadMoreAdapter parentAdapter) {
+            parentAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onChanged() {
+                    // Don't show the progress item if our parent is empty - or else this can lead
+                    // to incorrect scrolling position when items are added (before us).
+                    setShowingItem(parentAdapter.getItemCount() > 0);
+                }
+            });
+        }
+
+        public void setShowingItem(boolean showingItem) {
+
+            if (mShowingItem == showingItem) {
+                return;
+            }
+
+            mShowingItem = showingItem;
+            if (mShowingItem) {
+                notifyItemInserted(0);
+            } else {
+                notifyItemRemoved(0);
+            }
+        }
+
         public boolean isProgressVisible() {
             return mProgressVisible;
         }
 
         public void setProgressVisible(boolean progressVisible) {
-            if (mProgressVisible != progressVisible) {
-                mProgressVisible = progressVisible;
+
+            if (mProgressVisible == progressVisible) {
+                return;
+            }
+
+            mProgressVisible = progressVisible;
+            if (mShowingItem) {
                 if (mViewHolder != null) {
                     onBindViewHolder(mViewHolder, 0);
                 } else {
@@ -74,7 +108,7 @@ public class LoadMoreAdapter extends MergeAdapter {
 
         @Override
         public int getItemCount() {
-            return 1;
+            return mShowingItem ? 1 : 0;
         }
 
         @Override

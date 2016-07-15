@@ -32,7 +32,7 @@ public class MergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         for (RecyclerView.Adapter adapter : mAdapters) {
             if (!adapter.hasStableIds()) {
                 hasStableIds = false;
-                LogUtils.w("not all the adapters have stable ids: " + adapter);
+                LogUtils.w("not all adapters have stable ids: " + adapter);
             }
         }
         super.setHasStableIds(hasStableIds);
