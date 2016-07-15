@@ -491,7 +491,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         boolean enabled = canSendComment && !sendingComment;
         mCommentEdit.setEnabled(enabled);
         mSendButton.setEnabled(enabled);
-        mCommentEdit.setHint(canSendComment ? R.string.broadcast_send_comment_hint
+        boolean hasBroadcast = mBroadcastAndCommentListResource.hasBroadcast();
+        mCommentEdit.setHint(!hasBroadcast || canSendComment ? R.string.broadcast_send_comment_hint
                 : R.string.broadcast_send_comment_hint_disabled);
         if (sendingComment) {
             mCommentEdit.setText(manager.getComment(broadcastId));
