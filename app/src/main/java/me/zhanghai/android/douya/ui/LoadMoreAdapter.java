@@ -64,6 +64,22 @@ public class LoadMoreAdapter extends MergeAdapter {
         public void setParentAdapter(final LoadMoreAdapter parentAdapter) {
             parentAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                 @Override
+                public void onItemRangeChanged(int positionStart, int itemCount) {
+                    onChanged();
+                }
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    onChanged();
+                }
+                @Override
+                public void onItemRangeRemoved(int positionStart, int itemCount) {
+                    onChanged();
+                }
+                @Override
+                public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                    onChanged();
+                }
+                @Override
                 public void onChanged() {
                     // Don't show the progress item if our parent is empty - or else this can lead
                     // to incorrect scrolling position when items are added (before us).
