@@ -168,10 +168,21 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         mContainerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finishActivityAfterTransition();
+                ActivityCompat.finishAfterTransition(activity);
             }
         });
         ViewCompat.setTransitionName(mSharedView, Broadcast.makeTransitionName(mBroadcastId));
+        // This magically gives better visual effect when the broadcast is partially visible. Using
+        // setEnterSharedElementCallback() disables this hack when no transition is used to start
+        // this Activity.
+        ActivityCompat.setEnterSharedElementCallback(activity, new SharedElementCallback() {
+            @Override
+            public void onSharedElementEnd(List<String> sharedElementNames,
+                                           List<View> sharedElements,
+                                           List<View> sharedElementSnapshots) {
+                mBroadcastCommentList.scrollToPosition(0);
+            }
+        });
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -278,7 +289,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finishActivityAfterTransition();
+                ActivityCompat.finishAfterTransition(getActivity());
                 return true;
             case R.id.action_copy_text:
                 copyText();
@@ -528,23 +539,5 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public void deleteBroadcast() {
         DeleteBroadcastManager.getInstance().write(
                 mBroadcastAndCommentListResource.getBroadcastId(), getActivity());
-    }
-
-    private void finishActivityAfterTransition() {
-
-        // This magically gives better visual effect when the broadcast is partially visible. Using
-        // setEnterSharedElementCallback() disables this hack when no transition is used to start
-        // this Activity.
-        Activity activity = getActivity();
-        ActivityCompat.setEnterSharedElementCallback(activity, new SharedElementCallback() {
-            @Override
-            public void onSharedElementEnd(List<String> sharedElementNames,
-                                           List<View> sharedElements,
-                                           List<View> sharedElementSnapshots) {
-                mBroadcastCommentList.scrollToPosition(0);
-            }
-        });
-
-        ActivityCompat.finishAfterTransition(activity);
     }
 }
