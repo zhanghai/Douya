@@ -78,7 +78,7 @@ public interface ApiContract {
         @me.zhanghai.android.douya.network.api.Frodo
         interface Notification {
 
-            String URL = Frodo.API_HOST + "status/notifications";
+            String URL = Frodo.API_HOST + "mine/notifications";
 
             String START = "start";
             String COUNT = "count";
