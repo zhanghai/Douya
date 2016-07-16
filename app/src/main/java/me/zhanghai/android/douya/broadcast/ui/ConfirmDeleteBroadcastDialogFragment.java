@@ -43,7 +43,7 @@ public class ConfirmDeleteBroadcastDialogFragment extends AppCompatDialogFragmen
     }
 
     private Listener getListener() {
-        return (Listener) getActivity();
+        return (Listener) getParentFragment();
     }
 
     public static void show(Fragment fragment) {

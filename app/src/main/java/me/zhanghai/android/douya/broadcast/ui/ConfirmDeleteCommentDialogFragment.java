@@ -19,7 +19,8 @@ import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment {
 
-    private static final String KEY_PREFIX = ConfirmDeleteCommentDialogFragment.class.getName() + '.';
+    private static final String KEY_PREFIX = ConfirmDeleteCommentDialogFragment.class.getName()
+            + '.';
 
     public static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
 
@@ -61,7 +62,7 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     }
 
     private Listener getListener() {
-        return (Listener) getActivity();
+        return (Listener) getParentFragment();
     }
 
     public static void show(Comment comment, Fragment fragment) {
