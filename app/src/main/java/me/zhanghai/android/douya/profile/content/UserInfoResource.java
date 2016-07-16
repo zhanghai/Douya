@@ -162,7 +162,7 @@ public class UserInfoResource extends ResourceFragment
                 if (mUser != null) {
                     mUserIdOrUid = mUser.uid;
                 } else {
-                    mUserIdOrUid = arguments.getParcelable(EXTRA_USER_ID_OR_UID);
+                    mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
                 }
             }
         }
