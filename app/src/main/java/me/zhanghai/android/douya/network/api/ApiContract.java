@@ -30,9 +30,9 @@ public interface ApiContract {
             String REDIRECT_URI = "frodo://app/oauth/callback/";
             String CHANNEL = "Douban";
             String OS_ROM = "android";
-            String USER_AGENT = "api-client/Volley/1.0 com.douban.frodo/2.15(45) Android/"
+            String USER_AGENT = "api-client/Volley/1 com.douban.frodo/4.0.0(66) Android/"
                     + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
-                    + Build.MODEL;
+                    + Build.MODEL + "  rom:android";
 
             String API_HOST = "https://frodo.douban.com/api/v2/";
         }
