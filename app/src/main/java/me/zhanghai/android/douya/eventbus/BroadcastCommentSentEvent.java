@@ -7,13 +7,15 @@ package me.zhanghai.android.douya.eventbus;
 
 import me.zhanghai.android.douya.network.api.info.Comment;
 
-public class BroadcastCommentSentEvent {
+public class BroadcastCommentSentEvent extends Event {
 
     public long broadcastId;
 
     public Comment comment;
 
-    public BroadcastCommentSentEvent(long broadcastId, Comment comment) {
+    public BroadcastCommentSentEvent(long broadcastId, Comment comment, Object source) {
+        super(source);
+
         this.broadcastId = broadcastId;
         this.comment = comment;
     }

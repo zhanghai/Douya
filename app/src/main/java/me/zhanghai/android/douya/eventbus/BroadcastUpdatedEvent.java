@@ -7,11 +7,13 @@ package me.zhanghai.android.douya.eventbus;
 
 import me.zhanghai.android.douya.network.api.info.Broadcast;
 
-public class BroadcastUpdatedEvent {
+public class BroadcastUpdatedEvent extends Event {
 
     public Broadcast broadcast;
 
-    public BroadcastUpdatedEvent(Broadcast broadcast) {
+    public BroadcastUpdatedEvent(Broadcast broadcast, Object source) {
+        super(source);
+
         this.broadcast = broadcast;
     }
 }

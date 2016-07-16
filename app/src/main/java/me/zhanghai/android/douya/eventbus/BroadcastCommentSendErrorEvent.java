@@ -5,11 +5,13 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-public class BroadcastCommentSendErrorEvent {
+public class BroadcastCommentSendErrorEvent extends Event {
 
     public long broadcastId;
 
-    public BroadcastCommentSendErrorEvent(long broadcastId) {
+    public BroadcastCommentSendErrorEvent(long broadcastId, Object source) {
+        super(source);
+
         this.broadcastId = broadcastId;
     }
 }

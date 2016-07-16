@@ -94,6 +94,11 @@ public class BroadcastCommentListResource extends CommentListResource {
 
     @Keep
     public void onEventMainThread(BroadcastCommentSentEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         if (event.broadcastId == mBroadcastId) {
             append(event.comment);
         }

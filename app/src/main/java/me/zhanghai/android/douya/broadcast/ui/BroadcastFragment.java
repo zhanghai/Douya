@@ -371,7 +371,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         mCommentAdapter.replace(newCommentList);
         BroadcastCommentCountFixer.onCommentListChanged(
                 mBroadcastAndCommentListResource.getBroadcast(),
-                mBroadcastAndCommentListResource.getCommentList());
+                mBroadcastAndCommentListResource.getCommentList(), this);
     }
 
     @Override
@@ -379,14 +379,14 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         mCommentAdapter.addAll(appendedCommentList);
         BroadcastCommentCountFixer.onCommentListChanged(
                 mBroadcastAndCommentListResource.getBroadcast(),
-                mBroadcastAndCommentListResource.getCommentList());
+                mBroadcastAndCommentListResource.getCommentList(), this);
     }
 
     @Override
     public void onCommentRemoved(int requestCode, int position) {
         mCommentAdapter.remove(position);
         BroadcastCommentCountFixer.onCommentRemoved(
-                mBroadcastAndCommentListResource.getBroadcast());
+                mBroadcastAndCommentListResource.getBroadcast(), this);
     }
 
     private void updateRefreshing() {
@@ -483,6 +483,11 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     @Keep
     public void onEventMainThread(BroadcastCommentSentEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         if (event.broadcastId == mBroadcastAndCommentListResource.getBroadcastId()) {
             mBroadcastCommentList.scrollToPosition(mAdapter.getItemCount() - 1);
             mCommentEdit.setText(null);
@@ -492,6 +497,11 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     @Keep
     public void onEventMainThread(BroadcastCommentSendErrorEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         if (event.broadcastId == mBroadcastAndCommentListResource.getBroadcastId()) {
             updateSendCommentStatus();
         }

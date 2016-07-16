@@ -54,7 +54,7 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
     @Override
     protected void onUserListUpdated(List<User> userList) {
         if (onUpdateBroadcast(mBroadcast, userList)) {
-            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast));
+            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
         }
     }
 
@@ -62,9 +62,13 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
 
     @Keep
     public void onEventMainThread(BroadcastUpdatedEvent event) {
-        Broadcast broadcast = event.broadcast;
-        if (broadcast.id == mBroadcast.id) {
-            mBroadcast = broadcast;
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        if (event.broadcast.id == mBroadcast.id) {
+            mBroadcast = event.broadcast;
         }
     }
 

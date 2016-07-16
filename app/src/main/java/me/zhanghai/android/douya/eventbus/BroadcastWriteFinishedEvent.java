@@ -5,11 +5,13 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-public class BroadcastWriteFinishedEvent {
+public class BroadcastWriteFinishedEvent extends Event {
 
     public long broadcastId;
 
-    public BroadcastWriteFinishedEvent(long broadcastId) {
+    public BroadcastWriteFinishedEvent(long broadcastId, Object source) {
+        super(source);
+
         this.broadcastId = broadcastId;
     }
 }

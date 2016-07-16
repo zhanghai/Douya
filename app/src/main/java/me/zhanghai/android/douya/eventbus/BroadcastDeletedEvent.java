@@ -5,11 +5,13 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-public class BroadcastDeletedEvent {
+public class BroadcastDeletedEvent extends Event {
 
     public long broadcastId;
 
-    public BroadcastDeletedEvent(long broadcastId) {
+    public BroadcastDeletedEvent(long broadcastId, Object source) {
+        super(source);
+
         this.broadcastId = broadcastId;
     }
 }

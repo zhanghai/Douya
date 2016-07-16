@@ -219,6 +219,7 @@ public class UserInfoResource extends ResourceFragment
 
         if (successful) {
             setUserInfo(userInfo);
+            EventBusUtils.postAsync(new UserInfoUpdatedEvent(mUserInfo, this));
         } else {
             getListener().onLoadUserInfoError(getRequestCode(), error);
         }
@@ -226,6 +227,11 @@ public class UserInfoResource extends ResourceFragment
 
     @Keep
     public void onEventMainThread(UserInfoUpdatedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         if (event.userInfo.hasIdOrUid(mUserIdOrUid)) {
             setUserInfo(event.userInfo);
         }

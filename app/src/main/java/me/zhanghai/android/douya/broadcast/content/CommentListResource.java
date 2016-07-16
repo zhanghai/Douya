@@ -134,7 +134,7 @@ public abstract class CommentListResource extends ResourceFragment
     @Keep
     public void onEventMainThread(CommentDeletedEvent event) {
 
-        if (mCommentList == null) {
+        if (event.isFromMyself(this) || mCommentList == null) {
             return;
         }
 

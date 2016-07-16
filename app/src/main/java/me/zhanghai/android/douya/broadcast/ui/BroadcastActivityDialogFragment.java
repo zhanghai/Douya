@@ -142,9 +142,13 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
 
     @Keep
     public void onEventMainThread(BroadcastUpdatedEvent event) {
-        Broadcast broadcast = event.broadcast;
-        if (broadcast.id == mBroadcast.id) {
-            mBroadcast = broadcast;
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        if (event.broadcast.id == mBroadcast.id) {
+            mBroadcast = event.broadcast;
             updateTabTitle();
         }
     }

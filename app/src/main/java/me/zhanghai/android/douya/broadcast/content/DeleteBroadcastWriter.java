@@ -44,7 +44,7 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Broadc
 
         ToastUtils.show(R.string.broadcast_delete_successful, getContext());
 
-        EventBusUtils.postAsync(new BroadcastDeletedEvent(response.id));
+        EventBusUtils.postAsync(new BroadcastDeletedEvent(response.id, this));
 
         stopSelf();
     }

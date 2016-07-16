@@ -52,7 +52,7 @@ class SendBroadcastCommentWriter extends ResourceWriter<SendBroadcastCommentWrit
 
         ToastUtils.show(R.string.broadcast_send_comment_successful, getContext());
 
-        EventBusUtils.postAsync(new BroadcastCommentSentEvent(mBroadcastId, response));
+        EventBusUtils.postAsync(new BroadcastCommentSentEvent(mBroadcastId, response, this));
 
         stopSelf();
     }
@@ -65,7 +65,7 @@ class SendBroadcastCommentWriter extends ResourceWriter<SendBroadcastCommentWrit
         ToastUtils.show(context.getString(R.string.broadcast_send_comment_failed_format,
                 ApiError.getErrorString(error, context)), context);
 
-        EventBusUtils.postAsync(new BroadcastCommentSendErrorEvent(mBroadcastId));
+        EventBusUtils.postAsync(new BroadcastCommentSendErrorEvent(mBroadcastId, this));
 
         stopSelf();
     }

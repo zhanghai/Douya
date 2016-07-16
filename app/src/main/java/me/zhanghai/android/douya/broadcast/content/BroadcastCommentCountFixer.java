@@ -16,18 +16,18 @@ public class BroadcastCommentCountFixer {
 
     private BroadcastCommentCountFixer() {}
 
-    public static void onCommentRemoved(Broadcast broadcast) {
+    public static void onCommentRemoved(Broadcast broadcast, Object eventSource) {
 
         if (broadcast == null) {
             return;
         }
 
         --broadcast.commentCount;
-        EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast));
+        EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, eventSource));
     }
 
-    public static void onCommentListChanged(Broadcast broadcast,
-                                            List<Comment> commentList) {
+    public static void onCommentListChanged(Broadcast broadcast, List<Comment> commentList,
+                                            Object eventSource) {
 
         if (broadcast == null || commentList == null) {
             return;
@@ -35,7 +35,7 @@ public class BroadcastCommentCountFixer {
 
         if (broadcast.commentCount < commentList.size()) {
             broadcast.commentCount = commentList.size();
-            EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast));
+            EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, eventSource));
         }
     }
 }

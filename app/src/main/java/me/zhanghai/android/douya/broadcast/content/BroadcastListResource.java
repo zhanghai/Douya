@@ -217,6 +217,9 @@ public class BroadcastListResource extends ResourceFragment
                 mBroadcastList.addAll(broadcastList);
                 getListener().onBroadcastListAppended(getRequestCode(),
                         Collections.unmodifiableList(broadcastList));
+                for (Broadcast broadcast : broadcastList) {
+                    EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, this));
+                }
             } else {
                 set(broadcastList);
             }
@@ -228,7 +231,7 @@ public class BroadcastListResource extends ResourceFragment
     @Keep
     public void onEventMainThread(BroadcastUpdatedEvent event) {
 
-        if (mBroadcastList == null) {
+        if (event.isFromMyself(this) || mBroadcastList == null) {
             return;
         }
 
@@ -252,7 +255,7 @@ public class BroadcastListResource extends ResourceFragment
     @Keep
     public void onEventMainThread(BroadcastDeletedEvent event) {
 
-        if (mBroadcastList == null) {
+        if (event.isFromMyself(this) || mBroadcastList == null) {
             return;
         }
 
@@ -273,7 +276,7 @@ public class BroadcastListResource extends ResourceFragment
     @Keep
     public void onEventMainThread(BroadcastWriteStartedEvent event) {
 
-        if (mBroadcastList == null) {
+        if (event.isFromMyself(this) || mBroadcastList == null) {
             return;
         }
 
@@ -290,7 +293,7 @@ public class BroadcastListResource extends ResourceFragment
     @Keep
     public void onEventMainThread(BroadcastWriteFinishedEvent event) {
 
-        if (mBroadcastList == null) {
+        if (event.isFromMyself(this) || mBroadcastList == null) {
             return;
         }
 

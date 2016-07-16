@@ -50,7 +50,7 @@ class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastComment
 
         ToastUtils.show(R.string.broadcast_comment_delete_successful, getContext());
 
-        EventBusUtils.postAsync(new CommentDeletedEvent(mCommentId));
+        EventBusUtils.postAsync(new CommentDeletedEvent(mCommentId, this));
 
         stopSelf();
     }

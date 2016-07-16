@@ -66,7 +66,7 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
     public void onStart() {
         super.onStart();
 
-        EventBusUtils.postAsync(new BroadcastWriteStartedEvent(mBroadcastId));
+        EventBusUtils.postAsync(new BroadcastWriteStartedEvent(mBroadcastId, this));
     }
 
     @Override
@@ -82,7 +82,7 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
         ToastUtils.show(mLike ? R.string.broadcast_like_successful
                 : R.string.broadcast_unlike_successful, getContext());
 
-        EventBusUtils.postAsync(new BroadcastUpdatedEvent(response));
+        EventBusUtils.postAsync(new BroadcastUpdatedEvent(response, this));
 
         stopSelf();
     }
@@ -108,21 +108,25 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
             }
             if (shouldBeLiked != null) {
                 mBroadcast.fixLiked(shouldBeLiked);
-                EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast));
+                EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
                 notified = true;
             }
         }
         if (!notified) {
             // Must notify to reset pending status. Off-screen items also needs to be invalidated.
-            EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId));
+            EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
         }
 
         stopSelf();
     }
 
-    // Doesn't hurt if it is from ourselves.
     @Keep
     public void onEventMainThread(BroadcastUpdatedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         if (event.broadcast.id == mBroadcast.id) {
             mBroadcast = event.broadcast;
         }

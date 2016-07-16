@@ -200,6 +200,7 @@ public class BroadcastResource extends ResourceFragment
         if (successful) {
             mBroadcast = broadcast;
             getListener().onBroadcastChanged(getRequestCode(), mBroadcast);
+            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
             // TODO: Notify others via EventBus, also on BroadcastListResource and UserInfoResource.
         } else {
             getListener().onLoadBroadcastError(getRequestCode(), error);
@@ -208,6 +209,10 @@ public class BroadcastResource extends ResourceFragment
 
     @Keep
     public void onEventMainThread(BroadcastUpdatedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
 
         boolean changed = false;
         if (event.broadcast.id == mBroadcastId) {
@@ -226,6 +231,11 @@ public class BroadcastResource extends ResourceFragment
 
     @Keep
     public void onEventMainThread(BroadcastDeletedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         if (event.broadcastId == mBroadcastId) {
             mBroadcast = null;
             getListener().onBroadcastRemoved(getRequestCode());
@@ -234,6 +244,11 @@ public class BroadcastResource extends ResourceFragment
 
     @Keep
     public void onEventMainThread(BroadcastWriteStartedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         // Only call listener when we have the data.
         if (event.broadcastId == mBroadcastId && mBroadcast != null) {
             getListener().onBroadcastWriteStarted(getRequestCode());
@@ -242,6 +257,11 @@ public class BroadcastResource extends ResourceFragment
 
     @Keep
     public void onEventMainThread(BroadcastWriteFinishedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         // Only call listener when we have the data.
         if (event.broadcastId == mBroadcastId && mBroadcast != null) {
             getListener().onBroadcastWriteFinished(getRequestCode());

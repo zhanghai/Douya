@@ -70,7 +70,7 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
     public void onStart() {
         super.onStart();
 
-        EventBusUtils.postAsync(new BroadcastWriteStartedEvent(mBroadcastId));
+        EventBusUtils.postAsync(new BroadcastWriteStartedEvent(mBroadcastId, this));
     }
 
     @Override
@@ -91,11 +91,11 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
             // update the broadcast so that we can retrieve rebroadcastId for the
             // old one.
             if (mBroadcast != null && mBroadcast.rebroadcastId != null) {
-                EventBusUtils.postAsync(new BroadcastDeletedEvent(mBroadcast.rebroadcastId));
+                EventBusUtils.postAsync(new BroadcastDeletedEvent(mBroadcast.rebroadcastId, this));
             }
         }
 
-        EventBusUtils.postAsync(new BroadcastUpdatedEvent(response));
+        EventBusUtils.postAsync(new BroadcastUpdatedEvent(response, this));
 
         stopSelf();
     }
@@ -121,21 +121,25 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
             }
             if (shouldBeRebroadcasted != null) {
                 mBroadcast.fixRebroadcasted(shouldBeRebroadcasted);
-                EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast));
+                EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
                 notified = true;
             }
         }
         if (!notified) {
             // Must notify to reset pending status. Off-screen items also needs to be invalidated.
-            EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId));
+            EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
         }
 
         stopSelf();
     }
 
-    // Doesn't hurt if it is from ourselves.
     @Keep
     public void onEventMainThread(BroadcastUpdatedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
         if (event.broadcast.id == mBroadcast.id) {
             mBroadcast = event.broadcast;
         }
