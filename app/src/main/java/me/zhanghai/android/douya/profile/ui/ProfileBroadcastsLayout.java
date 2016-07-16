@@ -69,7 +69,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         mContentStateLayout.setLoading();
     }
 
-    public void bind(final String userIdOrUid, List<Broadcast> broadcastList) {
+    public void bind(List<Broadcast> broadcastList) {
 
         final Context context = getContext();
         View.OnClickListener viewAllListener = new OnClickListener() {

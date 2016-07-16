@@ -29,10 +29,12 @@ public class BroadcastResource extends ResourceFragment
 
     private static final String KEY_PREFIX = BroadcastResource.class.getName() + '.';
 
-    public static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
-    public static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
+    private static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
+    private static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
 
-    private long mBroadcastId;
+    private static final int BROADCAST_ID_INVALID = -1;
+
+    private long mBroadcastId = BROADCAST_ID_INVALID;
 
     private Broadcast mBroadcast;
 
@@ -135,11 +137,14 @@ public class BroadcastResource extends ResourceFragment
     }
 
     private void ensureBroadcastAndIdFromArguments() {
-        if (mBroadcast == null) {
-            mBroadcast = getArguments().getParcelable(EXTRA_BROADCAST);
-            // Be consistent with what the user will see first.
-            mBroadcastId = mBroadcast != null ? mBroadcast.id
-                    : getArguments().getLong(EXTRA_BROADCAST_ID);
+        if (mBroadcastId == BROADCAST_ID_INVALID) {
+            Bundle arguments = getArguments();
+            mBroadcast = arguments.getParcelable(EXTRA_BROADCAST);
+            if (mBroadcast != null) {
+                mBroadcastId = mBroadcast.id;
+            } else {
+                mBroadcastId = arguments.getLong(EXTRA_BROADCAST_ID);
+            }
         }
     }
 
@@ -195,6 +200,7 @@ public class BroadcastResource extends ResourceFragment
         if (successful) {
             mBroadcast = broadcast;
             getListener().onBroadcastChanged(getRequestCode(), mBroadcast);
+            // TODO: Notify others via EventBus, also on BroadcastListResource and UserInfoResource.
         } else {
             getListener().onLoadBroadcastError(getRequestCode(), error);
         }
