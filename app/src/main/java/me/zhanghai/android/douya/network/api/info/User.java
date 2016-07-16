@@ -44,6 +44,7 @@ public class User implements Parcelable {
     public String uid;
 
     public String getLargeAvatarOrAvatar() {
+        //noinspection deprecation
         return !TextUtils.equals(largeAvatar, LARGE_AVATAR_DEFAULT)? largeAvatar : avatar;
     }
 
@@ -72,6 +73,7 @@ public class User implements Parcelable {
         avatar = in.readString();
         id = in.readLong();
         isSuicided = in.readByte() != 0;
+        //noinspection deprecation
         largeAvatar = in.readString();
         name = in.readString();
         type = in.readString();
@@ -89,6 +91,7 @@ public class User implements Parcelable {
         dest.writeString(avatar);
         dest.writeLong(id);
         dest.writeByte(isSuicided ? (byte) 1 : (byte) 0);
+        //noinspection deprecation
         dest.writeString(largeAvatar);
         dest.writeString(name);
         dest.writeString(type);
