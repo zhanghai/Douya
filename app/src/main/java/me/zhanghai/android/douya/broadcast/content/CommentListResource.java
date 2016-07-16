@@ -97,8 +97,8 @@ public abstract class CommentListResource extends ResourceFragment
         postOnResumed(new Runnable() {
             @Override
             public void run() {
-                onLoadFinished(successful, result.comments, error, requestState.loadMore,
-                        requestState.count);
+                onLoadFinished(successful, result != null ? result.comments : null, error,
+                        requestState.loadMore, requestState.count);
             }
         });
     }
