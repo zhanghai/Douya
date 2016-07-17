@@ -26,4 +26,12 @@ public class ToastUtils {
     public static void show(int resId, Context context) {
         show(context.getText(resId), context);
     }
+
+    public static void showLong(CharSequence text, Context context) {
+        show(text, Toast.LENGTH_LONG, context);
+    }
+
+    public static void showLong(int resId, Context context) {
+        showLong(context.getText(resId), context);
+    }
 }

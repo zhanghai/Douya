@@ -90,6 +90,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.3'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'de.greenrobot:eventbus:2.4.0'

@@ -16,11 +16,13 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.scalpel.ScalpelHelperFragment;
 import me.zhanghai.android.douya.ui.KonamiCodeDetector;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity
+        implements ConfirmEnableScalpelDialogFragment.Listener {
 
     @BindView(R.id.container)
     LinearLayout mContainerLayout;
@@ -36,6 +38,8 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.about_activity);
         ButterKnife.bind(this);
 
+        ScalpelHelperFragment.attachTo(this);
+
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("");
@@ -45,7 +49,7 @@ public class AboutActivity extends AppCompatActivity {
         mContainerLayout.setOnTouchListener(new KonamiCodeDetector(this) {
             @Override
             public void onDetected() {
-                onKonamiCodeDetected();
+                onEnableScalpel();
             }
         });
 
@@ -64,7 +68,12 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    private void onKonamiCodeDetected() {
-        ToastUtils.show(R.string.about_konami_code_detected, this);
+    private void onEnableScalpel() {
+        ConfirmEnableScalpelDialogFragment.show(this);
+    }
+
+    @Override
+    public void enableScalpel() {
+        ScalpelHelperFragment.setEnabled(true);
     }
 }

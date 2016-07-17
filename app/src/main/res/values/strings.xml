@@ -208,7 +208,9 @@
     <string name="about_words">Douban, Yet Another</string>
     <string name="about_version_format">版本 %1$s</string>
     <string name="about_credit">梦断代码</string>
-    <string name="about_konami_code_detected">彩蛋正在计划中</string>
+
+    <string name="about_confirm_enable_scalpel_title">你发现了一把手术刀！</string>
+    <string name="about_confirm_enable_scalpel_message">使用说明：\n1. 单指移动视角\n2. 双指上下缩放大小\n3. 双指左右缩放层距\n\n开启手术刀后普通界面将暂时无法正常交互，但你仍然可以使用返回键回到上个界面。\n重新打开应用后手术刀将自动关闭。\n\n要使用手术刀吗？</string>
 
     <string name="pref_default_value_empty_string" />
     <string name="pref_key_api_key">key_api_key</string>

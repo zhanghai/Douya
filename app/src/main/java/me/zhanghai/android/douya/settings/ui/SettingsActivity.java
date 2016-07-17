@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.scalpel.ScalpelHelperFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -31,6 +32,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.settings_activity);
         ButterKnife.bind(this);
+
+        ScalpelHelperFragment.attachTo(this);
 
         setSupportActionBar(mToolbar);
     }
