@@ -62,6 +62,7 @@ public class LoadMoreAdapter extends MergeAdapter {
 
         // We need to postpone this until the super call of our parent is completed.
         public void setParentAdapter(final LoadMoreAdapter parentAdapter) {
+            setShowingItem(parentAdapter.getItemCount() > 0);
             parentAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                 @Override
                 public void onItemRangeChanged(int positionStart, int itemCount) {
