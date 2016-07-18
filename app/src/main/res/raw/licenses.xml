@@ -37,14 +37,21 @@
 
     <notice>
         <name>DiskLruCache</name>
-        <url>https://github.com/JakeWharton/DiskLruCache/</url>
+        <url>https://github.com/JakeWharton/DiskLruCache</url>
         <copyright>Copyright 2012 Jake Wharton&lt;br&gt;Copyright 2011 The Android Open Source Project</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
+        <name>Scalpel</name>
+        <url>https://github.com/JakeWharton/scalpel</url>
+        <copyright>Copyright 2014 Jake Wharton</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
         <name>ThreeTenABP</name>
-        <url>https://github.com/JakeWharton/ThreeTenABP/</url>
+        <url>https://github.com/JakeWharton/ThreeTenABP</url>
         <copyright>Copyright 2015 Jake Wharton</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
