@@ -14,13 +14,13 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-import me.zhanghai.android.douya.network.api.info.Broadcast;
-import me.zhanghai.android.douya.network.api.info.Comment;
-import me.zhanghai.android.douya.network.api.info.CommentList;
-import me.zhanghai.android.douya.network.api.info.Notification;
-import me.zhanghai.android.douya.network.api.info.NotificationList;
-import me.zhanghai.android.douya.network.api.info.User;
-import me.zhanghai.android.douya.network.api.info.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
+import me.zhanghai.android.douya.network.api.info.frodo.Notification;
+import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 
 /**
  * The {@code context} argument is only used for
@@ -33,15 +33,14 @@ public class ApiRequests {
     public static ApiRequest<UserInfo> newUserInfoRequest(String userIdOrUid, Context context) {
 
         if (TextUtils.isEmpty(userIdOrUid)) {
-            userIdOrUid = ApiContract.Request.UserInfo.UID_CURRENT;
+            userIdOrUid = ApiContract.Request.ApiV2.UserInfo.UID_CURRENT;
         }
 
         return new LifeStreamRequest<>(ApiRequest.Method.GET,
-                String.format(ApiContract.Request.UserInfo.URL_FORMAT, userIdOrUid),
+                String.format(ApiContract.Request.ApiV2.UserInfo.URL_FORMAT, userIdOrUid),
                 new TypeToken<UserInfo>() {}, context);
     }
 
-    @Frodo
     public static ApiRequest<NotificationList> newNotificationListRequest(Integer start,
                                                                           Integer count,
                                                                           Context context) {

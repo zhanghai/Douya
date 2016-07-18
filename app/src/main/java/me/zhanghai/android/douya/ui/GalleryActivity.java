@@ -20,7 +20,7 @@ import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.Image;
+import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.systemuihelper.SystemUiHelper;
 
 public class GalleryActivity extends AppCompatActivity {

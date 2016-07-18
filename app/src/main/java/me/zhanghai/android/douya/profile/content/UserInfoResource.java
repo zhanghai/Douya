@@ -18,8 +18,8 @@ import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
-import me.zhanghai.android.douya.network.api.info.User;
-import me.zhanghai.android.douya.network.api.info.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class UserInfoResource extends ResourceFragment

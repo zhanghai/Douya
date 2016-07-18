@@ -13,7 +13,7 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class SingleBroadcastAdapter

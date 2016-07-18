@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.util;
 
-import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 
 public class DoubanUtils {
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
-import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastRebroadcasterListResource extends BroadcastUserListResource {

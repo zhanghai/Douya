@@ -30,9 +30,8 @@ import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
-import me.zhanghai.android.douya.network.api.Frodo;
-import me.zhanghai.android.douya.network.api.info.Notification;
-import me.zhanghai.android.douya.network.api.info.NotificationList;
+import me.zhanghai.android.douya.network.api.info.frodo.Notification;
+import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.notification.app.NotificationListCache;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
@@ -237,7 +236,6 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         setRefreshing(true, loadMore);
     }
 
-    @Frodo("status/notificaitons is buggy in notifications.length")
     private void onLoadNotificationListResponse(boolean successful, NotificationList result,
                                                 VolleyError error, LoadNotificationListState state) {
 

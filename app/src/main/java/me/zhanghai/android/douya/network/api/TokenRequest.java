@@ -22,7 +22,6 @@ import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 
 public class TokenRequest extends Request<TokenRequest.Result> {
 
-    @Frodo
     private TokenRequest() {
         super(Method.POST, ApiContract.Request.Token.URL);
 
@@ -36,7 +35,6 @@ public class TokenRequest extends Request<TokenRequest.Result> {
         setRetryPolicy(new RetryPolicy(2500, 1, 1.0f));
     }
 
-    @Frodo
     public TokenRequest(String username, String password) {
         this();
 

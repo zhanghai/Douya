@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.user.content.UserListResource;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;

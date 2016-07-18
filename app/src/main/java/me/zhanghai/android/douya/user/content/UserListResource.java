@@ -13,7 +13,7 @@ import java.util.List;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 
 public abstract class UserListResource extends ResourceFragment
         implements RequestFragment.Listener<List<User>, UserListResource.State> {

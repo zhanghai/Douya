@@ -13,7 +13,6 @@ import java.lang.reflect.Type;
 
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 
-@Frodo
 public class FrodoRequest<T> extends ApiRequest<T> {
 
     public FrodoRequest(int method, String url, Type type, Context context) {

@@ -19,26 +19,17 @@ public interface ApiContract {
 
         String API_HOST = "https://api.douban.com/v2/";
 
-        @me.zhanghai.android.douya.network.api.Frodo
         interface Frodo {
 
-            String REDIRECT_URI = "frodo://app/oauth/callback/";
-            String CHANNEL = "Douban";
             // API protocol version is derived from user agent string.
             String USER_AGENT = "api-client/Volley/1 com.douban.frodo/4.0.0(66) Android/"
                     + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
                     + Build.MODEL + "  rom:android";
 
+            String REDIRECT_URI = "frodo://app/oauth/callback/";
+            String CHANNEL = "Douban";
+
             String API_HOST = "https://frodo.douban.com/api/v2/";
-
-            @me.zhanghai.android.douya.network.api.Frodo
-            interface Notification {
-
-                String URL = API_HOST + "mine/notifications";
-
-                String START = "start";
-                String COUNT = "count";
-            }
 
             interface Base {
                 String API_KEY = "apiKey";
@@ -46,6 +37,14 @@ public interface ApiContract {
                 String DEVICE_ID = "device_id";
                 String CHANNEL = "channel";
                 String OS_ROM = "os_rom";
+            }
+
+            interface Notification {
+
+                String URL = API_HOST + "mine/notifications";
+
+                String START = "start";
+                String COUNT = "count";
             }
         }
 
@@ -128,6 +127,13 @@ public interface ApiContract {
             interface DeleteBroadcast {
                 String URL_FORMAT = API_HOST + "lifestream/status/%d";
             }
+
+            interface UserInfo {
+
+                String URL_FORMAT = API_HOST + "lifestream/user/%s";
+
+                String UID_CURRENT = "~me";
+            }
         }
 
         interface Token {
@@ -145,13 +151,6 @@ public interface ApiContract {
             String USERNAME = "username";
             String PASSWORD = "password";
             String REFRESH_TOKEN = "refresh_token";
-        }
-
-        interface UserInfo {
-
-            String URL_FORMAT = API_HOST + "lifestream/user/%s";
-
-            String UID_CURRENT = "~me";
         }
 
     }

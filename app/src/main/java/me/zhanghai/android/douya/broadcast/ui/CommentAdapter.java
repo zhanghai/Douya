@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.Comment;
+import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.ui.ClickableSimpleAdapter;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.ui.TimeTextView;

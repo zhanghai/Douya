@@ -9,7 +9,7 @@ import android.content.Context;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.ToastUtils;
 
 public class RebroadcastBroadcastManager extends ResourceWriterManager<RebroadcastBroadcastWriter> {

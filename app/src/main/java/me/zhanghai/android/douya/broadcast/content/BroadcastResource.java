@@ -21,7 +21,7 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastResource extends ResourceFragment

@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-import me.zhanghai.android.douya.network.api.info.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 
 public class UserInfoUpdatedEvent extends Event {
 

@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequests;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 

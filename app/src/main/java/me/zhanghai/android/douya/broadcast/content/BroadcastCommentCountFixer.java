@@ -9,8 +9,8 @@ import java.util.List;
 
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
-import me.zhanghai.android.douya.network.api.info.Comment;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 
 public class BroadcastCommentCountFixer {
 

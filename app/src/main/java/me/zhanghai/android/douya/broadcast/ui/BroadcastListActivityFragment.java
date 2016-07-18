@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.ui.AppBarManager;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
 import me.zhanghai.android.douya.util.FragmentUtils;

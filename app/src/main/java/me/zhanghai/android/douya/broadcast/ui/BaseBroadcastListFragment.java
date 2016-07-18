@@ -33,7 +33,7 @@ import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.ui.AppBarManager;
 import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout;

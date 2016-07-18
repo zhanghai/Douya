@@ -17,8 +17,8 @@ import me.zhanghai.android.douya.eventbus.CommentDeletedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.Comment;
-import me.zhanghai.android.douya.network.api.info.CommentList;
+import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 
 public abstract class CommentListResource extends ResourceFragment
         implements RequestFragment.Listener<CommentList, CommentListResource.State> {

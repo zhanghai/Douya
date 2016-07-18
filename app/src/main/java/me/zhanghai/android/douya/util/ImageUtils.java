@@ -14,7 +14,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.Image;
+import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.ui.RatioImageView;
 
 public class ImageUtils {

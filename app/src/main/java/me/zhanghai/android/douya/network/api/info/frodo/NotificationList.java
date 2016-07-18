@@ -1,18 +1,15 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.network.api.info;
+package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-import me.zhanghai.android.douya.network.api.Frodo;
-
-@Frodo
 public class NotificationList implements Parcelable {
 
     public int count;

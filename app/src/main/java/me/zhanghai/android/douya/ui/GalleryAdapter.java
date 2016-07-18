@@ -22,7 +22,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.Image;
+import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 import uk.co.senab.photoview.PhotoView;

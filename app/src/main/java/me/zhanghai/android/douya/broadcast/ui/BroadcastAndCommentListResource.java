@@ -19,8 +19,8 @@ import me.zhanghai.android.douya.broadcast.content.BroadcastCommentListResource;
 import me.zhanghai.android.douya.broadcast.content.BroadcastResource;
 import me.zhanghai.android.douya.broadcast.content.CommentListResource;
 import me.zhanghai.android.douya.content.ResourceFragment;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
-import me.zhanghai.android.douya.network.api.info.Comment;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastAndCommentListResource extends ResourceFragment

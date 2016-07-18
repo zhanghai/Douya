@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import org.threeten.bp.format.DateTimeParseException;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.TimeUtils;
 

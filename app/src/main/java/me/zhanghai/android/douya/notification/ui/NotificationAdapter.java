@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.Notification;
+import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;

@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.ViewUtils;

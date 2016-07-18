@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-import me.zhanghai.android.douya.network.api.info.Notification;
+import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.DiskCacheHelper;
 

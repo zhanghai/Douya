@@ -7,8 +7,8 @@ package me.zhanghai.android.douya.broadcast.ui;
 
 import java.util.List;
 
-import me.zhanghai.android.douya.network.api.info.Broadcast;
-import me.zhanghai.android.douya.network.api.info.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.broadcast.content.BroadcastLikerListResource;
 import me.zhanghai.android.douya.user.content.UserListResource;
 
