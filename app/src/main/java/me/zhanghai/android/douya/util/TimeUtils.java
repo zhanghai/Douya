@@ -35,7 +35,7 @@ public class TimeUtils {
 
     private static final ZoneId DOUBAN_ZONED_ID = ZoneId.of("Asia/Shanghai");
 
-    private static final Duration JUST_NOW_DURATION = Duration.ofMinutes(5);
+    private static final Duration JUST_NOW_DURATION = Duration.ofMinutes(1);
     private static final Duration MINUTE_PATTERN_DURATION = Duration.ofHours(1);
     private static final Duration HOUR_PATTERN_DURATION = Duration.ofHours(2);
 
