@@ -9,13 +9,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import me.zhanghai.android.douya.app.RetainedFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 
-public class ScalpelHelperFragment extends Fragment {
+public class ScalpelHelperFragment extends RetainedFragment {
 
     private static final String FRAGMENT_TAG = ScalpelHelperFragment.class.getName();
 
@@ -46,14 +46,6 @@ public class ScalpelHelperFragment extends Fragment {
         super.onAttach(context);
 
         EventBusUtils.register(this);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setRetainInstance(true);
-        setUserVisibleHint(false);
     }
 
     @Override
