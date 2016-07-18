@@ -190,18 +190,18 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
         return this;
     }
 
-    public Request<T> addParam(Map.Entry<String, String> header) {
-        return addParam(header.getKey(), header.getValue());
+    public Request<T> addParam(Map.Entry<String, String> param) {
+        return addParam(param.getKey(), param.getValue());
     }
 
-    public Request<T> addParams(Map<String, String> headers) {
-        mParams.putAll(headers);
+    public Request<T> addParams(Map<String, String> params) {
+        mParams.putAll(params);
         return this;
     }
 
-    public Request<T> setParams(Map<String, String> headers) {
+    public Request<T> setParams(Map<String, String> params) {
         mParams.clear();
-        return addParams(headers);
+        return addParams(params);
     }
 
     @Override
@@ -260,8 +260,9 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
         for (Map.Entry<String, String> entry : mParams.entrySet()) {
             try {
                 builder
-                        // URLEncoder is in fact conforming to application/x-www-form-urlencoded,
-                        // instead of encoding the string as a URL.
+                        // FIXME: URLEncoder is in fact conforming to
+                        // application/x-www-form-urlencoded, instead of encoding the string as a
+                        // URL.
                         .append(URLEncoder.encode(entry.getKey(), mParamsEncoding))
                         .append('=')
                         .append(URLEncoder.encode(entry.getValue(), mParamsEncoding))
