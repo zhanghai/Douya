@@ -7,16 +7,18 @@ package me.zhanghai.android.douya.network.api.credential;
 
 import me.zhanghai.android.douya.DouyaApplication;
 
-public interface ApiCredential {
+public final class ApiCredential {
 
-    interface Douya {
-        String KEY = Frodo.KEY;
-        String SECRET = Frodo.SECRET;
+    private ApiCredential() {}
+
+    public static class Frodo {
+        public static String KEY = HackyApiCredentialHelper.getApiKey();
+        public static String SECRET = HackyApiCredentialHelper.getApiSecret();
     }
 
-    interface Frodo {
-        String KEY = HackyApiCredentialHelper.getApiKey();
-        String SECRET = HackyApiCredentialHelper.getApiSecret();
+    public static class ApiV2 {
+        public static String KEY = HackyApiCredentialHelper.getApiKey();
+        public static String SECRET = HackyApiCredentialHelper.getApiSecret();
     }
 }
 

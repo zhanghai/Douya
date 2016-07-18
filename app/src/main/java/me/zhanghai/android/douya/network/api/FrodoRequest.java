@@ -11,6 +11,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
+import me.zhanghai.android.douya.network.api.credential.ApiCredential;
+
 @Frodo
 public class FrodoRequest<T> extends ApiRequest<T> {
 
@@ -30,7 +32,7 @@ public class FrodoRequest<T> extends ApiRequest<T> {
 
         addHeaderUserAgent(ApiContract.Request.Frodo.USER_AGENT);
 
-        addParam(ApiContract.Request.Base.API_KEY, ApiContract.Request.Frodo.API_KEY);
+        addParam(ApiContract.Request.Base.API_KEY, ApiCredential.Frodo.KEY);
         addParam(ApiContract.Request.Base.CHANNEL, ApiContract.Request.Frodo.CHANNEL);
     }
 }

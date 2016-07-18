@@ -44,8 +44,6 @@ public class ApiRequest<T> extends Request<T> {
 
         setRetryPolicy(new RetryPolicy(ApiContract.Request.INITIAL_TIMEOUT_MS,
                 ApiContract.Request.MAX_NUM_RETRIES, ApiContract.Request.BACKOFF_MULTIPLIER));
-
-        addParam(ApiContract.Request.Base.API_KEY, ApiContract.Request.API_KEY);
     }
 
     /**
@@ -97,6 +95,7 @@ public class ApiRequest<T> extends Request<T> {
 
         @Override
         public void retry(VolleyError error) throws VolleyError {
+            //noinspection ThrowableResultOfMethodCallIgnored
             ApiError apiError = ApiError.wrap(error);
             switch (apiError.code) {
                 case ApiContract.Response.Error.Codes.Token.INVALID_ACCESS_TOKEN:

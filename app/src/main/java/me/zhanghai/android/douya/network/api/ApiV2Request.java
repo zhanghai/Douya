@@ -11,22 +11,23 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-public class LifeStreamRequest<T> extends ApiV2Request<T> {
+import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 
-    public LifeStreamRequest(int method, String url, Type type, Context context) {
+public class ApiV2Request<T> extends ApiRequest<T> {
+
+    public ApiV2Request(int method, String url, Type type, Context context) {
         super(method, url, type, context);
 
         init();
     }
 
-    public LifeStreamRequest(int method, String url, TypeToken<T> typeToken, Context context) {
+    public ApiV2Request(int method, String url, TypeToken<T> typeToken, Context context) {
         super(method, url, typeToken, context);
 
         init();
     }
 
     private void init() {
-        addParam(ApiContract.Request.LifeStream.VERSION,
-                String.valueOf(ApiContract.Request.LifeStream.Versions.TWO));
+        addParam(ApiContract.Request.Base.API_KEY, ApiCredential.ApiV2.KEY);
     }
 }

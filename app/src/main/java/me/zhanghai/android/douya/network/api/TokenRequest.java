@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import me.zhanghai.android.douya.network.Request;
+import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 
 public class TokenRequest extends Request<TokenRequest.Result> {
 
@@ -25,8 +26,8 @@ public class TokenRequest extends Request<TokenRequest.Result> {
     private TokenRequest() {
         super(Method.POST, ApiContract.Request.Token.URL);
 
-        addParam(ApiContract.Request.Token.CLIENT_ID, ApiContract.Request.Frodo.API_KEY);
-        addParam(ApiContract.Request.Token.CLIENT_SECRET, ApiContract.Request.Frodo.API_SECRET);
+        addParam(ApiContract.Request.Token.CLIENT_ID, ApiCredential.Frodo.KEY);
+        addParam(ApiContract.Request.Token.CLIENT_SECRET, ApiCredential.Frodo.SECRET);
         addParam(ApiContract.Request.Token.REDIRECT_URI, ApiContract.Request.Frodo.REDIRECT_URI);
 
         addHeaderUserAgent(ApiContract.Request.Frodo.USER_AGENT);

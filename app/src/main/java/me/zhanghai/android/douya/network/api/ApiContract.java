@@ -13,9 +13,6 @@ public interface ApiContract {
 
     interface Request {
 
-        String API_KEY = ApiCredential.Douya.KEY;
-        String API_SECRET = ApiCredential.Douya.SECRET;
-
         int INITIAL_TIMEOUT_MS = 10000;
         int MAX_NUM_RETRIES = 2;
         int BACKOFF_MULTIPLIER = 1;
@@ -24,12 +21,9 @@ public interface ApiContract {
 
         @me.zhanghai.android.douya.network.api.Frodo
         interface Frodo {
-
-            String API_KEY = ApiCredential.Frodo.KEY;
-            String API_SECRET = ApiCredential.Frodo.SECRET;
             String REDIRECT_URI = "frodo://app/oauth/callback/";
             String CHANNEL = "Douban";
-            String OS_ROM = "android";
+            // API protocol version is derived from user agent string.
             String USER_AGENT = "api-client/Volley/1 com.douban.frodo/4.0.0(66) Android/"
                     + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
                     + Build.MODEL + "  rom:android";

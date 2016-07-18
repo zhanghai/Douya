@@ -14,6 +14,8 @@ import me.zhanghai.android.douya.util.ToastUtils;
 
 class ApiCredentialManager {
 
+    private ApiCredentialManager() {}
+
     public static String getApiKey(Context context) {
         return Settings.API_KEY.getValue(context);
     }
@@ -23,14 +25,13 @@ class ApiCredentialManager {
     }
 
     public static void setApiCredential(String apiKey, String apiSecret, Context context) {
+
         Settings.API_KEY.putValue(apiKey, context);
         Settings.API_SECRET.putValue(apiSecret, context);
-        // HACK: Delay for SharedPreference to persist.
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                System.exit(0);
-            }
-        }, 100);
+
+        ApiCredential.Frodo.KEY = apiKey;
+        ApiCredential.Frodo.SECRET = apiSecret;
+        ApiCredential.ApiV2.KEY = apiKey;
+        ApiCredential.ApiV2.SECRET = apiSecret;
     }
 }
