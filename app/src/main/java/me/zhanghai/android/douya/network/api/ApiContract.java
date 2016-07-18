@@ -7,17 +7,37 @@ package me.zhanghai.android.douya.network.api;
 
 import android.os.Build;
 
-import me.zhanghai.android.douya.network.api.credential.ApiCredential;
+import com.android.volley.DefaultRetryPolicy;
 
 public interface ApiContract {
 
     interface Request {
 
-        int INITIAL_TIMEOUT_MS = 10000;
-        int MAX_NUM_RETRIES = 2;
-        int BACKOFF_MULTIPLIER = 1;
+        interface Token {
 
-        String API_HOST = "https://api.douban.com/v2/";
+            String URL = "https://www.douban.com/service/auth2/token";
+
+            String CLIENT_ID = "client_id";
+            String CLIENT_SECRET = "client_secret";
+            String REDIRECT_URI = "redirect_uri";
+            interface RedirectUris {
+                String FRODO = "frodo://app/oauth/callback/";
+            }
+            String GRANT_TYPE = "grant_type";
+            interface GrantTypes {
+                String PASSWORD = "password";
+                String REFRESH_TOKEN = "refresh_token";
+            }
+            String USERNAME = "username";
+            String PASSWORD = "password";
+            String REFRESH_TOKEN = "refresh_token";
+        }
+
+        interface Base {
+            int INITIAL_TIMEOUT_MS = 10000;
+            int MAX_NUM_RETRIES = 2;
+            float BACKOFF_MULTIPLIER = DefaultRetryPolicy.DEFAULT_BACKOFF_MULT;
+        }
 
         interface Frodo {
 
@@ -26,9 +46,6 @@ public interface ApiContract {
                     + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
                     + Build.MODEL + "  rom:android";
 
-            String REDIRECT_URI = "frodo://app/oauth/callback/";
-            String CHANNEL = "Douban";
-
             String API_HOST = "https://frodo.douban.com/api/v2/";
 
             interface Base {
@@ -36,6 +53,9 @@ public interface ApiContract {
                 String UDID = "udid";
                 String DEVICE_ID = "device_id";
                 String CHANNEL = "channel";
+                interface Channels {
+                    String DOUBAN = "Douban";
+                }
                 String OS_ROM = "os_rom";
             }
 
@@ -49,6 +69,8 @@ public interface ApiContract {
         }
 
         interface ApiV2 {
+
+            String API_HOST = "https://api.douban.com/v2/";
 
             interface Base {
                 String API_KEY = "apikey";
@@ -135,24 +157,6 @@ public interface ApiContract {
                 String UID_CURRENT = "~me";
             }
         }
-
-        interface Token {
-
-            String URL = "https://www.douban.com/service/auth2/token";
-
-            String CLIENT_ID = "client_id";
-            String CLIENT_SECRET = "client_secret";
-            String REDIRECT_URI = "redirect_uri";
-            String GRANT_TYPE = "grant_type";
-            interface GrantTypes {
-                String PASSWORD = "password";
-                String REFRESH_TOKEN = "refresh_token";
-            }
-            String USERNAME = "username";
-            String PASSWORD = "password";
-            String REFRESH_TOKEN = "refresh_token";
-        }
-
     }
 
     interface Response {

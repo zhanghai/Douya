@@ -27,7 +27,8 @@ public class TokenRequest extends Request<TokenRequest.Result> {
 
         addParam(ApiContract.Request.Token.CLIENT_ID, ApiCredential.Frodo.KEY);
         addParam(ApiContract.Request.Token.CLIENT_SECRET, ApiCredential.Frodo.SECRET);
-        addParam(ApiContract.Request.Token.REDIRECT_URI, ApiContract.Request.Frodo.REDIRECT_URI);
+        addParam(ApiContract.Request.Token.REDIRECT_URI,
+                ApiContract.Request.Token.RedirectUris.FRODO);
 
         addHeaderUserAgent(ApiContract.Request.Frodo.USER_AGENT);
         addHeaderAcceptCharsetUtf8();

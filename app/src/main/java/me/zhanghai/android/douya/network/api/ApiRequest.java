@@ -42,8 +42,9 @@ public class ApiRequest<T> extends Request<T> {
         mType = type;
         mAuthenticator = Volley.getInstance(context).getAuthenticator();
 
-        setRetryPolicy(new RetryPolicy(ApiContract.Request.INITIAL_TIMEOUT_MS,
-                ApiContract.Request.MAX_NUM_RETRIES, ApiContract.Request.BACKOFF_MULTIPLIER));
+        setRetryPolicy(new RetryPolicy(ApiContract.Request.Base.INITIAL_TIMEOUT_MS,
+                ApiContract.Request.Base.MAX_NUM_RETRIES,
+                ApiContract.Request.Base.BACKOFF_MULTIPLIER));
     }
 
     /**
