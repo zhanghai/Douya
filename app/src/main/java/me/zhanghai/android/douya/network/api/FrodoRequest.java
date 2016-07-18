@@ -32,7 +32,7 @@ public class FrodoRequest<T> extends ApiRequest<T> {
 
         addHeaderUserAgent(ApiContract.Request.Frodo.USER_AGENT);
 
-        addParam(ApiContract.Request.Base.API_KEY, ApiCredential.Frodo.KEY);
-        addParam(ApiContract.Request.Base.CHANNEL, ApiContract.Request.Frodo.CHANNEL);
+        addParam(ApiContract.Request.Frodo.Base.API_KEY, ApiCredential.Frodo.KEY);
+        addParam(ApiContract.Request.Frodo.Base.CHANNEL, ApiContract.Request.Frodo.CHANNEL);
     }
 }

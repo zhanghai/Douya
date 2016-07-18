@@ -21,6 +21,7 @@ public interface ApiContract {
 
         @me.zhanghai.android.douya.network.api.Frodo
         interface Frodo {
+
             String REDIRECT_URI = "frodo://app/oauth/callback/";
             String CHANNEL = "Douban";
             // API protocol version is derived from user agent string.
@@ -29,6 +30,104 @@ public interface ApiContract {
                     + Build.MODEL + "  rom:android";
 
             String API_HOST = "https://frodo.douban.com/api/v2/";
+
+            @me.zhanghai.android.douya.network.api.Frodo
+            interface Notification {
+
+                String URL = API_HOST + "mine/notifications";
+
+                String START = "start";
+                String COUNT = "count";
+            }
+
+            interface Base {
+                String API_KEY = "apiKey";
+                String UDID = "udid";
+                String DEVICE_ID = "device_id";
+                String CHANNEL = "channel";
+                String OS_ROM = "os_rom";
+            }
+        }
+
+        interface ApiV2 {
+
+            interface Base {
+                String API_KEY = "apikey";
+                String UDID = "udid";
+            }
+
+            interface LifeStream {
+                String VERSION = "version";
+                interface Versions {
+                    int TWO = 2;
+                }
+            }
+
+            interface BroadcastList {
+
+                interface Urls {
+                    String HOME = API_HOST + "lifestream/home_timeline";
+                    String USER_FORMAT = API_HOST + "lifestream/user_timeline/%s";
+                    String TOPIC = API_HOST + "lifestream/topics";
+                }
+
+                String SINCE_ID = "since_id";
+                String UNTIL_ID = "until_id";
+                String COUNT = "count";
+                String START = "start";
+                String Q = "q";
+            }
+
+            interface Broadcast {
+                String URL_FORMAT = API_HOST + "lifestream/status/%d";
+            }
+
+            interface LikeBroadcast {
+                String URL_FORMAT = API_HOST + "lifestream/status/%d/like";
+            }
+
+            interface RebroadcastBroadcast {
+                String URL_FORMAT = API_HOST + "lifestream/status/%d/reshare";
+            }
+
+            interface BroadcastCommentList {
+
+                String URL_FORMAT = API_HOST + "lifestream/status/%d/comments";
+
+                String COUNT = "count";
+                String START = "start";
+            }
+
+            interface BroadcastLikerList {
+
+                String URL_FORMAT = API_HOST + "lifestream/status/%d/likers";
+
+                String COUNT = "count";
+                String START = "start";
+            }
+
+            interface BroadcastRebroadcasterList {
+
+                String URL_FORMAT = API_HOST + "lifestream/status/%d/resharers";
+
+                String COUNT = "count";
+                String START = "start";
+            }
+
+            interface DeleteBroadcastComment {
+                String URL_FORMAT = API_HOST + "lifestream/status/%d/comment/%d";
+            }
+
+            interface SendBroadcastComment {
+
+                String URL_FORMAT = API_HOST + "lifestream/status/%d/comments";
+
+                String TEXT = "text";
+            }
+
+            interface DeleteBroadcast {
+                String URL_FORMAT = API_HOST + "lifestream/status/%d";
+            }
         }
 
         interface Token {
@@ -48,20 +147,6 @@ public interface ApiContract {
             String REFRESH_TOKEN = "refresh_token";
         }
 
-        interface Base {
-            String UDID = "udid";
-            String API_KEY = "apikey";
-            String CHANNEL = "channel";
-            String OS_ROM = "os_rom";
-        }
-
-        interface LifeStream {
-            String VERSION = "version";
-            interface Versions {
-                int TWO = 2;
-            }
-        }
-
         interface UserInfo {
 
             String URL_FORMAT = API_HOST + "lifestream/user/%s";
@@ -69,80 +154,6 @@ public interface ApiContract {
             String UID_CURRENT = "~me";
         }
 
-        @me.zhanghai.android.douya.network.api.Frodo
-        interface Notification {
-
-            String URL = Frodo.API_HOST + "mine/notifications";
-
-            String START = "start";
-            String COUNT = "count";
-        }
-
-        interface BroadcastList {
-
-            interface Urls {
-                String HOME = API_HOST + "lifestream/home_timeline";
-                String USER_FORMAT = API_HOST + "lifestream/user_timeline/%s";
-                String TOPIC = API_HOST + "lifestream/topics";
-            }
-
-            String SINCE_ID = "since_id";
-            String UNTIL_ID = "until_id";
-            String COUNT = "count";
-            String START = "start";
-            String Q = "q";
-        }
-
-        interface Broadcast {
-            String URL_FORMAT = API_HOST + "lifestream/status/%d";
-        }
-
-        interface LikeBroadcast {
-            String URL_FORMAT = API_HOST + "lifestream/status/%d/like";
-        }
-
-        interface RebroadcastBroadcast {
-            String URL_FORMAT = API_HOST + "lifestream/status/%d/reshare";
-        }
-
-        interface BroadcastCommentList {
-
-            String URL_FORMAT = API_HOST + "lifestream/status/%d/comments";
-
-            String COUNT = "count";
-            String START = "start";
-        }
-
-        interface BroadcastLikerList {
-
-            String URL_FORMAT = API_HOST + "lifestream/status/%d/likers";
-
-            String COUNT = "count";
-            String START = "start";
-        }
-
-        interface BroadcastRebroadcasterList {
-
-            String URL_FORMAT = API_HOST + "lifestream/status/%d/resharers";
-
-            String COUNT = "count";
-            String START = "start";
-        }
-
-        interface DeleteBroadcastComment {
-            String URL_FORMAT = API_HOST + "lifestream/status/%d/comment/%d";
-        }
-
-        interface SendBroadcastComment {
-
-            String URL_FORMAT = API_HOST + "lifestream/status/%d/comments";
-
-            String TEXT = "text";
-        }
-
-        interface DeleteBroadcast {
-            String URL_FORMAT = API_HOST + "lifestream/status/%d";
-        }
     }
 
     interface Response {

@@ -12,9 +12,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import me.zhanghai.android.douya.network.api.info.Broadcast;
@@ -50,7 +47,7 @@ public class ApiRequests {
                                                                           Context context) {
 
         ApiRequest<NotificationList> request = new FrodoRequest<NotificationList>(
-                ApiRequest.Method.GET, ApiContract.Request.Notification.URL,
+                ApiRequest.Method.GET, ApiContract.Request.Frodo.Notification.URL,
                 new TypeToken<NotificationList>() {}, context) {
             @Override
             protected Response<NotificationList> parseNetworkResponse(NetworkResponse response) {
@@ -66,10 +63,10 @@ public class ApiRequests {
         };
 
         if (start != null) {
-            request.addParam(ApiContract.Request.Notification.START, String.valueOf(start));
+            request.addParam(ApiContract.Request.Frodo.Notification.START, String.valueOf(start));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.Notification.COUNT, String.valueOf(count));
+            request.addParam(ApiContract.Request.Frodo.Notification.COUNT, String.valueOf(count));
         }
 
         return request;
@@ -82,24 +79,26 @@ public class ApiRequests {
 
         String url;
         if (TextUtils.isEmpty(userIdOrUid) && TextUtils.isEmpty(topic)) {
-            url = ApiContract.Request.BroadcastList.Urls.HOME;
+            url = ApiContract.Request.ApiV2.BroadcastList.Urls.HOME;
         } else if (TextUtils.isEmpty(topic)) {
-            url = String.format(ApiContract.Request.BroadcastList.Urls.USER_FORMAT, userIdOrUid);
+            url = String.format(ApiContract.Request.ApiV2.BroadcastList.Urls.USER_FORMAT,
+                    userIdOrUid);
         } else {
-            url = ApiContract.Request.BroadcastList.Urls.TOPIC;
+            url = ApiContract.Request.ApiV2.BroadcastList.Urls.TOPIC;
         }
 
         ApiRequest<List<Broadcast>> request = new LifeStreamRequest<>(ApiRequest.Method.GET, url,
                 new TypeToken<List<Broadcast>>() {}, context);
 
         if (untilId != null) {
-            request.addParam(ApiContract.Request.BroadcastList.UNTIL_ID, String.valueOf(untilId));
+            request.addParam(ApiContract.Request.ApiV2.BroadcastList.UNTIL_ID,
+                    String.valueOf(untilId));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.BroadcastList.COUNT, String.valueOf(count));
+            request.addParam(ApiContract.Request.ApiV2.BroadcastList.COUNT, String.valueOf(count));
         }
         if (topic != null) {
-            request.addParam(ApiContract.Request.BroadcastList.Q, topic);
+            request.addParam(ApiContract.Request.ApiV2.BroadcastList.Q, topic);
         }
 
         return request;
@@ -108,7 +107,7 @@ public class ApiRequests {
     public static ApiRequest<Broadcast> newBroadcastRequest(long broadcastId, Context context) {
 
         return new LifeStreamRequest<>(ApiRequest.Method.GET,
-                String.format(ApiContract.Request.Broadcast.URL_FORMAT, broadcastId),
+                String.format(ApiContract.Request.ApiV2.Broadcast.URL_FORMAT, broadcastId),
                 new TypeToken<Broadcast>() {}, context);
     }
 
@@ -118,14 +117,16 @@ public class ApiRequests {
                                                                          Context context) {
 
         ApiRequest<CommentList> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
-                String.format(ApiContract.Request.BroadcastCommentList.URL_FORMAT, broadcastId),
-                new TypeToken<CommentList>() {}, context);
+                String.format(ApiContract.Request.ApiV2.BroadcastCommentList.URL_FORMAT,
+                        broadcastId), new TypeToken<CommentList>() {}, context);
 
         if (start != null) {
-            request.addParam(ApiContract.Request.BroadcastCommentList.START, String.valueOf(start));
+            request.addParam(ApiContract.Request.ApiV2.BroadcastCommentList.START,
+                    String.valueOf(start));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.BroadcastCommentList.COUNT, String.valueOf(count));
+            request.addParam(ApiContract.Request.ApiV2.BroadcastCommentList.COUNT,
+                    String.valueOf(count));
         }
 
         return request;
@@ -135,7 +136,7 @@ public class ApiRequests {
                                                                 Context context) {
 
         return new LifeStreamRequest<>(like ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
-                String.format(ApiContract.Request.LikeBroadcast.URL_FORMAT, broadcastId),
+                String.format(ApiContract.Request.ApiV2.LikeBroadcast.URL_FORMAT, broadcastId),
                 new TypeToken<Broadcast>() {}, context);
     }
 
@@ -145,8 +146,8 @@ public class ApiRequests {
 
         return new LifeStreamRequest<>(rebroadcast ? ApiRequest.Method.POST
                 : ApiRequest.Method.DELETE,
-                String.format(ApiContract.Request.RebroadcastBroadcast.URL_FORMAT, broadcastId),
-                new TypeToken<Broadcast>() {}, context);
+                String.format(ApiContract.Request.ApiV2.RebroadcastBroadcast.URL_FORMAT,
+                        broadcastId), new TypeToken<Broadcast>() {}, context);
     }
 
     public static ApiRequest<List<User>> newBroadcastLikerListRequest(long broadcastId,
@@ -154,14 +155,16 @@ public class ApiRequests {
                                                                       Context context) {
 
         ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
-                String.format(ApiContract.Request.BroadcastLikerList.URL_FORMAT, broadcastId),
+                String.format(ApiContract.Request.ApiV2.BroadcastLikerList.URL_FORMAT, broadcastId),
                 new TypeToken<List<User>>() {}, context);
 
         if (start != null) {
-            request.addParam(ApiContract.Request.BroadcastLikerList.START, String.valueOf(start));
+            request.addParam(ApiContract.Request.ApiV2.BroadcastLikerList.START,
+                    String.valueOf(start));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.BroadcastLikerList.COUNT, String.valueOf(count));
+            request.addParam(ApiContract.Request.ApiV2.BroadcastLikerList.COUNT,
+                    String.valueOf(count));
         }
 
         return request;
@@ -173,15 +176,15 @@ public class ApiRequests {
                                                                               Context context) {
 
         ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
-                String.format(ApiContract.Request.BroadcastRebroadcasterList.URL_FORMAT,
+                String.format(ApiContract.Request.ApiV2.BroadcastRebroadcasterList.URL_FORMAT,
                         broadcastId), new TypeToken<List<User>>() {}, context);
 
         if (start != null) {
-            request.addParam(ApiContract.Request.BroadcastRebroadcasterList.START,
+            request.addParam(ApiContract.Request.ApiV2.BroadcastRebroadcasterList.START,
                     String.valueOf(start));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.BroadcastRebroadcasterList.COUNT,
+            request.addParam(ApiContract.Request.ApiV2.BroadcastRebroadcasterList.COUNT,
                     String.valueOf(count));
         }
 
@@ -192,8 +195,8 @@ public class ApiRequests {
                                                                        long commentId,
                                                                        Context context) {
         return new LifeStreamRequest<>(ApiRequest.Method.DELETE, String.format(
-                ApiContract.Request.DeleteBroadcastComment.URL_FORMAT, broadcastId, commentId),
-                new TypeToken<Boolean>() {}, context);
+                ApiContract.Request.ApiV2.DeleteBroadcastComment.URL_FORMAT, broadcastId,
+                commentId), new TypeToken<Boolean>() {}, context);
     }
 
     public static ApiRequest<Comment> newSendBroadcastCommentRequest(long broadcastId,
@@ -201,10 +204,10 @@ public class ApiRequests {
                                                                      Context context) {
 
         ApiRequest<Comment> request = new LifeStreamRequest<>(ApiRequest.Method.POST,
-                String.format(ApiContract.Request.SendBroadcastComment.URL_FORMAT, broadcastId),
-                new TypeToken<Comment>() {}, context);
+                String.format(ApiContract.Request.ApiV2.SendBroadcastComment.URL_FORMAT,
+                        broadcastId), new TypeToken<Comment>() {}, context);
 
-        request.addParam(ApiContract.Request.SendBroadcastComment.TEXT, comment);
+        request.addParam(ApiContract.Request.ApiV2.SendBroadcastComment.TEXT, comment);
 
         return request;
     }
@@ -212,7 +215,7 @@ public class ApiRequests {
     public static ApiRequest<Broadcast> newDeleteBroadcastRequest(long broadcastId,
                                                                   Context context) {
         return new LifeStreamRequest<>(ApiRequest.Method.DELETE,
-                String.format(ApiContract.Request.DeleteBroadcast.URL_FORMAT, broadcastId),
+                String.format(ApiContract.Request.ApiV2.DeleteBroadcast.URL_FORMAT, broadcastId),
                 new TypeToken<Broadcast>() {}, context);
     }
 }

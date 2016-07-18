@@ -26,7 +26,7 @@ public class LifeStreamRequest<T> extends ApiV2Request<T> {
     }
 
     private void init() {
-        addParam(ApiContract.Request.LifeStream.VERSION,
-                String.valueOf(ApiContract.Request.LifeStream.Versions.TWO));
+        addParam(ApiContract.Request.ApiV2.LifeStream.VERSION,
+                String.valueOf(ApiContract.Request.ApiV2.LifeStream.Versions.TWO));
     }
 }

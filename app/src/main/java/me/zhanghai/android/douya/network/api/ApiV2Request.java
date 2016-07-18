@@ -28,6 +28,6 @@ public class ApiV2Request<T> extends ApiRequest<T> {
     }
 
     private void init() {
-        addParam(ApiContract.Request.Base.API_KEY, ApiCredential.ApiV2.KEY);
+        addParam(ApiContract.Request.ApiV2.Base.API_KEY, ApiCredential.ApiV2.KEY);
     }
 }
