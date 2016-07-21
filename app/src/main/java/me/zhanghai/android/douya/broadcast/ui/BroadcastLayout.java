@@ -201,6 +201,8 @@ public class BroadcastLayout extends LinearLayout {
                             UriHandler.open(attachmentUrl, context);
                         }
                     });
+                } else {
+                    mAttachmentLayout.setOnClickListener(null);
                 }
             } else {
                 mAttachmentLayout.setVisibility(View.GONE);
