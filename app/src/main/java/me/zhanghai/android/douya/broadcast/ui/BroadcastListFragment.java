@@ -13,6 +13,7 @@ import butterknife.BindDimen;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
+import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastListFragment extends BaseBroadcastListFragment {
@@ -63,5 +64,10 @@ public class BroadcastListFragment extends BaseBroadcastListFragment {
     @Override
     protected BroadcastListResource onAttachBroadcastListResource() {
         return BroadcastListResource.attachTo(mUserIdOrUid, mTopic, this);
+    }
+
+    @Override
+    protected void onSendBroadcast() {
+        NotImplementedManager.sendBroadcast(mTopic, getActivity());
     }
 }

@@ -1,13 +1,15 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.link;
+package me.zhanghai.android.douya.ui;
 
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
+
+import me.zhanghai.android.douya.link.UriHandler;
 
 public class UriSpan extends ClickableSpan {
 

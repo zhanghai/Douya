@@ -31,7 +31,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
-import me.zhanghai.android.douya.link.UriHandler;
+import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.ui.AppBarManager;
@@ -245,11 +245,6 @@ public abstract class BaseBroadcastListFragment extends Fragment
         ActivityCompat.startActivity(activity, intent, options);
     }
 
-    private void onSendBroadcast() {
-        // FIXME: Create a SendBroadcastActivity.
-        UriHandler.open("https://www.douban.com/#isay-cont", getActivity());
-    }
-
     protected void setPaddingTop(int paddingTop) {
         mSwipeRefreshLayout.setProgressViewOffset(paddingTop);
         mBroadcastList.setPadding(mBroadcastList.getPaddingLeft(), paddingTop,
@@ -260,5 +255,9 @@ public abstract class BaseBroadcastListFragment extends Fragment
 
     protected void onSwipeRefresh() {
         mBroadcastListResource.load(false);
+    }
+
+    protected void onSendBroadcast() {
+        NotImplementedManager.sendBroadcast(null, getActivity());
     }
 }

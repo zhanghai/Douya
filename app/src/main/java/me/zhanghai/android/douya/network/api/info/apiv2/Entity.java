@@ -15,7 +15,7 @@ import android.util.Patterns;
 
 import java.util.List;
 
-import me.zhanghai.android.douya.link.UriSpan;
+import me.zhanghai.android.douya.ui.UriSpan;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.LogUtils;
 
