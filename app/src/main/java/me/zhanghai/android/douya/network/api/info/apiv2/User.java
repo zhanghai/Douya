@@ -45,7 +45,8 @@ public class User implements Parcelable {
 
     public String getLargeAvatarOrAvatar() {
         //noinspection deprecation
-        return !TextUtils.equals(largeAvatar, LARGE_AVATAR_DEFAULT)? largeAvatar : avatar;
+        return !TextUtils.isEmpty(largeAvatar)
+                && !TextUtils.equals(largeAvatar, LARGE_AVATAR_DEFAULT) ? largeAvatar : avatar;
     }
 
     public boolean hasIdOrUid(String idOrUid) {
