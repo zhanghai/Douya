@@ -28,13 +28,13 @@ public class FrodoBridge {
                 .putExtra(SEND_STATUS_EXTRA_HASHTAG_NAME, hashTagName);
     }
 
-    public static Intent makeIntent(String className) {
+    private static Intent makeIntent(String className) {
         return new Intent()
                 .setComponent(new ComponentName(FRODO_PACKAGE_NAME,
                         FRODO_PACKAGE_NAME + className));
     }
 
-    public static boolean startActivity(Intent intent, Context context) {
+    private static boolean startActivity(Intent intent, Context context) {
         try {
             context.startActivity(intent);
             return true;
