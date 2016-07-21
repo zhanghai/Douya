@@ -13,11 +13,12 @@ public class UriHandler {
     private UriHandler() {}
 
     private static void open(Uri uri, Context context) {
-
         if (DoubanUriHandler.open(uri, context)) {
             return;
         }
-
+        if (FrodoBridge.openFrodoUri(uri, context)) {
+            return;
+        }
         UrlHandler.open(uri, context);
     }
 
