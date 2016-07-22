@@ -12,6 +12,7 @@ import android.net.Uri;
 import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
 import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
 
 public class UrlHandler {
@@ -30,8 +31,11 @@ public class UrlHandler {
 
         switch (Settings.OPEN_URL_WITH_METHOD.getEnumValue(context)) {
             case CUSTOM_TABS:
-                if (enableCustomTabs && context instanceof Activity) {
-                    UrlUtils.openWithCustomTabs(uri, sFallback, (Activity) context);
+                if (enableCustomTabs) {
+                    Activity activity = AppUtils.getActivityFromContext(context);
+                    if (activity != null) {
+                        UrlUtils.openWithCustomTabs(uri, sFallback, activity);
+                    }
                     break;
                 }
                 // Fall through!

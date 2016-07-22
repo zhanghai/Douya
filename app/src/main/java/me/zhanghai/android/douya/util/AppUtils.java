@@ -8,13 +8,27 @@ package me.zhanghai.android.douya.util;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.Nullable;
 
 import me.zhanghai.android.douya.R;
 
 public class AppUtils {
+
+    @Nullable
+    public static Activity getActivityFromContext(Context context) {
+        if (context instanceof Activity) {
+            return (Activity) context;
+        } else if (context instanceof ContextWrapper) {
+            // Can be wrapped by a TintContextWrapper, etc.
+            return getActivityFromContext(((ContextWrapper) context).getBaseContext());
+        } else {
+            return null;
+        }
+    }
 
     public static PackageInfo getPackageInfo(Context context) {
         try {
