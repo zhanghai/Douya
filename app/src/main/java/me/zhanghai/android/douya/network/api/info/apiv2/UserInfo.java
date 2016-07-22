@@ -30,7 +30,7 @@ public class UserInfo extends User {
     public int followerCount;
 
     @SerializedName("following")
-    public boolean isFollowing;
+    public boolean isFollowed;
 
     @SerializedName("following_count")
     public int followingCount;
@@ -74,13 +74,14 @@ public class UserInfo extends User {
 
     protected UserInfo(Parcel in) {
         super(in);
+
         albumCount = in.readInt();
         isBlocked = in.readByte() != 0;
         isBlocking = in.readByte() != 0;
         createdAt = in.readString();
         description = in.readString();
         followerCount = in.readInt();
-        isFollowing = in.readByte() != 0;
+        isFollowed = in.readByte() != 0;
         followingCount = in.readInt();
         iconAvatar = in.readString();
         isFollower = in.readByte() != 0;
@@ -108,7 +109,7 @@ public class UserInfo extends User {
         dest.writeString(createdAt);
         dest.writeString(description);
         dest.writeInt(followerCount);
-        dest.writeByte(isFollowing ? (byte) 1 : (byte) 0);
+        dest.writeByte(isFollowed ? (byte) 1 : (byte) 0);
         dest.writeInt(followingCount);
         dest.writeString(iconAvatar);
         dest.writeByte(isFollower ? (byte) 1 : (byte) 0);

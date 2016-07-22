@@ -269,7 +269,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mJoinedAtLocationText.setJoinedAtAndLocation(userInfo.createdAt, userInfo.locationName);
         int followDrawableId;
         int followStringId;
-        if (userInfo.isFollowing) {
+        if (userInfo.isFollowed) {
             if (userInfo.isFollower) {
                 followDrawableId = R.drawable.mutual_icon_white_24dp;
                 followStringId = R.string.profile_following_mutual;
