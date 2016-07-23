@@ -28,7 +28,7 @@
         android:textColor="?android:textColorSecondary" />
 
     <TextView
-        android:id="@+id/introduction"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/single_line_list_item_height"

@@ -20,8 +20,8 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
 
     @BindView(R.id.title)
     TextView mTitleText;
-    @BindView(R.id.introduction)
-    TextView mIntroductionText;
+    @BindView(R.id.content)
+    TextView mContentText;
 
     public ProfileIntroductionLayout(Context context) {
         super(context);
@@ -54,8 +54,8 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
             }
         };
         mTitleText.setOnClickListener(viewFullListener);
-        mIntroductionText.setText(description);
-        mIntroductionText.setOnClickListener(viewFullListener);
+        mContentText.setText(description);
+        mContentText.setOnClickListener(viewFullListener);
     }
 
     public void bind(UserInfo userInfo) {
