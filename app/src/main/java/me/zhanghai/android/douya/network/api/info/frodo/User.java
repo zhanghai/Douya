@@ -17,7 +17,7 @@ import me.zhanghai.android.douya.account.util.AccountUtils;
 public class User implements Parcelable {
 
     @SerializedName("abstract")
-    public String description;
+    public String introduction;
 
     public String avatar;
 
@@ -65,10 +65,21 @@ public class User implements Parcelable {
     }
 
 
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public User() {}
 
     protected User(Parcel in) {
-        description = in.readString();
+        introduction = in.readString();
         avatar = in.readString();
         gender = in.readString();
         id = in.readLong();
@@ -90,7 +101,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(description);
+        dest.writeString(introduction);
         dest.writeString(avatar);
         dest.writeString(gender);
         dest.writeLong(id);

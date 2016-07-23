@@ -34,7 +34,7 @@ public class UserInfo extends User {
     @SerializedName("in_blacklist")
     public boolean isInBlacklist;
 
-    // The same as "abstract" which is "description" in User.
+    // The same as "abstract" which is "introduction" in User.
     //public String intro;
 
     @SerializedName("is_normal")

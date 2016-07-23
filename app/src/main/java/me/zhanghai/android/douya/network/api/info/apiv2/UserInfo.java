@@ -24,7 +24,7 @@ public class UserInfo extends User {
     public String createdAt;
 
     @SerializedName("desc")
-    public String description;
+    public String introduction;
 
     @SerializedName("followers_count")
     public int followerCount;
@@ -79,7 +79,7 @@ public class UserInfo extends User {
         isBlocked = in.readByte() != 0;
         isBlocking = in.readByte() != 0;
         createdAt = in.readString();
-        description = in.readString();
+        introduction = in.readString();
         followerCount = in.readInt();
         isFollowed = in.readByte() != 0;
         followingCount = in.readInt();
@@ -107,7 +107,7 @@ public class UserInfo extends User {
         dest.writeByte(isBlocked ? (byte) 1 : (byte) 0);
         dest.writeByte(isBlocking ? (byte) 1 : (byte) 0);
         dest.writeString(createdAt);
-        dest.writeString(description);
+        dest.writeString(introduction);
         dest.writeInt(followerCount);
         dest.writeByte(isFollowed ? (byte) 1 : (byte) 0);
         dest.writeInt(followingCount);
