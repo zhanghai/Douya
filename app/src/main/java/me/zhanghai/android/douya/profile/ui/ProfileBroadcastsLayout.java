@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
+import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.network.api.info.apiv2.Photo;
@@ -69,13 +70,13 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         mContentStateLayout.setLoading();
     }
 
-    public void bind(List<Broadcast> broadcastList) {
+    public void bind(final String userIdOrUid, List<Broadcast> broadcastList) {
 
         final Context context = getContext();
         View.OnClickListener viewAllListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid));
+                context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid, context));
             }
         };
         mTitleText.setOnClickListener(viewAllListener);

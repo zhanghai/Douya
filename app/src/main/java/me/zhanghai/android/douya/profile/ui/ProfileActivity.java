@@ -135,7 +135,7 @@ public class ProfileActivity extends AppCompatActivity implements UserInfoResour
 
         mBroadcastList = mRetainDataFragment.remove(RETAIN_DATA_KEY_BROADCAST_LIST);
         if (mBroadcastList != null) {
-            mBroadcastsLayout.bind(mBroadcastList);
+            mBroadcastsLayout.bind(mUserInfoResource.getUserIdOrUid(), mBroadcastList);
         }
 
         mLoadingBroadcastList = mRetainDataFragment.removeBoolean(
@@ -266,7 +266,7 @@ public class ProfileActivity extends AppCompatActivity implements UserInfoResour
 
         if (successful) {
             mBroadcastList = result;
-            mBroadcastsLayout.bind(mBroadcastList);
+            mBroadcastsLayout.bind(mUserInfoResource.getUserIdOrUid(), mBroadcastList);
         } else {
             mBroadcastsLayout.setError();
             LogUtils.e(error.toString());

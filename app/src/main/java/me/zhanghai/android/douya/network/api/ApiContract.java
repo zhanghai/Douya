@@ -84,6 +84,30 @@ public interface ApiContract {
                 }
             }
 
+            interface UserInfo {
+
+                String URL_FORMAT = API_HOST + "lifestream/user/%s";
+
+                String UID_CURRENT = "~me";
+            }
+
+            interface FollowingList {
+
+                String URL_FORMAT = API_HOST + "lifestream/user/%s/followings";
+
+                String COUNT = "count";
+                String START = "start";
+                String TAG = "tag";
+            }
+
+            interface FollowerList {
+
+                String URL_FORMAT = API_HOST + "lifestream/user/%s/followers";
+
+                String COUNT = "count";
+                String START = "start";
+            }
+
             interface BroadcastList {
 
                 interface Urls {
@@ -148,13 +172,6 @@ public interface ApiContract {
 
             interface DeleteBroadcast {
                 String URL_FORMAT = API_HOST + "lifestream/status/%d";
-            }
-
-            interface UserInfo {
-
-                String URL_FORMAT = API_HOST + "lifestream/user/%s";
-
-                String UID_CURRENT = "~me";
             }
         }
     }

@@ -41,6 +41,50 @@ public class ApiRequests {
                 new TypeToken<UserInfo>() {}, context);
     }
 
+    public static ApiRequest<List<User>> newFollowingListRequest(String userIdOrUid, Integer start,
+                                                                 Integer count, String tag,
+                                                                 Context context) {
+
+        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
+                String.format(ApiContract.Request.ApiV2.FollowingList.URL_FORMAT, userIdOrUid),
+                new TypeToken<List<User>>() {}, context);
+
+        if (start != null) {
+            request.addParam(ApiContract.Request.ApiV2.FollowingList.START, String.valueOf(start));
+        }
+        if (count != null) {
+            request.addParam(ApiContract.Request.ApiV2.FollowingList.COUNT, String.valueOf(count));
+        }
+        if (!TextUtils.isEmpty(tag)) {
+            request.addParam(ApiContract.Request.ApiV2.FollowingList.TAG, tag);
+        }
+
+        return request;
+    }
+
+
+    public static ApiRequest<List<User>> newFollowingListRequest(String userIdOrUid, Integer start,
+                                                                Integer count, Context context) {
+        return newFollowingListRequest(userIdOrUid, start, count, null, context);
+    }
+
+    public static ApiRequest<List<User>> newFollowerListRequest(String userIdOrUid, Integer start,
+                                                                Integer count, Context context) {
+
+        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
+                String.format(ApiContract.Request.ApiV2.FollowerList.URL_FORMAT, userIdOrUid),
+                new TypeToken<List<User>>() {}, context);
+
+        if (start != null) {
+            request.addParam(ApiContract.Request.ApiV2.FollowerList.START, String.valueOf(start));
+        }
+        if (count != null) {
+            request.addParam(ApiContract.Request.ApiV2.FollowerList.COUNT, String.valueOf(count));
+        }
+
+        return request;
+    }
+
     public static ApiRequest<NotificationList> newNotificationListRequest(Integer start,
                                                                           Integer count,
                                                                           Context context) {
