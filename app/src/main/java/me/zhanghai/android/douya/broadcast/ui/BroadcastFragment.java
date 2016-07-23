@@ -38,6 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.broadcast.content.BroadcastAndCommentListResource;
 import me.zhanghai.android.douya.broadcast.content.BroadcastCommentCountFixer;
 import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastCommentManager;
 import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastManager;

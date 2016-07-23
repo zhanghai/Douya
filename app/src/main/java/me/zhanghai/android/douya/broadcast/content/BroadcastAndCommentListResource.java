@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.broadcast.ui;
+package me.zhanghai.android.douya.broadcast.content;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import me.zhanghai.android.douya.broadcast.content.BroadcastCommentListResource;
-import me.zhanghai.android.douya.broadcast.content.BroadcastResource;
-import me.zhanghai.android.douya.broadcast.content.CommentListResource;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
