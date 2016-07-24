@@ -5,10 +5,10 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
-import me.zhanghai.android.douya.user.content.UserListResource;
+import me.zhanghai.android.douya.user.content.RawUserListResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public abstract class BroadcastUserListResource extends UserListResource {
+public abstract class BroadcastUserListResource extends RawUserListResource {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';

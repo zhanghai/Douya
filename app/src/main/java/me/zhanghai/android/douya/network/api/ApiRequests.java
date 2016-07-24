@@ -17,6 +17,7 @@ import java.util.List;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
@@ -41,13 +42,13 @@ public class ApiRequests {
                 new TypeToken<UserInfo>() {}, context);
     }
 
-    public static ApiRequest<List<User>> newFollowingListRequest(String userIdOrUid, Integer start,
-                                                                 Integer count, String tag,
-                                                                 Context context) {
+    public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
+                                                               Integer count, String tag,
+                                                               Context context) {
 
-        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
+        ApiRequest<UserList> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.ApiV2.FollowingList.URL_FORMAT, userIdOrUid),
-                new TypeToken<List<User>>() {}, context);
+                new TypeToken<UserList>() {}, context);
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.FollowingList.START, String.valueOf(start));
@@ -63,17 +64,17 @@ public class ApiRequests {
     }
 
 
-    public static ApiRequest<List<User>> newFollowingListRequest(String userIdOrUid, Integer start,
-                                                                Integer count, Context context) {
+    public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
+                                                               Integer count, Context context) {
         return newFollowingListRequest(userIdOrUid, start, count, null, context);
     }
 
-    public static ApiRequest<List<User>> newFollowerListRequest(String userIdOrUid, Integer start,
-                                                                Integer count, Context context) {
+    public static ApiRequest<UserList> newFollowerListRequest(String userIdOrUid, Integer start,
+                                                              Integer count, Context context) {
 
-        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
+        ApiRequest<UserList> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.ApiV2.FollowerList.URL_FORMAT, userIdOrUid),
-                new TypeToken<List<User>>() {}, context);
+                new TypeToken<UserList>() {}, context);
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.FollowerList.START, String.valueOf(start));

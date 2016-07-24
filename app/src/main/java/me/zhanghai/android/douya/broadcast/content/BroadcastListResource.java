@@ -130,6 +130,10 @@ public class BroadcastListResource extends ResourceFragment
         return mBroadcastList != null ? Collections.unmodifiableList(mBroadcastList) : null;
     }
 
+    public boolean has() {
+        return mBroadcastList != null;
+    }
+
     public boolean isEmpty() {
         return mBroadcastList == null || mBroadcastList.isEmpty();
     }

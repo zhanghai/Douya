@@ -8,11 +8,9 @@ package me.zhanghai.android.douya.profile.content;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import java.util.List;
-
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class FollowerListResource extends FollowshipUserListResource {
@@ -66,7 +64,7 @@ public class FollowerListResource extends FollowshipUserListResource {
     public FollowerListResource() {}
 
     @Override
-    protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {
+    protected ApiRequest<UserList> onCreateRequest(Integer start, Integer count) {
         return ApiRequests.newFollowerListRequest(getUserIdOrUid(), start, count, getActivity());
     }
 }

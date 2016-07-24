@@ -27,7 +27,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.user.content.UserListResource;
+import me.zhanghai.android.douya.user.content.RawUserListResource;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
@@ -35,7 +35,7 @@ import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public abstract class UserListFragment extends Fragment implements UserListResource.Listener {
+public abstract class UserListFragment extends Fragment implements RawUserListResource.Listener {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
@@ -52,7 +52,7 @@ public abstract class UserListFragment extends Fragment implements UserListResou
     private UserAdapter mUserAdapter;
     private LoadMoreAdapter mAdapter;
 
-    private UserListResource mUserListResource;
+    private RawUserListResource mUserListResource;
     private RetainDataFragment mRetainDataFragment;
 
     @Nullable
@@ -118,16 +118,23 @@ public abstract class UserListFragment extends Fragment implements UserListResou
         mUserListResource.detach();
     }
 
-    protected abstract UserListResource onAttachUserListResource();
+    protected abstract RawUserListResource onAttachUserListResource();
 
     @Override
-    public void onLoadUserList(int requestCode, boolean loadMore) {
+    public void onLoadUserListStarted(int requestCode, boolean loadMore) {
         setRefreshing(true, loadMore);
     }
 
     @Override
-    public void onLoadUserListComplete(int requestCode, boolean loadMore) {
+    public void onLoadUserListFinished(int requestCode, boolean loadMore) {
         setRefreshing(false, loadMore);
+    }
+
+    @Override
+    public void onLoadUserListError(int requestCode, VolleyError error) {
+        LogUtils.e(error.toString());
+        Activity activity = getActivity();
+        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
     }
 
     @Override
@@ -143,13 +150,6 @@ public abstract class UserListFragment extends Fragment implements UserListResou
     }
 
     protected void onUserListUpdated(List<User> userList) {}
-
-    @Override
-    public void onLoadUserListError(int requestCode, VolleyError error) {
-        LogUtils.e(error.toString());
-        Activity activity = getActivity();
-        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
-    }
 
     private void setRefreshing(boolean refreshing, boolean loadMore) {
         mSwipeRefreshLayout.setEnabled(!refreshing);

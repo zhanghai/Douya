@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.profile.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,37 +22,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.app.RetainDataFragment;
-import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
-import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
-import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
-import me.zhanghai.android.douya.profile.content.UserInfoResource;
+import me.zhanghai.android.douya.profile.content.ProfileResource;
+import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-public class ProfileActivity extends AppCompatActivity implements UserInfoResource.Listener,
-        RequestFragment.Listener {
-
-    private static final int BROADCAST_COUNT_PER_LOAD = 20;
-
-    private static final int REQUEST_CODE_LOAD_BROADCAST_LIST = 0;
+public class ProfileActivity extends AppCompatActivity implements ProfileResource.Listener {
 
     private static final String KEY_PREFIX = ProfileActivity.class.getName() + '.';
 
     private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
     private static final String EXTRA_USER = KEY_PREFIX + "user";
     private static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
-
-    private static final String RETAIN_DATA_KEY_BROADCAST_LIST = KEY_PREFIX + "broadcast_list";
-    private static final String RETAIN_DATA_KEY_LOADING_BROADCAST_LIST = KEY_PREFIX
-            + "loading_broadcast_list";
 
     @BindView(R.id.scroll)
     ProfileLayout mScrollLayout;
@@ -63,15 +47,14 @@ public class ProfileActivity extends AppCompatActivity implements UserInfoResour
     View mDismissView;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.contentState)
+    ContentStateLayout mContentStateLayout;
+    @BindView(R.id.introduction)
+    ProfileIntroductionLayout mIntroductionLayout;
     @BindView(R.id.broadcasts)
     ProfileBroadcastsLayout mBroadcastsLayout;
 
-    private List<Broadcast> mBroadcastList;
-
-    private UserInfoResource mUserInfoResource;
-    private RetainDataFragment mRetainDataFragment;
-
-    private boolean mLoadingBroadcastList;
+    private ProfileResource mProfileResource;
 
     public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, ProfileActivity.class)
@@ -104,8 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements UserInfoResour
         UserInfo userInfo = intent.getParcelableExtra(EXTRA_USER_INFO);
 
         CustomTabsHelperFragment.attachTo(this);
-        mUserInfoResource = UserInfoResource.attachTo(userIdOrUid, user, userInfo, this);
-        mRetainDataFragment = RetainDataFragment.attachTo(this);
+        mProfileResource = ProfileResource.attachTo(userIdOrUid, user, userInfo, this);
 
         mScrollLayout.setListener(new ProfileLayout.Listener() {
             @Override
@@ -127,45 +109,21 @@ public class ProfileActivity extends AppCompatActivity implements UserInfoResour
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(null);
 
-        if (mUserInfoResource.hasUserInfo()) {
-            mHeaderLayout.bindUserInfo(mUserInfoResource.getUserInfo());
-        } else if (mUserInfoResource.hasUser()) {
-            mHeaderLayout.bindUser(mUserInfoResource.getUser());
+        if (mProfileResource.hasUserInfo()) {
+            mHeaderLayout.bindUserInfo(mProfileResource.getUserInfo());
+        } else if (mProfileResource.hasUser()) {
+            mHeaderLayout.bindUser(mProfileResource.getUser());
         }
 
-        mBroadcastList = mRetainDataFragment.remove(RETAIN_DATA_KEY_BROADCAST_LIST);
-        if (mBroadcastList != null) {
-            mBroadcastsLayout.bind(mUserInfoResource.getUserIdOrUid(), mBroadcastList);
-        }
-
-        mLoadingBroadcastList = mRetainDataFragment.removeBoolean(
-                RETAIN_DATA_KEY_LOADING_BROADCAST_LIST, false);
+        mProfileResource.notifyChangedIfAllLoaded();
     }
 
+    // When moved into fragment, this will be needed.
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected void onDestroy() {
+        super.onDestroy();
 
-        mRetainDataFragment.put(RETAIN_DATA_KEY_BROADCAST_LIST, mBroadcastList);
-        mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_BROADCAST_LIST, mLoadingBroadcastList);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (mBroadcastList == null) {
-            loadBroadcastList();
-        }
-
-        EventBusUtils.register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        EventBusUtils.unregister(this);
+        mProfileResource.detach();
     }
 
     @Override
@@ -218,28 +176,9 @@ public class ProfileActivity extends AppCompatActivity implements UserInfoResour
     }
 
     @Override
-    public void onVolleyResponse(int requestCode, boolean successful, Object result,
-                                 VolleyError error, Object requestState) {
-        switch (requestCode) {
-            case REQUEST_CODE_LOAD_BROADCAST_LIST:
-                //noinspection unchecked
-                onLoadBroadcastListResponse(successful, (List<Broadcast>) result, error);
-                break;
-            default:
-                LogUtils.w("Unknown request code " + requestCode + ", with successful=" + successful
-                        + ", result=" + result + ", error=" + error);
-        }
-    }
-
-    @Override
-    public void onLoadUserInfoStarted(int requestCode) {}
-
-    @Override
-    public void onLoadUserInfoFinished(int requestCode) {}
-
-    @Override
-    public void onLoadUserInfoError(int requestCode, VolleyError error) {
+    public void onLoadError(int requestCode, VolleyError error) {
         LogUtils.e(error.toString());
+        mContentStateLayout.setError();
         ToastUtils.show(ApiError.getErrorString(error, this), this);
     }
 
@@ -248,41 +187,11 @@ public class ProfileActivity extends AppCompatActivity implements UserInfoResour
         mHeaderLayout.bindUserInfo(newUserInfo);
     }
 
-    private void loadBroadcastList() {
-
-        if (mLoadingBroadcastList) {
-            return;
-        }
-        mLoadingBroadcastList = true;
-        mBroadcastsLayout.setLoading();
-
-        ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(
-                mUserInfoResource.getUserIdOrUid(), null, null, BROADCAST_COUNT_PER_LOAD, this);
-        RequestFragment.startRequest(request, null, this, REQUEST_CODE_LOAD_BROADCAST_LIST);
-    }
-
-    private void onLoadBroadcastListResponse(boolean successful, List<Broadcast> result,
-                                             VolleyError error) {
-
-        if (successful) {
-            mBroadcastList = result;
-            mBroadcastsLayout.bind(mUserInfoResource.getUserIdOrUid(), mBroadcastList);
-        } else {
-            mBroadcastsLayout.setError();
-            LogUtils.e(error.toString());
-            ToastUtils.show(ApiError.getErrorString(error, this), this);
-        }
-
-        mLoadingBroadcastList = false;
-    }
-
-    @Keep
-    public void onEventMainThread(BroadcastUpdatedEvent event) {
-        // TODO
-    }
-
-    @Keep
-    public void onEventMainThread(BroadcastDeletedEvent event) {
-        // TODO
+    @Override
+    public void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
+                          List<User> newFollowingList) {
+        mIntroductionLayout.bind(newUserInfo);
+        mBroadcastsLayout.bind(mProfileResource.getUserIdOrUid(), newBroadcastList);
+        mContentStateLayout.setLoaded(true);
     }
 }

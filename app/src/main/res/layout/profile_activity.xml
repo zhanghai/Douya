@@ -143,13 +143,16 @@
         <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/window_background_light">
+            android:background="@color/window_background_light"
+            android:fillViewport="true">
 
-            <FrameLayout
+            <me.zhanghai.android.douya.ui.ContentStateLayout
+                android:id="@+id/contentState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-1px"
@@ -179,8 +182,18 @@
                         app:cardMaxElevation="@dimen/card_elevation" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+                    android:layout_marginRight="@dimen/card_content_horizontal_margin"
+                    android:text="@string/load_error"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
                 <include layout="@layout/appbar_shadow_compat" />
-            </FrameLayout>
+            </me.zhanghai.android.douya.ui.ContentStateLayout>
         </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
     </LinearLayout>
 </me.zhanghai.android.douya.profile.ui.ProfileLayout>

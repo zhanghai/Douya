@@ -10,13 +10,9 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class CommentList implements Parcelable {
+public class CommentList extends BaseList implements Parcelable {
 
     public ArrayList<Comment> comments = new ArrayList<>();
-
-    public int count;
-
-    public int start;
 
 
     public static final Parcelable.Creator<CommentList> CREATOR =
@@ -24,7 +20,6 @@ public class CommentList implements Parcelable {
                 public CommentList createFromParcel(Parcel source) {
                     return new CommentList(source);
                 }
-
                 public CommentList[] newArray(int size) {
                     return new CommentList[size];
                 }
@@ -33,20 +28,20 @@ public class CommentList implements Parcelable {
     public CommentList() {}
 
     protected CommentList(Parcel in) {
+        super(in);
+
         this.comments = in.createTypedArrayList(Comment.CREATOR);
-        this.count = in.readInt();
-        this.start = in.readInt();
     }
 
     @Override
     public int describeContents() {
-        return 0;
+        return super.describeContents();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+
         dest.writeTypedList(comments);
-        dest.writeInt(this.count);
-        dest.writeInt(this.start);
     }
 }

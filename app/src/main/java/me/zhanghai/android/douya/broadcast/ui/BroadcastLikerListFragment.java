@@ -10,7 +10,7 @@ import java.util.List;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.broadcast.content.BroadcastLikerListResource;
-import me.zhanghai.android.douya.user.content.UserListResource;
+import me.zhanghai.android.douya.user.content.RawUserListResource;
 
 public class BroadcastLikerListFragment extends BroadcastUserListFragment {
 
@@ -27,7 +27,7 @@ public class BroadcastLikerListFragment extends BroadcastUserListFragment {
     }
 
     @Override
-    protected UserListResource onAttachUserListResource() {
+    protected RawUserListResource onAttachUserListResource() {
         return BroadcastLikerListResource.attachTo(getBroadcast().id, this);
     }
 

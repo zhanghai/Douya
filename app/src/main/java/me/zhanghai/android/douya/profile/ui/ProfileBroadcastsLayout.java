@@ -26,7 +26,6 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.network.api.info.apiv2.Photo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
-import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -36,10 +35,10 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
     @BindView(R.id.title)
     TextView mTitleText;
-    @BindView(R.id.contentState)
-    ContentStateLayout mContentStateLayout;
     @BindView(R.id.broadcast_list)
     LinearLayout mBroadcastList;
+    @BindView(R.id.empty)
+    View mEmptyView;
     @BindView(R.id.view_all)
     TextView mViewAllText;
 
@@ -64,10 +63,6 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
     private void init() {
         inflate(getContext(), R.layout.profile_broadcasts_layout, this);
         ButterKnife.bind(this);
-    }
-
-    public void setLoading() {
-        mContentStateLayout.setLoading();
     }
 
     public void bind(final String userIdOrUid, List<Broadcast> broadcastList) {
@@ -133,14 +128,13 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
             ++i;
         }
-        mContentStateLayout.setLoaded(i != 0);
+
+        ViewUtils.setVisibleOrGone(mBroadcastList, i != 0);
+        ViewUtils.setVisibleOrGone(mEmptyView, i == 0);
+
         for (int count = mBroadcastList.getChildCount(); i < count; ++i) {
             ViewUtils.setVisibleOrGone(mBroadcastList.getChildAt(i), false);
         }
-    }
-
-    public void setError() {
-        mContentStateLayout.setError();
     }
 
     static class BroadcastLayoutHolder {

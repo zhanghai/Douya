@@ -38,6 +38,5 @@
         android:paddingBottom="@dimen/card_content_vertical_margin"
         android:background="?selectableItemBackground"
         android:gravity="center_vertical"
-        android:text="@string/profile_broadcasts_empty"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>
