@@ -118,7 +118,7 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarMan
     private String getTitle() {
         // TODO: Load user.
         if (mUser != null) {
-            return mUser.name;
+            return getString(R.string.broadcast_list_title_user_format, mUser.name);
         } else if (!TextUtils.isEmpty(mTopic)) {
             return getString(R.string.broadcast_list_title_topic_format, mTopic);
         } else {

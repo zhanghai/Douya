@@ -129,7 +129,7 @@
     <string name="home_online">线上活动</string>
 
     <string name="broadcast_list_title_default">广播列表</string>
-    <string name="broadcast_list_title_user_format">%s的广播</string>
+    <string name="broadcast_list_title_user_format">%s 的广播</string>
     <string name="broadcast_list_title_topic_format">#%s#</string>
 
     <string name="broadcast_title">查看广播</string>
