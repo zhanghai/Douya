@@ -24,6 +24,7 @@ import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.network.api.info.apiv2.Photo;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -65,13 +66,13 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(final String userIdOrUid, List<Broadcast> broadcastList) {
+    public void bind(final UserInfo userInfo, List<Broadcast> broadcastList) {
 
         final Context context = getContext();
         View.OnClickListener viewMoreListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid, context));
+                context.startActivity(BroadcastListActivity.makeIntent(userInfo, context));
             }
         };
         mTitleText.setOnClickListener(viewMoreListener);
@@ -134,6 +135,13 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
         for (int count = mBroadcastList.getChildCount(); i < count; ++i) {
             ViewUtils.setVisibleOrGone(mBroadcastList.getChildAt(i), false);
+        }
+
+        if (userInfo.broadcastCount > 0) {
+            mViewMoreText.setText(context.getString(R.string.view_more_with_count_format,
+                    userInfo.broadcastCount));
+        } else {
+            mViewMoreText.setVisibility(GONE);
         }
     }
 

@@ -19,11 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
-import me.zhanghai.android.douya.network.api.info.apiv2.Image;
-import me.zhanghai.android.douya.network.api.info.apiv2.Photo;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -40,6 +38,8 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
     View mEmptyView;
     @BindView(R.id.view_more)
     TextView mViewMoreText;
+    @BindView(R.id.follower)
+    TextView mFollwerText;
 
     public ProfileFollowshipLayout(Context context) {
         super(context);
@@ -64,13 +64,13 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(final String userIdOrUid, List<User> followingList) {
+    public void bind(final UserInfo userInfo, List<User> followingList) {
 
         final Context context = getContext();
         OnClickListener viewMoreListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid, context));
+                context.startActivity(BroadcastListActivity.makeIntent(userInfo, context));
             }
         };
         mTitleText.setOnClickListener(viewMoreListener);
@@ -112,6 +112,22 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         for (int count = mFollowingList.getChildCount(); i < count; ++i) {
             ViewUtils.setVisibleOrGone(mFollowingList.getChildAt(i), false);
         }
+
+        if (userInfo.followingCount > 0) {
+            mViewMoreText.setText(context.getString(R.string.view_more_with_count_format,
+                    userInfo.followingCount));
+        } else {
+            mViewMoreText.setVisibility(GONE);
+        }
+
+        mFollwerText.setText(context.getString(R.string.profile_follower_count_format,
+                userInfo.followerCount));
+        mFollwerText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO
+            }
+        });
     }
 
     static class UserLayoutHolder {

@@ -59,7 +59,20 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="@string/view_more"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="?android:textColorSecondary" />
+
+    <TextView
+        android:id="@+id/follower"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>

@@ -12,6 +12,7 @@
     <string name="load_error">加载失败</string>
     <string name="report_abuse">举报不良信息</string>
     <string name="view_more">查看更多</string>
+    <string name="view_more_with_count_format">查看更多（%1$d）</string>
 
     <string name="just_now">刚刚</string>
     <string name="minute_format">%1$d分钟前</string>
@@ -187,6 +188,7 @@
     <string name="profile_broadcasts_empty">最近没有发广播</string>
     <string name="profile_followship_title">关注</string>
     <string name="profile_following_empty">没有关注的人</string>
+    <string name="profile_follower_count_format">被 %1$d 人关注</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_misc_title">其他</string>

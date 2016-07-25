@@ -197,8 +197,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     public void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
                           List<User> newFollowingList) {
         mIntroductionLayout.bind(newUserInfo);
-        mBroadcastsLayout.bind(mProfileResource.getUserIdOrUid(), newBroadcastList);
-        mFollowshipLayout.bind(mProfileResource.getUserIdOrUid(), newFollowingList);
+        mBroadcastsLayout.bind(newUserInfo, newBroadcastList);
+        mFollowshipLayout.bind(newUserInfo, newFollowingList);
         mContentStateLayout.setLoaded(true);
     }
 }
