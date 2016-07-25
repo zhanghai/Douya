@@ -24,6 +24,7 @@ public abstract class BaseUserListResource<T> extends ResourceFragment
 
     private boolean mCanLoadMore = true;
     private boolean mLoading;
+    private boolean mLoadingMore;
 
     /**
      * @return Unmodifiable user list, or {@code null}.
@@ -34,6 +35,18 @@ public abstract class BaseUserListResource<T> extends ResourceFragment
 
     public boolean has() {
         return mUserList != null;
+    }
+
+    public boolean isEmpty() {
+        return mUserList == null || mUserList.isEmpty();
+    }
+
+    public boolean isLoading() {
+        return mLoading;
+    }
+
+    public boolean isLoadingMore() {
+        return mLoadingMore;
     }
 
     @Override
@@ -52,6 +65,7 @@ public abstract class BaseUserListResource<T> extends ResourceFragment
         }
 
         mLoading = true;
+        mLoadingMore = loadMore;
         getListener().onLoadUserListStarted(getRequestCode(), loadMore);
 
         Integer start = loadMore ? (mUserList != null ? mUserList.size() : 0) : null;
@@ -72,19 +86,20 @@ public abstract class BaseUserListResource<T> extends ResourceFragment
         postOnResumed(new Runnable() {
             @Override
             public void run() {
-                onDeliverLoadComplete(successful, result, error, requestState.loadMore,
+                onDeliverLoadFinished(successful, result, error, requestState.loadMore,
                         requestState.count);
             }
         });
     }
 
-    protected abstract void onDeliverLoadComplete(boolean successful, T userList, VolleyError error,
+    protected abstract void onDeliverLoadFinished(boolean successful, T userList, VolleyError error,
                                                   boolean loadMore, int count);
 
-    protected void onLoadComplete(boolean successful, List<User> userList, VolleyError error,
+    protected void onLoadFinished(boolean successful, List<User> userList, VolleyError error,
                                   boolean loadMore, int count) {
 
         mLoading = false;
+        mLoadingMore = false;
         getListener().onLoadUserListFinished(getRequestCode(), loadMore);
 
         if (successful) {

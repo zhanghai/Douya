@@ -72,7 +72,7 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
         }
     }
 
-    public Broadcast getBroadcast() {
+    protected Broadcast getBroadcast() {
         return mBroadcast;
     }
 }

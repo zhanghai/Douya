@@ -24,10 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.user.content.RawUserListResource;
+import me.zhanghai.android.douya.user.content.BaseUserListResource;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
@@ -35,12 +34,7 @@ import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public abstract class UserListFragment extends Fragment implements RawUserListResource.Listener {
-
-    // Not static because we are to be subclassed.
-    private final String KEY_PREFIX = getClass().getName() + '.';
-
-    private final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
+public abstract class UserListFragment extends Fragment implements BaseUserListResource.Listener {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -52,8 +46,7 @@ public abstract class UserListFragment extends Fragment implements RawUserListRe
     private UserAdapter mUserAdapter;
     private LoadMoreAdapter mAdapter;
 
-    private RawUserListResource mUserListResource;
-    private RetainDataFragment mRetainDataFragment;
+    private BaseUserListResource mUserListResource;
 
     @Nullable
     @Override
@@ -74,7 +67,6 @@ public abstract class UserListFragment extends Fragment implements RawUserListRe
         super.onActivityCreated(savedInstanceState);
 
         mUserListResource = onAttachUserListResource();
-        mRetainDataFragment = RetainDataFragment.attachTo(this);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -87,6 +79,7 @@ public abstract class UserListFragment extends Fragment implements RawUserListRe
         //mUserList.setHasFixedSize(true);
         mUserList.setItemAnimator(new NoChangeAnimationItemAnimator());
         mUserList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //noinspection unchecked
         mUserAdapter = new UserAdapter(mUserListResource.get());
         mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mUserAdapter);
         mUserList.setAdapter(mAdapter);
@@ -97,18 +90,7 @@ public abstract class UserListFragment extends Fragment implements RawUserListRe
             }
         });
 
-        // View only saves state influenced by user action, so we have to do this ourselves.
-        ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);
-        if (viewState != null) {
-            onRestoreViewState(viewState);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
+        updateRefreshing();
     }
 
     @Override
@@ -118,16 +100,16 @@ public abstract class UserListFragment extends Fragment implements RawUserListRe
         mUserListResource.detach();
     }
 
-    protected abstract RawUserListResource onAttachUserListResource();
+    protected abstract BaseUserListResource onAttachUserListResource();
 
     @Override
     public void onLoadUserListStarted(int requestCode, boolean loadMore) {
-        setRefreshing(true, loadMore);
+        updateRefreshing();
     }
 
     @Override
     public void onLoadUserListFinished(int requestCode, boolean loadMore) {
-        setRefreshing(false, loadMore);
+        updateRefreshing();
     }
 
     @Override
@@ -140,44 +122,27 @@ public abstract class UserListFragment extends Fragment implements RawUserListRe
     @Override
     public void onUserListChanged(int requestCode, List<User> newUserList) {
         mUserAdapter.replace(newUserList);
+        //noinspection unchecked
         onUserListUpdated(mUserListResource.get());
     }
 
     @Override
     public void onUserListAppended(int requestCode, List<User> appendedUserList) {
         mUserAdapter.addAll(appendedUserList);
+        //noinspection unchecked
         onUserListUpdated(mUserListResource.get());
     }
 
     protected void onUserListUpdated(List<User> userList) {}
 
-    private void setRefreshing(boolean refreshing, boolean loadMore) {
-        mSwipeRefreshLayout.setEnabled(!refreshing);
-        if (!refreshing) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-        ViewUtils.setVisibleOrGone(mProgress, refreshing && mUserAdapter.getItemCount() == 0);
-        mAdapter.setProgressVisible(refreshing && mUserAdapter.getItemCount() > 0
-                && loadMore);
-    }
-
-    private ViewState onSaveViewState() {
-        return new ViewState(mProgress.getVisibility(), mAdapter.isProgressVisible());
-    }
-
-    private void onRestoreViewState(ViewState state) {
-        mProgress.setVisibility(state.progressVisibility);
-        mAdapter.setProgressVisible(state.adapterProgressVisible);
-    }
-
-    private static class ViewState {
-
-        public int progressVisibility;
-        public boolean adapterProgressVisible;
-
-        public ViewState(int progressVisibility, boolean adapterProgressVisible) {
-            this.progressVisibility = progressVisibility;
-            this.adapterProgressVisible = adapterProgressVisible;
-        }
+    private void updateRefreshing() {
+        boolean loading = mUserListResource.isLoading();
+        boolean empty = mUserListResource.isEmpty();
+        boolean loadingMore = mUserListResource.isLoadingMore();
+        mSwipeRefreshLayout.setEnabled(!loading);
+        mSwipeRefreshLayout.setRefreshing(loading && (mSwipeRefreshLayout.isRefreshing() || !empty)
+                && !loadingMore);
+        ViewUtils.setVisibleOrGone(mProgress, loading && empty);
+        mAdapter.setProgressVisible(loading && !empty && loadingMore);
     }
 }

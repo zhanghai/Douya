@@ -7,10 +7,7 @@ package me.zhanghai.android.douya.user.content;
 
 import com.android.volley.VolleyError;
 
-import java.util.List;
-
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 
 public abstract class UserListResource extends BaseUserListResource<UserList> {
@@ -18,9 +15,9 @@ public abstract class UserListResource extends BaseUserListResource<UserList> {
     protected abstract ApiRequest<UserList> onCreateRequest(Integer start, Integer count);
 
     @Override
-    protected void onDeliverLoadComplete(boolean successful, UserList userList, VolleyError error,
+    protected void onDeliverLoadFinished(boolean successful, UserList userList, VolleyError error,
                                          boolean loadMore, int count) {
-        onLoadComplete(successful, userList != null ? userList.users : null, error, loadMore,
+        onLoadFinished(successful, userList != null ? userList.users : null, error, loadMore,
                 count);
     }
 }
