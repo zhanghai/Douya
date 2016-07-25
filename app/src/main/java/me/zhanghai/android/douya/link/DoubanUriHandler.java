@@ -10,10 +10,10 @@ import android.content.Intent;
 import android.content.UriMatcher;
 import android.net.Uri;
 
-import java.util.List;
-
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
+import me.zhanghai.android.douya.profile.ui.FollowerListActivity;
+import me.zhanghai.android.douya.profile.ui.FollowingListActivity;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.util.UriUtils;
 
@@ -28,7 +28,11 @@ public class DoubanUriHandler {
         TOPIC_BROADCAST_LIST("update/topic/*"),
         BROADCAST("people/*/status/#"),
         BROADCAST_FRODO(AUTHORITY_FRODO, "status/#"),
-        USER("people/*");
+        USER("people/*"),
+        USER_FOLLOWER_LIST("people/*/followers"),
+        USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/follower"),
+        USER_FOLLOWING_LIST("people/*/followings"),
+        USER_FOLLOWING_LIST_FRODO(AUTHORITY_FRODO, "user/*/following");
 
         String mAuthority;
         String mPath;
@@ -71,12 +75,9 @@ public class DoubanUriHandler {
 
         Intent intent;
         switch (uriType) {
-            case USER_BROADCAST_LIST: {
-                List<String> segments = uri.getPathSegments();
-                intent = BroadcastListActivity.makeIntent(segments.get(segments.size() - 2),
-                        context);
+            case USER_BROADCAST_LIST:
+                intent = BroadcastListActivity.makeIntent(uri.getPathSegments().get(1), context);
                 break;
-            }
             case TOPIC_BROADCAST_LIST:
                 intent = BroadcastListActivity.makeIntent(uri.getLastPathSegment(), false, context);
                 break;
@@ -86,6 +87,14 @@ public class DoubanUriHandler {
                 break;
             case USER:
                 intent = ProfileActivity.makeIntent(uri.getLastPathSegment(), context);
+                break;
+            case USER_FOLLOWER_LIST:
+            case USER_FOLLOWER_LIST_FRODO:
+                intent = FollowerListActivity.makeIntent(uri.getPathSegments().get(1), context);
+                break;
+            case USER_FOLLOWING_LIST:
+            case USER_FOLLOWING_LIST_FRODO:
+                intent = FollowingListActivity.makeIntent(uri.getPathSegments().get(1), context);
                 break;
             default:
                 return false;
