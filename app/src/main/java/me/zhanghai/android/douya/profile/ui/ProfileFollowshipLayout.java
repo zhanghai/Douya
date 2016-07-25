@@ -107,15 +107,15 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         ViewUtils.setVisibleOrGone(mFollowingList, i != 0);
         ViewUtils.setVisibleOrGone(mEmptyView, i == 0);
 
-        for (int count = mFollowingList.getChildCount(); i < count; ++i) {
-            ViewUtils.setVisibleOrGone(mFollowingList.getChildAt(i), false);
-        }
-
-        if (userInfo.followingCount > 0) {
+        if (userInfo.followingCount > i) {
             mViewMoreText.setText(context.getString(R.string.view_more_with_count_format,
                     userInfo.followingCount));
         } else {
             mViewMoreText.setVisibility(GONE);
+        }
+
+        for (int count = mFollowingList.getChildCount(); i < count; ++i) {
+            ViewUtils.setVisibleOrGone(mFollowingList.getChildAt(i), false);
         }
 
         mFollwerText.setText(context.getString(R.string.profile_follower_count_format,

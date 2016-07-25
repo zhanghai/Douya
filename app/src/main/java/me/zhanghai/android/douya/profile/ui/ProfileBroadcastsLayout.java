@@ -133,15 +133,15 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         ViewUtils.setVisibleOrGone(mBroadcastList, i != 0);
         ViewUtils.setVisibleOrGone(mEmptyView, i == 0);
 
-        for (int count = mBroadcastList.getChildCount(); i < count; ++i) {
-            ViewUtils.setVisibleOrGone(mBroadcastList.getChildAt(i), false);
-        }
-
-        if (userInfo.broadcastCount > 0) {
+        if (userInfo.broadcastCount > i) {
             mViewMoreText.setText(context.getString(R.string.view_more_with_count_format,
                     userInfo.broadcastCount));
         } else {
             mViewMoreText.setVisibility(GONE);
+        }
+
+        for (int count = mBroadcastList.getChildCount(); i < count; ++i) {
+            ViewUtils.setVisibleOrGone(mBroadcastList.getChildAt(i), false);
         }
     }
 
