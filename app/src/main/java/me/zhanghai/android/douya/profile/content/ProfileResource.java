@@ -187,7 +187,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         mUser = newUserInfo;
         mUserIdOrUid = newUserInfo.uid;
         getListener().onUserInfoChanged(getRequestCode(), newUserInfo);
-        notifyChangedIfAllLoaded();
+        notifyChangedIfLoaded();
     }
 
     @Override
@@ -203,22 +203,22 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
 
     @Override
     public void onBroadcastListChanged(int requestCode, List<Broadcast> newBroadcastList) {
-        notifyChangedIfAllLoaded();
+        notifyChangedIfLoaded();
     }
 
     @Override
     public void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList) {
-        notifyChangedIfAllLoaded();
+        notifyChangedIfLoaded();
     }
 
     @Override
     public void onBroadcastChanged(int requestCode, int position, Broadcast newBroadcast) {
-        notifyChangedIfAllLoaded();
+        notifyChangedIfLoaded();
     }
 
     @Override
     public void onBroadcastRemoved(int requestCode, int position) {
-        notifyChangedIfAllLoaded();
+        notifyChangedIfLoaded();
     }
 
     @Override
@@ -240,12 +240,12 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
 
     @Override
     public void onUserListChanged(int requestCode, List<User> newUserList) {
-        notifyChangedIfAllLoaded();
+        notifyChangedIfLoaded();
     }
 
     @Override
     public void onUserListAppended(int requestCode, List<User> appendedUserList) {
-        notifyChangedIfAllLoaded();
+        notifyChangedIfLoaded();
     }
 
     public boolean isLoaded() {
@@ -253,7 +253,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
                 && mFollowingListResource != null && mFollowingListResource.has();
     }
 
-    public void notifyChangedIfAllLoaded() {
+    public void notifyChangedIfLoaded() {
         if (isLoaded()) {
             getListener().onChanged(getRequestCode(), getUserInfo(), mBroadcastListResource.get(),
                     mFollowingListResource.get());

@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
         }
 
         if (mProfileResource.isLoaded()) {
-            mProfileResource.notifyChangedIfAllLoaded();
+            mProfileResource.notifyChangedIfLoaded();
         } else {
             mContentStateLayout.setLoading();
         }
