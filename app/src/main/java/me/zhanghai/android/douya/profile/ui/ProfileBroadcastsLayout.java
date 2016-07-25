@@ -39,8 +39,8 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
     LinearLayout mBroadcastList;
     @BindView(R.id.empty)
     View mEmptyView;
-    @BindView(R.id.view_all)
-    TextView mViewAllText;
+    @BindView(R.id.view_more)
+    TextView mViewMoreText;
 
     public ProfileBroadcastsLayout(Context context) {
         super(context);
@@ -68,14 +68,14 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
     public void bind(final String userIdOrUid, List<Broadcast> broadcastList) {
 
         final Context context = getContext();
-        View.OnClickListener viewAllListener = new OnClickListener() {
+        View.OnClickListener viewMoreListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid, context));
             }
         };
-        mTitleText.setOnClickListener(viewAllListener);
-        mViewAllText.setOnClickListener(viewAllListener);
+        mTitleText.setOnClickListener(viewMoreListener);
+        mViewMoreText.setOnClickListener(viewMoreListener);
 
         int i = 0;
         for (final Broadcast broadcast : broadcastList) {

@@ -23,34 +23,27 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="@string/profile_broadcasts_title"
+        android:text="@string/profile_followship_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="?android:textColorSecondary" />
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/following_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/single_line_list_item_height">
+        android:paddingTop="@dimen/list_padding_vertical"
+        android:paddingBottom="@dimen/list_padding_vertical"
+        android:orientation="vertical" />
 
-        <LinearLayout
-            android:id="@+id/broadcast_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="?dividerHorizontal"
-            android:dividerPadding="@dimen/card_content_horizontal_margin"
-            android:orientation="vertical"
-            android:showDividers="middle" />
-
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-            android:layout_marginRight="@dimen/card_content_horizontal_margin"
-            android:text="@string/profile_broadcasts_empty"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-    </FrameLayout>
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:gravity="center_vertical"
+        android:text="@string/profile_following_empty"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/view_more"

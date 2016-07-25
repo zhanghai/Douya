@@ -248,16 +248,16 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         notifyChangedIfAllLoaded();
     }
 
+    public boolean isLoaded() {
+        return hasUserInfo() && mBroadcastListResource != null && mBroadcastListResource.has()
+                && mFollowingListResource != null && mFollowingListResource.has();
+    }
+
     public void notifyChangedIfAllLoaded() {
         if (isLoaded()) {
             getListener().onChanged(getRequestCode(), getUserInfo(), mBroadcastListResource.get(),
                     mFollowingListResource.get());
         }
-    }
-
-    private boolean isLoaded() {
-        return hasUserInfo() && mBroadcastListResource != null && mBroadcastListResource.has()
-                && mFollowingListResource != null && mFollowingListResource.has();
     }
 
     private void notifyError(VolleyError error) {

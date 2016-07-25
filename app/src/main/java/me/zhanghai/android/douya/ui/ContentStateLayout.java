@@ -85,10 +85,10 @@ public class ContentStateLayout extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mLoadingView = findViewById(mLoadingViewId);
-        mContentView = findViewById(mContentViewId);
-        mEmptyView = findViewById(mEmptyViewId);
-        mErrorView = findViewById(mErrorViewId);
+        mLoadingView = findChildById(mLoadingViewId);
+        mContentView = findChildById(mContentViewId);
+        mEmptyView = findChildById(mEmptyViewId);
+        mErrorView = findChildById(mErrorViewId);
 
         if (mLoadingView == null) {
             mLoadingView = LayoutInflater.from(getContext())
@@ -100,6 +100,16 @@ public class ContentStateLayout extends FrameLayout {
         setViewVisible(mContentView, false, false);
         setViewVisible(mEmptyView, false, false);
         setViewVisible(mErrorView, false, false);
+    }
+
+    private View findChildById(int id) {
+        for (int i = 0, count = getChildCount(); i < count; ++i) {
+            View child = getChildAt(i);
+            if (child.getId() == id) {
+                return child;
+            }
+        }
+        return null;
     }
 
     public boolean isAnimationEnabled() {

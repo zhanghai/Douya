@@ -53,6 +53,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     ProfileIntroductionLayout mIntroductionLayout;
     @BindView(R.id.broadcasts)
     ProfileBroadcastsLayout mBroadcastsLayout;
+    @BindView(R.id.followship)
+    ProfileFollowshipLayout mFollowshipLayout;
 
     private ProfileResource mProfileResource;
 
@@ -115,7 +117,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
             mHeaderLayout.bindUser(mProfileResource.getUser());
         }
 
-        mProfileResource.notifyChangedIfAllLoaded();
+        if (mProfileResource.isLoaded()) {
+            mProfileResource.notifyChangedIfAllLoaded();
+        } else {
+            mContentStateLayout.setLoading();
+        }
     }
 
     // When moved into fragment, this will be needed.
@@ -192,6 +198,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
                           List<User> newFollowingList) {
         mIntroductionLayout.bind(newUserInfo);
         mBroadcastsLayout.bind(mProfileResource.getUserIdOrUid(), newBroadcastList);
+        mFollowshipLayout.bind(mProfileResource.getUserIdOrUid(), newFollowingList);
         mContentStateLayout.setLoaded(true);
     }
 }
