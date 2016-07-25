@@ -60,17 +60,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
 
     public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, ProfileActivity.class)
-                .putExtra(ProfileActivity.EXTRA_USER_ID_OR_UID, userIdOrUid);
+                .putExtra(EXTRA_USER_ID_OR_UID, userIdOrUid);
     }
 
     public static Intent makeIntent(User user, Context context) {
         return new Intent(context, ProfileActivity.class)
-                .putExtra(ProfileActivity.EXTRA_USER, user);
+                .putExtra(EXTRA_USER, user);
     }
 
     public static Intent makeIntent(UserInfo userInfo, Context context) {
         return new Intent(context, ProfileActivity.class)
-                .putExtra(ProfileActivity.EXTRA_USER_INFO, userInfo);
+                .putExtra(EXTRA_USER_INFO, userInfo);
     }
 
     @Override

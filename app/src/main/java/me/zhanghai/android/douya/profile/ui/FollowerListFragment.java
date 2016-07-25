@@ -5,25 +5,25 @@
 
 package me.zhanghai.android.douya.profile.ui;
 
-import me.zhanghai.android.douya.profile.content.FollowingListResource;
+import me.zhanghai.android.douya.profile.content.FollowerListResource;
 import me.zhanghai.android.douya.user.content.BaseUserListResource;
 
-public class FollowingListFragment extends FollowshipListFragment {
+public class FollowerListFragment extends FollowshipListFragment {
 
     /**
      * @deprecated Use {@link #newInstance(String)} instead.
      */
-    public FollowingListFragment() {}
+    public FollowerListFragment() {}
 
-    public static FollowingListFragment newInstance(String userIdOrUid) {
+    public static FollowerListFragment newInstance(String userIdOrUid) {
         //noinspection deprecation
-        FollowingListFragment fragment = new FollowingListFragment();
+        FollowerListFragment fragment = new FollowerListFragment();
         fragment.setArguments(userIdOrUid);
         return fragment;
     }
 
     @Override
     protected BaseUserListResource onAttachUserListResource() {
-        return FollowingListResource.attachTo(getUserIdOrUid(), this);
+        return FollowerListResource.attachTo(getUserIdOrUid(), this);
     }
 }

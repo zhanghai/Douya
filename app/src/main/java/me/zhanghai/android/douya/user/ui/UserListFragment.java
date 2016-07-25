@@ -43,7 +43,7 @@ public abstract class UserListFragment extends Fragment implements BaseUserListR
     @BindView(R.id.progress)
     ProgressBar mProgress;
 
-    private UserAdapter mUserAdapter;
+    private BaseUserAdapter mUserAdapter;
     private LoadMoreAdapter mAdapter;
 
     private BaseUserListResource mUserListResource;
@@ -79,8 +79,11 @@ public abstract class UserListFragment extends Fragment implements BaseUserListR
         //mUserList.setHasFixedSize(true);
         mUserList.setItemAnimator(new NoChangeAnimationItemAnimator());
         mUserList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //noinspection unchecked
-        mUserAdapter = new UserAdapter(mUserListResource.get());
+        mUserAdapter = onCreateAdapter();
+        if (mUserListResource.has()) {
+            //noinspection unchecked
+            mUserAdapter.replace(mUserListResource.get());
+        }
         mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mUserAdapter);
         mUserList.setAdapter(mAdapter);
         mUserList.addOnScrollListener(new OnVerticalScrollListener() {
@@ -132,6 +135,8 @@ public abstract class UserListFragment extends Fragment implements BaseUserListR
         //noinspection unchecked
         onUserListUpdated(mUserListResource.get());
     }
+
+    abstract protected BaseUserAdapter onCreateAdapter();
 
     protected void onUserListUpdated(List<User> userList) {}
 

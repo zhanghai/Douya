@@ -24,17 +24,17 @@ public class BroadcastListActivity extends AppCompatActivity {
 
     public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, BroadcastListActivity.class)
-                .putExtra(BroadcastListActivity.EXTRA_USER_ID_OR_UID, userIdOrUid);
+                .putExtra(EXTRA_USER_ID_OR_UID, userIdOrUid);
     }
 
     public static Intent makeIntent(User user, Context context) {
         return new Intent(context, BroadcastListActivity.class)
-                .putExtra(BroadcastListActivity.EXTRA_USER, user);
+                .putExtra(EXTRA_USER, user);
     }
 
     public static Intent makeIntent(String topic, boolean unused, Context context) {
         return new Intent(context, BroadcastListActivity.class)
-                .putExtra(BroadcastListActivity.EXTRA_TOPIC, topic);
+                .putExtra(EXTRA_TOPIC, topic);
     }
 
     @Override

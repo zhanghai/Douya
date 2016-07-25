@@ -15,10 +15,11 @@
 
     <dimen name="status_bar_height">25dp</dimen>
     <dimen name="screen_edge_horizontal_margin">16dp</dimen>
+    <dimen name="screen_edge_horizontal_margin_with_4dp_padding">12dp</dimen>
     <dimen name="screen_edge_horizontal_margin_negative_half">-8dp</dimen>
     <dimen name="content_horizontal_margin">72dp</dimen>
     <dimen name="content_horizontal_margin_from_screen_edge">56dp</dimen>
-    <dimen name="content_horizontal_margin_from_screen_edge_with_40dp_padding">16dp</dimen>
+    <dimen name="content_horizontal_margin_from_screen_edge_with_44dp_padding">12dp</dimen>
     <dimen name="toolbar_navigation_button_left_margin">-2dp</dimen>
     <dimen name="toolbar_title_left_margin">18dp</dimen>
     <dimen name="toolbar_button_right_margin">2dp</dimen>

@@ -189,6 +189,8 @@
     <string name="profile_followship_title">关注</string>
     <string name="profile_following_empty">没有关注的人</string>
     <string name="profile_follower_count_format">被 %1$d 人关注</string>
+    <string name="profile_follower_list_title">被关注列表</string>
+    <string name="profile_following_list_title">关注列表</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_misc_title">其他</string>

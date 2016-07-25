@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.profile.ui;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
@@ -67,14 +65,14 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
     public void bind(final UserInfo userInfo, List<User> followingList) {
 
         final Context context = getContext();
-        OnClickListener viewMoreListener = new OnClickListener() {
+        OnClickListener viewFollowingListListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(BroadcastListActivity.makeIntent(userInfo, context));
+                context.startActivity(FollowingListActivity.makeIntent(userInfo.uid, context));
             }
         };
-        mTitleText.setOnClickListener(viewMoreListener);
-        mViewMoreText.setOnClickListener(viewMoreListener);
+        mTitleText.setOnClickListener(viewFollowingListListener);
+        mViewMoreText.setOnClickListener(viewFollowingListListener);
 
         int i = 0;
         for (final User user : followingList) {
@@ -125,7 +123,7 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         mFollwerText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO
+                context.startActivity(FollowerListActivity.makeIntent(userInfo.uid, context));
             }
         });
     }

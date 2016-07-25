@@ -7,6 +7,8 @@ package me.zhanghai.android.douya.profile.ui;
 
 import android.os.Bundle;
 
+import me.zhanghai.android.douya.user.ui.BaseUserAdapter;
+import me.zhanghai.android.douya.user.ui.UserAdapter;
 import me.zhanghai.android.douya.user.ui.UserListFragment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -28,6 +30,11 @@ public abstract class FollowshipListFragment extends UserListFragment {
         super.onCreate(savedInstanceState);
 
         mUserIdOrUid = getArguments().getString(EXTRA_USER_ID_OR_UID);
+    }
+
+    @Override
+    protected BaseUserAdapter onCreateAdapter() {
+        return new UserAdapter();
     }
 
     protected String getUserIdOrUid() {

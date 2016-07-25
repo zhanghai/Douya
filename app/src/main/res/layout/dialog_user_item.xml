@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/two_line_list_item_height"
-        android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
-        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:paddingLeft="@dimen/dialog_padding_horizontal_with_4dp_padding"
+        android:paddingRight="?dialogPreferredPadding"
         android:gravity="center_vertical">
 
         <me.zhanghai.android.douya.ui.SimpleCircleImageView
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/avatar"
             android:layout_alignTop="@id/avatar"
-            android:layout_marginLeft="@dimen/content_horizontal_margin_from_screen_edge_with_44dp_padding"
+            android:layout_marginLeft="@dimen/card_content_horizontal_space_with_4dp_padding"
             android:layout_marginTop="@dimen/avatar_padding"
             android:ellipsize="end"
             android:maxLines="1"
@@ -53,8 +53,10 @@
             android:textColor="?android:textColorSecondary" />
     </RelativeLayout>
 
+    <!-- Use Theme.Douya for ?dividerHorizontal -->
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/horizontal_divider_height"
-        android:background="?dividerHorizontal" />
+        android:background="?dividerHorizontal"
+        android:theme="@style/Theme.Douya" />
 </LinearLayout>

@@ -79,6 +79,16 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
+            android:name=".profile.ui.FollowerListActivity"
+            android:theme="@style/Theme.Douya"
+            android:label="@string/profile_follower_list_title" />
+
+        <activity
+            android:name=".profile.ui.FollowingListActivity"
+            android:theme="@style/Theme.Douya"
+            android:label="@string/profile_following_list_title" />
+
+        <activity
             android:name=".settings.ui.SettingsActivity"
             android:label="@string/settings_title"
             android:theme="@style/Theme.Douya" />

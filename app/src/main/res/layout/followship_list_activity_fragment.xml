@@ -14,9 +14,10 @@
     tools:context=".main.ui.MainActivity">
 
     <FrameLayout
-        android:id="@+id/broadcast_list_fragment"
+        android:id="@+id/followship_list_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/toolbar_height" />
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
         android:id="@+id/appBarWrapper"
