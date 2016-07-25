@@ -201,7 +201,7 @@
                     android:layout_marginLeft="@dimen/card_content_horizontal_margin"
                     android:layout_marginRight="@dimen/card_content_horizontal_margin"
                     android:text="@string/load_error"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <include layout="@layout/appbar_shadow_compat" />
             </me.zhanghai.android.douya.ui.ContentStateLayout>
