@@ -24,6 +24,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileDiariesLayout extends FriendlyCardView {
@@ -69,7 +70,7 @@ public class ProfileDiariesLayout extends FriendlyCardView {
             @Override
             public void onClick(View view) {
                 // TODO
-                UriHandler.open(String.format("https://www.douban.com/people/%s/notes",
+                UriHandler.open(StringUtils.formatUs("https://www.douban.com/people/%s/notes",
                         userInfo.getIdOrUid()), context);
                 //context.startActivity(DiaryListActivity.makeIntent(userInfo, context));
             }
@@ -108,8 +109,8 @@ public class ProfileDiariesLayout extends FriendlyCardView {
                 @Override
                 public void onClick(View view) {
                     // TODO
-                    UriHandler.open(String.format("https://www.douban.com/note/%d", diary.id),
-                            context);
+                    UriHandler.open(StringUtils.formatUs("https://www.douban.com/note/%d",
+                            diary.id), context);
                     //context.startActivity(DiaryActivity.makeIntent(diary, context));
                 }
             });

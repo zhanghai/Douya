@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.util;
 
+import java.util.Locale;
+
 public class StringUtils {
 
     private StringUtils() {}
@@ -18,5 +20,9 @@ public class StringUtils {
         } else {
             return false;
         }
+    }
+
+    public static String formatUs(String format, Object... args) {
+        return String.format(Locale.US, format, args);
     }
 }
