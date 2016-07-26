@@ -71,8 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/auth_username"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1" />
+                        android:inputType="textEmailAddress" />
                 </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
 
                 <me.zhanghai.android.materialedittext.MaterialTextInputLayout
@@ -91,8 +90,7 @@
                         android:imeActionId="@+id/ime_login"
                         android:imeActionLabel="@string/auth_log_in"
                         android:imeOptions="actionDone"
-                        android:inputType="textPassword"
-                        android:maxLines="1" />
+                        android:inputType="textPassword" />
                 </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
 
                 <Button
