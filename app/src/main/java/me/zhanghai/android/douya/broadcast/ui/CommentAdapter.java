@@ -18,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.ClickableSimpleAdapter;
-import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
@@ -55,7 +55,7 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
         holder.avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UriHandler.open(comment.author.alt, context);
+                ProfileActivity.makeIntent(comment.author, context);
             }
         });
         holder.nameText.setText(comment.author.name);

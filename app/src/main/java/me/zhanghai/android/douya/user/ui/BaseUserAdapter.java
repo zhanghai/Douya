@@ -17,8 +17,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
@@ -57,7 +57,7 @@ public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UriHandler.open(user.alt, context);
+                ProfileActivity.makeIntent(user, context);
             }
         });
         ImageUtils.loadAvatar(holder.avatarImage, user.avatar, context);
