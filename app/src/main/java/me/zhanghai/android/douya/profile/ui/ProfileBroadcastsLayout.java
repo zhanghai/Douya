@@ -114,8 +114,12 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                         imageUrl = images.get(0).medium;
                     }
                 }
-                ViewUtils.setVisibleOrGone(holder.image, !TextUtils.isEmpty(imageUrl));
-                ImageUtils.loadImage(holder.image, imageUrl, context);
+                if (!TextUtils.isEmpty(imageUrl)) {
+                    holder.image.setVisibility(VISIBLE);
+                    ImageUtils.loadImage(holder.image, imageUrl, context);
+                } else {
+                    holder.image.setVisibility(GONE);
+                }
                 holder.textText.setText(broadcast.getTextWithEntities(context));
                 holder.timeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
                 broadcastLayout.setOnClickListener(new OnClickListener() {

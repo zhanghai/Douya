@@ -26,6 +26,7 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -55,6 +56,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     ProfileBroadcastsLayout mBroadcastsLayout;
     @BindView(R.id.followship)
     ProfileFollowshipLayout mFollowshipLayout;
+    @BindView(R.id.diaries)
+    ProfileDiariesLayout mDiariesLayout;
 
     private ProfileResource mProfileResource;
 
@@ -195,10 +198,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
 
     @Override
     public void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
-                          List<User> newFollowingList) {
+                          List<User> newFollowingList, List<Diary> newDiaryList) {
         mIntroductionLayout.bind(newUserInfo);
         mBroadcastsLayout.bind(newUserInfo, newBroadcastList);
         mFollowshipLayout.bind(newUserInfo, newFollowingList);
+        mDiariesLayout.bind(newUserInfo, newDiaryList);
         mContentStateLayout.setLoaded(true);
     }
 }

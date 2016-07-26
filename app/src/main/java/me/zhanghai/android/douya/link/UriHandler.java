@@ -12,7 +12,7 @@ public class UriHandler {
 
     private UriHandler() {}
 
-    private static void open(Uri uri, Context context) {
+    public static void open(Uri uri, Context context) {
         if (DoubanUriHandler.open(uri, context)) {
             return;
         }

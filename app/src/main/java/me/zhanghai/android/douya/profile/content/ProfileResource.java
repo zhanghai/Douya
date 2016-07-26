@@ -15,13 +15,15 @@ import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
 import me.zhanghai.android.douya.content.ResourceFragment;
+import me.zhanghai.android.douya.diary.content.DiaryListResource;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ProfileResource extends ResourceFragment implements UserInfoResource.Listener,
-        BroadcastListResource.Listener, FollowingListResource.Listener {
+        BroadcastListResource.Listener, FollowingListResource.Listener, DiaryListResource.Listener {
 
     private static final String KEY_PREFIX = ProfileResource.class.getName() + '.';
 
@@ -37,6 +39,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     private UserInfoResource mUserInfoResource;
     private BroadcastListResource mBroadcastListResource;
     private FollowingListResource mFollowingListResource;
+    private DiaryListResource mDiaryListResource;
 
     private boolean mHasError;
 
@@ -111,6 +114,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         mUserInfoResource = UserInfoResource.attachTo(mUserIdOrUid, mUser, mUserInfo, this);
         mBroadcastListResource = BroadcastListResource.attachTo(mUserIdOrUid, null, this);
         mFollowingListResource = FollowingListResource.attachTo(mUserIdOrUid, this);
+        mDiaryListResource = DiaryListResource.attachTo(mUserIdOrUid, this);
     }
 
     @Override
@@ -248,15 +252,47 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         notifyChangedIfLoaded();
     }
 
+    @Override
+    public void onLoadDiaryListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadDiaryListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadDiaryListError(int requestCode, VolleyError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onDiaryListChanged(int requestCode, List<Diary> newDiaryList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onDiaryListAppended(int requestCode, List<Diary> appendedDiaryList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onDiaryChanged(int requestCode, int position, Diary newDiary) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onDiaryRemoved(int requestCode, int position) {
+        notifyChangedIfLoaded();
+    }
+
     public boolean isLoaded() {
         return hasUserInfo() && mBroadcastListResource != null && mBroadcastListResource.has()
-                && mFollowingListResource != null && mFollowingListResource.has();
+                && mFollowingListResource != null && mFollowingListResource.has()
+                && mDiaryListResource.has();
     }
 
     public void notifyChangedIfLoaded() {
         if (isLoaded()) {
             getListener().onChanged(getRequestCode(), getUserInfo(), mBroadcastListResource.get(),
-                    mFollowingListResource.get());
+                    mFollowingListResource.get(), mDiaryListResource.get());
         }
     }
 
@@ -275,6 +311,6 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         void onLoadError(int requestCode, VolleyError error);
         void onUserInfoChanged(int requestCode, UserInfo newUserInfo);
         void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
-                       List<User> newFollowingList);
+                       List<User> newFollowingList, List<Diary> newDiaryList);
     }
 }

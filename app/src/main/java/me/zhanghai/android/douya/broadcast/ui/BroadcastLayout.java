@@ -184,14 +184,14 @@ public class BroadcastLayout extends LinearLayout {
 
             Attachment attachment = broadcast.attachment;
             if (attachment != null) {
-                mAttachmentLayout.setVisibility(View.VISIBLE);
+                mAttachmentLayout.setVisibility(VISIBLE);
                 mAttachmentTitleText.setText(attachment.title);
                 mAttachmentDescriptionText.setText(attachment.description);
                 if (!TextUtils.isEmpty(attachment.image)) {
-                    mAttachmentImage.setVisibility(View.VISIBLE);
+                    mAttachmentImage.setVisibility(VISIBLE);
                     ImageUtils.loadImage(mAttachmentImage, attachment.image, context);
                 } else {
-                    mAttachmentImage.setVisibility(View.GONE);
+                    mAttachmentImage.setVisibility(GONE);
                 }
                 final String attachmentUrl = attachment.href;
                 if (!TextUtils.isEmpty(attachmentUrl)) {
@@ -205,14 +205,14 @@ public class BroadcastLayout extends LinearLayout {
                     mAttachmentLayout.setOnClickListener(null);
                 }
             } else {
-                mAttachmentLayout.setVisibility(View.GONE);
+                mAttachmentLayout.setVisibility(GONE);
             }
 
             final ArrayList<Image> images = broadcast.images.size() > 0 ? broadcast.images
                     : Photo.toImageList(broadcast.photos);
             int numImages = images.size();
             if (numImages == 1) {
-                mSingleImageLayout.setVisibility(View.VISIBLE);
+                mSingleImageLayout.setVisibility(VISIBLE);
                 mSingleImageLayout.loadImage(images.get(0));
                 mSingleImageLayout.setOnClickListener(new OnClickListener() {
                     @Override
@@ -221,10 +221,10 @@ public class BroadcastLayout extends LinearLayout {
                     }
                 });
             } else {
-                mSingleImageLayout.setVisibility(View.GONE);
+                mSingleImageLayout.setVisibility(GONE);
             }
             if (numImages > 1) {
-                mImageListLayout.setVisibility(View.VISIBLE);
+                mImageListLayout.setVisibility(VISIBLE);
                 mImageListDescriptionText.setText(context.getString(
                         R.string.broadcast_image_list_count_format, numImages));
                 mImageListAdapter.replace(images);
@@ -237,7 +237,7 @@ public class BroadcastLayout extends LinearLayout {
                             }
                         });
             } else {
-                mImageListLayout.setVisibility(View.GONE);
+                mImageListLayout.setVisibility(GONE);
             }
 
             boolean textSpaceVisible = (attachment != null || numImages > 0)
