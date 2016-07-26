@@ -62,6 +62,7 @@ public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapte
         });
         ImageUtils.loadAvatar(holder.avatarImage, user.avatar, context);
         holder.nameText.setText(user.name);
+        //noinspection deprecation
         holder.descriptionText.setText(user.uid);
     }
 

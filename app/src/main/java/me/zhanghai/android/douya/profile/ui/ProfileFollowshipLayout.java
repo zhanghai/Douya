@@ -68,7 +68,8 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         OnClickListener viewFollowingListListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(FollowingListActivity.makeIntent(userInfo.uid, context));
+                context.startActivity(FollowingListActivity.makeIntent(userInfo.getIdOrUid(),
+                        context));
             }
         };
         mTitleText.setOnClickListener(viewFollowingListListener);
@@ -123,7 +124,8 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         mFollwerText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(FollowerListActivity.makeIntent(userInfo.uid, context));
+                context.startActivity(FollowerListActivity.makeIntent(userInfo.getIdOrUid(),
+                        context));
             }
         });
     }

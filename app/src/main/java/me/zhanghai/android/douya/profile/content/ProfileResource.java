@@ -158,11 +158,11 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
             mUserInfo = arguments.getParcelable(EXTRA_USER_INFO);
             if (mUserInfo != null) {
                 mUser = mUserInfo;
-                mUserIdOrUid = mUserInfo.uid;
+                mUserIdOrUid = mUserInfo.getIdOrUid();
             } else {
                 mUser = arguments.getParcelable(EXTRA_USER);
                 if (mUser != null) {
-                    mUserIdOrUid = mUser.uid;
+                    mUserIdOrUid = mUser.getIdOrUid();
                 } else {
                     mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
                 }
@@ -185,7 +185,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     public void onUserInfoChanged(int requestCode, UserInfo newUserInfo) {
         mUserInfo = newUserInfo;
         mUser = newUserInfo;
-        mUserIdOrUid = newUserInfo.uid;
+        mUserIdOrUid = newUserInfo.getIdOrUid();
         getListener().onUserInfoChanged(getRequestCode(), newUserInfo);
         notifyChangedIfLoaded();
     }

@@ -65,7 +65,7 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarMan
         Bundle arguments = getArguments();
         mUser = arguments.getParcelable(EXTRA_USER);
         if (mUser != null) {
-            mUserIdOrUid = mUser.uid;
+            mUserIdOrUid = mUser.getIdOrUid();
         } else {
             mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
         }

@@ -26,6 +26,9 @@ public class User implements Parcelable {
 
     public String avatar;
 
+    /**
+     * @deprecated Use {@link #getIdOrUid()} instead.
+     */
     public long id;
 
     @SerializedName("is_suicide")
@@ -41,6 +44,9 @@ public class User implements Parcelable {
 
     public String type;
 
+    /**
+     * @deprecated Use {@link #getIdOrUid()} instead.
+     */
     public String uid;
 
     public String getLargeAvatarOrAvatar() {
@@ -49,11 +55,19 @@ public class User implements Parcelable {
                 && !TextUtils.equals(largeAvatar, LARGE_AVATAR_DEFAULT) ? largeAvatar : avatar;
     }
 
+    public String getIdOrUid() {
+        // Some Frodo API does not recognize uid, e.g. 'user/*/notes'.
+        //noinspection deprecation
+        return String.valueOf(id);
+    }
+
     public boolean hasIdOrUid(String idOrUid) {
+        //noinspection deprecation
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
     }
 
     public boolean isOneself(Context context) {
+        //noinspection deprecation
         return id == AccountUtils.getUserId(context);
     }
 
@@ -72,12 +86,14 @@ public class User implements Parcelable {
     protected User(Parcel in) {
         alt = in.readString();
         avatar = in.readString();
+        //noinspection deprecation
         id = in.readLong();
         isSuicided = in.readByte() != 0;
         //noinspection deprecation
         largeAvatar = in.readString();
         name = in.readString();
         type = in.readString();
+        //noinspection deprecation
         uid = in.readString();
     }
 
@@ -90,12 +106,14 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(alt);
         dest.writeString(avatar);
+        //noinspection deprecation
         dest.writeLong(id);
         dest.writeByte(isSuicided ? (byte) 1 : (byte) 0);
         //noinspection deprecation
         dest.writeString(largeAvatar);
         dest.writeString(name);
         dest.writeString(type);
+        //noinspection deprecation
         dest.writeString(uid);
     }
 }

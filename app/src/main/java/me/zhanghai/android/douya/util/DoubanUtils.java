@@ -11,11 +11,12 @@ public class DoubanUtils {
 
     private DoubanUtils() {}
 
-    public static String getAtUserString(String idOrUid) {
-        return '@' + idOrUid + ' ';
+    public static String getAtUserString(String userIdOrUid) {
+        return '@' + userIdOrUid + ' ';
     }
 
     public static String getAtUserString(User user) {
+        //noinspection deprecation
         return getAtUserString(user.uid);
     }
 }

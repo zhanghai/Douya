@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.network.api.info.apiv2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class BaseList implements Parcelable {
+public abstract class BaseList implements Parcelable {
 
     public int count;
 

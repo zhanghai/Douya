@@ -156,11 +156,11 @@ public class UserInfoResource extends ResourceFragment
             mUserInfo = arguments.getParcelable(EXTRA_USER_INFO);
             if (mUserInfo != null) {
                 mUser = mUserInfo;
-                mUserIdOrUid = mUserInfo.uid;
+                mUserIdOrUid = mUserInfo.getIdOrUid();
             } else {
                 mUser = arguments.getParcelable(EXTRA_USER);
                 if (mUser != null) {
-                    mUserIdOrUid = mUser.uid;
+                    mUserIdOrUid = mUser.getIdOrUid();
                 } else {
                     mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
                 }
@@ -240,7 +240,7 @@ public class UserInfoResource extends ResourceFragment
     private void setUserInfo(UserInfo userInfo) {
         mUserInfo = userInfo;
         mUser = mUserInfo;
-        mUserIdOrUid = mUserInfo.uid;
+        mUserIdOrUid = mUserInfo.getIdOrUid();
         getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
     }
 
