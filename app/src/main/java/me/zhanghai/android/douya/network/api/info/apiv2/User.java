@@ -19,8 +19,22 @@ public class User implements Parcelable {
     private static final String LARGE_AVATAR_DEFAULT =
             "https://img3.doubanio.com/icon/user_large.jpg";
 
-    public static final String TYPE_SITE = "site";
-    public static final String TYPE_USER = "user";
+    public enum Type {
+
+        USER("user"),
+        SITE("site");
+
+        private String apiString;
+
+        Type(String apiString) {
+            this.apiString = apiString;
+        }
+
+        public static Type ofString(String apiString) {
+            // HACK: Defaults to USER.
+            return TextUtils.equals(apiString, SITE.apiString) ? SITE : USER;
+        }
+    }
 
     public String alt;
 
@@ -42,6 +56,9 @@ public class User implements Parcelable {
 
     public String name;
 
+    /**
+     * @deprecated Use {@link #getType()} instead.
+     */
     public String type;
 
     /**
@@ -69,6 +86,11 @@ public class User implements Parcelable {
     public boolean isOneself(Context context) {
         //noinspection deprecation
         return id == AccountUtils.getUserId(context);
+    }
+
+    public Type getType() {
+        //noinspection deprecation
+        return Type.ofString(type);
     }
 
 

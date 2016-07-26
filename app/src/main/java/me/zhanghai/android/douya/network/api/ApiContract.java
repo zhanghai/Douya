@@ -59,9 +59,17 @@ public interface ApiContract {
                 String OS_ROM = "os_rom";
             }
 
-            interface Notification {
+            interface NotificationList {
 
                 String URL = API_HOST + "mine/notifications";
+
+                String START = "start";
+                String COUNT = "count";
+            }
+
+            interface DiaryList {
+
+                String URL_FORMAT = API_HOST + "user/%s/notes";
 
                 String START = "start";
                 String COUNT = "count";

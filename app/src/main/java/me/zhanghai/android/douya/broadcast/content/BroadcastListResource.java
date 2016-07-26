@@ -115,14 +115,6 @@ public class BroadcastListResource extends ResourceFragment
         mTopic = arguments.getString(EXTRA_TOPIC);
     }
 
-    protected String getUserIdOrUid() {
-        return mUserIdOrUid;
-    }
-
-    protected String getTopic() {
-        return mTopic;
-    }
-
     /**
      * @return Unmodifiable broadcast list, or {@code null}.
      */
@@ -181,8 +173,8 @@ public class BroadcastListResource extends ResourceFragment
                 untilId = mBroadcastList.get(size - 1).id;
             }
         }
-        ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(getUserIdOrUid(),
-                getTopic(), untilId, count, getActivity());
+        ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(mUserIdOrUid,
+                mTopic, untilId, count, getActivity());
         State state = new State(loadMore, count);
         RequestFragment.startRequest(request, state, this);
     }
