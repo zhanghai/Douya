@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 
 /**
  * The {@code context} argument is only used for
@@ -86,16 +87,16 @@ public class ApiRequests {
         return request;
     }
 
-    public static ApiRequest<me.zhanghai.android.douya.network.api.info.frodo.NotificationList> newNotificationListRequest(Integer start,
-                                                                                                                           Integer count,
-                                                                                                                           Context context) {
+    public static ApiRequest<NotificationList> newNotificationListRequest(Integer start,
+                                                                          Integer count,
+                                                                          Context context) {
 
-        ApiRequest<me.zhanghai.android.douya.network.api.info.frodo.NotificationList> request = new FrodoRequest<me.zhanghai.android.douya.network.api.info.frodo.NotificationList>(
+        ApiRequest<NotificationList> request = new FrodoRequest<NotificationList>(
                 ApiRequest.Method.GET, ApiContract.Request.Frodo.NotificationList.URL,
-                new TypeToken<me.zhanghai.android.douya.network.api.info.frodo.NotificationList>() {}, context) {
+                new TypeToken<NotificationList>() {}, context) {
             @Override
-            protected Response<me.zhanghai.android.douya.network.api.info.frodo.NotificationList> parseNetworkResponse(NetworkResponse response) {
-                Response<me.zhanghai.android.douya.network.api.info.frodo.NotificationList> superResponse = super.parseNetworkResponse(response);
+            protected Response<NotificationList> parseNetworkResponse(NetworkResponse response) {
+                Response<NotificationList> superResponse = super.parseNetworkResponse(response);
                 if (superResponse.isSuccess()) {
                     // Fix for Frodo API.
                     for (Notification notification : superResponse.result.notifications) {
@@ -107,10 +108,12 @@ public class ApiRequests {
         };
 
         if (start != null) {
-            request.addParam(ApiContract.Request.Frodo.NotificationList.START, String.valueOf(start));
+            request.addParam(ApiContract.Request.Frodo.NotificationList.START,
+                    String.valueOf(start));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.Frodo.NotificationList.COUNT, String.valueOf(count));
+            request.addParam(ApiContract.Request.Frodo.NotificationList.COUNT,
+                    String.valueOf(count));
         }
 
         return request;
@@ -264,7 +267,7 @@ public class ApiRequests {
     }
 
     public static ApiRequest<DiaryList> newDiaryListRequest(String userIdOrUid, Integer start,
-                                                                                                             Integer count, Context context) {
+                                                            Integer count, Context context) {
 
         ApiRequest<DiaryList> request = new FrodoRequest<>(ApiRequest.Method.GET,
                 String.format(ApiContract.Request.Frodo.DiaryList.URL_FORMAT, userIdOrUid),
