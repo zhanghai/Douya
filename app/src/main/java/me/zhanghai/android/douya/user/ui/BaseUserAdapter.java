@@ -57,7 +57,7 @@ public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProfileActivity.makeIntent(user, context);
+                context.startActivity(ProfileActivity.makeIntent(user, context));
             }
         });
         ImageUtils.loadAvatar(holder.avatarImage, user.avatar, context);
