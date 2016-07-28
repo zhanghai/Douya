@@ -55,7 +55,7 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
         holder.avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProfileActivity.makeIntent(comment.author, context);
+                context.startActivity(ProfileActivity.makeIntent(comment.author, context));
             }
         });
         holder.nameText.setText(comment.author.name);
