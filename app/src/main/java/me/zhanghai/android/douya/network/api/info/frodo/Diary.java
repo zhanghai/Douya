@@ -25,11 +25,17 @@ public class Diary implements Parcelable {
             this.apiString = apiString;
         }
 
+        public static Visibility ofString(String apiString, Visibility defaultValue) {
+            for (Visibility visibility : Visibility.values()) {
+                if (TextUtils.equals(visibility.apiString, apiString)) {
+                    return visibility;
+                }
+            }
+            return defaultValue;
+        }
+
         public static Visibility ofString(String apiString) {
-            // HACK: Defaults to PUBLIC.
-            return TextUtils.equals(apiString, PRIVATE.apiString) ? PRIVATE
-                    : TextUtils.equals(apiString, PROTECTED.apiString) ? PROTECTED
-                    : PUBLIC;
+            return ofString(apiString, PUBLIC);
         }
     }
 

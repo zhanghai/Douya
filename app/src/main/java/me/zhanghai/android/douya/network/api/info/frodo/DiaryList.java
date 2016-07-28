@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class DiaryList extends BaseList {
 
     @SerializedName("notes")
-    public ArrayList<Diary> diaries;
+    public ArrayList<Diary> diaries = new ArrayList<>();
 
 
     public static final Creator<DiaryList> CREATOR = new Creator<DiaryList>() {

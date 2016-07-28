@@ -30,9 +30,17 @@ public class User implements Parcelable {
             this.apiString = apiString;
         }
 
+        public static Type ofString(String apiString, Type defaultValue) {
+            for (Type type : Type.values()) {
+                if (TextUtils.equals(type.apiString, apiString)) {
+                    return type;
+                }
+            }
+            return defaultValue;
+        }
+
         public static Type ofString(String apiString) {
-            // HACK: Defaults to USER.
-            return TextUtils.equals(apiString, SITE.apiString) ? SITE : USER;
+            return ofString(apiString, USER);
         }
     }
 
