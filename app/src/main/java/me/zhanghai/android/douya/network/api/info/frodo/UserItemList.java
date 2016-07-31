@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class UserItemList implements Parcelable {
 
     @SerializedName("itemlist")
-    public ArrayList<UserItemListItem> list = new ArrayList<>();
+    public ArrayList<UserItem> list = new ArrayList<>();
 
 
     public static final Parcelable.Creator<UserItemList> CREATOR =
@@ -33,7 +33,7 @@ public class UserItemList implements Parcelable {
     public UserItemList() {}
 
     protected UserItemList(Parcel in) {
-        list = in.createTypedArrayList(UserItemListItem.CREATOR);
+        list = in.createTypedArrayList(UserItem.CREATOR);
     }
 
     @Override

@@ -76,7 +76,7 @@ public interface ApiContract {
             }
 
             interface UserItemList {
-                String URL_FORMAT = "user/%s/itemlist";
+                String URL_FORMAT = API_HOST + "user/%s/itemlist";
             }
         }
 

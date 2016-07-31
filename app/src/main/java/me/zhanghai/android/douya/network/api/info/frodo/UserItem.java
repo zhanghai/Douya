@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class UserItemListItem implements Parcelable {
+public class UserItem implements Parcelable {
 
     @SerializedName("status")
     public CollectedItem.State state;
@@ -25,21 +25,21 @@ public class UserItemListItem implements Parcelable {
     public Item.Type type;
 
 
-    public static final Parcelable.Creator<UserItemListItem> CREATOR =
-            new Parcelable.Creator<UserItemListItem>() {
+    public static final Parcelable.Creator<UserItem> CREATOR =
+            new Parcelable.Creator<UserItem>() {
                 @Override
-                public UserItemListItem createFromParcel(Parcel source) {
-                    return new UserItemListItem(source);
+                public UserItem createFromParcel(Parcel source) {
+                    return new UserItem(source);
                 }
                 @Override
-                public UserItemListItem[] newArray(int size) {
-                    return new UserItemListItem[size];
+                public UserItem[] newArray(int size) {
+                    return new UserItem[size];
                 }
             };
 
-    public UserItemListItem() {}
+    public UserItem() {}
 
-    protected UserItemListItem(Parcel in) {
+    protected UserItem(Parcel in) {
         int tmpState = in.readInt();
         state = tmpState == -1 ? null : CollectedItem.State.values()[tmpState];
         items = in.createTypedArrayList(Item.CREATOR);

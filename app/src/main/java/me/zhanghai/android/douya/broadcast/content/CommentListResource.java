@@ -38,6 +38,10 @@ public abstract class CommentListResource extends ResourceFragment
         return mCommentList != null ? Collections.unmodifiableList(mCommentList) : null;
     }
 
+    public boolean has() {
+        return mCommentList != null;
+    }
+
     public boolean isEmpty() {
         return mCommentList == null || mCommentList.isEmpty();
     }
