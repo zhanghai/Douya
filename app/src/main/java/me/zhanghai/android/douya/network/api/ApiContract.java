@@ -74,6 +74,10 @@ public interface ApiContract {
                 String START = "start";
                 String COUNT = "count";
             }
+
+            interface UserItemList {
+                String URL_FORMAT = "user/%s/itemlist";
+            }
         }
 
         interface ApiV2 {

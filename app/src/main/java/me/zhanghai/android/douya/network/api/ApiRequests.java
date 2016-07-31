@@ -9,6 +9,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,6 +24,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
+import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.util.StringUtils;
 
 /**
@@ -283,5 +285,12 @@ public class ApiRequests {
         }
 
         return request;
+    }
+
+    public static ApiRequest<UserItemList> newUserItemListRequest(String userIdOrUid,
+                                                                  Context context) {
+        return new FrodoRequest<>(ApiRequest.Method.GET, StringUtils.formatUs(
+                ApiContract.Request.Frodo.UserItemList.URL_FORMAT, userIdOrUid),
+                new TypeToken<UserItemList>() {}, context);
     }
 }
