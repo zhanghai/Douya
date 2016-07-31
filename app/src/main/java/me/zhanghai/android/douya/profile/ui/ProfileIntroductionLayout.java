@@ -48,19 +48,24 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
     }
 
     public void bind(String description) {
-        OnClickListener viewFullListener = new OnClickListener() {
+        mTitleText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 //context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid));
             }
-        };
-        mTitleText.setOnClickListener(viewFullListener);
+        });
         if (!TextUtils.isEmpty(description)) {
             mContentText.setText(description);
         } else {
             mContentText.setText(R.string.profile_introduction_empty);
         }
-        mContentText.setOnClickListener(viewFullListener);
+        mContentText.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                //context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid));
+                return true;
+            }
+        });
     }
 
     public void bind(UserInfo userInfo) {

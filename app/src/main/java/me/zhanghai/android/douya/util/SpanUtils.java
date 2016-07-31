@@ -23,7 +23,7 @@ import me.zhanghai.android.douya.ui.UriSpan;
 public class SpanUtils {
 
     /**
-     * Modified from {@link Patterns#WEB_URL}, with ftp added.
+     * Modified from {@link Patterns#WEB_URL}, with ftp scheme added and an optional trailing slash.
      */
     @SuppressWarnings("deprecation")
     public static final Pattern WEB_URL_PATTERN = Pattern.compile(
@@ -34,7 +34,7 @@ public class SpanUtils {
                     + "(?:\\:\\d{1,5})?)"
                     + "(\\/(?:(?:[" + Patterns.GOOD_IRI_CHAR + "\\;\\/\\?\\:\\@\\&\\=\\#\\~"
                     + "\\-\\.\\+\\!\\*\\'\\(\\)\\,\\_])|(?:\\%[a-fA-F0-9]{2}))*)?"
-                    + "(?:\\b|$)");
+                    + "(?:/|\\b|$)");
 
     private static final String[] WEB_URL_SCHEMES = { "http://", "https://", "ftp://", "rtsp://" };
 
