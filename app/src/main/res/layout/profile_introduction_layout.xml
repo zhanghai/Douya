@@ -23,11 +23,11 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="@string/profile_description_title"
+        android:text="@string/profile_introduction_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="?android:textColorSecondary" />
 
-    <TextView
+    <me.zhanghai.android.douya.ui.AutoLinkTextView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

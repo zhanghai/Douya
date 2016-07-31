@@ -183,7 +183,8 @@
     <string name="profile_following_mutual">互相关注</string>
     <string name="profile_send_doumail">发豆邮</string>
     <string name="profile_blacklist">加入黑名单</string>
-    <string name="profile_description_title">简介</string>
+    <string name="profile_introduction_title">简介</string>
+    <string name="profile_introduction_empty">没有写简介</string>
     <string name="profile_broadcasts_title">广播</string>
     <string name="profile_broadcasts_empty">最近没有发广播</string>
     <string name="profile_followship_title">关注</string>

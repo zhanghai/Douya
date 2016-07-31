@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.profile.ui;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -54,7 +55,11 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
             }
         };
         mTitleText.setOnClickListener(viewFullListener);
-        mContentText.setText(description);
+        if (!TextUtils.isEmpty(description)) {
+            mContentText.setText(description);
+        } else {
+            mContentText.setText(R.string.profile_introduction_empty);
+        }
         mContentText.setOnClickListener(viewFullListener);
     }
 
