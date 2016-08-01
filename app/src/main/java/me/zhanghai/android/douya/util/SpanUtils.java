@@ -34,7 +34,7 @@ public class SpanUtils {
                     + "(?:\\:\\d{1,5})?)"
                     + "(\\/(?:(?:[" + Patterns.GOOD_IRI_CHAR + "\\;\\/\\?\\:\\@\\&\\=\\#\\~"
                     + "\\-\\.\\+\\!\\*\\'\\(\\)\\,\\_])|(?:\\%[a-fA-F0-9]{2}))*)?"
-                    + "(?:/|\\b|$)");
+                    + "(?=\\W|$)");
 
     private static final String[] WEB_URL_SCHEMES = { "http://", "https://", "ftp://", "rtsp://" };
 
