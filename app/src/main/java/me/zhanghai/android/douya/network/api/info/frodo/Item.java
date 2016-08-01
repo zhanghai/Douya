@@ -48,6 +48,13 @@ public class Item implements Parcelable {
             return ofString(apiString, BOOK);
         }
 
+        /**
+         * @deprecated HACK-only.
+         */
+        public String getApiString() {
+            return apiString;
+        }
+
         public int getNameRes() {
             return nameRes;
         }

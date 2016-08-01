@@ -155,6 +155,14 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
                 }
             }
         }
+        if (primaryItems == null) {
+            // HACK: Frodo API omits the done item if empty, but we need it.
+            primaryItems = new UserItems();
+            //noinspection deprecation
+            primaryItems.type = type.getApiString();
+            //noinspection deprecation
+            primaryItems.state = CollectedItem.State.DONE.getApiString();
+        }
         bind(userInfo, primaryItems, secondaryItems, tertiaryItems);
     }
 

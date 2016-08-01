@@ -45,6 +45,13 @@ public class CollectedItem implements Parcelable {
             return ofString(apiString, DONE);
         }
 
+        /**
+         * @deprecated HACK-only.
+         */
+        public String getApiString() {
+            return apiString;
+        }
+
         public int getFormatRes() {
             return formatRes;
         }
