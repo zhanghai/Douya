@@ -128,8 +128,8 @@
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="@dimen/card_content_horizontal_margin"
                 android:layout_marginRight="@dimen/card_content_horizontal_margin"
-                android:layout_marginTop="@dimen/card_content_vertical_space"
-                android:layout_marginBottom="@dimen/card_content_vertical_space"
+                android:layout_marginTop="@dimen/card_content_vertical_margin"
+                android:layout_marginBottom="@dimen/card_content_vertical_margin"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1.Inverse" />
