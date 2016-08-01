@@ -52,7 +52,9 @@ public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.V
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(ViewUtils.inflate(R.layout.profile_item_item, parent));
+        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.profile_item_item, parent));
+        ViewCompat.setBackground(holder.titleLayout, DrawableUtils.makeScrimDrawable());
+        return holder;
     }
 
     @Override
@@ -87,6 +89,8 @@ public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.V
         public RatioFrameLayout itemLayout;
         @BindView(R.id.cover)
         public ImageView coverImage;
+        @BindView(R.id.title_layout)
+        public FrameLayout titleLayout;
         @BindView(R.id.title)
         public TextView titleText;
         @BindView(R.id.divider)
