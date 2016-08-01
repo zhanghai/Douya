@@ -21,6 +21,6 @@
 
     <Space
         android:id="@+id/divider"
-        android:layout_width="2dp"
+        android:layout_width="@dimen/vertical_space_width"
         android:layout_height="0dp" />
 </LinearLayout>

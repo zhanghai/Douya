@@ -37,6 +37,7 @@
     <dimen name="three_line_list_item_height">88dp</dimen>
     <!-- Using hard-coded 1dp as height for shared-element transition on Android 5.0 -->
     <dimen name="horizontal_divider_height">1dp</dimen>
+    <dimen name="vertical_space_width">2dp</dimen>
     <!-- 3x toolbar height per Material Design Spec. -->
     <dimen name="scrim_height">168dp</dimen>
     <dimen name="card_list_horizontal_padding">0dp</dimen>
