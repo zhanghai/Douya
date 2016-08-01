@@ -12,8 +12,8 @@ import android.net.Uri;
 
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
-import me.zhanghai.android.douya.profile.ui.FollowerListActivity;
-import me.zhanghai.android.douya.profile.ui.FollowingListActivity;
+import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
+import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.util.UriUtils;
 

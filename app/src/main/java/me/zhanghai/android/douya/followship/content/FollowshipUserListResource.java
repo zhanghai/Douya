@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.profile.content;
+package me.zhanghai.android.douya.followship.content;
 
 import me.zhanghai.android.douya.user.content.UserListResource;
 import me.zhanghai.android.douya.util.FragmentUtils;

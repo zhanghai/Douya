@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.profile.content;
+package me.zhanghai.android.douya.user.content;
 
 import android.os.Bundle;
 import android.support.annotation.Keep;

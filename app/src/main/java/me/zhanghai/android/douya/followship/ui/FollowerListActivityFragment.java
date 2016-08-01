@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.profile.ui;
+package me.zhanghai.android.douya.followship.ui;
 
 public class FollowerListActivityFragment extends FollowshipListActivityFragment {
 

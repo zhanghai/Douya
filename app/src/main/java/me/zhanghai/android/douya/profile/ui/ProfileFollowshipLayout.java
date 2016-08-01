@@ -18,6 +18,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
+import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;

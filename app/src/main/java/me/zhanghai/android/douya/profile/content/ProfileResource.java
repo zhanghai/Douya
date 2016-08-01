@@ -16,11 +16,13 @@ import java.util.List;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.diary.content.DiaryListResource;
+import me.zhanghai.android.douya.followship.content.FollowingListResource;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
+import me.zhanghai.android.douya.user.content.UserInfoResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ProfileResource extends ResourceFragment implements UserInfoResource.Listener,
