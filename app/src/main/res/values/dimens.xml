@@ -35,6 +35,10 @@
     <dimen name="single_line_list_item_height">56dp</dimen>
     <dimen name="two_line_list_item_height">72dp</dimen>
     <dimen name="three_line_list_item_height">88dp</dimen>
+    <dimen name="single_line_bar_height">48dp</dimen>
+    <dimen name="two_line_bar_height">68dp</dimen>
+    <dimen name="bar_horizontal_padding">16dp</dimen>
+    <dimen name="bar_horizontal_space">16dp</dimen>
     <!-- Using hard-coded 1dp as height for shared-element transition on Android 5.0 -->
     <dimen name="horizontal_divider_height">1dp</dimen>
     <dimen name="vertical_space_width">2dp</dimen>
