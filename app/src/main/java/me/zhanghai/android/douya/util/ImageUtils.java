@@ -68,6 +68,15 @@ public class ImageUtils {
                 .into(view);
     }
 
+    public static void loadImage(ImageView view,
+                                 me.zhanghai.android.douya.network.api.info.frodo.Image image,
+                                 Context context) {
+        Glide.with(context)
+                .load(image.large)
+                .placeholder(android.R.color.transparent)
+                .into(view);
+    }
+
     public static void loadImage(ImageView view, String url,
                                  RequestListener<String, GlideDrawable> listener, Context context) {
         Glide.with(context)

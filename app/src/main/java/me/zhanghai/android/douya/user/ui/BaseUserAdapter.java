@@ -42,6 +42,7 @@ public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapte
 
     @Override
     public long getItemId(int position) {
+        //noinspection deprecation
         return getItem(position).id;
     }
 

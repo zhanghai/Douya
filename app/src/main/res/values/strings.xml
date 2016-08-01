@@ -194,6 +194,24 @@
     <string name="profile_following_list_title">关注列表</string>
     <string name="profile_diaries_title">日记</string>
     <string name="profile_diaries_empty">没有写过日记</string>
+    <string name="profile_items_empty_format">没有标记%1$s的%2$s</string>
+    <string name="profile_items_non_primary_format">%1$s %2$d</string>
+
+    <string name="item_app_name">应用</string>
+    <string name="item_app_action">用</string>
+    <string name="item_book_name">书</string>
+    <string name="item_book_action">读</string>
+    <string name="item_game_name">游戏</string>
+    <string name="item_game_action">玩</string>
+    <string name="item_event_name">活动</string>
+    <string name="item_event_action">去</string>
+    <string name="item_movie_name">电影</string>
+    <string name="item_movie_action">看</string>
+    <string name="item_music_name">音乐</string>
+    <string name="item_music_action">听</string>
+    <string name="item_todo_format">想%1$s</string>
+    <string name="item_doing_format">在%1$s</string>
+    <string name="item_done_format">%1$s过</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_misc_title">其他</string>

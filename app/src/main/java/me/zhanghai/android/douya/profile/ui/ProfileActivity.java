@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +28,8 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
-import me.zhanghai.android.douya.network.api.info.frodo.UserItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Item;
+import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -59,6 +61,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     ProfileFollowshipLayout mFollowshipLayout;
     @BindView(R.id.diaries)
     ProfileDiariesLayout mDiariesLayout;
+    @BindView(R.id.books)
+    ProfileBooksLayout mBooksLayout;
+    @BindView(R.id.movies)
+    ProfileMoviesLayout mMoviesLayout;
+    @BindView(R.id.music)
+    ProfileMusicLayout mMusicLayout;
 
     private ProfileResource mProfileResource;
 
@@ -200,11 +208,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     @Override
     public void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
                           List<User> newFollowingList, List<Diary> newDiaryList,
-                          List<UserItem> newUserItemList) {
+                          List<UserItems> newUserItemList) {
         mIntroductionLayout.bind(newUserInfo);
         mBroadcastsLayout.bind(newUserInfo, newBroadcastList);
         mFollowshipLayout.bind(newUserInfo, newFollowingList);
         mDiariesLayout.bind(newUserInfo, newDiaryList);
+        mBooksLayout.bind(newUserInfo, newUserItemList);
+        mMoviesLayout.bind(newUserInfo, newUserItemList);
+        mMusicLayout.bind(newUserInfo, newUserItemList);
         mContentStateLayout.setLoaded(true);
     }
 }

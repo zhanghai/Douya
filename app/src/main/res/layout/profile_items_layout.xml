@@ -7,6 +7,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:divider="?dividerHorizontal"
@@ -23,18 +24,14 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="@string/profile_diaries_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="?android:textColorSecondary" />
 
-    <LinearLayout
-        android:id="@+id/diary_list"
+    <me.zhanghai.android.douya.ui.RatioHeightRecyclerView
+        android:id="@+id/item_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="?dividerHorizontal"
-        android:dividerPadding="@dimen/card_content_horizontal_margin"
-        android:orientation="vertical"
-        android:showDividers="middle" />
+        app:ratio="3:2" />
 
     <TextView
         android:id="@+id/empty"
@@ -43,7 +40,6 @@
         android:paddingLeft="@dimen/card_content_horizontal_margin"
         android:paddingRight="@dimen/card_content_horizontal_margin"
         android:gravity="center_vertical"
-        android:text="@string/profile_diaries_empty"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
@@ -62,4 +58,32 @@
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="?android:textColorSecondary" />
+
+    <TextView
+        android:id="@+id/secondary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/tertiary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>

@@ -132,6 +132,7 @@ public class BroadcastLayout extends LinearLayout {
         mImageListAdapter = new HorizontalImageAdapter();
         mImageList.setAdapter(mImageListAdapter);
         mImageList.addOnScrollListener(new OnHorizontalScrollListener() {
+
             private boolean mShowingDescription = true;
 
             @Override
@@ -165,7 +166,13 @@ public class BroadcastLayout extends LinearLayout {
         if (broadcast.isInterest) {
             mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
                     R.drawable.recommendation_avatar_icon_grey600_40dp));
-            mAvatarImage.setOnClickListener(null);
+            mAvatarImage.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // FIXME
+                    UriHandler.open("https://www.douban.com/interest/1/1/", context);
+                }
+            });
         } else {
             ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar, context);
             mAvatarImage.setOnClickListener(new OnClickListener() {

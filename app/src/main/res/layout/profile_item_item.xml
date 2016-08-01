@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <me.zhanghai.android.douya.ui.RatioFrameLayout
+        android:id="@+id/item"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:foreground="?selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <FrameLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scrim_height"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+                android:layout_marginRight="@dimen/card_content_horizontal_margin"
+                android:layout_marginTop="@dimen/card_content_vertical_space"
+                android:layout_marginBottom="@dimen/card_content_vertical_space"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse" />
+        </FrameLayout>
+    </me.zhanghai.android.douya.ui.RatioFrameLayout>
+
+    <Space
+        android:id="@+id/divider"
+        android:layout_width="2dp"
+        android:layout_height="0dp" />
+</LinearLayout>

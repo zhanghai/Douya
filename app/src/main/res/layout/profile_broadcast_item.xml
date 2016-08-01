@@ -14,8 +14,6 @@
     android:paddingRight="@dimen/card_content_horizontal_margin"
     android:paddingTop="@dimen/card_content_vertical_margin"
     android:paddingBottom="@dimen/card_content_vertical_margin"
-    android:clickable="true"
-    android:focusable="true"
     android:foreground="?selectableItemBackground">
 
     <ImageView

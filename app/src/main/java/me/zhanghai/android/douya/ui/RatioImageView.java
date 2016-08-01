@@ -67,32 +67,31 @@ public class RatioImageView extends ImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         if (mRatio > 0) {
-            int width;
-            int height;
             if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) {
-                height = getMeasuredHeight();
-                width = Math.round(mRatio * height);
+                int height = MeasureSpec.getSize(heightMeasureSpec);
+                int width = Math.round(mRatio * height);
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
                     width = MathUtils.clamp(width, getMinimumWidth(), getMaxWidth());
                     if (getAdjustViewBounds()) {
                         width = Math.min(width, getMeasuredWidth());
                     }
                 }
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
             } else {
-                width = getMeasuredWidth();
-                height = Math.round(width / mRatio);
+                int width = MeasureSpec.getSize(widthMeasureSpec);
+                int height = Math.round(width / mRatio);
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
                     height = MathUtils.clamp(height, getMinimumHeight(), getMaxHeight());
                     if (getAdjustViewBounds()) {
                         height = Math.min(height, getMeasuredHeight());
                     }
                 }
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             }
-
-            setMeasuredDimension(width, height);
         }
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

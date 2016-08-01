@@ -119,15 +119,19 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
             ViewUtils.setVisibleOrGone(mFollowingList.getChildAt(i), false);
         }
 
-        mFollwerText.setText(context.getString(R.string.profile_follower_count_format,
-                userInfo.followerCount));
-        mFollwerText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(FollowerListActivity.makeIntent(userInfo.getIdOrUid(),
-                        context));
-            }
-        });
+        if (userInfo.followerCount > 0) {
+            mFollwerText.setText(context.getString(R.string.profile_follower_count_format,
+                    userInfo.followerCount));
+            mFollwerText.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(FollowerListActivity.makeIntent(userInfo.getIdOrUid(),
+                            context));
+                }
+            });
+        } else {
+            mFollwerText.setVisibility(GONE);
+        }
     }
 
     static class UserLayoutHolder {

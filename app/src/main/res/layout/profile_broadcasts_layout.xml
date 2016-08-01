@@ -60,7 +60,6 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="@string/view_more"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="?android:textColorSecondary" />
 </LinearLayout>

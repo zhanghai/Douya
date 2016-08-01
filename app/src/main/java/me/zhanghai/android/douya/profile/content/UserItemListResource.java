@@ -19,7 +19,7 @@ import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
-import me.zhanghai.android.douya.network.api.info.frodo.UserItem;
+import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class UserItemListResource extends ResourceFragment
@@ -31,7 +31,7 @@ public class UserItemListResource extends ResourceFragment
 
     private String mUserIdOrUid;
 
-    private List<UserItem> mUserItemList;
+    private List<UserItems> mUserItemList;
 
     private boolean mLoading;
 
@@ -97,7 +97,7 @@ public class UserItemListResource extends ResourceFragment
     /**
      * @return Unmodifiable user item list, or {@code null}.
      */
-    public List<UserItem> get() {
+    public List<UserItems> get() {
         return mUserItemList != null ? Collections.unmodifiableList(mUserItemList) : null;
     }
 
@@ -148,7 +148,7 @@ public class UserItemListResource extends ResourceFragment
         });
     }
 
-    private void onLoadFinished(boolean successful, List<UserItem> userItemList,
+    private void onLoadFinished(boolean successful, List<UserItems> userItemList,
                                 VolleyError error) {
 
         mLoading = false;
@@ -174,6 +174,6 @@ public class UserItemListResource extends ResourceFragment
         /**
          * @param newUserItemList Unmodifiable.
          */
-        void onUserItemListChanged(int requestCode, List<UserItem> newUserItemList);
+        void onUserItemListChanged(int requestCode, List<UserItems> newUserItemList);
     }
 }

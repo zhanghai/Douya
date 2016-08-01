@@ -51,6 +51,7 @@ public class HorizontalImageAdapter
                 }
             }
         });
+        // FIXME: This won't work properly if items are changed.
         ViewUtils.setVisibleOrGone(holder.dividerSpace, position != getItemCount() - 1);
     }
 

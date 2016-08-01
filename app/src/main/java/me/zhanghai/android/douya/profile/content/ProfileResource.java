@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
-import me.zhanghai.android.douya.network.api.info.frodo.UserItem;
+import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ProfileResource extends ResourceFragment implements UserInfoResource.Listener,
@@ -299,7 +299,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     }
 
     @Override
-    public void onUserItemListChanged(int requestCode, List<UserItem> newUserItemList) {
+    public void onUserItemListChanged(int requestCode, List<UserItems> newUserItemList) {
         notifyChangedIfLoaded();
     }
 
@@ -333,6 +333,6 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         void onUserInfoChanged(int requestCode, UserInfo newUserInfo);
         void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
                        List<User> newFollowingList, List<Diary> newDiaryList,
-                       List<UserItem> newUserItemList);
+                       List<UserItems> newUserItemList);
     }
 }
