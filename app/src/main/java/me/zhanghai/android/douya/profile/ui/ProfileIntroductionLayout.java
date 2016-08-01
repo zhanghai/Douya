@@ -47,21 +47,24 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(String description) {
+    public void bind(String introduction) {
+        introduction = introduction.trim();
         mTitleText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO: Open a dialog.
                 //context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid));
             }
         });
-        if (!TextUtils.isEmpty(description)) {
-            mContentText.setText(description);
+        if (!TextUtils.isEmpty(introduction)) {
+            mContentText.setText(introduction);
         } else {
             mContentText.setText(R.string.profile_introduction_empty);
         }
         mContentText.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                // TODO: Open a dialog.
                 //context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid));
                 return true;
             }
