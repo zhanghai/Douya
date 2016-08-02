@@ -21,13 +21,16 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
+import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
+import me.zhanghai.android.douya.review.content.UserReviewListResource;
 import me.zhanghai.android.douya.user.content.UserInfoResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ProfileResource extends ResourceFragment implements UserInfoResource.Listener,
         BroadcastListResource.Listener, FollowingListResource.Listener,
-        UserDiaryListResource.Listener, UserItemListResource.Listener {
+        UserDiaryListResource.Listener, UserItemListResource.Listener,
+        UserReviewListResource.Listener {
 
     private static final String KEY_PREFIX = ProfileResource.class.getName() + '.';
 
@@ -45,6 +48,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     private FollowingListResource mFollowingListResource;
     private UserDiaryListResource mDiaryListResource;
     private UserItemListResource mUserItemListResource;
+    private UserReviewListResource mReviewListResource;
 
     private boolean mHasError;
 
@@ -121,6 +125,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         mFollowingListResource = FollowingListResource.attachTo(mUserIdOrUid, this);
         mDiaryListResource = UserDiaryListResource.attachTo(mUserIdOrUid, this);
         mUserItemListResource = UserItemListResource.attachTo(mUserIdOrUid, this);
+        mReviewListResource = UserReviewListResource.attachTo(mUserIdOrUid, this);
     }
 
     @Override
@@ -305,17 +310,49 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         notifyChangedIfLoaded();
     }
 
+    @Override
+    public void onLoadReviewListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadReviewListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadReviewListError(int requestCode, VolleyError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onReviewListChanged(int requestCode, List<Review> newReviewList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onReviewListAppended(int requestCode, List<Review> appendedReviewList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onReviewChanged(int requestCode, int position, Review newReview) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onReviewRemoved(int requestCode, int position) {
+        notifyChangedIfLoaded();
+    }
+
     public boolean isLoaded() {
         return hasUserInfo() && mBroadcastListResource != null && mBroadcastListResource.has()
                 && mFollowingListResource != null && mFollowingListResource.has()
-                && mDiaryListResource.has() && mUserItemListResource.has();
+                && mDiaryListResource.has() && mUserItemListResource.has()
+                && mReviewListResource.has();
     }
 
     public void notifyChangedIfLoaded() {
         if (isLoaded()) {
             getListener().onChanged(getRequestCode(), getUserInfo(), mBroadcastListResource.get(),
                     mFollowingListResource.get(), mDiaryListResource.get(),
-                    mUserItemListResource.get());
+                    mUserItemListResource.get(), mReviewListResource.get());
         }
     }
 
@@ -335,6 +372,6 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         void onUserInfoChanged(int requestCode, UserInfo newUserInfo);
         void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
                        List<User> newFollowingList, List<Diary> newDiaryList,
-                       List<UserItems> newUserItemList);
+                       List<UserItems> newUserItemList, List<Review> newReviewList);
     }
 }
