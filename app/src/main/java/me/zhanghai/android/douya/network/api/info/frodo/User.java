@@ -34,9 +34,6 @@ public class User implements Parcelable {
     @SerializedName("large_avatar")
     public String largeAvatar;
 
-    @SerializedName("last_visit_time")
-    public String lastVisitTime;
-
     @SerializedName("loc")
     public Location location;
 
@@ -86,7 +83,6 @@ public class User implements Parcelable {
         type = in.readString();
         //noinspection deprecation
         largeAvatar = in.readString();
-        lastVisitTime = in.readString();
         location = in.readParcelable(Location.class.getClassLoader());
         name = in.readString();
         uid = in.readString();
@@ -108,7 +104,6 @@ public class User implements Parcelable {
         dest.writeString(type);
         //noinspection deprecation
         dest.writeString(largeAvatar);
-        dest.writeString(lastVisitTime);
         dest.writeParcelable(location, flags);
         dest.writeString(name);
         dest.writeString(uid);

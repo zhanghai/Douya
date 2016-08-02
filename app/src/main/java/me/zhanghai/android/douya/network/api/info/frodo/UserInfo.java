@@ -11,6 +11,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserInfo extends User {
 
+    public enum VerificationType {
+
+        NONE,
+        OFFICIAL,
+        THIRD_PARTY;
+
+        public static VerificationType ofApiInt(int apiInt, VerificationType defaultValue) {
+            if (apiInt >= 0 && apiInt < values().length) {
+                return values()[apiInt];
+            } else {
+                return defaultValue;
+            }
+        }
+
+        public static VerificationType ofApiInt(int apiInt) {
+            return ofApiInt(apiInt, NONE);
+        }
+    }
+
     public String birthday;
 
     @SerializedName("collected_subjects_count")
@@ -70,6 +89,20 @@ public class UserInfo extends User {
     @SerializedName("updated_profile")
     public boolean hasUpdatedProfile;
 
+    /**
+     * @deprecated Use {@link #getVerificationType()} instead.
+     */
+    @SerializedName("verify_type")
+    public int verificationType;
+
+    @SerializedName("verify_reason")
+    public String verificationReason;
+
+    public VerificationType getVerificationType() {
+        //noinspection deprecation
+        return VerificationType.ofApiInt(verificationType);
+    }
+
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
         @Override
@@ -106,6 +139,9 @@ public class UserInfo extends User {
         setiChannelCount = in.readInt();
         broadcastCount = in.readInt();
         hasUpdatedProfile = in.readByte() != 0;
+        //noinspection deprecation
+        verificationType = in.readInt();
+        verificationReason = in.readString();
     }
 
     @Override
@@ -136,5 +172,8 @@ public class UserInfo extends User {
         dest.writeInt(setiChannelCount);
         dest.writeInt(broadcastCount);
         dest.writeByte(hasUpdatedProfile ? (byte) 1 : (byte) 0);
+        //noinspection deprecation
+        dest.writeInt(verificationType);
+        dest.writeString(verificationReason);
     }
 }

@@ -72,7 +72,7 @@ public class ImageUtils {
                                  me.zhanghai.android.douya.network.api.info.frodo.Image image,
                                  Context context) {
         Glide.with(context)
-                .load(image.large)
+                .load(image.getLarge())
                 .placeholder(android.R.color.transparent)
                 .into(view);
     }
