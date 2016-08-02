@@ -77,7 +77,7 @@ public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.V
                 UriHandler.open(item.url, context);
             }
         });
-        ImageUtils.loadImage(holder.coverImage, item.cover, context);
+        ImageUtils.loadImage(holder.coverImage, item.cover.getLarge(), context);
         holder.titleText.setText(item.title);
         // FIXME: This won't work properly if items are changed.
         ViewUtils.setVisibleOrGone(holder.dividerSpace, position != getItemCount() - 1);

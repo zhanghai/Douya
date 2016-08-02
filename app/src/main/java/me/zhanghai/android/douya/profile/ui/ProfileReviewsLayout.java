@@ -97,9 +97,13 @@ public class ProfileReviewsLayout extends FriendlyCardView {
                 ViewUtils.setTextViewLinkClickable(holder.titleText);
             }
 
-            if (!TextUtils.isEmpty(review.cover)) {
+            String coverUrl = review.cover;
+            if (TextUtils.isEmpty(coverUrl) && review.item != null && review.item.cover != null) {
+                coverUrl = review.item.cover.getNormal();
+            }
+            if (!TextUtils.isEmpty(coverUrl)) {
                 holder.coverImage.setVisibility(VISIBLE);
-                ImageUtils.loadImage(holder.coverImage, review.cover, context);
+                ImageUtils.loadImage(holder.coverImage, coverUrl, context);
             } else {
                 holder.coverImage.setVisibility(GONE);
             }

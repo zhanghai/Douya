@@ -29,12 +29,12 @@ public class Image implements Parcelable {
 
     public String getNormal() {
         //noinspection deprecation
-        return TextUtils.isEmpty(normal) ? large : normal;
+        return !TextUtils.isEmpty(normal) ? normal : large;
     }
 
     public String getLarge() {
         //noinspection deprecation
-        return TextUtils.isEmpty(large) ? normal : large;
+        return !TextUtils.isEmpty(large) ? large : normal;
     }
 
     public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
