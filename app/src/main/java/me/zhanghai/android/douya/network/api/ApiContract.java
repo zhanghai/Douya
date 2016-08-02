@@ -78,6 +78,14 @@ public interface ApiContract {
             interface UserItemList {
                 String URL_FORMAT = API_HOST + "user/%s/itemlist";
             }
+
+            interface ReviewList {
+
+                String URL_FORMAT = API_HOST + "user/%s/reviews";
+
+                String START = "start";
+                String COUNT = "count";
+            }
         }
 
         interface ApiV2 {
