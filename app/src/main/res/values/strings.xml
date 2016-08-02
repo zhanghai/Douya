@@ -196,6 +196,8 @@
     <string name="profile_diaries_empty">没有写过日记</string>
     <string name="profile_items_empty_format">没有标记%1$s的%2$s</string>
     <string name="profile_items_non_primary_format">%1$s（%2$d）</string>
+    <string name="profile_reviews_title">评论</string>
+    <string name="profile_reviews_empty">没有写过评论</string>
 
     <string name="item_app_name">应用</string>
     <string name="item_app_action">用</string>

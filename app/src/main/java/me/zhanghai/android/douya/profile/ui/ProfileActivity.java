@@ -68,6 +68,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     ProfileMoviesLayout mMoviesLayout;
     @BindView(R.id.music)
     ProfileMusicLayout mMusicLayout;
+    @BindView(R.id.reviews)
+    ProfileReviewsLayout mReviewsLayout;
 
     private ProfileResource mProfileResource;
 
@@ -217,6 +219,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
         mBooksLayout.bind(newUserInfo, newUserItemList);
         mMoviesLayout.bind(newUserInfo, newUserItemList);
         mMusicLayout.bind(newUserInfo, newUserItemList);
+        mReviewsLayout.bind(newUserInfo, newReviewList);
         mContentStateLayout.setLoaded(true);
     }
 }
