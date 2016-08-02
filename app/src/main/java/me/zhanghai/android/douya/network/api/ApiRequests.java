@@ -274,14 +274,14 @@ public class ApiRequests {
                                                             Integer count, Context context) {
 
         ApiRequest<DiaryList> request = new FrodoRequest<>(ApiRequest.Method.GET,
-                StringUtils.formatUs(ApiContract.Request.Frodo.DiaryList.URL_FORMAT, userIdOrUid),
-                new TypeToken<DiaryList>() {}, context);
+                StringUtils.formatUs(ApiContract.Request.Frodo.UserDiaryList.URL_FORMAT,
+                        userIdOrUid), new TypeToken<DiaryList>() {}, context);
 
         if (start != null) {
-            request.addParam(ApiContract.Request.Frodo.DiaryList.START, String.valueOf(start));
+            request.addParam(ApiContract.Request.Frodo.UserDiaryList.START, String.valueOf(start));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.Frodo.DiaryList.COUNT, String.valueOf(count));
+            request.addParam(ApiContract.Request.Frodo.UserDiaryList.COUNT, String.valueOf(count));
         }
 
         return request;
@@ -294,18 +294,35 @@ public class ApiRequests {
                 new TypeToken<UserItemList>() {}, context);
     }
 
-    public static ApiRequest<ReviewList> newReviewListRequest(String userIdOrUid, Integer start,
-                                                              Integer count, Context context) {
+    public static ApiRequest<ReviewList> newUserReviewListRequest(String userIdOrUid, Integer start,
+                                                                  Integer count, Context context) {
 
         ApiRequest<ReviewList> request = new FrodoRequest<>(ApiRequest.Method.GET,
-                StringUtils.formatUs(ApiContract.Request.Frodo.ReviewList.URL_FORMAT, userIdOrUid),
+                StringUtils.formatUs(ApiContract.Request.Frodo.UserReviewList.URL_FORMAT,
+                        userIdOrUid), new TypeToken<ReviewList>() {}, context);
+
+        if (start != null) {
+            request.addParam(ApiContract.Request.Frodo.UserReviewList.START, String.valueOf(start));
+        }
+        if (count != null) {
+            request.addParam(ApiContract.Request.Frodo.UserReviewList.COUNT, String.valueOf(count));
+        }
+
+        return request;
+    }
+
+    public static ApiRequest<ReviewList> newItemReviewListRequest(long itemId, Integer start,
+                                                                  Integer count, Context context) {
+
+        ApiRequest<ReviewList> request = new FrodoRequest<>(ApiRequest.Method.GET,
+                StringUtils.formatUs(ApiContract.Request.Frodo.ItemReviewList.URL_FORMAT, itemId),
                 new TypeToken<ReviewList>() {}, context);
 
         if (start != null) {
-            request.addParam(ApiContract.Request.Frodo.ReviewList.START, String.valueOf(start));
+            request.addParam(ApiContract.Request.Frodo.ItemReviewList.START, String.valueOf(start));
         }
         if (count != null) {
-            request.addParam(ApiContract.Request.Frodo.ReviewList.COUNT, String.valueOf(count));
+            request.addParam(ApiContract.Request.Frodo.ItemReviewList.COUNT, String.valueOf(count));
         }
 
         return request;

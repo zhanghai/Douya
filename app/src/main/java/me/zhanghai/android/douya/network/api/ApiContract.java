@@ -67,7 +67,7 @@ public interface ApiContract {
                 String COUNT = "count";
             }
 
-            interface DiaryList {
+            interface UserDiaryList {
 
                 String URL_FORMAT = API_HOST + "user/%s/notes";
 
@@ -79,9 +79,17 @@ public interface ApiContract {
                 String URL_FORMAT = API_HOST + "user/%s/itemlist";
             }
 
-            interface ReviewList {
+            interface UserReviewList {
 
                 String URL_FORMAT = API_HOST + "user/%s/reviews";
+
+                String START = "start";
+                String COUNT = "count";
+            }
+
+            interface ItemReviewList {
+
+                String URL_FORMAT = API_HOST + "subject/%d/reviews";
 
                 String START = "start";
                 String COUNT = "count";

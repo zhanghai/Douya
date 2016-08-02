@@ -15,7 +15,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
 import me.zhanghai.android.douya.content.ResourceFragment;
-import me.zhanghai.android.douya.diary.content.DiaryListResource;
+import me.zhanghai.android.douya.diary.content.UserDiaryListResource;
 import me.zhanghai.android.douya.followship.content.FollowingListResource;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
@@ -26,8 +26,8 @@ import me.zhanghai.android.douya.user.content.UserInfoResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ProfileResource extends ResourceFragment implements UserInfoResource.Listener,
-        BroadcastListResource.Listener, FollowingListResource.Listener, DiaryListResource.Listener,
-        UserItemListResource.Listener {
+        BroadcastListResource.Listener, FollowingListResource.Listener,
+        UserDiaryListResource.Listener, UserItemListResource.Listener {
 
     private static final String KEY_PREFIX = ProfileResource.class.getName() + '.';
 
@@ -43,7 +43,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     private UserInfoResource mUserInfoResource;
     private BroadcastListResource mBroadcastListResource;
     private FollowingListResource mFollowingListResource;
-    private DiaryListResource mDiaryListResource;
+    private UserDiaryListResource mDiaryListResource;
     private UserItemListResource mUserItemListResource;
 
     private boolean mHasError;
@@ -119,7 +119,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         mUserInfoResource = UserInfoResource.attachTo(mUserIdOrUid, mUser, mUserInfo, this);
         mBroadcastListResource = BroadcastListResource.attachTo(mUserIdOrUid, null, this);
         mFollowingListResource = FollowingListResource.attachTo(mUserIdOrUid, this);
-        mDiaryListResource = DiaryListResource.attachTo(mUserIdOrUid, this);
+        mDiaryListResource = UserDiaryListResource.attachTo(mUserIdOrUid, this);
         mUserItemListResource = UserItemListResource.attachTo(mUserIdOrUid, this);
     }
 

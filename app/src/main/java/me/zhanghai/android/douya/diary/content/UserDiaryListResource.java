@@ -26,15 +26,14 @@ import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class DiaryListResource extends ResourceFragment
-        implements RequestFragment.Listener<DiaryList, DiaryListResource.State> {
+public class UserDiaryListResource extends ResourceFragment
+        implements RequestFragment.Listener<DiaryList, UserDiaryListResource.State> {
 
     private static final int DEFAULT_COUNT_PER_LOAD = 20;
 
-    // Not static because we are to be subclassed.
-    private final String KEY_PREFIX = getClass().getName() + '.';
+    private static final String KEY_PREFIX = UserDiaryListResource.class.getName() + '.';
 
-    public final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
 
     private String mUserIdOrUid;
 
@@ -44,37 +43,37 @@ public class DiaryListResource extends ResourceFragment
     private boolean mLoading;
     private boolean mLoadingMore;
 
-    private static final String FRAGMENT_TAG_DEFAULT = DiaryListResource.class.getName();
+    private static final String FRAGMENT_TAG_DEFAULT = UserDiaryListResource.class.getName();
 
-    private static DiaryListResource newInstance(String userIdOrUid) {
+    private static UserDiaryListResource newInstance(String userIdOrUid) {
         //noinspection deprecation
-        DiaryListResource resource = new DiaryListResource();
+        UserDiaryListResource resource = new UserDiaryListResource();
         resource.setArguments(userIdOrUid);
         return resource;
     }
 
-    public static DiaryListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                             String tag, int requestCode) {
+    public static UserDiaryListResource attachTo(String userIdOrUid, FragmentActivity activity,
+                                                 String tag, int requestCode) {
         return attachTo(userIdOrUid, activity, tag, true, null, requestCode);
     }
 
-    public static DiaryListResource attachTo(String userIdOrUid, FragmentActivity activity) {
+    public static UserDiaryListResource attachTo(String userIdOrUid, FragmentActivity activity) {
         return attachTo(userIdOrUid, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
     }
 
-    public static DiaryListResource attachTo(String userIdOrUid, Fragment fragment, String tag,
-                                             int requestCode) {
+    public static UserDiaryListResource attachTo(String userIdOrUid, Fragment fragment, String tag,
+                                                 int requestCode) {
         return attachTo(userIdOrUid, fragment.getActivity(), tag, false, fragment, requestCode);
     }
 
-    public static DiaryListResource attachTo(String userIdOrUid, Fragment fragment) {
+    public static UserDiaryListResource attachTo(String userIdOrUid, Fragment fragment) {
         return attachTo(userIdOrUid, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
     }
 
-    private static DiaryListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                              String tag, boolean targetAtActivity,
-                                              Fragment targetFragment, int requestCode) {
-        DiaryListResource resource = FragmentUtils.findByTag(activity, tag);
+    private static UserDiaryListResource attachTo(String userIdOrUid, FragmentActivity activity,
+                                                  String tag, boolean targetAtActivity,
+                                                  Fragment targetFragment, int requestCode) {
+        UserDiaryListResource resource = FragmentUtils.findByTag(activity, tag);
         if (resource == null) {
             resource = newInstance(userIdOrUid);
             if (targetAtActivity) {
@@ -90,7 +89,7 @@ public class DiaryListResource extends ResourceFragment
     /**
      * @deprecated Use {@code attachTo()} instead.
      */
-    public DiaryListResource() {}
+    public UserDiaryListResource() {}
 
     private void setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this).putString(EXTRA_USER_ID_OR_UID, userIdOrUid);

@@ -24,84 +24,17 @@ import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
-import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class ReviewListResource extends ResourceFragment
-        implements RequestFragment.Listener<ReviewList, ReviewListResource.State> {
+public abstract class BaseReviewListResource extends ResourceFragment
+        implements RequestFragment.Listener<ReviewList, BaseReviewListResource.State> {
 
     private static final int DEFAULT_COUNT_PER_LOAD = 20;
-
-    // Not static because we are to be subclassed.
-    private final String KEY_PREFIX = getClass().getName() + '.';
-
-    public final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
-
-    private String mUserIdOrUid;
 
     private List<Review> mReviewList;
 
     private boolean mCanLoadMore = true;
     private boolean mLoading;
     private boolean mLoadingMore;
-
-    private static final String FRAGMENT_TAG_DEFAULT = ReviewListResource.class.getName();
-
-    private static ReviewListResource newInstance(String userIdOrUid) {
-        //noinspection deprecation
-        ReviewListResource resource = new ReviewListResource();
-        resource.setArguments(userIdOrUid);
-        return resource;
-    }
-
-    public static ReviewListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                              String tag, int requestCode) {
-        return attachTo(userIdOrUid, activity, tag, true, null, requestCode);
-    }
-
-    public static ReviewListResource attachTo(String userIdOrUid, FragmentActivity activity) {
-        return attachTo(userIdOrUid, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    public static ReviewListResource attachTo(String userIdOrUid, Fragment fragment, String tag,
-                                              int requestCode) {
-        return attachTo(userIdOrUid, fragment.getActivity(), tag, false, fragment, requestCode);
-    }
-
-    public static ReviewListResource attachTo(String userIdOrUid, Fragment fragment) {
-        return attachTo(userIdOrUid, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    private static ReviewListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                               String tag, boolean targetAtActivity,
-                                               Fragment targetFragment, int requestCode) {
-        ReviewListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(userIdOrUid);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
-    }
-
-    /**
-     * @deprecated Use {@code attachTo()} instead.
-     */
-    public ReviewListResource() {}
-
-    private void setArguments(String userIdOrUid) {
-        FragmentUtils.ensureArguments(this).putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mUserIdOrUid = getArguments().getString(EXTRA_USER_ID_OR_UID);
-    }
 
     /**
      * @return Unmodifiable review list, or {@code null}.
@@ -155,8 +88,7 @@ public class ReviewListResource extends ResourceFragment
         getListener().onLoadReviewListStarted(getRequestCode());
 
         Integer start = loadMore ? (mReviewList != null ? mReviewList.size() : 0) : null;
-        ApiRequest<ReviewList> request = ApiRequests.newReviewListRequest(mUserIdOrUid, start, count,
-                getActivity());
+        ApiRequest<ReviewList> request = onCreateRequest(start, count);
         State state = new State(loadMore, count);
         RequestFragment.startRequest(request, state, this);
     }
@@ -164,6 +96,8 @@ public class ReviewListResource extends ResourceFragment
     public void load(boolean loadMore) {
         load(loadMore, DEFAULT_COUNT_PER_LOAD);
     }
+
+    protected abstract ApiRequest<ReviewList> onCreateRequest(Integer start, Integer count);
 
     @Override
     public void onVolleyResponse(int requestCode, final boolean successful,
