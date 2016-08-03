@@ -75,18 +75,6 @@ public class SingleBroadcastAdapter
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Broadcast broadcast = mBroadcast;
         holder.broadcastLayout.bindBroadcast(broadcast);
-        holder.broadcastLayout.mLikeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onLike(broadcast, !broadcast.isLiked);
-            }
-        });
-        holder.broadcastLayout.mRebroadcastButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onRebroadcast(broadcast, !broadcast.isRebroadcasted());
-            }
-        });
         holder.broadcastLayout.mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,8 +95,6 @@ public class SingleBroadcastAdapter
     }
 
     public interface Listener {
-        void onLike(Broadcast broadcast, boolean like);
-        void onRebroadcast(Broadcast broadcast, boolean rebroadcast);
         void onComment(Broadcast broadcast);
         void onViewActivity(Broadcast broadcast);
     }

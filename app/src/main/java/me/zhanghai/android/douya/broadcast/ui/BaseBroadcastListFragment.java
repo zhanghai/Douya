@@ -29,8 +29,6 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
-import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
-import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
@@ -213,16 +211,6 @@ public abstract class BaseBroadcastListFragment extends Fragment
                 && !loadingMore);
         ViewUtils.setVisibleOrGone(mProgress, loading && empty);
         mAdapter.setProgressVisible(loading && !empty && loadingMore);
-    }
-
-    @Override
-    public void onLikeBroadcast(Broadcast broadcast, boolean like) {
-        LikeBroadcastManager.getInstance().write(broadcast, like, getActivity());
-    }
-
-    @Override
-    public void onRebroadcastBroadcast(Broadcast broadcast, boolean rebroadcast) {
-        RebroadcastBroadcastManager.getInstance().write(broadcast, rebroadcast, getActivity());
     }
 
     @Override

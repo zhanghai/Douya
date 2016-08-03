@@ -59,18 +59,6 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
             }
         });
         holder.broadcastLayout.bindBroadcast(broadcast);
-        holder.broadcastLayout.mLikeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onLikeBroadcast(broadcast, !broadcast.isLiked);
-            }
-        });
-        holder.broadcastLayout.mRebroadcastButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onRebroadcastBroadcast(broadcast, !broadcast.isRebroadcasted());
-            }
-        });
         holder.broadcastLayout.mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,8 +84,6 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
     }
 
     public interface Listener {
-        void onLikeBroadcast(Broadcast broadcast, boolean like);
-        void onRebroadcastBroadcast(Broadcast broadcast, boolean rebroadcast);
         void onCommentBroadcast(Broadcast broadcast, View sharedView);
         void onOpenBroadcast(Broadcast broadcast, View sharedView);
     }

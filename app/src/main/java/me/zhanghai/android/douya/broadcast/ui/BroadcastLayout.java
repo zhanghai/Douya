@@ -55,33 +55,33 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class BroadcastLayout extends LinearLayout {
 
     @BindView(R.id.avatar)
-    public ImageView mAvatarImage;
+    ImageView mAvatarImage;
     @BindView(R.id.name)
-    public TextView mNameText;
+    TextView mNameText;
     @BindView(R.id.time_action)
-    public TimeActionTextView mTimeActionText;
+    TimeActionTextView mTimeActionText;
     @BindView(R.id.attachment)
-    public RelativeLayout mAttachmentLayout;
+    RelativeLayout mAttachmentLayout;
     @BindView(R.id.attachment_image)
-    public ImageView mAttachmentImage;
+    ImageView mAttachmentImage;
     @BindView(R.id.attachment_title)
-    public TextView mAttachmentTitleText;
+    TextView mAttachmentTitleText;
     @BindView(R.id.attachment_description)
-    public TextView mAttachmentDescriptionText;
+    TextView mAttachmentDescriptionText;
     @BindView(R.id.single_image)
-    public ImageLayout mSingleImageLayout;
+    ImageLayout mSingleImageLayout;
     @BindView(R.id.image_list_layout)
-    public FrameLayout mImageListLayout;
+    FrameLayout mImageListLayout;
     @BindView(R.id.image_list_description_layout)
-    public FrameLayout mImageListDescriptionLayout;
+    FrameLayout mImageListDescriptionLayout;
     @BindView(R.id.image_list_description)
-    public TextView mImageListDescriptionText;
+    TextView mImageListDescriptionText;
     @BindView(R.id.image_list)
-    public RatioHeightRecyclerView mImageList;
+    RatioHeightRecyclerView mImageList;
     @BindView(R.id.text_space)
-    public Space mTextSpace;
+    Space mTextSpace;
     @BindView(R.id.text)
-    public TextView mTextText;
+    TextView mTextText;
     @BindView(R.id.like)
     public CardIconButton mLikeButton;
     @BindView(R.id.comment)
@@ -262,6 +262,12 @@ public class BroadcastLayout extends LinearLayout {
             mLikeButton.setActivated(broadcast.isLiked);
             mLikeButton.setEnabled(true);
         }
+        mLikeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LikeBroadcastManager.getInstance().write(broadcast, !broadcast.isLiked, context);
+            }
+        });
         RebroadcastBroadcastManager rebroadcastBroadcastManager =
                 RebroadcastBroadcastManager.getInstance();
         if (rebroadcastBroadcastManager.isWriting(broadcast.id)) {
@@ -272,6 +278,13 @@ public class BroadcastLayout extends LinearLayout {
             mRebroadcastButton.setActivated(broadcast.isRebroadcasted());
             mRebroadcastButton.setEnabled(true);
         }
+        mRebroadcastButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RebroadcastBroadcastManager.getInstance().write(broadcast,
+                        !broadcast.isRebroadcasted(), context);
+            }
+        });
         mCommentButton.setText(broadcast.getCommentCountString());
 
         mBoundBroadcastId = broadcast.id;

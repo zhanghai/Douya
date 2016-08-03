@@ -42,8 +42,6 @@ import me.zhanghai.android.douya.broadcast.content.BroadcastAndCommentListResour
 import me.zhanghai.android.douya.broadcast.content.BroadcastCommentCountFixer;
 import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastCommentManager;
 import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastManager;
-import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
-import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.SendBroadcastCommentManager;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
@@ -399,16 +397,6 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                 && (mSwipeRefreshLayout.isRefreshing() || hasBroadcast));
         ViewUtils.setVisibleOrGone(mProgress, loadingBroadcast && !hasBroadcast);
         mAdapter.setProgressVisible(hasBroadcast && loadingCommentList);
-    }
-
-    @Override
-    public void onLike(Broadcast broadcast, boolean like) {
-        LikeBroadcastManager.getInstance().write(broadcast, like, getActivity());
-    }
-
-    @Override
-    public void onRebroadcast(Broadcast broadcast, boolean rebroadcast) {
-        RebroadcastBroadcastManager.getInstance().write(broadcast, rebroadcast, getActivity());
     }
 
     @Override
