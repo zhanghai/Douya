@@ -119,6 +119,10 @@ public interface ApiContract {
                 String UID_CURRENT = "~me";
             }
 
+            interface Followship {
+                String URL_FORMAT = API_HOST + "lifestream/user/%s/follow";
+            }
+
             interface FollowingList {
 
                 String URL_FORMAT = API_HOST + "lifestream/user/%s/followings";
@@ -256,6 +260,10 @@ public interface ApiContract {
                     int INVALID_REQUEST_SOURCE = 126;
                     int THIRDPARTY_LOGIN_AUTH_FAILED = 127;
                     int USER_LOCKED = 128;
+                }
+                interface Followship {
+                    int ALREADY_FOLLOWED = 10003;
+                    int NOT_FOLLOWED_YET = 10005;
                 }
                 interface Broadcast {
                     int NOT_FOUND = 11110;

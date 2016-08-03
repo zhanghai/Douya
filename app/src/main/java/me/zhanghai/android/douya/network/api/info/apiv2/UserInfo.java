@@ -60,6 +60,17 @@ public class UserInfo extends User {
     @SerializedName("statuses_count")
     public int broadcastCount;
 
+    public void fixFollowed(boolean followed) {
+        if (isFollowed != followed) {
+            isFollowed = followed;
+            if (isFollowed) {
+                ++followerCount;
+            } else {
+                --followerCount;
+            }
+        }
+    }
+
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
         public UserInfo createFromParcel(Parcel source) {

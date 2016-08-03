@@ -19,6 +19,7 @@ import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastCommentManager
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.SendBroadcastCommentManager;
+import me.zhanghai.android.douya.followship.content.FollowUserManager;
 
 public class ResourceWriterService extends Service {
 
@@ -32,6 +33,7 @@ public class ResourceWriterService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        addWriterManager(FollowUserManager.getInstance());
         addWriterManager(LikeBroadcastManager.getInstance());
         addWriterManager(RebroadcastBroadcastManager.getInstance());
         addWriterManager(DeleteBroadcastManager.getInstance());

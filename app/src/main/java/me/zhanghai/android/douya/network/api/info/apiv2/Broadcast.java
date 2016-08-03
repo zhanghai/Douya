@@ -89,9 +89,9 @@ public class Broadcast implements Parcelable {
     }
 
     public void fixLiked(boolean liked) {
-        if (this.isLiked != liked) {
-            this.isLiked = liked;
-            if (this.isLiked) {
+        if (isLiked != liked) {
+            isLiked = liked;
+            if (isLiked) {
                 ++likeCount;
             } else {
                 --likeCount;

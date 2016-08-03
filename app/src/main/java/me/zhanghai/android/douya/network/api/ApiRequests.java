@@ -46,6 +46,14 @@ public class ApiRequests {
                 new TypeToken<UserInfo>() {}, context);
     }
 
+    public static ApiRequest<UserInfo> newFollowshipRequest(String userIdOrUid, boolean follow,
+                                                            Context context) {
+
+        return new LifeStreamRequest<>(follow ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
+                StringUtils.formatUs(ApiContract.Request.ApiV2.Followship.URL_FORMAT, userIdOrUid),
+                new TypeToken<UserInfo>() {}, context);
+    }
+
     public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
                                                                Integer count, String tag,
                                                                Context context) {
