@@ -82,8 +82,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
     private static View getSharedView(ViewHolder holder) {
         Context context = holder.itemView.getContext();
         // HACK: Transition is so hard to work with, but this gives a better effect.
-        View view = ViewUtils.hasSw600dp(context) ? holder.cardView : holder.broadcastLayout;
-        return view;
+        return ViewUtils.hasSw600dp(context) ? holder.cardView : holder.broadcastLayout;
     }
 
     @Override
