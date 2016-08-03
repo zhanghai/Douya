@@ -83,11 +83,11 @@ public class BroadcastLayout extends LinearLayout {
     @BindView(R.id.text)
     TextView mTextText;
     @BindView(R.id.like)
-    public CardIconButton mLikeButton;
+    CardIconButton mLikeButton;
     @BindView(R.id.comment)
     public CardIconButton mCommentButton;
     @BindView(R.id.rebroadcast)
-    public CardIconButton mRebroadcastButton;
+    CardIconButton mRebroadcastButton;
 
     private HorizontalImageAdapter mImageListAdapter;
 
