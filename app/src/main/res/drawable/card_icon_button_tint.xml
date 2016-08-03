@@ -7,9 +7,9 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_enabled="false" android:state_activated="true" android:color="@color/grey_600" />
+    <item android:state_enabled="false" android:state_activated="true" android:color="@android:color/white" />
 
-    <item android:state_enabled="false" android:color="@android:color/white" />
+    <item android:state_enabled="false" android:color="@color/grey_600" />
 
     <item android:state_activated="true" android:color="@android:color/white" />
 

@@ -256,9 +256,7 @@ public class BroadcastLayout extends LinearLayout {
         mLikeButton.setText(broadcast.getLikeCountString());
         LikeBroadcastManager likeBroadcastManager = LikeBroadcastManager.getInstance();
         if (likeBroadcastManager.isWriting(broadcast.id)) {
-            // The appearance is reversed, for that we can set enabled to false and the button will
-            // appear as nearly otherwise.
-            mLikeButton.setActivated(!likeBroadcastManager.isWritingLike(broadcast.id));
+            mLikeButton.setActivated(likeBroadcastManager.isWritingLike(broadcast.id));
             mLikeButton.setEnabled(false);
         } else {
             mLikeButton.setActivated(broadcast.isLiked);
@@ -267,7 +265,7 @@ public class BroadcastLayout extends LinearLayout {
         RebroadcastBroadcastManager rebroadcastBroadcastManager =
                 RebroadcastBroadcastManager.getInstance();
         if (rebroadcastBroadcastManager.isWriting(broadcast.id)) {
-            mRebroadcastButton.setActivated(!rebroadcastBroadcastManager.isWritingRebroadcast(
+            mRebroadcastButton.setActivated(rebroadcastBroadcastManager.isWritingRebroadcast(
                     broadcast.id));
             mRebroadcastButton.setEnabled(false);
         } else {
