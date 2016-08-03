@@ -209,6 +209,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     }
 
     @Override
+    public void onUserInfoWriteStarted(int requestCode) {
+        mHeaderLayout.bindUserInfo(mProfileResource.getUserInfo());
+    }
+
+    @Override
+    public void onUserInfoWriteFinished(int requestCode) {
+        mHeaderLayout.bindUserInfo(mProfileResource.getUserInfo());
+    }
+
+    @Override
     public void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
                           List<User> newFollowingList, List<Diary> newDiaryList,
                           List<UserItems> newUserItemList, List<Review> newReviewList) {

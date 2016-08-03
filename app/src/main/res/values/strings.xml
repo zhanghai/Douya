@@ -80,6 +80,9 @@
     <string name="api_error_token_thirdparty_login_auth_failed">第三方授权错误</string>
     <string name="api_error_token_user_locked">用户已被锁定</string>
 
+    <string name="api_error_followship_already_followed">你已经关注过这个用户了</string>
+    <string name="api_error_followship_not_followed_yet">你还没有关注过这个用户</string>
+
     <string name="api_error_broadcast_not_found">广播不存在</string>
     <string name="api_error_broadcast_author_banned">广播作者已被封禁</string>
 
@@ -177,13 +180,16 @@
     <string name="broadcast_rebroadcasters_title_empty">暂无转播</string>
 
     <string name="user_follow_error_cannot_follow_oneself">不能关注自己</string>
+    <string name="user_following">正在关注</string>
     <string name="user_follow_successful">已关注</string>
     <string name="user_follow_failed_format">关注失败，%1$s</string>
+    <string name="user_unfollowing">正在取消关注</string>
     <string name="user_unfollow_successful">已取消关注</string>
     <string name="user_unfollow_failed_format">取消关注失败，%1$s</string>
 
     <string name="profile_joined_at_format">%1$s 加入</string>
     <string name="profile_joined_at_and_location_format">%1$s 加入，常居 %2$s</string>
+    <string name="profile_edit">编辑个人资料</string>
     <string name="profile_follow">关注此人</string>
     <string name="profile_following">已关注</string>
     <string name="profile_following_mutual">互相关注</string>

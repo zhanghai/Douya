@@ -206,6 +206,16 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     }
 
     @Override
+    public void onUserInfoWriteStarted(int requestCode) {
+        getListener().onUserInfoWriteStarted(getRequestCode());
+    }
+
+    @Override
+    public void onUserInfoWriteFinished(int requestCode) {
+        getListener().onUserInfoWriteFinished(getRequestCode());
+    }
+
+    @Override
     public void onLoadBroadcastListStarted(int requestCode) {}
 
     @Override
@@ -370,6 +380,8 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     public interface Listener {
         void onLoadError(int requestCode, VolleyError error);
         void onUserInfoChanged(int requestCode, UserInfo newUserInfo);
+        void onUserInfoWriteStarted(int requestCode);
+        void onUserInfoWriteFinished(int requestCode);
         void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
                        List<User> newFollowingList, List<Diary> newDiaryList,
                        List<UserItems> newUserItemList, List<Review> newReviewList);

@@ -26,10 +26,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.followship.content.FollowUserManager;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
 import me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView;
+import me.zhanghai.android.douya.ui.WhiteIndeterminateProgressIconDrawable;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.MathUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
@@ -254,11 +256,11 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mSignatureText.setText(null);
         mJoinedAtLocationText.setText(null);
         TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton, 0, 0, 0, 0);
-        ViewUtils.setVisibleOrGone(mFollowButton, false);
+        mFollowButton.setVisibility(GONE);
     }
 
-    public void bindUserInfo(UserInfo userInfo) {
-        Context context = getContext();
+    public void bindUserInfo(final UserInfo userInfo) {
+        final Context context = getContext();
         if (!ViewUtils.isVisible(mAvatarImage)) {
             // HACK: Don't load avatar again if already loaded by bindUser().
             ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.getLargeAvatarOrAvatar(), context);
@@ -267,23 +269,44 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mUsernameText.setText(userInfo.name);
         mSignatureText.setText(userInfo.signature);
         mJoinedAtLocationText.setJoinedAtAndLocation(userInfo.createdAt, userInfo.locationName);
-        int followDrawableId;
-        int followStringId;
-        if (userInfo.isFollowed) {
-            if (userInfo.isFollower) {
-                followDrawableId = R.drawable.mutual_icon_white_24dp;
-                followStringId = R.string.profile_following_mutual;
-            } else {
-                followDrawableId = R.drawable.ok_icon_white_24dp;
-                followStringId = R.string.profile_following;
-            }
+        if (userInfo.isOneself(context)) {
+            TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
+                    R.drawable.edit_icon_white_24dp, 0, 0, 0);
+            mFollowButton.setText(R.string.profile_edit);
         } else {
-            followDrawableId = R.drawable.add_icon_white_24dp;
-            followStringId = R.string.profile_follow;
+            FollowUserManager followUserManager = FollowUserManager.getInstance();
+            String userIdOrUid = userInfo.getIdOrUid();
+            if (followUserManager.isWriting(userIdOrUid)) {
+                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
+                        new WhiteIndeterminateProgressIconDrawable(context), null, null, null);
+                mFollowButton.setText(followUserManager.isWritingFollow(userIdOrUid) ?
+                        R.string.user_following : R.string.user_unfollowing);
+            } else {
+                int followDrawableId;
+                int followStringId;
+                if (userInfo.isFollowed) {
+                    if (userInfo.isFollower) {
+                        followDrawableId = R.drawable.mutual_icon_white_24dp;
+                        followStringId = R.string.profile_following_mutual;
+                    } else {
+                        followDrawableId = R.drawable.ok_icon_white_24dp;
+                        followStringId = R.string.profile_following;
+                    }
+                } else {
+                    followDrawableId = R.drawable.add_icon_white_24dp;
+                    followStringId = R.string.profile_follow;
+                }
+                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
+                        followDrawableId, 0, 0, 0);
+                mFollowButton.setText(followStringId);
+            }
+            mFollowButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FollowUserManager.getInstance().write(userInfo, !userInfo.isFollowed, context);
+                }
+            });
         }
-        ViewUtils.setVisibleOrGone(mFollowButton, true);
-        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
-                followDrawableId, 0, 0, 0);
-        mFollowButton.setText(followStringId);
+        mFollowButton.setVisibility(VISIBLE);
     }
 }

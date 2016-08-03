@@ -15,6 +15,8 @@ import com.android.volley.VolleyError;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
+import me.zhanghai.android.douya.eventbus.UserInfoWriteFinishedEvent;
+import me.zhanghai.android.douya.eventbus.UserInfoWriteStartedEvent;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
@@ -244,6 +246,32 @@ public class UserInfoResource extends ResourceFragment
         getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
     }
 
+    @Keep
+    public void onEventMainThread(UserInfoWriteStartedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        // Only call listener when we have the data.
+        if (mUserInfo != null && mUserInfo.hasIdOrUid(event.userIdOrUid)) {
+            getListener().onUserInfoWriteStarted(getRequestCode());
+        }
+    }
+
+    @Keep
+    public void onEventMainThread(UserInfoWriteFinishedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        // Only call listener when we have the data.
+        if (mUserInfo != null && mUserInfo.hasIdOrUid(event.userIdOrUid)) {
+            getListener().onUserInfoWriteFinished(getRequestCode());
+        }
+    }
+
     private Listener getListener() {
         return (Listener) getTarget();
     }
@@ -253,5 +281,7 @@ public class UserInfoResource extends ResourceFragment
         void onLoadUserInfoFinished(int requestCode);
         void onLoadUserInfoError(int requestCode, VolleyError error);
         void onUserInfoChanged(int requestCode, UserInfo newUserInfo);
+        void onUserInfoWriteStarted(int requestCode);
+        void onUserInfoWriteFinished(int requestCode);
     }
 }

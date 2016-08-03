@@ -104,6 +104,11 @@ public class ApiError extends VolleyError {
                 R.string.api_error_token_thirdparty_login_auth_failed);
         ERROR_CODE_STRING_RES_MAP.put(Token.USER_LOCKED, R.string.api_error_token_user_locked);
 
+        ERROR_CODE_STRING_RES_MAP.put(Followship.ALREADY_FOLLOWED,
+                R.string.api_error_followship_already_followed);
+        ERROR_CODE_STRING_RES_MAP.put(Followship.NOT_FOLLOWED_YET,
+                R.string.api_error_followship_not_followed_yet);
+
         ERROR_CODE_STRING_RES_MAP.put(Broadcast.NOT_FOUND, R.string.api_error_broadcast_not_found);
         ERROR_CODE_STRING_RES_MAP.put(Broadcast.AUTHOR_BANNED,
                 R.string.api_error_broadcast_author_banned);
