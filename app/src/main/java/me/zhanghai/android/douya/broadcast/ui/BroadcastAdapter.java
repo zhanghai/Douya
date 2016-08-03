@@ -59,21 +59,17 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
             }
         });
         holder.broadcastLayout.bindBroadcast(broadcast);
-        holder.broadcastLayout.mLikeButton.setOnClickListener(new View.OnClickListener() {
+        holder.broadcastLayout.setListener(new BroadcastLayout.Listener() {
             @Override
-            public void onClick(View view) {
+            public void onLikeClicked() {
                 mListener.onLikeBroadcast(broadcast, !broadcast.isLiked);
             }
-        });
-        holder.broadcastLayout.mRebroadcastButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onRebroadcastClicked() {
                 mListener.onRebroadcastBroadcast(broadcast, !broadcast.isRebroadcasted());
             }
-        });
-        holder.broadcastLayout.mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onCommentClicked() {
                 // Not setting button disabled because we are using enabled state for indeterminate
                 // state due to network, and we want the click to always open the broadcast for our
                 // user.
