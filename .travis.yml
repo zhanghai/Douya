@@ -1,5 +1,7 @@
 language: android
 
+sudo: false
+
 jdk:
   - oraclejdk8
 
@@ -8,3 +10,6 @@ android:
     - build-tools-24.0.1
     - android-24
     - extra-android-m2repository
+
+before_script:
+  - cp signing.properties.travis signing.properties

@@ -5,7 +5,7 @@
 
 apply plugin: 'com.android.application'
 
-apply from: 'signing.gradle'
+apply from: '../signing.gradle'
 
 android {
 

@@ -1,7 +1,8 @@
+build/
 /.gradle/
 /.idea/
-/build/
 /captures/
 /local.properties
 .DS_Store
 *.iml
+/signing.properties
