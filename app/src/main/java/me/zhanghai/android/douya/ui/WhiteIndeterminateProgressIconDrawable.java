@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
@@ -42,6 +43,7 @@ public class WhiteIndeterminateProgressIconDrawable extends Drawable implements 
     }
 
     @Override
+    @SuppressLint("NewApi")
     public int getAlpha() {
         return mProgressDrawable.getAlpha();
     }
@@ -58,6 +60,7 @@ public class WhiteIndeterminateProgressIconDrawable extends Drawable implements 
      * {@inheritDoc}
      */
     @Override
+    @SuppressLint("NewApi")
     public ColorFilter getColorFilter() {
         return mProgressDrawable.getColorFilter();
     }
@@ -74,6 +77,7 @@ public class WhiteIndeterminateProgressIconDrawable extends Drawable implements 
      * {@inheritDoc}
      */
     @Override
+    @SuppressLint("NewApi")
     public void setTint(@ColorInt int tintColor) {
         mProgressDrawable.setTint(tintColor);
     }
@@ -82,6 +86,7 @@ public class WhiteIndeterminateProgressIconDrawable extends Drawable implements 
      * {@inheritDoc}
      */
     @Override
+    @SuppressLint("NewApi")
     public void setTintList(@Nullable ColorStateList tint) {
         mProgressDrawable.setTintList(tint);
     }
@@ -90,6 +95,7 @@ public class WhiteIndeterminateProgressIconDrawable extends Drawable implements 
      * {@inheritDoc}
      */
     @Override
+    @SuppressLint("NewApi")
     public void setTintMode(@NonNull PorterDuff.Mode tintMode) {
         mProgressDrawable.setTintMode(tintMode);
     }
