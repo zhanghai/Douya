@@ -183,6 +183,7 @@
     <string name="user_following">正在关注</string>
     <string name="user_follow_successful">已关注</string>
     <string name="user_follow_failed_format">关注失败，%1$s</string>
+    <string name="user_unfollow_confirm">确定要取消关注吗？</string>
     <string name="user_unfollowing">正在取消关注</string>
     <string name="user_unfollow_successful">已取消关注</string>
     <string name="user_unfollow_failed_format">取消关注失败，%1$s</string>

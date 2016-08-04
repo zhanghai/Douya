@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.followship.content.FollowUserManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
@@ -36,7 +37,8 @@ import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileResource.Listener {
+public class ProfileActivity extends AppCompatActivity implements ProfileResource.Listener,
+        ProfileHeaderLayout.Listener, ConfirmUnfollowUserDialogFragment.Listener {
 
     private static final String KEY_PREFIX = ProfileActivity.class.getName() + '.';
 
@@ -231,5 +233,24 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
         mMusicLayout.bind(newUserInfo, newUserItemList);
         mReviewsLayout.bind(newUserInfo, newReviewList);
         mContentStateLayout.setLoaded(true);
+    }
+
+    @Override
+    public void onEditProfile(UserInfo userInfo) {
+
+    }
+
+    @Override
+    public void onFollowUser(UserInfo userInfo, boolean follow) {
+        if (follow) {
+            FollowUserManager.getInstance().write(userInfo, true, this);
+        } else {
+            ConfirmUnfollowUserDialogFragment.show(this);
+        }
+    }
+
+    @Override
+    public void unfollowUser() {
+        FollowUserManager.getInstance().write(mProfileResource.getUserInfo(), false, this);
     }
 }

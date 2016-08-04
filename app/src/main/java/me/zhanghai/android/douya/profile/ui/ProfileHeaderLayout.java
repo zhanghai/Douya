@@ -79,6 +79,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     private int mMaxHeight;
     private int mScroll;
 
+    private Listener mListener;
+
     public ProfileHeaderLayout(Context context) {
         super(context);
 
@@ -135,6 +137,10 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
                 context);
 
         StatusBarColorUtils.set(mStatusBarColorTransparent, (Activity) context);
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
     }
 
     @Override
@@ -260,7 +266,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     public void bindUserInfo(final UserInfo userInfo) {
-        final Context context = getContext();
+        Context context = getContext();
         if (!ViewUtils.isVisible(mAvatarImage)) {
             // HACK: Don't load avatar again if already loaded by bindUser().
             ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.getLargeAvatarOrAvatar(), context);
@@ -273,6 +279,14 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
             TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
                     R.drawable.edit_icon_white_24dp, 0, 0, 0);
             mFollowButton.setText(R.string.profile_edit);
+            mFollowButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mListener != null) {
+                        mListener.onEditProfile(userInfo);
+                    }
+                }
+            });
         } else {
             FollowUserManager followUserManager = FollowUserManager.getInstance();
             String userIdOrUid = userInfo.getIdOrUid();
@@ -303,10 +317,17 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
             mFollowButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FollowUserManager.getInstance().write(userInfo, !userInfo.isFollowed, context);
+                    if (mListener != null) {
+                        mListener.onFollowUser(userInfo, !userInfo.isFollowed);
+                    }
                 }
             });
         }
         mFollowButton.setVisibility(VISIBLE);
+    }
+
+    public interface Listener {
+        void onEditProfile(UserInfo userInfo);
+        void onFollowUser(UserInfo userInfo, boolean follow);
     }
 }
