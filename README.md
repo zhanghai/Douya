@@ -6,6 +6,8 @@
 
 另一个 Material Design 的豆瓣客户端。
 
+![Travis CI](https://travis-ci.org/DreaminginCodeZH/Douya.svg)
+
 ## 开放源代码
 
 由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，也给有兴趣者[做些 HACKING](http://www.catb.org/jargon/html/H/hacker.html)。

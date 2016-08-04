@@ -6,6 +6,8 @@
 
 Yet another Material Design Android app for [Douban](https://www.douban.com).
 
+![Travis CI](https://travis-ci.org/DreaminginCodeZH/Douya.svg)
+
 ## Some Features
 
 - Material Design
