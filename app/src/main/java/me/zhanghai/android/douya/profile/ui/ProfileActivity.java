@@ -133,6 +133,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
         } else if (mProfileResource.hasUser()) {
             mHeaderLayout.bindUser(mProfileResource.getUser());
         }
+        mHeaderLayout.setListener(this);
 
         if (mProfileResource.isLoaded()) {
             mProfileResource.notifyChangedIfLoaded();

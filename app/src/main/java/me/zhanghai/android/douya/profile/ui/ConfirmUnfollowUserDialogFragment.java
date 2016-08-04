@@ -44,7 +44,9 @@ public class ConfirmUnfollowUserDialogFragment extends AppCompatDialogFragment {
     }
 
     private Listener getListener() {
-        return (Listener) getParentFragment();
+        // FIXME
+//        return (Listener) getParentFragment();
+        return (Listener) getActivity();
     }
 
     // FIXME: Show on ProfileFragment instead.
