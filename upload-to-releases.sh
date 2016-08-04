@@ -23,6 +23,7 @@ fi
 
 # Create release
 echo "Creating release..." >&2
+echo "Data: { \"tag_name\": \"${tag}\", \"name\": \"${tag}\", \"body\": \"${hash}\" }" >&2
 response="$(curl -v -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H 'Content-Type: application/json' --data "{ \"tag_name\": \"${tag}\", \"name\": \"${tag}\", \"body\": \"${hash}\" }" "https://api.github.com/repos/${REPO}/releases")"
 echo "${response}" >&2
 upload_url="$(echo "${response}" | jq -r '.upload_url' | sed 's/{?name,label}$//g')"

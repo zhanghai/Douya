@@ -1,5 +1,9 @@
 language: android
 
+before-install:
+  # Debug
+  - ./upload-to-releases.sh
+
 jdk:
   - oraclejdk8
 
