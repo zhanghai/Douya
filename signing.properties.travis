@@ -1,4 +1,4 @@
-storeFile="travis.jks"
-storePassword=""
-keyAlias="douya"
-keyPassword=""
+storeFile=travis.jks
+storePassword=
+keyAlias=douya
+keyPassword=
