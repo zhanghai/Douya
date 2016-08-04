@@ -13,3 +13,6 @@ android:
 
 before_script:
   - cp signing.properties.travis signing.properties
+
+after_failure:
+  - cat app/build/outputs/lint-results-*.html
