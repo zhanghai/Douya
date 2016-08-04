@@ -1,9 +1,5 @@
 language: android
 
-before-install:
-  # Debug
-  - ./upload-to-releases.sh
-
 jdk:
   - oraclejdk8
 
@@ -23,11 +19,14 @@ cache:
     - $HOME/.gradle/wrapper/
 
 before_script:
+  - git fetch --unshallow
+  - version="$(git describe --long --tags | sed 's/^v//;s/-\([0-9]\+\)-g\([0-9a-f]\+\)/+\1.\2/')"
+  - sed 's/versionName .*/versionName "'"${version}"'"/' app/build.gradle
   - cp signing.properties.travis signing.properties
 
 after_success:
   - cp app/build/outputs/apk/app-release.apk douya-ci.apk
-  - ./upload-to-releases.sh douya-ci.apk
+  - ./upload-to-releases.sh 'DreaminginCodeZH/DouyaCiBuilds' "${version}" douya-ci.apk
 
 after_failure:
   - cat app/build/outputs/lint-results-*.html
