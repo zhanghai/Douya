@@ -6,7 +6,7 @@ repo="$1"
 shift
 echo "Repo: ${repo}" >&2
 
-version="$2"
+version="$1"
 shift
 echo "Version: ${version}" >&2
 
