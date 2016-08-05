@@ -28,7 +28,7 @@ before_script:
 after_success:
   - cp app/build/outputs/apk/app-release.apk "douya-ci-${version}.apk"
   - >-
-    description="$(git show -s --format='> Commit: %H%n> Author: %an%n> Date:   %ad%n%n%s%+b')"
+    description="$(git show -s --format='> Commit: %H%n> Author: %an%n> Date: %ad%n%n%s%+b')"
   - ./upload-to-releases.sh 'DreaminginCodeZH/DouyaCiBuilds' "${version}" "${description}" "douya-ci-${version}.apk"
 
 after_failure:
