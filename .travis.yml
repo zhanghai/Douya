@@ -27,7 +27,7 @@ before_script:
 
 after_success:
   - cp app/build/outputs/apk/app-release.apk douya-ci.apk
-  - ./upload-to-releases.sh 'DreaminginCodeZH/DouyaCiBuilds' "${version}" douya-ci.apk
+  - ./upload-to-releases.sh 'DreaminginCodeZH/DouyaCiBuilds' "${version}" "$(git log -1)" douya-ci.apk
 
 after_failure:
   - cat app/build/outputs/lint-results-*.html

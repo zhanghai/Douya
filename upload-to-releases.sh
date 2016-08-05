@@ -13,8 +13,8 @@ echo "Version: ${version}" >&2
 tag="v${version}"
 echo "Tag: ${tag}" >&2
 
-# Need to execute `git fetch --unshallow` beforehand on Travis
-body="$(git log -1)"
+body="$1"
+shift
 echo "Body: ${body}" >&2
 
 # Get old release by tag
