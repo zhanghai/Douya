@@ -45,6 +45,6 @@ for file in "$@"; do
     extension="${name##*.}"
     name="${name%.*}-${version}.${extension}"
     echo "Asset name: ${name}" >&2
-    response="$(curl -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: $(file -b --mime-type "${file}")" --data-binary "@${file}" "${upload_url}?name=${name}")"
+    response="$(curl -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: $(file -b --mime-type "${file}")" --data-binary "@${file}" "${upload_url}?name=$(echo "${name}" | jq -R -r @uri)")"
     echo "${response}" >&2
 done
