@@ -75,7 +75,6 @@ public class ApiRequests {
         return request;
     }
 
-
     public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
                                                                Integer count, Context context) {
         return newFollowingListRequest(userIdOrUid, start, count, null, context);
