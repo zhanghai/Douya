@@ -281,9 +281,10 @@ public class ApiRequests {
     public static ApiRequest<DiaryList> newDiaryListRequest(String userIdOrUid, Integer start,
                                                             Integer count, Context context) {
 
-        ApiRequest<DiaryList> request = new FrodoRequest<>(ApiRequest.Method.GET,
+        ApiRequest<DiaryList> request = new UserIdOrUidFrodoRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.Frodo.UserDiaryList.URL_FORMAT,
-                        userIdOrUid), new TypeToken<DiaryList>() {}, context);
+                        userIdOrUid), new TypeToken<DiaryList>() {}, context)
+                .withUserIdOrUid(userIdOrUid);
 
         if (start != null) {
             request.addParam(ApiContract.Request.Frodo.UserDiaryList.START, String.valueOf(start));
@@ -297,17 +298,19 @@ public class ApiRequests {
 
     public static ApiRequest<UserItemList> newUserItemListRequest(String userIdOrUid,
                                                                   Context context) {
-        return new FrodoRequest<>(ApiRequest.Method.GET, StringUtils.formatUs(
+        return new UserIdOrUidFrodoRequest<>(ApiRequest.Method.GET, StringUtils.formatUs(
                 ApiContract.Request.Frodo.UserItemList.URL_FORMAT, userIdOrUid),
-                new TypeToken<UserItemList>() {}, context);
+                new TypeToken<UserItemList>() {}, context)
+                .withUserIdOrUid(userIdOrUid);
     }
 
     public static ApiRequest<ReviewList> newUserReviewListRequest(String userIdOrUid, Integer start,
                                                                   Integer count, Context context) {
 
-        ApiRequest<ReviewList> request = new FrodoRequest<>(ApiRequest.Method.GET,
+        ApiRequest<ReviewList> request = new UserIdOrUidFrodoRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.Frodo.UserReviewList.URL_FORMAT,
-                        userIdOrUid), new TypeToken<ReviewList>() {}, context);
+                        userIdOrUid), new TypeToken<ReviewList>() {}, context)
+                .withUserIdOrUid(userIdOrUid);
 
         if (start != null) {
             request.addParam(ApiContract.Request.Frodo.UserReviewList.START, String.valueOf(start));
