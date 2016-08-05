@@ -33,7 +33,7 @@ fi
 
 # Create release
 echo "Creating release..." >&2
-response="$(curl -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H 'Content-Type: application/json' --data "{ \"tag_name\": $(echo "${tag}" | jq -s -R -r @json), \"name\": $(echo "${tag}" | jq -s -R -r @json), \"body\": $(echo "${body}" | jq -s -R -r @json) }" "https://api.github.com/repos/${repo}/releases")"
+response="$(curl -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H 'Content-Type: application/json' --data "{ \"tag_name\": $(echo -n "${tag}" | jq -s -R -r @json), \"name\": $(echo -n "${tag}" | jq -s -R -r @json), \"body\": $(echo -n "${body}" | jq -s -R -r @json) }" "https://api.github.com/repos/${repo}/releases")"
 echo "${response}" >&2
 upload_url="$(echo "${response}" | jq -r '.upload_url' | sed 's/{?name,label}$//g')"
 echo "Upload url: ${upload_url}" >&2
@@ -42,6 +42,6 @@ for file in "$@"; do
     # Upload file
     echo "Uploading file: ${file}" >&2
     name="$(basename "${file}")"
-    response="$(curl -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: $(file -b --mime-type "${file}")" --data-binary "@${file}" "${upload_url}?name=$(echo "${name}" | jq -s -R -r @uri)")"
+    response="$(curl -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: $(file -b --mime-type "${file}")" --data-binary "@${file}" "${upload_url}?name=$(echo -n "${name}" | jq -s -R -r @uri)")"
     echo "${response}" >&2
 done
