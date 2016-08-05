@@ -8,6 +8,10 @@ Yet another Material Design Android app for [Douban](https://www.douban.com).
 
 ![Travis CI](https://travis-ci.org/DreaminginCodeZH/Douya.svg)
 
+[Douya CI Builds](https://github.com/DreaminginCodeZH/DouyaCiBuilds)
+
+[Douya API Key](https://github.com/DreaminginCodeZH/DouyaApiKey)
+
 ## Some Features
 
 - Material Design
@@ -82,8 +86,6 @@ Most data are fetched from network while some of them are cached for offline.
 
 ## Using
 
-Due to the closing up of [API key application for individual developers](http://developers.douban.com/apikey/), this app is not likely to be available to public in APK form. So I decided to make it open source and allow people to do more [hacking](http://www.catb.org/jargon/html/H/hacker.html) on it.
-
-You can refer to [HACKING.md](HACKING.md) for providing API credentials and running the app.
+After installation, please install [Douya API Key](https://github.com/DreaminginCodeZH/DouyaApiKey) to set up API key for this app.
 
 Please don't install APKs from untrusted sources, so that you won't leak your username and password.

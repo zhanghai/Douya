@@ -8,11 +8,9 @@
 
 ![Travis CI](https://travis-ci.org/DreaminginCodeZH/Douya.svg)
 
-## 开放源代码
+[豆芽 CI 构建](https://github.com/DreaminginCodeZH/DouyaCiBuilds)
 
-由于豆瓣关闭了[个人开发者 API Key 申请](http://developers.douban.com/apikey/)，此应用已不可能向公众发布，因此决定提前开放源代码，也给有兴趣者[做些 HACKING](http://www.catb.org/jargon/html/H/hacker.html)。
-
-以下是关于豆芽的说明。
+[豆芽 API Key 设置向导](https://github.com/DreaminginCodeZH/DouyaApiKey)
 
 ## 部分特性
 
@@ -224,7 +222,7 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 
 ## 关于使用
 
-请参考 [HACKING.md](HACKING.md)，自行提供 API Key 和 Secret 即可使用。
+安装应用后，请安装 [豆芽 API Key 设置向导](https://github.com/DreaminginCodeZH/DouyaApiKey) 以设置 API Key。
 
 暂时没有内置的更新渠道，请关注本项目的 Release。
 
