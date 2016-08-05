@@ -175,9 +175,18 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
         return this;
     }
 
-    public Request<T> setHeaders(Map<String, String> headers) {
+    public Request<T> removeHeader(String name) {
+        mHeaders.remove(name);
+        return this;
+    }
+
+    public Request<T> clearHeaders() {
         mHeaders.clear();
-        return addHeaders(headers);
+        return this;
+    }
+
+    public Request<T> setHeaders(Map<String, String> headers) {
+        return clearHeaders().addHeaders(headers);
     }
 
     @Override
@@ -199,9 +208,18 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
         return this;
     }
 
-    public Request<T> setParams(Map<String, String> params) {
+    public Request<T> removeParam(String name) {
+        mParams.remove(name);
+        return this;
+    }
+
+    public Request<T> clearParams() {
         mParams.clear();
-        return addParams(params);
+        return this;
+    }
+
+    public Request<T> setParams(Map<String, String> params) {
+        return clearParams().addParams(params);
     }
 
     @Override
