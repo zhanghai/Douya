@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.Space;
 import android.widget.TextView;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
@@ -32,16 +30,6 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.ViewHolder> {
 
     public ProfileItemAdapter() {
-        init();
-    }
-
-    public ProfileItemAdapter(List<Item> itemList) {
-        super(itemList);
-
-        init();
-    }
-
-    private void init() {
         setHasStableIds(true);
     }
 

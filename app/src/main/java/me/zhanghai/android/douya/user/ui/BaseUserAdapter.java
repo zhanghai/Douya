@@ -27,16 +27,6 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapter.ViewHolder> {
 
     public BaseUserAdapter() {
-        init();
-    }
-
-    public BaseUserAdapter(List<User> userList) {
-        super(userList);
-
-        init();
-    }
-
-    private void init() {
         setHasStableIds(true);
     }
 

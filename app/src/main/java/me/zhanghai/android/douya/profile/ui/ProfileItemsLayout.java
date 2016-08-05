@@ -73,8 +73,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
         mItemList.setAdapter(mItemAdapter);
     }
 
-    protected void bind(final UserInfo userInfo, UserItems primaryItems, UserItems secondaryItems,
-                        UserItems tertiaryItems) {
+    protected void bind(UserItems primaryItems, UserItems secondaryItems, UserItems tertiaryItems) {
 
         final Context context = getContext();
         CollectedItem.State state = primaryItems.getState();
@@ -163,7 +162,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
             //noinspection deprecation
             primaryItems.state = CollectedItem.State.DONE.getApiString();
         }
-        bind(userInfo, primaryItems, secondaryItems, tertiaryItems);
+        bind(primaryItems, secondaryItems, tertiaryItems);
     }
 
     protected String getUserIdOrUid() {
