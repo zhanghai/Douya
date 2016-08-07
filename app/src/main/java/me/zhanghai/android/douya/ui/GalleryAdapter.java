@@ -22,7 +22,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 import uk.co.senab.photoview.PhotoView;
@@ -30,10 +29,10 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class GalleryAdapter extends PagerAdapter {
 
-    private List<Image> mImageList;
+    private List<String> mImageList;
     private OnTapListener mOnTapListener;
 
-    public GalleryAdapter(List<Image> imageList, OnTapListener onTapListener) {
+    public GalleryAdapter(List<String> imageList, OnTapListener onTapListener) {
         mImageList = imageList;
         mOnTapListener = onTapListener;
     }
@@ -63,7 +62,7 @@ public class GalleryAdapter extends PagerAdapter {
                 }
             }
         });
-        ImageUtils.loadImage(imageView, mImageList.get(position).getLargest(),
+        ImageUtils.loadImage(imageView, mImageList.get(position),
                 new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model,

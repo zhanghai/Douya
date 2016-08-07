@@ -225,12 +225,13 @@ public class BroadcastLayout extends LinearLayout {
                     : Photo.toImageList(broadcast.photos);
             int numImages = images.size();
             if (numImages == 1) {
+                final Image image = images.get(0);
                 mSingleImageLayout.setVisibility(VISIBLE);
-                mSingleImageLayout.loadImage(images.get(0));
+                mSingleImageLayout.loadImage(image);
                 mSingleImageLayout.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        context.startActivity(GalleryActivity.makeIntent(images, 0, context));
+                        context.startActivity(GalleryActivity.makeIntent(image, context));
                     }
                 });
             } else {
@@ -245,8 +246,8 @@ public class BroadcastLayout extends LinearLayout {
                         new HorizontalImageAdapter.OnImageClickListener() {
                             @Override
                             public void onImageClick(int position) {
-                                context.startActivity(GalleryActivity.makeIntent(images, position,
-                                        context));
+                                context.startActivity(GalleryActivity.makeImageListIntent(images,
+                                        position, context));
                             }
                         });
             } else {

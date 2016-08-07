@@ -40,10 +40,29 @@ public class GalleryActivity extends AppCompatActivity {
 
     private SystemUiHelper mSystemUiHelper;
 
-    public static Intent makeIntent(ArrayList<Image> imageList, int position, Context context) {
+    public static Intent makeIntent(ArrayList<String> imageList, int position, Context context) {
         return new Intent(context, GalleryActivity.class)
-                .putParcelableArrayListExtra(EXTRA_IMAGE_LIST, imageList)
+                .putStringArrayListExtra(EXTRA_IMAGE_LIST, imageList)
                 .putExtra(EXTRA_POSITION, position);
+    }
+
+    public static Intent makeImageListIntent(ArrayList<Image> imageList, int position,
+                                             Context context) {
+        ArrayList<String> imageUrlList = new ArrayList<>();
+        for (Image image : imageList) {
+            imageUrlList.add(image.getLargest());
+        }
+        return makeIntent(imageUrlList, position, context);
+    }
+
+    public static Intent makeIntent(String image, Context context) {
+        ArrayList<String> imageList = new ArrayList<>();
+        imageList.add(image);
+        return makeIntent(imageList, 0, context);
+    }
+
+    public static Intent makeIntent(Image image, Context context) {
+        return makeIntent(image.getLargest(), context);
     }
 
     @Override
@@ -80,7 +99,7 @@ public class GalleryActivity extends AppCompatActivity {
         // This will set up window flags.
         mSystemUiHelper.show();
 
-        ArrayList<Image> imageList = getIntent().getParcelableArrayListExtra(EXTRA_IMAGE_LIST);
+        ArrayList<String> imageList = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
         mViewPager.setAdapter(new GalleryAdapter(imageList, new GalleryAdapter.OnTapListener() {
             @Override
             public void onTap() {
