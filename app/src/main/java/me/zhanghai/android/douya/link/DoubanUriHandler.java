@@ -79,7 +79,7 @@ public class DoubanUriHandler {
                 intent = BroadcastListActivity.makeIntent(uri.getPathSegments().get(1), context);
                 break;
             case TOPIC_BROADCAST_LIST:
-                intent = BroadcastListActivity.makeIntent(uri.getLastPathSegment(), false, context);
+                intent = BroadcastListActivity.makeTopicIntent(uri.getLastPathSegment(), context);
                 break;
             case BROADCAST:
             case BROADCAST_FRODO:

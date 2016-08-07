@@ -32,7 +32,7 @@ public class BroadcastListActivity extends AppCompatActivity {
                 .putExtra(EXTRA_USER, user);
     }
 
-    public static Intent makeIntent(String topic, boolean unused, Context context) {
+    public static Intent makeTopicIntent(String topic, Context context) {
         return new Intent(context, BroadcastListActivity.class)
                 .putExtra(EXTRA_TOPIC, topic);
     }
