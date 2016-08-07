@@ -28,8 +28,8 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadProfileAvatar(final ImageView view, String url, Context context) {
-        ViewUtils.fadeOut(view);
+    public static void loadProfileAvatarAndFadeIn(final ImageView view, String url,
+                                                  Context context) {
         Glide.with(context)
                 .load(url)
                 .dontAnimate()

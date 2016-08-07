@@ -30,6 +30,7 @@ import me.zhanghai.android.douya.followship.content.FollowUserManager;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
+import me.zhanghai.android.douya.ui.GalleryActivity;
 import me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView;
 import me.zhanghai.android.douya.ui.WhiteIndeterminateProgressIconDrawable;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -256,7 +257,15 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     public void bindUser(User user) {
-        ImageUtils.loadProfileAvatar(mAvatarImage, user.getLargeAvatarOrAvatar(), getContext());
+        final Context context = getContext();
+        final String largeAvatar = user.getLargeAvatarOrAvatar();
+        ImageUtils.loadProfileAvatarAndFadeIn(mAvatarImage, largeAvatar, context);
+        mAvatarImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(GalleryActivity.makeIntent(largeAvatar, context));
+            }
+        });
         mToolbarUsernameText.setText(user.name);
         mUsernameText.setText(user.name);
         mSignatureText.setText(null);
@@ -266,10 +275,17 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     public void bindUserInfo(final UserInfo userInfo) {
-        Context context = getContext();
+        final Context context = getContext();
         if (!ViewUtils.isVisible(mAvatarImage)) {
             // HACK: Don't load avatar again if already loaded by bindUser().
-            ImageUtils.loadProfileAvatar(mAvatarImage, userInfo.getLargeAvatarOrAvatar(), context);
+            final String largeAvatar = userInfo.getLargeAvatarOrAvatar();
+            ImageUtils.loadProfileAvatarAndFadeIn(mAvatarImage, largeAvatar, context);
+            mAvatarImage.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(GalleryActivity.makeIntent(largeAvatar, context));
+                }
+            });
         }
         mToolbarUsernameText.setText(userInfo.name);
         mUsernameText.setText(userInfo.name);
