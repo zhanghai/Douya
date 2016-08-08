@@ -11,4 +11,8 @@
     <dimen name="toolbar_and_tab_height">96dp</dimen>
     <dimen name="toolbar_and_tab_hide_offset">-102dp</dimen>
     <dimen name="scrim_height">144dp</dimen>
+    <dimen name="card_list_horizontal_padding">8dp</dimen>
+    <dimen name="card_horizontal_margin">6dp</dimen>
+    <dimen name="card_header_horizontal_margin">8dp</dimen>
+    <dimen name="card_corner_radius">2dp</dimen>
 </resources>

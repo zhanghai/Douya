@@ -98,8 +98,10 @@ public abstract class BaseBroadcastListFragment extends Fragment
 
         mBroadcastList.setHasFixedSize(true);
         mBroadcastList.setItemAnimator(new NoChangeAnimationItemAnimator());
-        if (ViewUtils.hasSw600dp(activity)) {
-            int columnCount = ViewUtils.isInLandscape(activity) ? 3 : 2;
+        boolean hasSw600Dp = ViewUtils.hasSw600Dp(activity);
+        boolean isInLandscape = ViewUtils.isInLandscape(activity);
+        if (hasSw600Dp || isInLandscape) {
+            int columnCount = hasSw600Dp && isInLandscape ? 3 : 2;
             mBroadcastList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
                     StaggeredGridLayoutManager.VERTICAL));
         } else {

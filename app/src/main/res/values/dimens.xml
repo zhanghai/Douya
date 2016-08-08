@@ -52,6 +52,7 @@
     <dimen name="card_vertical_space_half">8dp</dimen>
     <dimen name="card_horizontal_margin">@dimen/card_shadow_horizontal_margin</dimen>
     <dimen name="card_vertical_margin">5dp</dimen>
+    <dimen name="card_header_horizontal_margin">@dimen/screen_edge_horizontal_margin</dimen>
     <dimen name="card_header_bottom_margin">-4dp</dimen>
     <dimen name="card_corner_radius">0dp</dimen>
     <dimen name="card_content_horizontal_margin">16dp</dimen>

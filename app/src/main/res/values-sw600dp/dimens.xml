@@ -33,6 +33,7 @@
     <dimen name="card_vertical_space_half">12dp</dimen>
     <dimen name="card_horizontal_margin">10dp</dimen>
     <dimen name="card_vertical_margin">9dp</dimen>
+    <dimen name="card_header_horizontal_margin">12dp</dimen>
     <dimen name="card_header_bottom_margin">-8dp</dimen>
     <dimen name="card_corner_radius">2dp</dimen>
     <dimen name="toolbar_button_size">56dp</dimen>

@@ -223,7 +223,7 @@ public class ViewUtils {
         return pxToDp(smallestWidth, context);
     }
 
-    public static boolean hasSw600dp(Context context) {
+    public static boolean hasSw600Dp(Context context) {
         return getScreenSmallestWidthDp(context) > 600;
     }
 
