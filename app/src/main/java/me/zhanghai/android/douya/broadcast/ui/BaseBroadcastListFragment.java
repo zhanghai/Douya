@@ -100,13 +100,12 @@ public abstract class BaseBroadcastListFragment extends Fragment
         mBroadcastList.setItemAnimator(new NoChangeAnimationItemAnimator());
         boolean hasSw600Dp = ViewUtils.hasSw600Dp(activity);
         boolean isInLandscape = ViewUtils.isInLandscape(activity);
-        if (hasSw600Dp || isInLandscape) {
-            int columnCount = hasSw600Dp && isInLandscape ? 3 : 2;
-            mBroadcastList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
-                    StaggeredGridLayoutManager.VERTICAL));
-        } else {
-            mBroadcastList.setLayoutManager(new LinearLayoutManager(activity));
-        }
+        // Always use StaggeredGridLayoutManager so that instance state can be saved.
+        int columnCount = hasSw600Dp && isInLandscape ? 3
+                : hasSw600Dp || isInLandscape ? 2
+                : 1;
+        mBroadcastList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
+                StaggeredGridLayoutManager.VERTICAL));
         mBroadcastAdapter = new BroadcastAdapter(mBroadcastListResource.get(), this);
         mAdapter = new LoadMoreAdapter(R.layout.load_more_card_item, mBroadcastAdapter);
         mBroadcastList.setAdapter(mAdapter);
