@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.profile_activity, container, false);
+        return inflater.inflate(R.layout.profile_fragment, container, false);
     }
 
     @Override
