@@ -44,7 +44,7 @@ public class ConfirmEnableScalpelDialogFragment extends AppCompatDialogFragment 
     }
 
     private Listener getListener() {
-        return (Listener) getActivity();
+        return (Listener) getParentFragment();
     }
 
     public static void show(Fragment fragment) {
