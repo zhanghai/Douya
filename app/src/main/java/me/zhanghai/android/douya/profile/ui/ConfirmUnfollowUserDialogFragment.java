@@ -44,22 +44,13 @@ public class ConfirmUnfollowUserDialogFragment extends AppCompatDialogFragment {
     }
 
     private Listener getListener() {
-        // FIXME
-//        return (Listener) getParentFragment();
-        return (Listener) getActivity();
+        return (Listener) getParentFragment();
     }
 
-    // FIXME: Show on ProfileFragment instead.
-    @Deprecated
-    public static void show(FragmentActivity activity) {
+    public static void show(Fragment fragment) {
         ConfirmUnfollowUserDialogFragment.newInstance()
-                .show(activity.getSupportFragmentManager(), null);
+                .show(fragment.getChildFragmentManager(), null);
     }
-
-//    public static void show(Fragment fragment) {
-//        ConfirmUnfollowUserDialogFragment.newInstance()
-//                .show(fragment.getChildFragmentManager(), null);
-//    }
 
     public interface Listener {
         void unfollowUser();
