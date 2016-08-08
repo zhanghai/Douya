@@ -30,15 +30,6 @@ public class AppUtils {
         }
     }
 
-    public static PackageInfo getPackageInfo(Context context) {
-        try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            // Should not happen.
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void startActivity(Intent intent, Context context) {
         try {
             context.startActivity(intent);

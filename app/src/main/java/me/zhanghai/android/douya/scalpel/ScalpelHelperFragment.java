@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
@@ -24,6 +25,9 @@ public class ScalpelHelperFragment extends RetainedFragment {
     private boolean mActivityCreated;
     private boolean mInjected;
 
+    /**
+     * @deprecated Use {@link #attachTo(Fragment)} instead.
+     */
     public static ScalpelHelperFragment attachTo(FragmentActivity activity) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         ScalpelHelperFragment fragment = (ScalpelHelperFragment) fragmentManager
@@ -35,6 +39,11 @@ public class ScalpelHelperFragment extends RetainedFragment {
                     .commit();
         }
         return fragment;
+    }
+
+    public static ScalpelHelperFragment attachTo(Fragment fragment) {
+        //noinspection deprecation
+        return attachTo(fragment.getActivity());
     }
 
     public static void setEnabled(boolean enabled) {
