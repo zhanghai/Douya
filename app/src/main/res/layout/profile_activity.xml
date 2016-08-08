@@ -54,11 +54,17 @@
                         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
                 </android.support.v7.widget.Toolbar>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <Space
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginBottom="-4dp"
                     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                     android:paddingRight="@dimen/screen_edge_horizontal_margin"
                     android:animateLayoutChanges="true"
@@ -97,10 +103,16 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 </LinearLayout>
 
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="66dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="-16dp"
+                    android:layout_marginBottom="-16dp"
                     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                     android:paddingRight="@dimen/screen_edge_horizontal_margin"
                     android:animateLayoutChanges="true">
@@ -115,6 +127,12 @@
                         android:visibility="gone"
                         style="?borderlessButtonStyle" />
                 </FrameLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="4dp" />
             </LinearLayout>
 
             <FrameLayout
