@@ -41,7 +41,7 @@ public class FlexibleSpaceLayout extends LinearLayout {
     private int mMaximumFlingVelocity;
 
     private FlexibleSpaceHeaderView mHeaderView;
-    private FlexibleSpaceScrollView mScrollView;
+    private FlexibleSpaceContentView mContentView;
 
     private int mScroll;
     private boolean mHeaderCollapsed;
@@ -104,14 +104,14 @@ public class FlexibleSpaceLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        findHeaderAndScrollView(this);
+        findHeaderAndContentView(this);
     }
 
-    private void findHeaderAndScrollView(ViewGroup viewGroup) {
+    private void findHeaderAndContentView(ViewGroup viewGroup) {
         if (viewGroup.getChildCount() == 1) {
             View child = viewGroup.getChildAt(0);
             if (child instanceof ViewGroup) {
-                findHeaderAndScrollView((ViewGroup) child);
+                findHeaderAndContentView((ViewGroup) child);
             } else {
                 throw new IllegalStateException("The only child must be a ViewGroup.");
             }
@@ -123,11 +123,11 @@ public class FlexibleSpaceLayout extends LinearLayout {
             }
             mHeaderView = (FlexibleSpaceHeaderView) firstChild;
             View secondChild = viewGroup.getChildAt(1);
-            if (!(secondChild instanceof FlexibleSpaceScrollView)) {
+            if (!(secondChild instanceof FlexibleSpaceContentView)) {
                 throw new IllegalStateException(
-                        "The second child must be a FlexibleSpaceScrollView.");
+                        "The second child must be a FlexibleSpaceContentView.");
             }
-            mScrollView = (FlexibleSpaceScrollView) secondChild;
+            mContentView = (FlexibleSpaceContentView) secondChild;
         } else {
             throw new IllegalStateException("Must have one or two children.");
         }
@@ -145,10 +145,10 @@ public class FlexibleSpaceLayout extends LinearLayout {
 
         mHeaderView.scrollTo(scroll);
         scroll = Math.max(0, scroll - mHeaderView.getScroll());
-        mScrollView.scrollTo(0, scroll);
+        mContentView.scrollTo(scroll);
 
         int headerScroll = mHeaderView.getScroll();
-        mScroll = headerScroll + mScrollView.getScrollY();
+        mScroll = headerScroll + mContentView.getScroll();
         if (headerScroll == 0) {
             mHeaderCollapsed = false;
         } else if (headerScroll == mHeaderView.getScrollExtent()) {

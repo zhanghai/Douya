@@ -112,6 +112,22 @@ public class ContentStateLayout extends FrameLayout {
         return null;
     }
 
+    public View getLoadingView() {
+        return mLoadingView;
+    }
+
+    public View getContentView() {
+        return mContentView;
+    }
+
+    public View getEmptyView() {
+        return mEmptyView;
+    }
+
+    public View getErrorView() {
+        return mErrorView;
+    }
+
     public boolean isAnimationEnabled() {
         return mAnimationEnabled;
     }

@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +37,7 @@ import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileResource.Listener,
         ProfileHeaderLayout.Listener, ConfirmUnfollowUserDialogFragment.Listener {
@@ -54,24 +58,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     Toolbar mToolbar;
     @BindView(R.id.contentState)
     ContentStateLayout mContentStateLayout;
-    @BindView(R.id.introduction)
-    ProfileIntroductionLayout mIntroductionLayout;
-    @BindView(R.id.broadcasts)
-    ProfileBroadcastsLayout mBroadcastsLayout;
-    @BindView(R.id.followship)
-    ProfileFollowshipLayout mFollowshipLayout;
-    @BindView(R.id.diaries)
-    ProfileDiariesLayout mDiariesLayout;
-    @BindView(R.id.books)
-    ProfileBooksLayout mBooksLayout;
-    @BindView(R.id.movies)
-    ProfileMoviesLayout mMoviesLayout;
-    @BindView(R.id.music)
-    ProfileMusicLayout mMusicLayout;
-    @BindView(R.id.reviews)
-    ProfileReviewsLayout mReviewsLayout;
+    @BindView(R.id.content)
+    RecyclerView mContentList;
 
     private ProfileResource mProfileResource;
+
+    private ProfileAdapter mProfileAdapter;
 
     public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, ProfileActivity.class)
@@ -133,6 +125,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
         }
         mHeaderLayout.setListener(this);
 
+        if (ViewUtils.hasSw600dp(this)) {
+            int columnCount = ViewUtils.isInLandscape(this) ? 3 : 2;
+            mContentList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
+                    StaggeredGridLayoutManager.VERTICAL));
+        } else {
+            mContentList.setLayoutManager(new LinearLayoutManager(this));
+        }
+        mProfileAdapter = new ProfileAdapter();
+        mContentList.setAdapter(mProfileAdapter);
         if (mProfileResource.isLoaded()) {
             mProfileResource.notifyChangedIfLoaded();
         } else {
@@ -223,14 +224,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileResourc
     public void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
                           List<User> newFollowingList, List<Diary> newDiaryList,
                           List<UserItems> newUserItemList, List<Review> newReviewList) {
-        mIntroductionLayout.bind(newUserInfo);
-        mBroadcastsLayout.bind(newUserInfo, newBroadcastList);
-        mFollowshipLayout.bind(newUserInfo, newFollowingList);
-        mDiariesLayout.bind(newUserInfo, newDiaryList);
-        mBooksLayout.bind(newUserInfo, newUserItemList);
-        mMoviesLayout.bind(newUserInfo, newUserItemList);
-        mMusicLayout.bind(newUserInfo, newUserItemList);
-        mReviewsLayout.bind(newUserInfo, newReviewList);
+        mProfileAdapter.setData(new ProfileAdapter.Data(newUserInfo, newBroadcastList,
+                newFollowingList, newDiaryList, newUserItemList, newReviewList));
         mContentStateLayout.setLoaded(true);
     }
 

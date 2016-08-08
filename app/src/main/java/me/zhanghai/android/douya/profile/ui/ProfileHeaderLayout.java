@@ -235,11 +235,6 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         }
     }
 
-    @Override
-    public void scrollBy(int delta) {
-        scrollTo(mScroll + delta);
-    }
-
     private int getMinHeight() {
         // So that we don't need to wait until measure.
         return mToolbar.getLayoutParams().height;

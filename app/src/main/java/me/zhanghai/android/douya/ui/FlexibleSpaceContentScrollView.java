@@ -14,23 +14,34 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
-public class FlexibleSpaceScrollView extends ScrollView {
+public class FlexibleSpaceContentScrollView extends ScrollView implements FlexibleSpaceContentView {
 
-    public FlexibleSpaceScrollView(Context context) {
+    public FlexibleSpaceContentScrollView(Context context) {
         super(context);
     }
 
-    public FlexibleSpaceScrollView(Context context, AttributeSet attrs) {
+    public FlexibleSpaceContentScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FlexibleSpaceScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FlexibleSpaceContentScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public FlexibleSpaceScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public FlexibleSpaceContentScrollView(Context context, AttributeSet attrs, int defStyleAttr,
+                                          int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    public int getScroll() {
+        return getScrollY();
+    }
+
+    @Override
+    public void scrollTo(int scroll) {
+        scrollTo(0, scroll);
     }
 
     @Override
@@ -45,8 +56,8 @@ public class FlexibleSpaceScrollView extends ScrollView {
 
     @Override
     protected Parcelable onSaveInstanceState() {
-        // Do not save the current scroll position. Always store scrollY=0 and delegate
-        // responsibility of saving state to the MultiShrinkScroller.
+        // Do not save the current scroll position. Always store scrollY as 0 and delegate
+        // responsibility of saving state to FlexibleSpaceLayout.
         int scrollY = getScrollY();
         setScrollY(0);
         final Parcelable savedState = super.onSaveInstanceState();

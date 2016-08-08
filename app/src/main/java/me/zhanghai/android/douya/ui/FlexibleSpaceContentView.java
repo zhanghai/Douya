@@ -5,11 +5,9 @@
 
 package me.zhanghai.android.douya.ui;
 
-public interface FlexibleSpaceHeaderView {
+public interface FlexibleSpaceContentView {
 
     int getScroll();
-
-    int getScrollExtent();
 
     void scrollTo(int scroll);
 }

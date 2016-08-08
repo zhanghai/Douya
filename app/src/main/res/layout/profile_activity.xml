@@ -141,126 +141,33 @@
             </FrameLayout>
         </me.zhanghai.android.douya.profile.ui.ProfileHeaderLayout>
 
-        <me.zhanghai.android.douya.ui.FlexibleSpaceScrollView
+        <me.zhanghai.android.douya.ui.FlexibleSpaceContentLayout
+            android:id="@+id/contentState"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/window_background_light"
-            android:fillViewport="true">
+            android:background="@color/window_background_light">
 
-            <me.zhanghai.android.douya.ui.ContentStateLayout
-                android:id="@+id/contentState"
+            <me.zhanghai.android.douya.ui.FlexibleSpaceContentRecyclerView
+                android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/card_list_horizontal_padding"
+                android:paddingRight="@dimen/card_list_horizontal_padding"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="outsideOverlay" />
 
-                <LinearLayout
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="-1px"
-                    android:layout_marginRight="-1px"
-                    android:orientation="vertical">
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+                android:layout_marginRight="@dimen/card_content_horizontal_margin"
+                android:text="@string/load_error"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-                    <me.zhanghai.android.douya.profile.ui.ProfileIntroductionLayout
-                        android:id="@+id/introduction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-
-                    <me.zhanghai.android.douya.profile.ui.ProfileBroadcastsLayout
-                        android:id="@+id/broadcasts"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-
-                    <me.zhanghai.android.douya.profile.ui.ProfileFollowshipLayout
-                        android:id="@+id/followship"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-
-                    <me.zhanghai.android.douya.profile.ui.ProfileDiariesLayout
-                        android:id="@+id/diaries"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-
-                    <me.zhanghai.android.douya.profile.ui.ProfileBooksLayout
-                        android:id="@+id/books"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-
-                    <me.zhanghai.android.douya.profile.ui.ProfileMoviesLayout
-                        android:id="@+id/movies"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-
-                    <me.zhanghai.android.douya.profile.ui.ProfileMusicLayout
-                        android:id="@+id/music"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-
-                    <me.zhanghai.android.douya.profile.ui.ProfileReviewsLayout
-                        android:id="@+id/reviews"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/card_horizontal_margin"
-                        android:layout_marginRight="@dimen/card_horizontal_margin"
-                        android:layout_marginTop="@dimen/card_vertical_margin"
-                        android:layout_marginBottom="@dimen/card_vertical_margin"
-                        app:cardCornerRadius="@dimen/card_corner_radius"
-                        app:cardMaxElevation="@dimen/card_elevation" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/error"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-                    android:layout_marginRight="@dimen/card_content_horizontal_margin"
-                    android:text="@string/load_error"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                <include layout="@layout/appbar_shadow_compat" />
-            </me.zhanghai.android.douya.ui.ContentStateLayout>
-        </me.zhanghai.android.douya.ui.FlexibleSpaceScrollView>
+            <include layout="@layout/appbar_shadow_compat" />
+        </me.zhanghai.android.douya.ui.FlexibleSpaceContentLayout>
     </LinearLayout>
 </me.zhanghai.android.douya.profile.ui.ProfileLayout>
