@@ -104,57 +104,44 @@ public class FlexibleSpaceLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        findHeaderAndContentView(this);
-    }
-
-    private void findHeaderAndContentView(ViewGroup viewGroup) {
-        if (viewGroup.getChildCount() == 1) {
-            View child = viewGroup.getChildAt(0);
-            if (child instanceof ViewGroup) {
-                findHeaderAndContentView((ViewGroup) child);
-            } else {
-                throw new IllegalStateException("The only child must be a ViewGroup.");
-            }
-        } else if (viewGroup.getChildCount() == 2) {
-            findHeaderView(viewGroup.getChildAt(0));
-            findContentView(viewGroup.getChildAt(1));
-        } else {
-            throw new IllegalStateException("Must have one or two children.");
+        mHeaderView = findHeaderView(this);
+        if (mHeaderView == null) {
+            throw new IllegalStateException("Cannot find a FlexibleSpaceHeaderView");
+        }
+        mContentView = findContentView(this);
+        if (mContentView == null) {
+            throw new IllegalStateException("Cannot find a FlexibleSpaceContentView");
         }
     }
 
-    private void findHeaderView(View view) {
+    private FlexibleSpaceHeaderView findHeaderView(View view) {
         if (view instanceof FlexibleSpaceHeaderView) {
-            mHeaderView = (FlexibleSpaceHeaderView) view;
+            return (FlexibleSpaceHeaderView) view;
         } else if (view instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) view;
-            if (viewGroup.getChildCount() > 0) {
-                findHeaderView(viewGroup.getChildAt(0));
-            } else {
-                throw new IllegalStateException(
-                        "The first child must be or contain a FlexibleSpaceHeaderView.");
+            for (int i = 0, count = viewGroup.getChildCount(); i < count; ++i) {
+                FlexibleSpaceHeaderView headerView = findHeaderView(viewGroup.getChildAt(i));
+                if (headerView != null) {
+                    return headerView;
+                }
             }
-        } else {
-            throw new IllegalStateException(
-                    "The first child must be a FlexibleSpaceHeaderView or a ViewGroup.");
         }
+        return null;
     }
 
-    private void findContentView(View view) {
+    private FlexibleSpaceContentView findContentView(View view) {
         if (view instanceof FlexibleSpaceContentView) {
-            mContentView = (FlexibleSpaceContentView) view;
+            return (FlexibleSpaceContentView) view;
         } else if (view instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) view;
-            if (viewGroup.getChildCount() > 0) {
-                findContentView(viewGroup.getChildAt(0));
-            } else {
-                throw new IllegalStateException(
-                        "The first child must be or contain a FlexibleSpaceContentView.");
+            for (int i = 0, count = viewGroup.getChildCount(); i < count; ++i) {
+                FlexibleSpaceContentView contentView = findContentView(viewGroup.getChildAt(i));
+                if (contentView != null) {
+                    return contentView;
+                }
             }
-        } else {
-            throw new IllegalStateException(
-                    "The first child must be a FlexibleSpaceContentView or a ViewGroup.");
         }
+        return null;
     }
 
     public int getScroll() {
