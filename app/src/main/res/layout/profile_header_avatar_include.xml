@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/avatar_container"
+    android:layout_width="@dimen/profile_large_avatar_size"
+    android:layout_height="@dimen/profile_large_avatar_size">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/profile_large_avatar_size"
+        android:layout_height="@dimen/profile_large_avatar_size"
+        android:src="@drawable/profile_avatar_icon_white_128dp"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="3dp"
+        app:civ_fill_color="?colorPrimaryDark" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/profile_large_avatar_size"
+        android:layout_height="@dimen/profile_large_avatar_size"
+        android:clickable="true"
+        android:visibility="gone"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="3dp" />
+</FrameLayout>

@@ -13,10 +13,9 @@
     android:layout_height="match_parent"
     tools:context=".profile.ui.ProfileActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <me.zhanghai.android.douya.profile.ui.ProfileHeaderLayout
             android:id="@+id/header"
@@ -29,15 +28,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
+            <!-- FIXME: Set in ProfileHeaderLayout please. -->
             <LinearLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="?colorPrimary"
-                android:orientation="vertical"
-                android:theme="?actionBarTheme">
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:theme="?actionBarTheme"
+                android:weightSum="10">
 
-                <include layout="@layout/profile_header_appbar_content_include" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/profile_header_appbar_content_include" />
+                </LinearLayout>
             </LinearLayout>
 
             <include layout="@layout/profile_header_avatar_include" />
@@ -47,7 +56,8 @@
             android:id="@+id/contentState"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/window_background_light">
+            android:elevation="@dimen/appbar_elevation"
+            android:theme="?actionBarTheme">
 
             <me.zhanghai.android.douya.ui.FlexibleSpaceContentRecyclerView
                 android:id="@+id/content"
@@ -57,7 +67,8 @@
                 android:paddingRight="@dimen/card_list_horizontal_padding"
                 android:clipToPadding="false"
                 android:scrollbars="vertical"
-                android:scrollbarStyle="outsideOverlay" />
+                android:scrollbarStyle="outsideOverlay"
+                android:theme="@style/Theme.Douya" />
 
             <TextView
                 android:id="@+id/error"
@@ -68,8 +79,6 @@
                 android:layout_marginRight="@dimen/card_content_horizontal_margin"
                 android:text="@string/load_error"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-            <include layout="@layout/appbar_shadow_compat" />
         </me.zhanghai.android.douya.profile.ui.ProfileContentLayout>
-    </LinearLayout>
+    </FrameLayout>
 </me.zhanghai.android.douya.profile.ui.ProfileLayout>

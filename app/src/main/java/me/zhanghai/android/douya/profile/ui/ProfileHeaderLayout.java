@@ -77,6 +77,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     @BindView(R.id.avatar)
     CircleImageView mAvatarImage;
 
+    private boolean mInLandscape;
     private int mMaxHeight;
     private int mScroll;
 
@@ -110,6 +111,14 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void init() {
+
+        Context context = getContext();
+        mInLandscape = ViewUtils.isInLandscape(context);
+        mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0,
+                context);
+
+        StatusBarColorUtils.set(mStatusBarColorTransparent, (Activity) context);
+
         // HACK: We need to delegate the outline so that elevation can work.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setOutlineProvider(new ViewOutlineProvider() {
@@ -133,11 +142,6 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         super.onFinishInflate();
 
         ButterKnife.bind(this);
-        Context context = getContext();
-        mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0,
-                context);
-
-        StatusBarColorUtils.set(mStatusBarColorTransparent, (Activity) context);
     }
 
     public void setListener(Listener listener) {
@@ -168,7 +172,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
                 MathUtils.unlerp(mSmallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop)
                 : 0;
         avatarMarginTop = Math.max(mSmallAvatarMarginTop, avatarMarginTop);
-        int avatarMarginLeft = MathUtils.lerp(width / 2 - largeAvatarSizeHalf,
+        int avatarHorizontalCenter = mInLandscape ? width * 2 / 5 / 2 : width / 2;
+        int avatarMarginLeft = MathUtils.lerp(avatarHorizontalCenter - largeAvatarSizeHalf,
                 mSmallAvatarMarginLeft, avatarHorizontalFraction);
         MarginLayoutParams avatarContainerLayoutParams =
                 (MarginLayoutParams) mAvatarContainerLayout.getLayoutParams();
@@ -236,8 +241,12 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     private int getMinHeight() {
-        // So that we don't need to wait until measure.
-        return mToolbar.getLayoutParams().height;
+        if (mInLandscape) {
+            return mMaxHeight;
+        } else {
+            // So that we don't need to wait until measure.
+            return mToolbar.getLayoutParams().height;
+        }
     }
 
     // Should be called by ProfileLayout.onMeasure() before its super call.

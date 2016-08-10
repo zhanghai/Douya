@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.profile.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
@@ -23,6 +22,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.ui.FlexibleSpaceLayout;
 import me.zhanghai.android.douya.ui.IntProperty;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileLayout extends FlexibleSpaceLayout {
@@ -32,14 +32,15 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     @BindColor(R.color.dark_70_percent)
     int mBackgroundColor;
 
-    private ColorDrawable mWindowBackground;
-
     private ViewGroup mOffsetContainer;
     private ProfileHeaderLayout mProfileHeaderLayout;
 
-    private Listener mListener;
-
+    private boolean mInLandscape;
     private boolean mExiting;
+
+    private ColorDrawable mWindowBackground;
+
+    private Listener mListener;
 
     public ProfileLayout(Context context) {
         super(context);
@@ -70,8 +71,12 @@ public class ProfileLayout extends FlexibleSpaceLayout {
 
         ButterKnife.bind(this);
 
+        Context context = getContext();
+        mInLandscape = ViewUtils.isInLandscape(context);
+
         mWindowBackground = new ColorDrawable(mBackgroundColor);
-        ((Activity) getContext()).getWindow().setBackgroundDrawable(mWindowBackground);
+        AppUtils.getActivityFromContext(context).getWindow()
+                .setBackgroundDrawable(mWindowBackground);
     }
 
     @Override
@@ -86,7 +91,8 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        int headerMaxHeight = MeasureSpec.getSize(heightMeasureSpec) * 2 / 3;
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        int headerMaxHeight = mInLandscape ? height : height * 2 / 3;
         mProfileHeaderLayout.setMaxHeight(headerMaxHeight);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

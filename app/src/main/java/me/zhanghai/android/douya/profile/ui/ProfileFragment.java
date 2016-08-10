@@ -130,7 +130,9 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
                 getActivity().finish();
             }
         });
-        mScrollLayout.enter();
+        if (savedInstanceState == null) {
+            mScrollLayout.enter();
+        }
 
         mDismissView.setOnClickListener(new View.OnClickListener() {
             @Override

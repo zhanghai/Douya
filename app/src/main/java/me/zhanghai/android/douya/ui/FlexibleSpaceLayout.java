@@ -116,20 +116,44 @@ public class FlexibleSpaceLayout extends LinearLayout {
                 throw new IllegalStateException("The only child must be a ViewGroup.");
             }
         } else if (viewGroup.getChildCount() == 2) {
-            View firstChild = viewGroup.getChildAt(0);
-            if (!(firstChild instanceof FlexibleSpaceHeaderView)) {
-                throw new IllegalStateException(
-                        "The first child must be a FlexibleSpaceHeaderView.");
-            }
-            mHeaderView = (FlexibleSpaceHeaderView) firstChild;
-            View secondChild = viewGroup.getChildAt(1);
-            if (!(secondChild instanceof FlexibleSpaceContentView)) {
-                throw new IllegalStateException(
-                        "The second child must be a FlexibleSpaceContentView.");
-            }
-            mContentView = (FlexibleSpaceContentView) secondChild;
+            findHeaderView(viewGroup.getChildAt(0));
+            findContentView(viewGroup.getChildAt(1));
         } else {
             throw new IllegalStateException("Must have one or two children.");
+        }
+    }
+
+    private void findHeaderView(View view) {
+        if (view instanceof FlexibleSpaceHeaderView) {
+            mHeaderView = (FlexibleSpaceHeaderView) view;
+        } else if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            if (viewGroup.getChildCount() > 0) {
+                findHeaderView(viewGroup.getChildAt(0));
+            } else {
+                throw new IllegalStateException(
+                        "The first child must be or contain a FlexibleSpaceHeaderView.");
+            }
+        } else {
+            throw new IllegalStateException(
+                    "The first child must be a FlexibleSpaceHeaderView or a ViewGroup.");
+        }
+    }
+
+    private void findContentView(View view) {
+        if (view instanceof FlexibleSpaceContentView) {
+            mContentView = (FlexibleSpaceContentView) view;
+        } else if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            if (viewGroup.getChildCount() > 0) {
+                findContentView(viewGroup.getChildAt(0));
+            } else {
+                throw new IllegalStateException(
+                        "The first child must be or contain a FlexibleSpaceContentView.");
+            }
+        } else {
+            throw new IllegalStateException(
+                    "The first child must be a FlexibleSpaceContentView or a ViewGroup.");
         }
     }
 
