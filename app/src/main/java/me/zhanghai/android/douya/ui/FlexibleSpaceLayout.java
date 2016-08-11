@@ -413,7 +413,7 @@ public class FlexibleSpaceLayout extends LinearLayout {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        if (!mEdgeEffectBottom.isFinished()) {
+        if (shouldDrawEdgeEffectBottom() && !mEdgeEffectBottom.isFinished()) {
             int count = canvas.save();
             int width = getWidth();
             int height = getHeight();
@@ -425,6 +425,10 @@ public class FlexibleSpaceLayout extends LinearLayout {
             }
             canvas.restoreToCount(count);
         }
+    }
+
+    protected boolean shouldDrawEdgeEffectBottom() {
+        return true;
     }
 
     private void updateActivePointerId(MotionEvent event) {

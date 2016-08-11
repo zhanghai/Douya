@@ -179,6 +179,11 @@ public class ProfileLayout extends FlexibleSpaceLayout {
         }
     }
 
+    @Override
+    protected boolean shouldDrawEdgeEffectBottom() {
+        return !mUseWideLayout;
+    }
+
     public Listener getListener() {
         return mListener;
     }
