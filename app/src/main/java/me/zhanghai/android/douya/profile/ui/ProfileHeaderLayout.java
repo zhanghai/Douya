@@ -29,6 +29,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.followship.content.FollowUserManager;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
 import me.zhanghai.android.douya.ui.GalleryActivity;
 import me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView;
@@ -77,7 +78,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     @BindView(R.id.avatar)
     CircleImageView mAvatarImage;
 
-    private boolean mInLandscape;
+    private boolean mUseWideLayout;
     private int mMaxHeight;
     private int mScroll;
 
@@ -113,7 +114,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     private void init() {
 
         Context context = getContext();
-        mInLandscape = ViewUtils.isInLandscape(context);
+        mUseWideLayout = ProfileUtils.shouldUseWideLayout(context);
         mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0,
                 context);
 
@@ -172,7 +173,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
                 MathUtils.unlerp(mSmallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop)
                 : 0;
         avatarMarginTop = Math.max(mSmallAvatarMarginTop, avatarMarginTop);
-        int avatarHorizontalCenter = mInLandscape ? width * 2 / 5 / 2 : width / 2;
+        int avatarHorizontalCenter = mUseWideLayout ? width * 2 / 5 / 2 : width / 2;
         int avatarMarginLeft = MathUtils.lerp(avatarHorizontalCenter - largeAvatarSizeHalf,
                 mSmallAvatarMarginLeft, avatarHorizontalFraction);
         MarginLayoutParams avatarContainerLayoutParams =
@@ -241,7 +242,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     private int getMinHeight() {
-        if (mInLandscape) {
+        if (mUseWideLayout) {
             return mMaxHeight;
         } else {
             // So that we don't need to wait until measure.

@@ -217,14 +217,24 @@ public class ViewUtils {
         return getLongAnimTime(context.getResources());
     }
 
-    private static float getScreenSmallestWidthDp(Context context) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        int smallestWidth = Math.min(metrics.widthPixels, metrics.heightPixels);
-        return pxToDp(smallestWidth, context);
+    private static boolean hasSwDp(int dp, Context context) {
+        return context.getResources().getConfiguration().smallestScreenWidthDp >= dp;
     }
 
     public static boolean hasSw600Dp(Context context) {
-        return getScreenSmallestWidthDp(context) > 600;
+        return hasSwDp(600, context);
+    }
+
+    private static boolean hasWDp(int dp, Context context) {
+        return context.getResources().getConfiguration().screenWidthDp >= dp;
+    }
+
+    public static boolean hasW600Dp(Context context) {
+        return hasWDp(600, context);
+    }
+
+    public static boolean hasW960Dp(Context context) {
+        return hasWDp(960, context);
     }
 
     public static void hideTextInputLayoutErrorOnTextChange(EditText editText,

@@ -12,8 +12,8 @@ import android.view.View;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.FlexibleSpaceContentLayout;
-import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileContentLayout extends FlexibleSpaceContentLayout {
 
@@ -28,7 +28,7 @@ public class ProfileContentLayout extends FlexibleSpaceContentLayout {
     @BindDimen(R.dimen.horizontal_divider_height)
     int mHorizontalDividerHeight;
 
-    private boolean mInLandscape;
+    private boolean mUseWideLayout;
 
     public ProfileContentLayout(Context context) {
         super(context);
@@ -58,13 +58,13 @@ public class ProfileContentLayout extends FlexibleSpaceContentLayout {
 
         ButterKnife.bind(this);
 
-        mInLandscape = ViewUtils.isInLandscape(getContext());
+        mUseWideLayout = ProfileUtils.shouldUseWideLayout(getContext());
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        if (mInLandscape) {
+        if (mUseWideLayout) {
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int paddingLeft = width * 2 / 5 - mScreenEdgeHorizontalMargin;
             setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());

@@ -38,6 +38,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.profile.content.ProfileResource;
+import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -105,7 +106,9 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.profile_fragment, container, false);
+        int layoutRes = ProfileUtils.shouldUseWideLayout(inflater.getContext()) ?
+                R.layout.profile_fragment_wide : R.layout.profile_fragment;
+        return inflater.inflate(layoutRes, container, false);
     }
 
     @Override
@@ -153,7 +156,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         mHeaderLayout.setListener(this);
 
         if (ViewUtils.hasSw600Dp(activity)) {
-            int columnCount = ViewUtils.isInLandscape(activity) ? 3 : 2;
+            int columnCount = ViewUtils.hasW960Dp(activity) ? 3 : 2;
             mContentList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
                     StaggeredGridLayoutManager.VERTICAL));
         } else {

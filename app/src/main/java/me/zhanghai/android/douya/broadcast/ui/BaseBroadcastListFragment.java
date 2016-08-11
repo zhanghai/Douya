@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -40,6 +39,7 @@ import me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingSlopListener;
+import me.zhanghai.android.douya.util.CardUtils;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
@@ -98,12 +98,8 @@ public abstract class BaseBroadcastListFragment extends Fragment
 
         mBroadcastList.setHasFixedSize(true);
         mBroadcastList.setItemAnimator(new NoChangeAnimationItemAnimator());
-        boolean hasSw600Dp = ViewUtils.hasSw600Dp(activity);
-        boolean isInLandscape = ViewUtils.isInLandscape(activity);
         // Always use StaggeredGridLayoutManager so that instance state can be saved.
-        int columnCount = hasSw600Dp && isInLandscape ? 3
-                : hasSw600Dp || isInLandscape ? 2
-                : 1;
+        int columnCount = CardUtils.getColumnCount(activity);
         mBroadcastList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
                 StaggeredGridLayoutManager.VERTICAL));
         mBroadcastAdapter = new BroadcastAdapter(mBroadcastListResource.get(), this);

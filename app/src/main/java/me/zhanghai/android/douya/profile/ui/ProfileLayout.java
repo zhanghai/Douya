@@ -20,6 +20,7 @@ import butterknife.BindColor;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.FlexibleSpaceLayout;
 import me.zhanghai.android.douya.ui.IntProperty;
 import me.zhanghai.android.douya.util.AppUtils;
@@ -35,7 +36,7 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     private ViewGroup mOffsetContainer;
     private ProfileHeaderLayout mProfileHeaderLayout;
 
-    private boolean mInLandscape;
+    private boolean mUseWideLayout;
     private boolean mExiting;
 
     private ColorDrawable mWindowBackground;
@@ -72,7 +73,7 @@ public class ProfileLayout extends FlexibleSpaceLayout {
         ButterKnife.bind(this);
 
         Context context = getContext();
-        mInLandscape = ViewUtils.isInLandscape(context);
+        mUseWideLayout = ProfileUtils.shouldUseWideLayout(context);
 
         mWindowBackground = new ColorDrawable(mBackgroundColor);
         AppUtils.getActivityFromContext(context).getWindow()
@@ -92,7 +93,7 @@ public class ProfileLayout extends FlexibleSpaceLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        int headerMaxHeight = mInLandscape ? height : height * 2 / 3;
+        int headerMaxHeight = mUseWideLayout ? height : height * 2 / 3;
         mProfileHeaderLayout.setMaxHeight(headerMaxHeight);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
