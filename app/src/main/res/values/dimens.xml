@@ -87,8 +87,6 @@
     <dimen name="profile_large_avatar_size">128dp</dimen>
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">8dp</dimen>
     <dimen name="profile_small_avatar_size">32dp</dimen>
-    <dimen name="profile_small_avatar_margin_left">@dimen/screen_edge_horizontal_margin</dimen>
-    <dimen name="profile_small_avatar_margin_top">12dp</dimen>
 
     <dimen name="image_max_height">640dp</dimen>
 </resources>

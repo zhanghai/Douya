@@ -54,8 +54,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     int mSmallAvatarSize;
     @BindDimen(R.dimen.profile_small_avatar_margin_left)
     int mSmallAvatarMarginLeft;
-    @BindDimen(R.dimen.profile_small_avatar_margin_top)
-    int mSmallAvatarMarginTop;
+    @BindDimen(R.dimen.toolbar_height)
+    int mToolbarHeight;
 
     @BindView(R.id.dismiss)
     View mDismissView;
@@ -169,10 +169,10 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
 
         int largeAvatarSizeHalf = mLargeAvatarSize / 2;
         int avatarMarginTop = dismissViewHeight - largeAvatarSizeHalf;
-        float avatarHorizontalFraction = avatarMarginTop < mSmallAvatarMarginTop ?
-                MathUtils.unlerp(mSmallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop)
-                : 0;
-        avatarMarginTop = Math.max(mSmallAvatarMarginTop, avatarMarginTop);
+        int smallAvatarMarginTop = (mToolbarHeight - mSmallAvatarSize) / 2;
+        float avatarHorizontalFraction = avatarMarginTop < smallAvatarMarginTop ?
+                MathUtils.unlerp(smallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop) : 0;
+        avatarMarginTop = Math.max(smallAvatarMarginTop, avatarMarginTop);
         int avatarHorizontalCenter = mUseWideLayout ? width * 2 / 5 / 2 : width / 2;
         int avatarMarginLeft = MathUtils.lerp(avatarHorizontalCenter - largeAvatarSizeHalf,
                 mSmallAvatarMarginLeft, avatarHorizontalFraction);
