@@ -52,8 +52,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     int mLargeAvatarSize;
     @BindDimen(R.dimen.profile_small_avatar_size)
     int mSmallAvatarSize;
-    @BindDimen(R.dimen.profile_small_avatar_margin_left)
-    int mSmallAvatarMarginLeft;
+    @BindDimen(R.dimen.screen_edge_horizontal_margin)
+    int mScreenEdgeHorizontalMargin;
     @BindDimen(R.dimen.toolbar_height)
     int mToolbarHeight;
 
@@ -175,7 +175,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         avatarMarginTop = Math.max(smallAvatarMarginTop, avatarMarginTop);
         int avatarHorizontalCenter = mUseWideLayout ? width * 2 / 5 / 2 : width / 2;
         int avatarMarginLeft = MathUtils.lerp(avatarHorizontalCenter - largeAvatarSizeHalf,
-                mSmallAvatarMarginLeft, avatarHorizontalFraction);
+                mScreenEdgeHorizontalMargin, avatarHorizontalFraction);
         MarginLayoutParams avatarContainerLayoutParams =
                 (MarginLayoutParams) mAvatarContainerLayout.getLayoutParams();
         avatarContainerLayoutParams.leftMargin = avatarMarginLeft;
