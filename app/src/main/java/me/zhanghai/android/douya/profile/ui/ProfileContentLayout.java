@@ -70,7 +70,7 @@ public class ProfileContentLayout extends FlexibleSpaceContentLayout {
             setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
             int height = MeasureSpec.getSize(heightMeasureSpec);
             View contentView = getContentView();
-            int contentPaddingTop = height / 2 - mSingleLineListItemHeight
+            int contentPaddingTop = height * 2 / 5 - mSingleLineListItemHeight
                     - (mCardVerticalMargin - mCardShadowVerticalMargin) - mHorizontalDividerHeight;
             contentView.setPadding(contentView.getPaddingLeft(), contentPaddingTop,
                     contentView.getPaddingRight(), contentView.getPaddingBottom());

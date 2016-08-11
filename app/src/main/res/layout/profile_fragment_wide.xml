@@ -28,25 +28,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-            <!-- FIXME: Set in ProfileHeaderLayout please. -->
             <LinearLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="?colorPrimary"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:theme="?actionBarTheme"
-                android:weightSum="10">
+                android:orientation="vertical"
+                android:theme="?actionBarTheme">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:orientation="vertical">
-
-                    <include layout="@layout/profile_header_appbar_content_include" />
-                </LinearLayout>
+                <include layout="@layout/profile_header_appbar_content_include" />
             </LinearLayout>
 
             <include layout="@layout/profile_header_avatar_include" />
