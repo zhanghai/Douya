@@ -16,7 +16,7 @@
         android:icon="@drawable/mail_icon_white_24dp"
         android:orderInCategory="100"
         android:title="@string/profile_send_doumail"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_blacklist"
