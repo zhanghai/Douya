@@ -29,6 +29,10 @@
 
     <style name="ThemeOverlay.Preference" parent="Base.ThemeOverlay.Preference" />
 
+    <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlActivated">?android:attr/textColorPrimary</item>
+    </style>
+
     <style name="Theme.Douya" parent="Theme.AppCompat.Light.DarkActionBar">
 
         <item name="actionModeBackground">@color/background_material_dark</item>
@@ -38,6 +42,7 @@
         <item name="windowNoTitle">true</item>
 
         <!-- Fixes. -->
+        <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
         <item name="android:textColorLink">?colorAccent</item>
         <!-- NOTE: The following two framework attributes are v11. Anyway. -->
