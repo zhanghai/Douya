@@ -31,7 +31,7 @@ public class DispatchInsetsHelper {
     }
 
     // Not calling super deliberately.
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
 
         mInsets = insets;

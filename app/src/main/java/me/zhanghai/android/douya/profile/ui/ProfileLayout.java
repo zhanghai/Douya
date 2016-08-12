@@ -8,13 +8,16 @@ package me.zhanghai.android.douya.profile.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 
 import butterknife.BindColor;
 import butterknife.BindInt;
@@ -75,6 +78,10 @@ public class ProfileLayout extends FlexibleSpaceLayout {
         Context context = getContext();
         mUseWideLayout = ProfileUtils.shouldUseWideLayout(context);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE | SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+
         mWindowBackground = new ColorDrawable(mBackgroundColor);
         AppUtils.getActivityFromContext(context).getWindow()
                 .setBackgroundDrawable(mWindowBackground);
@@ -87,6 +94,14 @@ public class ProfileLayout extends FlexibleSpaceLayout {
         // HACK: Coupled with specific XML hierarchy.
         mOffsetContainer = (ViewGroup) getChildAt(0);
         mProfileHeaderLayout = (ProfileHeaderLayout) mOffsetContainer.getChildAt(0);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+    @Override
+    public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
+        setPadding(insets.getSystemWindowInsetLeft(), 0, insets.getSystemWindowInsetRight(), 0);
+        mProfileHeaderLayout.setInsetTop(insets.getSystemWindowInsetTop());
+        return insets.consumeSystemWindowInsets();
     }
 
     @Override

@@ -34,6 +34,7 @@ import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
 import me.zhanghai.android.douya.ui.GalleryActivity;
 import me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView;
 import me.zhanghai.android.douya.ui.WhiteIndeterminateProgressIconDrawable;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.MathUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
@@ -45,8 +46,8 @@ import me.zhanghai.android.douya.util.ViewUtils;
  */
 public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHeaderView {
 
-    @BindColor(android.R.color.transparent)
-    int mStatusBarColorTransparent;
+    @BindColor(R.color.system_window_scrim)
+    int mStatusBarColorScrim;
     private int mStatusBarColorFullscreen;
     @BindDimen(R.dimen.profile_large_avatar_size)
     int mLargeAvatarSize;
@@ -79,6 +80,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     CircleImageView mAvatarImage;
 
     private boolean mUseWideLayout;
+
+    private int mInsetTop;
     private int mMaxHeight;
     private int mScroll;
 
@@ -113,13 +116,6 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void init() {
 
-        Context context = getContext();
-        mUseWideLayout = ProfileUtils.shouldUseWideLayout(context);
-        mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0,
-                context);
-
-        StatusBarColorUtils.set(mStatusBarColorTransparent, (Activity) context);
-
         // HACK: We need to delegate the outline so that elevation can work.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setOutlineProvider(new ViewOutlineProvider() {
@@ -143,6 +139,12 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         super.onFinishInflate();
 
         ButterKnife.bind(this);
+        Context context = getContext();
+        mStatusBarColorFullscreen = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0,
+                context);
+        mUseWideLayout = ProfileUtils.shouldUseWideLayout(context);
+
+        StatusBarColorUtils.set(mStatusBarColorScrim, (Activity) context);
     }
 
     public void setListener(Listener listener) {
@@ -172,11 +174,11 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         }
 
         int largeAvatarSizeHalf = mLargeAvatarSize / 2;
-        int avatarMarginTop = dismissViewHeight - largeAvatarSizeHalf;
+        int avatarMarginTop = dismissViewHeight - mInsetTop - largeAvatarSizeHalf;
         int smallAvatarMarginTop = (mToolbarHeight - mSmallAvatarSize) / 2;
         float avatarHorizontalFraction = avatarMarginTop < smallAvatarMarginTop ?
                 MathUtils.unlerp(smallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop) : 0;
-        avatarMarginTop = Math.max(smallAvatarMarginTop, avatarMarginTop);
+        avatarMarginTop = Math.max(smallAvatarMarginTop, avatarMarginTop) + mInsetTop;
         int avatarHorizontalCenter = (mUseWideLayout ? width * 2 / 5 : width) / 2;
         int avatarMarginLeft = MathUtils.lerp(avatarHorizontalCenter - largeAvatarSizeHalf,
                 mScreenEdgeHorizontalMargin, avatarHorizontalFraction);
@@ -202,12 +204,29 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    public void setInsetTop(int insetTop) {
+        if (mInsetTop == insetTop) {
+            return;
+        }
+        mInsetTop = insetTop;
+        requestLayout();
+    }
+
+    private int getAppBarMinHeight() {
+        if (mUseWideLayout) {
+            return getAppBarMaxHeight();
+        } else {
+            // So that we don't need to wait until measure.
+            return mToolbar.getLayoutParams().height;
+        }
+    }
+
     private int getAppBarMaxHeight() {
         return mUseWideLayout ? mMaxHeight * 3 / 5 : mMaxHeight / 2;
     }
 
     private int computeVisibleAppBarHeight() {
-        return MathUtils.lerp(getAppBarMaxHeight(), getMinHeight(), getFraction());
+        return MathUtils.lerp(getAppBarMaxHeight(), getAppBarMinHeight(), getFraction());
     }
 
     private float getFraction() {
@@ -239,9 +258,11 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mScroll = scroll;
 
         if (oldScroll < scrollExtent && mScroll == scrollExtent) {
-            StatusBarColorUtils.animateTo(mStatusBarColorFullscreen, (Activity) getContext());
+            StatusBarColorUtils.animateTo(mStatusBarColorFullscreen,
+                    AppUtils.getActivityFromContext(getContext()));
         } else if (oldScroll == scrollExtent && mScroll < oldScroll) {
-            StatusBarColorUtils.animateTo(mStatusBarColorTransparent, (Activity) getContext());
+            StatusBarColorUtils.animateTo(mStatusBarColorScrim,
+                    AppUtils.getActivityFromContext(getContext()));
         }
     }
 
@@ -250,7 +271,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
             return mMaxHeight;
         } else {
             // So that we don't need to wait until measure.
-            return mToolbar.getLayoutParams().height;
+            return mToolbar.getLayoutParams().height + mInsetTop;
         }
     }
 
