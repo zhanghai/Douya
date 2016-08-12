@@ -220,7 +220,24 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
 - [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)
 
-## 关于使用
+## 构建
+
+APK 文件可以在本项目的 [Releases](https://github.com/DreaminginCodeZH/Douya/releases) 中找到。
+
+至于手动构建本项目的基本步骤：
+
+1. 创建 `signing.properties`：
+
+    ```ini
+storeFile=
+storePassword=
+keyAlias=
+keyPassword=
+```
+
+2. 执行 `./gradlew build`。
+
+## 使用
 
 安装应用后，请安装 [豆芽 API Key 设置向导](https://github.com/DreaminginCodeZH/DouyaApiKey) 以设置 API Key。
 

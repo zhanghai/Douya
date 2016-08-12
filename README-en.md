@@ -84,6 +84,23 @@ Most data are fetched from network while some of them are cached for offline.
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
 - [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)
 
+## Building
+
+You can download the APK file from [releases](https://github.com/DreaminginCodeZH/Douya/releases) of this project.
+
+For building this project yourself:
+
+1. Create `signing.properties`:
+
+   ```ini
+storeFile=
+storePassword=
+keyAlias=
+keyPassword=
+```
+
+2. Execute `./gradlew build`。
+
 ## Using
 
 After installation, please install [Douya API Key](https://github.com/DreaminginCodeZH/DouyaApiKey) to set up API key for this app.
