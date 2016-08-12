@@ -6,6 +6,10 @@
   -->
 
 <resources>
+
     <dimen name="card_activity_width">600dp</dimen>
     <dimen name="card_activity_horizontal_margin">0dp</dimen>
+
+    <dimen name="profile_large_avatar_size">160dp</dimen>
+    <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">16dp</dimen>
 </resources>
