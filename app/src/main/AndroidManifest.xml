@@ -120,6 +120,10 @@
         </receiver>
 
         <meta-data
+            android:name="me.zhanghai.android.douya.ui.GlideConfiguration"
+            android:value="GlideModule" />
+
+        <meta-data
             android:name="io.fabric.ApiKey"
             android:value="dc160e13d1b3c3e917e331e8b272c51a523d8599" />
     </application>
