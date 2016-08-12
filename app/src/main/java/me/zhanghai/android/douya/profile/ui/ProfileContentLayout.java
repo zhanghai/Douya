@@ -66,7 +66,8 @@ public class ProfileContentLayout extends FlexibleSpaceContentLayout {
 
         if (mUseWideLayout) {
             int width = MeasureSpec.getSize(widthMeasureSpec);
-            int paddingLeft = width * 2 / 5 - mScreenEdgeHorizontalMargin;
+            int paddingLeft = ProfileUtils.getAppBarWidth(width, getContext())
+                    - mScreenEdgeHorizontalMargin;
             setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
             int height = MeasureSpec.getSize(heightMeasureSpec);
             View contentView = getContentView();

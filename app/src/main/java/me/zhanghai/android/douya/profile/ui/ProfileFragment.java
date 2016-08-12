@@ -156,8 +156,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         mHeaderLayout.setListener(this);
 
         if (ViewUtils.hasSw600Dp(activity)) {
-            int columnCount = ViewUtils.hasW960Dp(activity) ? 3 : 2;
-            mContentList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
+            mContentList.setLayoutManager(new StaggeredGridLayoutManager(2,
                     StaggeredGridLayoutManager.VERTICAL));
         } else {
             mContentList.setLayoutManager(new LinearLayoutManager(activity));

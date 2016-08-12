@@ -168,9 +168,10 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         appBarLayoutLayoutParams.topMargin = dismissViewHeight;
         // So that the layout remains stable.
         appBarLayoutLayoutParams.height = getAppBarMaxHeight();
+        int appBarWidth = ProfileUtils.getAppBarWidth(width, getContext());
         if (mUseWideLayout) {
             mAppBarLayout.setPadding(mAppBarLayout.getPaddingLeft(), mAppBarLayout.getPaddingTop(),
-                    width * 3 / 5, mAppBarLayout.getPaddingBottom());
+                    width - appBarWidth, mAppBarLayout.getPaddingBottom());
         }
 
         int largeAvatarSizeHalf = mLargeAvatarSize / 2;
@@ -179,8 +180,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         float avatarHorizontalFraction = avatarMarginTop < smallAvatarMarginTop ?
                 MathUtils.unlerp(smallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop) : 0;
         avatarMarginTop = Math.max(smallAvatarMarginTop, avatarMarginTop) + mInsetTop;
-        int avatarHorizontalCenter = (mUseWideLayout ? width * 2 / 5 : width) / 2;
-        int avatarMarginLeft = MathUtils.lerp(avatarHorizontalCenter - largeAvatarSizeHalf,
+        int avatarMarginLeft = MathUtils.lerp(appBarWidth / 2 - largeAvatarSizeHalf,
                 mScreenEdgeHorizontalMargin, avatarHorizontalFraction);
         MarginLayoutParams avatarContainerLayoutParams =
                 (MarginLayoutParams) mAvatarContainerLayout.getLayoutParams();
