@@ -85,7 +85,8 @@ public class UserReviewListResource extends BaseReviewListResource {
     public UserReviewListResource() {}
 
     private void setArguments(String userIdOrUid) {
-        FragmentUtils.ensureArguments(this).putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        FragmentUtils.ensureArguments(this)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
     }
 
     @Override

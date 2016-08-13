@@ -83,7 +83,8 @@ public class ItemReviewListResource extends BaseReviewListResource {
     public ItemReviewListResource() {}
 
     private void setArguments(long itemId) {
-        FragmentUtils.ensureArguments(this).putLong(EXTRA_ITEM_ID, itemId);
+        FragmentUtils.ensureArguments(this)
+                .putLong(EXTRA_ITEM_ID, itemId);
     }
 
     @Override

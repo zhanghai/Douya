@@ -84,7 +84,8 @@ public class UserItemListResource extends ResourceFragment
     public UserItemListResource() {}
 
     protected void setArguments(String userIdOrUid) {
-        FragmentUtils.ensureArguments(this).putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        FragmentUtils.ensureArguments(this)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
     }
 
     @Override

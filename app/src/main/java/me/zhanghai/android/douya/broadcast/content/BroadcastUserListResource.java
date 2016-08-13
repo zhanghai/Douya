@@ -16,7 +16,8 @@ public abstract class BroadcastUserListResource extends RawUserListResource {
     public final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
 
     protected void setArguments(long broadcastId) {
-        FragmentUtils.ensureArguments(this).putLong(EXTRA_BROADCAST_ID, broadcastId);
+        FragmentUtils.ensureArguments(this)
+                .putLong(EXTRA_BROADCAST_ID, broadcastId);
     }
 
     protected long getBroadcastId() {

@@ -34,8 +34,8 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     public static ConfirmDeleteCommentDialogFragment newInstance(Comment comment) {
         //noinspection deprecation
         ConfirmDeleteCommentDialogFragment fragment = new ConfirmDeleteCommentDialogFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putParcelable(EXTRA_COMMENT, comment);
+        FragmentUtils.ensureArguments(fragment)
+                .putParcelable(EXTRA_COMMENT, comment);
         return fragment;
     }
 
