@@ -10,6 +10,7 @@
     <string name="activity_not_found">未找到可处理此操作的应用</string>
     <string name="copied_to_clipboard_format">已复制到剪贴板：\n%1$s</string>
     <string name="load_error">加载失败</string>
+    <string name="not_yet_implemented">尚未实现，敬请期待</string>
     <string name="report_abuse">举报不良信息</string>
     <string name="view_more">查看更多</string>
     <string name="view_more_with_count_format">查看更多（%1$d）</string>

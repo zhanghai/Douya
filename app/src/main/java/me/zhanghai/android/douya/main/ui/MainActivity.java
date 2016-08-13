@@ -26,6 +26,7 @@ import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.home.HomeFragment;
+import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.notification.ui.NotificationListFragment;
 import me.zhanghai.android.douya.scalpel.ScalpelHelperFragment;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
@@ -89,9 +90,15 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
+                            case R.id.navigation_home:
+                                // TODO
+                                break;
                             case R.id.navigation_settings:
                                 onShowSettings();
                                 break;
+                            default:
+                                // TODO
+                                NotImplementedManager.showNotYetImplementedToast(MainActivity.this);
                         }
                         // TODO
                         if (menuItem.getGroupId() == R.id.navigation_group_primary) {

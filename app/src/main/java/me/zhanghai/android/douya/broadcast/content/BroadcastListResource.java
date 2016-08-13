@@ -304,7 +304,15 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     protected void setLoading(boolean loading) {
+        if (mLoading == loading) {
+            return;
+        }
         mLoading = loading;
+        if (mLoading) {
+            getListener().onLoadBroadcastListStarted(getRequestCode());
+        } else {
+            getListener().onLoadBroadcastListFinished(getRequestCode());
+        }
     }
 
     protected void set(List<Broadcast> broadcastList) {

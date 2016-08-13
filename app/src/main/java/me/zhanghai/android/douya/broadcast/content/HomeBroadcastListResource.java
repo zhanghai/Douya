@@ -127,8 +127,6 @@ public class HomeBroadcastListResource extends BroadcastListResource {
                     if (mStopped) {
                         return;
                     }
-                    // TODO: Handle the case when cache is loaded, but auto refresh is started, so
-                    // that swipe refresh should be shown by us.
                     load(false);
                 }
             });

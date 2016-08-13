@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.followship.content.FollowUserManager;
+import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
@@ -204,12 +205,15 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         switch (item.getItemId()) {
             case R.id.action_send_doumail:
                 // TODO
+                NotImplementedManager.showNotYetImplementedToast(getActivity());
                 return true;
             case R.id.action_blacklist:
                 // TODO
+                NotImplementedManager.showNotYetImplementedToast(getActivity());
                 return true;
             case R.id.action_report_abuse:
                 // TODO
+                NotImplementedManager.showNotYetImplementedToast(getActivity());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -201,7 +201,6 @@ public class BroadcastResource extends ResourceFragment
             mBroadcast = broadcast;
             getListener().onBroadcastChanged(getRequestCode(), mBroadcast);
             EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
-            // TODO: Notify others via EventBus, also on BroadcastListResource and UserInfoResource.
         } else {
             getListener().onLoadBroadcastError(getRequestCode(), error);
         }
