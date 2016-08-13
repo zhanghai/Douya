@@ -143,6 +143,14 @@ public class MainActivity extends AppCompatActivity
                 mNotificationListFragment.refresh();
                 mDrawerLayout.openDrawer(mNotificationDrawer);
                 return true;
+            case R.id.action_doumail:
+                // TODO
+                NotImplementedManager.showNotYetImplementedToast(this);
+                return true;
+            case R.id.action_search:
+                // TODO
+                NotImplementedManager.showNotYetImplementedToast(this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

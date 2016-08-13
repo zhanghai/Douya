@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.ui.HomeBroadcastListFragment;
 import me.zhanghai.android.douya.ui.AppBarManager;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
+import me.zhanghai.android.douya.ui.NotYetImplementedFragment;
 import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
 
 public class HomeFragment extends Fragment implements AppBarManager {
@@ -78,19 +79,19 @@ public class HomeFragment extends Fragment implements AppBarManager {
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
             public Fragment createFragment() {
-                return new Fragment();
+                return NotYetImplementedFragment.newInstance();
             }
         }, getString(R.string.home_nine_and_quater));
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
             public Fragment createFragment() {
-                return new Fragment();
+                return NotYetImplementedFragment.newInstance();
             }
         }, getString(R.string.home_discover));
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
             public Fragment createFragment() {
-                return new Fragment();
+                return NotYetImplementedFragment.newInstance();
             }
         }, getString(R.string.home_online));
         mViewPager.setOffscreenPageLimit(mTabAdapter.getCount() - 1);
