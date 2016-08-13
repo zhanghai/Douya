@@ -119,8 +119,8 @@
 
     <string name="navigation_home">首页</string>
     <string name="navigation_book">读书</string>
-    <string name="navigation_music">音乐</string>
     <string name="navigation_movie">电影</string>
+    <string name="navigation_music">音乐</string>
     <string name="navigation_settings">设置</string>
     <string name="navigation_feedback">反馈</string>
 
