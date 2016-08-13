@@ -7,7 +7,7 @@
 
 <resources>
 
-    <!-- Fixes. -->
+    <!-- HACK: Fixes. -->
     <style name="CardView">
         <item name="cardBackgroundColor">@color/card_background_light</item>
         <item name="cardCornerRadius">@dimen/cardview_default_radius</item>
@@ -81,10 +81,25 @@
     <style name="Base.TextAppearance.Douya.Widget.ActionBar.Menu" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
         <item name="android:textSize">@dimen/abc_text_size_menu_material</item>
     </style>
-
     <style name="TextAppearance.Douya.Widget.ActionBar.Menu" parent="@style/Base.TextAppearance.Douya.Widget.ActionBar.Menu">
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <!-- Declare our own styles so that we won't be switched to platform styles. -->
+    <style name="Base.TextAppearance.Douya.Widget.ActionBar.Title" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
+    </style>
+    <style name="Base.TextAppearance.Douya.Widget.ActionBar.Title.Inverse" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
+    </style>
+    <style name="TextAppearance.Douya.Widget.ActionBar.Title" parent="Base.TextAppearance.Douya.Widget.ActionBar.Title" />
+    <style name="TextAppearance.Douya.Widget.ActionBar.Title.Inverse" parent="Base.TextAppearance.Douya.Widget.ActionBar.Title.Inverse" />
+    <style name="Base.TextAppearance.Widget.Douya.Toolbar.Title" parent="TextAppearance.Douya.Widget.ActionBar.Title" />
+    <style name="TextAppearance.Widget.Douya.Toolbar.Title" parent="Base.TextAppearance.Widget.Douya.Toolbar.Title" />
+    <style name="Base.Widget.Douya.Toolbar" parent="Base.Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.Douya.Toolbar.Title</item>
+    </style>
+    <style name="Widget.Douya.Toolbar" parent="Base.Widget.Douya.Toolbar" />
 
     <style name="Widget.Douya.Toolbar.Button.Navigation" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:paddingLeft">0dp</item>

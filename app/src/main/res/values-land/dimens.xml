@@ -6,6 +6,10 @@
   -->
 
 <resources>
+
+    <!-- HACK: We don't use toolbar subtitle, so we want the title to be bigger. -->
+    <dimen name="abc_text_size_title_material_toolbar">18dp</dimen>
+
     <dimen name="toolbar_height">48dp</dimen>
     <dimen name="toolbar_hide_offset">-54dp</dimen>
     <dimen name="toolbar_and_tab_height">96dp</dimen>

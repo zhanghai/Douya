@@ -48,6 +48,7 @@
         <!-- NOTE: The following two framework attributes are v11. Anyway. -->
         <item name="dividerHorizontal">?android:dividerHorizontal</item>
         <item name="dividerVertical">?android:dividerVertical</item>
+        <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
 
         <item name="colorPrimary">@color/douya_primary</item>
