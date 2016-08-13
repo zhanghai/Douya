@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.link;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
@@ -28,6 +29,19 @@ public class UrlHandler {
     private UrlHandler() {}
 
     private static void open(Uri uri, Context context, boolean enableCustomTabs) {
+
+        String scheme = uri.getScheme();
+        if (!TextUtils.isEmpty(scheme)) {
+            switch (uri.getScheme()) {
+                case "http":
+                case "https":
+                case "ftp":
+                    break;
+                default:
+                    UrlUtils.openWithIntent(uri, context);
+                    return;
+            }
+        }
 
         switch (Settings.OPEN_URL_WITH_METHOD.getEnumValue(context)) {
             case CUSTOM_TABS:

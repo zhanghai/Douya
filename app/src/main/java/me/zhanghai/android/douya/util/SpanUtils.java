@@ -71,10 +71,10 @@ public class SpanUtils {
     private static final String[] EMAIL_SCHEMES = { "mailto:" };
 
     /**
-     * Modified from {@link Patterns#PHONE}, with required tel scheme added.
+     * Modified from {@link Patterns#PHONE}, with required tel/sms/smsto scheme added.
      */
     public static final Pattern PHONE_URI_PATTERN = Pattern.compile(
-            "tel:"
+            "(tel|sms|smsto):"
                     + "(\\+[0-9]+[\\- \\.]*)?"
                     + "(\\([0-9]+\\)[\\- \\.]*)?"
                     + "([0-9][0-9\\- \\.]+[0-9])");
