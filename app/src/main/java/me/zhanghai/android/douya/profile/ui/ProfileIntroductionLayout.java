@@ -16,6 +16,8 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
+import me.zhanghai.android.douya.util.ViewCompat;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileIntroductionLayout extends FriendlyCardView {
 
@@ -63,6 +65,8 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
                     onCopyText(finalIntroduction);
                 }
             });
+            ViewCompat.setBackground(mTitleText, ViewUtils.getDrawableFromAttrRes(
+                    R.attr.selectableItemBackground, getContext()));
             mContentText.setText(introduction);
             mContentText.setOnLongClickListener(new OnLongClickListener() {
                 @Override
@@ -72,7 +76,12 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
                 }
             });
         } else {
+            mTitleText.setOnClickListener(null);
+            mTitleText.setClickable(false);
+            ViewCompat.setBackground(mTitleText, null);
             mContentText.setText(R.string.profile_introduction_empty);
+            mContentText.setOnLongClickListener(null);
+            mContentText.setLongClickable(false);
         }
     }
 

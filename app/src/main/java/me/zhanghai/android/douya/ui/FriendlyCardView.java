@@ -45,5 +45,8 @@ public class FriendlyCardView extends CardView {
 
         setUseCompatPadding(true);
         setPreventCornerOverlap(false);
+
+        // User should never click through a card.
+        setClickable(true);
     }
 }
