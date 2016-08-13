@@ -45,7 +45,6 @@
                 android:id="@+id/tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabIndicatorColor="@android:color/white"
                 app:tabMode="scrollable"
                 app:tabPaddingStart="@dimen/screen_edge_horizontal_margin"
                 app:tabPaddingEnd="@dimen/screen_edge_horizontal_margin" />

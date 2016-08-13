@@ -30,7 +30,7 @@
     <style name="ThemeOverlay.Preference" parent="Base.ThemeOverlay.Preference" />
 
     <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlActivated">?android:attr/textColorPrimary</item>
+        <item name="colorAccent">@android:color/white</item>
     </style>
 
     <style name="Theme.Douya" parent="Theme.AppCompat.Light.DarkActionBar">
