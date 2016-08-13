@@ -81,12 +81,6 @@ public class HomeFragment extends Fragment implements AppBarManager {
             public Fragment createFragment() {
                 return NotYetImplementedFragment.newInstance();
             }
-        }, getString(R.string.home_nine_and_quater));
-        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
-            @Override
-            public Fragment createFragment() {
-                return NotYetImplementedFragment.newInstance();
-            }
         }, getString(R.string.home_discover));
         mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
             @Override
