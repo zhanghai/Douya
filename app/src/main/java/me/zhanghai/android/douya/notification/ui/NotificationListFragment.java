@@ -185,16 +185,10 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
     }
 
     public void refresh() {
-        // DISABLED: This always make users miss unread notifications. Should wait for another API
-        // that can return a full list of notification and mark items as read explicitly.
-//        // Don't lose unread notifications if the refresh is not started by user.
-//        if (getUnreadNotificationCount() > 0) {
-//            return;
-//        }
-//        if (!mNotificationAdapter.getList().isEmpty()) {
-//            mSwipeRefreshLayout.setRefreshing(true);
-//        }
-//        loadNotificationList(false);
+        if (!mNotificationAdapter.getList().isEmpty()) {
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
+        loadNotificationList(false);
     }
 
     public void setUnreadNotificationCountListener(UnreadNotificationCountListener listener) {
@@ -249,6 +243,18 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
             if (state.loadMore) {
                 mNotificationAdapter.addAll(notificationList);
             } else {
+                // FIXME: Move to somewhere else. This cannot handle unread count > 20, or read
+                // elsewhere.
+                for (Notification notification : mNotificationAdapter.getList()) {
+                    if (!notification.read) {
+                        for (Notification newNotification : notificationList) {
+                            if (newNotification.id == notification.id) {
+                                newNotification.read = false;
+                                break;
+                            }
+                        }
+                    }
+                }
                 mNotificationAdapter.replace(notificationList);
             }
             onNotificationListUpdated();
@@ -289,11 +295,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
                     onNotificationListUpdated();
                 }
                 if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue(getActivity())) {
-                    // FIXME: Revert to calling refresh() later.
-                    if (!mNotificationAdapter.getList().isEmpty()) {
-                        mSwipeRefreshLayout.setRefreshing(true);
-                    }
-                    loadNotificationList(false);
+                    refresh();
                 }
             }
         }, getActivity());
