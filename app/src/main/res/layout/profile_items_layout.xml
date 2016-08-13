@@ -27,7 +27,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="?android:textColorSecondary" />
 
-    <me.zhanghai.android.douya.ui.RatioHeightRecyclerView
+    <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
         android:id="@+id/item_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

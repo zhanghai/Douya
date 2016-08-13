@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
+import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.apiv2.Attachment;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
@@ -37,8 +39,6 @@ import me.zhanghai.android.douya.ui.GalleryActivity;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
-import me.zhanghai.android.douya.ui.RatioHeightRecyclerView;
-import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
@@ -77,7 +77,7 @@ public class BroadcastLayout extends LinearLayout {
     @BindView(R.id.image_list_description)
     TextView mImageListDescriptionText;
     @BindView(R.id.image_list)
-    RatioHeightRecyclerView mImageList;
+    RecyclerView mImageList;
     @BindView(R.id.text_space)
     Space mTextSpace;
     @BindView(R.id.text)

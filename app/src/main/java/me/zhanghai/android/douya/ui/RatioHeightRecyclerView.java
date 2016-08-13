@@ -13,6 +13,9 @@ import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.R;
 
+/**
+ * @deprecated Use {@link NestedRatioHeightRecyclerView} instead for most of the time.
+ */
 public class RatioHeightRecyclerView extends RecyclerView {
 
     private float mRatio;
