@@ -41,13 +41,15 @@ import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
+import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileFragment extends Fragment implements ProfileResource.Listener,
-        ProfileHeaderLayout.Listener, ConfirmUnfollowUserDialogFragment.Listener {
+        ProfileHeaderLayout.Listener, ProfileIntroductionLayout.Listener,
+        ConfirmUnfollowUserDialogFragment.Listener {
 
     private static final String KEY_PREFIX = ProfileFragment.class.getName() + '.';
 
@@ -162,7 +164,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         } else {
             mContentList.setLayoutManager(new LinearLayoutManager(activity));
         }
-        mProfileAdapter = new ProfileAdapter();
+        mProfileAdapter = new ProfileAdapter(this);
         mContentList.setAdapter(mProfileAdapter);
         if (mProfileResource.isLoaded()) {
             mProfileResource.notifyChangedIfLoaded();
@@ -269,5 +271,10 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     @Override
     public void unfollowUser() {
         FollowUserManager.getInstance().write(mProfileResource.getUserInfo(), false, getActivity());
+    }
+
+    @Override
+    public void onCopyText(String text) {
+        CopyTextDialogFragment.show(text, this);
     }
 }

@@ -33,9 +33,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 
     private static final int ITEM_COUNT = 8;
 
+    private ProfileIntroductionLayout.Listener mListener;
+
     private Data mData;
 
-    public ProfileAdapter() {
+    public ProfileAdapter(ProfileIntroductionLayout.Listener listener) {
+
+        mListener = listener;
+
         setHasStableIds(true);
     }
 
@@ -96,9 +101,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         switch (position) {
-            case ITEM_INTRODUCTION:
-                ((ProfileIntroductionLayout) holder.getChild()).bind(mData.userInfo);
+            case ITEM_INTRODUCTION: {
+                ProfileIntroductionLayout layout = ((ProfileIntroductionLayout) holder.getChild());
+                layout.bind(mData.userInfo);
+                layout.setListener(mListener);
                 break;
+            }
             case ITEM_BROADCASTS:
                 ((ProfileBroadcastsLayout) holder.getChild()).bind(mData.userInfo,
                         mData.broadcastList);

@@ -24,6 +24,8 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
     @BindView(R.id.content)
     TextView mContentText;
 
+    private Listener mListener;
+
     public ProfileIntroductionLayout(Context context) {
         super(context);
 
@@ -47,31 +49,44 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
+
     public void bind(String introduction) {
         introduction = introduction.trim();
-        mTitleText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Open a dialog.
-                //context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid));
-            }
-        });
+        final String trimmedIntroduction = introduction;
         if (!TextUtils.isEmpty(introduction)) {
+            mTitleText.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onCopyText(trimmedIntroduction);
+                }
+            });
             mContentText.setText(introduction);
+            mContentText.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onCopyText(trimmedIntroduction);
+                    return true;
+                }
+            });
         } else {
             mContentText.setText(R.string.profile_introduction_empty);
         }
-        mContentText.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                // TODO: Open a dialog.
-                //context.startActivity(BroadcastListActivity.makeIntent(userIdOrUid));
-                return true;
-            }
-        });
     }
 
     public void bind(UserInfo userInfo) {
         bind(userInfo.introduction);
+    }
+
+    private void onCopyText(String text) {
+        if (mListener != null) {
+            mListener.onCopyText(text);
+        }
+    }
+
+    public interface Listener {
+        void onCopyText(String text);
     }
 }
