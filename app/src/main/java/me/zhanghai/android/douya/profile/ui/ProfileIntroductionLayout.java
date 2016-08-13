@@ -55,19 +55,19 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
 
     public void bind(String introduction) {
         introduction = introduction.trim();
-        final String trimmedIntroduction = introduction;
         if (!TextUtils.isEmpty(introduction)) {
+            final String finalIntroduction = introduction;
             mTitleText.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onCopyText(trimmedIntroduction);
+                    onCopyText(finalIntroduction);
                 }
             });
             mContentText.setText(introduction);
             mContentText.setOnLongClickListener(new OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    onCopyText(trimmedIntroduction);
+                    onCopyText(finalIntroduction);
                     return true;
                 }
             });
