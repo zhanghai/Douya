@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.scalpel.ScalpelHelperFragment;
 import me.zhanghai.android.douya.ui.KonamiCodeDetector;
 
@@ -32,6 +34,8 @@ public class AboutFragment extends Fragment implements ConfirmEnableScalpelDialo
     Toolbar mToolbar;
     @BindView(R.id.version)
     TextView mVersionText;
+    @BindView(R.id.douban)
+    Button mDoubanButton;
 
     public static AboutFragment newInstance() {
         //noinspection deprecation
@@ -70,7 +74,7 @@ public class AboutFragment extends Fragment implements ConfirmEnableScalpelDialo
 
         ScalpelHelperFragment.attachTo(this);
 
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
         activity.getSupportActionBar().setTitle(null);
 
@@ -84,6 +88,12 @@ public class AboutFragment extends Fragment implements ConfirmEnableScalpelDialo
         });
 
         mVersionText.setText(getString(R.string.about_version_format, BuildConfig.VERSION_NAME));
+        mDoubanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.startActivity(ProfileActivity.makeIntent("douban-douya", activity));
+            }
+        });
     }
 
     @Override

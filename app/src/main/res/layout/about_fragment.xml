@@ -47,15 +47,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
-                style="@style/TextAppearance.AppCompat.Subhead" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:text="@string/about_credit"
-                style="@style/TextAppearance.AppCompat.Subhead" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <Button
+                android:id="@+id/douban"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-16dp"
+                android:text="@string/about_douban"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                style="?borderlessButtonStyle" />
         </LinearLayout>
     </ScrollView>
 
