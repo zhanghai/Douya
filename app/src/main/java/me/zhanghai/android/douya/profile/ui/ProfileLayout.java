@@ -233,6 +233,10 @@ public class ProfileLayout extends FlexibleSpaceLayout {
 
     public void exit() {
 
+        if (mExiting) {
+            return;
+        }
+
         mExiting = true;
         abortScrollerAnimation();
         recycleVelocityTrackerIfHas();
