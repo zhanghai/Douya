@@ -93,7 +93,7 @@ For building this project yourself:
 1. Create `signing.properties`:
 
    ```ini
-storeFile=
+storeFile=YOUR_STORE_FILE
 storePassword=
 keyAlias=
 keyPassword=

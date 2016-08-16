@@ -229,7 +229,7 @@ APK 文件可以在本项目的 [Releases](https://github.com/DreaminginCodeZH/D
 1. 创建 `signing.properties`：
 
     ```ini
-storeFile=
+storeFile=YOUR_STORE_FILE
 storePassword=
 keyAlias=
 keyPassword=
