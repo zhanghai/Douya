@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
             case R.id.action_search:
                 // TODO
-                NotImplementedManager.showNotYetImplementedToast(this);
+                NotImplementedManager.openSearch(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
