@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.util;
 
-
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;

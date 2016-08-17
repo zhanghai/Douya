@@ -27,12 +27,16 @@ import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.FlexibleSpaceLayout;
 import me.zhanghai.android.douya.ui.IntProperty;
 import me.zhanghai.android.douya.util.AppUtils;
+import me.zhanghai.android.douya.util.ColorUtils;
+import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileLayout extends FlexibleSpaceLayout {
 
     @BindInt(android.R.integer.config_shortAnimTime)
     int mShortAnimationTime;
+    @BindColor(R.color.system_window_scrim)
+    int mStatusBarColor;
     @BindColor(R.color.dark_70_percent)
     int mBackgroundColor;
 
@@ -129,16 +133,19 @@ public class ProfileLayout extends FlexibleSpaceLayout {
         }
 
         mOffsetContainer.setTranslationY(offset);
-        updateWindowBackground(offset);
+        updateStatusBarAndWindowBackground(offset);
     }
 
     public void offsetBy(int delta) {
         offsetTo(getOffset() + delta);
     }
 
-    private void updateWindowBackground(int offset) {
+    private void updateStatusBarAndWindowBackground(int offset) {
         float fraction = Math.max(0, 1 - (float) offset / getHeight());
-        mWindowBackground.setAlpha((int) (fraction * 0xFF));
+        int alpha = (int) (fraction * 0xFF);
+        int statusBarColor = ColorUtils.blendAlphaComponent(mStatusBarColor, alpha);
+        StatusBarColorUtils.set(statusBarColor, AppUtils.getActivityFromContext(getContext()));
+        mWindowBackground.setAlpha(alpha);
     }
 
     @Override
