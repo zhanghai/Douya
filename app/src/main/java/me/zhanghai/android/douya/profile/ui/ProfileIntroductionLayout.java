@@ -68,20 +68,11 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
             ViewCompat.setBackground(mTitleText, ViewUtils.getDrawableFromAttrRes(
                     R.attr.selectableItemBackground, getContext()));
             mContentText.setText(introduction);
-            mContentText.setOnLongClickListener(new OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    onCopyText(finalIntroduction);
-                    return true;
-                }
-            });
         } else {
             mTitleText.setOnClickListener(null);
             mTitleText.setClickable(false);
             ViewCompat.setBackground(mTitleText, null);
             mContentText.setText(R.string.profile_introduction_empty);
-            mContentText.setOnLongClickListener(null);
-            mContentText.setLongClickable(false);
         }
     }
 
