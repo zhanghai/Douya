@@ -6,8 +6,12 @@
   -->
 
 <resources>
+
     <dimen name="card_list_horizontal_padding">8dp</dimen>
     <dimen name="card_horizontal_margin">6dp</dimen>
     <dimen name="card_header_horizontal_margin">8dp</dimen>
     <dimen name="card_corner_radius">2dp</dimen>
+
+    <dimen name="profile_large_avatar_size">112dp</dimen>
+    <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">8dp</dimen>
 </resources>
