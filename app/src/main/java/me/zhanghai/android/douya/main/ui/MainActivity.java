@@ -112,8 +112,7 @@ public class MainActivity extends AppCompatActivity
                 mDrawerLayout.openDrawer(mNotificationDrawer);
                 return true;
             case R.id.action_doumail:
-                // TODO
-                NotImplementedManager.showNotYetImplementedToast(this);
+                NotImplementedManager.openDoumail(this);
                 return true;
             case R.id.action_search:
                 // TODO

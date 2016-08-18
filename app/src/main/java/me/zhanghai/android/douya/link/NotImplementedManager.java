@@ -18,6 +18,10 @@ public class NotImplementedManager {
 
     private NotImplementedManager() {}
 
+    public static void openDoumail(Context context) {
+        UrlHandler.open("https://www.douban.com/doumail/", context);
+    }
+
     public static void openSearch(Context context) {
         UrlHandler.open("https://www.douban.com/search", context);
     }
