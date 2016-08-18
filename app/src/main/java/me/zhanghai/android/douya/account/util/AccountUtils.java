@@ -18,6 +18,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 
 import me.zhanghai.android.douya.account.app.AccountPreferences;
@@ -25,7 +28,9 @@ import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.ui.AddAccountActivity;
 import me.zhanghai.android.douya.account.ui.SelectAccountActivity;
 import me.zhanghai.android.douya.network.Volley;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.util.GsonHelper;
 
 public class AccountUtils {
 
@@ -280,5 +285,35 @@ public class AccountUtils {
     public static void setRefreshToken(Account account, String refreshToken, Context context) {
         AccountPreferences.from(account, context).putString(AccountContract.KEY_REFRESH_TOKEN,
                 refreshToken);
+    }
+
+    public static UserInfo getUserInfo(Account account, Context context) {
+        String userInfoJson = AccountPreferences.from(account, context)
+                .getString(AccountContract.KEY_USER_INFO, null);
+        if (!TextUtils.isEmpty(userInfoJson)) {
+            try {
+                return GsonHelper.get().fromJson(userInfoJson,
+                        new TypeToken<UserInfo>() {}.getType());
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static void setUserInfo(Account account, UserInfo userInfo, Context context) {
+        String userInfoJson = GsonHelper.get().toJson(userInfo,
+                new TypeToken<UserInfo>() {}.getType());
+        AccountPreferences.from(account, context).putString(AccountContract.KEY_USER_INFO,
+                userInfoJson);
+    }
+
+
+    public static UserInfo getUserInfo(Context context) {
+        return getUserInfo(getActiveAccount(context), context);
+    }
+
+    public static void setUserInfo(UserInfo userInfo, Context context) {
+        setUserInfo(getActiveAccount(context), userInfo, context);
     }
 }

@@ -27,11 +27,12 @@ import me.zhanghai.android.douya.util.FragmentUtils;
 public class UserInfoResource extends ResourceFragment
         implements RequestFragment.Listener<UserInfo, Void> {
 
-    private static final String KEY_PREFIX = UserInfoResource.class.getName() + '.';
+    // Not static because we are to be subclassed.
+    private final String KEY_PREFIX = getClass().getName() + '.';
 
-    private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
-    private static final String EXTRA_USER = KEY_PREFIX + "user";
-    private static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
+    private final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private final String EXTRA_USER = KEY_PREFIX + "user";
+    private final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
     private String mUserIdOrUid;
     private User mUser;
@@ -97,9 +98,16 @@ public class UserInfoResource extends ResourceFragment
 
     protected void setArguments(String userIdOrUid, User user, UserInfo userInfo) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        arguments.putParcelable(EXTRA_USER, user);
-        arguments.putParcelable(EXTRA_USER_INFO, userInfo);
+        if (userInfo != null) {
+            arguments.putString(EXTRA_USER_ID_OR_UID, userInfo.getIdOrUid());
+            arguments.putParcelable(EXTRA_USER, userInfo);
+            arguments.putParcelable(EXTRA_USER_INFO, userInfo);
+        } else if (user != null) {
+            arguments.putString(EXTRA_USER_ID_OR_UID, user.getIdOrUid());
+            arguments.putParcelable(EXTRA_USER, user);
+        } else {
+            arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        }
     }
 
     @Override
@@ -155,18 +163,9 @@ public class UserInfoResource extends ResourceFragment
     private void ensureUserInfoAndUserAndIdOrUidFromArguments() {
         if (mUserIdOrUid == null) {
             Bundle arguments = getArguments();
+            mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
+            mUser = arguments.getParcelable(EXTRA_USER);
             mUserInfo = arguments.getParcelable(EXTRA_USER_INFO);
-            if (mUserInfo != null) {
-                mUser = mUserInfo;
-                mUserIdOrUid = mUserInfo.getIdOrUid();
-            } else {
-                mUser = arguments.getParcelable(EXTRA_USER);
-                if (mUser != null) {
-                    mUserIdOrUid = mUser.getIdOrUid();
-                } else {
-                    mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
-                }
-            }
         }
     }
 
@@ -240,10 +239,14 @@ public class UserInfoResource extends ResourceFragment
     }
 
     private void setUserInfo(UserInfo userInfo) {
+        onSetUserInfo(userInfo);
+        getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
+    }
+
+    protected void onSetUserInfo(UserInfo userInfo) {
         mUserInfo = userInfo;
         mUser = mUserInfo;
         mUserIdOrUid = mUserInfo.getIdOrUid();
-        getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
     }
 
     @Keep

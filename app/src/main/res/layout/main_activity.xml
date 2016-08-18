@@ -21,14 +21,13 @@
         android:fitsSystemWindows="true"
         app:insetBackground="@color/douya_primary_dark_without_system_window_scrim" />
 
-    <me.zhanghai.android.douya.ui.FullscreenNavigationView
-        android:id="@+id/navigation"
+    <fragment
+        android:id="@+id/navigation_fragment"
+        android:name="me.zhanghai.android.douya.navigation.ui.NavigationFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/window_background_light"
-        app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/navigation" />
+        tools:layout="@layout/navigation_fragment" />
 
     <me.zhanghai.android.douya.ui.MaxDimensionDispatchInsetsFrameLayout
         android:id="@+id/notification_list_drawer"
@@ -43,6 +42,6 @@
             android:name="me.zhanghai.android.douya.notification.ui.NotificationListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/notification_list_fragment"/>
+            tools:layout="@layout/notification_list_fragment" />
     </me.zhanghai.android.douya.ui.MaxDimensionDispatchInsetsFrameLayout>
 </me.zhanghai.android.douya.ui.DispatchInsetsDrawerLayout>
