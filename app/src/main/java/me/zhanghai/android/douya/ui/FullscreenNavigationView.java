@@ -39,6 +39,7 @@ public class FullscreenNavigationView extends NavigationView {
         init();
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     private void init() {
 
         // Required to revert the value of fitsSystemWindows set in super constructor.
