@@ -220,11 +220,14 @@ public class UserInfoResource extends ResourceFragment
 
         if (successful) {
             setUserInfo(userInfo);
+            onUserInfoLoaded(userInfo);
             EventBusUtils.postAsync(new UserInfoUpdatedEvent(mUserInfo, this));
         } else {
             getListener().onLoadUserInfoError(getRequestCode(), error);
         }
     }
+
+    protected void onUserInfoLoaded(UserInfo userInfo) {}
 
     @Keep
     public void onEventMainThread(UserInfoUpdatedEvent event) {
@@ -239,14 +242,10 @@ public class UserInfoResource extends ResourceFragment
     }
 
     private void setUserInfo(UserInfo userInfo) {
-        onSetUserInfo(userInfo);
-        getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
-    }
-
-    protected void onSetUserInfo(UserInfo userInfo) {
         mUserInfo = userInfo;
         mUser = mUserInfo;
         mUserIdOrUid = mUserInfo.getIdOrUid();
+        getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
     }
 
     @Keep

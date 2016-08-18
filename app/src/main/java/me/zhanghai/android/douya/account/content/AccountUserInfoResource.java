@@ -98,8 +98,8 @@ public class AccountUserInfoResource extends UserInfoResource {
     }
 
     @Override
-    protected void onSetUserInfo(UserInfo userInfo) {
-        super.onSetUserInfo(userInfo);
+    protected void onUserInfoLoaded(UserInfo userInfo) {
+        super.onUserInfoLoaded(userInfo);
 
         AccountUtils.setUserInfo(mAccount, userInfo, getActivity());
     }

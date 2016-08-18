@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.navigation.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -15,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -28,6 +28,7 @@ import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.ui.DrawerManager;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -36,9 +37,10 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
 
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
-    private LinearLayout mHeaderLayout;
+    private ViewGroup mHeaderLayout;
     private ImageView mAvatarImage;
     private TextView mNameText;
+    private TextView mDescriptionText;
 
     private AccountUserInfoResource mUserInfoResource;
 
@@ -64,9 +66,10 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        mHeaderLayout = (LinearLayout) mNavigationView.getHeaderView(0);
+        mHeaderLayout = (ViewGroup) mNavigationView.getHeaderView(0);
         mAvatarImage = ButterKnife.findById(mHeaderLayout, R.id.avatar);
         mNameText = ButterKnife.findById(mHeaderLayout, R.id.name);
+        mDescriptionText = ButterKnife.findById(mHeaderLayout, R.id.description);
     }
 
     @Override
@@ -79,7 +82,7 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
 
         if (mUserInfoResource.hasUserInfo()) {
             bindUserInfo(mUserInfoResource.getUserInfo());
-        } else if (mUserInfoResource.hasUser()) {
+        } else {
             bindUser(mUserInfoResource.getUser());
         }
         mNavigationView.setNavigationItemSelectedListener(
@@ -134,15 +137,34 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     private void bindUser(User user) {
         // NOTE: The user object may be partial. See
         // {@link AccountUserInfoResource#getPartialUser()}.
+        mAvatarImage.setImageResource(R.drawable.avatar_icon_white_inactive_64dp);
+        mAvatarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                if (mUserInfoResource.hasUserInfo()) {
+                    intent = ProfileActivity.makeIntent(mUserInfoResource.getUserInfo(),
+                            getActivity());
+                } else {
+                    // If we don't have user info, then user must also be partial. In this case we
+                    // can only pass user id or uid.
+                    intent = ProfileActivity.makeIntent(mUserInfoResource.getUserIdOrUid(),
+                            getActivity());
+                }
+                startActivity(intent);
+            }
+        });
         mNameText.setText(user.name);
-        // FIXME
-        mAvatarImage.setImageResource(R.drawable.avatar_icon_grey600_40dp);
+        //noinspection deprecation
+        mDescriptionText.setText(user.uid);
     }
 
     private void bindUserInfo(UserInfo userInfo) {
+        ImageUtils.loadNavigationAvatar(mAvatarImage, userInfo.getLargeAvatarOrAvatar(),
+                getActivity());
         mNameText.setText(userInfo.name);
-        // FIXME: Use correct Placeholder.
-        ImageUtils.loadAvatar(mAvatarImage, userInfo.getLargeAvatarOrAvatar(), getActivity());
+        //noinspection deprecation
+        mDescriptionText.setText(userInfo.signature);
     }
 
     private void showSettings() {

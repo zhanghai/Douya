@@ -13,6 +13,7 @@
     <item name="weight_1_when_phone" type="dimen" format="float">1</item>
     <item name="weight_1_when_tablet" type="dimen" format="float">0</item>
 
+    <!-- @deprecated: Not reliable, for example on MIUI. -->
     <dimen name="status_bar_height">25dp</dimen>
     <dimen name="screen_edge_horizontal_margin">16dp</dimen>
     <dimen name="screen_edge_horizontal_margin_with_4dp_padding">12dp</dimen>

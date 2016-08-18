@@ -28,6 +28,15 @@ public class ImageUtils {
                 .into(view);
     }
 
+    public static void loadNavigationAvatar(ImageView view, String url, Context context) {
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.avatar_icon_white_inactive_64dp)
+                .dontAnimate()
+                .dontTransform()
+                .into(view);
+    }
+
     public static void loadProfileAvatarAndFadeIn(final ImageView view, String url,
                                                   Context context) {
         Glide.with(context)
