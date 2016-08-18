@@ -76,11 +76,11 @@ public class AccountUserInfoResource extends UserInfoResource {
 
     private void setArguments(Account account, Context context) {
         FragmentUtils.ensureArguments(this).putParcelable(EXTRA_ACCOUNT, account);
-        User user = getPartialUser(account, context);
+        User user = makePartialUser(account, context);
         setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account, context));
     }
 
-    private User getPartialUser(Account account, Context context) {
+    private User makePartialUser(Account account, Context context) {
         User user = new User();
         //noinspection deprecation
         user.id = AccountUtils.getUserId(account, context);
@@ -98,9 +98,31 @@ public class AccountUserInfoResource extends UserInfoResource {
     }
 
     @Override
+    protected void loadOnStart() {
+        // Always load, so that we can ever get refreshed.
+        load();
+    }
+
+    @Override
     protected void onUserInfoLoaded(UserInfo userInfo) {
         super.onUserInfoLoaded(userInfo);
 
         AccountUtils.setUserInfo(mAccount, userInfo, getActivity());
+    }
+
+    @Deprecated
+    @Override
+    public boolean hasUser() {
+        throw new IllegalStateException("We always have a (partial) user");
+    }
+
+    @Deprecated
+    @Override
+    public User getUser() {
+        throw new IllegalStateException("Call getPartialUser() instead");
+    }
+
+    public User getPartialUser() {
+        return super.getUser();
     }
 }

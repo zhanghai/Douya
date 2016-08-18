@@ -32,6 +32,8 @@
     <dimen name="toolbar_and_tab_height">104dp</dimen>
     <dimen name="appbar_elevation">4dp</dimen>
     <dimen name="drawer_max_width">@dimen/design_navigation_max_width</dimen>
+    <dimen name="navigation_header_height">172dp</dimen>
+    <dimen name="navigation_header_avatar_size">64dp</dimen>
     <dimen name="list_padding_vertical">8dp</dimen>
     <dimen name="single_line_list_item_height">56dp</dimen>
     <dimen name="two_line_list_item_height">72dp</dimen>

@@ -72,7 +72,7 @@ public class UserInfo extends User {
     public int albumCount;
 
     @SerializedName("profile_banner")
-    public String profileCover;
+    public String profileBackdrop;
 
     @SerializedName("reg_time")
     public String registrationTime;
@@ -133,7 +133,7 @@ public class UserInfo extends User {
         diaryCount = in.readInt();
         doulistCount = in.readInt();
         albumCount = in.readInt();
-        profileCover = in.readString();
+        profileBackdrop = in.readString();
         registrationTime = in.readString();
         comment = in.readString();
         setiChannelCount = in.readInt();
@@ -166,7 +166,7 @@ public class UserInfo extends User {
         dest.writeInt(diaryCount);
         dest.writeInt(doulistCount);
         dest.writeInt(albumCount);
-        dest.writeString(profileCover);
+        dest.writeString(profileBackdrop);
         dest.writeString(registrationTime);
         dest.writeString(comment);
         dest.writeInt(setiChannelCount);

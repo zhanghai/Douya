@@ -87,6 +87,7 @@ public class SimpleCircleImageView extends ImageView {
     private void init() {
 
         super.setScaleType(SCALE_TYPE);
+
         mReady = true;
 
         if (mSetupPending) {
@@ -128,12 +129,14 @@ public class SimpleCircleImageView extends ImageView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
         setup();
     }
 
     @Override
     public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
+
         mBitmap = bm;
         setup();
     }
@@ -141,6 +144,7 @@ public class SimpleCircleImageView extends ImageView {
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
+
         mBitmap = getBitmapFromDrawable(drawable);
         setup();
     }
@@ -148,6 +152,7 @@ public class SimpleCircleImageView extends ImageView {
     @Override
     public void setImageResource(@DrawableRes int resId) {
         super.setImageResource(resId);
+
         mBitmap = getBitmapFromDrawable(getDrawable());
         setup();
     }
@@ -155,6 +160,7 @@ public class SimpleCircleImageView extends ImageView {
     @Override
     public void setImageURI(Uri uri) {
         super.setImageURI(uri);
+
         mBitmap = uri != null ? getBitmapFromDrawable(getDrawable()) : null;
         setup();
     }

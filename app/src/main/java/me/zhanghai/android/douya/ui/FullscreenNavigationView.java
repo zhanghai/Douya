@@ -52,9 +52,7 @@ public class FullscreenNavigationView extends NavigationView {
                     if (getHeaderCount() == 0) {
                         return FullscreenNavigationView.this.onApplyWindowInsets(insets);
                     }
-                    View firstHeaderView = getHeaderView(0);
-                    firstHeaderView.setFitsSystemWindows(true);
-                    return firstHeaderView.onApplyWindowInsets(insets);
+                    return getHeaderView(0).onApplyWindowInsets(insets);
                 }
             });
         }

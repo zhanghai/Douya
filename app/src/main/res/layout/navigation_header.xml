@@ -8,44 +8,63 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="192dp"
-    android:paddingBottom="8dp"
-    android:background="?attr/colorPrimary"
+    android:layout_height="@dimen/navigation_header_height"
     android:theme="?actionBarTheme">
 
-    <me.zhanghai.android.douya.ui.SimpleCircleImageView
-        android:id="@+id/avatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
-        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
-        android:layout_marginTop="@dimen/screen_edge_horizontal_margin" />
-
-    <LinearLayout
+    <ImageView
+        android:id="@+id/backdrop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/single_line_list_item_height"
-        android:layout_gravity="bottom"
-        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-        android:paddingRight="@dimen/screen_edge_horizontal_margin"
-        android:background="?selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="?colorPrimary" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/scrim_height"
+        android:layout_gravity="bottom" />
 
-        <TextView
-            android:id="@+id/description"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <me.zhanghai.android.douya.ui.SimpleCircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/navigation_header_avatar_size"
+            android:layout_height="@dimen/navigation_header_avatar_size"
+            android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+            android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+            android:layout_marginTop="@dimen/screen_edge_horizontal_margin" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
-    </LinearLayout>
+            android:layout_height="@dimen/single_line_list_item_height"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/list_padding_vertical"
+            android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+            android:paddingRight="@dimen/screen_edge_horizontal_margin"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
+        </LinearLayout>
+    </FrameLayout>
 </FrameLayout>

@@ -175,6 +175,10 @@ public class UserInfoResource extends ResourceFragment
 
         EventBusUtils.register(this);
 
+        loadOnStart();
+    }
+
+    protected void loadOnStart() {
         if (mUserInfo == null) {
             load();
         }

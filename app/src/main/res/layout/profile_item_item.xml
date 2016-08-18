@@ -23,25 +23,24 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-        <FrameLayout
-            android:id="@+id/title_layout"
+        <View
+            android:id="@+id/scrim"
             android:layout_width="match_parent"
             android:layout_height="@dimen/scrim_height"
-            android:layout_gravity="bottom">
+            android:layout_gravity="bottom" />
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-                android:layout_marginRight="@dimen/card_content_horizontal_margin"
-                android:layout_marginTop="@dimen/card_content_vertical_space"
-                android:layout_marginBottom="@dimen/card_content_vertical_space"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse" />
-        </FrameLayout>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+            android:layout_marginRight="@dimen/card_content_horizontal_margin"
+            android:layout_marginTop="@dimen/card_content_vertical_space"
+            android:layout_marginBottom="@dimen/card_content_vertical_space"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse" />
     </me.zhanghai.android.douya.ui.RatioFrameLayout>
 
     <Space

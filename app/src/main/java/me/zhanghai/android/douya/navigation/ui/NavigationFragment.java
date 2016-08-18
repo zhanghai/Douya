@@ -31,13 +31,16 @@ import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.ui.DrawerManager;
+import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.ViewCompat;
 
 public class NavigationFragment extends Fragment implements AccountUserInfoResource.Listener {
 
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
-    private ViewGroup mHeaderLayout;
+    private ImageView mBackdropImage;
+    private View mScrimView;
     private ImageView mAvatarImage;
     private TextView mNameText;
     private TextView mDescriptionText;
@@ -66,10 +69,12 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        mHeaderLayout = (ViewGroup) mNavigationView.getHeaderView(0);
-        mAvatarImage = ButterKnife.findById(mHeaderLayout, R.id.avatar);
-        mNameText = ButterKnife.findById(mHeaderLayout, R.id.name);
-        mDescriptionText = ButterKnife.findById(mHeaderLayout, R.id.description);
+        ViewGroup headerLayout = (ViewGroup) mNavigationView.getHeaderView(0);
+        mBackdropImage = ButterKnife.findById(headerLayout, R.id.backdrop);
+        mScrimView = ButterKnife.findById(headerLayout, R.id.scrim);
+        mAvatarImage = ButterKnife.findById(headerLayout, R.id.avatar);
+        mNameText = ButterKnife.findById(headerLayout, R.id.name);
+        mDescriptionText = ButterKnife.findById(headerLayout, R.id.description);
     }
 
     @Override
@@ -80,10 +85,17 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         mUserInfoResource = AccountUserInfoResource.attachTo(
                 AccountUtils.getActiveAccount(activity), this);
 
+        ViewCompat.setBackground(mScrimView, DrawableUtils.makeScrimDrawable());
+        mAvatarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openProfile();
+            }
+        });
         if (mUserInfoResource.hasUserInfo()) {
             bindUserInfo(mUserInfoResource.getUserInfo());
         } else {
-            bindUser(mUserInfoResource.getUser());
+            bindPartialUser(mUserInfoResource.getPartialUser());
         }
         mNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -94,7 +106,7 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
                                 // TODO
                                 break;
                             case R.id.navigation_settings:
-                                showSettings();
+                                openSettings();
                                 break;
                             default:
                                 // TODO
@@ -134,29 +146,11 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     @Override
     public void onUserInfoWriteFinished(int requestCode) {}
 
-    private void bindUser(User user) {
-        // NOTE: The user object may be partial. See
-        // {@link AccountUserInfoResource#getPartialUser()}.
+    private void bindPartialUser(User partialUser) {
         mAvatarImage.setImageResource(R.drawable.avatar_icon_white_inactive_64dp);
-        mAvatarImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                if (mUserInfoResource.hasUserInfo()) {
-                    intent = ProfileActivity.makeIntent(mUserInfoResource.getUserInfo(),
-                            getActivity());
-                } else {
-                    // If we don't have user info, then user must also be partial. In this case we
-                    // can only pass user id or uid.
-                    intent = ProfileActivity.makeIntent(mUserInfoResource.getUserIdOrUid(),
-                            getActivity());
-                }
-                startActivity(intent);
-            }
-        });
-        mNameText.setText(user.name);
+        mNameText.setText(partialUser.name);
         //noinspection deprecation
-        mDescriptionText.setText(user.uid);
+        mDescriptionText.setText(partialUser.uid);
     }
 
     private void bindUserInfo(UserInfo userInfo) {
@@ -167,7 +161,19 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         mDescriptionText.setText(userInfo.signature);
     }
 
-    private void showSettings() {
+    private void openProfile() {
+        Intent intent;
+        if (mUserInfoResource.hasUserInfo()) {
+            intent = ProfileActivity.makeIntent(mUserInfoResource.getUserInfo(), getActivity());
+        } else {
+            // If we don't have user info, then user must also be partial. In this case we
+            // can only pass user id or uid.
+            intent = ProfileActivity.makeIntent(mUserInfoResource.getUserIdOrUid(), getActivity());
+        }
+        startActivity(intent);
+    }
+
+    private void openSettings() {
         startActivity(SettingsActivity.makeIntent(getActivity()));
     }
 
