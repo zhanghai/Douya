@@ -7,10 +7,6 @@ package android.support.v4.widget;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.widget.EdgeEffectCompat;
-import android.support.v4.widget.ScrollerCompat;
-import android.support.v4.widget.ScrollerCompatGingerbread;
-import android.support.v4.widget.ScrollerCompatIcs;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
