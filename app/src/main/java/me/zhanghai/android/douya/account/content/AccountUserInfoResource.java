@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.account.content;
 
 import android.accounts.Account;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -107,7 +108,9 @@ public class AccountUserInfoResource extends UserInfoResource {
     protected void onUserInfoLoaded(UserInfo userInfo) {
         super.onUserInfoLoaded(userInfo);
 
-        AccountUtils.setUserInfo(mAccount, userInfo, getActivity());
+        Activity activity = getActivity();
+        AccountUtils.setUserName(mAccount, userInfo.name, activity);
+        AccountUtils.setUserInfo(mAccount, userInfo, activity);
     }
 
     @Deprecated
