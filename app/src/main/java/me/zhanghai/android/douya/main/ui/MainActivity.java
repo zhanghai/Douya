@@ -5,20 +5,16 @@
 
 package me.zhanghai.android.douya.main.ui;
 
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +26,6 @@ import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.navigation.ui.NavigationFragment;
 import me.zhanghai.android.douya.notification.ui.NotificationListFragment;
 import me.zhanghai.android.douya.scalpel.ScalpelHelperFragment;
-import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.ui.ActionItemBadge;
 import me.zhanghai.android.douya.ui.DrawerManager;
 import me.zhanghai.android.douya.util.FragmentUtils;
