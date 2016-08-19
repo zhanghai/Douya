@@ -394,7 +394,6 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         boolean loadingBroadcast = mBroadcastAndCommentListResource.isLoadingBroadcast();
         boolean hasBroadcast = mBroadcastAndCommentListResource.hasBroadcast();
         boolean loadingCommentList = mBroadcastAndCommentListResource.isLoadingCommentList();
-        mSwipeRefreshLayout.setEnabled(!loadingBroadcast);
         mSwipeRefreshLayout.setRefreshing(loadingBroadcast
                 && (mSwipeRefreshLayout.isRefreshing() || hasBroadcast));
         ViewUtils.setVisibleOrGone(mProgress, loadingBroadcast && !hasBroadcast);

@@ -270,7 +270,6 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
     }
 
     private void setRefreshing(boolean refreshing, boolean loadMore) {
-        mSwipeRefreshLayout.setEnabled(!refreshing);
         if (!refreshing) {
             mSwipeRefreshLayout.setRefreshing(false);
         }

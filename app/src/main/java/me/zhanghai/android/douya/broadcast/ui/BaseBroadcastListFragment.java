@@ -205,7 +205,6 @@ public abstract class BaseBroadcastListFragment extends Fragment
         boolean loading = mBroadcastListResource.isLoading();
         boolean empty = mBroadcastListResource.isEmpty();
         boolean loadingMore = mBroadcastListResource.isLoadingMore();
-        mSwipeRefreshLayout.setEnabled(!loading);
         mSwipeRefreshLayout.setRefreshing(loading && (mSwipeRefreshLayout.isRefreshing() || !empty)
                 && !loadingMore);
         ViewUtils.setVisibleOrGone(mProgress, loading && empty);

@@ -144,7 +144,6 @@ public abstract class UserListFragment extends Fragment implements BaseUserListR
         boolean loading = mUserListResource.isLoading();
         boolean empty = mUserListResource.isEmpty();
         boolean loadingMore = mUserListResource.isLoadingMore();
-        mSwipeRefreshLayout.setEnabled(!loading);
         mSwipeRefreshLayout.setRefreshing(loading && (mSwipeRefreshLayout.isRefreshing() || !empty)
                 && !loadingMore);
         ViewUtils.setVisibleOrGone(mProgress, loading && empty);
