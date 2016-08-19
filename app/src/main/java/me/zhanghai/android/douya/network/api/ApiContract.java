@@ -213,6 +213,9 @@ public interface ApiContract {
         interface Error {
             String CODE = "code";
             interface Codes {
+                interface Custom {
+                    int INVALID_ERROR_RESPONSE = -1;
+                }
                 interface Base {
                     int UNKNOWN_V2_ERROR = 999;
                     int NEED_PERMISSION = 1000;

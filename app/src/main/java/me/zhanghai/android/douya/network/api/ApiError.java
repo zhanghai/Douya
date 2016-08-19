@@ -7,8 +7,14 @@ package me.zhanghai.android.douya.network.api;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
+import com.android.volley.RedirectError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
@@ -30,7 +36,10 @@ public class ApiError extends VolleyError {
 
         ERROR_CODE_STRING_RES_MAP = new HashMap<>();
 
-        ERROR_CODE_STRING_RES_MAP.put(Base.UNKNOWN_V2_ERROR, R.string.api_error_unknown_v2);
+        ERROR_CODE_STRING_RES_MAP.put(Custom.INVALID_ERROR_RESPONSE,
+                R.string.api_error_invalid_error_response);
+
+        ERROR_CODE_STRING_RES_MAP.put(Base.UNKNOWN_V2_ERROR, R.string.api_error_unknown_v2_error);
         ERROR_CODE_STRING_RES_MAP.put(Base.NEED_PERMISSION, R.string.api_error_need_permission);
         ERROR_CODE_STRING_RES_MAP.put(Base.URI_NOT_FOUND, R.string.api_error_uri_not_found);
         ERROR_CODE_STRING_RES_MAP.put(Base.MISSING_ARGS, R.string.api_error_missing_args);
@@ -168,10 +177,18 @@ public class ApiError extends VolleyError {
             localizedMessage = responseJson.optString(Error.LOCALIZED_MESSAGE, null);
         } catch (JSONException e) {
             e.printStackTrace();
+            code = Custom.INVALID_ERROR_RESPONSE;
         }
     }
 
     public int getErrorStringRes() {
+
+        if (networkResponse == null) {
+            // Return as the wrapped error.
+            // We only have two constructors, so this cast is safe.
+            return getErrorStringRes((VolleyError) this.getCause());
+        }
+
         Integer StringRes = ERROR_CODE_STRING_RES_MAP.get(code);
         return StringRes != null ? StringRes : R.string.api_error_unknown;
     }
@@ -179,6 +196,18 @@ public class ApiError extends VolleyError {
     public static int getErrorStringRes(VolleyError error) {
         if (error instanceof ParseError) {
             return R.string.api_error_parse;
+        } else if (error instanceof TimeoutError) {
+            return R.string.api_error_timeout;
+        } else if (error instanceof NoConnectionError) {
+            return R.string.api_error_no_connection;
+        } else if (error instanceof AuthFailureError) {
+            return R.string.api_error_auth_failure;
+        } else if (error instanceof RedirectError) {
+            return R.string.api_error_redirect;
+        } else if (error instanceof ServerError) {
+            return R.string.api_error_server;
+        } else if (error instanceof NetworkError) {
+            return R.string.api_error_network;
         } else if (error instanceof ApiError) {
             return ((ApiError) error).getErrorStringRes();
         } else {
