@@ -30,6 +30,7 @@ public class SimpleDialogFragment extends DialogFragment {
     private static final String ARGUMENT_ICON_ID = "icon_id";
     private static final String ARGUMENT_TITLE = "tle";
     private static final String ARGUMENT_MESSAGE = "message";
+    private static final String ARGUMENT_ITEMS = "items";
     private static final String ARGUMENT_IS_SINGLE_CHOICE = "is_single_choice";
     private static final String ARGUMENT_CHOICE_ITEMS = "choice_items";
     private static final String ARGUMENT_CHOICE_CHECKED_ITEM = "checked_item";
@@ -118,6 +119,31 @@ public class SimpleDialogFragment extends DialogFragment {
         return makeYesNo(REQUEST_CODE_INVALID, titleId, messageId, fragment);
     }
 
+    public static SimpleDialogFragment makeList(int requestCode, Integer titleId,
+                                                CharSequence[] items, Context context) {
+        return new Builder(context)
+                .setRequestCode(requestCode)
+                .setTitle(titleId)
+                .setList(items)
+                .setNegativeButtonText(R.string.cancel)
+                .build();
+    }
+
+    public static SimpleDialogFragment makeList(Integer titleId, CharSequence[] items,
+                                                Context context) {
+        return makeList(REQUEST_CODE_INVALID, titleId, items, context);
+    }
+
+    public static SimpleDialogFragment makeList(int requestCode, Integer titleId,
+                                                CharSequence[] items, Fragment fragment) {
+        return makeList(requestCode, titleId, items, fragment.getActivity());
+    }
+
+    public static SimpleDialogFragment makeList(Integer titleId, CharSequence[] items,
+                                                Fragment fragment) {
+        return makeList(REQUEST_CODE_INVALID, titleId, items, fragment);
+    }
+
     public static SimpleDialogFragment makeSingleChoice(int requestCode, Integer titleId,
                                                         CharSequence[] items, int checkedItem,
                                                         Context context) {
@@ -181,7 +207,17 @@ public class SimpleDialogFragment extends DialogFragment {
                 .setIcon(arguments.getInt(ARGUMENT_ICON_ID))
                 .setTitle(arguments.getCharSequence(ARGUMENT_TITLE))
                 .setMessage(arguments.getCharSequence(ARGUMENT_MESSAGE));
-        if (arguments.getBoolean(ARGUMENT_IS_SINGLE_CHOICE)) {
+        if (arguments.containsKey(ARGUMENT_ITEMS)) {
+            alertDialogBuilder.setItems(arguments.getCharSequenceArray(ARGUMENT_ITEMS),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            if (mListener != null) {
+                                mListener.onListItemClicked(mRequestCode, which);
+                            }
+                        }
+                    });
+        } else if (arguments.getBoolean(ARGUMENT_IS_SINGLE_CHOICE)) {
             alertDialogBuilder.setSingleChoiceItems(
                     arguments.getCharSequenceArray(ARGUMENT_CHOICE_ITEMS),
                     arguments.getInt(ARGUMENT_CHOICE_CHECKED_ITEM),
@@ -285,6 +321,7 @@ public class SimpleDialogFragment extends DialogFragment {
     }
 
     public static class SimpleDialogListener {
+        public void onListItemClicked(int requestCode, int index) {}
         public void onSingleChoiceItemClicked(int requestCode, int index) {}
         public void onPositiveButtonClicked(int requestCode) {}
         public void onNeutralButtonClicked(int requestCode) {}
@@ -309,6 +346,7 @@ public class SimpleDialogFragment extends DialogFragment {
         private int mIconId;
         private CharSequence mTitle;
         private CharSequence mMessage;
+        private CharSequence[] mItems;
         private boolean mIsSingleChoice;
         private CharSequence[] mChoiceItems;
         private int mChoiceCheckedItem;
@@ -367,6 +405,11 @@ public class SimpleDialogFragment extends DialogFragment {
             return setMessage(mContext.getText(messageId));
         }
 
+        public Builder setList(CharSequence[] items) {
+            mItems = items;
+            return this;
+        }
+
         public Builder setSingleChoice(CharSequence[] items, int checkedItem) {
             mIsSingleChoice = true;
             mChoiceItems = items;
@@ -416,6 +459,7 @@ public class SimpleDialogFragment extends DialogFragment {
             arguments.putInt(ARGUMENT_ICON_ID, mIconId);
             arguments.putCharSequence(ARGUMENT_TITLE, mTitle);
             arguments.putCharSequence(ARGUMENT_MESSAGE, mMessage);
+            arguments.putCharSequenceArray(ARGUMENT_ITEMS, mItems);
             arguments.putBoolean(ARGUMENT_IS_SINGLE_CHOICE, mIsSingleChoice);
             arguments.putCharSequenceArray(ARGUMENT_CHOICE_ITEMS, mChoiceItems);
             arguments.putInt(ARGUMENT_CHOICE_CHECKED_ITEM, mChoiceCheckedItem);
