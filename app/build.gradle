@@ -76,6 +76,7 @@ dependencies {
     compile 'com.android.support:preference-v7:24.2.0'
     compile 'com.android.support:preference-v14:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:transition:24.2.0'
     compile 'com.commit451:PhotoView:1.2.4'
     compile('com.crashlytics.sdk.android:answers:1.3.8@aar') {
         transitive = true;
@@ -88,7 +89,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.3'
