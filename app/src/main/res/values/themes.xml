@@ -8,7 +8,6 @@
 <resources>
 
     <color name="preference_fallback_accent_color">@color/douya_primary</color>
-
     <style name="Base.ThemeOverlay.Preference" parent="">
 
         <item name="listPreferredItemPaddingLeft">@dimen/screen_edge_horizontal_margin</item>
@@ -26,14 +25,21 @@
         <item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference.Material</item>
         <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material</item>
     </style>
-
     <style name="ThemeOverlay.Preference" parent="Base.ThemeOverlay.Preference" />
 
-    <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="ThemeOverlay.Design.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="textColorError">@color/design_textinput_error_color_dark</item>
+    </style>
+    <style name="Theme.Design.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="textColorError">@color/design_textinput_error_color_light</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.Design.Dark.ActionBar</item>
+    </style>
+
+    <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.Design.Dark.ActionBar">
         <item name="colorAccent">@android:color/white</item>
     </style>
 
-    <style name="Theme.Douya" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Douya" parent="Theme.Design.Light.DarkActionBar">
 
         <item name="actionModeBackground">@color/background_material_dark</item>
         <item name="windowActionBar">false</item>
@@ -91,7 +97,7 @@
         <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
     </style>
 
-    <style name="Base.Theme.Douya.Gallery" parent="Theme.AppCompat">
+    <style name="Base.Theme.Douya.Gallery" parent="Theme.Design">
 
         <item name="actionModeBackground">@color/background_material_dark</item>
         <item name="windowActionBar">false</item>
@@ -110,27 +116,4 @@
     </style>
 
     <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />
-
-    <style name="Theme.Douya.DialogWhenLarge" parent="Theme.AppCompat.Light.DialogWhenLarge">
-
-        <!-- From Theme.AppCompat.Light.DarkActionBar. -->
-        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="actionBarWidgetTheme">@null</item>
-        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-
-        <item name="actionModeBackground">@color/background_material_dark</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="android:windowDisablePreview">true</item>
-        <item name="windowNoTitle">true</item>
-
-        <!-- Fixes. -->
-        <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
-        <item name="android:textColorLink">?colorAccent</item>
-        <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
-
-        <item name="colorPrimary">@color/douya_primary</item>
-        <item name="colorPrimaryDark">@color/douya_primary_dark</item>
-        <item name="colorAccent">@color/douya_primary</item>
-    </style>
 </resources>
