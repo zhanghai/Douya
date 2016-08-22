@@ -5,12 +5,14 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
+import android.accounts.Account;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.List;
 
+import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.Callback;
@@ -21,6 +23,8 @@ public class HomeBroadcastListResource extends BroadcastListResource {
     private static final String FRAGMENT_TAG_DEFAULT = HomeBroadcastListResource.class.getName();
 
     private final Handler mHandler = new Handler();
+
+    private Account mAccount;
 
     private boolean mStopped;
 
@@ -73,6 +77,11 @@ public class HomeBroadcastListResource extends BroadcastListResource {
 
     @Override
     public void onStart() {
+
+        if (mAccount == null) {
+            mAccount = AccountUtils.getActiveAccount(getContext());
+        }
+
         super.onStart();
 
         mStopped = false;
@@ -99,7 +108,7 @@ public class HomeBroadcastListResource extends BroadcastListResource {
 
         setLoading(true);
 
-        HomeBroadcastListCache.get(mHandler, new Callback<List<Broadcast>>() {
+        HomeBroadcastListCache.get(mAccount, mHandler, new Callback<List<Broadcast>>() {
             @Override
             public void onValue(List<Broadcast> broadcastList) {
                 onLoadFromCacheComplete(broadcastList);
@@ -134,6 +143,6 @@ public class HomeBroadcastListResource extends BroadcastListResource {
     }
 
     private void saveToCache(List<Broadcast> broadcastList) {
-        HomeBroadcastListCache.put(broadcastList, getActivity());
+        HomeBroadcastListCache.put(mAccount, broadcastList, getActivity());
     }
 }

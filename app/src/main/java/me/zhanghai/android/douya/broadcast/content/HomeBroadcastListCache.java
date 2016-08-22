@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.os.Handler;
 
@@ -21,19 +22,24 @@ public class HomeBroadcastListCache {
 
     private static final int MAX_LIST_SIZE = 20;
 
-    private static final String KEY = HomeBroadcastListCache.class.getName();
+    private static final String KEY_PREFIX = HomeBroadcastListCache.class.getName();
 
-    public static void get(Handler handler, Callback<List<Broadcast>> callback, Context context) {
-        DiskCacheHelper.getGson(KEY, new TypeToken<List<Broadcast>>() {}, handler, callback,
-                context);
+    public static void get(Account account, Handler handler, Callback<List<Broadcast>> callback,
+                           Context context) {
+        DiskCacheHelper.getGson(getKeyForAccount(account), new TypeToken<List<Broadcast>>() {},
+                handler, callback, context);
     }
 
-    public static void put(List<Broadcast> broadcastList, Context context) {
+    public static void put(Account account, List<Broadcast> broadcastList, Context context) {
         if (broadcastList.size() > MAX_LIST_SIZE) {
             broadcastList = broadcastList.subList(0, MAX_LIST_SIZE);
         }
         // NOTE: Defend against ConcurrentModificationException.
-        DiskCacheHelper.putGson(KEY, new ArrayList<>(broadcastList),
+        DiskCacheHelper.putGson(getKeyForAccount(account), new ArrayList<>(broadcastList),
                 new TypeToken<List<Broadcast>>() {}, context);
+    }
+
+    private static String getKeyForAccount(Account account) {
+        return KEY_PREFIX + '@' + account.name;
     }
 }

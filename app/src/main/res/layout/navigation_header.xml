@@ -1,70 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
   ~ All Rights Reserved.
   -->
 
-<FrameLayout
+<me.zhanghai.android.douya.navigation.ui.NavigationHeaderLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navigation_header_height"
-    android:theme="?actionBarTheme">
-
-    <ImageView
-        android:id="@+id/backdrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="?colorPrimary" />
-
-    <View
-        android:id="@+id/scrim"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/scrim_height"
-        android:layout_gravity="bottom" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <me.zhanghai.android.douya.ui.SimpleCircleImageView
-            android:id="@+id/avatar"
-            android:layout_width="@dimen/navigation_header_avatar_size"
-            android:layout_height="@dimen/navigation_header_avatar_size"
-            android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
-            android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
-            android:layout_marginTop="@dimen/screen_edge_horizontal_margin" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/single_line_list_item_height"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/list_padding_vertical"
-            android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-            android:paddingRight="@dimen/screen_edge_horizontal_margin"
-            android:background="?selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?android:textColorSecondary" />
-        </LinearLayout>
-    </FrameLayout>
-</FrameLayout>
+    android:theme="?actionBarTheme" />

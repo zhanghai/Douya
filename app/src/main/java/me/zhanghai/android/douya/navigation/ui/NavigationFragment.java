@@ -5,18 +5,18 @@
 
 package me.zhanghai.android.douya.navigation.ui;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 
@@ -31,21 +31,16 @@ import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.ui.DrawerManager;
-import me.zhanghai.android.douya.util.DrawableUtils;
-import me.zhanghai.android.douya.util.ImageUtils;
-import me.zhanghai.android.douya.util.ViewCompat;
+import me.zhanghai.android.douya.user.content.UserInfoResource;
 
-public class NavigationFragment extends Fragment implements AccountUserInfoResource.Listener {
+public class NavigationFragment extends Fragment implements AccountUserInfoResource.Listener,
+        NavigationHeaderLayout.Adapter, NavigationHeaderLayout.Listener {
 
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
-    private ImageView mBackdropImage;
-    private View mScrimView;
-    private ImageView mAvatarImage;
-    private TextView mNameText;
-    private TextView mDescriptionText;
+    private NavigationHeaderLayout mHeaderLayout;
 
-    private AccountUserInfoResource mUserInfoResource;
+    private ArrayMap<Account, AccountUserInfoResource> mUserInfoResourceMap;
 
     public static NavigationFragment newInstance() {
         //noinspection deprecation
@@ -69,12 +64,7 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        ViewGroup headerLayout = (ViewGroup) mNavigationView.getHeaderView(0);
-        mBackdropImage = ButterKnife.findById(headerLayout, R.id.backdrop);
-        mScrimView = ButterKnife.findById(headerLayout, R.id.scrim);
-        mAvatarImage = ButterKnife.findById(headerLayout, R.id.avatar);
-        mNameText = ButterKnife.findById(headerLayout, R.id.name);
-        mDescriptionText = ButterKnife.findById(headerLayout, R.id.description);
+        mHeaderLayout = (NavigationHeaderLayout) mNavigationView.getHeaderView(0);
     }
 
     @Override
@@ -82,21 +72,14 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         super.onActivityCreated(savedInstanceState);
 
         Activity activity = getActivity();
-        mUserInfoResource = AccountUserInfoResource.attachTo(
-                AccountUtils.getActiveAccount(activity), this);
-
-        ViewCompat.setBackground(mScrimView, DrawableUtils.makeScrimDrawable());
-        mAvatarImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openProfile();
-            }
-        });
-        if (mUserInfoResource.hasUserInfo()) {
-            bindUserInfo(mUserInfoResource.getUserInfo());
-        } else {
-            bindPartialUser(mUserInfoResource.getPartialUser());
+        mUserInfoResourceMap = new ArrayMap<>();
+        for (Account account : AccountUtils.getAccounts(activity)) {
+            mUserInfoResourceMap.put(account, AccountUserInfoResource.attachTo(account, this,
+                    account.name, -1));
         }
+
+        mHeaderLayout.setAdapter(this);
+        mHeaderLayout.setListener(this);
         mNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -131,13 +114,11 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     public void onLoadUserInfoFinished(int requestCode) {}
 
     @Override
-    public void onLoadUserInfoError(int requestCode, VolleyError error) {
-
-    }
+    public void onLoadUserInfoError(int requestCode, VolleyError error) {}
 
     @Override
     public void onUserInfoChanged(int requestCode, UserInfo newUserInfo) {
-        bindUserInfo(newUserInfo);
+        mHeaderLayout.bind();
     }
 
     @Override
@@ -146,31 +127,33 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     @Override
     public void onUserInfoWriteFinished(int requestCode) {}
 
-    private void bindPartialUser(User partialUser) {
-        mAvatarImage.setImageResource(R.drawable.avatar_icon_white_inactive_64dp);
-        mNameText.setText(partialUser.name);
-        //noinspection deprecation
-        mDescriptionText.setText(partialUser.uid);
+    @Override
+    public User getPartialUser(Account account) {
+        return mUserInfoResourceMap.get(account).getPartialUser();
     }
 
-    private void bindUserInfo(UserInfo userInfo) {
-        ImageUtils.loadNavigationAvatar(mAvatarImage, userInfo.getLargeAvatarOrAvatar(),
-                getActivity());
-        mNameText.setText(userInfo.name);
-        //noinspection deprecation
-        mDescriptionText.setText(userInfo.signature);
+    @Override
+    public UserInfo getUserInfo(Account account) {
+        return mUserInfoResourceMap.get(account).getUserInfo();
     }
 
-    private void openProfile() {
+    @Override
+    public void openProfile(Account account) {
+        UserInfoResource userInfoResource = mUserInfoResourceMap.get(account);
         Intent intent;
-        if (mUserInfoResource.hasUserInfo()) {
-            intent = ProfileActivity.makeIntent(mUserInfoResource.getUserInfo(), getActivity());
+        if (userInfoResource.hasUserInfo()) {
+            intent = ProfileActivity.makeIntent(userInfoResource.getUserInfo(), getActivity());
         } else {
             // If we don't have user info, then user must also be partial. In this case we
             // can only pass user id or uid.
-            intent = ProfileActivity.makeIntent(mUserInfoResource.getUserIdOrUid(), getActivity());
+            intent = ProfileActivity.makeIntent(userInfoResource.getUserIdOrUid(), getActivity());
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void onActiveAccountChanged(Account newAccount) {
+        // TODO
     }
 
     private void openSettings() {

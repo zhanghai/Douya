@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="?colorPrimary" />
+
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/scrim_height"
+        android:layout_gravity="bottom" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <me.zhanghai.android.douya.ui.SimpleCircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/navigation_header_avatar_size"
+            android:layout_height="@dimen/navigation_header_avatar_size"
+            android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+            android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+            android:layout_marginTop="@dimen/screen_edge_horizontal_margin" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <me.zhanghai.android.douya.ui.SimpleCircleImageView
+                android:id="@+id/secondary_avatar"
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size"
+                android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+                android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+                android:layout_marginTop="@dimen/screen_edge_horizontal_margin" />
+
+            <me.zhanghai.android.douya.ui.SimpleCircleImageView
+                android:id="@+id/tertiary_avatar"
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size"
+                android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+                android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+                android:layout_marginTop="@dimen/screen_edge_horizontal_margin" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/single_line_list_item_height"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/list_padding_vertical"
+            android:paddingRight="@dimen/screen_edge_horizontal_margin"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="?android:textColorSecondary" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/dropDown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/drop_down_icon_white_24dp" />
+        </LinearLayout>
+    </FrameLayout>
+</merge>

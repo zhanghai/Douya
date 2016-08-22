@@ -98,32 +98,33 @@ public class BroadcastLayout extends LinearLayout {
     public BroadcastLayout(Context context) {
         super(context);
 
-        init(getContext(), null, 0, 0);
+        init();
     }
 
     public BroadcastLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs, 0, 0);
+        init();
     }
 
     public BroadcastLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(getContext(), attrs, defStyleAttr, 0);
+        init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BroadcastLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(getContext(), attrs, defStyleAttr, defStyleRes);
+        init();
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init() {
 
         setOrientation(VERTICAL);
 
+        Context context = getContext();
         inflate(context, R.layout.broadcast_layout, this);
         ButterKnife.bind(this);
 
