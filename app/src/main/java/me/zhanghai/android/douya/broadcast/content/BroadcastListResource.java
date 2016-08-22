@@ -166,6 +166,7 @@ public class BroadcastListResource extends ResourceFragment
         mLoadingMore = loadMore;
         getListener().onLoadBroadcastListStarted(getRequestCode());
 
+        onStartLoad();
         Long untilId = null;
         if (loadMore && mBroadcastList != null) {
             int size = mBroadcastList.size();
@@ -182,6 +183,8 @@ public class BroadcastListResource extends ResourceFragment
     public void load(boolean loadMore) {
         load(loadMore, DEFAULT_COUNT_PER_LOAD);
     }
+
+    protected void onStartLoad() {}
 
     protected void loadOnStart() {
         load(false);

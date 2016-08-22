@@ -77,11 +77,6 @@ public class HomeBroadcastListResource extends BroadcastListResource {
 
     @Override
     public void onStart() {
-
-        if (mAccount == null) {
-            mAccount = AccountUtils.getActiveAccount(getContext());
-        }
-
         super.onStart();
 
         mStopped = false;
@@ -106,14 +101,26 @@ public class HomeBroadcastListResource extends BroadcastListResource {
 
     private void loadFromCache() {
 
+        if (isLoading()) {
+            return;
+        }
+
         setLoading(true);
 
+        onStartLoad();
         HomeBroadcastListCache.get(mAccount, mHandler, new Callback<List<Broadcast>>() {
             @Override
             public void onValue(List<Broadcast> broadcastList) {
                 onLoadFromCacheComplete(broadcastList);
             }
         }, getActivity());
+    }
+
+    @Override
+    protected void onStartLoad() {
+        super.onStartLoad();
+
+        mAccount = AccountUtils.getActiveAccount(getContext());
     }
 
     private void onLoadFromCacheComplete(List<Broadcast> broadcastList) {
