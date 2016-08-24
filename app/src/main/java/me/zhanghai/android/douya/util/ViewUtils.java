@@ -356,7 +356,6 @@ public class ViewUtils {
         textView.setMovementMethod(ClickableMovementMethod.getInstance());
         // Reset for TextView.fixFocusableAndClickableSettings(). We don't want View.onTouchEvent()
         // to consume touch events.
-        textView.setFocusable(false);
         textView.setClickable(false);
         textView.setLongClickable(false);
     }
