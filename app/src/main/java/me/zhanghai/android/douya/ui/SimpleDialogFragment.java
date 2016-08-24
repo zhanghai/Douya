@@ -207,16 +207,16 @@ public class SimpleDialogFragment extends DialogFragment {
                 .setIcon(arguments.getInt(ARGUMENT_ICON_ID))
                 .setTitle(arguments.getCharSequence(ARGUMENT_TITLE))
                 .setMessage(arguments.getCharSequence(ARGUMENT_MESSAGE));
-        if (arguments.containsKey(ARGUMENT_ITEMS)) {
-            alertDialogBuilder.setItems(arguments.getCharSequenceArray(ARGUMENT_ITEMS),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            if (mListener != null) {
-                                mListener.onListItemClicked(mRequestCode, which);
-                            }
-                        }
-                    });
+        CharSequence[] items = arguments.getCharSequenceArray(ARGUMENT_ITEMS);
+        if (items != null) {
+            alertDialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int which) {
+                    if (mListener != null) {
+                        mListener.onListItemClicked(mRequestCode, which);
+                    }
+                }
+            });
         } else if (arguments.getBoolean(ARGUMENT_IS_SINGLE_CHOICE)) {
             alertDialogBuilder.setSingleChoiceItems(
                     arguments.getCharSequenceArray(ARGUMENT_CHOICE_ITEMS),

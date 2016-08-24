@@ -56,7 +56,7 @@ public class SelectAccountActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             SimpleDialogFragment.makeSingleChoice(R.string.auth_select_account, accountNames, -1,
                     this)
-                    .show(getSupportFragmentManager());
+                    .show(this);
         }
     }
 
