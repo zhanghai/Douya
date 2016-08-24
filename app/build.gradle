@@ -97,7 +97,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
     compile 'me.zhanghai.android.customtabshelper:library:1.0.2'
-    compile 'me.zhanghai.android.materialedittext:library:1.0.3'
+    compile 'me.zhanghai.android.materialedittext:library:1.0.4'
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.7'
     compile 'me.zhanghai.android.systemuihelper:library:1.0.0'
 }
