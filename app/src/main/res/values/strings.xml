@@ -60,12 +60,12 @@
     <string name="api_error_desc_missing">缺少描述</string>
     <string name="api_error_unknown">未知错误</string>
 
-    <string name="api_error_token_invalid_request_scheme">请求协议错误</string>
-    <string name="api_error_token_invalid_request_method">请求方法错误</string>
+    <string name="api_error_token_invalid_request_scheme">请求协议无效</string>
+    <string name="api_error_token_invalid_request_method">请求方法无效</string>
     <string name="api_error_token_access_token_is_missing">缺少 access_token</string>
     <string name="api_error_token_invalid_access_token">access_token 无效</string>
     <string name="api_error_token_invalid_apikey">API Key 无效</string>
-    <string name="api_error_token_apikey_is_blocked">API Key 已被禁用</string>
+    <string name="api_error_token_apikey_is_blocked">API Key 已被屏蔽</string>
     <string name="api_error_token_access_token_has_expired">access_token 已过期</string>
     <string name="api_error_token_invalid_request_uri">请求地址无效</string>
     <string name="api_error_token_invalid_credencial1">用户未授权此访问</string>
@@ -175,7 +175,7 @@
     <string name="broadcast_send_comment_disabled">这条广播不支持回应</string>
     <string name="broadcast_send_comment">加上去</string>
     <string name="broadcast_send_comment_error_empty">说点什么吧…</string>
-    <string name="broadcast_send_comment_successful">回应已发送</string>
+    <string name="broadcast_send_comment_successful">已发送回应</string>
     <string name="broadcast_send_comment_failed_format">发送回应失败，%1$s</string>
     <string name="broadcast_copy_text">复制文本</string>
     <string name="broadcast_copy_text_not_loaded">广播还没有加载好</string>
