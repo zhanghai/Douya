@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.navigation.ui;
 
 import android.accounts.Account;
-import android.animation.TimeInterpolator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import com.transitionseverywhere.ChangeTransform;
 import com.transitionseverywhere.Fade;
+import com.transitionseverywhere.Transition;
 import com.transitionseverywhere.TransitionManager;
 import com.transitionseverywhere.TransitionSet;
 
@@ -49,9 +49,15 @@ public class NavigationHeaderLayout extends FrameLayout {
     ImageView mFadeOutAvatarImage;
     @BindView(R.id.recent_one_avatar)
     ImageView mRecentOneAvatarImage;
+    @BindView(R.id.fade_out_recent_one_avatar)
+    ImageView mFadeOutRecentOneAvatarImage;
     @BindView(R.id.recent_two_avatar)
     ImageView mRecentTwoAvatarImage;
-    @BindViews({R.id.avatar, R.id.fade_out_avatar, R.id.recent_one_avatar, R.id.recent_two_avatar})
+    @BindView(R.id.fade_out_recent_two_avatar)
+    ImageView mFadeOutRecentTwoAvatarImage;
+    @BindViews({R.id.avatar, R.id.fade_out_avatar,
+            R.id.recent_one_avatar, R.id.fade_out_recent_one_avatar,
+            R.id.recent_two_avatar, R.id.fade_out_recent_two_avatar})
     ImageView[] mAvatarImages;
     @BindView(R.id.info)
     LinearLayout mInfoLayout;
@@ -69,6 +75,7 @@ public class NavigationHeaderLayout extends FrameLayout {
     private Account mRecentOneAccount;
     private Account mRecentTwoAccount;
 
+    private boolean mTransitionRunning;
     private boolean mShowingAccountList;
 
     public NavigationHeaderLayout(Context context) {
@@ -186,6 +193,9 @@ public class NavigationHeaderLayout extends FrameLayout {
         avatarImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mTransitionRunning) {
+                    return;
+                }
                 switchToAccount(account);
             }
         });
@@ -202,10 +212,7 @@ public class NavigationHeaderLayout extends FrameLayout {
         for (ImageView anotherAvatarImage : mAvatarImages) {
             String anotherAvatarUrl = (String) anotherAvatarImage.getTag();
             if (TextUtils.equals(anotherAvatarUrl , avatarUrl)) {
-                if (anotherAvatarImage != avatarImage) {
-                    avatarImage.setImageDrawable(anotherAvatarImage.getDrawable());
-                    avatarImage.setTag(avatarUrl);
-                }
+                setAvatarImageFrom(avatarImage, anotherAvatarImage);
                 return;
             }
         }
@@ -213,24 +220,58 @@ public class NavigationHeaderLayout extends FrameLayout {
         ImageUtils.loadNavigationAvatar(avatarImage, avatarUrl, getContext());
     }
 
+    private void setAvatarImageFrom(ImageView toAvatarImage, ImageView fromAvatarImage) {
+        if (toAvatarImage == fromAvatarImage) {
+            return;
+        }
+        toAvatarImage.setImageDrawable(fromAvatarImage.getDrawable());
+        toAvatarImage.setTag(fromAvatarImage.getTag());
+    }
+
     public void switchToAccount(Account account) {
 
         Context context = getContext();
+        if (AccountUtils.isActiveAccount(account, context)) {
+            return;
+        }
+
         AccountUtils.setActiveAccount(account, context);
         if (account.equals(mRecentOneAccount)) {
-            transitionWithRecent(mRecentOneAvatarImage);
+            beginAvatarTransitionFromRecent(mRecentOneAvatarImage);
         } else if (account.equals(mRecentTwoAccount)) {
-            transitionWithRecent(mRecentTwoAvatarImage);
+            beginAvatarTransitionFromRecent(mRecentTwoAvatarImage);
+        } else {
+            beginAvatarTransitionFromNonRecent();
         }
         bind();
 
+        // TODO: Move to ActiveAccountChangedEvent.
         if (mListener != null) {
             mListener.onActiveAccountChanged(account);
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void transitionWithRecent(ImageView recentAvatarImage) {
+    private void beginAvatarTransitionFromRecent(ImageView recentAvatarImage) {
+        beginAccountTransition(recentAvatarImage, mAvatarImage, null);
+    }
+
+    private void beginAvatarTransitionFromNonRecent() {
+        boolean hasRecentTwoAccount = mRecentTwoAccount != null;
+        beginAccountTransition(mAvatarImage, mRecentOneAvatarImage,
+                hasRecentTwoAccount ? mRecentTwoAvatarImage : null);
+    }
+
+    private void beginAccountTransition(ImageView moveAvatarOneImage,
+                                        ImageView moveAvatarTwoImage,
+                                        ImageView moveAvatarThreeImage) {
+
+        ImageView appearAvatarImage = moveAvatarOneImage;
+        ImageView disappearAvatarImage = moveAvatarThreeImage != null ? moveAvatarThreeImage
+                : moveAvatarTwoImage;
+        ImageView fadeOutDisappearAvatarImage =
+                disappearAvatarImage == mAvatarImage ? mFadeOutAvatarImage
+                        : disappearAvatarImage == mRecentOneAvatarImage ?
+                        mFadeOutRecentOneAvatarImage : mFadeOutRecentTwoAvatarImage;
 
         TransitionSet transitionSet = new TransitionSet();
         int duration = ViewUtils.getLongAnimTime(getContext());
@@ -240,55 +281,80 @@ public class NavigationHeaderLayout extends FrameLayout {
         // https://code.google.com/p/android/issues/detail?id=195495
         transitionSet.setInterpolator(new FastOutSlowInInterpolator());
 
-        Fade fadeAvatarOut = new Fade(Fade.OUT);
-        mFadeOutAvatarImage.setImageDrawable(mAvatarImage.getDrawable());
-        mFadeOutAvatarImage.setTag(mAvatarImage.getTag());
-        mFadeOutAvatarImage.setVisibility(VISIBLE);
-        fadeAvatarOut.addTarget(mFadeOutAvatarImage);
-        transitionSet.addTransition(fadeAvatarOut);
+        Fade fadeOutAvatar = new Fade(Fade.OUT);
+        setAvatarImageFrom(fadeOutDisappearAvatarImage, disappearAvatarImage);
+        fadeOutDisappearAvatarImage.setVisibility(VISIBLE);
+        fadeOutAvatar.addTarget(fadeOutDisappearAvatarImage);
+        transitionSet.addTransition(fadeOutAvatar);
         // Make it finish before new avatar arrives.
-        fadeAvatarOut.setDuration(duration / 2);
+        fadeOutAvatar.setDuration(duration / 2);
 
-        Fade fadeIn = new Fade(Fade.IN);
-        recentAvatarImage.setVisibility(INVISIBLE);
-        fadeIn.addTarget(recentAvatarImage);
-        transitionSet.addTransition(fadeIn);
+        Fade fadeInAvatar = new Fade(Fade.IN);
+        appearAvatarImage.setVisibility(INVISIBLE);
+        fadeInAvatar.addTarget(appearAvatarImage);
+        transitionSet.addTransition(fadeInAvatar);
 
-        ChangeTransform changeTransform = new ChangeTransform();
-        recentAvatarImage.setScaleX(0.8f);
-        recentAvatarImage.setScaleY(0.8f);
-        changeTransform.addTarget(recentAvatarImage);
+        ChangeTransform changeAppearAvatarTransform = new ChangeTransform();
+        appearAvatarImage.setScaleX(0.8f);
+        appearAvatarImage.setScaleY(0.8f);
+        changeAppearAvatarTransform.addTarget(appearAvatarImage);
+        transitionSet.addTransition(changeAppearAvatarTransform);
 
-        mAvatarImage.setX(recentAvatarImage.getLeft()
-                - (mAvatarImage.getWidth() - recentAvatarImage.getWidth()) / 2);
-        mAvatarImage.setY(recentAvatarImage.getTop()
-                - (mAvatarImage.getHeight() - recentAvatarImage.getHeight()) / 2);
-        mAvatarImage.setScaleX((float) (recentAvatarImage.getWidth()
-                - recentAvatarImage.getPaddingLeft() - recentAvatarImage.getPaddingRight())
-                / mAvatarImage.getWidth());
-        mAvatarImage.setScaleY((float) (recentAvatarImage.getHeight()
-                - recentAvatarImage.getPaddingTop() - recentAvatarImage.getPaddingBottom())
-                / mAvatarImage.getHeight());
-        changeTransform.addTarget(mAvatarImage);
-        transitionSet.addTransition(changeTransform);
+        addChangeMoveToAvatarTransformToTransitionSet(moveAvatarOneImage, moveAvatarTwoImage,
+                transitionSet);
+
+        if (moveAvatarThreeImage != null) {
+            addChangeMoveToAvatarTransformToTransitionSet(moveAvatarTwoImage, moveAvatarThreeImage,
+                    transitionSet);
+        }
 
         CrossfadeText crossfadeText = new CrossfadeText();
         crossfadeText.addTarget(mNameText);
         crossfadeText.addTarget(mDescriptionText);
         transitionSet.addTransition(crossfadeText);
 
+        transitionSet.addListener(new Transition.TransitionListenerAdapter() {
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                mTransitionRunning = false;
+            }
+        });
         TransitionManager.beginDelayedTransition(this, transitionSet);
+        mTransitionRunning = true;
 
-        mFadeOutAvatarImage.setVisibility(INVISIBLE);
+        fadeOutDisappearAvatarImage.setVisibility(INVISIBLE);
 
-        recentAvatarImage.setVisibility(VISIBLE);
-        recentAvatarImage.setScaleX(1);
-        recentAvatarImage.setScaleY(1);
+        appearAvatarImage.setVisibility(VISIBLE);
+        appearAvatarImage.setScaleX(1);
+        appearAvatarImage.setScaleY(1);
 
-        mAvatarImage.setTranslationX(0);
-        mAvatarImage.setTranslationY(0);
-        mAvatarImage.setScaleX(1);
-        mAvatarImage.setScaleY(1);
+        resetMoveToAvatarTransform(moveAvatarTwoImage);
+        if (moveAvatarThreeImage != null) {
+            resetMoveToAvatarTransform(moveAvatarThreeImage);
+        }
+    }
+
+    private void addChangeMoveToAvatarTransformToTransitionSet(ImageView moveFromAvatarImage,
+                                                               ImageView moveToAvatarImage,
+                                                               TransitionSet transitionSet) {
+        ChangeTransform changeMoveToAvatarTransform = new ChangeTransform();
+        moveToAvatarImage.setX(moveFromAvatarImage.getLeft()
+                + (moveFromAvatarImage.getWidth() - moveToAvatarImage.getWidth()) / 2);
+        moveToAvatarImage.setY(moveFromAvatarImage.getTop()
+                + (moveFromAvatarImage.getHeight() - moveToAvatarImage.getHeight()) / 2);
+        moveToAvatarImage.setScaleX((float) ViewUtils.getWidthExcludingPadding(moveFromAvatarImage)
+                / ViewUtils.getWidthExcludingPadding(moveToAvatarImage));
+        moveToAvatarImage.setScaleY((float) ViewUtils.getHeightExcludingPadding(moveFromAvatarImage)
+                / ViewUtils.getHeightExcludingPadding(moveToAvatarImage));
+        changeMoveToAvatarTransform.addTarget(moveToAvatarImage);
+        transitionSet.addTransition(changeMoveToAvatarTransform);
+    }
+
+    private void resetMoveToAvatarTransform(ImageView moveToAvatarImage) {
+        moveToAvatarImage.setTranslationX(0);
+        moveToAvatarImage.setTranslationY(0);
+        moveToAvatarImage.setScaleX(1);
+        moveToAvatarImage.setScaleY(1);
     }
 
     private void toggleShowingAccountList() {

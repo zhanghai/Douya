@@ -217,6 +217,14 @@ public class ViewUtils {
         return getLongAnimTime(context.getResources());
     }
 
+    public static int getWidthExcludingPadding(View view) {
+        return Math.max(0, view.getWidth() - view.getPaddingLeft() - view.getPaddingRight());
+    }
+
+    public static int getHeightExcludingPadding(View view) {
+        return Math.max(0, view.getHeight() - view.getPaddingTop() - view.getPaddingBottom());
+    }
+
     private static boolean hasSwDp(int dp, Context context) {
         return context.getResources().getConfiguration().smallestScreenWidthDp >= dp;
     }

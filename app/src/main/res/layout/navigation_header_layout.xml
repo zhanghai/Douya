@@ -30,6 +30,14 @@
             android:clipChildren="false">
 
             <me.zhanghai.android.douya.ui.SimpleCircleImageView
+                android:id="@+id/fade_out_recent_one_avatar"
+                android:layout_width="@dimen/touch_target_size"
+                android:layout_height="@dimen/touch_target_size"
+                android:layout_alignLeft="@+id/recent_one_avatar"
+                android:layout_alignTop="@id/recent_one_avatar"
+                android:padding="@dimen/avatar_padding" />
+
+            <me.zhanghai.android.douya.ui.SimpleCircleImageView
                 android:id="@+id/recent_one_avatar"
                 android:layout_width="@dimen/touch_target_size"
                 android:layout_height="@dimen/touch_target_size"
@@ -38,6 +46,15 @@
                 android:layout_marginRight="@dimen/screen_edge_horizontal_margin_with_8dp_padding"
                 android:layout_marginTop="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
                 android:padding="@dimen/avatar_padding" />
+
+            <me.zhanghai.android.douya.ui.SimpleCircleImageView
+                android:id="@+id/fade_out_recent_two_avatar"
+                android:layout_width="@dimen/touch_target_size"
+                android:layout_height="@dimen/touch_target_size"
+                android:layout_alignLeft="@id/recent_two_avatar"
+                android:layout_alignTop="@id/recent_two_avatar"
+                android:padding="@dimen/avatar_padding"
+                android:visibility="invisible" />
 
             <me.zhanghai.android.douya.ui.SimpleCircleImageView
                 android:id="@+id/recent_two_avatar"
@@ -52,8 +69,8 @@
                 android:id="@+id/fade_out_avatar"
                 android:layout_width="@dimen/navigation_header_avatar_size"
                 android:layout_height="@dimen/navigation_header_avatar_size"
-                android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
-                android:layout_marginTop="@dimen/screen_edge_horizontal_margin"
+                android:layout_alignLeft="@id/avatar"
+                android:layout_alignTop="@id/avatar"
                 android:visibility="invisible" />
 
             <me.zhanghai.android.douya.ui.SimpleCircleImageView
