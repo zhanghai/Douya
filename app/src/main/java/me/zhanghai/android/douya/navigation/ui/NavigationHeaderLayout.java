@@ -75,7 +75,7 @@ public class NavigationHeaderLayout extends FrameLayout {
     private Account mRecentOneAccount;
     private Account mRecentTwoAccount;
 
-    private boolean mTransitionRunning;
+    private boolean mAccountTransitionRunning;
     private boolean mShowingAccountList;
 
     public NavigationHeaderLayout(Context context) {
@@ -193,10 +193,7 @@ public class NavigationHeaderLayout extends FrameLayout {
         avatarImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTransitionRunning) {
-                    return;
-                }
-                switchToAccount(account);
+                switchToAccountWithTransitionIfNotRunning(account);
             }
         });
     }
@@ -228,7 +225,11 @@ public class NavigationHeaderLayout extends FrameLayout {
         toAvatarImage.setTag(fromAvatarImage.getTag());
     }
 
-    public void switchToAccount(Account account) {
+    public void switchToAccountWithTransitionIfNotRunning(Account account) {
+
+        if (mAccountTransitionRunning) {
+            return;
+        }
 
         Context context = getContext();
         if (AccountUtils.isActiveAccount(account, context)) {
@@ -245,7 +246,7 @@ public class NavigationHeaderLayout extends FrameLayout {
         }
         bind();
 
-        // TODO: Move to ActiveAccountChangedEvent.
+        // TODO: Move to AccountUtils with ActiveAccountChangedEvent.
         if (mListener != null) {
             mListener.onActiveAccountChanged(account);
         }
@@ -316,11 +317,11 @@ public class NavigationHeaderLayout extends FrameLayout {
         transitionSet.addListener(new Transition.TransitionListenerAdapter() {
             @Override
             public void onTransitionEnd(Transition transition) {
-                mTransitionRunning = false;
+                mAccountTransitionRunning = false;
             }
         });
         TransitionManager.beginDelayedTransition(this, transitionSet);
-        mTransitionRunning = true;
+        mAccountTransitionRunning = true;
 
         fadeOutDisappearAvatarImage.setVisibility(INVISIBLE);
 
