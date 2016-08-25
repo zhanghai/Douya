@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -29,7 +29,8 @@ public class MaxDimensionHelper {
     }
 
     public void onInit(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, STYLEABLE, defStyleAttr, defStyleRes);
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs, STYLEABLE,
+                defStyleAttr, defStyleRes);
         mMaxWidth = a.getDimensionPixelSize(STYLEABLE_ANDROID_MAX_WIDTH, -1);
         mMaxHeight = a.getDimensionPixelSize(STYLEABLE_ANDROID_MAX_HEIGHT, -1);
         a.recycle();

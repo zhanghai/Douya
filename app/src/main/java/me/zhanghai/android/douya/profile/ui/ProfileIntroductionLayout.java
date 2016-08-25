@@ -47,7 +47,7 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.profile_introduction_layout, this);
+        ViewUtils.inflateInto(R.layout.profile_introduction_layout, this);
         ButterKnife.bind(this);
     }
 

@@ -49,9 +49,9 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Context context = RecyclerViewUtils.getContext(holder);
         final Comment comment = getItem(position);
-        ImageUtils.loadAvatar(holder.avatarImage, comment.author.avatar, context);
+        ImageUtils.loadAvatar(holder.avatarImage, comment.author.avatar);
+        final Context context = RecyclerViewUtils.getContext(holder);
         holder.avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

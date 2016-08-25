@@ -287,9 +287,9 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     public void bindUser(User user) {
-        final Context context = getContext();
         final String largeAvatar = user.getLargeAvatarOrAvatar();
-        ImageUtils.loadProfileAvatarAndFadeIn(mAvatarImage, largeAvatar, context);
+        ImageUtils.loadProfileAvatarAndFadeIn(mAvatarImage, largeAvatar);
+        final Context context = getContext();
         mAvatarImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -309,7 +309,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         if (!ViewUtils.isVisible(mAvatarImage)) {
             // HACK: Don't load avatar again if already loaded by bindUser().
             final String largeAvatar = userInfo.getLargeAvatarOrAvatar();
-            ImageUtils.loadProfileAvatarAndFadeIn(mAvatarImage, largeAvatar, context);
+            ImageUtils.loadProfileAvatarAndFadeIn(mAvatarImage, largeAvatar);
             mAvatarImage.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {

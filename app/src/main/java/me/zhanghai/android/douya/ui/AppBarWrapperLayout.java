@@ -9,7 +9,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -75,7 +74,7 @@ public class AppBarWrapperLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        inflate(getContext(), R.layout.appbar_shadow_compat, this);
+        ViewUtils.inflateInto(R.layout.appbar_shadow_compat, this);
 
         if (getChildCount() != 2) {
             throw new IllegalStateException("One and only one AppBar view should be wrapped " +

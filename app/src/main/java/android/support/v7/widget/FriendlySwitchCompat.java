@@ -274,7 +274,8 @@ public class FriendlySwitchCompat extends CompoundButton {
      * @attr ref android.support.v7.appcompat.R.styleable#SwitchCompat_switchTextAppearance
      */
     public void setSwitchTextAppearance(Context context, int resid) {
-        TypedArray appearance = context.obtainStyledAttributes(resid, R.styleable.TextAppearance);
+        TintTypedArray appearance = TintTypedArray.obtainStyledAttributes(context, resid,
+                R.styleable.TextAppearance);
 
         ColorStateList colors;
         int ts;

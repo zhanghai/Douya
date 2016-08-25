@@ -63,7 +63,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
 
     private void init() {
 
-        inflate(getContext(), R.layout.profile_items_layout, this);
+        ViewUtils.inflateInto(R.layout.profile_items_layout, this);
         ButterKnife.bind(this);
 
         mItemList.setHasFixedSize(true);

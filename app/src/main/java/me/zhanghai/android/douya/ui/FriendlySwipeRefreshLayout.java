@@ -6,9 +6,9 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.R;
@@ -34,21 +34,22 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
     public FriendlySwipeRefreshLayout(Context context) {
         super(context);
 
-        init(getContext(), null);
+        init(null);
     }
 
     public FriendlySwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs);
+        init(attrs);
     }
 
-    private void init(Context context, AttributeSet attrs) {
+    private void init(AttributeSet attrs) {
 
         updateCircleDiameter();
+        Context context = getContext();
         mDefaultCircleDistance = ViewUtils.dpToPxInt(DEFAULT_CIRCLE_DISTANCE_DP, context);
 
-        TypedArray a = context.obtainStyledAttributes(attrs,
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.FriendlySwipeRefreshLayout, 0, 0);
         int progressOffset = a.getDimensionPixelOffset(
                 R.styleable.FriendlySwipeRefreshLayout_progressOffset, 0);

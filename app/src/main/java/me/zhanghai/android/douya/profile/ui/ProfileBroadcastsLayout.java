@@ -62,7 +62,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.profile_broadcasts_layout, this);
+        ViewUtils.inflateInto(R.layout.profile_broadcasts_layout, this);
         ButterKnife.bind(this);
     }
 
@@ -116,7 +116,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                 }
                 if (!TextUtils.isEmpty(imageUrl)) {
                     holder.image.setVisibility(VISIBLE);
-                    ImageUtils.loadImage(holder.image, imageUrl, context);
+                    ImageUtils.loadImage(holder.image, imageUrl);
                 } else {
                     holder.image.setVisibility(GONE);
                 }

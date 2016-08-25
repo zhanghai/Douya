@@ -59,7 +59,7 @@ public class ProfileDiariesLayout extends FriendlyCardView {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.profile_diaries_layout, this);
+        ViewUtils.inflateInto(R.layout.profile_diaries_layout, this);
         ButterKnife.bind(this);
     }
 
@@ -99,7 +99,7 @@ public class ProfileDiariesLayout extends FriendlyCardView {
 
             if (!TextUtils.isEmpty(diary.cover)) {
                 holder.coverImage.setVisibility(VISIBLE);
-                ImageUtils.loadImage(holder.coverImage, diary.cover, context);
+                ImageUtils.loadImage(holder.coverImage, diary.cover);
             } else {
                 holder.coverImage.setVisibility(GONE);
             }

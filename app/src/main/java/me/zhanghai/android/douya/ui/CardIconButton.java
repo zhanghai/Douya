@@ -7,9 +7,9 @@ package me.zhanghai.android.douya.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class CardIconButton extends LinearLayout {
 
@@ -30,40 +31,40 @@ public class CardIconButton extends LinearLayout {
     public CardIconButton(Context context) {
         super(context);
 
-        init(getContext(), null, 0, 0);
+        init(null, 0, 0);
     }
 
     public CardIconButton(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs, 0, 0);
+        init(attrs, 0, 0);
     }
 
     public CardIconButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(getContext(), attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CardIconButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(getContext(), attrs, defStyleAttr, defStyleRes);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         setClickable(true);
         setFocusable(true);
         setGravity(Gravity.CENTER_VERTICAL);
         setOrientation(HORIZONTAL);
 
-        inflate(context, R.layout.card_icon_button, this);
+        ViewUtils.inflateInto(R.layout.card_icon_button, this);
         ButterKnife.bind(this);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CardIconButton,
-                defStyleAttr, defStyleRes);
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
+                R.styleable.CardIconButton, defStyleAttr, defStyleRes);
         Drawable src = a.getDrawable(R.styleable.CardIconButton_android_src);
         if (src != null) {
             mImage.setImageDrawable(src);

@@ -124,14 +124,13 @@ public class BroadcastLayout extends LinearLayout {
 
         setOrientation(VERTICAL);
 
-        Context context = getContext();
-        inflate(context, R.layout.broadcast_layout, this);
+        ViewUtils.inflateInto(R.layout.broadcast_layout, this);
         ButterKnife.bind(this);
 
         ViewCompat.setBackground(mImageListDescriptionLayout, DrawableUtils.makeScrimDrawable());
         mImageList.setHasFixedSize(true);
-        mImageList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
-                false));
+        mImageList.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
         mImageListAdapter = new HorizontalImageAdapter();
         mImageList.setAdapter(mImageListAdapter);
         mImageList.addOnScrollListener(new OnHorizontalScrollListener() {
@@ -181,7 +180,7 @@ public class BroadcastLayout extends LinearLayout {
                 }
             });
         } else {
-            ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar, context);
+            ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar);
             mAvatarImage.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -203,7 +202,7 @@ public class BroadcastLayout extends LinearLayout {
                 mAttachmentDescriptionText.setText(attachment.description);
                 if (!TextUtils.isEmpty(attachment.image)) {
                     mAttachmentImage.setVisibility(VISIBLE);
-                    ImageUtils.loadImage(mAttachmentImage, attachment.image, context);
+                    ImageUtils.loadImage(mAttachmentImage, attachment.image);
                 } else {
                     mAttachmentImage.setVisibility(GONE);
                 }

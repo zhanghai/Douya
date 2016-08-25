@@ -105,7 +105,7 @@ public class NavigationHeaderLayout extends FrameLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.navigation_header_layout, this);
+        ViewUtils.inflateInto(R.layout.navigation_header_layout, this);
     }
 
     @Override
@@ -214,7 +214,7 @@ public class NavigationHeaderLayout extends FrameLayout {
             }
         }
 
-        ImageUtils.loadNavigationAvatar(avatarImage, avatarUrl, getContext());
+        ImageUtils.loadNavigationAvatar(avatarImage, avatarUrl);
     }
 
     private void setAvatarImageFrom(ImageView toAvatarImage, ImageView fromAvatarImage) {

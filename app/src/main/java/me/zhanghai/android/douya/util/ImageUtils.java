@@ -20,8 +20,8 @@ import me.zhanghai.android.douya.ui.RatioImageView;
 
 public class ImageUtils {
 
-    public static void loadAvatar(ImageView view, String url, Context context) {
-        Glide.with(context)
+    public static void loadAvatar(ImageView view, String url) {
+        Glide.with(view.getContext())
                 .load(url)
                 .placeholder(R.drawable.avatar_icon_grey600_40dp)
                 .dontAnimate()
@@ -29,8 +29,8 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadNavigationAvatar(final ImageView view, final String url,
-                                            Context context) {
+    public static void loadNavigationAvatar(final ImageView view, final String url) {
+        Context context = view.getContext();
         int size = context.getResources().getDimensionPixelSize(
                 R.dimen.navigation_header_avatar_size);
         Glide.with(context)
@@ -60,9 +60,8 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadProfileAvatarAndFadeIn(final ImageView view, String url,
-                                                  Context context) {
-        Glide.with(context)
+    public static void loadProfileAvatarAndFadeIn(final ImageView view, String url) {
+        Glide.with(view.getContext())
                 .load(url)
                 .dontAnimate()
                 .dontTransform()
@@ -86,9 +85,9 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadImage(RatioImageView view, Image image, Context context) {
+    public static void loadImage(RatioImageView view, Image image) {
         view.setRatio(image.width, image.height);
-        Glide.with(context)
+        Glide.with(view.getContext())
                 .load(image.medium)
                 // dontTransform() is required for our RatioImageView to work correctly.
                 .dontTransform()
@@ -97,8 +96,8 @@ public class ImageUtils {
     }
 
     public static void loadImage(ImageView view, String url,
-                                 RequestListener<String, GlideDrawable> listener, Context context) {
-        Glide.with(context)
+                                 RequestListener<String, GlideDrawable> listener) {
+        Glide.with(view.getContext())
                 .load(url)
                 .dontTransform()
                 .placeholder(android.R.color.transparent)
@@ -106,7 +105,7 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadImage(ImageView view, String url, Context context) {
-        loadImage(view, url, null, context);
+    public static void loadImage(ImageView view, String url) {
+        loadImage(view, url, null);
     }
 }

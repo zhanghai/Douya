@@ -7,8 +7,8 @@ package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.R;
@@ -23,24 +23,24 @@ public class TintStateListImageView extends AppCompatImageView {
     public TintStateListImageView(Context context) {
         super(context);
 
-        init(getContext(), null, 0, 0);
+        init(null, 0, 0);
     }
 
     public TintStateListImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs, 0, 0);
+        init(attrs, 0, 0);
     }
 
     public TintStateListImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(getContext(), attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, 0);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TintStateListImageView,
-                defStyleAttr, defStyleRes);
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
+                R.styleable.TintStateListImageView, defStyleAttr, defStyleRes);
         mTintList = a.getColorStateList(R.styleable.TintStateListImageView_tint);
         updateTintColorFilter();
         a.recycle();

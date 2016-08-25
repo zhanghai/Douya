@@ -7,12 +7,12 @@ package me.zhanghai.android.douya.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
@@ -31,19 +31,19 @@ public class InsetBackgroundFrameLayout extends FrameLayout {
     public InsetBackgroundFrameLayout(Context context) {
         super(context);
 
-        init(getContext(), null, 0, 0);
+        init(null, 0, 0);
     }
 
     public InsetBackgroundFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs, 0, 0);
+        init(attrs, 0, 0);
     }
 
     public InsetBackgroundFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(getContext(), attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -51,12 +51,12 @@ public class InsetBackgroundFrameLayout extends FrameLayout {
                                       int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(getContext(), attrs, defStyleAttr, defStyleRes);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
-        TypedArray a = context.obtainStyledAttributes(attrs,
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.InsetBackgroundFrameLayout, defStyleAttr, defStyleRes);
         mInsetBackground = a.getDrawable(R.styleable.InsetBackgroundFrameLayout_insetBackground);
         a.recycle();

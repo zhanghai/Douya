@@ -7,8 +7,8 @@ package me.zhanghai.android.douya.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -33,38 +33,38 @@ public class ImageLayout extends FrameLayout {
     public ImageLayout(Context context) {
         super(context);
 
-        init(getContext(), null, 0, 0);
+        init(null, 0, 0);
     }
 
     public ImageLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs, 0, 0);
+        init(attrs, 0, 0);
     }
 
     public ImageLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(getContext(), attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ImageLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(getContext(), attrs, defStyleAttr, defStyleRes);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         setClickable(true);
         setFocusable(true);
 
-        inflate(context, R.layout.image_layout, this);
+        ViewUtils.inflateInto(R.layout.image_layout, this);
         ButterKnife.bind(this);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ImageLayout, defStyleAttr,
-                defStyleRes);
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
+                R.styleable.ImageLayout, defStyleAttr, defStyleRes);
         int fillOrientation = a.getInt(R.styleable.ImageLayout_fillOrientation,
                 FILL_ORIENTATION_HORIZONTAL);
         a.recycle();
@@ -78,7 +78,7 @@ public class ImageLayout extends FrameLayout {
     }
 
     public void loadImage(Image image) {
-        ImageUtils.loadImage(mImageView, image, getContext());
+        ImageUtils.loadImage(mImageView, image);
         ViewUtils.setVisibleOrGone(mGifImage, image.animated);
     }
 

@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -167,16 +168,28 @@ public class ViewUtils {
 
     public static ColorStateList getColorStateListFromAttrRes(int attrRes, Context context) {
         int[] attrs = new int[] {attrRes};
+        // TODO: Switch to TintTypedArray when they added this overload.
         TypedArray a = context.obtainStyledAttributes(attrs);
-        ColorStateList colorStateList = a.getColorStateList(0);
+        // 0 is an invalid identifier according to the docs of {@link Resources}.
+        int resId = a.getResourceId(0, 0);
+        ColorStateList colorStateList = null;
+        if (resId != 0) {
+            colorStateList = AppCompatResources.getColorStateList(context, resId);
+        }
         a.recycle();
         return colorStateList;
     }
 
     public static Drawable getDrawableFromAttrRes(int attrRes, Context context) {
         int[] attrs = new int[] {attrRes};
+        // TODO: Switch to TintTypedArray when they added this overload.
         TypedArray a = context.obtainStyledAttributes(attrs);
-        Drawable drawable = a.getDrawable(0);
+        // 0 is an invalid identifier according to the docs of {@link Resources}.
+        int resId = a.getResourceId(0, 0);
+        Drawable drawable = null;
+        if (resId != 0) {
+            drawable = AppCompatResources.getDrawable(context, resId);
+        }
         a.recycle();
         return drawable;
     }
@@ -262,6 +275,10 @@ public class ViewUtils {
 
     public static View inflate(int resource, ViewGroup parent) {
         return LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
+    }
+
+    public static View inflateInto(int resource, ViewGroup parent) {
+        return LayoutInflater.from(parent.getContext()).inflate(resource, parent);
     }
 
     public static boolean isInLandscape(Context context) {

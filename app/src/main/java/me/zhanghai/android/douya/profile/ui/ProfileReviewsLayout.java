@@ -59,7 +59,7 @@ public class ProfileReviewsLayout extends FriendlyCardView {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.profile_reviews_layout, this);
+        ViewUtils.inflateInto(R.layout.profile_reviews_layout, this);
         ButterKnife.bind(this);
     }
 
@@ -103,7 +103,7 @@ public class ProfileReviewsLayout extends FriendlyCardView {
             }
             if (!TextUtils.isEmpty(coverUrl)) {
                 holder.coverImage.setVisibility(VISIBLE);
-                ImageUtils.loadImage(holder.coverImage, coverUrl, context);
+                ImageUtils.loadImage(holder.coverImage, coverUrl);
             } else {
                 holder.coverImage.setVisibility(GONE);
             }

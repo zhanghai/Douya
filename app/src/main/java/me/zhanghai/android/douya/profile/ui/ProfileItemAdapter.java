@@ -46,7 +46,6 @@ public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.V
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Context context = RecyclerViewUtils.getContext(holder);
         final Item item = getItem(position);
         float ratio = 1;
         switch (item.getType()) {
@@ -57,6 +56,7 @@ public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.V
                 break;
         }
         holder.itemLayout.setRatio(ratio);
+        final Context context = RecyclerViewUtils.getContext(holder);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +64,7 @@ public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.V
                 UriHandler.open(item.url, context);
             }
         });
-        ImageUtils.loadImage(holder.coverImage, item.cover.getLarge(), context);
+        ImageUtils.loadImage(holder.coverImage, item.cover.getLarge());
         holder.titleText.setText(item.title);
         // FIXME: This won't work properly if items are changed.
         ViewUtils.setVisibleOrGone(holder.dividerSpace, position != getItemCount() - 1);

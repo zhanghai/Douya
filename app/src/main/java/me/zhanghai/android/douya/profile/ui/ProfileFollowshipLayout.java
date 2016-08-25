@@ -60,7 +60,7 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.profile_followship_layout, this);
+        ViewUtils.inflateInto(R.layout.profile_followship_layout, this);
         ButterKnife.bind(this);
     }
 
@@ -85,8 +85,7 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
             }
 
             if (i >= mFollowingList.getChildCount()) {
-                LayoutInflater.from(context)
-                        .inflate(R.layout.profile_user_item, mFollowingList);
+                ViewUtils.inflateInto(R.layout.profile_user_item, mFollowingList);
             }
             View userLayout = mFollowingList.getChildAt(i);
             UserLayoutHolder holder = (UserLayoutHolder) userLayout.getTag();
@@ -95,7 +94,7 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
                 userLayout.setTag(holder);
             }
 
-            ImageUtils.loadAvatar(holder.avatarImage, user.avatar, context);
+            ImageUtils.loadAvatar(holder.avatarImage, user.avatar);
             holder.nameText.setText(user.name);
             userLayout.setOnClickListener(new OnClickListener() {
                 @Override

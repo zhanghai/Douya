@@ -51,7 +51,7 @@ public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapte
                 context.startActivity(ProfileActivity.makeIntent(user, context));
             }
         });
-        ImageUtils.loadAvatar(holder.avatarImage, user.avatar, context);
+        ImageUtils.loadAvatar(holder.avatarImage, user.avatar);
         holder.nameText.setText(user.name);
         //noinspection deprecation
         holder.descriptionText.setText(user.uid);

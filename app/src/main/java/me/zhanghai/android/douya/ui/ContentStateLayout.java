@@ -7,9 +7,9 @@ package me.zhanghai.android.douya.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.IntDef;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,19 +47,19 @@ public class ContentStateLayout extends FrameLayout {
     public ContentStateLayout(Context context) {
         super(context);
 
-        init(getContext(), null, 0, 0);
+        init(null, 0, 0);
     }
 
     public ContentStateLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs, 0, 0);
+        init(attrs, 0, 0);
     }
 
     public ContentStateLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(getContext(), attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -67,11 +67,11 @@ public class ContentStateLayout extends FrameLayout {
                               int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(getContext(), attrs, defStyleAttr, defStyleRes);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs,
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.ContentStateLayout, defStyleAttr, defStyleRes);
         mLoadingViewId = a.getResourceId(R.styleable.ContentStateLayout_loadingView, R.id.loading);
         mContentViewId = a.getResourceId(R.styleable.ContentStateLayout_contentView, R.id.content);

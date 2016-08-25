@@ -5,9 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -49,8 +47,7 @@ public class GalleryAdapter extends PagerAdapter {
 
     @Override
     public View instantiateItem(ViewGroup container, int position) {
-        Context context = container.getContext();
-        View layout = LayoutInflater.from(context).inflate(R.layout.gallery_item, container, false);
+        View layout = ViewUtils.inflate(R.layout.gallery_item, container);
         PhotoView imageView = ButterKnife.findById(layout, R.id.image);
         final TextView errorText = ButterKnife.findById(layout, R.id.error);
         final ProgressBar progressBar = ButterKnife.findById(layout, R.id.progress);
@@ -83,7 +80,7 @@ public class GalleryAdapter extends PagerAdapter {
                         ViewUtils.fadeOut(progressBar);
                         return false;
                     }
-                }, context);
+                });
         container.addView(layout);
         return layout;
     }
