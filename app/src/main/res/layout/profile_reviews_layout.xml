@@ -55,7 +55,7 @@
         android:background="?selectableItemBackground"
         android:clickable="true"
         android:drawableLeft="@drawable/forward_icon_grey600_24dp"
-        android:drawablePadding="12dp"
+        android:drawablePadding="@dimen/card_content_horizontal_space_with_4dp_padding"
         android:ellipsize="end"
         android:focusable="true"
         android:gravity="center_vertical"

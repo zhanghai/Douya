@@ -90,8 +90,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
             }
 
             if (i >= mBroadcastList.getChildCount()) {
-                LayoutInflater.from(context)
-                        .inflate(R.layout.profile_broadcast_item, mBroadcastList);
+                ViewUtils.inflateInto(R.layout.profile_broadcast_item, mBroadcastList);
             }
             View broadcastLayout = mBroadcastList.getChildAt(i);
             BroadcastLayoutHolder holder = (BroadcastLayoutHolder) broadcastLayout.getTag();
