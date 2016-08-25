@@ -8,8 +8,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/single_line_list_item_height"
+    android:layout_height="@dimen/single_line_list_item_with_avatar_height"
     android:paddingLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
     android:paddingRight="@dimen/card_content_horizontal_margin"
     android:background="?selectableItemBackground"

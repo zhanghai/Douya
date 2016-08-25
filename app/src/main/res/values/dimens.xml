@@ -21,6 +21,8 @@
     <dimen name="screen_edge_horizontal_margin_negative_half">-8dp</dimen>
     <dimen name="content_horizontal_margin">72dp</dimen>
     <dimen name="content_horizontal_margin_from_screen_edge">56dp</dimen>
+    <dimen name="content_horizontal_margin_from_screen_edge_with_24dp_padding">32dp</dimen>
+    <dimen name="content_horizontal_margin_from_screen_edge_with_40dp_padding">16dp</dimen>
     <dimen name="content_horizontal_margin_from_screen_edge_with_44dp_padding">12dp</dimen>
     <dimen name="toolbar_navigation_button_left_margin">-2dp</dimen>
     <dimen name="toolbar_title_left_margin">18dp</dimen>
@@ -36,7 +38,8 @@
     <dimen name="navigation_header_height">172dp</dimen>
     <dimen name="navigation_header_avatar_size">64dp</dimen>
     <dimen name="list_padding_vertical">8dp</dimen>
-    <dimen name="single_line_list_item_height">56dp</dimen>
+    <dimen name="single_line_list_item_height">48dp</dimen>
+    <dimen name="single_line_list_item_with_avatar_height">56dp</dimen>
     <dimen name="two_line_list_item_height">72dp</dimen>
     <dimen name="three_line_list_item_height">88dp</dimen>
     <!-- Using hard-coded 1dp as height for shared-element transition on Android 5.0 -->

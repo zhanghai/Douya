@@ -24,9 +24,6 @@
     <dimen name="toolbar_and_tab_height">112dp</dimen>
     <dimen name="toolbar_and_tab_hide_offset">-118dp</dimen>
     <dimen name="navigation_header_height">192dp</dimen>
-    <dimen name="single_line_list_item_height">64dp</dimen>
-    <dimen name="two_line_list_item_height">80dp</dimen>
-    <dimen name="three_line_list_item_height">96dp</dimen>
     <dimen name="scrim_height">192dp</dimen>
     <dimen name="card_list_horizontal_padding">12dp</dimen>
     <dimen name="card_activity_horizontal_margin">@dimen/content_horizontal_margin</dimen>
