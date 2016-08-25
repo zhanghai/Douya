@@ -17,6 +17,7 @@
     <dimen name="status_bar_height">25dp</dimen>
     <dimen name="screen_edge_horizontal_margin">16dp</dimen>
     <dimen name="screen_edge_horizontal_margin_with_4dp_padding">12dp</dimen>
+    <dimen name="screen_edge_horizontal_margin_with_8dp_padding">8dp</dimen>
     <dimen name="screen_edge_horizontal_margin_negative_half">-8dp</dimen>
     <dimen name="content_horizontal_margin">72dp</dimen>
     <dimen name="content_horizontal_margin_from_screen_edge">56dp</dimen>

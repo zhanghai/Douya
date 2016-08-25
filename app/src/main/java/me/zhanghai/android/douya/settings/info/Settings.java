@@ -17,7 +17,13 @@ public class Settings {
             R.string.pref_key_api_secret, R.string.pref_default_value_empty_string);
 
     public static final StringSettingsEntry ACTIVE_ACCOUNT_NAME = new StringSettingsEntry(
-            R.string.pref_key_active_account_name, R.string.pref_default_value_active_account_name);
+            R.string.pref_key_active_account_name, R.string.pref_default_value_empty_string);
+
+    public static final StringSettingsEntry RECENT_ONE_ACCOUNT_NAME = new StringSettingsEntry(
+            R.string.pref_key_recent_one_account_name, R.string.pref_default_value_empty_string);
+
+    public static final StringSettingsEntry RECENT_TWO_ACCOUNT_NAME = new StringSettingsEntry(
+            R.string.pref_key_recent_two_account_name, R.string.pref_default_value_empty_string);
 
     public static final BooleanSettingsEntry AUTO_REFRESH_HOME = new BooleanSettingsEntry(
             R.string.pref_key_auto_refresh_home, R.bool.pref_default_value_auto_refresh_home);

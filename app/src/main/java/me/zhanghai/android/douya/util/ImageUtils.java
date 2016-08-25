@@ -9,6 +9,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -28,12 +29,34 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadNavigationAvatar(ImageView view, String url, Context context) {
+    public static void loadNavigationAvatar(final ImageView view, final String url,
+                                            Context context) {
+        int size = context.getResources().getDimensionPixelSize(
+                R.dimen.navigation_header_avatar_size);
         Glide.with(context)
                 .load(url)
                 .placeholder(R.drawable.avatar_icon_white_inactive_64dp)
+                .override(size, size)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .dontTransform()
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model,
+                                               Target<GlideDrawable> target,
+                                               boolean isFirstResource) {
+                        (e != null ? e : new NullPointerException()).printStackTrace();
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model,
+                                                   Target<GlideDrawable> target,
+                                                   boolean isFromMemoryCache,
+                                                   boolean isFirstResource) {
+                        view.setTag(url);
+                        return false;
+                    }
+                })
                 .into(view);
     }
 
@@ -48,11 +71,7 @@ public class ImageUtils {
                     public boolean onException(Exception e, String model,
                                                Target<GlideDrawable> target,
                                                boolean isFirstResource) {
-                        if (e == null) {
-                            new NullPointerException().printStackTrace();
-                        } else {
-                            e.printStackTrace();
-                        }
+                        (e != null ? e : new NullPointerException()).printStackTrace();
                         return false;
                     }
                     @Override

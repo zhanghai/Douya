@@ -80,6 +80,7 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
 
         mHeaderLayout.setAdapter(this);
         mHeaderLayout.setListener(this);
+        mHeaderLayout.bind();
         mNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -149,6 +150,11 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
             intent = ProfileActivity.makeIntent(userInfoResource.getUserIdOrUid(), getActivity());
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void showAccountList(boolean show) {
+        // TODO
     }
 
     @Override

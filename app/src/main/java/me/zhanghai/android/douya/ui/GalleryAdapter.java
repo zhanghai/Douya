@@ -68,11 +68,7 @@ public class GalleryAdapter extends PagerAdapter {
                     public boolean onException(Exception e, String model,
                                                Target<GlideDrawable> target,
                                                boolean isFirstResource) {
-                        if (e == null) {
-                            new NullPointerException().printStackTrace();
-                        } else {
-                            e.printStackTrace();
-                        }
+                        (e != null ? e : new NullPointerException()).printStackTrace();
                         int errorRes = e != null && e.getCause() instanceof TimeoutError
                                 ? R.string.gallery_load_timeout : R.string.gallery_load_error;
                         errorText.setText(errorRes);

@@ -129,6 +129,21 @@ public class AccountUtils {
         return AccountManager.get(context).getAccountsByType(AccountContract.ACCOUNT_TYPE);
     }
 
+    private static Account getAccountByName(String accountName, Context context) {
+
+        if (TextUtils.isEmpty(accountName)) {
+            return null;
+        }
+
+        for (Account account : getAccounts(context)) {
+            if (TextUtils.equals(account.name, accountName)) {
+                return account;
+            }
+        }
+
+        return null;
+    }
+
     // NOTE: This method is asynchronous.
     public static void removeAccount(Account account, Context context) {
         AccountManager.get(context).removeAccount(account, null, null);
@@ -138,7 +153,7 @@ public class AccountUtils {
         return getAccounts(context).length != 0;
     }
 
-    // NOTE: Use getActiveAccount().name instead for availability checking.
+    // NOTE: Use getActiveAccount() instead for availability checking.
     private static String getActiveAccountName(Context context) {
         return Settings.ACTIVE_ACCOUNT_NAME.getValue(context);
     }
@@ -163,24 +178,30 @@ public class AccountUtils {
     // Will clear the invalid setting and return null if no matching account with the name from
     // setting is found.
     public static Account getActiveAccount(Context context) {
-
-        String activeAccountName = getActiveAccountName(context);
-        if (TextUtils.isEmpty(activeAccountName)) {
+        Account account = getAccountByName(getActiveAccountName(context), context);
+        if (account != null) {
+            return account;
+        } else {
+            removeActiveAccountName(context);
             return null;
         }
-
-        for (Account account : getAccounts(context)) {
-            if (TextUtils.equals(account.name, activeAccountName)) {
-                return account;
-            }
-        }
-
-        removeActiveAccountName(context);
-        return null;
     }
 
     public static void setActiveAccount(Account account, Context context) {
+
+        Account oldActiveAccount = getActiveAccount(context);
         setActiveAccountName(account.name, context);
+        if (oldActiveAccount != null) {
+            if (TextUtils.equals(getRecentOneAccountName(context), account.name)) {
+                setRecentOneAccountName(oldActiveAccount.name, context);
+            } else if (TextUtils.equals(getRecentTwoAccountName(context), account.name)) {
+                setRecentTwoAccountName(oldActiveAccount.name, context);
+            } else {
+                setRecentTwoAccountName(getRecentOneAccountName(context), context);
+                setRecentOneAccountName(oldActiveAccount.name, context);
+            }
+        }
+
         Volley volley = Volley.peekInstance();
         if (volley != null) {
             volley.notifyActiveAccountChanged(context);
@@ -193,6 +214,89 @@ public class AccountUtils {
 
     public static boolean isActiveAccount(Account account, Context context) {
         return isActiveAccountName(account.name, context);
+    }
+
+    private static String getRecentOneAccountName(Context context) {
+        return Settings.RECENT_ONE_ACCOUNT_NAME.getValue(context);
+    }
+
+    private static void setRecentOneAccountName(String accountName, Context context) {
+        Settings.RECENT_ONE_ACCOUNT_NAME.putValue(accountName, context);
+    }
+
+    private static void removeRecentOneAccountName(Context context) {
+        Settings.RECENT_ONE_ACCOUNT_NAME.remove(context);
+    }
+
+    public static Account getRecentOneAccount(Context context) {
+
+        Account activeAccount = getActiveAccount(context);
+        if (activeAccount == null) {
+            return null;
+        }
+
+        String accountName = getRecentOneAccountName(context);
+        if (!TextUtils.equals(accountName, activeAccount.name)) {
+            Account account = getAccountByName(accountName, context);
+            if (account != null) {
+                return account;
+            }
+        }
+
+        String recentTwoAccountName = getRecentTwoAccountName(context);
+        for (Account account : getAccounts(context)) {
+            if (!account.equals(activeAccount)
+                    && !TextUtils.equals(account.name, recentTwoAccountName)) {
+                setRecentOneAccountName(account.name, context);
+                return account;
+            }
+        }
+
+        removeRecentOneAccountName(context);
+        return null;
+    }
+
+    private static String getRecentTwoAccountName(Context context) {
+        return Settings.RECENT_TWO_ACCOUNT_NAME.getValue(context);
+    }
+
+    private static void setRecentTwoAccountName(String accountName, Context context) {
+        Settings.RECENT_TWO_ACCOUNT_NAME.putValue(accountName, context);
+    }
+
+    private static void removeRecentTwoAccountName(Context context) {
+        Settings.RECENT_TWO_ACCOUNT_NAME.remove(context);
+    }
+
+    public static Account getRecentTwoAccount(Context context) {
+
+        Account activeAccount = getActiveAccount(context);
+        if (activeAccount == null) {
+            return null;
+        }
+        Account recentOneAccount = getRecentOneAccount(context);
+        if (recentOneAccount == null) {
+            return null;
+        }
+
+        String accountName = getRecentTwoAccountName(context);
+        if (!TextUtils.equals(accountName, activeAccount.name)
+                && !TextUtils.equals(accountName, recentOneAccount.name)) {
+            Account account = getAccountByName(accountName, context);
+            if (account != null) {
+                return account;
+            }
+        }
+
+        for (Account account : getAccounts(context)) {
+            if (!account.equals(activeAccount) && !account.equals(recentOneAccount)) {
+                setRecentTwoAccountName(account.name, context);
+                return account;
+            }
+        }
+
+        removeRecentTwoAccountName(context);
+        return null;
     }
 
     // NOTICE: Be sure to check hasAccount() before calling this.
