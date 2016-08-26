@@ -59,7 +59,7 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
 
     @Override
     protected Request<Broadcast> onCreateRequest() {
-        return ApiRequests.newLikeBroadcastRequest(mBroadcastId, mLike, getContext());
+        return ApiRequests.newLikeBroadcastRequest(mBroadcastId, mLike);
     }
 
     @Override

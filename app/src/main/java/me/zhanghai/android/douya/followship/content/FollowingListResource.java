@@ -65,6 +65,6 @@ public class FollowingListResource extends FollowshipUserListResource {
 
     @Override
     protected ApiRequest<UserList> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newFollowingListRequest(getUserIdOrUid(), start, count, getActivity());
+        return ApiRequests.newFollowingListRequest(getUserIdOrUid(), start, count);
     }
 }

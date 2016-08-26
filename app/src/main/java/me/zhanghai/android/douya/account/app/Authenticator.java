@@ -91,7 +91,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
             if (!TextUtils.isEmpty(refreshToken)) {
                 try {
                     TokenRequest.Result result = new TokenRequest(refreshToken)
-                            .getResponse(mContext);
+                            .getResponse();
                     authToken = result.accessToken;
                     AccountUtils.setUserName(account, result.userName, mContext);
                     AccountUtils.setUserId(account, result.userId, mContext);
@@ -119,7 +119,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
             }
             try {
                 TokenRequest.Result result = new TokenRequest(account.name, password)
-                        .getResponse(mContext);
+                        .getResponse();
                 authToken = result.accessToken;
                 AccountUtils.setUserName(account, result.userName, mContext);
                 AccountUtils.setUserId(account, result.userId, mContext);

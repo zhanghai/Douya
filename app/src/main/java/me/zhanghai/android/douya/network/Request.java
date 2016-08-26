@@ -265,12 +265,11 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
 
     public void onPreparePerformRequest() throws AuthFailureError {}
 
-    public T getResponse(Context context)
-            throws InterruptedException, TimeoutException, ExecutionException {
+    public T getResponse() throws InterruptedException, TimeoutException, ExecutionException {
         RequestFuture<T> future = RequestFuture.newFuture();
         setListener(future);
         setErrorListener(future);
-        Volley.getInstance(context).addToRequestQueue(this);
+        Volley.getInstance().addToRequestQueue(this);
         return future.get(getTimeoutMs(), TimeUnit.MILLISECONDS);
     }
 

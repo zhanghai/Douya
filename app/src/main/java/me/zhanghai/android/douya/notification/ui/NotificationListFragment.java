@@ -221,8 +221,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         // Flawed Frodo API design: should use untilId instead of start.
         Integer start = loadMore ? mNotificationAdapter.getItemCount() : null;
         int count = NOTIFICATION_COUNT_PER_LOAD;
-        ApiRequest<NotificationList> request = ApiRequests.newNotificationListRequest(start, count,
-                getActivity());
+        ApiRequest<NotificationList> request = ApiRequests.newNotificationListRequest(start, count);
         LoadNotificationListState state = new LoadNotificationListState(loadMore, count);
         RequestFragment.startRequest(request, state, this, REQUEST_CODE_LOAD_NOTIFICATION_LIST);
 

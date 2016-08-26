@@ -63,7 +63,7 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
 
     @Override
     protected Request<Broadcast> onCreateRequest() {
-        return ApiRequests.newRebroadcastBroadcastRequest(mBroadcastId, mRebroadcast, getContext());
+        return ApiRequests.newRebroadcastBroadcastRequest(mBroadcastId, mRebroadcast);
     }
 
     @Override

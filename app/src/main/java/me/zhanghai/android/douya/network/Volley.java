@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.network;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -17,61 +18,39 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HttpStack;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import me.zhanghai.android.douya.DouyaApplication;
 import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 
 public class Volley {
 
-    private static final Object INSTANCE_LOCK = new Object();
-    private static volatile Volley sInstance;
+    private static final Volley INSTANCE = new Volley();
 
-    private Authenticator mAuthenticator;
     private RequestQueue mRequestQueue;
 
-    private Volley(Context context) {
+    private final Object mAuthenticatorMapLock = new Object();
+    private Map<Account, Authenticator> mAuthenticatorMap = new HashMap<>();
 
-        context = context.getApplicationContext();
-
-        notifyActiveAccountChanged(context);
-
-        mRequestQueue = newRequestQueue(context);
-        mRequestQueue.start();
+    public static Volley getInstance() {
+        return INSTANCE;
     }
 
-    public static Volley peekInstance() {
-        return sInstance;
-    }
-
-    public static Volley getInstance(Context context) {
-        if (sInstance == null) {
-            synchronized (INSTANCE_LOCK) {
-                if (sInstance == null) {
-                    sInstance = new Volley(context);
-                }
-            }
-        }
-        return sInstance;
+    private Volley() {
+        mRequestQueue = newRequestQueue();
     }
 
     /**
      * @see com.android.volley.toolbox.Volley#newRequestQueue(Context, HttpStack, int)
      */
-    private static RequestQueue newRequestQueue(Context context) {
-        RequestQueue queue = new RequestQueue(new DiskBasedCache(new File(context.getCacheDir(),
-                "volley")), new BasicNetwork(new HurlStack()));
+    private static RequestQueue newRequestQueue() {
+        RequestQueue queue = new RequestQueue(new DiskBasedCache(new File(
+                DouyaApplication.getInstance().getCacheDir(), "volley")), new BasicNetwork(
+                new HurlStack()));
         queue.start();
         return queue;
-    }
-
-    public void notifyActiveAccountChanged(Context context) {
-        context = context.getApplicationContext();
-        mAuthenticator = new SynchronizedAndroidAuthenticator(context,
-                AccountUtils.getActiveAccount(context), AccountContract.AUTH_TOKEN_TYPE, true);
-    }
-
-    public Authenticator getAuthenticator() {
-        return mAuthenticator;
     }
 
     public RequestQueue getRequestQueue() {
@@ -85,5 +64,18 @@ public class Volley {
 
     public void cancelRequests(Object tag) {
         mRequestQueue.cancelAll(tag);
+    }
+
+    public Authenticator getAuthenticator(Account account) {
+        Authenticator authenticator;
+        synchronized (mAuthenticatorMapLock) {
+            authenticator = mAuthenticatorMap.get(account);
+            if (authenticator == null) {
+                authenticator = new SynchronizedAndroidAuthenticator(DouyaApplication.getInstance(),
+                        account, AccountContract.AUTH_TOKEN_TYPE, true);
+                mAuthenticatorMap.put(account, authenticator);
+            }
+        }
+        return authenticator;
     }
 }

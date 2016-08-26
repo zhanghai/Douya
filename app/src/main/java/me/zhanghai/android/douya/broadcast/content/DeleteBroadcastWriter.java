@@ -36,7 +36,7 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Broadc
 
     @Override
     protected Request<Broadcast> onCreateRequest() {
-        return ApiRequests.newDeleteBroadcastRequest(mBroadcastId, getContext());
+        return ApiRequests.newDeleteBroadcastRequest(mBroadcastId);
     }
 
     @Override

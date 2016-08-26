@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import android.content.Context;
-
 import com.android.volley.AuthFailureError;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,13 +18,12 @@ public class UserIdOrUidFrodoRequest<T> extends FrodoRequest<T> {
 
     private boolean mIsUid;
 
-    public UserIdOrUidFrodoRequest(int method, String url, Type type, Context context) {
-        super(method, url, type, context);
+    public UserIdOrUidFrodoRequest(int method, String url, Type type) {
+        super(method, url, type);
     }
 
-    public UserIdOrUidFrodoRequest(int method, String url, TypeToken<T> typeToken,
-                                   Context context) {
-        super(method, url, typeToken, context);
+    public UserIdOrUidFrodoRequest(int method, String url, TypeToken<T> typeToken) {
+        super(method, url, typeToken);
     }
 
     public UserIdOrUidFrodoRequest<T> withUserIdOrUid(String userIdOrUid) {

@@ -35,7 +35,7 @@ public class ApiRequests {
 
     private ApiRequests() {}
 
-    public static ApiRequest<UserInfo> newUserInfoRequest(String userIdOrUid, Context context) {
+    public static ApiRequest<UserInfo> newUserInfoRequest(String userIdOrUid) {
 
         if (TextUtils.isEmpty(userIdOrUid)) {
             userIdOrUid = ApiContract.Request.ApiV2.UserInfo.UID_CURRENT;
@@ -43,24 +43,21 @@ public class ApiRequests {
 
         return new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.UserInfo.URL_FORMAT, userIdOrUid),
-                new TypeToken<UserInfo>() {}, context);
+                new TypeToken<UserInfo>() {});
     }
 
-    public static ApiRequest<UserInfo> newFollowshipRequest(String userIdOrUid, boolean follow,
-                                                            Context context) {
-
+    public static ApiRequest<UserInfo> newFollowshipRequest(String userIdOrUid, boolean follow) {
         return new LifeStreamRequest<>(follow ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.Followship.URL_FORMAT, userIdOrUid),
-                new TypeToken<UserInfo>() {}, context);
+                new TypeToken<UserInfo>() {});
     }
 
     public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
-                                                               Integer count, String tag,
-                                                               Context context) {
+                                                               Integer count, String tag) {
 
         ApiRequest<UserList> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.FollowingList.URL_FORMAT,
-                        userIdOrUid), new TypeToken<UserList>() {}, context);
+                        userIdOrUid), new TypeToken<UserList>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.FollowingList.START, String.valueOf(start));
@@ -76,16 +73,16 @@ public class ApiRequests {
     }
 
     public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
-                                                               Integer count, Context context) {
-        return newFollowingListRequest(userIdOrUid, start, count, null, context);
+                                                               Integer count) {
+        return newFollowingListRequest(userIdOrUid, start, count, null);
     }
 
     public static ApiRequest<UserList> newFollowerListRequest(String userIdOrUid, Integer start,
-                                                              Integer count, Context context) {
+                                                              Integer count) {
 
         ApiRequest<UserList> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.FollowerList.URL_FORMAT,
-                        userIdOrUid), new TypeToken<UserList>() {}, context);
+                        userIdOrUid), new TypeToken<UserList>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.FollowerList.START, String.valueOf(start));
@@ -98,12 +95,11 @@ public class ApiRequests {
     }
 
     public static ApiRequest<NotificationList> newNotificationListRequest(Integer start,
-                                                                          Integer count,
-                                                                          Context context) {
+                                                                          Integer count) {
 
         ApiRequest<NotificationList> request = new FrodoRequest<NotificationList>(
                 ApiRequest.Method.GET, ApiContract.Request.Frodo.NotificationList.URL,
-                new TypeToken<NotificationList>() {}, context) {
+                new TypeToken<NotificationList>() {}) {
             @Override
             protected Response<NotificationList> parseNetworkResponse(NetworkResponse response) {
                 Response<NotificationList> superResponse = super.parseNetworkResponse(response);
@@ -131,8 +127,7 @@ public class ApiRequests {
 
     public static ApiRequest<List<Broadcast>> newBroadcastListRequest(String userIdOrUid,
                                                                       String topic, Long untilId,
-                                                                      Integer count,
-                                                                      Context context) {
+                                                                      Integer count) {
 
         String url;
         if (TextUtils.isEmpty(userIdOrUid) && TextUtils.isEmpty(topic)) {
@@ -145,7 +140,7 @@ public class ApiRequests {
         }
 
         ApiRequest<List<Broadcast>> request = new LifeStreamRequest<>(ApiRequest.Method.GET, url,
-                new TypeToken<List<Broadcast>>() {}, context);
+                new TypeToken<List<Broadcast>>() {});
 
         if (untilId != null) {
             request.addParam(ApiContract.Request.ApiV2.BroadcastList.UNTIL_ID,
@@ -161,21 +156,19 @@ public class ApiRequests {
         return request;
     }
 
-    public static ApiRequest<Broadcast> newBroadcastRequest(long broadcastId, Context context) {
-
+    public static ApiRequest<Broadcast> newBroadcastRequest(long broadcastId) {
         return new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.Broadcast.URL_FORMAT, broadcastId),
-                new TypeToken<Broadcast>() {}, context);
+                new TypeToken<Broadcast>() {});
     }
 
     public static ApiRequest<CommentList> newBroadcastCommentListRequest(long broadcastId,
                                                                          Integer start,
-                                                                         Integer count,
-                                                                         Context context) {
+                                                                         Integer count) {
 
         ApiRequest<CommentList> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.BroadcastCommentList.URL_FORMAT,
-                        broadcastId), new TypeToken<CommentList>() {}, context);
+                        broadcastId), new TypeToken<CommentList>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.BroadcastCommentList.START,
@@ -189,31 +182,27 @@ public class ApiRequests {
         return request;
     }
 
-    public static ApiRequest<Broadcast> newLikeBroadcastRequest(long broadcastId, boolean like,
-                                                                Context context) {
-
+    public static ApiRequest<Broadcast> newLikeBroadcastRequest(long broadcastId, boolean like) {
         return new LifeStreamRequest<>(like ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.LikeBroadcast.URL_FORMAT,
-                        broadcastId), new TypeToken<Broadcast>() {}, context);
+                        broadcastId), new TypeToken<Broadcast>() {});
     }
 
     public static ApiRequest<Broadcast> newRebroadcastBroadcastRequest(long broadcastId,
-                                                                       boolean rebroadcast,
-                                                                       Context context) {
-
+                                                                       boolean rebroadcast) {
         return new LifeStreamRequest<>(rebroadcast ? ApiRequest.Method.POST
                 : ApiRequest.Method.DELETE,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.RebroadcastBroadcast.URL_FORMAT,
-                        broadcastId), new TypeToken<Broadcast>() {}, context);
+                        broadcastId), new TypeToken<Broadcast>() {});
     }
 
     public static ApiRequest<List<User>> newBroadcastLikerListRequest(long broadcastId,
-                                                                      Integer start, Integer count,
-                                                                      Context context) {
+                                                                      Integer start,
+                                                                      Integer count) {
 
         ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.BroadcastLikerList.URL_FORMAT,
-                        broadcastId), new TypeToken<List<User>>() {}, context);
+                        broadcastId), new TypeToken<List<User>>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.BroadcastLikerList.START,
@@ -229,13 +218,12 @@ public class ApiRequests {
 
     public static ApiRequest<List<User>> newBroadcastRebroadcasterListRequest(long broadcastId,
                                                                               Integer start,
-                                                                              Integer count,
-                                                                              Context context) {
+                                                                              Integer count) {
 
         ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(
                         ApiContract.Request.ApiV2.BroadcastRebroadcasterList.URL_FORMAT,
-                        broadcastId), new TypeToken<List<User>>() {}, context);
+                        broadcastId), new TypeToken<List<User>>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.BroadcastRebroadcasterList.START,
@@ -250,39 +238,35 @@ public class ApiRequests {
     }
 
     public static ApiRequest<Boolean> newDeleteBroadcastCommentRequest(long broadcastId,
-                                                                       long commentId,
-                                                                       Context context) {
+                                                                       long commentId) {
         return new LifeStreamRequest<>(ApiRequest.Method.DELETE, StringUtils.formatUs(
                 ApiContract.Request.ApiV2.DeleteBroadcastComment.URL_FORMAT, broadcastId,
-                commentId), new TypeToken<Boolean>() {}, context);
+                commentId), new TypeToken<Boolean>() {});
     }
 
     public static ApiRequest<Comment> newSendBroadcastCommentRequest(long broadcastId,
-                                                                     String comment,
-                                                                     Context context) {
-
+                                                                     String comment) {
         ApiRequest<Comment> request = new LifeStreamRequest<>(ApiRequest.Method.POST,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.SendBroadcastComment.URL_FORMAT,
-                        broadcastId), new TypeToken<Comment>() {}, context);
+                        broadcastId), new TypeToken<Comment>() {});
 
         request.addParam(ApiContract.Request.ApiV2.SendBroadcastComment.TEXT, comment);
 
         return request;
     }
 
-    public static ApiRequest<Broadcast> newDeleteBroadcastRequest(long broadcastId,
-                                                                  Context context) {
+    public static ApiRequest<Broadcast> newDeleteBroadcastRequest(long broadcastId) {
         return new LifeStreamRequest<>(ApiRequest.Method.DELETE,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.DeleteBroadcast.URL_FORMAT,
-                        broadcastId), new TypeToken<Broadcast>() {}, context);
+                        broadcastId), new TypeToken<Broadcast>() {});
     }
 
     public static ApiRequest<DiaryList> newDiaryListRequest(String userIdOrUid, Integer start,
-                                                            Integer count, Context context) {
+                                                            Integer count) {
 
         ApiRequest<DiaryList> request = new UserIdOrUidFrodoRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.Frodo.UserDiaryList.URL_FORMAT,
-                        userIdOrUid), new TypeToken<DiaryList>() {}, context)
+                        userIdOrUid), new TypeToken<DiaryList>() {})
                 .withUserIdOrUid(userIdOrUid);
 
         if (start != null) {
@@ -295,20 +279,19 @@ public class ApiRequests {
         return request;
     }
 
-    public static ApiRequest<UserItemList> newUserItemListRequest(String userIdOrUid,
-                                                                  Context context) {
+    public static ApiRequest<UserItemList> newUserItemListRequest(String userIdOrUid) {
         return new UserIdOrUidFrodoRequest<>(ApiRequest.Method.GET, StringUtils.formatUs(
                 ApiContract.Request.Frodo.UserItemList.URL_FORMAT, userIdOrUid),
-                new TypeToken<UserItemList>() {}, context)
+                new TypeToken<UserItemList>() {})
                 .withUserIdOrUid(userIdOrUid);
     }
 
     public static ApiRequest<ReviewList> newUserReviewListRequest(String userIdOrUid, Integer start,
-                                                                  Integer count, Context context) {
+                                                                  Integer count) {
 
         ApiRequest<ReviewList> request = new UserIdOrUidFrodoRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.Frodo.UserReviewList.URL_FORMAT,
-                        userIdOrUid), new TypeToken<ReviewList>() {}, context)
+                        userIdOrUid), new TypeToken<ReviewList>() {})
                 .withUserIdOrUid(userIdOrUid);
 
         if (start != null) {
@@ -322,11 +305,11 @@ public class ApiRequests {
     }
 
     public static ApiRequest<ReviewList> newItemReviewListRequest(long itemId, Integer start,
-                                                                  Integer count, Context context) {
+                                                                  Integer count) {
 
         ApiRequest<ReviewList> request = new FrodoRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.Frodo.ItemReviewList.URL_FORMAT, itemId),
-                new TypeToken<ReviewList>() {}, context);
+                new TypeToken<ReviewList>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.Frodo.ItemReviewList.START, String.valueOf(start));

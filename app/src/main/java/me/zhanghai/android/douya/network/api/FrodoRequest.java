@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import android.content.Context;
-
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -15,14 +13,14 @@ import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 
 public class FrodoRequest<T> extends ApiRequest<T> {
 
-    public FrodoRequest(int method, String url, Type type, Context context) {
-        super(method, url, type, context);
+    public FrodoRequest(int method, String url, Type type) {
+        super(method, url, type);
 
         init();
     }
 
-    public FrodoRequest(int method, String url, TypeToken<T> typeToken, Context context) {
-        super(method, url, typeToken, context);
+    public FrodoRequest(int method, String url, TypeToken<T> typeToken) {
+        super(method, url, typeToken);
 
         init();
     }

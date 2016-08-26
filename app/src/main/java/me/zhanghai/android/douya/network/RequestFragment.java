@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.network;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -41,7 +40,7 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
                                            FragmentActivity targetActivity, int requestCode) {
         RequestFragment<T, S> fragment = new RequestFragment<>(request, requestState);
         fragment.targetAtActivity(requestCode);
-        fragment.startRequest(targetActivity);
+        fragment.startRequest();
         FragmentUtils.add(fragment, targetActivity);
     }
 
@@ -55,7 +54,7 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
         RequestFragment<T, S> fragment = new RequestFragment<>(request, requestState);
         fragment.targetAtFragment(targetFragment, requestCode);
         FragmentActivity activity = targetFragment.getActivity();
-        fragment.startRequest(activity);
+        fragment.startRequest();
         FragmentUtils.add(fragment, activity);
     }
 
@@ -98,7 +97,7 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
     }
 
     // Need to pass in a context here because getActivity() returns null when we are just added.
-    private void startRequest(Context context) {
+    private void startRequest() {
         mRequest
                 .setListener(new Response.Listener<T>() {
                     @Override
@@ -112,7 +111,7 @@ public class RequestFragment<T, S> extends TargetedRetainedFragment {
                         onVolleyResponse(false, null, error);
                     }
                 });
-        Volley.getInstance(context).addToRequestQueue(mRequest);
+        Volley.getInstance().addToRequestQueue(mRequest);
     }
 
     private void onVolleyResponse(final boolean successful, final T result,

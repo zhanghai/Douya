@@ -132,8 +132,7 @@ public class UserItemListResource extends ResourceFragment
         mLoading = true;
         getListener().onLoadUserItemListStarted(getRequestCode());
 
-        ApiRequest<UserItemList> request = ApiRequests.newUserItemListRequest(mUserIdOrUid,
-                getActivity());
+        ApiRequest<UserItemList> request = ApiRequests.newUserItemListRequest(mUserIdOrUid);
         RequestFragment.startRequest(request, null, this);
     }
 

@@ -175,7 +175,7 @@ public class BroadcastListResource extends ResourceFragment
             }
         }
         ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(mUserIdOrUid,
-                mTopic, untilId, count, getActivity());
+                mTopic, untilId, count);
         State state = new State(loadMore, count);
         RequestFragment.startRequest(request, state, this);
     }

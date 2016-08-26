@@ -42,7 +42,7 @@ class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastComment
 
     @Override
     protected Request<Boolean> onCreateRequest() {
-        return ApiRequests.newDeleteBroadcastCommentRequest(mBroadcastId, mCommentId, getContext());
+        return ApiRequests.newDeleteBroadcastCommentRequest(mBroadcastId, mCommentId);
     }
 
     @Override

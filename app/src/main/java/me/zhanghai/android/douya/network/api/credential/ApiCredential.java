@@ -25,12 +25,10 @@ public final class ApiCredential {
 class HackyApiCredentialHelper {
 
     public static String getApiKey() {
-        //noinspection deprecation
         return ApiCredentialManager.getApiKey(DouyaApplication.getInstance());
     }
 
     public static String getApiSecret() {
-        //noinspection deprecation
         return ApiCredentialManager.getApiSecret(DouyaApplication.getInstance());
     }
 }

@@ -44,7 +44,7 @@ class SendBroadcastCommentWriter extends ResourceWriter<SendBroadcastCommentWrit
 
     @Override
     protected Request<Comment> onCreateRequest() {
-        return ApiRequests.newSendBroadcastCommentRequest(mBroadcastId, mComment, getContext());
+        return ApiRequests.newSendBroadcastCommentRequest(mBroadcastId, mComment);
     }
 
     @Override

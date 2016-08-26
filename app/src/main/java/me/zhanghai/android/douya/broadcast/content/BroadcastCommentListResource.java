@@ -88,8 +88,7 @@ public class BroadcastCommentListResource extends CommentListResource {
 
     @Override
     protected ApiRequest<CommentList> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newBroadcastCommentListRequest(mBroadcastId, start, count,
-                getActivity());
+        return ApiRequests.newBroadcastCommentListRequest(mBroadcastId, start, count);
     }
 
     @Keep

@@ -65,7 +65,7 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, UserInfo> {
 
     @Override
     protected Request<UserInfo> onCreateRequest() {
-        return ApiRequests.newFollowshipRequest(mUserIdOrUid, mFollow, getContext());
+        return ApiRequests.newFollowshipRequest(mUserIdOrUid, mFollow);
     }
 
     @Override

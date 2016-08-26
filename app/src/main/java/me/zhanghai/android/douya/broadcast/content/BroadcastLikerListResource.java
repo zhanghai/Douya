@@ -67,7 +67,6 @@ public class BroadcastLikerListResource extends BroadcastUserListResource {
 
     @Override
     protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newBroadcastLikerListRequest(getBroadcastId(), start, count,
-                getActivity());
+        return ApiRequests.newBroadcastLikerListRequest(getBroadcastId(), start, count);
     }
 }

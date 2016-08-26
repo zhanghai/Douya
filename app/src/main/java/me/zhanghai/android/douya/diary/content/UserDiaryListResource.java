@@ -155,8 +155,7 @@ public class UserDiaryListResource extends ResourceFragment
         getListener().onLoadDiaryListStarted(getRequestCode());
 
         Integer start = loadMore ? (mDiaryList != null ? mDiaryList.size() : 0) : null;
-        ApiRequest<DiaryList> request = ApiRequests.newDiaryListRequest(mUserIdOrUid, start, count,
-                getActivity());
+        ApiRequest<DiaryList> request = ApiRequests.newDiaryListRequest(mUserIdOrUid, start, count);
         State state = new State(loadMore, count);
         RequestFragment.startRequest(request, state, this);
     }

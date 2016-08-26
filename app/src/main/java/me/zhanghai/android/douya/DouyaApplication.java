@@ -20,9 +20,6 @@ public class DouyaApplication extends Application {
         sInstance = this;
     }
 
-    /**
-     * @deprecated This is hacky.
-     */
     public static DouyaApplication getInstance() {
         return sInstance;
     }

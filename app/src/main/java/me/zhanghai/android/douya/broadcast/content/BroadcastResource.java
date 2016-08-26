@@ -175,8 +175,7 @@ public class BroadcastResource extends ResourceFragment
         mLoading = true;
         getListener().onLoadBroadcastStarted(getRequestCode());
 
-        ApiRequest<Broadcast> request = ApiRequests.newBroadcastRequest(mBroadcastId,
-                getActivity());
+        ApiRequest<Broadcast> request = ApiRequests.newBroadcastRequest(mBroadcastId);
         RequestFragment.startRequest(request, null, this);
     }
 

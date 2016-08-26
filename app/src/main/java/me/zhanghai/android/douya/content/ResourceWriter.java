@@ -27,7 +27,7 @@ public abstract class ResourceWriter<W extends ResourceWriter, T>
         mRequest = onCreateRequest();
         mRequest.setListener(this);
         mRequest.setErrorListener(this);
-        Volley.getInstance(getContext()).addToRequestQueue(mRequest);
+        Volley.getInstance().addToRequestQueue(mRequest);
     }
 
     protected abstract Request<T> onCreateRequest();

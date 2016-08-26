@@ -72,7 +72,6 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
 
     @Override
     protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newBroadcastRebroadcasterListRequest(getBroadcastId(), start, count,
-                getActivity());
+        return ApiRequests.newBroadcastRebroadcasterListRequest(getBroadcastId(), start, count);
     }
 }
