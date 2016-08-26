@@ -9,10 +9,12 @@ import android.content.Context;
 
 import me.zhanghai.android.douya.content.ResourceWriterManager;
 
-public class DeleteBroadcastCommentManager extends ResourceWriterManager<DeleteBroadcastCommentWriter> {
+public class DeleteBroadcastCommentManager
+        extends ResourceWriterManager<DeleteBroadcastCommentWriter> {
 
     private static class InstanceHolder {
-        public static final DeleteBroadcastCommentManager VALUE = new DeleteBroadcastCommentManager();
+        public static final DeleteBroadcastCommentManager VALUE =
+                new DeleteBroadcastCommentManager();
     }
 
     public static DeleteBroadcastCommentManager getInstance() {
