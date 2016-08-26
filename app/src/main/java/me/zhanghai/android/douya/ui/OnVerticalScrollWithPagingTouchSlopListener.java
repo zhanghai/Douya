@@ -9,14 +9,14 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewConfiguration;
 
-public abstract class OnVerticalScrollWithPagingSlopListener extends OnVerticalScrollListener {
+public abstract class OnVerticalScrollWithPagingTouchSlopListener extends OnVerticalScrollListener {
 
     private final int mPagingTouchSlop;
 
     // Distance in y since last idle or direction change.
     private int mDy;
 
-    public OnVerticalScrollWithPagingSlopListener(Context context) {
+    public OnVerticalScrollWithPagingTouchSlopListener(Context context) {
         mPagingTouchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
@@ -28,7 +28,7 @@ public abstract class OnVerticalScrollWithPagingSlopListener extends OnVerticalS
     }
 
     @Override
-    public void onScrolledUp(int dy) {
+    public final void onScrolledUp(int dy) {
         mDy = mDy < 0 ? mDy + dy : dy;
         if (mDy < -mPagingTouchSlop) {
             onScrolledUp();
@@ -36,10 +36,14 @@ public abstract class OnVerticalScrollWithPagingSlopListener extends OnVerticalS
     }
 
     @Override
-    public void onScrolledDown(int dy) {
+    public final void onScrolledDown(int dy) {
         mDy = mDy > 0 ? mDy + dy : dy;
         if (mDy > mPagingTouchSlop) {
             onScrolledDown();
         }
     }
+
+    public void onScrolledUp() {}
+
+    public void onScrolledDown() {}
 }

@@ -38,7 +38,7 @@ import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
-import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingSlopListener;
+import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingTouchSlopListener;
 import me.zhanghai.android.douya.util.CardUtils;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -106,35 +106,34 @@ public abstract class BaseBroadcastListFragment extends Fragment
         mAdapter = new LoadMoreAdapter(R.layout.load_more_card_item, mBroadcastAdapter);
         mBroadcastList.setAdapter(mAdapter);
         final AppBarManager appBarManager = (AppBarManager) getParentFragment();
-        mBroadcastList.addOnScrollListener(new OnVerticalScrollWithPagingSlopListener(activity) {
-            @Override
-            public void onScrolledUp(int dy) {
-                if (!RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
-                    onShow();
-                } else {
-                    super.onScrolledUp(dy);
-                }
-            }
-            @Override
-            public void onScrolledUp() {
-                onShow();
-            }
-            private void onShow() {
-                appBarManager.showAppBar();
-                mSendFab.show();
-            }
-            @Override
-            public void onScrolledDown() {
-                if (RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
-                    appBarManager.hideAppBar();
-                    mSendFab.hide();
-                }
-            }
-            @Override
-            public void onScrolledToBottom() {
-                mBroadcastListResource.load(true);
-            }
-        });
+        mBroadcastList.addOnScrollListener(
+                new OnVerticalScrollWithPagingTouchSlopListener(activity) {
+                    @Override
+                    public void onScrolled(int dy) {
+                        if (!RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
+                            onShow();
+                        }
+                    }
+                    @Override
+                    public void onScrolledUp() {
+                        onShow();
+                    }
+                    private void onShow() {
+                        appBarManager.showAppBar();
+                        mSendFab.show();
+                    }
+                    @Override
+                    public void onScrolledDown() {
+                        if (RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
+                            appBarManager.hideAppBar();
+                            mSendFab.hide();
+                        }
+                    }
+                    @Override
+                    public void onScrolledToBottom() {
+                        mBroadcastListResource.load(true);
+                    }
+                });
 
         updateRefreshing();
 

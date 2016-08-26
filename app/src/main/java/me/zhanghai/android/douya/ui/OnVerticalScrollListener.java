@@ -21,19 +21,14 @@ public abstract class OnVerticalScrollListener extends RecyclerView.OnScrollList
         } else if (dy > 0) {
             onScrolledDown(dy);
         }
+        onScrolled(dy);
     }
 
-    public void onScrolledUp(int dy) {
-        onScrolledUp();
-    }
+    public void onScrolled(int dy) {}
 
-    public void onScrolledDown(int dy) {
-        onScrolledDown();
-    }
+    public void onScrolledUp(int dy) {}
 
-    public void onScrolledUp() {}
-
-    public void onScrolledDown() {}
+    public void onScrolledDown(int dy) {}
 
     public void onScrolledToTop() {}
 
