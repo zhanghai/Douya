@@ -109,6 +109,7 @@ public class NavigationHeaderLayout extends FrameLayout {
         ViewUtils.inflateInto(R.layout.navigation_header_layout, this);
         ButterKnife.bind(this);
 
+        mBackdropImage.setImageResource(R.drawable.profile_header_backdrop);
         ViewCompat.setBackground(mScrimView, DrawableUtils.makeScrimDrawable());
         mInfoLayout.setOnClickListener(new OnClickListener() {
             @Override
@@ -169,7 +170,7 @@ public class NavigationHeaderLayout extends FrameLayout {
                 }
             }
         });
-        mBackdropImage.setImageResource(R.color.grey_200);
+        //mBackdropImage.setImageResource();
     }
 
     private void bindRecentUsers() {
