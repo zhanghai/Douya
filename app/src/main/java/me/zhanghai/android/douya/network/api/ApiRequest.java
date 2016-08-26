@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import android.accounts.Account;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -30,13 +28,14 @@ import me.zhanghai.android.douya.util.LogUtils;
 public class ApiRequest<T> extends Request<T> {
 
     private Type mType;
-    private Account mAccount;
+    private Authenticator mAuthenticator;
     private String mAuthToken;
 
     public ApiRequest(int method, String url, Type type) {
         super(method, url);
 
         mType = type;
+        mAuthenticator = Volley.getInstance().getAuthenticator();
 
         setRetryPolicy(new RetryPolicy(ApiContract.Request.Base.INITIAL_TIMEOUT_MS,
                 ApiContract.Request.Base.MAX_NUM_RETRIES,
@@ -45,11 +44,6 @@ public class ApiRequest<T> extends Request<T> {
 
     public ApiRequest(int method, String url, TypeToken<T> typeToken) {
         this(method, url, typeToken.getType());
-    }
-
-    public ApiRequest<T> setAccount(Account account) {
-        mAccount = account;
-        return this;
     }
 
     @Override
@@ -82,15 +76,8 @@ public class ApiRequest<T> extends Request<T> {
     }
 
     private void setAuthorization() throws AuthFailureError {
-        mAuthToken = getAuthenticator().getAuthToken();
+        mAuthToken = mAuthenticator.getAuthToken();
         addHeaderAuthorizationBearer(mAuthToken);
-    }
-
-    private Authenticator getAuthenticator() {
-        if (mAccount == null) {
-            throw new IllegalStateException("mAccount == null when getAuthenticator() is called");
-        }
-        return Volley.getInstance().getAuthenticator(mAccount);
     }
 
     private class RetryPolicy extends DefaultRetryPolicy {
@@ -109,7 +96,7 @@ public class ApiRequest<T> extends Request<T> {
                 case ApiContract.Response.Error.Codes.Token.INVALID_REFRESH_TOKEN:
                 case ApiContract.Response.Error.Codes.Token
                         .ACCESS_TOKEN_HAS_EXPIRED_SINCE_PASSWORD_CHANGED:
-                    getAuthenticator().invalidateAuthToken(mAuthToken);
+                    mAuthenticator.invalidateAuthToken(mAuthToken);
                     setAuthorization();
                     super.retry(error);
                     break;

@@ -27,6 +27,7 @@ import me.zhanghai.android.douya.account.app.AccountPreferences;
 import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.ui.AddAccountActivity;
 import me.zhanghai.android.douya.account.ui.SelectAccountActivity;
+import me.zhanghai.android.douya.network.Volley;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.GsonHelper;
@@ -187,6 +188,7 @@ public class AccountUtils {
     }
 
     public static void setActiveAccount(Account account, Context context) {
+
         Account oldActiveAccount = getActiveAccount(context);
         setActiveAccountName(account.name, context);
         if (oldActiveAccount != null) {
@@ -199,6 +201,8 @@ public class AccountUtils {
                 setRecentOneAccountName(oldActiveAccount.name, context);
             }
         }
+
+        Volley.getInstance().notifyActiveAccountChanged();
     }
 
     public static boolean hasActiveAccount(Context context) {
