@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.NetworkResponse;
@@ -17,11 +16,11 @@ import java.util.List;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;

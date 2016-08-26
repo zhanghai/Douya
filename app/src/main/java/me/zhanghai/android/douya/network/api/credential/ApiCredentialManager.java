@@ -6,11 +6,8 @@
 package me.zhanghai.android.douya.network.api.credential;
 
 import android.content.Context;
-import android.os.Handler;
 
-import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.settings.info.Settings;
-import me.zhanghai.android.douya.util.ToastUtils;
 
 class ApiCredentialManager {
 

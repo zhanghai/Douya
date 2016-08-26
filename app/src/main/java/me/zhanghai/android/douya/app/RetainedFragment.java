@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.app;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;

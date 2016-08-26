@@ -7,11 +7,7 @@ package me.zhanghai.android.douya.network;
 
 import android.accounts.Account;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Build;
 
-import com.android.volley.Network;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Authenticator;
 import com.android.volley.toolbox.DiskBasedCache;
@@ -23,7 +19,6 @@ import java.util.Map;
 
 import me.zhanghai.android.douya.DouyaApplication;
 import me.zhanghai.android.douya.account.info.AccountContract;
-import me.zhanghai.android.douya.account.util.AccountUtils;
 
 public class Volley {
 

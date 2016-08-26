@@ -10,36 +10,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
-import com.android.volley.VolleyError;
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
-import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.followship.content.FollowUserManager;
-import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
-import me.zhanghai.android.douya.network.api.info.frodo.Diary;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
-import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
-import me.zhanghai.android.douya.profile.content.ProfileResource;
-import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.util.FragmentUtils;
-import me.zhanghai.android.douya.util.LogUtils;
-import me.zhanghai.android.douya.util.ToastUtils;
-import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileActivity extends AppCompatActivity {
 

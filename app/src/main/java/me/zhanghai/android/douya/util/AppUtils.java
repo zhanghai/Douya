@@ -10,8 +10,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.support.annotation.Nullable;
 
 import me.zhanghai.android.douya.R;

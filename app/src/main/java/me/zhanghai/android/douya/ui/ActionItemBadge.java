@@ -6,11 +6,9 @@
 package me.zhanghai.android.douya.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;

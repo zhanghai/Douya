@@ -6,10 +6,8 @@
 package me.zhanghai.android.douya.ui;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;

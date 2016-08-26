@@ -5,10 +5,7 @@
 
 package me.zhanghai.android.douya.review.content;
 
-import android.os.Bundle;
 import android.support.annotation.Keep;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
@@ -21,7 +18,6 @@ import me.zhanghai.android.douya.eventbus.ReviewDeletedEvent;
 import me.zhanghai.android.douya.eventbus.ReviewUpdatedEvent;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 

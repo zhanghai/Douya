@@ -7,11 +7,7 @@ package me.zhanghai.android.douya.link;
 
 import android.content.Context;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.util.ToastUtils;
 
 public class NotImplementedManager {

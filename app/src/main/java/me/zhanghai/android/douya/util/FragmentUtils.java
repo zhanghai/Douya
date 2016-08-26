@@ -9,10 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FriendlyFragment;
-import android.text.TextUtils;
-
-import java.util.List;
 
 public class FragmentUtils {
 

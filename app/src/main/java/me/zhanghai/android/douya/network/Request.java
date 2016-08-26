@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.network;
 
-import android.content.Context;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

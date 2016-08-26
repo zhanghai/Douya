@@ -8,12 +8,8 @@ package me.zhanghai.android.douya.profile.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import java.util.List;
-
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Item;
-import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 
 public class ProfileMoviesLayout extends ProfileItemsLayout {
 

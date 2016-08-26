@@ -10,7 +10,6 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TextView;
 
 import me.zhanghai.android.douya.util.ViewUtils;

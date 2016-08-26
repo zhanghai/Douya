@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ScrollView;
 
 public class FlexibleSpaceContentScrollView extends ScrollView implements FlexibleSpaceContentView {

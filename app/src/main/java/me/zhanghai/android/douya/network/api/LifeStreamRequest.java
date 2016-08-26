@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import android.content.Context;
-
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;

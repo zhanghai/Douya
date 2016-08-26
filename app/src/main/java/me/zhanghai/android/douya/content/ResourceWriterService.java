@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastCommentManager;
+import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.SendBroadcastCommentManager;
