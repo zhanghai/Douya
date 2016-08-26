@@ -177,7 +177,7 @@ public class BroadcastListResource extends ResourceFragment
         ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(mUserIdOrUid,
                 mTopic, untilId, count);
         State state = new State(loadMore, count);
-        startRequest(request, state);
+        RequestFragment.startRequest(request, state, this);
     }
 
     public void load(boolean loadMore) {

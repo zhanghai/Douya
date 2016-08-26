@@ -201,7 +201,7 @@ public class UserInfoResource extends ResourceFragment
         getListener().onLoadUserInfoStarted(getRequestCode());
 
         ApiRequest<UserInfo> request = ApiRequests.newUserInfoRequest(mUserIdOrUid);
-        startRequest(request, null);
+        RequestFragment.startRequest(request, null, this);
     }
 
     @Override

@@ -71,7 +71,7 @@ public abstract class BaseUserListResource<T> extends ResourceFragment
         Integer start = loadMore ? (mUserList != null ? mUserList.size() : 0) : null;
         ApiRequest<T> request = onCreateRequest(start, count);
         State state = new State(loadMore, count);
-        startRequest(request, state);
+        RequestFragment.startRequest(request, state, this);
     }
 
     public void load(boolean loadMore) {

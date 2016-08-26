@@ -14,8 +14,8 @@ import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -43,7 +43,7 @@ class SendBroadcastCommentWriter extends ResourceWriter<SendBroadcastCommentWrit
     }
 
     @Override
-    protected ApiRequest<Comment> onCreateRequest() {
+    protected Request<Comment> onCreateRequest() {
         return ApiRequests.newSendBroadcastCommentRequest(mBroadcastId, mComment);
     }
 

@@ -176,7 +176,7 @@ public class BroadcastResource extends ResourceFragment
         getListener().onLoadBroadcastStarted(getRequestCode());
 
         ApiRequest<Broadcast> request = ApiRequests.newBroadcastRequest(mBroadcastId);
-        startRequest(request, null);
+        RequestFragment.startRequest(request, null, this);
     }
 
     @Override

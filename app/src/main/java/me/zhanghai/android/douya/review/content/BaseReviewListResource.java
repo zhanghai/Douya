@@ -86,7 +86,7 @@ public abstract class BaseReviewListResource extends ResourceFragment
         Integer start = loadMore ? (mReviewList != null ? mReviewList.size() : 0) : null;
         ApiRequest<ReviewList> request = onCreateRequest(start, count);
         State state = new State(loadMore, count);
-        startRequest(request, state);
+        RequestFragment.startRequest(request, state, this);
     }
 
     public void load(boolean loadMore) {

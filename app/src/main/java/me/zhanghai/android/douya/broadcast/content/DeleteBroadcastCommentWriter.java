@@ -13,8 +13,8 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.CommentDeletedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -41,7 +41,7 @@ class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastComment
     }
 
     @Override
-    protected ApiRequest<Boolean> onCreateRequest() {
+    protected Request<Boolean> onCreateRequest() {
         return ApiRequests.newDeleteBroadcastCommentRequest(mBroadcastId, mCommentId);
     }
 
