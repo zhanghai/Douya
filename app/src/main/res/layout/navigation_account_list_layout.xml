@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/account_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/horizontal_divider_height"
+        android:layout_marginTop="@dimen/list_padding_vertical"
+        android:layout_marginBottom="@dimen/list_padding_vertical"
+        android:background="?dividerHorizontal" />
+
+    <TextView
+        android:id="@+id/add_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:drawableLeft="@drawable/add_icon_black_24dp"
+        android:drawablePadding="@dimen/content_horizontal_margin_from_screen_edge_with_24dp_padding"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:text="@string/navigation_add_account"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/manage_accounts"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:drawableLeft="@drawable/settings_icon_black_24dp"
+        android:drawablePadding="@dimen/content_horizontal_margin_from_screen_edge_with_24dp_padding"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:text="@string/navigation_manage_accounts"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:maxLines="1" />
+</merge>

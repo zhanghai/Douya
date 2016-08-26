@@ -131,6 +131,8 @@
     <string name="navigation_music">音乐</string>
     <string name="navigation_settings">设置</string>
     <string name="navigation_feedback">反馈</string>
+    <string name="navigation_add_account">添加账户</string>
+    <string name="navigation_manage_accounts">管理账户</string>
 
     <string name="main_notification">提醒</string>
     <string name="main_doumail">豆邮</string>

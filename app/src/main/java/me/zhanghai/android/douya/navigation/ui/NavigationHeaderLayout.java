@@ -43,6 +43,10 @@ public class NavigationHeaderLayout extends FrameLayout {
     ImageView mBackdropImage;
     @BindView(R.id.scrim)
     View mScrimView;
+    @BindViews({R.id.avatar, R.id.fade_out_avatar,
+            R.id.recent_one_avatar, R.id.fade_out_recent_one_avatar,
+            R.id.recent_two_avatar, R.id.fade_out_recent_two_avatar})
+    ImageView[] mAvatarImages;
     @BindView(R.id.avatar)
     ImageView mAvatarImage;
     @BindView(R.id.fade_out_avatar)
@@ -55,10 +59,6 @@ public class NavigationHeaderLayout extends FrameLayout {
     ImageView mRecentTwoAvatarImage;
     @BindView(R.id.fade_out_recent_two_avatar)
     ImageView mFadeOutRecentTwoAvatarImage;
-    @BindViews({R.id.avatar, R.id.fade_out_avatar,
-            R.id.recent_one_avatar, R.id.fade_out_recent_one_avatar,
-            R.id.recent_two_avatar, R.id.fade_out_recent_two_avatar})
-    ImageView[] mAvatarImages;
     @BindView(R.id.info)
     LinearLayout mInfoLayout;
     @BindView(R.id.name)
@@ -105,20 +105,15 @@ public class NavigationHeaderLayout extends FrameLayout {
     }
 
     private void init() {
+
         ViewUtils.inflateInto(R.layout.navigation_header_layout, this);
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
         ButterKnife.bind(this);
 
         ViewCompat.setBackground(mScrimView, DrawableUtils.makeScrimDrawable());
         mInfoLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggleShowingAccountList();
+                showingAccountList(!mShowingAccountList);
             }
         });
     }
@@ -150,7 +145,12 @@ public class NavigationHeaderLayout extends FrameLayout {
         if (userInfo != null) {
             bindAvatarImage(mAvatarImage, userInfo.getLargeAvatarOrAvatar());
             mNameText.setText(userInfo.name);
-            mDescriptionText.setText(userInfo.signature);
+            if (!TextUtils.isEmpty(userInfo.signature)) {
+                mDescriptionText.setText(userInfo.signature);
+            } else {
+                //noinspection deprecation
+                mDescriptionText.setText(userInfo.uid);
+            }
         } else {
             User partialUser = mAdapter.getPartialUser(mActiveAccount);
             bindAvatarImage(mAvatarImage, null);
@@ -161,6 +161,9 @@ public class NavigationHeaderLayout extends FrameLayout {
         mAvatarImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mAccountTransitionRunning) {
+                    return;
+                }
                 if (mListener != null) {
                     mListener.openProfile(mActiveAccount);
                 }
@@ -214,7 +217,7 @@ public class NavigationHeaderLayout extends FrameLayout {
             }
         }
 
-        ImageUtils.loadNavigationAvatar(avatarImage, avatarUrl);
+        ImageUtils.loadNavigationHeaderAvatar(avatarImage, avatarUrl);
     }
 
     private void setAvatarImageFrom(ImageView toAvatarImage, ImageView fromAvatarImage) {
@@ -230,6 +233,8 @@ public class NavigationHeaderLayout extends FrameLayout {
         if (mAccountTransitionRunning) {
             return;
         }
+
+        showingAccountList(false);
 
         Context context = getContext();
         if (AccountUtils.isActiveAccount(account, context)) {
@@ -318,8 +323,10 @@ public class NavigationHeaderLayout extends FrameLayout {
             @Override
             public void onTransitionEnd(Transition transition) {
                 mAccountTransitionRunning = false;
+                mInfoLayout.setEnabled(true);
             }
         });
+        mInfoLayout.setEnabled(false);
         TransitionManager.beginDelayedTransition(this, transitionSet);
         mAccountTransitionRunning = true;
 
@@ -358,18 +365,22 @@ public class NavigationHeaderLayout extends FrameLayout {
         moveToAvatarImage.setScaleY(1);
     }
 
-    private void toggleShowingAccountList() {
+    private void showingAccountList(boolean show) {
+
+        if (mShowingAccountList == show) {
+            return;
+        }
 
         if (mListener == null) {
             return;
         }
 
-        mShowingAccountList = !mShowingAccountList;
-        mListener.showAccountList(mShowingAccountList);
         mDropDownImage.animate()
-                .rotation(mShowingAccountList ? 180 : 0)
+                .rotation(show ? 180 : 0)
                 .setDuration(ViewUtils.getShortAnimTime(getContext()))
                 .start();
+        mListener.showAccountList(show);
+        mShowingAccountList = show;
     }
 
     public interface Adapter {

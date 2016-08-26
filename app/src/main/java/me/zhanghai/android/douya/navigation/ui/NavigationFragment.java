@@ -34,13 +34,16 @@ import me.zhanghai.android.douya.ui.DrawerManager;
 import me.zhanghai.android.douya.user.content.UserInfoResource;
 
 public class NavigationFragment extends Fragment implements AccountUserInfoResource.Listener,
-        NavigationHeaderLayout.Adapter, NavigationHeaderLayout.Listener {
+        NavigationHeaderLayout.Adapter, NavigationHeaderLayout.Listener,
+        NavigationAccountListLayout.Adapter, NavigationAccountListLayout.Listener {
 
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
     private NavigationHeaderLayout mHeaderLayout;
 
     private ArrayMap<Account, AccountUserInfoResource> mUserInfoResourceMap;
+
+    private NavigationViewAdapter mNavigationViewAdapter;
 
     public static NavigationFragment newInstance() {
         //noinspection deprecation
@@ -106,6 +109,7 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
                 });
         // FIXME: Check remembered checked position.
         mNavigationView.getMenu().getItem(0).setChecked(true);
+        mNavigationViewAdapter = NavigationViewAdapter.override(mNavigationView, this, this);
     }
 
     @Override
@@ -154,12 +158,17 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
 
     @Override
     public void showAccountList(boolean show) {
-        // TODO
+        mNavigationViewAdapter.showAccountList(show);
     }
 
     @Override
     public void onActiveAccountChanged(Account newAccount) {
         // TODO
+    }
+
+    @Override
+    public void switchToAccount(Account account) {
+        mHeaderLayout.switchToAccountWithTransitionIfNotRunning(account);
     }
 
     private void openSettings() {

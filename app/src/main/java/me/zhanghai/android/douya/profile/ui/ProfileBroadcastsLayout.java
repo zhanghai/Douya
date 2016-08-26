@@ -93,6 +93,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                 ViewUtils.inflateInto(R.layout.profile_broadcast_item, mBroadcastList);
             }
             View broadcastLayout = mBroadcastList.getChildAt(i);
+            broadcastLayout.setVisibility(VISIBLE);
             BroadcastLayoutHolder holder = (BroadcastLayoutHolder) broadcastLayout.getTag();
             if (holder == null) {
                 holder = new BroadcastLayoutHolder(broadcastLayout);
@@ -144,7 +145,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         }
 
         for (int count = mBroadcastList.getChildCount(); i < count; ++i) {
-            ViewUtils.setVisibleOrGone(mBroadcastList.getChildAt(i), false);
+            mBroadcastList.getChildAt(i).setVisibility(GONE);
         }
     }
 

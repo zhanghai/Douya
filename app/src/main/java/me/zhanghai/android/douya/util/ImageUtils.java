@@ -6,12 +6,17 @@
 package me.zhanghai.android.douya.util;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.support.v4.widget.TextViewCompat;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
 import me.zhanghai.android.douya.R;
@@ -29,7 +34,7 @@ public class ImageUtils {
                 .into(view);
     }
 
-    public static void loadNavigationAvatar(final ImageView view, final String url) {
+    public static void loadNavigationHeaderAvatar(final ImageView view, final String url) {
         Context context = view.getContext();
         int size = context.getResources().getDimensionPixelSize(
                 R.dimen.navigation_header_avatar_size);
@@ -57,6 +62,20 @@ public class ImageUtils {
                         return false;
                     }
                 })
+                .into(view);
+    }
+
+    public static void loadNavigationAccountListAvatar(ImageView view, String url) {
+        Context context = view.getContext();
+        int size = context.getResources().getDimensionPixelSize(
+                R.dimen.navigation_header_avatar_size);
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.avatar_icon_grey600_40dp)
+                .override(size, size)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .dontAnimate()
+                .dontTransform()
                 .into(view);
     }
 

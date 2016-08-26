@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/single_line_list_item_with_avatar_height"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+    android:paddingRight="@dimen/screen_edge_horizontal_margin"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical">
+
+    <me.zhanghai.android.douya.ui.SimpleCircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/content_horizontal_margin_from_screen_edge_with_40dp_padding"
+        android:ellipsize="end"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:maxLines="1" />
+</LinearLayout>
