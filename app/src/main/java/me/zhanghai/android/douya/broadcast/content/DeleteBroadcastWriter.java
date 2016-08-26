@@ -13,8 +13,8 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -35,7 +35,7 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Broadc
     }
 
     @Override
-    protected Request<Broadcast> onCreateRequest() {
+    protected ApiRequest<Broadcast> onCreateRequest() {
         return ApiRequests.newDeleteBroadcastRequest(mBroadcastId);
     }
 

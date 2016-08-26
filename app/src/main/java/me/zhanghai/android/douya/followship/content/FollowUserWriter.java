@@ -13,13 +13,13 @@ import com.android.volley.VolleyError;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
-import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.UserInfoWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.UserInfoWriteStartedEvent;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -64,7 +64,7 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, UserInfo> {
     }
 
     @Override
-    protected Request<UserInfo> onCreateRequest() {
+    protected ApiRequest<UserInfo> onCreateRequest() {
         return ApiRequests.newFollowshipRequest(mUserIdOrUid, mFollow);
     }
 

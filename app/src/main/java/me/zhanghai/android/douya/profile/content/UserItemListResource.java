@@ -133,7 +133,7 @@ public class UserItemListResource extends ResourceFragment
         getListener().onLoadUserItemListStarted(getRequestCode());
 
         ApiRequest<UserItemList> request = ApiRequests.newUserItemListRequest(mUserIdOrUid);
-        RequestFragment.startRequest(request, null, this);
+        startRequest(request, null);
     }
 
     @Override

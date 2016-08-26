@@ -85,7 +85,7 @@ public abstract class CommentListResource extends ResourceFragment
         Integer start = loadMore && mCommentList != null ? mCommentList.size() : null;
         ApiRequest<CommentList> request = onCreateRequest(start, count);
         State state = new State(loadMore, count);
-        RequestFragment.startRequest(request, state, this);
+        startRequest(request, state);
     }
 
     public void load(boolean loadMore) {

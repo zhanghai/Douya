@@ -10,6 +10,8 @@ import android.os.Bundle;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.network.RequestFragment;
+import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ResourceFragment extends TargetedRetainedFragment {
@@ -33,5 +35,16 @@ public class ResourceFragment extends TargetedRetainedFragment {
         }
     }
 
-    // TODO
+    public Account getAccount() {
+        return mAccount;
+    }
+
+    protected <T, S> void startRequest(int requestCode, ApiRequest<T> request, S state) {
+        request.setAccount(mAccount);
+        RequestFragment.startRequest(request, state, this, requestCode);
+    }
+
+    protected <T, S> void startRequest(ApiRequest<T> request, S state) {
+        startRequest(RequestFragment.REQUEST_CODE_INVALID, request, state);
+    }
 }
