@@ -84,7 +84,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                 break;
             }
 
-            if (TextUtils.isEmpty(broadcast.text) || broadcast.isRebroadcasted()) {
+            if (broadcast.rebroadcastedBroadcast != null) {
                 continue;
             }
 
@@ -119,7 +119,11 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                 } else {
                     holder.image.setVisibility(GONE);
                 }
-                holder.textText.setText(broadcast.getTextWithEntities(context));
+                CharSequence text = broadcast.getTextWithEntities(context);
+                if (TextUtils.isEmpty(text) && broadcast.attachment != null) {
+                    text = broadcast.attachment.title;
+                }
+                holder.textText.setText(text);
                 holder.timeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
                 broadcastLayout.setOnClickListener(new OnClickListener() {
                     @Override
