@@ -90,8 +90,14 @@
 
         <activity
             android:name=".settings.ui.SettingsActivity"
+            android:exported="false"
             android:label="@string/settings_title"
-            android:theme="@style/Theme.Douya" />
+            android:theme="@style/Theme.Douya">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".settings.ui.AboutActivity"
