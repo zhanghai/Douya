@@ -114,7 +114,7 @@ public class NavigationHeaderLayout extends FrameLayout {
         mInfoLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                showingAccountList(!mShowingAccountList);
+                showAccountList(!mShowingAccountList);
             }
         });
     }
@@ -235,7 +235,7 @@ public class NavigationHeaderLayout extends FrameLayout {
             return;
         }
 
-        showingAccountList(false);
+        showAccountList(false);
 
         Context context = getContext();
         if (AccountUtils.isActiveAccount(account, context)) {
@@ -366,7 +366,15 @@ public class NavigationHeaderLayout extends FrameLayout {
         moveToAvatarImage.setScaleY(1);
     }
 
-    private void showingAccountList(boolean show) {
+    public boolean isShowingAccountList() {
+        return mShowingAccountList;
+    }
+
+    public void setShowingAccountList(boolean showing) {
+        showAccountList(showing, false);
+    }
+
+    private void showAccountList(boolean show, boolean animate) {
 
         if (mShowingAccountList == show) {
             return;
@@ -376,12 +384,20 @@ public class NavigationHeaderLayout extends FrameLayout {
             return;
         }
 
-        mDropDownImage.animate()
-                .rotation(show ? 180 : 0)
-                .setDuration(ViewUtils.getShortAnimTime(getContext()))
-                .start();
+        if (animate) {
+            mDropDownImage.animate()
+                    .rotation(show ? 180 : 0)
+                    .setDuration(ViewUtils.getShortAnimTime(getContext()))
+                    .start();
+        } else {
+            mDropDownImage.setRotation(180);
+        }
         mListener.showAccountList(show);
         mShowingAccountList = show;
+    }
+
+    private void showAccountList(boolean show) {
+        showAccountList(show, true);
     }
 
     public interface Adapter {

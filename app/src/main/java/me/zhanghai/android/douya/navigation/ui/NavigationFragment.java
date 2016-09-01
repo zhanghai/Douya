@@ -37,6 +37,10 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         NavigationHeaderLayout.Adapter, NavigationHeaderLayout.Listener,
         NavigationAccountListLayout.Adapter, NavigationAccountListLayout.Listener {
 
+    private static final String KEY_PREFIX = NavigationFragment.class.getName() + '.';
+
+    private static final String KEY_SHOWING_ACCOUNT_LIST = KEY_PREFIX + "showing_account_list";
+
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
     private NavigationHeaderLayout mHeaderLayout;
@@ -110,6 +114,20 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         // FIXME: Check remembered checked position.
         mNavigationView.getMenu().getItem(0).setChecked(true);
         mNavigationViewAdapter = NavigationViewAdapter.override(mNavigationView, this, this);
+
+        if (savedInstanceState != null) {
+            mHeaderLayout.setShowingAccountList(savedInstanceState.getBoolean(
+                    KEY_SHOWING_ACCOUNT_LIST));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // NavigationHeaderLayout resides inside a RecyclerView which cannot save its own instance
+        // state.
+        outState.putBoolean(KEY_SHOWING_ACCOUNT_LIST, mHeaderLayout.isShowingAccountList());
     }
 
     @Override
