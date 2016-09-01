@@ -59,7 +59,7 @@ public class FlexibleSpaceContentScrollView extends ScrollView implements Flexib
         // responsibility of saving state to FlexibleSpaceLayout.
         int scrollY = getScrollY();
         setScrollY(0);
-        final Parcelable savedState = super.onSaveInstanceState();
+        Parcelable savedState = super.onSaveInstanceState();
         setScrollY(scrollY);
         return savedState;
     }
