@@ -150,6 +150,14 @@ public class NavigationViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void onAccountListChanged() {
+        notifyAccountListViewChanged();
+    }
+
+    public void onUserInfoChanged() {
+        notifyAccountListViewChanged();
+    }
+
+    private void notifyAccountListViewChanged() {
         if (mShowingAccountList) {
             notifyItemChanged(mNavigationView.getHeaderCount());
         }

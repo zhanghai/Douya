@@ -324,7 +324,7 @@ public class AccountUtils {
         activity.startActivity(intent);
     }
 
-    public static boolean ensureAccountAvailability(Activity activity) {
+    public static boolean ensureActiveAccountAvailability(Activity activity) {
         boolean accountAvailable = true;
         if (!hasAccount()) {
             accountAvailable = false;

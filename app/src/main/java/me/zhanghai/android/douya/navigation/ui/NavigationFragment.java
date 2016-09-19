@@ -153,6 +153,13 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     @Override
     public void onAccountsUpdated(Account[] accounts) {
 
+        // FIXME: Post after resume.
+
+        // In case AccountUtils.ensureActiveAccountAvailability() called finish().
+        if (AccountUtils.getActiveAccount() == null) {
+            return;
+        }
+
         ArrayMap<Account, AccountUserInfoResource> oldUserInfoResourceMap = mUserInfoResourceMap;
         mUserInfoResourceMap = new ArrayMap<>();
         for (Account account : AccountUtils.getAccounts()) {
@@ -180,6 +187,7 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     @Override
     public void onUserInfoChanged(int requestCode, UserInfo newUserInfo) {
         mHeaderLayout.bind();
+        mNavigationViewAdapter.onUserInfoChanged();
     }
 
     @Override
@@ -233,10 +241,11 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
             return;
         }
 
+        DrawerLayout drawerLayout = getDrawer();
+        View drawerView = getView();
+        boolean drawerVisible = drawerLayout.isDrawerVisible(drawerView);
         if (!mWillReloadForActiveAccountChange) {
             mWillReloadForActiveAccountChange = true;
-            DrawerLayout drawerLayout = getDrawer();
-            View drawerView = getView();
             Runnable reloadRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -247,12 +256,14 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
                     }
                 }
             };
-            if (drawerLayout.isDrawerVisible(drawerView)) {
+            if (drawerVisible) {
                 ViewUtils.postOnDrawerClosed(drawerLayout, reloadRunnable);
-                drawerLayout.closeDrawer(drawerView);
             } else {
                 reloadRunnable.run();
             }
+        }
+        if (drawerVisible) {
+            drawerLayout.closeDrawer(drawerView);
         }
     }
 
@@ -269,8 +280,10 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     @Override
     public void removeCurrentAccount() {
         mHeaderLayout.setShowingAccountList(false);
-        AccountUtils.removeAccount(AccountUtils.getActiveAccount());
-        // FIXME: Select new active account.
+        Account oldActiveAccount = AccountUtils.getActiveAccount();
+        AccountUtils.setActiveAccount(AccountUtils.getRecentOneAccount());
+        AccountUtils.removeAccount(oldActiveAccount);
+        AccountUtils.ensureActiveAccountAvailability(getActivity());
     }
 
     private void openSettings() {

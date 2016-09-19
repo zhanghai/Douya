@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
 
-        if (!AccountUtils.ensureAccountAvailability(this)) {
+        if (!AccountUtils.ensureActiveAccountAvailability(this)) {
             return;
         }
 
