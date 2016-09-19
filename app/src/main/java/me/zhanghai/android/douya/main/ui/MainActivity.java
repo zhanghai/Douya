@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity
         mMainFragment = HomeFragment.newInstance();
         FragmentUtils.replace(mMainFragment, this, R.id.container);
         // TODO: NotificationFragment
+        mNotificationListFragment.refresh();
     }
 
     @Override
