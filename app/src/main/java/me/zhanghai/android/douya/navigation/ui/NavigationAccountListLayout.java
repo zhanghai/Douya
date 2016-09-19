@@ -42,7 +42,7 @@ public class NavigationAccountListLayout extends LinearLayout {
     LinearLayout mAccountList;
     @BindView(R.id.divider)
     View mDividerView;
-    @BindViews({R.id.add_account, R.id.manage_accounts})
+    @BindViews({R.id.add_account, R.id.remove_current_account, R.id.manage_accounts})
     TextView[] mMenuItems;
     @BindView(R.id.add_account)
     TextView mAddAccountItem;

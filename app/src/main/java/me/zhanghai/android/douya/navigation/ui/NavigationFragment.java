@@ -270,6 +270,7 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     public void removeCurrentAccount() {
         mHeaderLayout.setShowingAccountList(false);
         AccountUtils.removeAccount(AccountUtils.getActiveAccount());
+        // FIXME: Select new active account.
     }
 
     private void openSettings() {
