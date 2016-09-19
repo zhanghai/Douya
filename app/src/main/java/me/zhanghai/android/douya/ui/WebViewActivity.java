@@ -39,6 +39,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.link.DoubanUriHandler;
+import me.zhanghai.android.douya.link.FrodoBridge;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.util.ClipboardUtils;
@@ -170,7 +172,8 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onPageFinished(WebView webView, String url) {}
 
     protected boolean shouldOverrideUrlLoading(WebView webView, String url) {
-        return false;
+        Uri uri = Uri.parse(url);
+        return DoubanUriHandler.open(uri, this) || FrodoBridge.openFrodoUri(uri, this);
     }
 
     protected void reloadWebView() {
