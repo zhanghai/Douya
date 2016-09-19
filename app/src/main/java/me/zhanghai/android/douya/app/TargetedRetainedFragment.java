@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.app;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FriendlyFragment;
 import android.text.TextUtils;
@@ -30,19 +31,26 @@ public class TargetedRetainedFragment extends RetainedFragment {
      * Should be called in {@link Fragment#onDestroy()}.
      */
     public void detach() {
-        if (!mTargetedAtActivity) {
-            // Because this is called inside our target's onDestroy, it cannot be already detached,
-            // so we can always find it.
-            Fragment fragment = mTargetFragment;
-            // isRemoving() is not set when child fragment is destroyed due to parent removal, so we
-            // have to walk through its ancestors.
-            while (fragment != null) {
-                if (fragment.isRemoving()) {
-                    FragmentUtils.remove(this);
-                    break;
-                }
-                fragment = fragment.getParentFragment();
+
+        // Not needed if we are targeted at an activity.
+        if (mTargetedAtActivity) {
+            return;
+        }
+
+        // In case we did not reach onActivityCreated().
+        if (getActivity() != null) {
+            findTargetFragmentIf();
+        }
+
+        Fragment fragment = mTargetFragment;
+        // isRemoving() is not set when child fragment is destroyed due to parent removal, so we
+        // have to walk through its ancestors.
+        while (fragment != null) {
+            if (fragment.isRemoving()) {
+                FragmentUtils.remove(this);
+                break;
             }
+            fragment = fragment.getParentFragment();
         }
     }
 
@@ -76,11 +84,11 @@ public class TargetedRetainedFragment extends RetainedFragment {
         mRequestCode = arguments.getInt(EXTRA_REQUEST_CODE);
     }
 
-    // Must be after onCreate() so that all child fragment managers has restored their state.
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
+        // Must be after onCreate() so that all child fragment managers has restored their state.
         findTargetFragmentIf();
     }
 
@@ -101,16 +109,6 @@ public class TargetedRetainedFragment extends RetainedFragment {
         if (mTargetFragment == null) {
             throw new IllegalStateException("Target fragment not found");
         }
-    }
-
-    private void saveTargetFragmentIf() {
-
-        if (mTargetedAtActivity) {
-            return;
-        }
-
-        getArguments().putString(EXTRA_TARGET_FRAGMENT_WHO,
-                FriendlyFragment.getWho(mTargetFragment));
     }
 
     @Override

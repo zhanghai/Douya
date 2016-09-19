@@ -259,22 +259,22 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
 
         switch (mAuthMode) {
             case AUTH_MODE_NEW:
-                AccountUtils.addAccountExplicitly(account, mPassword, this);
+                AccountUtils.addAccountExplicitly(account, mPassword);
                 AccountUtils.setActiveAccount(account, this);
                 break;
             case AUTH_MODE_ADD:
-                AccountUtils.addAccountExplicitly(account, mPassword, this);
+                AccountUtils.addAccountExplicitly(account, mPassword);
                 break;
             case AUTH_MODE_UPDATE:
             case AUTH_MODE_CONFIRM:
-                AccountUtils.setPassword(account, mPassword, this);
+                AccountUtils.setPassword(account, mPassword);
                 break;
         }
 
-        AccountUtils.setUserName(account, result.userName, this);
-        AccountUtils.setUserId(account, result.userId, this);
-        AccountUtils.setAuthToken(account, result.accessToken, this);
-        AccountUtils.setRefreshToken(account, result.refreshToken, this);
+        AccountUtils.setUserName(account, result.userName);
+        AccountUtils.setUserId(account, result.userId);
+        AccountUtils.setAuthToken(account, result.accessToken);
+        AccountUtils.setRefreshToken(account, result.refreshToken);
 
         Intent intent;
         switch (mAuthMode) {

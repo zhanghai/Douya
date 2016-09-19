@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +31,8 @@ import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
-import me.zhanghai.android.douya.ui.DrawerManager;
 import me.zhanghai.android.douya.user.content.UserInfoResource;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class NavigationFragment extends Fragment implements AccountUserInfoResource.Listener,
         NavigationHeaderLayout.Adapter, NavigationHeaderLayout.Listener,
@@ -40,6 +41,8 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     private static final String KEY_PREFIX = NavigationFragment.class.getName() + '.';
 
     private static final String KEY_SHOWING_ACCOUNT_LIST = KEY_PREFIX + "showing_account_list";
+    private static final String KEY_NEED_RELOAD_FOR_ACTIVE_ACCOUNT_CHANGE =
+            KEY_PREFIX + "need_reload_for_active_account_change";
 
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
@@ -48,6 +51,9 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     private ArrayMap<Account, AccountUserInfoResource> mUserInfoResourceMap;
 
     private NavigationViewAdapter mNavigationViewAdapter;
+
+    private boolean mNeedReloadForActiveAccountChange;
+    private boolean mWillReloadForActiveAccountChange;
 
     public static NavigationFragment newInstance() {
         //noinspection deprecation
@@ -80,7 +86,7 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
 
         Activity activity = getActivity();
         mUserInfoResourceMap = new ArrayMap<>();
-        for (Account account : AccountUtils.getAccounts(activity)) {
+        for (Account account : AccountUtils.getAccounts()) {
             mUserInfoResourceMap.put(account, AccountUserInfoResource.attachTo(account, this,
                     account.name, -1));
         }
@@ -107,7 +113,7 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
                         if (menuItem.getGroupId() == R.id.navigation_group_primary) {
                             menuItem.setChecked(true);
                         }
-                        closeDrawer();
+                        getDrawer().closeDrawer(getView());
                         return true;
                     }
                 });
@@ -118,6 +124,9 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         if (savedInstanceState != null) {
             mHeaderLayout.setShowingAccountList(savedInstanceState.getBoolean(
                     KEY_SHOWING_ACCOUNT_LIST));
+            if (savedInstanceState.getBoolean(KEY_NEED_RELOAD_FOR_ACTIVE_ACCOUNT_CHANGE)) {
+                reloadForActiveAccountChange();
+            }
         }
     }
 
@@ -128,6 +137,8 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         // NavigationHeaderLayout resides inside a RecyclerView which cannot save its own instance
         // state.
         outState.putBoolean(KEY_SHOWING_ACCOUNT_LIST, mHeaderLayout.isShowingAccountList());
+        outState.putBoolean(KEY_NEED_RELOAD_FOR_ACTIVE_ACCOUNT_CHANGE,
+                mNeedReloadForActiveAccountChange);
     }
 
     @Override
@@ -180,8 +191,42 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     }
 
     @Override
-    public void onActiveAccountChanged(Account newAccount) {
-        // TODO
+    public void onAccountTransitionStart() {
+        mNeedReloadForActiveAccountChange = true;
+    }
+
+    @Override
+    public void onAccountTransitionEnd() {
+        reloadForActiveAccountChange();
+    }
+
+    private void reloadForActiveAccountChange() {
+
+        if (getNavigationHost() == null) {
+            return;
+        }
+
+        if (!mWillReloadForActiveAccountChange) {
+            mWillReloadForActiveAccountChange = true;
+            DrawerLayout drawerLayout = getDrawer();
+            View drawerView = getView();
+            Runnable reloadRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (getNavigationHost() != null) {
+                        getNavigationHost().reloadForActiveAccountChange();
+                        mWillReloadForActiveAccountChange = false;
+                        mNeedReloadForActiveAccountChange = false;
+                    }
+                }
+            };
+            if (drawerLayout.isDrawerVisible(drawerView)) {
+                ViewUtils.postOnDrawerClosed(drawerLayout, reloadRunnable);
+                drawerLayout.closeDrawer(drawerView);
+            } else {
+                reloadRunnable.run();
+            }
+        }
     }
 
     @Override
@@ -193,7 +238,18 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         startActivity(SettingsActivity.makeIntent(getActivity()));
     }
 
-    private void closeDrawer() {
-        ((DrawerManager) getActivity()).closeDrawer(getView());
+    private DrawerLayout getDrawer() {
+        return getNavigationHost().getDrawer();
+    }
+
+    private Host getNavigationHost() {
+        return (Host) getActivity();
+    }
+
+    public interface Host {
+
+        DrawerLayout getDrawer();
+
+        void reloadForActiveAccountChange();
     }
 }

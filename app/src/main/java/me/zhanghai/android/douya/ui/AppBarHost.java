@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
-public interface AppBarManager {
+public interface AppBarHost {
 
     void showAppBar();
 

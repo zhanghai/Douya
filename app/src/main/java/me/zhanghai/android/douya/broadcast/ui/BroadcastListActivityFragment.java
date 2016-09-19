@@ -20,12 +20,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.ui.AppBarManager;
+import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
-public class BroadcastListActivityFragment extends Fragment implements AppBarManager {
+public class BroadcastListActivityFragment extends Fragment implements AppBarHost {
 
     private static final String KEY_PREFIX = BroadcastListActivityFragment.class.getName() + '.';
 

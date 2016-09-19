@@ -47,7 +47,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
             throws NetworkErrorException {
         Intent intent = new Intent(mContext, AuthenticatorActivity.class)
                 .putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-        if (!AccountUtils.hasAccount(mContext)) {
+        if (!AccountUtils.hasAccount()) {
             intent.putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
                     AuthenticatorActivity.AUTH_MODE_NEW);
         } else {
@@ -83,19 +83,18 @@ public class Authenticator extends AbstractAccountAuthenticator {
         // http://stackoverflow.com/questions/11434621/login-in-twice-when-using-syncadapters
         //
         // Peek authToken from AccountManager first, will return null if failed.
-        String authToken = AccountManager.get(mContext).peekAuthToken(account,
-                AccountContract.AUTH_TOKEN_TYPE);
+        String authToken = AccountUtils.peekAuthToken(account);
 
         if (TextUtils.isEmpty(authToken)) {
-            String refreshToken = AccountUtils.getRefreshToken(account, mContext);
+            String refreshToken = AccountUtils.getRefreshToken(account);
             if (!TextUtils.isEmpty(refreshToken)) {
                 try {
                     TokenRequest.Result result = new TokenRequest(refreshToken)
                             .getResponse();
                     authToken = result.accessToken;
-                    AccountUtils.setUserName(account, result.userName, mContext);
-                    AccountUtils.setUserId(account, result.userId, mContext);
-                    AccountUtils.setRefreshToken(account, result.refreshToken, mContext);
+                    AccountUtils.setUserName(account, result.userName);
+                    AccountUtils.setUserId(account, result.userId);
+                    AccountUtils.setRefreshToken(account, result.refreshToken);
                 } catch (InterruptedException | TimeoutException e) {
                     return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
                 } catch (ExecutionException e) {
@@ -112,7 +111,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
         }
 
         if (TextUtils.isEmpty(authToken)) {
-            String password = AccountUtils.getPassword(account, mContext);
+            String password = AccountUtils.getPassword(account);
             if (password == null) {
                 return makeErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
                         "AccountManager.getPassword() returned null");
@@ -121,9 +120,9 @@ public class Authenticator extends AbstractAccountAuthenticator {
                 TokenRequest.Result result = new TokenRequest(account.name, password)
                         .getResponse();
                 authToken = result.accessToken;
-                AccountUtils.setUserName(account, result.userName, mContext);
-                AccountUtils.setUserId(account, result.userId, mContext);
-                AccountUtils.setRefreshToken(account, result.refreshToken, mContext);
+                AccountUtils.setUserName(account, result.userName);
+                AccountUtils.setUserId(account, result.userId);
+                AccountUtils.setRefreshToken(account, result.refreshToken);
             } catch (InterruptedException | TimeoutException e) {
                 return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
             } catch (ExecutionException e) {
@@ -168,8 +167,8 @@ public class Authenticator extends AbstractAccountAuthenticator {
                 .putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
                         AuthenticatorActivity.AUTH_MODE_UPDATE)
                 .putExtra(AuthenticatorActivity.EXTRA_USERNAME, account.name)
-                .putExtra(AuthenticatorActivity.EXTRA_PASSWORD, AccountUtils.getPassword(account,
-                        mContext));
+                .putExtra(AuthenticatorActivity.EXTRA_PASSWORD, AccountUtils.getPassword(account
+                ));
         return makeIntentBundle(intent);
     }
 

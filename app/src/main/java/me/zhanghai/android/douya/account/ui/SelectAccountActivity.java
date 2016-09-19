@@ -26,7 +26,7 @@ public class SelectAccountActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Account[] accounts = AccountUtils.getAccounts(this);
+        final Account[] accounts = AccountUtils.getAccounts();
         int numAccounts = accounts.length;
         String[] accountNames = new String[numAccounts];
         for (int i = 0; i < numAccounts; ++i) {

@@ -33,7 +33,7 @@ import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.ui.AppBarManager;
+import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
@@ -105,7 +105,7 @@ public abstract class BaseBroadcastListFragment extends Fragment
         mBroadcastAdapter = new BroadcastAdapter(mBroadcastListResource.get(), this);
         mAdapter = new LoadMoreAdapter(R.layout.load_more_card_item, mBroadcastAdapter);
         mBroadcastList.setAdapter(mAdapter);
-        final AppBarManager appBarManager = (AppBarManager) getParentFragment();
+        final AppBarHost appBarHost = (AppBarHost) getParentFragment();
         mBroadcastList.addOnScrollListener(
                 new OnVerticalScrollWithPagingTouchSlopListener(activity) {
                     @Override
@@ -119,13 +119,13 @@ public abstract class BaseBroadcastListFragment extends Fragment
                         onShow();
                     }
                     private void onShow() {
-                        appBarManager.showAppBar();
+                        appBarHost.showAppBar();
                         mSendFab.show();
                     }
                     @Override
                     public void onScrolledDown() {
                         if (RecyclerViewUtils.hasFirstChildReachedTop(mBroadcastList)) {
-                            appBarManager.hideAppBar();
+                            appBarHost.hideAppBar();
                             mSendFab.hide();
                         }
                     }

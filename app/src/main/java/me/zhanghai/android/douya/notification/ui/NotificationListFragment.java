@@ -74,7 +74,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
 
     private boolean mLoadingNotificationList;
 
-    private UnreadNotificationCountListener mUnreadNotificationCountListener;
+    private Listener mListener;
 
     @Nullable
     @Override
@@ -191,13 +191,13 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         loadNotificationList(false);
     }
 
-    public void setUnreadNotificationCountListener(UnreadNotificationCountListener listener) {
-        mUnreadNotificationCountListener = listener;
+    public void setListener(Listener listener) {
+        mListener = listener;
     }
 
     private void onNotificationListUpdated() {
-        if (mUnreadNotificationCountListener != null) {
-            mUnreadNotificationCountListener.onUnreadNotificationUpdate(
+        if (mListener != null) {
+            mListener.onUnreadNotificationUpdate(
                     getUnreadNotificationCount());
         }
     }
@@ -303,7 +303,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         NotificationListCache.put(notificationList, getActivity());
     }
 
-    public interface UnreadNotificationCountListener {
+    public interface Listener {
         void onUnreadNotificationUpdate(int count);
     }
 

@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.account.app;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.util.IoUtils;
 
 /**
@@ -48,33 +48,28 @@ public class AccountPreferences implements SharedPreferences, SharedPreferences.
     // lose registered listeners.
     private static final Map<Account, AccountPreferences> INSTANCES = new HashMap<>();
 
-    private Account account;
-    private AccountManager accountManager;
+    private AccountManager mAccountManager = AccountUtils.getAccountManager();
+    private Account mAccount;
     private Handler mainHandler = new Handler(Looper.getMainLooper());
     private Set<OnSharedPreferenceChangeListener> listeners = Collections.newSetFromMap(
             new WeakHashMap<OnSharedPreferenceChangeListener, Boolean>());
 
-    private AccountPreferences(Account account, AccountManager accountManager) {
-        this.account = account;
-        this.accountManager = accountManager;
+    private AccountPreferences(Account account) {
+        mAccount = account;
     }
 
-    public static AccountPreferences from(AccountManager accountManager, Account account) {
+    public static AccountPreferences forAccount(Account account) {
         if (account == null) {
             throw new IllegalArgumentException("account is null");
         }
         synchronized (INSTANCES_LOCK) {
             AccountPreferences accountPreferences = INSTANCES.get(account);
             if (accountPreferences == null) {
-                accountPreferences = new AccountPreferences(account, accountManager);
+                accountPreferences = new AccountPreferences(account);
                 INSTANCES.put(account, accountPreferences);
             }
             return accountPreferences;
         }
-    }
-
-    public static AccountPreferences from(Account account, Context context) {
-        return from(AccountManager.get(context), account);
     }
 
     /**
@@ -82,7 +77,7 @@ public class AccountPreferences implements SharedPreferences, SharedPreferences.
      */
     @Override
     public String getString(String key, String defaultValue) {
-        String value = accountManager.getUserData(account, key);
+        String value = mAccountManager.getUserData(mAccount, key);
         return value != null ? value : defaultValue;
     }
 
@@ -217,7 +212,7 @@ public class AccountPreferences implements SharedPreferences, SharedPreferences.
      */
     @Override
     public AccountPreferences putString(String key, String value) {
-        accountManager.setUserData(account, key, value);
+        mAccountManager.setUserData(mAccount, key, value);
         notifyChanged(key);
         return this;
     }

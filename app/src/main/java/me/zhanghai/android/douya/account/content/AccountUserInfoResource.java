@@ -78,16 +78,16 @@ public class AccountUserInfoResource extends UserInfoResource {
     private void setArguments(Account account, Context context) {
         FragmentUtils.ensureArguments(this).putParcelable(EXTRA_ACCOUNT, account);
         User user = makePartialUser(account, context);
-        setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account, context));
+        setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account));
     }
 
     private User makePartialUser(Account account, Context context) {
         User user = new User();
         //noinspection deprecation
-        user.id = AccountUtils.getUserId(account, context);
+        user.id = AccountUtils.getUserId(account);
         //noinspection deprecation
         user.uid = String.valueOf(user.id);
-        user.name = AccountUtils.getUserName(account, context);
+        user.name = AccountUtils.getUserName(account);
         return user;
     }
 
@@ -109,8 +109,8 @@ public class AccountUserInfoResource extends UserInfoResource {
         super.onUserInfoLoaded(userInfo);
 
         Activity activity = getActivity();
-        AccountUtils.setUserName(mAccount, userInfo.name, activity);
-        AccountUtils.setUserInfo(mAccount, userInfo, activity);
+        AccountUtils.setUserName(mAccount, userInfo.name);
+        AccountUtils.setUserInfo(mAccount, userInfo);
     }
 
     @Deprecated

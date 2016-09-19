@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.content.res.AppCompatResources;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -288,6 +289,17 @@ public class ViewUtils {
 
     public static boolean isVisible(View view) {
         return view.getVisibility() == View.VISIBLE;
+    }
+
+    public static void postOnDrawerClosed(final DrawerLayout drawerLayout,
+                                          final Runnable runnable) {
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                drawerLayout.removeDrawerListener(this);
+                runnable.run();
+            }
+        });
     }
 
     public static void postOnPreDraw(final View view, final Runnable runnable) {

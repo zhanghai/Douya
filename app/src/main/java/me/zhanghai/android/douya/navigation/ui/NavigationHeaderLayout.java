@@ -251,26 +251,19 @@ public class NavigationHeaderLayout extends FrameLayout {
             beginAvatarTransitionFromNonRecent();
         }
         bind();
-
-        // TODO: Move to AccountUtils with ActiveAccountChangedEvent.
-        if (mListener != null) {
-            mListener.onActiveAccountChanged(account);
-        }
     }
 
     private void beginAvatarTransitionFromRecent(ImageView recentAvatarImage) {
-        beginAccountTransition(recentAvatarImage, mAvatarImage, null);
+        beginAvatarTransition(recentAvatarImage, mAvatarImage, null);
     }
 
     private void beginAvatarTransitionFromNonRecent() {
-        boolean hasRecentTwoAccount = mRecentTwoAccount != null;
-        beginAccountTransition(mAvatarImage, mRecentOneAvatarImage,
-                hasRecentTwoAccount ? mRecentTwoAvatarImage : null);
+        beginAvatarTransition(mAvatarImage, mRecentOneAvatarImage,
+                mRecentTwoAccount != null ? mRecentTwoAvatarImage : null);
     }
 
-    private void beginAccountTransition(ImageView moveAvatarOneImage,
-                                        ImageView moveAvatarTwoImage,
-                                        ImageView moveAvatarThreeImage) {
+    private void beginAvatarTransition(ImageView moveAvatarOneImage, ImageView moveAvatarTwoImage,
+                                       ImageView moveAvatarThreeImage) {
 
         ImageView appearAvatarImage = moveAvatarOneImage;
         ImageView disappearAvatarImage = moveAvatarThreeImage != null ? moveAvatarThreeImage
@@ -323,13 +316,21 @@ public class NavigationHeaderLayout extends FrameLayout {
         transitionSet.addListener(new Transition.TransitionListenerAdapter() {
             @Override
             public void onTransitionEnd(Transition transition) {
+
                 mAccountTransitionRunning = false;
                 mInfoLayout.setEnabled(true);
+
+                if (mListener != null) {
+                    mListener.onAccountTransitionEnd();
+                }
             }
         });
         mInfoLayout.setEnabled(false);
         TransitionManager.beginDelayedTransition(this, transitionSet);
         mAccountTransitionRunning = true;
+        if (mListener != null) {
+            mListener.onAccountTransitionStart();
+        }
 
         fadeOutDisappearAvatarImage.setVisibility(INVISIBLE);
 
@@ -408,6 +409,7 @@ public class NavigationHeaderLayout extends FrameLayout {
     public interface Listener {
         void openProfile(Account account);
         void showAccountList(boolean show);
-        void onActiveAccountChanged(Account newAccount);
+        void onAccountTransitionStart();
+        void onAccountTransitionEnd();
     }
 }

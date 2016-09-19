@@ -27,12 +27,11 @@ import me.zhanghai.android.douya.navigation.ui.NavigationFragment;
 import me.zhanghai.android.douya.notification.ui.NotificationListFragment;
 import me.zhanghai.android.douya.scalpel.ScalpelHelperFragment;
 import me.zhanghai.android.douya.ui.ActionItemBadge;
-import me.zhanghai.android.douya.ui.DrawerManager;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public class MainActivity extends AppCompatActivity
-        implements DrawerManager, NotificationListFragment.UnreadNotificationCountListener {
+        implements NavigationFragment.Host, NotificationListFragment.Listener {
 
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;
@@ -46,6 +45,8 @@ public class MainActivity extends AppCompatActivity
 
     private NavigationFragment mNavigationFragment;
     private NotificationListFragment mNotificationListFragment;
+    // FIXME
+    private HomeFragment mMainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +81,13 @@ public class MainActivity extends AppCompatActivity
 
         mNavigationFragment = FragmentUtils.findById(this, R.id.navigation_fragment);
         mNotificationListFragment = FragmentUtils.findById(this, R.id.notification_list_fragment);
-        mNotificationListFragment.setUnreadNotificationCountListener(this);
+        mNotificationListFragment.setListener(this);
 
         if (savedInstanceState == null) {
-            FragmentUtils.add(HomeFragment.newInstance(), this, R.id.container);
+            mMainFragment = HomeFragment.newInstance();
+            FragmentUtils.add(mMainFragment, this, R.id.container);
+        } else {
+            mMainFragment = FragmentUtils.findById(this, R.id.container);
         }
     }
 
@@ -137,13 +141,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void openDrawer(View drawerView) {
-        mDrawerLayout.openDrawer(drawerView);
+    public DrawerLayout getDrawer() {
+        return mDrawerLayout;
     }
 
     @Override
-    public void closeDrawer(View drawerView) {
-        mDrawerLayout.closeDrawer(drawerView);
+    public void reloadForActiveAccountChange() {
+        mMainFragment = HomeFragment.newInstance();
+        FragmentUtils.replace(mMainFragment, this, R.id.container);
+        // TODO: NotificationFragment
     }
 
     @Override
@@ -152,10 +158,6 @@ public class MainActivity extends AppCompatActivity
         if (mNotificationMenu != null) {
             ActionItemBadge.update(mNotificationMenu, mUnreadNotificationCount);
         }
-    }
-
-    private void onShowSettings() {
-
     }
 
     public void refreshNotificationList() {
