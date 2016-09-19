@@ -108,6 +108,7 @@
         <!-- Fixes. -->
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
         <item name="android:textColorLink">?colorAccent</item>
+        <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
 
         <item name="colorPrimary">@color/douya_primary</item>
