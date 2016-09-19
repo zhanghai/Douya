@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
     FrameLayout mContainerLayout;
 
     private MenuItem mNotificationMenu;
-    private int mUnreadNotificationCount;
 
     private NavigationFragment mNavigationFragment;
     private NotificationListFragment mNotificationListFragment;
@@ -96,7 +95,9 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         mNotificationMenu = menu.findItem(R.id.action_notification);
         ActionItemBadge.setup(mNotificationMenu, R.drawable.notifications_icon_white_24dp,
-                mUnreadNotificationCount, this);
+                mNotificationListFragment.getUnreadNotificationCount(), this);
+        MenuItem mDouMailMenu = menu.findItem(R.id.action_doumail);
+        ActionItemBadge.setup(mDouMailMenu, R.drawable.mail_icon_white_24dp, 0, this);
         return true;
     }
 
@@ -155,9 +156,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onUnreadNotificationUpdate(int count) {
-        mUnreadNotificationCount = count;
         if (mNotificationMenu != null) {
-            ActionItemBadge.update(mNotificationMenu, mUnreadNotificationCount);
+            ActionItemBadge.update(mNotificationMenu, count);
         }
     }
 

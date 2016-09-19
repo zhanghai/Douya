@@ -30,6 +30,8 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
     private final ColorStateList mTextColorPrimary;
     private final ColorStateList mTextColorSecondary;
 
+    private Listener mListener;
+
     public NotificationAdapter(List<Notification> notificationList, Context context) {
         super(notificationList);
 
@@ -39,6 +41,10 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
                 android.R.attr.textColorSecondary, context);
 
         setHasStableIds(true);
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
     }
 
     @Override
@@ -70,6 +76,13 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
     private void markNotificationAsRead(Notification notification) {
         notification.read = true;
         notifyItemChangedById(notification.id);
+        if (mListener != null) {
+            mListener.onNotificationRead();
+        }
+    }
+
+    public interface Listener {
+        void onNotificationRead();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

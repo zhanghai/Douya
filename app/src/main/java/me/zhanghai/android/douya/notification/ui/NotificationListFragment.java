@@ -42,7 +42,8 @@ import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class NotificationListFragment extends Fragment implements RequestFragment.Listener {
+public class NotificationListFragment extends Fragment implements RequestFragment.Listener,
+        NotificationAdapter.Listener {
 
     private static final int NOTIFICATION_COUNT_PER_LOAD = 20;
 
@@ -111,6 +112,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         List<Notification> notificationList = mRetainDataFragment.remove(
                 RETAIN_DATA_KEY_NOTIFICATION_LIST);
         mNotificationAdapter = new NotificationAdapter(notificationList, activity);
+        mNotificationAdapter.setListener(this);
         mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mNotificationAdapter);
         mNotificationList.setAdapter(mAdapter);
         mNotificationList.addOnScrollListener(new OnVerticalScrollListener() {
@@ -191,18 +193,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         loadNotificationList(false);
     }
 
-    public void setListener(Listener listener) {
-        mListener = listener;
-    }
-
-    private void onNotificationListUpdated() {
-        if (mListener != null) {
-            mListener.onUnreadNotificationUpdate(
-                    getUnreadNotificationCount());
-        }
-    }
-
-    private int getUnreadNotificationCount() {
+    public int getUnreadNotificationCount() {
         int count = 0;
         for (Notification notification : mNotificationAdapter.getList()) {
             if (!notification.read) {
@@ -210,6 +201,21 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
             }
         }
         return count;
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
+
+    private void onNotificationListUpdated() {
+        if (mListener != null) {
+            mListener.onUnreadNotificationUpdate(getUnreadNotificationCount());
+        }
+    }
+
+    @Override
+    public void onNotificationRead() {
+        onNotificationListUpdated();
     }
 
     private void loadNotificationList(boolean loadMore) {

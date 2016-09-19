@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
@@ -43,8 +44,10 @@ public class ActionItemBadge {
         iconImage.setImageDrawable(icon);
 
         TextView badgeText = ButterKnife.findById(actionView, R.id.badge);
-        badgeText.setTextColor(ViewUtils.getColorFromAttrRes(R.attr.colorPrimary, 0, activity));
-        ViewCompat.setBackground(badgeText, new BadgeDrawable());
+        Context themedContext = badgeText.getContext();
+        ViewCompat.setBackground(badgeText, new BadgeDrawable(themedContext));
+        badgeText.setTextColor(ViewUtils.getColorFromAttrRes(R.attr.colorPrimary, 0,
+                themedContext));
 
         update(badgeText, count);
     }
@@ -54,15 +57,19 @@ public class ActionItemBadge {
     }
 
     private static void update(TextView badgeText, int count) {
-        ViewUtils.setVisibleOrInvisible(badgeText, count != 0);
         badgeText.setText(String.valueOf(count));
+        ViewUtils.setVisibleOrGone(badgeText, count != 0);
     }
 
     public static void update(MenuItem menuItem, int count) {
         update(ButterKnife.<TextView>findById(menuItem.getActionView(), R.id.badge), count);
     }
 
-    public static class BadgeDrawable extends GradientDrawable {
+    private static class BadgeDrawable extends GradientDrawable {
+
+        public BadgeDrawable(Context context) {
+            setColor(ViewUtils.getColorFromAttrRes(R.attr.colorControlNormal, 0, context));
+        }
 
         @Override
         public void setBounds(int left, int top, int right, int bottom) {
