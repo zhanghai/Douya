@@ -5,23 +5,21 @@
 
 package me.zhanghai.android.douya.network.api.credential;
 
-import android.content.Context;
-
 import me.zhanghai.android.douya.settings.info.Settings;
 
 class ApiCredentialManager {
 
     private ApiCredentialManager() {}
 
-    public static String getApiKey(Context context) {
+    public static String getApiKey() {
         return Settings.API_KEY.getValue();
     }
 
-    public static String getApiSecret(Context context) {
+    public static String getApiSecret() {
         return Settings.API_SECRET.getValue();
     }
 
-    public static void setApiCredential(String apiKey, String apiSecret, Context context) {
+    public static void setApiCredential(String apiKey, String apiSecret) {
 
         Settings.API_KEY.putValue(apiKey);
         Settings.API_SECRET.putValue(apiSecret);

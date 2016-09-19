@@ -12,23 +12,12 @@ public final class ApiCredential {
     private ApiCredential() {}
 
     public static class Frodo {
-        public static String KEY = HackyApiCredentialHelper.getApiKey();
-        public static String SECRET = HackyApiCredentialHelper.getApiSecret();
+        public static String KEY = ApiCredentialManager.getApiKey();
+        public static String SECRET = ApiCredentialManager.getApiSecret();
     }
 
     public static class ApiV2 {
-        public static String KEY = HackyApiCredentialHelper.getApiKey();
-        public static String SECRET = HackyApiCredentialHelper.getApiSecret();
-    }
-}
-
-class HackyApiCredentialHelper {
-
-    public static String getApiKey() {
-        return ApiCredentialManager.getApiKey(DouyaApplication.getInstance());
-    }
-
-    public static String getApiSecret() {
-        return ApiCredentialManager.getApiSecret(DouyaApplication.getInstance());
+        public static String KEY = ApiCredentialManager.getApiKey();
+        public static String SECRET = ApiCredentialManager.getApiSecret();
     }
 }

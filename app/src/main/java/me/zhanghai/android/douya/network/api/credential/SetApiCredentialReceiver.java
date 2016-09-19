@@ -19,6 +19,6 @@ public class SetApiCredentialReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String apiKey = intent.getStringExtra(EXTRA_API_KEY);
         String apiSecret = intent.getStringExtra(EXTRA_API_SECRET);
-        ApiCredentialManager.setApiCredential(apiKey, apiSecret, context);
+        ApiCredentialManager.setApiCredential(apiKey, apiSecret);
     }
 }
