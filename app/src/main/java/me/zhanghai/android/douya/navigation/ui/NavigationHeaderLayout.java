@@ -137,9 +137,17 @@ public class NavigationHeaderLayout extends FrameLayout {
         bindRecentUsers();
     }
 
+    public void onAccountListChanged() {
+        boolean needReload = !mActiveAccount.equals(AccountUtils.getActiveAccount());
+        bind();
+        if (mListener != null && needReload) {
+            mListener.onAccountTransitionStart();
+            mListener.onAccountTransitionEnd();
+        }
+    }
+
     private void bindActiveUser() {
 
-        Context context = getContext();
         mActiveAccount = AccountUtils.getActiveAccount();
 
         UserInfo userInfo = mAdapter.getUserInfo(mActiveAccount);
@@ -174,7 +182,6 @@ public class NavigationHeaderLayout extends FrameLayout {
     }
 
     private void bindRecentUsers() {
-        Context context = getContext();
         mRecentOneAccount = AccountUtils.getRecentOneAccount();
         bindRecentUser(mRecentOneAvatarImage, mRecentOneAccount);
         mRecentTwoAccount = AccountUtils.getRecentTwoAccount();
@@ -237,7 +244,6 @@ public class NavigationHeaderLayout extends FrameLayout {
 
         showAccountList(false);
 
-        Context context = getContext();
         if (AccountUtils.isActiveAccount(account)) {
             return;
         }

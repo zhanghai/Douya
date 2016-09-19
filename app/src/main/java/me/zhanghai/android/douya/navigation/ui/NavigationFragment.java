@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.navigation.ui;
 
 import android.accounts.Account;
-import android.app.Activity;
+import android.accounts.OnAccountsUpdateListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,9 +34,10 @@ import me.zhanghai.android.douya.settings.ui.SettingsActivity;
 import me.zhanghai.android.douya.user.content.UserInfoResource;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class NavigationFragment extends Fragment implements AccountUserInfoResource.Listener,
-        NavigationHeaderLayout.Adapter, NavigationHeaderLayout.Listener,
-        NavigationAccountListLayout.Adapter, NavigationAccountListLayout.Listener {
+public class NavigationFragment extends Fragment implements OnAccountsUpdateListener,
+        AccountUserInfoResource.Listener, NavigationHeaderLayout.Adapter,
+        NavigationHeaderLayout.Listener, NavigationAccountListLayout.Adapter,
+        NavigationAccountListLayout.Listener {
 
     private static final String KEY_PREFIX = NavigationFragment.class.getName() + '.';
 
@@ -84,12 +85,13 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity activity = getActivity();
         mUserInfoResourceMap = new ArrayMap<>();
         for (Account account : AccountUtils.getAccounts()) {
             mUserInfoResourceMap.put(account, AccountUserInfoResource.attachTo(account, this,
                     account.name, -1));
         }
+
+        AccountUtils.addOnAccountListUpdatedListener(this);
 
         mHeaderLayout.setAdapter(this);
         mHeaderLayout.setListener(this);
@@ -139,6 +141,31 @@ public class NavigationFragment extends Fragment implements AccountUserInfoResou
         outState.putBoolean(KEY_SHOWING_ACCOUNT_LIST, mHeaderLayout.isShowingAccountList());
         outState.putBoolean(KEY_NEED_RELOAD_FOR_ACTIVE_ACCOUNT_CHANGE,
                 mNeedReloadForActiveAccountChange);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        AccountUtils.removeOnAccountListUpdatedListener(this);
+    }
+
+    @Override
+    public void onAccountsUpdated(Account[] accounts) {
+
+        ArrayMap<Account, AccountUserInfoResource> oldUserInfoResourceMap = mUserInfoResourceMap;
+        mUserInfoResourceMap = new ArrayMap<>();
+        for (Account account : AccountUtils.getAccounts()) {
+            mUserInfoResourceMap.put(account, AccountUserInfoResource.attachTo(account, this,
+                    account.name, -1));
+            oldUserInfoResourceMap.remove(account);
+        }
+        for (AccountUserInfoResource accountUserInfoResource : oldUserInfoResourceMap.values()) {
+            accountUserInfoResource.detach();
+        }
+
+        mHeaderLayout.onAccountListChanged();
+        mNavigationViewAdapter.onAccountListChanged();
     }
 
     @Override

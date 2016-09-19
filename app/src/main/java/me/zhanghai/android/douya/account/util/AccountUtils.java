@@ -10,11 +10,13 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
+import android.accounts.OnAccountsUpdateListener;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.google.gson.JsonParseException;
@@ -125,6 +127,15 @@ public class AccountUtils {
 
     public static Intent makeConfirmPasswordIntent(final ConfirmPasswordListener listener) {
         return makeConfirmPasswordIntent(getActiveAccount(), listener);
+    }
+
+    public static void addOnAccountListUpdatedListener(OnAccountsUpdateListener listener) {
+        getAccountManager().addOnAccountsUpdatedListener(listener, new Handler(Looper.myLooper()),
+                false);
+    }
+
+    public static void removeOnAccountListUpdatedListener(OnAccountsUpdateListener listener) {
+        getAccountManager().removeOnAccountsUpdatedListener(listener);
     }
 
     public static Account[] getAccounts() {
