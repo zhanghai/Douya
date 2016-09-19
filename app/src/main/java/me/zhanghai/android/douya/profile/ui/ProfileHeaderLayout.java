@@ -321,7 +321,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mUsernameText.setText(userInfo.name);
         mSignatureText.setText(userInfo.signature);
         mJoinedAtLocationText.setJoinedAtAndLocation(userInfo.createdAt, userInfo.locationName);
-        if (userInfo.isOneself(context)) {
+        if (userInfo.isOneself()) {
             TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
                     R.drawable.edit_icon_white_24dp, 0, 0, 0);
             mFollowButton.setText(R.string.profile_edit);

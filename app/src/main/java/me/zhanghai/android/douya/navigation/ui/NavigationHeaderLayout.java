@@ -140,7 +140,7 @@ public class NavigationHeaderLayout extends FrameLayout {
     private void bindActiveUser() {
 
         Context context = getContext();
-        mActiveAccount = AccountUtils.getActiveAccount(context);
+        mActiveAccount = AccountUtils.getActiveAccount();
 
         UserInfo userInfo = mAdapter.getUserInfo(mActiveAccount);
         if (userInfo != null) {
@@ -175,9 +175,9 @@ public class NavigationHeaderLayout extends FrameLayout {
 
     private void bindRecentUsers() {
         Context context = getContext();
-        mRecentOneAccount = AccountUtils.getRecentOneAccount(context);
+        mRecentOneAccount = AccountUtils.getRecentOneAccount();
         bindRecentUser(mRecentOneAvatarImage, mRecentOneAccount);
-        mRecentTwoAccount = AccountUtils.getRecentTwoAccount(context);
+        mRecentTwoAccount = AccountUtils.getRecentTwoAccount();
         bindRecentUser(mRecentTwoAvatarImage, mRecentTwoAccount);
     }
 
@@ -238,11 +238,11 @@ public class NavigationHeaderLayout extends FrameLayout {
         showAccountList(false);
 
         Context context = getContext();
-        if (AccountUtils.isActiveAccount(account, context)) {
+        if (AccountUtils.isActiveAccount(account)) {
             return;
         }
 
-        AccountUtils.setActiveAccount(account, context);
+        AccountUtils.setActiveAccount(account);
         if (account.equals(mRecentOneAccount)) {
             beginAvatarTransitionFromRecent(mRecentOneAvatarImage);
         } else if (account.equals(mRecentTwoAccount)) {

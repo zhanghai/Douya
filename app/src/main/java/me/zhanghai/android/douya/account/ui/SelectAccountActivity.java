@@ -36,7 +36,7 @@ public class SelectAccountActivity extends AppCompatActivity
         mDialogListener = new SimpleDialogFragment.SimpleDialogListener() {
             @Override
             public void onSingleChoiceItemClicked(int requestCode, int index) {
-                AccountUtils.setActiveAccount(accounts[index], SelectAccountActivity.this);
+                AccountUtils.setActiveAccount(accounts[index]);
                 // Calling finish() before startActivity() makes it work when the Intent is a
                 // launcher one.
                 finish();

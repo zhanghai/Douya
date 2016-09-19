@@ -14,17 +14,17 @@ class ApiCredentialManager {
     private ApiCredentialManager() {}
 
     public static String getApiKey(Context context) {
-        return Settings.API_KEY.getValue(context);
+        return Settings.API_KEY.getValue();
     }
 
     public static String getApiSecret(Context context) {
-        return Settings.API_SECRET.getValue(context);
+        return Settings.API_SECRET.getValue();
     }
 
     public static void setApiCredential(String apiKey, String apiSecret, Context context) {
 
-        Settings.API_KEY.putValue(apiKey, context);
-        Settings.API_SECRET.putValue(apiSecret, context);
+        Settings.API_KEY.putValue(apiKey);
+        Settings.API_SECRET.putValue(apiSecret);
 
         ApiCredential.Frodo.KEY = apiKey;
         ApiCredential.Frodo.SECRET = apiSecret;

@@ -77,7 +77,7 @@ public class Broadcast implements Parcelable {
     public String type;
 
     public boolean isAuthorOneself(Context context) {
-        return author != null && author.isOneself(context);
+        return author != null && author.isOneself();
     }
 
     public String getAuthorName() {

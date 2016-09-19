@@ -292,7 +292,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
                     mNotificationAdapter.replace(notificationList);
                     onNotificationListUpdated();
                 }
-                if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue(getActivity())) {
+                if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {
                     refresh();
                 }
             }

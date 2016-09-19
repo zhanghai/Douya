@@ -29,7 +29,7 @@ public class ResourceFragment extends TargetedRetainedFragment {
         if (arguments.containsKey(EXTRA_ACCOUNT)) {
             mAccount = arguments.getParcelable(EXTRA_ACCOUNT);
         } else {
-            mAccount = AccountUtils.getActiveAccount(getContext());
+            mAccount = AccountUtils.getActiveAccount();
         }
     }
 

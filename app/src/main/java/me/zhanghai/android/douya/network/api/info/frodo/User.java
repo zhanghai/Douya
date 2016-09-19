@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -57,8 +56,8 @@ public class User implements Parcelable {
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
     }
 
-    public boolean isOneself(Context context) {
-        return id == AccountUtils.getUserId(context);
+    public boolean isOneself() {
+        return id == AccountUtils.getUserId();
     }
 
 

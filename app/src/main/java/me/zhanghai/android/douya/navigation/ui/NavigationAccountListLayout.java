@@ -120,12 +120,12 @@ public class NavigationAccountListLayout extends LinearLayout {
         Context context = getContext();
         List<Account> accountList = new ArrayList<>(Arrays.asList(AccountUtils.getAccounts(
         )));
-        accountList.remove(AccountUtils.getActiveAccount(context));
-        Account recentOneAccount = AccountUtils.getRecentOneAccount(context);
+        accountList.remove(AccountUtils.getActiveAccount());
+        Account recentOneAccount = AccountUtils.getRecentOneAccount();
         if (recentOneAccount != null) {
             accountList.remove(recentOneAccount);
         }
-        Account recentTwoAccount = AccountUtils.getRecentTwoAccount(context);
+        Account recentTwoAccount = AccountUtils.getRecentTwoAccount();
         if (recentTwoAccount != null) {
             accountList.remove(recentTwoAccount);
         }

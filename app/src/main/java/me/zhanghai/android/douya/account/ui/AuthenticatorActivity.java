@@ -260,7 +260,7 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
         switch (mAuthMode) {
             case AUTH_MODE_NEW:
                 AccountUtils.addAccountExplicitly(account, mPassword);
-                AccountUtils.setActiveAccount(account, this);
+                AccountUtils.setActiveAccount(account);
                 break;
             case AUTH_MODE_ADD:
                 AccountUtils.addAccountExplicitly(account, mPassword);

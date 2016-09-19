@@ -12,7 +12,6 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,7 +107,7 @@ public class AccountUtils {
     }
 
     public static void confirmPassword(Activity activity, final ConfirmPasswordListener listener) {
-        confirmPassword(activity, getActiveAccount(activity), listener, null);
+        confirmPassword(activity, getActiveAccount(), listener, null);
     }
 
     // REMOVEME: This seems infeasible. And we should check against local password instead of using
@@ -124,9 +123,8 @@ public class AccountUtils {
         }
     }
 
-    public static Intent makeConfirmPasswordIntent(final ConfirmPasswordListener listener,
-                                                   Context context) {
-        return makeConfirmPasswordIntent(getActiveAccount(context), listener);
+    public static Intent makeConfirmPasswordIntent(final ConfirmPasswordListener listener) {
+        return makeConfirmPasswordIntent(getActiveAccount(), listener);
     }
 
     public static Account[] getAccounts() {
@@ -158,85 +156,85 @@ public class AccountUtils {
     }
 
     // NOTE: Use getActiveAccount() instead for availability checking.
-    private static String getActiveAccountName(Context context) {
-        return Settings.ACTIVE_ACCOUNT_NAME.getValue(context);
+    private static String getActiveAccountName() {
+        return Settings.ACTIVE_ACCOUNT_NAME.getValue();
     }
 
-    private static void setActiveAccountName(String accountName, Context context) {
-        Settings.ACTIVE_ACCOUNT_NAME.putValue(accountName, context);
+    private static void setActiveAccountName(String accountName) {
+        Settings.ACTIVE_ACCOUNT_NAME.putValue(accountName);
     }
 
-    private static void removeActiveAccountName(Context context) {
-        Settings.ACTIVE_ACCOUNT_NAME.remove(context);
+    private static void removeActiveAccountName() {
+        Settings.ACTIVE_ACCOUNT_NAME.remove();
     }
 
-    public static boolean hasActiveAccountName(Context context) {
-        return !TextUtils.isEmpty(getActiveAccountName(context));
+    public static boolean hasActiveAccountName() {
+        return !TextUtils.isEmpty(getActiveAccountName());
     }
 
-    public static boolean isActiveAccountName(String accountName, Context context) {
-        return TextUtils.equals(accountName, getActiveAccountName(context));
+    public static boolean isActiveAccountName(String accountName) {
+        return TextUtils.equals(accountName, getActiveAccountName());
     }
 
     // NOTICE:
     // Will clear the invalid setting and return null if no matching account with the name from
     // setting is found.
-    public static Account getActiveAccount(Context context) {
-        Account account = getAccountByName(getActiveAccountName(context));
+    public static Account getActiveAccount() {
+        Account account = getAccountByName(getActiveAccountName());
         if (account != null) {
             return account;
         } else {
-            removeActiveAccountName(context);
+            removeActiveAccountName();
             return null;
         }
     }
 
-    public static void setActiveAccount(Account account, Context context) {
+    public static void setActiveAccount(Account account) {
 
-        Account oldActiveAccount = getActiveAccount(context);
-        setActiveAccountName(account.name, context);
+        Account oldActiveAccount = getActiveAccount();
+        setActiveAccountName(account.name);
         if (oldActiveAccount != null) {
-            if (TextUtils.equals(getRecentOneAccountName(context), account.name)) {
-                setRecentOneAccountName(oldActiveAccount.name, context);
-            } else if (TextUtils.equals(getRecentTwoAccountName(context), account.name)) {
-                setRecentTwoAccountName(oldActiveAccount.name, context);
+            if (TextUtils.equals(getRecentOneAccountName(), account.name)) {
+                setRecentOneAccountName(oldActiveAccount.name);
+            } else if (TextUtils.equals(getRecentTwoAccountName(), account.name)) {
+                setRecentTwoAccountName(oldActiveAccount.name);
             } else {
-                setRecentTwoAccountName(getRecentOneAccountName(context), context);
-                setRecentOneAccountName(oldActiveAccount.name, context);
+                setRecentTwoAccountName(getRecentOneAccountName());
+                setRecentOneAccountName(oldActiveAccount.name);
             }
         }
 
         Volley.getInstance().notifyActiveAccountChanged();
     }
 
-    public static boolean hasActiveAccount(Context context) {
-        return getActiveAccount(context) != null;
+    public static boolean hasActiveAccount() {
+        return getActiveAccount() != null;
     }
 
-    public static boolean isActiveAccount(Account account, Context context) {
-        return isActiveAccountName(account.name, context);
+    public static boolean isActiveAccount(Account account) {
+        return isActiveAccountName(account.name);
     }
 
-    private static String getRecentOneAccountName(Context context) {
-        return Settings.RECENT_ONE_ACCOUNT_NAME.getValue(context);
+    private static String getRecentOneAccountName() {
+        return Settings.RECENT_ONE_ACCOUNT_NAME.getValue();
     }
 
-    private static void setRecentOneAccountName(String accountName, Context context) {
-        Settings.RECENT_ONE_ACCOUNT_NAME.putValue(accountName, context);
+    private static void setRecentOneAccountName(String accountName) {
+        Settings.RECENT_ONE_ACCOUNT_NAME.putValue(accountName);
     }
 
-    private static void removeRecentOneAccountName(Context context) {
-        Settings.RECENT_ONE_ACCOUNT_NAME.remove(context);
+    private static void removeRecentOneAccountName() {
+        Settings.RECENT_ONE_ACCOUNT_NAME.remove();
     }
 
-    public static Account getRecentOneAccount(Context context) {
+    public static Account getRecentOneAccount() {
 
-        Account activeAccount = getActiveAccount(context);
+        Account activeAccount = getActiveAccount();
         if (activeAccount == null) {
             return null;
         }
 
-        String accountName = getRecentOneAccountName(context);
+        String accountName = getRecentOneAccountName();
         if (!TextUtils.equals(accountName, activeAccount.name)) {
             Account account = getAccountByName(accountName);
             if (account != null) {
@@ -244,43 +242,43 @@ public class AccountUtils {
             }
         }
 
-        String recentTwoAccountName = getRecentTwoAccountName(context);
+        String recentTwoAccountName = getRecentTwoAccountName();
         for (Account account : getAccounts()) {
             if (!account.equals(activeAccount)
                     && !TextUtils.equals(account.name, recentTwoAccountName)) {
-                setRecentOneAccountName(account.name, context);
+                setRecentOneAccountName(account.name);
                 return account;
             }
         }
 
-        removeRecentOneAccountName(context);
+        removeRecentOneAccountName();
         return null;
     }
 
-    private static String getRecentTwoAccountName(Context context) {
-        return Settings.RECENT_TWO_ACCOUNT_NAME.getValue(context);
+    private static String getRecentTwoAccountName() {
+        return Settings.RECENT_TWO_ACCOUNT_NAME.getValue();
     }
 
-    private static void setRecentTwoAccountName(String accountName, Context context) {
-        Settings.RECENT_TWO_ACCOUNT_NAME.putValue(accountName, context);
+    private static void setRecentTwoAccountName(String accountName) {
+        Settings.RECENT_TWO_ACCOUNT_NAME.putValue(accountName);
     }
 
-    private static void removeRecentTwoAccountName(Context context) {
-        Settings.RECENT_TWO_ACCOUNT_NAME.remove(context);
+    private static void removeRecentTwoAccountName() {
+        Settings.RECENT_TWO_ACCOUNT_NAME.remove();
     }
 
-    public static Account getRecentTwoAccount(Context context) {
+    public static Account getRecentTwoAccount() {
 
-        Account activeAccount = getActiveAccount(context);
+        Account activeAccount = getActiveAccount();
         if (activeAccount == null) {
             return null;
         }
-        Account recentOneAccount = getRecentOneAccount(context);
+        Account recentOneAccount = getRecentOneAccount();
         if (recentOneAccount == null) {
             return null;
         }
 
-        String accountName = getRecentTwoAccountName(context);
+        String accountName = getRecentTwoAccountName();
         if (!TextUtils.equals(accountName, activeAccount.name)
                 && !TextUtils.equals(accountName, recentOneAccount.name)) {
             Account account = getAccountByName(accountName);
@@ -291,12 +289,12 @@ public class AccountUtils {
 
         for (Account account : getAccounts()) {
             if (!account.equals(activeAccount) && !account.equals(recentOneAccount)) {
-                setRecentTwoAccountName(account.name, context);
+                setRecentTwoAccountName(account.name);
                 return account;
             }
         }
 
-        removeRecentTwoAccountName(context);
+        removeRecentTwoAccountName();
         return null;
     }
 
@@ -320,7 +318,7 @@ public class AccountUtils {
         if (!hasAccount()) {
             accountAvailable = false;
             addAccount(activity, activity.getIntent());
-        } else if (!hasActiveAccount(activity)) {
+        } else if (!hasActiveAccount()) {
             accountAvailable = false;
             selectAccount(activity, activity.getIntent());
         }
@@ -363,8 +361,8 @@ public class AccountUtils {
                 null);
     }
 
-    public static String getUserName(Context context) {
-        return getUserName(getActiveAccount(context));
+    public static String getUserName() {
+        return getUserName(getActiveAccount());
     }
 
     public static void setUserName(Account account, String userName) {
@@ -376,8 +374,8 @@ public class AccountUtils {
                 AccountContract.INVALID_USER_ID);
     }
 
-    public static long getUserId(Context context) {
-        return getUserId(getActiveAccount(context));
+    public static long getUserId() {
+        return getUserId(getActiveAccount());
     }
 
     public static void setUserId(Account account, long userId) {
@@ -415,11 +413,11 @@ public class AccountUtils {
                 userInfoJson);
     }
 
-    public static UserInfo getUserInfo(Context context) {
-        return getUserInfo(getActiveAccount(context));
+    public static UserInfo getUserInfo() {
+        return getUserInfo(getActiveAccount());
     }
 
-    public static void setUserInfo(UserInfo userInfo, Context context) {
-        setUserInfo(getActiveAccount(context), userInfo);
+    public static void setUserInfo(UserInfo userInfo) {
+        setUserInfo(getActiveAccount(), userInfo);
     }
 }

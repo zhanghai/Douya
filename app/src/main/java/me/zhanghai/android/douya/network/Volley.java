@@ -37,7 +37,7 @@ public class Volley {
     private void createAuthenticatorForActiveAccount() {
         Context context = DouyaApplication.getInstance();
         mAuthenticator = new SynchronizedAndroidAuthenticator(context,
-                AccountUtils.getActiveAccount(context), AccountContract.AUTH_TOKEN_TYPE, true);
+                AccountUtils.getActiveAccount(), AccountContract.AUTH_TOKEN_TYPE, true);
     }
 
     public void notifyActiveAccountChanged() {

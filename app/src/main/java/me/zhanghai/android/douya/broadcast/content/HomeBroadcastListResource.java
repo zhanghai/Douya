@@ -120,7 +120,7 @@ public class HomeBroadcastListResource extends BroadcastListResource {
     protected void onStartLoad() {
         super.onStartLoad();
 
-        mAccount = AccountUtils.getActiveAccount(getContext());
+        mAccount = AccountUtils.getActiveAccount();
     }
 
     private void onLoadFromCacheComplete(List<Broadcast> broadcastList) {
@@ -136,7 +136,7 @@ public class HomeBroadcastListResource extends BroadcastListResource {
             set(broadcastList);
         }
 
-        if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue(getActivity())) {
+        if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {

@@ -52,7 +52,7 @@ public class Entity implements Parcelable {
             int entityEnd = text.offsetByCodePoints(entityStart, entity.end - entity.start);
             builder.append(text.subSequence(lastTextIndex, entityStart));
             CharSequence entityTitle = entity.title;
-            if (!Settings.SHOW_TITLE_FOR_LINK_ENTITY.getValue(context)
+            if (!Settings.SHOW_TITLE_FOR_LINK_ENTITY.getValue()
                     && Patterns.WEB_URL.matcher(entityTitle).matches()) {
                 entityTitle = text.subSequence(entityStart, entityEnd);
             }

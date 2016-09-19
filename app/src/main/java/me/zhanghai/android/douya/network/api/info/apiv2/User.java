@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.network.api.info.apiv2;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -91,9 +90,9 @@ public class User implements Parcelable {
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
     }
 
-    public boolean isOneself(Context context) {
+    public boolean isOneself() {
         //noinspection deprecation
-        return id == AccountUtils.getUserId(context);
+        return id == AccountUtils.getUserId();
     }
 
     public Type getType() {

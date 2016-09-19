@@ -39,7 +39,7 @@ public class FollowUserManager extends ResourceWriterManager<FollowUserWriter> {
     }
 
     private boolean shouldWrite(UserInfo userInfo, Context context) {
-        if (userInfo.isOneself(context)) {
+        if (userInfo.isOneself()) {
             ToastUtils.show(R.string.user_follow_error_cannot_follow_oneself, context);
             return false;
         } else {
