@@ -42,6 +42,10 @@ public class Settings {
             new EnumSettingsEntry<>(R.string.pref_key_open_url_with,
                     R.string.pref_default_value_open_url_with, OpenUrlWithMethod.class);
 
+    public static final BooleanSettingsEntry REQUEST_DESKTOP_SITE_IN_WEBVIEW =
+            new BooleanSettingsEntry(R.string.pref_key_request_desktop_site_in_webview,
+                    R.bool.pref_default_value_request_desktop_site_in_webview);
+
     public static final BooleanSettingsEntry ALWAYS_COPY_TO_CLIPBOARD_AS_TEXT =
             new BooleanSettingsEntry(R.string.pref_key_always_copy_to_clipboard_as_text,
                     R.bool.pref_default_value_always_copy_to_clipboard_as_text);

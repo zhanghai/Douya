@@ -43,6 +43,7 @@ import me.zhanghai.android.douya.link.DoubanUriHandler;
 import me.zhanghai.android.douya.link.FrodoBridge;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
+import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.ClipboardUtils;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -199,6 +200,12 @@ public class WebViewActivity extends AppCompatActivity {
         webSettings.setDisplayZoomControls(false);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
+        if (Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue()) {
+            String desktopUserAgent = webSettings.getUserAgentString()
+                    .replaceFirst("(Linux;.*?)", "(X11; Linux x86_64)")
+                    .replace("Mobile Safari/", "Safari/");
+            webSettings.setUserAgentString(desktopUserAgent);
+        }
         // NOTE: This gives double tap zooming.
         webSettings.setUseWideViewPort(true);
         mWebView.setWebChromeClient(new ChromeClient());

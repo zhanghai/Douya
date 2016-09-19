@@ -251,6 +251,8 @@
         <item>系统打开方式</item>
         <item>Custom Tabs</item>
     </string-array>
+    <string name="settings_request_desktop_site_in_webview_title">在内置浏览器中请求桌面版网站</string>
+    <string name="settings_request_desktop_site_in_webview_summary">豆瓣移动端网站功能有限</string>
     <string name="settings_always_copy_to_clipboard_as_text_title">总是复制纯文本到剪贴板</string>
     <string name="settings_always_copy_to_clipboard_as_text_summary">可以避免部分输入法的粘贴功能问题</string>
     <string name="settings_about_title">关于</string>
@@ -284,6 +286,8 @@
         <item>2</item>
     </string-array>
     <string name="pref_default_value_open_url_with">2</string>
+    <string name="pref_key_request_desktop_site_in_webview">key_request_desktop_site_in_webview</string>
+    <bool name="pref_default_value_request_desktop_site_in_webview">true</bool>
     <string name="pref_key_always_copy_to_clipboard_as_text">key_always_copy_to_clipboard_as_text</string>
     <bool name="pref_default_value_always_copy_to_clipboard_as_text">true</bool>
 </resources>
