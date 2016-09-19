@@ -270,26 +270,4 @@
 
     <string name="about_confirm_enable_scalpel_title">你发现了一把手术刀！</string>
     <string name="about_confirm_enable_scalpel_message">使用说明：\n1. 单指移动视角\n2. 双指上下缩放大小\n3. 双指左右缩放层距\n\n开启手术刀后普通界面将暂时无法正常交互，但你仍然可以使用返回键回到上个界面。\n重新打开应用后手术刀将自动关闭。\n\n要使用手术刀吗？</string>
-
-    <string name="pref_default_value_empty_string" />
-    <string name="pref_key_api_key">key_api_key</string>
-    <string name="pref_key_api_secret">key_api_secret</string>
-    <string name="pref_key_active_account_name">key_active_account_name</string>
-    <string name="pref_key_recent_one_account_name">key_recent_one_account_name</string>
-    <string name="pref_key_recent_two_account_name">key_recent_two_account_name</string>
-    <string name="pref_key_auto_refresh_home">key_auto_refresh_home</string>
-    <bool name="pref_default_value_auto_refresh_home">true</bool>
-    <string name="pref_key_show_title_for_link_entity">key_show_title_for_link_entity</string>
-    <bool name="pref_default_value_show_title_for_link_entity">true</bool>
-    <string name="pref_key_open_url_with">key_open_url_with</string>
-    <string-array name="pref_entry_values_open_url_with">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-    <string name="pref_default_value_open_url_with">2</string>
-    <string name="pref_key_request_desktop_site_in_webview">key_request_desktop_site_in_webview</string>
-    <bool name="pref_default_value_request_desktop_site_in_webview">true</bool>
-    <string name="pref_key_always_copy_to_clipboard_as_text">key_always_copy_to_clipboard_as_text</string>
-    <bool name="pref_default_value_always_copy_to_clipboard_as_text">true</bool>
 </resources>

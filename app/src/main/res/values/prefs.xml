@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <string name="pref_default_value_empty_string" />
+
+    <string name="pref_key_api_key">key_api_key</string>
+    <string name="pref_key_api_secret">key_api_secret</string>
+
+    <string name="pref_key_active_account_name">key_active_account_name</string>
+
+    <string name="pref_key_recent_one_account_name">key_recent_one_account_name</string>
+
+    <string name="pref_key_recent_two_account_name">key_recent_two_account_name</string>
+
+    <string name="pref_key_auto_refresh_home">key_auto_refresh_home</string>
+    <bool name="pref_default_value_auto_refresh_home">true</bool>
+
+    <string name="pref_key_show_title_for_link_entity">key_show_title_for_link_entity</string>
+    <bool name="pref_default_value_show_title_for_link_entity">true</bool>
+
+    <string name="pref_key_open_url_with">key_open_url_with</string>
+    <string-array name="pref_entry_values_open_url_with">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="pref_default_value_open_url_with">0</string>
+
+    <string name="pref_key_request_desktop_site_in_webview">key_request_desktop_site_in_webview</string>
+    <bool name="pref_default_value_request_desktop_site_in_webview">true</bool>
+
+    <string name="pref_key_always_copy_to_clipboard_as_text">key_always_copy_to_clipboard_as_text</string>
+    <bool name="pref_default_value_always_copy_to_clipboard_as_text">true</bool>
+</resources>
