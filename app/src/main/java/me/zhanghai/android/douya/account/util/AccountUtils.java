@@ -202,6 +202,11 @@ public class AccountUtils {
 
     public static void setActiveAccount(Account account) {
 
+        if (account == null) {
+            removeActiveAccountName();
+            return;
+        }
+
         Account oldActiveAccount = getActiveAccount();
         setActiveAccountName(account.name);
         if (oldActiveAccount != null) {
