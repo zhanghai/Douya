@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.settings.info;
 
-import android.content.Context;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -169,20 +167,20 @@ public class SettingsEntries {
             return mEnumValues[Integer.parseInt(getDefaultValue())];
         }
 
-        public E getEnumValue(Context context) {
+        public E getEnumValue() {
             int ordinal = Integer.parseInt(getValue());
             if (ordinal < 0 || ordinal >= mEnumValues.length) {
                 LogUtils.w("Invalid ordinal " + ordinal + ", with key=" + getKey()
                         + ", enum values=" + Arrays.toString(mEnumValues)
                         + ", reverting to default value");
                 E enumValue = getDefaultEnumValue();
-                putEnumValue(enumValue, context);
+                putEnumValue(enumValue);
                 return enumValue;
             }
             return mEnumValues[ordinal];
         }
 
-        public void putEnumValue(E value, Context context) {
+        public void putEnumValue(E value) {
             putValue(String.valueOf(value.ordinal()));
         }
     }

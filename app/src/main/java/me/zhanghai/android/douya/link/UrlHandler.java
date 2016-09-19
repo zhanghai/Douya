@@ -43,7 +43,7 @@ public class UrlHandler {
             }
         }
 
-        switch (Settings.OPEN_URL_WITH_METHOD.getEnumValue(context)) {
+        switch (Settings.OPEN_URL_WITH_METHOD.getEnumValue()) {
             case CUSTOM_TABS:
                 if (enableCustomTabs) {
                     Activity activity = AppUtils.getActivityFromContext(context);

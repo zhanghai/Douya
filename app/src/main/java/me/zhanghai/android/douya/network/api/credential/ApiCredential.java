@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.network.api.credential;
 
-import me.zhanghai.android.douya.DouyaApplication;
-
 public final class ApiCredential {
 
     private ApiCredential() {}

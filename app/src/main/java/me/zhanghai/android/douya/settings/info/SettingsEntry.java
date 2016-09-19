@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.settings.info;
 
-import android.content.Context;
-
 import me.zhanghai.android.douya.DouyaApplication;
 import me.zhanghai.android.douya.util.SharedPrefsUtils;
 
