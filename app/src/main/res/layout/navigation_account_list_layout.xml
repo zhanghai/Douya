@@ -37,6 +37,21 @@
         android:maxLines="1" />
 
     <TextView
+        android:id="@+id/remove_current_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/single_line_list_item_height"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:drawableLeft="@drawable/remove_icon_black_24dp"
+        android:drawablePadding="@dimen/content_horizontal_margin_from_screen_edge_with_24dp_padding"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:text="@string/navigation_remove_current_account"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:maxLines="1" />
+
+    <TextView
         android:id="@+id/manage_accounts"
         android:layout_width="match_parent"
         android:layout_height="@dimen/single_line_list_item_height"

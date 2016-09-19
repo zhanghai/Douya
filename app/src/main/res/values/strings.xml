@@ -132,6 +132,8 @@
     <string name="navigation_settings">设置</string>
     <string name="navigation_feedback">反馈</string>
     <string name="navigation_add_account">添加账户</string>
+    <string name="navigation_remove_current_account">移除当前账户</string>
+    <string name="navigation_remove_current_account_confirm">确定要移除当前账户吗？</string>
     <string name="navigation_manage_accounts">管理账户</string>
 
     <string name="main_notification">提醒</string>

@@ -37,7 +37,7 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class NavigationFragment extends Fragment implements OnAccountsUpdateListener,
         AccountUserInfoResource.Listener, NavigationHeaderLayout.Adapter,
         NavigationHeaderLayout.Listener, NavigationAccountListLayout.Adapter,
-        NavigationAccountListLayout.Listener {
+        NavigationAccountListLayout.Listener, ConfirmRemoveCurrentAccountDialogFragment.Listener {
 
     private static final String KEY_PREFIX = NavigationFragment.class.getName() + '.';
 
@@ -259,6 +259,17 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     @Override
     public void switchToAccount(Account account) {
         mHeaderLayout.switchToAccountWithTransitionIfNotRunning(account);
+    }
+
+    @Override
+    public void onRemoveCurrentAccount() {
+        ConfirmRemoveCurrentAccountDialogFragment.show(this);
+    }
+
+    @Override
+    public void removeCurrentAccount() {
+        mHeaderLayout.setShowingAccountList(false);
+        AccountUtils.removeAccount(AccountUtils.getActiveAccount());
     }
 
     private void openSettings() {

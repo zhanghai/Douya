@@ -46,6 +46,8 @@ public class NavigationAccountListLayout extends LinearLayout {
     TextView[] mMenuItems;
     @BindView(R.id.add_account)
     TextView mAddAccountItem;
+    @BindView(R.id.remove_current_account)
+    TextView mRemoveCurrentAccountItem;
     @BindView(R.id.manage_accounts)
     TextView mManageAccountsItem;
 
@@ -97,6 +99,14 @@ public class NavigationAccountListLayout extends LinearLayout {
             @Override
             public void onClick(View view) {
                 AccountUtils.addAccount(AppUtils.getActivityFromContext(context));
+            }
+        });
+        mRemoveCurrentAccountItem.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mListener != null) {
+                    mListener.onRemoveCurrentAccount();
+                }
             }
         });
         mManageAccountsItem.setOnClickListener(new OnClickListener() {
@@ -194,5 +204,6 @@ public class NavigationAccountListLayout extends LinearLayout {
 
     public interface Listener {
         void switchToAccount(Account account);
+        void onRemoveCurrentAccount();
     }
 }
