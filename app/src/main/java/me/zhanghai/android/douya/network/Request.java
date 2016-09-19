@@ -5,13 +5,14 @@
 
 package me.zhanghai.android.douya.network;
 
+import android.net.Uri;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.RequestFuture;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -273,18 +274,11 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
 
     private StringBuilder appendEncodedParams(StringBuilder builder) {
         for (Map.Entry<String, String> entry : mParams.entrySet()) {
-            try {
-                builder
-                        // FIXME: URLEncoder is in fact conforming to
-                        // application/x-www-form-urlencoded, instead of encoding the string as a
-                        // URL.
-                        .append(URLEncoder.encode(entry.getKey(), mParamsEncoding))
-                        .append('=')
-                        .append(URLEncoder.encode(entry.getValue(), mParamsEncoding))
-                        .append('&');
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+            builder
+                    .append(Uri.encode(entry.getKey()))
+                    .append('=')
+                    .append(Uri.encode(entry.getValue()))
+                    .append('&');
         }
         return builder;
     }
