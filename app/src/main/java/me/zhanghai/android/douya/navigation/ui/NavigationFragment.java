@@ -53,6 +53,8 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
 
     private NavigationViewAdapter mNavigationViewAdapter;
 
+    private boolean mHasPendingAccountListChange;
+
     private boolean mNeedReloadForActiveAccountChange;
     private boolean mWillReloadForActiveAccountChange;
 
@@ -133,6 +135,16 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mHasPendingAccountListChange) {
+            mHasPendingAccountListChange = false;
+            onAccountListChanged();
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -153,12 +165,19 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     @Override
     public void onAccountsUpdated(Account[] accounts) {
 
-        // FIXME: Post after resume.
-
         // In case AccountUtils.ensureActiveAccountAvailability() called finish().
         if (AccountUtils.getActiveAccount() == null) {
             return;
         }
+
+        if (isResumed()) {
+            onAccountListChanged();
+        } else {
+            mHasPendingAccountListChange = true;
+        }
+    }
+
+    private void onAccountListChanged() {
 
         ArrayMap<Account, AccountUserInfoResource> oldUserInfoResourceMap = mUserInfoResourceMap;
         mUserInfoResourceMap = new ArrayMap<>();
