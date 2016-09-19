@@ -30,16 +30,29 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.network.Http;
+import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.util.ClipboardUtils;
+import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class WebViewActivity extends AppCompatActivity {
+
+    private static final Pattern DOUBAN_HOST_PATTERN = Pattern.compile(".*\\.douban\\.(com|fm)");
+
+    private static final String DOUBAN_OAUTH2_REDIRECT_URL_FORMAT =
+            "https://www.douban.com/accounts/auth2_redir?url=%1$s&apikey=%2$s";
 
     @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppbarWrapperLayout;
@@ -129,9 +142,27 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     protected void onLoadUri(WebView webView) {
+
         String url = getIntent().getData().toString();
         setTitle(url);
-        webView.loadUrl(url);
+
+        Map<String, String> headers = null;
+        if (isDoubanUrl(url)) {
+            String authToken = AccountUtils.peekAuthToken();
+            if (!TextUtils.isEmpty(authToken)) {
+                url = StringUtils.formatUs(DOUBAN_OAUTH2_REDIRECT_URL_FORMAT, Uri.encode(url),
+                        Uri.encode(ApiCredential.ApiV2.KEY));
+                headers = new HashMap<>();
+                headers.put(Http.Headers.AUTHORIZATION,
+                        Http.Headers.makeBearerAuthorization(authToken));
+            }
+        }
+
+        webView.loadUrl(url, headers);
+    }
+
+    private boolean isDoubanUrl(String url) {
+        return DOUBAN_HOST_PATTERN.matcher(Uri.parse(url).getHost()).matches();
     }
 
     protected void onPageStared(WebView webView, String url, Bitmap favicon) {}

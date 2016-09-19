@@ -340,6 +340,10 @@ public class AccountUtils {
         return getAccountManager().peekAuthToken(account, AccountContract.AUTH_TOKEN_TYPE);
     }
 
+    public static String peekAuthToken() {
+        return peekAuthToken(getActiveAccount());
+    }
+
     public static String getAuthToken(Account account) throws AuthenticatorException,
             OperationCanceledException, IOException {
         return getAccountManager().blockingGetAuthToken(account, AccountContract.AUTH_TOKEN_TYPE,
