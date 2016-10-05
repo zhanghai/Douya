@@ -93,6 +93,15 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+        mWebView.destroy();
+        mWebView = null;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
