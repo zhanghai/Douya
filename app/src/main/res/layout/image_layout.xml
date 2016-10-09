@@ -11,6 +11,7 @@
     <me.zhanghai.android.douya.ui.RatioImageView
         android:id="@+id/imagelayout_image"
         android:layout_width="wrap_content"
+        android:minWidth="@dimen/image_min_width"
         android:layout_height="wrap_content"
         android:maxHeight="@dimen/image_max_height" />
 
