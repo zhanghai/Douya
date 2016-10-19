@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.notification.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,40 +24,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.app.RetainDataFragment;
-import me.zhanghai.android.douya.network.RequestFragment;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.eventbus.NotificationUpdatedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
-import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
-import me.zhanghai.android.douya.notification.app.NotificationListCache;
-import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.notification.app.NotificationListResource;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
-import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class NotificationListFragment extends Fragment implements RequestFragment.Listener,
+public class NotificationListFragment extends Fragment implements NotificationListResource.Listener,
         NotificationAdapter.Listener {
-
-    private static final int NOTIFICATION_COUNT_PER_LOAD = 20;
-
-    private static final int REQUEST_CODE_LOAD_NOTIFICATION_LIST = 0;
-
-    private static final String KEY_PREFIX = NotificationListFragment.class.getName() + '.';
-
-    private static final String RETAIN_DATA_KEY_NOTIFICATION_LIST = KEY_PREFIX
-            + "notification_list";
-    private static final String RETAIN_DATA_KEY_CAN_LOAD_MORE = KEY_PREFIX + "can_load_more";
-    private static final String RETAIN_DATA_KEY_LOADING_NOTIFICATION_LIST = KEY_PREFIX
-            + "loading_notification_list";
-    private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
-
-    private final Handler mHandler = new Handler();
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -67,13 +46,10 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
     @BindView(R.id.progress)
     ProgressBar mProgress;
 
-    private RetainDataFragment mRetainDataFragment;
+    private NotificationListResource mNotificationListResource;
 
     private NotificationAdapter mNotificationAdapter;
     private LoadMoreAdapter mAdapter;
-    private boolean mCanLoadMore;
-
-    private boolean mLoadingNotificationList;
 
     private Listener mListener;
 
@@ -97,100 +73,95 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
 
         final Activity activity = getActivity();
 
-        mRetainDataFragment = RetainDataFragment.attachTo(this);
+        mNotificationListResource = NotificationListResource.attachTo(this);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadNotificationList(false);
+                refresh();
             }
         });
 
         mNotificationList.setHasFixedSize(true);
         mNotificationList.setItemAnimator(new NoChangeAnimationItemAnimator());
         mNotificationList.setLayoutManager(new LinearLayoutManager(activity));
-        List<Notification> notificationList = mRetainDataFragment.remove(
-                RETAIN_DATA_KEY_NOTIFICATION_LIST);
-        mNotificationAdapter = new NotificationAdapter(notificationList, activity);
+        mNotificationAdapter = new NotificationAdapter(mNotificationListResource.get(), activity);
         mNotificationAdapter.setListener(this);
         mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mNotificationAdapter);
         mNotificationList.setAdapter(mAdapter);
         mNotificationList.addOnScrollListener(new OnVerticalScrollListener() {
             @Override
             public void onScrolledToBottom() {
-                loadNotificationList(true);
+                mNotificationListResource.load(true);
             }
         });
 
-        mCanLoadMore = mRetainDataFragment.removeBoolean(RETAIN_DATA_KEY_CAN_LOAD_MORE, true);
-        mLoadingNotificationList = mRetainDataFragment.removeBoolean(
-                RETAIN_DATA_KEY_LOADING_NOTIFICATION_LIST, false);
-
-        // View only saves state influenced by user action, so we have to do this ourselves.
-        ViewState viewState = mRetainDataFragment.remove(RETAIN_DATA_KEY_VIEW_STATE);
-        if (viewState != null) {
-            onRestoreViewState(viewState);
-        }
+        updateRefreshing();
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onDestroy() {
+        super.onDestroy();
 
-        super.onSaveInstanceState(outState);
-
-        mRetainDataFragment.put(RETAIN_DATA_KEY_NOTIFICATION_LIST, mNotificationAdapter.getList());
-        mRetainDataFragment.put(RETAIN_DATA_KEY_CAN_LOAD_MORE, mCanLoadMore);
-        mRetainDataFragment.put(RETAIN_DATA_KEY_LOADING_NOTIFICATION_LIST,
-                mLoadingNotificationList);
-        mRetainDataFragment.put(RETAIN_DATA_KEY_VIEW_STATE, onSaveViewState());
+        mNotificationListResource.detach();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        // Only auto-load when initially empty, not loaded but empty.
-        if (mNotificationAdapter.getItemCount() == 0 && mCanLoadMore) {
-            loadNotificationList();
-        }
+    public void onLoadNotificationListStarted(int requestCode) {
+        updateRefreshing();
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        saveNotificationListToCache(mNotificationAdapter.getList());
-    }
-
-    private ViewState onSaveViewState() {
-        return new ViewState(mProgress.getVisibility(), mAdapter.isProgressVisible());
-    }
-
-    private void onRestoreViewState(ViewState state) {
-        mProgress.setVisibility(state.progressVisibility);
-        mAdapter.setProgressVisible(state.adapterProgressVisible);
+    public void onLoadNotificationListFinished(int requestCode) {
+        updateRefreshing();
     }
 
     @Override
-    public void onVolleyResponse(int requestCode, boolean successful, Object result,
-                                 VolleyError error, Object requestState) {
-        switch (requestCode) {
-            case REQUEST_CODE_LOAD_NOTIFICATION_LIST:
-                //noinspection unchecked
-                onLoadNotificationListResponse(successful, (NotificationList) result, error,
-                        (LoadNotificationListState) requestState);
-                break;
-            default:
-                LogUtils.w("Unknown request code " + requestCode + ", with successful=" + successful
-                        + ", result=" + result + ", error=" + error);
-        }
+    public void onLoadNotificationListError(int requestCode, VolleyError error) {
+        LogUtils.e(error.toString());
+        Activity activity = getActivity();
+        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
     }
 
-    public void refresh() {
-        if (!mNotificationAdapter.getList().isEmpty()) {
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-        loadNotificationList(false);
+    @Override
+    public void onNotificationListChanged(int requestCode, List<Notification> newNotificationList) {
+        mNotificationAdapter.replace(newNotificationList);
+        onNotificationListUpdated();
+    }
+
+    @Override
+    public void onNotificationListAppended(int requestCode,
+                                           List<Notification> appendedNotificationList) {
+        mNotificationAdapter.addAll(appendedNotificationList);
+        onNotificationListUpdated();
+    }
+
+    @Override
+    public void onNotificationChanged(int requestCode, int position, Notification newNotification) {
+        mNotificationAdapter.set(position, newNotification);
+        onNotificationListUpdated();
+    }
+
+    @Override
+    public void onNotificationRemoved(int requestCode, int position) {
+        mNotificationAdapter.remove(position);
+        onNotificationListUpdated();
+    }
+
+    private void updateRefreshing() {
+        boolean loading = mNotificationListResource.isLoading();
+        boolean empty = mNotificationListResource.isEmpty();
+        boolean loadingMore = mNotificationListResource.isLoadingMore();
+        mSwipeRefreshLayout.setRefreshing(loading && (mSwipeRefreshLayout.isRefreshing() || !empty)
+                && !loadingMore);
+        ViewUtils.setVisibleOrGone(mProgress, loading && empty);
+        mAdapter.setProgressVisible(loading && !empty && loadingMore);
+    }
+
+    @Override
+    public void markNotificationAsRead(Notification notification) {
+        notification.read = true;
+        EventBusUtils.postAsync(new NotificationUpdatedEvent(notification, this));
     }
 
     public int getUnreadNotificationCount() {
@@ -203,6 +174,10 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         return count;
     }
 
+    public void refresh() {
+        mNotificationListResource.load(false);
+    }
+
     public void setListener(Listener listener) {
         mListener = listener;
     }
@@ -213,125 +188,7 @@ public class NotificationListFragment extends Fragment implements RequestFragmen
         }
     }
 
-    @Override
-    public void onNotificationRead() {
-        onNotificationListUpdated();
-    }
-
-    private void loadNotificationList(boolean loadMore) {
-
-        if (mLoadingNotificationList || (loadMore && !mCanLoadMore)) {
-            return;
-        }
-
-        // Flawed Frodo API design: should use untilId instead of start.
-        Integer start = loadMore ? mNotificationAdapter.getItemCount() : null;
-        int count = NOTIFICATION_COUNT_PER_LOAD;
-        ApiRequest<NotificationList> request = ApiRequests.newNotificationListRequest(start, count);
-        LoadNotificationListState state = new LoadNotificationListState(loadMore, count);
-        RequestFragment.startRequest(request, state, this, REQUEST_CODE_LOAD_NOTIFICATION_LIST);
-
-        mLoadingNotificationList = true;
-        setRefreshing(true, loadMore);
-    }
-
-    private void onLoadNotificationListResponse(boolean successful, NotificationList result,
-                                                VolleyError error, LoadNotificationListState state) {
-
-        Activity activity = getActivity();
-        if (successful) {
-
-            List<Notification> notificationList = result.notifications;
-            // Workaround Frodo API bug.
-            //mCanLoadMore = notificationList.size() == state.count;
-            mCanLoadMore = notificationList.size() > 0;
-            if (state.loadMore) {
-                mNotificationAdapter.addAll(notificationList);
-            } else {
-                // FIXME: Move to somewhere else. This cannot handle unread count > 20, or read
-                // elsewhere.
-                for (Notification notification : mNotificationAdapter.getList()) {
-                    if (!notification.read) {
-                        for (Notification newNotification : notificationList) {
-                            if (newNotification.id == notification.id) {
-                                newNotification.read = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                mNotificationAdapter.replace(notificationList);
-            }
-            onNotificationListUpdated();
-            setRefreshing(false, state.loadMore);
-            mLoadingNotificationList = false;
-        } else {
-
-            LogUtils.e(error.toString());
-            ToastUtils.show(ApiError.getErrorString(error, activity), activity);
-            setRefreshing(false, state.loadMore);
-            mLoadingNotificationList = false;
-        }
-    }
-
-    private void setRefreshing(boolean refreshing, boolean loadMore) {
-        if (!refreshing) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-        ViewUtils.setVisibleOrGone(mProgress, refreshing
-                && mNotificationAdapter.getItemCount() == 0);
-        mAdapter.setProgressVisible(refreshing && mNotificationAdapter.getItemCount() > 0
-                && loadMore);
-    }
-
-    private void loadNotificationList() {
-        NotificationListCache.get(mHandler, new Callback<List<Notification>>() {
-            @Override
-            public void onValue(List<Notification> notificationList) {
-                // FIXME: If after onStop() then RequestFragment should not be added. Use
-                // commitAllowingStateLoss()?
-                if (isRemoving()) {
-                    return;
-                }
-                boolean hasCache = notificationList != null && notificationList.size() > 0;
-                if (hasCache) {
-                    mNotificationAdapter.replace(notificationList);
-                    onNotificationListUpdated();
-                }
-                if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {
-                    refresh();
-                }
-            }
-        }, getActivity());
-    }
-
-    private void saveNotificationListToCache(List<Notification> notificationList) {
-        NotificationListCache.put(notificationList, getActivity());
-    }
-
     public interface Listener {
         void onUnreadNotificationUpdate(int count);
-    }
-
-    private static class LoadNotificationListState {
-
-        public boolean loadMore;
-        public int count;
-
-        public LoadNotificationListState(boolean loadMore, int count) {
-            this.loadMore = loadMore;
-            this.count = count;
-        }
-    }
-
-    private static class ViewState {
-
-        public int progressVisibility;
-        public boolean adapterProgressVisible;
-
-        public ViewState(int progressVisibility, boolean adapterProgressVisible) {
-            this.progressVisibility = progressVisibility;
-            this.adapterProgressVisible = adapterProgressVisible;
-        }
     }
 }

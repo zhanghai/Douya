@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.notification.app;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.os.Handler;
 
@@ -20,19 +21,23 @@ public class NotificationListCache {
 
     private static final int MAX_LIST_SIZE = 20;
 
-    private static final String KEY = NotificationListCache.class.getName();
+    private static final String KEY_PREFIX = NotificationListCache.class.getName();
 
-    public static void get(Handler handler, Callback<List<Notification>> callback,
+    public static void get(Account account, Handler handler, Callback<List<Notification>> callback,
                            Context context) {
-        DiskCacheHelper.getGson(KEY, new TypeToken<List<Notification>>() {}, handler, callback,
-                context);
+        DiskCacheHelper.getGson(getKeyForAccount(account), new TypeToken<List<Notification>>() {},
+                handler, callback, context);
     }
 
-    public static void put(List<Notification> notificationList, Context context) {
+    public static void put(Account account, List<Notification> notificationList, Context context) {
         if (notificationList.size() > MAX_LIST_SIZE) {
             notificationList = notificationList.subList(0, MAX_LIST_SIZE);
         }
-        DiskCacheHelper.putGson(KEY, notificationList, new TypeToken<List<Notification>>() {},
-                context);
+        DiskCacheHelper.putGson(getKeyForAccount(account), notificationList,
+                new TypeToken<List<Notification>>() {}, context);
+    }
+
+    private static String getKeyForAccount(Account account) {
+        return KEY_PREFIX + '@' + account.name;
     }
 }

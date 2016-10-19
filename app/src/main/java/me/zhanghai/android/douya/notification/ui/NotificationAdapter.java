@@ -64,7 +64,9 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                markNotificationAsRead(notification);
+                if (mListener != null) {
+                    mListener.markNotificationAsRead(notification);
+                }
                 UriHandler.open(notification.targetUri, context);
             }
         });
@@ -73,16 +75,8 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
         holder.timeText.setDoubanTime(notification.time);
     }
 
-    private void markNotificationAsRead(Notification notification) {
-        notification.read = true;
-        notifyItemChangedById(notification.id);
-        if (mListener != null) {
-            mListener.onNotificationRead();
-        }
-    }
-
     public interface Listener {
-        void onNotificationRead();
+        void markNotificationAsRead(Notification notification);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

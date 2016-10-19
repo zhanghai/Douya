@@ -184,11 +184,11 @@ public class BroadcastListResource extends ResourceFragment
         load(loadMore, DEFAULT_COUNT_PER_LOAD);
     }
 
-    protected void onStartLoad() {}
-
     protected void loadOnStart() {
         load(false);
     }
+
+    protected void onStartLoad() {}
 
     @Override
     public void onVolleyResponse(int requestCode, final boolean successful,
@@ -216,11 +216,11 @@ public class BroadcastListResource extends ResourceFragment
                 mBroadcastList.addAll(broadcastList);
                 getListener().onBroadcastListAppended(getRequestCode(),
                         Collections.unmodifiableList(broadcastList));
-                for (Broadcast broadcast : broadcastList) {
-                    EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, this));
-                }
             } else {
                 set(broadcastList);
+            }
+            for (Broadcast broadcast : broadcastList) {
+                EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, this));
             }
         } else {
             getListener().onLoadBroadcastListError(getRequestCode(), error);
