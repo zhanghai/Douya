@@ -251,17 +251,15 @@ public class AccountUtils {
         }
 
         String accountName = getRecentOneAccountName();
-        if (!TextUtils.equals(accountName, activeAccount.name)) {
+        if (!TextUtils.isEmpty(accountName) && !TextUtils.equals(accountName, activeAccount.name)) {
             Account account = getAccountByName(accountName);
             if (account != null) {
                 return account;
             }
         }
 
-        String recentTwoAccountName = getRecentTwoAccountName();
         for (Account account : getAccounts()) {
-            if (!account.equals(activeAccount)
-                    && !TextUtils.equals(account.name, recentTwoAccountName)) {
+            if (!account.equals(activeAccount)) {
                 setRecentOneAccountName(account.name);
                 return account;
             }
@@ -295,7 +293,7 @@ public class AccountUtils {
         }
 
         String accountName = getRecentTwoAccountName();
-        if (!TextUtils.equals(accountName, activeAccount.name)
+        if (!TextUtils.isEmpty(accountName) && !TextUtils.equals(accountName, activeAccount.name)
                 && !TextUtils.equals(accountName, recentOneAccount.name)) {
             Account account = getAccountByName(accountName);
             if (account != null) {

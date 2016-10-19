@@ -195,6 +195,7 @@ public class NavigationHeaderLayout extends FrameLayout {
             return;
         }
 
+        avatarImage.setVisibility(VISIBLE);
         UserInfo userInfo = mAdapter.getUserInfo(account);
         if (userInfo != null) {
             bindAvatarImage(avatarImage, userInfo.getLargeAvatarOrAvatar());
@@ -391,13 +392,14 @@ public class NavigationHeaderLayout extends FrameLayout {
             return;
         }
 
+        float rotation = show ? 180 : 0;
         if (animate) {
             mDropDownImage.animate()
-                    .rotation(show ? 180 : 0)
+                    .rotation(rotation)
                     .setDuration(ViewUtils.getShortAnimTime(getContext()))
                     .start();
         } else {
-            mDropDownImage.setRotation(180);
+            mDropDownImage.setRotation(rotation);
         }
         mListener.showAccountList(show);
         mShowingAccountList = show;
