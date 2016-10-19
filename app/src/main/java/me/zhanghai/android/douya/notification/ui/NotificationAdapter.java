@@ -65,7 +65,7 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
             @Override
             public void onClick(View view) {
                 if (mListener != null) {
-                    mListener.markNotificationAsRead(notification);
+                    mListener.onMarkNotificationAsRead(notification);
                 }
                 UriHandler.open(notification.targetUri, context);
             }
@@ -76,7 +76,7 @@ public class NotificationAdapter extends SimpleAdapter<Notification,
     }
 
     public interface Listener {
-        void markNotificationAsRead(Notification notification);
+        void onMarkNotificationAsRead(Notification notification);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

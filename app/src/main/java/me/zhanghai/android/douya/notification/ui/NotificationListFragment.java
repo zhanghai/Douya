@@ -159,7 +159,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
     }
 
     @Override
-    public void markNotificationAsRead(Notification notification) {
+    public void onMarkNotificationAsRead(Notification notification) {
         notification.read = true;
         EventBusUtils.postAsync(new NotificationUpdatedEvent(notification, this));
     }
