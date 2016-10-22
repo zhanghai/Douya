@@ -18,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
-import me.zhanghai.android.douya.network.api.info.frodo.CollectedItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Item;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -76,7 +76,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
     protected void bind(UserItems primaryItems, UserItems secondaryItems, UserItems tertiaryItems) {
 
         final Context context = getContext();
-        CollectedItem.State state = primaryItems.getState();
+        ItemCollectionState state = primaryItems.getState();
         Item.Type type = primaryItems.getType();
         String stateString = state.getString(type, context);
         mTitleText.setText(stateString);
@@ -160,7 +160,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
             //noinspection deprecation
             primaryItems.type = type.getApiString();
             //noinspection deprecation
-            primaryItems.state = CollectedItem.State.DONE.getApiString();
+            primaryItems.state = ItemCollectionState.DONE.getApiString();
         }
         bind(primaryItems, secondaryItems, tertiaryItems);
     }

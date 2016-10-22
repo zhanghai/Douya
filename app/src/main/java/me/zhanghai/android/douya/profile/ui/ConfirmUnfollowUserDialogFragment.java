@@ -35,7 +35,7 @@ public class ConfirmUnfollowUserDialogFragment extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getListener().unfollowUser();
+                        getListener().onUnfollowUser();
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)
@@ -52,6 +52,6 @@ public class ConfirmUnfollowUserDialogFragment extends AppCompatDialogFragment {
     }
 
     public interface Listener {
-        void unfollowUser();
+        void onUnfollowUser();
     }
 }

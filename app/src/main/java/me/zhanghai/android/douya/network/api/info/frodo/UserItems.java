@@ -30,10 +30,10 @@ public class UserItems implements Parcelable {
      */
     public String type;
 
-    public CollectedItem.State getState() {
+    public ItemCollectionState getState() {
         // FIXME: Correct to use null?
         //noinspection deprecation
-        return CollectedItem.State.ofString(state, null);
+        return ItemCollectionState.ofString(state, null);
     }
 
     public Item.Type getType() {

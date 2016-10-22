@@ -240,6 +240,21 @@
     <string name="item_todo_format">想%1$s</string>
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
+    <string name="item_collection_title">标记条目</string>
+    <string name="item_state">状态</string>
+    <string name="item_rating">评价</string>
+    <string-array name="item_rating_hints">
+        <item>很差</item>
+        <item>较差</item>
+        <item>还行</item>
+        <item>推荐</item>
+        <item>力荐</item>
+    </string-array>
+    <string name="item_rating_hint_unknown">未知</string>
+    <string name="item_tags">标签</string>
+    <string name="item_tags_hint">我的标签…</string>
+    <string name="item_comment">评论</string>
+    <string name="item_comment_hint">我的评论…</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_misc_title">其他</string>

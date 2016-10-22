@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.followship.content.FollowUserManager;
+import me.zhanghai.android.douya.item.ui.ItemCollectionActivity;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
@@ -206,6 +207,8 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send_doumail:
+                // HACK
+                startActivity(ItemCollectionActivity.makeIntent(null, getActivity()));
                 // TODO
                 NotImplementedManager.showNotYetImplementedToast(getActivity());
                 return true;
@@ -269,7 +272,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     }
 
     @Override
-    public void unfollowUser() {
+    public void onUnfollowUser() {
         FollowUserManager.getInstance().write(mProfileResource.getUserInfo(), false, getActivity());
     }
 

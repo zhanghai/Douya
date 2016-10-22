@@ -89,6 +89,11 @@
             android:label="@string/profile_following_list_title" />
 
         <activity
+            android:name=".item.ui.ItemCollectionActivity"
+            android:theme="@style/Theme.Douya"
+            android:label="@string/item_collection_title" />
+
+        <activity
             android:name=".settings.ui.SettingsActivity"
             android:exported="false"
             android:label="@string/settings_title"

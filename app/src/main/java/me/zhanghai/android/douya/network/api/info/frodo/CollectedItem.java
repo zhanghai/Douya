@@ -5,69 +5,14 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import me.zhanghai.android.douya.R;
-
 public class CollectedItem implements Parcelable {
-
-    public enum State {
-
-        TODO("wish", R.string.item_todo_format),
-        DOING("do", R.string.item_doing_format),
-        DONE("collect", R.string.item_done_format);
-
-        private String apiString;
-        private int formatRes;
-
-        State(String apiString, int formatRes) {
-            this.apiString = apiString;
-            this.formatRes = formatRes;
-        }
-
-        public static State ofString(String apiString, State defaultValue) {
-            for (State state : State.values()) {
-                if (TextUtils.equals(state.apiString, apiString)) {
-                    return state;
-                }
-            }
-            return defaultValue;
-        }
-
-        public static State ofString(String apiString) {
-            return ofString(apiString, DONE);
-        }
-
-        /**
-         * @deprecated HACK-only.
-         */
-        public String getApiString() {
-            return apiString;
-        }
-
-        public int getFormatRes() {
-            return formatRes;
-        }
-
-        public String getFormat(Context context) {
-            return context.getString(formatRes);
-        }
-
-        public String getString(String action, Context context) {
-            return context.getString(formatRes, action);
-        }
-
-        public String getString(Item.Type type, Context context) {
-            return getString(type.getAction(context), context);
-        }
-    }
 
     @SerializedName("attend_time")
     public String attendTime;
@@ -112,9 +57,9 @@ public class CollectedItem implements Parcelable {
     @SerializedName("vote_count")
     public int voteCount;
 
-    public State getState() {
+    public ItemCollectionState getState() {
         //noinspection deprecation
-        return State.ofString(state);
+        return ItemCollectionState.ofString(state);
     }
 
 
