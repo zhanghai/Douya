@@ -28,6 +28,9 @@ public class ItemCollectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Calls ensureSubDecor().
+        findViewById(android.R.id.content);
+
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             ItemCollection collection = intent.getParcelableExtra(EXTRA_COLLECTION);

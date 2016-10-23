@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -23,6 +22,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class ItemCollectionFragment extends Fragment {
 
@@ -33,7 +33,7 @@ public class ItemCollectionFragment extends Fragment {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.rating)
-    RatingBar mRatingBar;
+    MaterialRatingBar mRatingBar;
     @BindView(R.id.rating_hint)
     TextView mRatingHintText;
 
@@ -83,9 +83,9 @@ public class ItemCollectionFragment extends Fragment {
         //activity.setTitle(getTitle());
         activity.setSupportActionBar(mToolbar);
 
-        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        mRatingBar.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+            public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
                 mRatingHintText.setText(DoubanUtils.getRatingHint((int) rating, activity));
             }
         });

@@ -240,7 +240,9 @@
     <string name="item_todo_format">想%1$s</string>
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
-    <string name="item_collection_title">标记条目</string>
+    <string name="item_collection_title">条目收藏</string>
+    <string name="item_add_collection_title">收藏 %1$s</string>
+    <string name="item_edit_collection_title">编辑收藏 %1$s</string>
     <string name="item_state">状态</string>
     <string name="item_rating">评价</string>
     <string-array name="item_rating_hints">
