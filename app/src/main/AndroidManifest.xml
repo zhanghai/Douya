@@ -97,17 +97,26 @@
             android:name=".settings.ui.SettingsActivity"
             android:exported="false"
             android:label="@string/settings_title"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Douya">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".main.ui.MainActivity" />
         </activity>
 
         <activity
             android:name=".settings.ui.AboutActivity"
             android:label="@string/about_title"
-            android:theme="@style/Theme.Douya.PrimaryColorBackground" />
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Douya.PrimaryColorBackground">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".settings.ui.SettingsActivity" />
+        </activity>
 
         <service
             android:name=".account.app.AuthenticatorService"
