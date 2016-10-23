@@ -18,13 +18,13 @@
         android:fillViewport="true">
 
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/screen_edge_horizontal_margin"
             android:paddingRight="@dimen/screen_edge_horizontal_margin"
             android:paddingTop="@dimen/screen_edge_vertical_margin"
             android:paddingBottom="@dimen/screen_edge_vertical_margin"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <TextView
@@ -65,36 +65,43 @@
                     android:text="看过" />
             </RadioGroup>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/rating_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/content_vertical_space"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:text="@string/item_rating" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical">
-
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="-3dp"
-                    android:layout_marginRight="-3dp"
-                    android:layout_marginTop="-3dp"
-                    android:layout_marginBottom="-4.5dp"
-                    android:stepSize="1"
-                    style="@style/Widget.MaterialRatingBar.RatingBar" />
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/rating_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:text="@string/item_rating" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical">
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-3dp"
+                        android:layout_marginRight="-3dp"
+                        android:layout_marginTop="-3dp"
+                        android:layout_marginBottom="-4.5dp"
+                        android:stepSize="1"
+                        style="@style/Widget.MaterialRatingBar.RatingBar" />
+
+                    <TextView
+                        android:id="@+id/rating_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -105,6 +112,7 @@
                 android:text="@string/item_tags" />
 
             <me.zhanghai.android.materialedittext.MaterialEditText
+                android:id="@+id/tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
@@ -122,6 +130,7 @@
                 android:text="@string/item_comment" />
 
             <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+                android:id="@+id/comment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
@@ -133,6 +142,7 @@
                 app:counterMaxLength="@integer/item_comment_max_length">
 
                 <me.zhanghai.android.materialedittext.MaterialEditText
+                    android:id="@+id/comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-4dp"
