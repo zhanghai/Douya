@@ -130,7 +130,7 @@
                 android:layout_marginBottom="-11dp"
                 app:hintEnabled="false"
                 app:counterEnabled="true"
-                app:counterMaxLength="140">
+                app:counterMaxLength="@integer/item_comment_max_length">
 
                 <me.zhanghai.android.materialedittext.MaterialEditText
                     android:layout_width="match_parent"
