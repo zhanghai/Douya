@@ -41,6 +41,7 @@ import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
+import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewCompat;
@@ -175,8 +176,8 @@ public class BroadcastLayout extends LinearLayout {
             mAvatarImage.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // FIXME
-                    UriHandler.open("https://www.douban.com/interest/1/1/", context);
+                    UriHandler.open(DoubanUtils.getInterestTypeUrl(broadcast.interestType),
+                            context);
                 }
             });
         } else {
