@@ -89,7 +89,7 @@ public class NavigationAccountListLayout extends LinearLayout {
         ColorStateList iconTintList = ViewUtils.getColorStateListFromAttrRes(
                 android.R.attr.textColorSecondary, context);
         for (TextView menuItem : mMenuItems) {
-            Drawable icon = TextViewCompat.getCompoundDrawablesRelative(menuItem)[0];
+            Drawable icon = menuItem.getCompoundDrawables()[0];
             icon = DrawableCompat.wrap(icon);
             DrawableCompat.setTintList(icon, iconTintList);
             TextViewCompat.setCompoundDrawablesRelative(menuItem, icon, null, null, null);
