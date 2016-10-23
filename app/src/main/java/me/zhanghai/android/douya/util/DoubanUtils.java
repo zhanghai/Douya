@@ -57,6 +57,10 @@ public class DoubanUtils {
         INTEREST_TYPE_URL_MAP.put("移动应用", "https://www.douban.com/interest/2/35/");
         INTEREST_TYPE_URL_MAP.put("男装", "https://www.douban.com/interest/3/1/");
         INTEREST_TYPE_URL_MAP.put("女装", "https://www.douban.com/interest/3/2/");
+        INTEREST_TYPE_URL_MAP.put("数码", "https://www.douban.com/interest/3/4/");
+        INTEREST_TYPE_URL_MAP.put("家居生活", "https://www.douban.com/interest/3/5/");
+        INTEREST_TYPE_URL_MAP.put("美容护肤", "https://www.douban.com/interest/3/6/");
+        INTEREST_TYPE_URL_MAP.put("户外运动", "https://www.douban.com/interest/3/7/");
     }
     private static final String INTEREST_URL_DEFAULT = "https://www.douban.com/interest/1/1/";
 
