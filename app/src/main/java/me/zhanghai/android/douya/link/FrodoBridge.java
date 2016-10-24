@@ -12,7 +12,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.List;
+
 import me.zhanghai.android.douya.util.AppUtils;
+import me.zhanghai.android.douya.util.MoreTextUtils;
 
 public class FrodoBridge {
 
@@ -32,8 +35,37 @@ public class FrodoBridge {
     private FrodoBridge() {}
 
     public static boolean openUri(Uri uri, Context context) {
+        if (!isUriHandled(uri)) {
+            return false;
+        }
         Intent intent = makeFacadeIntent(uri);
         return AppUtils.isIntentHandled(intent, context) && startActivity(intent, context);
+    }
+
+    /**
+     * Whether an uri is likely to be handled by native in Frodo. We don't need Frodo's WebActivity.
+     */
+    private static boolean isUriHandled(Uri uri) {
+        String scheme = uri.getScheme();
+        if (TextUtils.equals(scheme, FRODO_SCHEME)) {
+            return true;
+        } else if (MoreTextUtils.equalsAny(scheme, "https", "http")) {
+            // Data updated at 2016-09.
+            String host = uri.getHost();
+            if (!TextUtils.isEmpty(host) && MoreTextUtils.equalsAny(host, "www.douban.com",
+                    "m.douban.com", "book.douban.com", "movie.douban.com", "music.douban.com",
+                    "dongxi.douban.com")) {
+                List<String> pathSegments = uri.getPathSegments();
+                String pathSegment1 = pathSegments.size() >= 1 ? pathSegments.get(0) : null;
+                if (!TextUtils.isEmpty(pathSegment1) && MoreTextUtils.equalsAny(pathSegment1,
+                        "group", "theme", "people", "update", "hashtag", "app_topic", "subject",
+                        "book", "music", "movie", "game", "mobileapp", "event", "note", "show",
+                        "doulist", "review", "photos", "celebrity")) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static Intent makeFacadeIntent(Uri uri) {
