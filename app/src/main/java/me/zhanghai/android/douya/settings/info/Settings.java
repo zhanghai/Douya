@@ -32,6 +32,10 @@ public class Settings {
             R.string.pref_key_show_title_for_link_entity,
             R.bool.pref_default_value_show_title_for_link_entity);
 
+    public static final BooleanSettingsEntry PROGRESSIVE_THIRD_PARTY_APP = new BooleanSettingsEntry(
+            R.string.pref_key_progressive_third_party_app,
+            R.bool.pref_default_value_progressive_third_party_app);
+
     public enum OpenUrlWithMethod {
         WEBVIEW,
         INTENT,

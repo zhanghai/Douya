@@ -24,6 +24,9 @@
     <string name="pref_key_show_title_for_link_entity">key_show_title_for_link_entity</string>
     <bool name="pref_default_value_show_title_for_link_entity">true</bool>
 
+    <string name="pref_key_progressive_third_party_app">key_enable_progressive_third_party_app</string>
+    <bool name="pref_default_value_progressive_third_party_app">true</bool>
+
     <string name="pref_key_open_url_with">key_open_url_with</string>
     <string-array name="pref_entry_values_open_url_with">
         <item>0</item>

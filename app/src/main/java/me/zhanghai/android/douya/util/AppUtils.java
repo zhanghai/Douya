@@ -31,6 +31,10 @@ public class AppUtils {
         }
     }
 
+    public static boolean isIntentHandled(Intent intent, Context context) {
+        return intent.resolveActivity(context.getPackageManager()) != null;
+    }
+
     // From http://developer.android.com/training/implementing-navigation/ancestral.html#NavigateUp .
     public static void navigateUp(Activity activity, Bundle extras) {
         Intent upIntent = NavUtils.getParentActivityIntent(activity);

@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.link;
 import android.content.Context;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.ToastUtils;
 
 public class NotImplementedManager {
@@ -19,13 +20,18 @@ public class NotImplementedManager {
     }
 
     public static void openSearch(Context context) {
+        if (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue()
+                && FrodoBridge.search(null, null, null, context)) {
+            return;
+        }
         UrlHandler.open("https://www.douban.com/search", context);
     }
 
     public static void sendBroadcast(String topic, Context context) {
-        if (!FrodoBridge.sendBroadcast(topic, context)) {
-            UrlHandler.open("https://www.douban.com/#isay-cont", context);
+        if (FrodoBridge.sendBroadcast(topic, context)) {
+            return;
         }
+        UrlHandler.open("https://www.douban.com/#isay-cont", context);
     }
 
     public static void showNotYetImplementedToast(Context context) {

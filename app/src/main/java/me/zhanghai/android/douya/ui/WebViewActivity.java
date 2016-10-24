@@ -183,7 +183,9 @@ public class WebViewActivity extends AppCompatActivity {
 
     protected boolean shouldOverrideUrlLoading(WebView webView, String url) {
         Uri uri = Uri.parse(url);
-        return DoubanUriHandler.open(uri, this) || FrodoBridge.openFrodoUri(uri, this);
+        return DoubanUriHandler.open(uri, this) || FrodoBridge.openFrodoUri(uri, this)
+                || (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue()
+                    && FrodoBridge.openUri(uri, this));
     }
 
     protected void reloadWebView() {

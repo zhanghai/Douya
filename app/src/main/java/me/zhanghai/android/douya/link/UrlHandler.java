@@ -30,6 +30,10 @@ public class UrlHandler {
 
     private static void open(Uri uri, Context context, boolean enableCustomTabs) {
 
+        if (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue() && FrodoBridge.openUri(uri, context)) {
+            return;
+        }
+
         String scheme = uri.getScheme();
         if (!TextUtils.isEmpty(scheme)) {
             switch (uri.getScheme()) {
