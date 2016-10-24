@@ -56,12 +56,22 @@ public class FrodoBridge {
                     "m.douban.com", "book.douban.com", "movie.douban.com", "music.douban.com",
                     "dongxi.douban.com")) {
                 List<String> pathSegments = uri.getPathSegments();
-                String pathSegment1 = pathSegments.size() >= 1 ? pathSegments.get(0) : null;
-                if (!TextUtils.isEmpty(pathSegment1) && MoreTextUtils.equalsAny(pathSegment1,
-                        "group", "theme", "people", "update", "hashtag", "app_topic", "subject",
-                        "book", "music", "movie", "game", "mobileapp", "event", "note", "show",
-                        "doulist", "review", "photos", "celebrity")) {
-                    return true;
+                String pathSegment0 = pathSegments.size() >= 1 ? pathSegments.get(0) : null;
+                if (!TextUtils.isEmpty(pathSegment0)) {
+                    if (MoreTextUtils.equalsAny(pathSegment0,
+                            "group", "theme", "update", "hashtag", "app_topic", "subject",
+                            "book", "music", "movie", "game", "mobileapp", "event", "note", "show",
+                            "doulist", "review", "photos", "celebrity")) {
+                        return true;
+                    } else if (TextUtils.equals(pathSegment0, "people")) {
+                        String pathSegment2 = pathSegments.size() >= 3 ? pathSegments.get(2) : null;
+                        if (TextUtils.isEmpty(pathSegment2)) {
+                            return true;
+                        } else if (MoreTextUtils.equalsAny(pathSegment2, "reviews", "wish",
+                                "collect", "games", "apps", "status")) {
+                            return true;
+                        }
+                    }
                 }
             }
         }
