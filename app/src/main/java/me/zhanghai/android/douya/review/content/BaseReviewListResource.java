@@ -9,6 +9,9 @@ import android.support.annotation.Keep;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -135,7 +138,8 @@ public abstract class BaseReviewListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(ReviewUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReviewUpdated(ReviewUpdatedEvent event) {
 
         if (event.isFromMyself(this) || mReviewList == null) {
             return;
@@ -151,7 +155,8 @@ public abstract class BaseReviewListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(ReviewDeletedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReviewDeleted(ReviewDeletedEvent event) {
 
         if (event.isFromMyself(this) || mReviewList == null) {
             return;

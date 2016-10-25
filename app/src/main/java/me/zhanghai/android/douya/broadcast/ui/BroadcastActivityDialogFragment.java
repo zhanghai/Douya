@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
@@ -142,7 +145,8 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
     }
 
     @Keep
-    public void onEventMainThread(BroadcastUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;

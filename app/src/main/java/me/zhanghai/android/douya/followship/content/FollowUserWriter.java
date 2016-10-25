@@ -11,6 +11,9 @@ import android.text.TextUtils;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
@@ -127,7 +130,8 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, UserInfo> {
     }
 
     @Keep
-    public void onEventMainThread(UserInfoUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserInfoUpdated(UserInfoUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;

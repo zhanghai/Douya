@@ -13,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import me.zhanghai.android.douya.app.RetainedFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 
@@ -97,7 +100,8 @@ public class ScalpelHelperFragment extends RetainedFragment {
     }
 
     @Keep
-    public void onEventMainThread(SetEnabledEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSetEnabled(SetEnabledEvent event) {
         setEnabledForActivity(event.enabled);
     }
 

@@ -32,6 +32,9 @@ import android.widget.ProgressBar;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -482,7 +485,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Keep
-    public void onEventMainThread(BroadcastCommentSentEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastCommentSent(BroadcastCommentSentEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
@@ -496,7 +500,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Keep
-    public void onEventMainThread(BroadcastCommentSendErrorEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastCommentSendError(BroadcastCommentSendErrorEvent event) {
 
         if (event.isFromMyself(this)) {
             return;

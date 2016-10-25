@@ -13,6 +13,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -257,7 +260,8 @@ public class NotificationListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(NotificationListUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNotificationListUpdated(NotificationListUpdatedEvent event) {
 
         if (event.isFromMyself(this) || mAccount == null) {
             return;
@@ -269,7 +273,8 @@ public class NotificationListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(NotificationUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNotificationUpdated(NotificationUpdatedEvent event) {
 
         if (event.isFromMyself(this) || mNotificationList == null) {
             return;
@@ -285,7 +290,8 @@ public class NotificationListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(NotificationDeletedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNotificationDeleted(NotificationDeletedEvent event) {
 
         if (event.isFromMyself(this) || mNotificationList == null) {
             return;

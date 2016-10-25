@@ -9,6 +9,9 @@ import android.support.annotation.Keep;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -136,7 +139,8 @@ public abstract class CommentListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(CommentDeletedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCommentDeleted(CommentDeletedEvent event) {
 
         if (event.isFromMyself(this) || mCommentList == null) {
             return;

@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
@@ -206,7 +209,8 @@ public class BroadcastResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
@@ -228,7 +232,8 @@ public class BroadcastResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastDeletedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastDeleted(BroadcastDeletedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
@@ -241,7 +246,8 @@ public class BroadcastResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastWriteStartedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastWriteStarted(BroadcastWriteStartedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
@@ -254,7 +260,8 @@ public class BroadcastResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastWriteFinishedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastWriteFinished(BroadcastWriteFinishedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;

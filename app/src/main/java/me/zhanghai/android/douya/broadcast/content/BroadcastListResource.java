@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -228,7 +231,8 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this) || mBroadcastList == null) {
             return;
@@ -252,7 +256,8 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastDeletedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastDeleted(BroadcastDeletedEvent event) {
 
         if (event.isFromMyself(this) || mBroadcastList == null) {
             return;
@@ -273,7 +278,8 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastWriteStartedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastWriteStarted(BroadcastWriteStartedEvent event) {
 
         if (event.isFromMyself(this) || mBroadcastList == null) {
             return;
@@ -290,7 +296,8 @@ public class BroadcastListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(BroadcastWriteFinishedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastWriteFinished(BroadcastWriteFinishedEvent event) {
 
         if (event.isFromMyself(this) || mBroadcastList == null) {
             return;

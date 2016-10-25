@@ -10,6 +10,9 @@ import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
@@ -92,7 +95,8 @@ public class BroadcastCommentListResource extends CommentListResource {
     }
 
     @Keep
-    public void onEventMainThread(BroadcastCommentSentEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastCommentSent(BroadcastCommentSentEvent event) {
 
         if (event.isFromMyself(this)) {
             return;

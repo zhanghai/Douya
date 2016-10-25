@@ -10,6 +10,9 @@ import android.support.annotation.Keep;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
@@ -134,7 +137,8 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
     }
 
     @Keep
-    public void onEventMainThread(BroadcastUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;

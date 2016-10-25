@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -204,7 +207,8 @@ public class UserDiaryListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(DiaryUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDiaryUpdated(DiaryUpdatedEvent event) {
 
         if (event.isFromMyself(this) || mDiaryList == null) {
             return;
@@ -220,7 +224,8 @@ public class UserDiaryListResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(DiaryDeletedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDiaryDeleted(DiaryDeletedEvent event) {
 
         if (event.isFromMyself(this) || mDiaryList == null) {
             return;

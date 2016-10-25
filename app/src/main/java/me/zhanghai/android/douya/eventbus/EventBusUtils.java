@@ -7,11 +7,14 @@ package me.zhanghai.android.douya.eventbus;
 
 import android.os.Handler;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 public class EventBusUtils {
 
-    private static final EventBus sEventBus = EventBus.getDefault();
+    private static final EventBus sEventBus = EventBus.builder()
+            .strictMethodVerification(true)
+            .throwSubscriberException(true)
+            .build();
 
     private EventBusUtils() {}
 

@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
@@ -233,7 +236,8 @@ public class UserInfoResource extends ResourceFragment
     protected void onUserInfoLoaded(UserInfo userInfo) {}
 
     @Keep
-    public void onEventMainThread(UserInfoUpdatedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserInfoUpdated(UserInfoUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
@@ -252,7 +256,8 @@ public class UserInfoResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(UserInfoWriteStartedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserInfoWriteStarted(UserInfoWriteStartedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
@@ -265,7 +270,8 @@ public class UserInfoResource extends ResourceFragment
     }
 
     @Keep
-    public void onEventMainThread(UserInfoWriteFinishedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserInfoWriteFinished(UserInfoWriteFinishedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
