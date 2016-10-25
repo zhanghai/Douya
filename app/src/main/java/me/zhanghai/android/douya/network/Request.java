@@ -28,7 +28,6 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
     private Response.ErrorListener mErrorListener;
     // Take over control of url from super class.
     private final String mUrl;
-    private String mRedirectUrl;
     private Map<String, String> mHeaders = new HashMap<>();
     private Map<String, String> mParams = new HashMap<>();
     private String mParamsEncoding = Http.Charsets.UTF8;
@@ -80,9 +79,7 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
 
     @Override
     public String getUrl() {
-        if (mRedirectUrl != null) {
-            return mRedirectUrl;
-        } else if (getMethod() == Method.GET && !mParams.isEmpty()) {
+        if (getMethod() == Method.GET && !mParams.isEmpty()) {
             return getUrlWithParams();
         } else {
             return mUrl;
@@ -90,22 +87,8 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
     }
 
     @Override
-    public String getOriginUrl() {
-        return mUrl;
-    }
-
-    @Override
     public String getCacheKey() {
         return getMethod() + ":" + mUrl;
-    }
-
-    public String getRedirectUrl() {
-        return mRedirectUrl;
-    }
-
-    @Override
-    public void setRedirectUrl(String redirectUrl) {
-        mRedirectUrl = redirectUrl;
     }
 
     public Map<String, String> getHeaders() {

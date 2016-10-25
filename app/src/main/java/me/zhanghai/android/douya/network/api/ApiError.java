@@ -12,7 +12,6 @@ import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
-import com.android.volley.RedirectError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -202,8 +201,6 @@ public class ApiError extends VolleyError {
             return R.string.api_error_no_connection;
         } else if (error instanceof AuthFailureError) {
             return R.string.api_error_auth_failure;
-        } else if (error instanceof RedirectError) {
-            return R.string.api_error_redirect;
         } else if (error instanceof ServerError) {
             return R.string.api_error_server;
         } else if (error instanceof NetworkError) {

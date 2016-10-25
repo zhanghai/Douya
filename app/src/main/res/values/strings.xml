@@ -38,7 +38,6 @@
     <string name="api_error_timeout">请求超时</string>
     <string name="api_error_no_connection">无网络连接</string>
     <string name="api_error_auth_failure">认证失败</string>
-    <string name="api_error_redirect">重定向错误</string>
     <string name="api_error_server">服务器错误</string>
     <string name="api_error_network">网络错误</string>
 
