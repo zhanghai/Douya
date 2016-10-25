@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.review.content;
 
-import android.support.annotation.Keep;
-
 import com.android.volley.VolleyError;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -137,7 +135,6 @@ public abstract class BaseReviewListResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReviewUpdated(ReviewUpdatedEvent event) {
 
@@ -154,7 +151,6 @@ public abstract class BaseReviewListResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReviewDeleted(ReviewDeletedEvent event) {
 

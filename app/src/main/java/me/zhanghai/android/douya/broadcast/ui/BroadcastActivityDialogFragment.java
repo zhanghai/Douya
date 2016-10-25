@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.broadcast.ui;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -144,7 +143,6 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
         EventBusUtils.unregister(this);
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 

@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.diary.content;
 
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -206,7 +205,6 @@ public class UserDiaryListResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDiaryUpdated(DiaryUpdatedEvent event) {
 
@@ -223,7 +221,6 @@ public class UserDiaryListResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDiaryDeleted(DiaryDeletedEvent event) {
 

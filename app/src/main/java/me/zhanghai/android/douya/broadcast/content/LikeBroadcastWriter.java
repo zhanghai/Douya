@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
-import android.support.annotation.Keep;
 
 import com.android.volley.VolleyError;
 
@@ -123,7 +122,6 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
         stopSelf();
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 

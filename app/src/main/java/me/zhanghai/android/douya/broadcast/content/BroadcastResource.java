@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.broadcast.content;
 
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -208,7 +207,6 @@ public class BroadcastResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
@@ -231,7 +229,6 @@ public class BroadcastResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastDeleted(BroadcastDeletedEvent event) {
 
@@ -245,7 +242,6 @@ public class BroadcastResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastWriteStarted(BroadcastWriteStartedEvent event) {
 
@@ -259,7 +255,6 @@ public class BroadcastResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastWriteFinished(BroadcastWriteFinishedEvent event) {
 

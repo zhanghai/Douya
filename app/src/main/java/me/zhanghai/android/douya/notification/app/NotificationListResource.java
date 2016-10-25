@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.notification.app;
 
 import android.accounts.Account;
 import android.os.Handler;
-import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -259,7 +258,6 @@ public class NotificationListResource extends ResourceFragment
         NotificationListCache.put(mAccount, mNotificationList, getActivity());
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNotificationListUpdated(NotificationListUpdatedEvent event) {
 
@@ -272,7 +270,6 @@ public class NotificationListResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNotificationUpdated(NotificationUpdatedEvent event) {
 
@@ -289,7 +286,6 @@ public class NotificationListResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNotificationDeleted(NotificationDeletedEvent event) {
 

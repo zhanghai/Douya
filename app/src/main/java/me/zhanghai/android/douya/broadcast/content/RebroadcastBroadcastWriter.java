@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
-import android.support.annotation.Keep;
 
 import com.android.volley.VolleyError;
 
@@ -136,7 +135,6 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
         stopSelf();
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 

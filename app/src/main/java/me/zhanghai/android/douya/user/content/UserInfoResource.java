@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.user.content;
 
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -235,7 +234,6 @@ public class UserInfoResource extends ResourceFragment
 
     protected void onUserInfoLoaded(UserInfo userInfo) {}
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoUpdated(UserInfoUpdatedEvent event) {
 
@@ -255,7 +253,6 @@ public class UserInfoResource extends ResourceFragment
         getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoWriteStarted(UserInfoWriteStartedEvent event) {
 
@@ -269,7 +266,6 @@ public class UserInfoResource extends ResourceFragment
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoWriteFinished(UserInfoWriteFinishedEvent event) {
 

@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
-import android.support.annotation.Keep;
-
 import com.android.volley.VolleyError;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -138,7 +136,6 @@ public abstract class CommentListResource extends ResourceFragment
         getListener().onCommentListAppended(getRequestCode(), Collections.singletonList(comment));
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCommentDeleted(CommentDeletedEvent event) {
 

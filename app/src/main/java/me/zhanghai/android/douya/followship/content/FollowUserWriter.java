@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.followship.content;
 
 import android.content.Context;
-import android.support.annotation.Keep;
 import android.text.TextUtils;
 
 import com.android.volley.VolleyError;
@@ -16,8 +15,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
-import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.UserInfoWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.UserInfoWriteStartedEvent;
 import me.zhanghai.android.douya.network.Request;
@@ -129,7 +128,6 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, UserInfo> {
         stopSelf();
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoUpdated(UserInfoUpdatedEvent event) {
 

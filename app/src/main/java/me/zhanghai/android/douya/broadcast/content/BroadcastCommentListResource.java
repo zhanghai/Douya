@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.broadcast.content;
 
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -94,7 +93,6 @@ public class BroadcastCommentListResource extends CommentListResource {
         return ApiRequests.newBroadcastCommentListRequest(mBroadcastId, start, count);
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastCommentSent(BroadcastCommentSentEvent event) {
 

@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.broadcast.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -484,7 +483,6 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         updateSendCommentStatus();
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastCommentSent(BroadcastCommentSentEvent event) {
 
@@ -499,7 +497,6 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         }
     }
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastCommentSendError(BroadcastCommentSendErrorEvent event) {
 

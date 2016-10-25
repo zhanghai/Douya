@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.broadcast.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Keep;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -71,7 +70,6 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
 
     protected abstract boolean onUpdateBroadcast(Broadcast broadcast, List<User> userList);
 
-    @Keep
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
