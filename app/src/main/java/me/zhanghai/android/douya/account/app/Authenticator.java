@@ -25,6 +25,7 @@ import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.ui.AuthenticatorActivity;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.network.api.TokenRequest;
+import me.zhanghai.android.douya.util.LogUtils;
 
 public class Authenticator extends AbstractAccountAuthenticator {
 
@@ -89,23 +90,18 @@ public class Authenticator extends AbstractAccountAuthenticator {
             String refreshToken = AccountUtils.getRefreshToken(account);
             if (!TextUtils.isEmpty(refreshToken)) {
                 try {
-                    TokenRequest.Result result = new TokenRequest(refreshToken)
-                            .getResponse();
+                    TokenRequest.Result result = new TokenRequest(refreshToken).getResponse();
                     authToken = result.accessToken;
                     AccountUtils.setUserName(account, result.userName);
                     AccountUtils.setUserId(account, result.userId);
                     AccountUtils.setRefreshToken(account, result.refreshToken);
                 } catch (InterruptedException | TimeoutException e) {
-                    return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
+                    LogUtils.e(e.toString());
+                    // Try again with XAuth afterwards.
                 } catch (ExecutionException e) {
                     VolleyError error = (VolleyError) e.getCause();
-                    if (error instanceof ParseError) {
-                        return makeErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE, error);
-                    } else if (error instanceof TokenRequest.Error) {
-                        return makeErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION, error);
-                    } else {
-                        return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, error);
-                    }
+                    LogUtils.e(error.toString());
+                    // Try again with XAuth afterwards.
                 }
             }
         }
@@ -117,16 +113,17 @@ public class Authenticator extends AbstractAccountAuthenticator {
                         "AccountManager.getPassword() returned null");
             }
             try {
-                TokenRequest.Result result = new TokenRequest(account.name, password)
-                        .getResponse();
+                TokenRequest.Result result = new TokenRequest(account.name, password).getResponse();
                 authToken = result.accessToken;
                 AccountUtils.setUserName(account, result.userName);
                 AccountUtils.setUserId(account, result.userId);
                 AccountUtils.setRefreshToken(account, result.refreshToken);
             } catch (InterruptedException | TimeoutException e) {
+                LogUtils.e(e.toString());
                 return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
             } catch (ExecutionException e) {
                 VolleyError error = (VolleyError) e.getCause();
+                LogUtils.e(error.toString());
                 if (error instanceof ParseError) {
                     return makeErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE, error);
                 } else if (error instanceof TokenRequest.Error) {
