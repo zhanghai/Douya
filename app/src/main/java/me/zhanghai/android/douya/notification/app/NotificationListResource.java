@@ -32,6 +32,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.LogUtils;
 
 public class NotificationListResource extends ResourceFragment
         implements RequestFragment.Listener<NotificationList, NotificationListResource.State> {
@@ -147,6 +148,10 @@ public class NotificationListResource extends ResourceFragment
 
     public void load(boolean loadMore, int count) {
 
+        if (loadMore && mNotificationList == null) {
+            LogUtils.w("loadMore=true when mNotificationList is null");
+            loadMore = false;
+        }
         if (mLoading || (loadMore && !mCanLoadMore)) {
             return;
         }

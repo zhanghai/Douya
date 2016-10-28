@@ -21,6 +21,7 @@ import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
+import me.zhanghai.android.douya.util.LogUtils;
 
 public abstract class BaseReviewListResource extends ResourceFragment
         implements RequestFragment.Listener<ReviewList, BaseReviewListResource.State> {
@@ -76,6 +77,10 @@ public abstract class BaseReviewListResource extends ResourceFragment
 
     public void load(boolean loadMore, int count) {
 
+        if (loadMore && mReviewList == null) {
+            LogUtils.w("loadMore=true when mReviewList is null");
+            loadMore = false;
+        }
         if (mLoading || (loadMore && !mCanLoadMore)) {
             return;
         }

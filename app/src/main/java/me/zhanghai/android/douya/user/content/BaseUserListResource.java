@@ -14,6 +14,7 @@ import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.util.LogUtils;
 
 public abstract class BaseUserListResource<T> extends ResourceFragment
         implements RequestFragment.Listener<T, BaseUserListResource.State> {
@@ -60,6 +61,10 @@ public abstract class BaseUserListResource<T> extends ResourceFragment
 
     public void load(boolean loadMore, int count) {
 
+        if (loadMore && mUserList == null) {
+            LogUtils.w("loadMore=true when mUserList is null");
+            loadMore = false;
+        }
         if (mLoading || (loadMore && !mCanLoadMore)) {
             return;
         }

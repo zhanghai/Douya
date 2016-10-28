@@ -20,6 +20,7 @@ import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
+import me.zhanghai.android.douya.util.LogUtils;
 
 public abstract class CommentListResource extends ResourceFragment
         implements RequestFragment.Listener<CommentList, CommentListResource.State> {
@@ -75,6 +76,10 @@ public abstract class CommentListResource extends ResourceFragment
 
     public void load(boolean loadMore, int count) {
 
+        if (loadMore && mCommentList == null) {
+            LogUtils.w("loadMore=true when mCommentList is null");
+            loadMore = false;
+        }
         if (mLoading || (loadMore && !mCanLoadMore)) {
             return;
         }
@@ -108,8 +113,8 @@ public abstract class CommentListResource extends ResourceFragment
         });
     }
 
-    private void onLoadFinished(boolean successful, List<Comment> commentList,
-                                VolleyError error, boolean loadMore, int count) {
+    private void onLoadFinished(boolean successful, List<Comment> commentList, VolleyError error,
+                                boolean loadMore, int count) {
 
         mLoading = false;
         mLoadingMore = false;

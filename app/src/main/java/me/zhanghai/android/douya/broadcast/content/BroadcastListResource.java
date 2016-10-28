@@ -28,6 +28,7 @@ import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.LogUtils;
 
 public class BroadcastListResource extends ResourceFragment
         implements RequestFragment.Listener<List<Broadcast>, BroadcastListResource.State> {
@@ -160,6 +161,10 @@ public class BroadcastListResource extends ResourceFragment
 
     public void load(boolean loadMore, int count) {
 
+        if (loadMore && mBroadcastList == null) {
+            LogUtils.w("loadMore=true when mBroadcastList is null");
+            loadMore = false;
+        }
         if (mLoading || (loadMore && !mCanLoadMore)) {
             return;
         }

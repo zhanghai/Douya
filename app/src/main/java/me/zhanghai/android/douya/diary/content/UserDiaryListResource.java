@@ -27,6 +27,7 @@ import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.LogUtils;
 
 public class UserDiaryListResource extends ResourceFragment
         implements RequestFragment.Listener<DiaryList, UserDiaryListResource.State> {
@@ -148,6 +149,10 @@ public class UserDiaryListResource extends ResourceFragment
 
     public void load(boolean loadMore, int count) {
 
+        if (loadMore && mDiaryList == null) {
+            LogUtils.w("loadMore=true when mDiaryList is null");
+            loadMore = false;
+        }
         if (mLoading || (loadMore && !mCanLoadMore)) {
             return;
         }
