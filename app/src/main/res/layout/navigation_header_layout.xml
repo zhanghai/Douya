@@ -69,7 +69,7 @@
                 android:id="@+id/fade_out_avatar"
                 android:layout_width="@dimen/navigation_header_avatar_size"
                 android:layout_height="@dimen/navigation_header_avatar_size"
-                android:layout_alignLeft="@id/avatar"
+                android:layout_alignLeft="@+id/avatar"
                 android:layout_alignTop="@id/avatar"
                 android:visibility="invisible" />
 
