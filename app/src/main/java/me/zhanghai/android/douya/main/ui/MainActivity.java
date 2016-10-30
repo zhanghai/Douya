@@ -30,8 +30,8 @@ import me.zhanghai.android.douya.ui.ActionItemBadge;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationFragment.Host, NotificationListFragment.Listener {
+public class MainActivity extends AppCompatActivity implements NavigationFragment.Host,
+        NotificationListFragment.Listener {
 
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;

@@ -37,6 +37,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
             return;
         }
 
+        // TODO: Safe transaction: delay until onResumed() or some where safe?
         // In case we did not reach onActivityCreated().
         if (getActivity() != null) {
             findTargetFragmentIf();
