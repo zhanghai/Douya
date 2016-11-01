@@ -170,7 +170,6 @@ public class AccountPreferences implements SharedPreferences, SharedPreferences.
         }
     }
 
-
     /**
      * Unsupported operation.
      *
@@ -192,7 +191,6 @@ public class AccountPreferences implements SharedPreferences, SharedPreferences.
     public boolean contains(String key) {
         return getString(key, null) != null;
     }
-
 
     /**
      * Stub method.

@@ -16,7 +16,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import com.google.gson.JsonParseException;
@@ -82,7 +81,7 @@ public class AccountUtils {
         void onFailed();
     }
 
-    private static AccountManagerCallback<Bundle> makeAccountManagerCallback(
+    private static AccountManagerCallback<Bundle> makeConfirmPasswordCallback(
             final ConfirmPasswordListener listener) {
         return new AccountManagerCallback<Bundle>() {
             @Override
@@ -105,7 +104,7 @@ public class AccountUtils {
 
     public static void confirmPassword(Activity activity, Account account,
                                        final ConfirmPasswordListener listener, Handler handler) {
-        confirmPassword(activity, account, makeAccountManagerCallback(listener), handler);
+        confirmPassword(activity, account, makeConfirmPasswordCallback(listener), handler);
     }
 
     public static void confirmPassword(Activity activity, final ConfirmPasswordListener listener) {
@@ -117,7 +116,7 @@ public class AccountUtils {
     public static Intent makeConfirmPasswordIntent(Account account,
                                                    final ConfirmPasswordListener listener) {
         try {
-            return confirmPassword(null, account, makeAccountManagerCallback(listener), null)
+            return confirmPassword(null, account, makeConfirmPasswordCallback(listener), null)
                     .getResult().getParcelable(AccountManager.KEY_INTENT);
         } catch (AuthenticatorException | IOException | OperationCanceledException e) {
             e.printStackTrace();
@@ -130,8 +129,7 @@ public class AccountUtils {
     }
 
     public static void addOnAccountListUpdatedListener(OnAccountsUpdateListener listener) {
-        getAccountManager().addOnAccountsUpdatedListener(listener, new Handler(Looper.myLooper()),
-                false);
+        getAccountManager().addOnAccountsUpdatedListener(listener, null, false);
     }
 
     public static void removeOnAccountListUpdatedListener(OnAccountsUpdateListener listener) {
@@ -358,10 +356,45 @@ public class AccountUtils {
         return peekAuthToken(getActiveAccount());
     }
 
-    public static String getAuthToken(Account account) throws AuthenticatorException,
-            OperationCanceledException, IOException {
-        return getAccountManager().blockingGetAuthToken(account, AccountContract.AUTH_TOKEN_TYPE,
-                true);
+    public static void getAuthToken(Account account, AccountManagerCallback<Bundle> callback,
+                                    Handler handler) {
+        getAccountManager().getAuthToken(account, AccountContract.AUTH_TOKEN_TYPE, null, true,
+                callback, handler);
+    }
+
+    public interface GetAuthTokenListener {
+        void onResult(String authToken);
+        void onFailed();
+    }
+
+    private static AccountManagerCallback<Bundle> makeGetAuthTokenCallback(
+            final GetAuthTokenListener listener) {
+        return new AccountManagerCallback<Bundle>() {
+            @Override
+            public void run(AccountManagerFuture<Bundle> future) {
+                try {
+                    String authToken = future.getResult()
+                            .getString(AccountManager.KEY_AUTHTOKEN);
+                    if (!TextUtils.isEmpty(authToken)) {
+                        listener.onResult(authToken);
+                    } else {
+                        listener.onFailed();
+                    }
+                } catch (AuthenticatorException | IOException | OperationCanceledException e) {
+                    e.printStackTrace();
+                    listener.onFailed();
+                }
+            }
+        };
+    }
+
+    public static void getAuthToken(Account account, GetAuthTokenListener listener,
+                                    Handler handler) {
+        getAuthToken(account, makeGetAuthTokenCallback(listener), handler);
+    }
+
+    public static void getAuthToken(Account account, GetAuthTokenListener listener) {
+        getAuthToken(account, listener, null);
     }
 
     public static void setAuthToken(Account account, String authToken) {

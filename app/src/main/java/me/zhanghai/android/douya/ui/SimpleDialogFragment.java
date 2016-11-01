@@ -41,7 +41,7 @@ public class SimpleDialogFragment extends DialogFragment {
 
     public static final int REQUEST_CODE_INVALID = -1;
 
-    private SimpleDialogListener mListener;
+    private Listener mListener;
     private int mRequestCode;
 
     private static SimpleDialogFragment makeClose(int requestCode, Integer titleId, int messageId,
@@ -178,12 +178,12 @@ public class SimpleDialogFragment extends DialogFragment {
         Fragment parentFragment = getParentFragment();
         if (parentFragment == null) {
             Activity activity = getActivity();
-            if (activity instanceof SimpleDialogListenerProvider) {
-                mListener = ((SimpleDialogListenerProvider) activity).getDialogListener();
+            if (activity instanceof ListenerProvider) {
+                mListener = ((ListenerProvider) activity).getDialogListener();
             }
         } else {
-            if (parentFragment instanceof SimpleDialogListenerProvider) {
-                mListener = ((SimpleDialogListenerProvider) parentFragment).getDialogListener();
+            if (parentFragment instanceof ListenerProvider) {
+                mListener = ((ListenerProvider) parentFragment).getDialogListener();
             }
         }
         mRequestCode = getArguments().getInt(ARGUMENT_REQUEST_CODE);
@@ -320,7 +320,7 @@ public class SimpleDialogFragment extends DialogFragment {
         show(fragment.getChildFragmentManager());
     }
 
-    public static class SimpleDialogListener {
+    public static class Listener {
         public void onListItemClicked(int requestCode, int index) {}
         public void onSingleChoiceItemClicked(int requestCode, int index) {}
         public void onPositiveButtonClicked(int requestCode) {}
@@ -333,8 +333,8 @@ public class SimpleDialogFragment extends DialogFragment {
         }
     }
 
-    public interface SimpleDialogListenerProvider {
-        SimpleDialogListener getDialogListener();
+    public interface ListenerProvider {
+        Listener getDialogListener();
     }
 
     public static class Builder {

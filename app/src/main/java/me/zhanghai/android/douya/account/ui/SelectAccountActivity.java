@@ -15,12 +15,12 @@ import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.ui.SimpleDialogFragment;
 
 public class SelectAccountActivity extends AppCompatActivity
-        implements SimpleDialogFragment.SimpleDialogListenerProvider {
+        implements SimpleDialogFragment.ListenerProvider {
 
     public static final String EXTRA_ON_SELECTED_INTENT = SelectAccountActivity.class.getName()
             + ".on_selected_intent";
 
-    private SimpleDialogFragment.SimpleDialogListener mDialogListener;
+    private SimpleDialogFragment.Listener mDialogListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class SelectAccountActivity extends AppCompatActivity
             accountNames[i] = accounts[i].name;
         }
 
-        mDialogListener = new SimpleDialogFragment.SimpleDialogListener() {
+        mDialogListener = new SimpleDialogFragment.Listener() {
             @Override
             public void onSingleChoiceItemClicked(int requestCode, int index) {
                 AccountUtils.setActiveAccount(accounts[index]);
@@ -61,7 +61,7 @@ public class SelectAccountActivity extends AppCompatActivity
     }
 
     @Override
-    public SimpleDialogFragment.SimpleDialogListener getDialogListener() {
+    public SimpleDialogFragment.Listener getDialogListener() {
         return mDialogListener;
     }
 }
