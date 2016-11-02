@@ -261,7 +261,6 @@ public class ViewUtils {
 
     public static void hideTextInputLayoutErrorOnTextChange(EditText editText,
                                                             final TextInputLayout textInputLayout) {
-
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

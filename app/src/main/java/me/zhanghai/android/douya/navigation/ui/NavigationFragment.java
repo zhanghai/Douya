@@ -160,6 +160,10 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
         super.onDestroy();
 
         AccountUtils.removeOnAccountListUpdatedListener(this);
+
+        for (AccountUserInfoResource userInfoResource : mUserInfoResourceMap.values()) {
+            userInfoResource.detach();
+        }
     }
 
     @Override
@@ -186,8 +190,8 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
                     account.name, -1));
             oldUserInfoResourceMap.remove(account);
         }
-        for (AccountUserInfoResource accountUserInfoResource : oldUserInfoResourceMap.values()) {
-            accountUserInfoResource.detach();
+        for (AccountUserInfoResource userInfoResource : oldUserInfoResourceMap.values()) {
+            userInfoResource.detach();
         }
 
         mHeaderLayout.onAccountListChanged();

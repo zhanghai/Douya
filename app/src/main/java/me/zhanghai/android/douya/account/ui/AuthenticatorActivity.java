@@ -40,7 +40,7 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
 
     private static final String KEY_PREFIX = AuthenticatorActivity.class.getName() + '.';
 
-    // NOTE: EXTRA_AUTH_MODE and EXTRA_AUTH_TOKEN_TYPE must be supplied.
+    // NOTE: EXTRA_AUTH_MODE and must be supplied.
     public static final String EXTRA_AUTH_MODE = KEY_PREFIX + "auth_mode";
     public static final String EXTRA_USERNAME = KEY_PREFIX + "username";
     // NOTE: EXTRA_PASSWORD should be the original password without obfuscation.

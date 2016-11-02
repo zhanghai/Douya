@@ -22,6 +22,7 @@ android {
         targetSdkVersion 22
         versionCode 4
         versionName "1.0.0-beta.2"
+        resValue 'string', 'application_id', applicationId
     }
 
     buildTypes {
