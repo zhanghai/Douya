@@ -6,11 +6,19 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class TabViewPagerAdapter extends PagerAdapter {
+
+    private static final String KEY_PREFIX = TabViewPagerAdapter.class.getName() + '.';
+
+    private static final String STATE_KEY_HIERARCHY_STATE_FORMAT = KEY_PREFIX
+            + "hierarchy_state_%1$d";
 
     private View[] mViews;
     private CharSequence[] mTitles;
@@ -47,7 +55,7 @@ public class TabViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = mViews[position];
-        container.addView(view, position);
+        container.addView(view);
         return view;
     }
 
@@ -64,5 +72,37 @@ public class TabViewPagerAdapter extends PagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mTitles[position];
+    }
+
+    @Override
+    public Parcelable saveState() {
+        Bundle state = new Bundle();
+        for (int i = 0; i < mViews.length; ++i) {
+            SparseArray<Parcelable> hierarchyState = new SparseArray<>();
+            mViews[i].saveHierarchyState(hierarchyState);
+            state.putSparseParcelableArray(makeHierarchyStateKey(i), hierarchyState);
+        }
+        return state;
+    }
+
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) {
+        if (state == null) {
+            return;
+        }
+        Bundle stateBundle = (Bundle) state;
+        stateBundle.setClassLoader(loader);
+        for (int i = 0; i < mViews.length; ++i) {
+            SparseArray<Parcelable> hierarchyState = stateBundle.getSparseParcelableArray(
+                    makeHierarchyStateKey(i));
+            if (hierarchyState == null) {
+                continue;
+            }
+            mViews[i].restoreHierarchyState(hierarchyState);
+        }
+    }
+
+    private String makeHierarchyStateKey(int position) {
+        return String.format(STATE_KEY_HIERARCHY_STATE_FORMAT, position);
     }
 }
