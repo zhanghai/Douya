@@ -157,6 +157,7 @@ public class AccountUtils {
 
     // NOTE: This method is asynchronous.
     public static void removeAccount(Account account) {
+        //noinspection deprecation
         getAccountManager().removeAccount(account, null, null);
     }
 

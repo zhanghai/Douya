@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.profile.ui;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
-import me.zhanghai.android.douya.util.ViewCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.ViewHolder> {

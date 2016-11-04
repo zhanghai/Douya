@@ -10,6 +10,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
-import me.zhanghai.android.douya.util.ViewCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ActionItemBadge {

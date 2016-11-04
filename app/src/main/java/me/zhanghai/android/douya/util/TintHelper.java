@@ -1,0 +1,106 @@
+/*
+ * Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * All Rights Reserved.
+ */
+
+package me.zhanghai.android.douya.util;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.Window;
+
+import me.zhanghai.android.douya.R;
+
+public class TintHelper {
+
+    private static final int[] CHECKED_STATE_SET = new int[] { android.R.attr.state_checked };
+    private static final int[] DISABLED_STATE_SET = new int[] { -android.R.attr.state_enabled };
+    private static final int[] EMPTY_STATE_SET = new int[] {};
+
+    private TintHelper() {}
+
+    public static void onPanelMenuCreated(int featureId, Menu menu, AppCompatActivity activity) {
+        if (featureId == Window.FEATURE_OPTIONS_PANEL) {
+            Context context = activity.getSupportActionBar().getThemedContext();
+            ColorStateList menuTintList = ViewUtils.getColorStateListFromAttrRes(
+                    R.attr.colorControlNormal, context);
+            int popupThemeResId = ViewUtils.getResIdFromAttrRes(R.attr.popupTheme, 0, context);
+            ColorStateList subMenuTintList;
+            if (popupThemeResId != 0) {
+                Context popupContext = new ContextThemeWrapper(context, popupThemeResId);
+                subMenuTintList = ViewUtils.getColorStateListFromAttrRes(R.attr.colorControlNormal,
+                        popupContext);
+            } else {
+                subMenuTintList = menuTintList;
+            }
+            tintMenuItemIcon(menu, menuTintList, subMenuTintList);
+        }
+    }
+
+    private static void tintMenuItemIcon(Menu menu, ColorStateList menuTintList,
+                                         ColorStateList subMenuTintList) {
+        for (int i = 0, size = menu.size(); i < size; ++i) {
+            MenuItem menuItem = menu.getItem(i);
+            Drawable icon = menuItem.getIcon();
+            if (icon != null) {
+                icon = tintDrawable(icon, menuTintList);
+                menuItem.setIcon(icon);
+            }
+            SubMenu subMenu = menuItem.getSubMenu();
+            if (subMenu != null) {
+                tintMenuItemIcon(subMenu, subMenuTintList, subMenuTintList);
+            }
+        }
+    }
+
+    public static void onSetSupportActionBar(Toolbar toolbar) {
+        Drawable icon = toolbar.getNavigationIcon();
+        ColorStateList tintList = ViewUtils.getColorStateListFromAttrRes(R.attr.colorControlNormal,
+                toolbar.getContext());
+        icon = tintDrawable(icon, tintList);
+        toolbar.setNavigationIcon(icon);
+    }
+
+    public static Drawable tintDrawable(Drawable drawable, ColorStateList tintList) {
+        drawable = DrawableCompat.wrap(drawable);
+        drawable.mutate();
+        DrawableCompat.setTintList(drawable, tintList);
+        return drawable;
+    }
+
+    public static void updateNavigationItemTint(NavigationView navigationView,
+                                                int primaryColorRes) {
+        Context context = navigationView.getContext();
+        int primaryColor = ContextCompat.getColor(context, primaryColorRes);
+        navigationView.setItemIconTintList(createNavigationItemTintList(
+                android.R.attr.textColorSecondary, primaryColor, context));
+        navigationView.setItemTextColor(createNavigationItemTintList(
+                android.R.attr.textColorPrimary, primaryColor, context));
+    }
+
+    private static ColorStateList createNavigationItemTintList(int baseColorAttrRes,
+                                                               int primaryColor, Context context) {
+        ColorStateList baseColor = ViewUtils.getColorStateListFromAttrRes(baseColorAttrRes,
+                context);
+        int defaultColor = baseColor.getDefaultColor();
+        return new ColorStateList(new int[][] {
+                DISABLED_STATE_SET,
+                CHECKED_STATE_SET,
+                EMPTY_STATE_SET
+        }, new int[] {
+                baseColor.getColorForState(DISABLED_STATE_SET, defaultColor),
+                primaryColor,
+                defaultColor
+        });
+    }
+}

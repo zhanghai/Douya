@@ -160,7 +160,7 @@ public class ViewUtils {
     }
 
     public static int getColorFromAttrRes(int attrRes, int defValue, Context context) {
-        int[] attrs = new int[] {attrRes};
+        int[] attrs = new int[] { attrRes };
         TypedArray a = context.obtainStyledAttributes(attrs);
         int color = a.getColor(0, defValue);
         a.recycle();
@@ -168,7 +168,7 @@ public class ViewUtils {
     }
 
     public static ColorStateList getColorStateListFromAttrRes(int attrRes, Context context) {
-        int[] attrs = new int[] {attrRes};
+        int[] attrs = new int[] { attrRes };
         // TODO: Switch to TintTypedArray when they added this overload.
         TypedArray a = context.obtainStyledAttributes(attrs);
         // 0 is an invalid identifier according to the docs of {@link Resources}.
@@ -182,7 +182,7 @@ public class ViewUtils {
     }
 
     public static Drawable getDrawableFromAttrRes(int attrRes, Context context) {
-        int[] attrs = new int[] {attrRes};
+        int[] attrs = new int[] { attrRes };
         // TODO: Switch to TintTypedArray when they added this overload.
         TypedArray a = context.obtainStyledAttributes(attrs);
         // 0 is an invalid identifier according to the docs of {@link Resources}.
@@ -193,6 +193,15 @@ public class ViewUtils {
         }
         a.recycle();
         return drawable;
+    }
+
+    public static int getResIdFromAttrRes(int attrRes, int defValue, Context context) {
+        int[] attrs = new int[] { attrRes };
+        // TODO: Switch to TintTypedArray when they added this overload.
+        TypedArray a = context.obtainStyledAttributes(attrs);
+        int resId = a.getResourceId(0, defValue);
+        a.recycle();
+        return resId;
     }
 
     public static int getShortAnimTime(Resources resources) {

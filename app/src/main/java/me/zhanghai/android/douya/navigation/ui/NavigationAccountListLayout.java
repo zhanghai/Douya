@@ -34,6 +34,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.TintHelper;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class NavigationAccountListLayout extends LinearLayout {
@@ -90,8 +91,7 @@ public class NavigationAccountListLayout extends LinearLayout {
                 android.R.attr.textColorSecondary, context);
         for (TextView menuItem : mMenuItems) {
             Drawable icon = menuItem.getCompoundDrawables()[0];
-            icon = DrawableCompat.wrap(icon);
-            DrawableCompat.setTintList(icon, iconTintList);
+            icon = TintHelper.tintDrawable(icon, iconTintList);
             TextViewCompat.setCompoundDrawablesRelative(menuItem, icon, null, null, null);
         }
 

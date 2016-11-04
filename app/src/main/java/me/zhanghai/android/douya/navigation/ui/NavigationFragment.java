@@ -169,8 +169,9 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     @Override
     public void onAccountsUpdated(Account[] accounts) {
 
-        // In case AccountUtils.ensureActiveAccountAvailability() called finish().
+        // In case the only account is removed.
         if (AccountUtils.getActiveAccount() == null) {
+            AccountUtils.ensureActiveAccountAvailability(getActivity());
             return;
         }
 
@@ -306,7 +307,7 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
         Account oldActiveAccount = AccountUtils.getActiveAccount();
         AccountUtils.setActiveAccount(AccountUtils.getRecentOneAccount());
         AccountUtils.removeAccount(oldActiveAccount);
-        AccountUtils.ensureActiveAccountAvailability(getActivity());
+        // Calls onAccountsUpdated() later.
     }
 
     private void openSettings() {
