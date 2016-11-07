@@ -207,8 +207,8 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send_doumail:
-                // HACK
-                startActivity(ItemCollectionActivity.makeIntent(null, getActivity()));
+                // HACK: For testing
+                //startActivity(ItemCollectionActivity.makeIntent(null, getActivity()));
                 // TODO
                 NotImplementedManager.showNotYetImplementedToast(getActivity());
                 return true;
