@@ -20,8 +20,8 @@ android {
         // We haven't been ready for Marshmallow's permission model yet.
         //noinspection OldTargetApi
         targetSdkVersion 22
-        versionCode 4
-        versionName "1.0.0-beta.2"
+        versionCode 5
+        versionName "1.0.0-beta.3"
         resValue 'string', 'application_id', applicationId
     }
 
