@@ -239,7 +239,7 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
 
     private void onStartAuth() {
 
-        TokenRequest request = TokenRequests.newRequest(mUsername, mPassword);
+        TokenRequest request = TokenRequests.newRequest(AUTH_TOKEN_TYPE, mUsername, mPassword);
         RequestFragment.startRequest(request, null, this, REQUEST_CODE_AUTH);
 
         mUsernameLayout.setError(null);
