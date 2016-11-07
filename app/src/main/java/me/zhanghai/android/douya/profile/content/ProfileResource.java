@@ -121,16 +121,29 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         ensureUserInfoAndUserAndIdOrUidFromArguments();
 
         mUserInfoResource = UserInfoResource.attachTo(mUserIdOrUid, mUser, mUserInfo, this);
-        mBroadcastListResource = BroadcastListResource.attachTo(mUserIdOrUid, null, this);
-        mFollowingListResource = FollowingListResource.attachTo(mUserIdOrUid, this);
-        mDiaryListResource = UserDiaryListResource.attachTo(mUserIdOrUid, this);
-        mUserItemListResource = UserItemListResource.attachTo(mUserIdOrUid, this);
-        mReviewListResource = UserReviewListResource.attachTo(mUserIdOrUid, this);
+        ensureResourcesIfHasUser();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        mUserInfoResource.detach();
+        if (mBroadcastListResource != null) {
+            mBroadcastListResource.detach();
+        }
+        if (mFollowingListResource != null) {
+            mFollowingListResource.detach();
+        }
+        if (mDiaryListResource != null) {
+            mDiaryListResource.detach();
+        }
+        if (mUserItemListResource != null) {
+            mUserItemListResource.detach();
+        }
+        if (mReviewListResource != null) {
+            mReviewListResource.detach();
+        }
 
         Bundle arguments = getArguments();
         arguments.putString(EXTRA_USER_ID_OR_UID, mUserIdOrUid);
@@ -203,6 +216,7 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
         mUserIdOrUid = newUserInfo.getIdOrUid();
         getListener().onUserInfoChanged(getRequestCode(), newUserInfo);
         notifyChangedIfLoaded();
+        ensureResourcesIfHasUser();
     }
 
     @Override
@@ -213,6 +227,22 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     @Override
     public void onUserInfoWriteFinished(int requestCode) {
         getListener().onUserInfoWriteFinished(getRequestCode());
+    }
+
+    private void ensureResourcesIfHasUser() {
+        if (mBroadcastListResource != null || mFollowingListResource != null
+                || mDiaryListResource != null || mUserItemListResource != null
+                || mReviewListResource != null) {
+            return;
+        }
+        if (mUser == null) {
+            return;
+        }
+        mBroadcastListResource = BroadcastListResource.attachTo(mUser.getIdOrUid(), null, this);
+        mFollowingListResource = FollowingListResource.attachTo(mUser.getIdOrUid(), this);
+        mDiaryListResource = UserDiaryListResource.attachTo(mUser.getIdOrUid(), this);
+        mUserItemListResource = UserItemListResource.attachTo(mUser.getIdOrUid(), this);
+        mReviewListResource = UserReviewListResource.attachTo(mUser.getIdOrUid(), this);
     }
 
     @Override
@@ -354,8 +384,9 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     public boolean isLoaded() {
         return hasUserInfo() && mBroadcastListResource != null && mBroadcastListResource.has()
                 && mFollowingListResource != null && mFollowingListResource.has()
-                && mDiaryListResource.has() && mUserItemListResource.has()
-                && mReviewListResource.has();
+                && mDiaryListResource != null && mDiaryListResource.has()
+                && mUserItemListResource != null && mUserItemListResource.has()
+                && mReviewListResource != null && mReviewListResource.has();
     }
 
     public void notifyChangedIfLoaded() {
