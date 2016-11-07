@@ -24,8 +24,14 @@ import java.util.concurrent.TimeoutException;
 import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.ui.AuthenticatorActivity;
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.network.Volley;
+import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.TokenRequest;
+import me.zhanghai.android.douya.network.api.TokenRequests;
+import me.zhanghai.android.douya.account.util.AuthenticatorUtils;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.MoreTextUtils;
 
 public class Authenticator extends AbstractAccountAuthenticator {
 
@@ -74,7 +80,8 @@ public class Authenticator extends AbstractAccountAuthenticator {
                                String authTokenType, Bundle options) {
 
         // Validate authTokenType.
-        if (!TextUtils.equals(authTokenType, AccountContract.AUTH_TOKEN_TYPE)) {
+        if (!MoreTextUtils.equalsAny(authTokenType, AccountContract.AUTH_TOKEN_TYPE_API_V2,
+                AccountContract.AUTH_TOKEN_TYPE_FRODO)) {
             return makeErrorBundle(AccountManager.ERROR_CODE_BAD_ARGUMENTS,
                     "invalid authTokenType:" + authTokenType);
         }
@@ -84,17 +91,18 @@ public class Authenticator extends AbstractAccountAuthenticator {
         // http://stackoverflow.com/questions/11434621/login-in-twice-when-using-syncadapters
         //
         // Peek authToken from AccountManager first, will return null if failed.
-        String authToken = AccountUtils.peekAuthToken(account);
+        String authToken = AccountUtils.peekAuthToken(account, authTokenType);
 
         if (TextUtils.isEmpty(authToken)) {
-            String refreshToken = AccountUtils.getRefreshToken(account);
+            String refreshToken = AccountUtils.getRefreshToken(account, authTokenType);
             if (!TextUtils.isEmpty(refreshToken)) {
                 try {
-                    TokenRequest.Result result = new TokenRequest(refreshToken).getResponse();
+                    TokenRequest.Result result = TokenRequests.newRequest(authTokenType,
+                            refreshToken).getResponse();
                     authToken = result.accessToken;
                     AccountUtils.setUserName(account, result.userName);
                     AccountUtils.setUserId(account, result.userId);
-                    AccountUtils.setRefreshToken(account, result.refreshToken);
+                    AccountUtils.setRefreshToken(account, authTokenType, result.refreshToken);
                 } catch (InterruptedException | TimeoutException e) {
                     LogUtils.e(e.toString());
                     // Try again with XAuth afterwards.
@@ -113,11 +121,12 @@ public class Authenticator extends AbstractAccountAuthenticator {
                         "AccountManager.getPassword() returned null");
             }
             try {
-                TokenRequest.Result result = new TokenRequest(account.name, password).getResponse();
+                TokenRequest.Result result = TokenRequests.newRequest(authTokenType, account.name,
+                        password).getResponse();
                 authToken = result.accessToken;
                 AccountUtils.setUserName(account, result.userName);
                 AccountUtils.setUserId(account, result.userId);
-                AccountUtils.setRefreshToken(account, result.refreshToken);
+                AccountUtils.setRefreshToken(account, authTokenType, result.refreshToken);
             } catch (InterruptedException | TimeoutException e) {
                 LogUtils.e(e.toString());
                 return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
@@ -127,7 +136,31 @@ public class Authenticator extends AbstractAccountAuthenticator {
                 if (error instanceof ParseError) {
                     return makeErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE, error);
                 } else if (error instanceof TokenRequest.Error) {
-                    return makeErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION, error);
+                    TokenRequest.Error tokenError = (TokenRequest.Error) error;
+                    String errorString = ApiError.getErrorString(tokenError, mContext);
+                    switch (tokenError.code) {
+                        case Codes.Token.INVALID_APIKEY:
+                        case Codes.Token.APIKEY_IS_BLOCKED:
+                        case Codes.Token.INVALID_REQUEST_URI:
+                        case Codes.Token.INVALID_CREDENCIAL2:
+                        case Codes.Token.REQUIRED_PARAMETER_IS_MISSING:
+                        case Codes.Token.CLIENT_SECRET_MISMATCH:
+                            Volley.getInstance().cancelApiRequests();
+                            return makeFailureIntentBundle(
+                                    AuthenticatorUtils.makeSetApiKeyIntent(mContext), errorString);
+                        case Codes.Token.USERNAME_PASSWORD_MISMATCH:
+                            Volley.getInstance().cancelApiRequests();
+                            return makeFailureIntentBundle(makeUpdateCredentialIntent(response,
+                                    account), errorString);
+                        case Codes.Token.INVALID_USER:
+                        case Codes.Token.USER_HAS_BLOCKED:
+                        case Codes.Token.USER_LOCKED:
+                            Volley.getInstance().cancelApiRequests();
+                            return makeFailureIntentBundle(
+                                    AuthenticatorUtils.makeWebsiteIntent(mContext), errorString);
+                    }
+                    return makeErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
+                            errorString);
                 } else {
                     return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, error);
                 }
@@ -159,14 +192,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
     public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account,
                                     String authTokenType, Bundle options)
             throws NetworkErrorException {
-        Intent intent = new Intent(mContext, AuthenticatorActivity.class)
-                .putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
-                .putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
-                        AuthenticatorActivity.AUTH_MODE_UPDATE)
-                .putExtra(AuthenticatorActivity.EXTRA_USERNAME, account.name)
-                .putExtra(AuthenticatorActivity.EXTRA_PASSWORD, AccountUtils.getPassword(account
-                ));
-        return makeIntentBundle(intent);
+        return makeIntentBundle(makeUpdateCredentialIntent(response, account));
     }
 
     @Override
@@ -175,9 +201,24 @@ public class Authenticator extends AbstractAccountAuthenticator {
         return null;
     }
 
+    private Intent makeUpdateCredentialIntent(AccountAuthenticatorResponse response,
+                                              Account account) {
+        return new Intent(mContext, AuthenticatorActivity.class)
+                .putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
+                .putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
+                        AuthenticatorActivity.AUTH_MODE_UPDATE)
+                .putExtra(AuthenticatorActivity.EXTRA_USERNAME, account.name);
+    }
+
     private Bundle makeIntentBundle(Intent intent) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+        return bundle;
+    }
+
+    private Bundle makeFailureIntentBundle(Intent intent, String authFailedMessage) {
+        Bundle bundle = makeIntentBundle(intent);
+        bundle.putString(AccountManager.KEY_AUTH_FAILED_MESSAGE, authFailedMessage);
         return bundle;
     }
 

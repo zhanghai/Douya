@@ -11,14 +11,23 @@ import android.content.Intent;
 
 public class SetApiCredentialReceiver extends BroadcastReceiver {
 
-    private static final String EXTRA_API_KEY = "me.zhanghai.android.douya.intent.extra.API_KEY";
-    private static final String EXTRA_API_SECRET =
-            "me.zhanghai.android.douya.intent.extra.API_SECRET";
+    private static final String EXTRA_API_V2_API_KEY =
+            "me.zhanghai.android.douya.intent.extra.API_V2_API_KEY";
+    private static final String EXTRA_API_V2_API_SECRET =
+            "me.zhanghai.android.douya.intent.extra.API_V2_API_SECRET";
+
+    private static final String EXTRA_FRODO_API_KEY =
+            "me.zhanghai.android.douya.intent.extra.FRODO_API_KEY";
+    private static final String EXTRA_FRODO_API_SECRET =
+            "me.zhanghai.android.douya.intent.extra.FRODO_API_SECRET";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String apiKey = intent.getStringExtra(EXTRA_API_KEY);
-        String apiSecret = intent.getStringExtra(EXTRA_API_SECRET);
-        ApiCredentialManager.setApiCredential(apiKey, apiSecret);
+        String apiV2ApiKey = intent.getStringExtra(EXTRA_API_V2_API_KEY);
+        String apiV2ApiSecret = intent.getStringExtra(EXTRA_API_V2_API_SECRET);
+        String frodoApiKey = intent.getStringExtra(EXTRA_FRODO_API_KEY);
+        String frodoApiSecret = intent.getStringExtra(EXTRA_FRODO_API_SECRET);
+        ApiCredentialManager.setApiCredential(apiV2ApiKey, apiV2ApiSecret, frodoApiKey,
+                frodoApiSecret);
     }
 }

@@ -27,12 +27,14 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.account.util.AuthenticatorUtils;
 import me.zhanghai.android.douya.app.RetainDataFragment;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes.Token;
-import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.TokenRequest;
+import me.zhanghai.android.douya.network.api.TokenRequests;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
@@ -61,6 +63,8 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
     private static final String RETAIN_DATA_KEY_USERNAME = KEY_PREFIX + "username";
     private static final String RETAIN_DATA_KEY_PASSWORD = KEY_PREFIX + "password";
     private static final String RETAIN_DATA_KEY_VIEW_STATE = KEY_PREFIX + "view_state";
+
+    private static final String AUTH_TOKEN_TYPE = AccountContract.AUTH_TOKEN_TYPE_FRODO;
 
     @BindView(R.id.form)
     View mFormLayout;
@@ -235,7 +239,7 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
 
     private void onStartAuth() {
 
-        TokenRequest request = new TokenRequest(mUsername, mPassword);
+        TokenRequest request = TokenRequests.newRequest(mUsername, mPassword);
         RequestFragment.startRequest(request, null, this, REQUEST_CODE_AUTH);
 
         mUsernameLayout.setError(null);
@@ -273,8 +277,8 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
 
         AccountUtils.setUserName(account, result.userName);
         AccountUtils.setUserId(account, result.userId);
-        AccountUtils.setAuthToken(account, result.accessToken);
-        AccountUtils.setRefreshToken(account, result.refreshToken);
+        AccountUtils.setAuthToken(account, AUTH_TOKEN_TYPE, result.accessToken);
+        AccountUtils.setRefreshToken(account, AUTH_TOKEN_TYPE, result.refreshToken);
 
         Intent intent;
         switch (mAuthMode) {
@@ -299,14 +303,26 @@ public class AuthenticatorActivity extends AppCompatAccountAuthenticatorActivity
         LogUtils.e(error.toString());
         if (error instanceof ParseError) {
             mPasswordLayout.setError(getString(R.string.auth_error_invalid_response));
-        } else if (error instanceof ApiError) {
-            ApiError apiError = (ApiError) error;
+        } else if (error instanceof TokenRequest.Error) {
+            TokenRequest.Error apiError = (TokenRequest.Error) error;
             String errorString = getString(apiError.getErrorStringRes());
             switch (apiError.code) {
-                case Token.NOT_TRIAL_USER:
-                case Token.INVALID_USER:
+                case Token.INVALID_APIKEY:
+                case Token.APIKEY_IS_BLOCKED:
+                case Token.INVALID_REQUEST_URI:
+                case Token.INVALID_CREDENCIAL2:
+                case Token.REQUIRED_PARAMETER_IS_MISSING:
+                case Token.CLIENT_SECRET_MISMATCH:
+                    ToastUtils.show(errorString, this);
+                    startActivity(AuthenticatorUtils.makeSetApiKeyIntent(this));
+                    break;
                 case Token.USER_HAS_BLOCKED:
                 case Token.USER_LOCKED:
+                    ToastUtils.show(errorString, this);
+                    startActivity(AuthenticatorUtils.makeWebsiteIntent(this));
+                    break;
+                case Token.NOT_TRIAL_USER:
+                case Token.INVALID_USER:
                     mUsernameLayout.setError(errorString);
                     break;
                 default:

@@ -10,11 +10,17 @@ import me.zhanghai.android.douya.settings.info.SettingsEntries.*;
 
 public class Settings {
 
-    public static final StringSettingsEntry API_KEY = new StringSettingsEntry(
-            R.string.pref_key_api_key, R.string.pref_default_value_empty_string);
+    public static final StringSettingsEntry API_V2_API_KEY = new StringSettingsEntry(
+            R.string.pref_key_api_v2_api_key, R.string.pref_default_value_empty_string);
 
-    public static final StringSettingsEntry API_SECRET = new StringSettingsEntry(
-            R.string.pref_key_api_secret, R.string.pref_default_value_empty_string);
+    public static final StringSettingsEntry API_V2_API_SECRET = new StringSettingsEntry(
+            R.string.pref_key_api_v2_api_secret, R.string.pref_default_value_empty_string);
+
+    public static final StringSettingsEntry FRODO_API_KEY = new StringSettingsEntry(
+            R.string.pref_key_frodo_api_key, R.string.pref_default_value_empty_string);
+
+    public static final StringSettingsEntry FRODO_API_SECRET = new StringSettingsEntry(
+            R.string.pref_key_frodo_api_secret, R.string.pref_default_value_empty_string);
 
     public static final StringSettingsEntry ACTIVE_ACCOUNT_NAME = new StringSettingsEntry(
             R.string.pref_key_active_account_name, R.string.pref_default_value_empty_string);

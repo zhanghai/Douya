@@ -9,8 +9,10 @@
 
     <string name="pref_default_value_empty_string" />
 
-    <string name="pref_key_api_key">key_api_key</string>
-    <string name="pref_key_api_secret">key_api_secret</string>
+    <string name="pref_key_api_v2_api_key">key_api_v2_api_key</string>
+    <string name="pref_key_api_v2_api_secret">key_api_v2_api_secret</string>
+    <string name="pref_key_frodo_api_key">key_frodo_api_key</string>
+    <string name="pref_key_frodo_api_secret">key_frodo_api_secret</string>
 
     <string name="pref_key_active_account_name">key_active_account_name</string>
 

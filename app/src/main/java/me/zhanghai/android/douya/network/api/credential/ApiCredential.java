@@ -9,13 +9,13 @@ public final class ApiCredential {
 
     private ApiCredential() {}
 
-    public static class Frodo {
-        public static String KEY = ApiCredentialManager.getApiKey();
-        public static String SECRET = ApiCredentialManager.getApiSecret();
+    public static class ApiV2 {
+        public static String KEY = ApiCredentialManager.getApiV2ApiKey();
+        public static String SECRET = ApiCredentialManager.getApiV2ApiSecret();
     }
 
-    public static class ApiV2 {
-        public static String KEY = ApiCredentialManager.getApiKey();
-        public static String SECRET = ApiCredentialManager.getApiSecret();
+    public static class Frodo {
+        public static String KEY = ApiCredentialManager.getFrodoApiKey();
+        public static String SECRET = ApiCredentialManager.getFrodoApiSecret();
     }
 }

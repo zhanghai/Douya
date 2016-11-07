@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
@@ -18,41 +17,11 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 
-public class TokenRequest extends Request<TokenRequest.Result> {
+public abstract class TokenRequest extends Request<TokenRequest.Result> {
 
-    private TokenRequest() {
-        super(Method.POST, ApiContract.Request.Token.URL);
-
-        addParam(ApiContract.Request.Token.CLIENT_ID, ApiCredential.Frodo.KEY);
-        addParam(ApiContract.Request.Token.CLIENT_SECRET, ApiCredential.Frodo.SECRET);
-        addParam(ApiContract.Request.Token.REDIRECT_URI,
-                ApiContract.Request.Token.RedirectUris.FRODO);
-
-        addHeaderUserAgent(ApiContract.Request.Frodo.USER_AGENT);
-        addHeaderAcceptCharsetUtf8();
-
-        setRetryPolicy(new RetryPolicy(2500, 1, 1.0f));
-    }
-
-    public TokenRequest(String username, String password) {
-        this();
-
-        addParam(ApiContract.Request.Token.GRANT_TYPE,
-                ApiContract.Request.Token.GrantTypes.PASSWORD);
-        addParam(ApiContract.Request.Token.USERNAME, username);
-        addParam(ApiContract.Request.Token.PASSWORD, password);
-
-        setRetryPolicy(new RetryPolicy(20000, 0, 1.0f));
-    }
-
-    public TokenRequest(String refreshToken) {
-        this();
-
-        addParam(ApiContract.Request.Token.GRANT_TYPE,
-                ApiContract.Request.Token.GrantTypes.REFRESH_TOKEN);
-        addParam(ApiContract.Request.Token.REFRESH_TOKEN, refreshToken);
+    public TokenRequest(int method, String url) {
+        super(method, url);
     }
 
     @Override
@@ -70,23 +39,6 @@ public class TokenRequest extends Request<TokenRequest.Result> {
     @Override
     protected Error parseNetworkError(VolleyError volleyError) {
         return Error.wrap(volleyError);
-    }
-
-    private static class RetryPolicy extends DefaultRetryPolicy {
-
-        public RetryPolicy(int initialTimeoutMs, int maxNumRetries, float backoffMultiplier) {
-            super(initialTimeoutMs, maxNumRetries, backoffMultiplier);
-        }
-
-        @Override
-        public void retry(VolleyError error) throws VolleyError {
-            Error tokenError = Error.wrap(error);
-            if (tokenError.code != 0) {
-                throw error;
-            } else {
-                super.retry(error);
-            }
-        }
     }
 
     public static class Result {

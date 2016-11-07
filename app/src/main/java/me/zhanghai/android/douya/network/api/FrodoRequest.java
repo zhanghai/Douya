@@ -5,10 +5,13 @@
 
 package me.zhanghai.android.douya.network.api;
 
+import com.android.volley.toolbox.Authenticator;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
+import me.zhanghai.android.douya.account.info.AccountContract;
+import me.zhanghai.android.douya.network.Volley;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 
 public class FrodoRequest<T> extends ApiRequest<T> {
@@ -32,5 +35,10 @@ public class FrodoRequest<T> extends ApiRequest<T> {
         addParam(ApiContract.Request.Frodo.Base.API_KEY, ApiCredential.Frodo.KEY);
         addParam(ApiContract.Request.Frodo.Base.CHANNEL,
                 ApiContract.Request.Frodo.Base.Channels.DOUBAN);
+    }
+
+    @Override
+    protected Authenticator getAuthenticator() {
+        return Volley.getInstance().getAuthenticator(AccountContract.AUTH_TOKEN_TYPE_FRODO);
     }
 }

@@ -43,7 +43,7 @@ public class AccountUtils {
                                                           AccountManagerCallback<Bundle> callback,
                                                           Handler handler) {
         return getAccountManager().addAccount(AccountContract.ACCOUNT_TYPE,
-                AccountContract.AUTH_TOKEN_TYPE, null, null, activity, callback, handler);
+                AccountContract.AUTH_TOKEN_TYPE_FRODO, null, null, activity, callback, handler);
     }
 
     public static AccountManagerFuture<Bundle> addAccount(Activity activity) {
@@ -62,7 +62,7 @@ public class AccountUtils {
 
     public static AccountManagerFuture<Bundle> updatePassword(Activity activity, Account account,
                                    AccountManagerCallback<Bundle> callback, Handler handler) {
-        return getAccountManager().updateCredentials(account, AccountContract.AUTH_TOKEN_TYPE, null,
+        return getAccountManager().updateCredentials(account, AccountContract.AUTH_TOKEN_TYPE_FRODO, null,
                 activity, callback, handler);
     }
 
@@ -349,18 +349,17 @@ public class AccountUtils {
         getAccountManager().setPassword(account, password);
     }
 
-    public static String peekAuthToken(Account account) {
-        return getAccountManager().peekAuthToken(account, AccountContract.AUTH_TOKEN_TYPE);
+    public static String peekAuthToken(Account account, String type) {
+        return getAccountManager().peekAuthToken(account, type);
     }
 
     public static String peekAuthToken() {
-        return peekAuthToken(getActiveAccount());
+        return peekAuthToken(getActiveAccount(), AccountContract.AUTH_TOKEN_TYPE_FRODO);
     }
 
-    public static void getAuthToken(Account account, AccountManagerCallback<Bundle> callback,
-                                    Handler handler) {
-        getAccountManager().getAuthToken(account, AccountContract.AUTH_TOKEN_TYPE, null, true,
-                callback, handler);
+    public static void getAuthToken(Account account, String type,
+                                    AccountManagerCallback<Bundle> callback, Handler handler) {
+        getAccountManager().getAuthToken(account, type, null, true, callback, handler);
     }
 
     public interface GetAuthTokenListener {
@@ -389,17 +388,17 @@ public class AccountUtils {
         };
     }
 
-    public static void getAuthToken(Account account, GetAuthTokenListener listener,
+    public static void getAuthToken(Account account, String type, GetAuthTokenListener listener,
                                     Handler handler) {
-        getAuthToken(account, makeGetAuthTokenCallback(listener), handler);
+        getAuthToken(account, type, makeGetAuthTokenCallback(listener), handler);
     }
 
-    public static void getAuthToken(Account account, GetAuthTokenListener listener) {
-        getAuthToken(account, listener, null);
+    public static void getAuthToken(Account account, String type, GetAuthTokenListener listener) {
+        getAuthToken(account, type, listener, null);
     }
 
-    public static void setAuthToken(Account account, String authToken) {
-        getAccountManager().setAuthToken(account, AccountContract.AUTH_TOKEN_TYPE, authToken);
+    public static void setAuthToken(Account account, String type, String authToken) {
+        getAccountManager().setAuthToken(account, type, authToken);
     }
 
     public static void invalidateAuthToken(String authToken) {
@@ -434,14 +433,25 @@ public class AccountUtils {
         AccountPreferences.forAccount(account).putLong(AccountContract.KEY_USER_ID, userId);
     }
 
-    public static String getRefreshToken(Account account) {
-        return AccountPreferences.forAccount(account).getString(AccountContract.KEY_REFRESH_TOKEN,
+    public static String getRefreshToken(Account account, String authTokenType) {
+        return AccountPreferences.forAccount(account).getString(getRefreshTokenKey(authTokenType),
                 null);
     }
 
-    public static void setRefreshToken(Account account, String refreshToken) {
-        AccountPreferences.forAccount(account).putString(AccountContract.KEY_REFRESH_TOKEN,
+    public static void setRefreshToken(Account account, String authTokenType, String refreshToken) {
+        AccountPreferences.forAccount(account).putString(getRefreshTokenKey(authTokenType),
                 refreshToken);
+    }
+
+    private static String getRefreshTokenKey(String authTokenType) {
+        switch (authTokenType) {
+            case AccountContract.AUTH_TOKEN_TYPE_API_V2:
+                return AccountContract.KEY_REFRESH_TOKEN_API_V2;
+            case AccountContract.AUTH_TOKEN_TYPE_FRODO:
+                return AccountContract.KEY_REFRESH_TOKEN_FRODO;
+            default:
+                throw new IllegalArgumentException("Unknown authTokenType: " + authTokenType);
+        }
     }
 
     public static UserInfo getUserInfo(Account account) {

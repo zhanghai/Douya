@@ -25,7 +25,7 @@ import me.zhanghai.android.douya.network.Volley;
 import me.zhanghai.android.douya.util.GsonHelper;
 import me.zhanghai.android.douya.util.LogUtils;
 
-public class ApiRequest<T> extends Request<T> {
+public abstract class ApiRequest<T> extends Request<T> {
 
     private Type mType;
     private Authenticator mAuthenticator;
@@ -35,7 +35,7 @@ public class ApiRequest<T> extends Request<T> {
         super(method, url);
 
         mType = type;
-        mAuthenticator = Volley.getInstance().getAuthenticator();
+        mAuthenticator = getAuthenticator();
 
         setRetryPolicy(new RetryPolicy(ApiContract.Request.Base.INITIAL_TIMEOUT_MS,
                 ApiContract.Request.Base.MAX_NUM_RETRIES,
@@ -45,6 +45,8 @@ public class ApiRequest<T> extends Request<T> {
     public ApiRequest(int method, String url, TypeToken<T> typeToken) {
         this(method, url, typeToken.getType());
     }
+
+    protected abstract Authenticator getAuthenticator();
 
     @Override
     public void onPreparePerformRequest() throws AuthFailureError {
