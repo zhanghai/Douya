@@ -32,7 +32,8 @@
     **[] $VALUES;
     public *;
 }
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+# For DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 # Gson
 -keepattributes Signature
