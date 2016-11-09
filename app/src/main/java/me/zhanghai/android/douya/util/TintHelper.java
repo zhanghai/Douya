@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.Window;
+import android.widget.ImageView;
 
 import me.zhanghai.android.douya.R;
 
@@ -76,6 +77,16 @@ public class TintHelper {
         drawable.mutate();
         DrawableCompat.setTintList(drawable, tintList);
         return drawable;
+    }
+
+    public static Drawable tintIcon(Drawable icon, Context context) {
+        ColorStateList iconTintList = ViewUtils.getColorStateListFromAttrRes(
+                R.attr.colorControlNormal, context);
+        return tintDrawable(icon, iconTintList);
+    }
+
+    public static void tintImageViewIcon(ImageView imageView) {
+        imageView.setImageDrawable(tintIcon(imageView.getDrawable(), imageView.getContext()));
     }
 
     public static void updateNavigationItemTint(NavigationView navigationView,
