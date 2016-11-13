@@ -11,11 +11,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 
@@ -23,7 +23,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 @SuppressWarnings("unused")
-public class SimpleDialogFragment extends DialogFragment {
+public class SimpleDialogFragment extends AppCompatDialogFragment {
 
     private static final String ARGUMENT_REQUEST_CODE = "request_code";
     private static final String ARGUMENT_THEME = "theme";
