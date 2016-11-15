@@ -80,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
                     android:layout_marginRight="@dimen/card_content_horizontal_margin_with_4dp_padding"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:passwordToggleEnabled="true">
 
                     <me.zhanghai.android.materialedittext.MaterialEditText
                         android:id="@+id/password"
