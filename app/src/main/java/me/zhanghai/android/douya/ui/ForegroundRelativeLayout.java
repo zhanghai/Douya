@@ -94,29 +94,29 @@ public class ForegroundRelativeLayout extends RelativeLayout {
     public ForegroundRelativeLayout(Context context) {
         super(context);
 
-        init(getContext(), null, 0, 0);
+        init(null, 0, 0);
     }
 
     public ForegroundRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(getContext(), attrs, 0, 0);
+        init(attrs, 0, 0);
     }
 
     public ForegroundRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init(getContext(), attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, 0);
     }
 
     public ForegroundRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr,
                                     int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        init(getContext(), attrs, defStyleAttr, defStyleRes);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         mForegroundHelper.init(getContext(), attrs, defStyleAttr, defStyleRes);
     }
 
