@@ -10,7 +10,7 @@ apply from: '../signing.gradle'
 android {
 
     compileSdkVersion 25
-    buildToolsVersion "25"
+    buildToolsVersion "25.0.1"
     // For customization of Volley to build.
     useLibrary 'org.apache.http.legacy'
 
