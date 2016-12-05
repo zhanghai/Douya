@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 
 public class IntentUtils {
 
@@ -21,6 +22,22 @@ public class IntentUtils {
     private static final String MIME_TYPE_ANY = "*/*";
 
     private IntentUtils() {}
+
+    public static Intent makeSyncSettings(String[] authorities) {
+        Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
+        if (!ArrayUtils.isEmpty(authorities)) {
+            intent.putExtra(Settings.EXTRA_AUTHORITIES, authorities);
+        }
+        return intent;
+    }
+
+    public static Intent makeSyncSettings(String authority) {
+        return makeSyncSettings(authority != null ? new String[] { authority } : null);
+    }
+
+    public static Intent makeSyncSettings() {
+        return makeSyncSettings((String) null);
+    }
 
     public static Intent makeInstallShortcut(int iconRes, int nameRes, Class<?> intentClass,
                                              Context context) {

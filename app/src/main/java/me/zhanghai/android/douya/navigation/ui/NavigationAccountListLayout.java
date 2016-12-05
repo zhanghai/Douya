@@ -8,12 +8,9 @@ package me.zhanghai.android.douya.navigation.ui;
 import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.provider.Settings;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -34,6 +31,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.TintHelper;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -112,7 +110,7 @@ public class NavigationAccountListLayout extends LinearLayout {
         mManageAccountsItem.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppUtils.startActivity(new Intent(Settings.ACTION_SYNC_SETTINGS), context);
+                AppUtils.startActivity(IntentUtils.makeSyncSettings(), context);
             }
         });
     }
