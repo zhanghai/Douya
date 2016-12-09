@@ -155,8 +155,22 @@ public class ViewUtils {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
     }
 
-    public static int dpToPxInt(float dp, Context context) {
-        return Math.round(dpToPx(dp, context));
+    public static int dpToPxOffset(float dp, Context context) {
+        return (int) dpToPx(dp, context);
+    }
+
+    public static int dpToPxSize(float dp, Context context) {
+        float value = dpToPx(dp, context);
+        int size = (int) (value + 0.5f);
+        if (size != 0) {
+            return size;
+        } else if (value == 0) {
+            return 0;
+        } else if (value > 0) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 
     public static int getColorFromAttrRes(int attrRes, int defValue, Context context) {

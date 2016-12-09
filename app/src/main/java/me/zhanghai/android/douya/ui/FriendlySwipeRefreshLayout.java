@@ -47,7 +47,7 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
 
         updateCircleDiameter();
         Context context = getContext();
-        mDefaultCircleDistance = ViewUtils.dpToPxInt(DEFAULT_CIRCLE_DISTANCE_DP, context);
+        mDefaultCircleDistance = ViewUtils.dpToPxOffset(DEFAULT_CIRCLE_DISTANCE_DP, context);
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.FriendlySwipeRefreshLayout, 0, 0);
@@ -78,7 +78,7 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
     private void updateCircleDiameter() {
         int circleDiameterDp = mSize == DEFAULT ? CIRCLE_DIAMETER_DP : CIRCLE_DIAMETER_LARGE_DP;
         circleDiameterDp += CIRCLE_SHADOW_DP;
-        mCircleDiameter = ViewUtils.dpToPxInt(circleDiameterDp, getContext());
+        mCircleDiameter = ViewUtils.dpToPxSize(circleDiameterDp, getContext());
     }
 
     public void setProgressViewOffset(int offset, int distanceOffset) {
