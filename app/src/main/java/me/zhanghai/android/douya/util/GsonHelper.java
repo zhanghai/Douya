@@ -12,7 +12,6 @@ public class GsonHelper {
 
     private static final Gson GSON = new GsonBuilder()
             .serializeNulls()
-            .generateNonExecutableJson()
             // TODO
             //.registerTypeAdapter()
             .create();
