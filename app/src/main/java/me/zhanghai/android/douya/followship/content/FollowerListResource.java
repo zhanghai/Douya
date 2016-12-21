@@ -19,9 +19,7 @@ public class FollowerListResource extends FollowshipUserListResource {
 
     private static FollowerListResource newInstance(String userIdOrUid) {
         //noinspection deprecation
-        FollowerListResource instance = new FollowerListResource();
-        instance.setArguments(userIdOrUid);
-        return instance;
+        return new FollowerListResource().setArguments(userIdOrUid);
     }
 
     public static FollowerListResource attachTo(String userIdOrUid, Fragment fragment,
@@ -44,6 +42,12 @@ public class FollowerListResource extends FollowshipUserListResource {
      * @deprecated Use {@code attachTo()} instead.
      */
     public FollowerListResource() {}
+
+    @Override
+    protected FollowerListResource setArguments(String userIdOrUid) {
+        super.setArguments(userIdOrUid);
+        return this;
+    }
 
     @Override
     protected ApiRequest<UserList> onCreateRequest(Integer start, Integer count) {

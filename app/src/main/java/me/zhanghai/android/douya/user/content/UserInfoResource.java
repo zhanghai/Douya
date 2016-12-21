@@ -42,9 +42,7 @@ public class UserInfoResource extends ResourceFragment<UserInfo, UserInfo> {
 
     private static UserInfoResource newInstance(String userIdOrUid, User user, UserInfo userInfo) {
         //noinspection deprecation
-        UserInfoResource instance = new UserInfoResource();
-        instance.setArguments(userIdOrUid, user, userInfo);
-        return instance;
+        return new UserInfoResource().setArguments(userIdOrUid, user, userInfo);
     }
 
     public static UserInfoResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
@@ -70,7 +68,7 @@ public class UserInfoResource extends ResourceFragment<UserInfo, UserInfo> {
      */
     public UserInfoResource() {}
 
-    protected void setArguments(String userIdOrUid, User user, UserInfo userInfo) {
+    protected UserInfoResource setArguments(String userIdOrUid, User user, UserInfo userInfo) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         if (userInfo != null) {
             arguments.putString(EXTRA_USER_ID_OR_UID, userInfo.getIdOrUid());
@@ -82,6 +80,7 @@ public class UserInfoResource extends ResourceFragment<UserInfo, UserInfo> {
         } else {
             arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         }
+        return this;
     }
 
     public String getUserIdOrUid() {

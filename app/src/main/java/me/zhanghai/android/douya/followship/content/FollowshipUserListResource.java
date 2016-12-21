@@ -15,9 +15,10 @@ public abstract class FollowshipUserListResource extends UserListResource {
 
     private final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
 
-    protected void setArguments(String userIdOrUid) {
+    protected FollowshipUserListResource setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        return this;
     }
 
     protected String getUserIdOrUid() {

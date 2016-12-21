@@ -26,9 +26,7 @@ public class ItemReviewListResource extends BaseReviewListResource {
 
     private static ItemReviewListResource newInstance(long itemId) {
         //noinspection deprecation
-        ItemReviewListResource instance = new ItemReviewListResource();
-        instance.setArguments(itemId);
-        return instance;
+        return new ItemReviewListResource().setArguments(itemId);
     }
 
     public static ItemReviewListResource attachTo(long itemId, Fragment fragment, String tag,
@@ -52,9 +50,10 @@ public class ItemReviewListResource extends BaseReviewListResource {
      */
     public ItemReviewListResource() {}
 
-    protected void setArguments(long itemId) {
+    protected ItemReviewListResource setArguments(long itemId) {
         FragmentUtils.ensureArguments(this)
                 .putLong(EXTRA_ITEM_ID, itemId);
+        return this;
     }
 
     @Override

@@ -22,9 +22,7 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
 
     private static BroadcastRebroadcasterListResource newInstance(long broadcastId) {
         //noinspection deprecation
-        BroadcastRebroadcasterListResource instance = new BroadcastRebroadcasterListResource();
-        instance.setArguments(broadcastId);
-        return instance;
+        return new BroadcastRebroadcasterListResource().setArguments(broadcastId);
     }
 
     public static BroadcastRebroadcasterListResource attachTo(long broadcastId, Fragment fragment,
@@ -47,6 +45,12 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
      * @deprecated Use {@code attachTo()} instead.
      */
     public BroadcastRebroadcasterListResource() {}
+
+    @Override
+    protected BroadcastRebroadcasterListResource setArguments(long broadcastId) {
+        super.setArguments(broadcastId);
+        return this;
+    }
 
     @Override
     protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {

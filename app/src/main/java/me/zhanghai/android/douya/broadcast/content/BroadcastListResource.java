@@ -43,9 +43,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast
 
     private static BroadcastListResource newInstance(String userIdOrUid, String topic) {
         //noinspection deprecation
-        BroadcastListResource instance = new BroadcastListResource();
-        instance.setArguments(userIdOrUid, topic);
-        return instance;
+        return new BroadcastListResource().setArguments(userIdOrUid, topic);
     }
 
     public static BroadcastListResource attachTo(String userIdOrUid, String topic,
@@ -70,10 +68,11 @@ public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast
      */
     public BroadcastListResource() {}
 
-    protected void setArguments(String userIdOrUid, String topic) {
+    protected BroadcastListResource setArguments(String userIdOrUid, String topic) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         arguments.putString(EXTRA_TOPIC, topic);
+        return this;
     }
 
     @Override

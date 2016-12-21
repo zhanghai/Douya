@@ -21,9 +21,7 @@ public class BroadcastLikerListResource extends BroadcastUserListResource {
 
     private static BroadcastLikerListResource newInstance(long broadcastId) {
         //noinspection deprecation
-        BroadcastLikerListResource instance = new BroadcastLikerListResource();
-        instance.setArguments(broadcastId);
-        return instance;
+        return new BroadcastLikerListResource().setArguments(broadcastId);
     }
 
     public static BroadcastLikerListResource attachTo(long broadcastId, Fragment fragment,
@@ -46,6 +44,12 @@ public class BroadcastLikerListResource extends BroadcastUserListResource {
      * @deprecated Use {@code attachTo()} instead.
      */
     public BroadcastLikerListResource() {}
+
+    @Override
+    protected BroadcastLikerListResource setArguments(long broadcastId) {
+        super.setArguments(broadcastId);
+        return this;
+    }
 
     @Override
     protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {

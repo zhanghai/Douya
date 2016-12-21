@@ -28,9 +28,7 @@ public class AccountUserInfoResource extends UserInfoResource {
 
     private static AccountUserInfoResource newInstance(Account account) {
         //noinspection deprecation
-        AccountUserInfoResource instance = new AccountUserInfoResource();
-        instance.setArguments(account);
-        return instance;
+        return new AccountUserInfoResource().setArguments(account);
     }
 
     public static AccountUserInfoResource attachTo(Account account, Fragment fragment, String tag,
@@ -55,10 +53,12 @@ public class AccountUserInfoResource extends UserInfoResource {
     @SuppressWarnings("deprecation")
     public AccountUserInfoResource() {}
 
-    protected void setArguments(Account account) {
-        FragmentUtils.ensureArguments(this).putParcelable(EXTRA_ACCOUNT, account);
+    protected AccountUserInfoResource setArguments(Account account) {
         User user = makePartialUser(account);
-        setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account));
+        super.setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account));
+        FragmentUtils.ensureArguments(this)
+                .putParcelable(EXTRA_ACCOUNT, account);
+        return this;
     }
 
     private User makePartialUser(Account account) {

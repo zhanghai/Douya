@@ -30,9 +30,10 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
 
     private Broadcast mBroadcast;
 
-    protected void setArguments(Broadcast broadcast) {
+    protected BroadcastUserListFragment setArguments(Broadcast broadcast) {
         FragmentUtils.ensureArguments(this)
                 .putParcelable(EXTRA_BROADCAST, broadcast);
+        return this;
     }
 
     @Override

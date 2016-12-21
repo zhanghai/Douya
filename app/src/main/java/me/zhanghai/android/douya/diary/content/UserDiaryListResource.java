@@ -39,9 +39,7 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<Diary, Di
 
     private static UserDiaryListResource newInstance(String userIdOrUid) {
         //noinspection deprecation
-        UserDiaryListResource instance = new UserDiaryListResource();
-        instance.setArguments(userIdOrUid);
-        return instance;
+        return new UserDiaryListResource().setArguments(userIdOrUid);
     }
 
     public static UserDiaryListResource attachTo(String userIdOrUid, Fragment fragment, String tag,
@@ -65,9 +63,10 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<Diary, Di
      */
     public UserDiaryListResource() {}
 
-    protected void setArguments(String userIdOrUid) {
+    protected UserDiaryListResource setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        return this;
     }
 
     @Override

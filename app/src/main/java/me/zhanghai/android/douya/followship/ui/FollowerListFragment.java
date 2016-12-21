@@ -10,16 +10,20 @@ import me.zhanghai.android.douya.user.content.BaseUserListResource;
 
 public class FollowerListFragment extends FollowshipListFragment {
 
+    public static FollowerListFragment newInstance(String userIdOrUid) {
+        //noinspection deprecation
+        return new FollowerListFragment().setArguments(userIdOrUid);
+    }
+
     /**
      * @deprecated Use {@link #newInstance(String)} instead.
      */
     public FollowerListFragment() {}
 
-    public static FollowerListFragment newInstance(String userIdOrUid) {
-        //noinspection deprecation
-        FollowerListFragment fragment = new FollowerListFragment();
-        fragment.setArguments(userIdOrUid);
-        return fragment;
+    @Override
+    protected FollowerListFragment setArguments(String userIdOrUid) {
+        super.setArguments(userIdOrUid);
+        return this;
     }
 
     @Override

@@ -26,9 +26,7 @@ public class UserReviewListResource extends BaseReviewListResource {
 
     private static UserReviewListResource newInstance(String userIdOrUid) {
         //noinspection deprecation
-        UserReviewListResource instance = new UserReviewListResource();
-        instance.setArguments(userIdOrUid);
-        return instance;
+        return new UserReviewListResource().setArguments(userIdOrUid);
     }
 
     public static UserReviewListResource attachTo(String userIdOrUid, Fragment fragment, String tag,
@@ -52,9 +50,10 @@ public class UserReviewListResource extends BaseReviewListResource {
      */
     public UserReviewListResource() {}
 
-    protected void setArguments(String userIdOrUid) {
+    protected UserReviewListResource setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        return this;
     }
 
     @Override

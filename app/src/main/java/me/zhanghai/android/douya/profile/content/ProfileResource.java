@@ -56,9 +56,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
 
     private static ProfileResource newInstance(String userIdOrUid, User user, UserInfo userInfo) {
         //noinspection deprecation
-        ProfileResource instance = new ProfileResource();
-        instance.setArguments(userIdOrUid, user, userInfo);
-        return instance;
+        return new ProfileResource().setArguments(userIdOrUid, user, userInfo);
     }
 
     public static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
@@ -84,11 +82,12 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
      */
     public ProfileResource() {}
 
-    protected void setArguments(String userIdOrUid, User user, UserInfo userInfo) {
+    protected ProfileResource setArguments(String userIdOrUid, User user, UserInfo userInfo) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         arguments.putParcelable(EXTRA_USER, user);
         arguments.putParcelable(EXTRA_USER_INFO, userInfo);
+        return this;
     }
 
     @Override

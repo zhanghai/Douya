@@ -32,9 +32,10 @@ public abstract class FollowshipListActivityFragment extends Fragment {
 
     private String mUserIdOrUid;
 
-    protected void setArguments(String userIdOrUid) {
+    protected FollowshipListActivityFragment setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        return this;
     }
 
     @Override

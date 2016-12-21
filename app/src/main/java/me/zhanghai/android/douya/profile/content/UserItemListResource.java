@@ -33,9 +33,7 @@ public class UserItemListResource extends RawListResourceFragment<UserItems, Use
 
     private static UserItemListResource newInstance(String userIdOrUid) {
         //noinspection deprecation
-        UserItemListResource instance = new UserItemListResource();
-        instance.setArguments(userIdOrUid);
-        return instance;
+        return new UserItemListResource().setArguments(userIdOrUid);
     }
 
     public static UserItemListResource attachTo(String userIdOrUid, Fragment fragment, String tag,
@@ -59,9 +57,10 @@ public class UserItemListResource extends RawListResourceFragment<UserItems, Use
      */
     public UserItemListResource() {}
 
-    protected void setArguments(String userIdOrUid) {
+    protected UserItemListResource setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        return this;
     }
 
     @Override

@@ -19,9 +19,10 @@ public abstract class BroadcastUserListResource extends RawUserListResource {
 
     private long mBroadcastId;
 
-    protected void setArguments(long broadcastId) {
+    protected BroadcastUserListResource setArguments(long broadcastId) {
         FragmentUtils.ensureArguments(this)
                 .putLong(EXTRA_BROADCAST_ID, broadcastId);
+        return this;
     }
 
     protected long getBroadcastId() {

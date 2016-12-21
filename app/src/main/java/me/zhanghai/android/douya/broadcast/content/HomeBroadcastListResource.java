@@ -31,9 +31,7 @@ public class HomeBroadcastListResource extends BroadcastListResource {
 
     private static HomeBroadcastListResource newInstance() {
         //noinspection deprecation
-        HomeBroadcastListResource instance = new HomeBroadcastListResource();
-        instance.setArguments(null, null);
-        return instance;
+        return new HomeBroadcastListResource().setArguments();
     }
 
     public static HomeBroadcastListResource attachTo(Fragment fragment, String tag,
@@ -57,6 +55,11 @@ public class HomeBroadcastListResource extends BroadcastListResource {
      */
     @SuppressWarnings("deprecation")
     public HomeBroadcastListResource() {}
+
+    protected HomeBroadcastListResource setArguments() {
+        super.setArguments(null, null);
+        return this;
+    }
 
     @Override
     public void onStart() {

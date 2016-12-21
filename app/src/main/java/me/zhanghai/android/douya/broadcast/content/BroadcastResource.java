@@ -42,9 +42,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
 
     private static BroadcastResource newInstance(long broadcastId, Broadcast broadcast) {
         //noinspection deprecation
-        BroadcastResource instance = new BroadcastResource();
-        instance.setArguments(broadcastId, broadcast);
-        return instance;
+        return new BroadcastResource().setArguments(broadcastId, broadcast);
     }
 
     public static BroadcastResource attachTo(long broadcastId, Broadcast broadcast,
@@ -70,10 +68,11 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
      */
     public BroadcastResource() {}
 
-    protected void setArguments(long broadcastId, Broadcast broadcast) {
+    protected BroadcastResource setArguments(long broadcastId, Broadcast broadcast) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
         arguments.putParcelable(EXTRA_BROADCAST, broadcast);
+        return this;
     }
 
     public long getBroadcastId() {

@@ -14,16 +14,20 @@ import me.zhanghai.android.douya.user.content.BaseUserListResource;
 
 public class BroadcastLikerListFragment extends BroadcastUserListFragment {
 
+    public static BroadcastLikerListFragment newInstance(Broadcast broadcast) {
+        //noinspection deprecation
+        return new BroadcastLikerListFragment().setArguments(broadcast);
+    }
+
     /**
      * @deprecated Use {@link #newInstance(Broadcast)} instead.
      */
     public BroadcastLikerListFragment() {}
 
-    public static BroadcastLikerListFragment newInstance(Broadcast broadcast) {
-        //noinspection deprecation
-        BroadcastLikerListFragment fragment = new BroadcastLikerListFragment();
-        fragment.setArguments(broadcast);
-        return fragment;
+    @Override
+    protected BroadcastLikerListFragment setArguments(Broadcast broadcast) {
+        super.setArguments(broadcast);
+        return this;
     }
 
     @Override

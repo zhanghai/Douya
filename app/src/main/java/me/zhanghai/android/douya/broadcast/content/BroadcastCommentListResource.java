@@ -32,9 +32,7 @@ public class BroadcastCommentListResource extends CommentListResource {
 
     private static BroadcastCommentListResource newInstance(long broadcastId) {
         //noinspection deprecation
-        BroadcastCommentListResource instance = new BroadcastCommentListResource();
-        instance.setArguments(broadcastId);
-        return instance;
+        return new BroadcastCommentListResource().setArguments(broadcastId);
     }
 
     public static BroadcastCommentListResource attachTo(long broadcastId, Fragment fragment,
@@ -58,9 +56,10 @@ public class BroadcastCommentListResource extends CommentListResource {
      */
     public BroadcastCommentListResource() {}
 
-    protected void setArguments(long broadcastId) {
+    protected BroadcastCommentListResource setArguments(long broadcastId) {
         FragmentUtils.ensureArguments(this)
                 .putLong(EXTRA_BROADCAST_ID, broadcastId);
+        return this;
     }
 
     @Override

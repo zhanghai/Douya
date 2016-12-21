@@ -44,9 +44,7 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
     private static BroadcastAndCommentListResource newInstance(long broadcastId,
                                                                Broadcast broadcast) {
         //noinspection deprecation
-        BroadcastAndCommentListResource instance = new BroadcastAndCommentListResource();
-        instance.setArguments(broadcastId, broadcast);
-        return instance;
+        return new BroadcastAndCommentListResource().setArguments(broadcastId, broadcast);
     }
 
     public static BroadcastAndCommentListResource attachTo(long broadcastId, Broadcast broadcast,
@@ -73,10 +71,11 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
      */
     public BroadcastAndCommentListResource() {}
 
-    protected void setArguments(long broadcastId, Broadcast broadcast) {
+    protected BroadcastAndCommentListResource setArguments(long broadcastId, Broadcast broadcast) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
         arguments.putParcelable(EXTRA_BROADCAST, broadcast);
+        return this;
     }
 
     @Override
