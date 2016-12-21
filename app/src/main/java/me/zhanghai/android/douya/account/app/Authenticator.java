@@ -52,27 +52,16 @@ public class Authenticator extends AbstractAccountAuthenticator {
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType,
                              String authTokenType, String[] requiredFeatures, Bundle options)
             throws NetworkErrorException {
-        Intent intent = new Intent(mContext, AuthenticatorActivity.class)
-                .putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-        if (!AccountUtils.hasAccount()) {
-            intent.putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
-                    AuthenticatorActivity.AUTH_MODE_NEW);
-        } else {
-            intent.putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
-                    AuthenticatorActivity.AUTH_MODE_ADD);
-        }
-        return makeIntentBundle(intent);
+        return makeIntentBundle(AuthenticatorActivity.makeIntent(response,
+                AccountUtils.hasAccount() ? AuthenticatorActivity.AUTH_MODE_ADD
+                        : AuthenticatorActivity.AUTH_MODE_NEW, mContext));
     }
 
     @Override
     public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account,
                                      Bundle options) throws NetworkErrorException {
-        Intent intent = new Intent(mContext, AuthenticatorActivity.class)
-                .putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
-                .putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
-                        AuthenticatorActivity.AUTH_MODE_CONFIRM)
-                .putExtra(AuthenticatorActivity.EXTRA_USERNAME, account.name);
-        return makeIntentBundle(intent);
+        return makeIntentBundle(AuthenticatorActivity.makeIntent(response,
+                AuthenticatorActivity.AUTH_MODE_CONFIRM, account.name, mContext));
     }
 
     @Override
@@ -97,12 +86,13 @@ public class Authenticator extends AbstractAccountAuthenticator {
             String refreshToken = AccountUtils.getRefreshToken(account, authTokenType);
             if (!TextUtils.isEmpty(refreshToken)) {
                 try {
-                    TokenRequest.Result result = TokenRequests.newRequest(authTokenType,
+                    TokenRequest.Response tokenResponse = TokenRequests.newRequest(authTokenType,
                             refreshToken).getResponse();
-                    authToken = result.accessToken;
-                    AccountUtils.setUserName(account, result.userName);
-                    AccountUtils.setUserId(account, result.userId);
-                    AccountUtils.setRefreshToken(account, authTokenType, result.refreshToken);
+                    authToken = tokenResponse.accessToken;
+                    AccountUtils.setUserName(account, tokenResponse.userName);
+                    AccountUtils.setUserId(account, tokenResponse.userId);
+                    AccountUtils.setRefreshToken(account, authTokenType,
+                            tokenResponse.refreshToken);
                 } catch (InterruptedException | TimeoutException e) {
                     LogUtils.e(e.toString());
                     // Try again with XAuth afterwards.
@@ -121,12 +111,12 @@ public class Authenticator extends AbstractAccountAuthenticator {
                         "AccountManager.getPassword() returned null");
             }
             try {
-                TokenRequest.Result result = TokenRequests.newRequest(authTokenType, account.name,
-                        password).getResponse();
-                authToken = result.accessToken;
-                AccountUtils.setUserName(account, result.userName);
-                AccountUtils.setUserId(account, result.userId);
-                AccountUtils.setRefreshToken(account, authTokenType, result.refreshToken);
+                TokenRequest.Response tokenResponse = TokenRequests.newRequest(authTokenType,
+                        account.name, password).getResponse();
+                authToken = tokenResponse.accessToken;
+                AccountUtils.setUserName(account, tokenResponse.userName);
+                AccountUtils.setUserId(account, tokenResponse.userId);
+                AccountUtils.setRefreshToken(account, authTokenType, tokenResponse.refreshToken);
             } catch (InterruptedException | TimeoutException e) {
                 LogUtils.e(e.toString());
                 return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
@@ -168,7 +158,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
         }
 
         if (TextUtils.isEmpty(authToken)) {
-            // Should not happen, the only case should be when TokenRequest.Result.accessToken is
+            // Should not happen, the only case should be when TokenRequest.Response.accessToken is
             // null.
             return makeErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE,
                     "authToken is still null");
@@ -203,11 +193,8 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
     private Intent makeUpdateCredentialIntent(AccountAuthenticatorResponse response,
                                               Account account) {
-        return new Intent(mContext, AuthenticatorActivity.class)
-                .putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
-                .putExtra(AuthenticatorActivity.EXTRA_AUTH_MODE,
-                        AuthenticatorActivity.AUTH_MODE_UPDATE)
-                .putExtra(AuthenticatorActivity.EXTRA_USERNAME, account.name);
+        return AuthenticatorActivity.makeIntent(response, AuthenticatorActivity.AUTH_MODE_UPDATE,
+                account.name, mContext);
     }
 
     private Bundle makeIntentBundle(Intent intent) {

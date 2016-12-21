@@ -5,6 +5,6 @@
 
 package me.zhanghai.android.douya.content;
 
-import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.network.RequestFragment;
 
-public class ResourceFragment extends TargetedRetainedFragment {}
+public abstract class ResourceFragment extends RequestFragment {}
