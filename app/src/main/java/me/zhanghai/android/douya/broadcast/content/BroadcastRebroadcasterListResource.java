@@ -30,13 +30,13 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
     public static BroadcastRebroadcasterListResource attachTo(long broadcastId, Fragment fragment,
                                                               String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
-        BroadcastRebroadcasterListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(broadcastId);
-            resource.targetAtFragment(fragment, requestCode);
-            FragmentUtils.add(resource, activity, tag);
+        BroadcastRebroadcasterListResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(broadcastId);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
         }
-        return resource;
+        return instance;
     }
 
     public static BroadcastRebroadcasterListResource attachTo(long broadcastId, Fragment fragment) {

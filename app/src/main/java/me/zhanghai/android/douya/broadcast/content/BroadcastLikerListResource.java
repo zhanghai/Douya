@@ -29,13 +29,13 @@ public class BroadcastLikerListResource extends BroadcastUserListResource {
     public static BroadcastLikerListResource attachTo(long broadcastId, Fragment fragment,
                                                       String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
-        BroadcastLikerListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(broadcastId);
-            resource.targetAtFragment(fragment, requestCode);
-            FragmentUtils.add(resource, activity, tag);
+        BroadcastLikerListResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(broadcastId);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
         }
-        return resource;
+        return instance;
     }
 
     public static BroadcastLikerListResource attachTo(long broadcastId, Fragment fragment) {
