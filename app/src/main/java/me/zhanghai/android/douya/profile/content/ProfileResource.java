@@ -65,7 +65,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
         ProfileResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(userIdOrUid, user, userInfo);
-            instance.targetAtFragment(fragment, requestCode);
+            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
         return instance;

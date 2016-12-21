@@ -48,7 +48,7 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<Diary, Di
         UserDiaryListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(userIdOrUid);
-            instance.targetAtFragment(fragment, requestCode);
+            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
         return instance;

@@ -51,7 +51,7 @@ public class UserInfoResource extends ResourceFragment<UserInfo, UserInfo> {
         UserInfoResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(userIdOrUid, user, userInfo);
-            instance.targetAtFragment(fragment, requestCode);
+            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
         return instance;

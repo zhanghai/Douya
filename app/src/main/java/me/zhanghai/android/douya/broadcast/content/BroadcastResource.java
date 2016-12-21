@@ -51,7 +51,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         BroadcastResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(broadcastId, broadcast);
-            instance.targetAtFragment(fragment, requestCode);
+            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
         return instance;

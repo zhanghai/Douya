@@ -27,7 +27,7 @@ public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.Req
         if (instance == null) {
             //noinspection deprecation
             instance = new AuthenticateRequest();
-            instance.targetAtFragment(fragment, requestCode);
+            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
         return instance;

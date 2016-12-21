@@ -55,25 +55,32 @@ public class TargetedRetainedFragment extends RetainedFragment {
         }
     }
 
+    /**
+     * @deprecated Use {@link #targetAt(Fragment, int)} instead.
+     */
     protected void targetAtActivity(int requestCode) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putBoolean(EXTRA_TARGETED_AT_ACTIVITY, true);
         arguments.putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 
+    /**
+     * @deprecated Use {@link #targetAt(Fragment)} instead.
+     */
     protected void targetAtActivity() {
+        //noinspection deprecation
         targetAtActivity(REQUEST_CODE_INVALID);
     }
 
-    protected void targetAtFragment(Fragment fragment, int requestCode) {
+    protected void targetAt(Fragment fragment, int requestCode) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putBoolean(EXTRA_TARGETED_AT_ACTIVITY, false);
         arguments.putString(EXTRA_TARGET_FRAGMENT_WHO, FriendlyFragment.getWho(fragment));
         arguments.putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 
-    protected void targetAtFragment(Fragment fragment) {
-        targetAtFragment(fragment, REQUEST_CODE_INVALID);
+    protected void targetAt(Fragment fragment) {
+        targetAt(fragment, REQUEST_CODE_INVALID);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
         BroadcastRebroadcasterListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(broadcastId);
-            instance.targetAtFragment(fragment, requestCode);
+            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
         return instance;
