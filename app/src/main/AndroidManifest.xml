@@ -35,13 +35,13 @@
             android:name=".account.ui.AddAccountActivity"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:theme="@style/Theme.Douya.NoDisplay" />
+            android:theme="@style/Theme.Douya.Translucent" />
 
+        <!-- NOTE: android:noHistory="true" disables onActivityResult(). -->
         <activity
             android:name=".account.ui.SelectAccountActivity"
             android:launchMode="singleTop"
-            android:noHistory="true"
-            android:theme="@style/Theme.Douya.NoDisplay" />
+            android:theme="@style/Theme.Douya.MainActivity" />
 
         <activity
             android:name=".ui.WebViewActivity"

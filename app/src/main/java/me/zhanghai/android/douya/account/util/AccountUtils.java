@@ -31,6 +31,7 @@ import me.zhanghai.android.douya.account.ui.SelectAccountActivity;
 import me.zhanghai.android.douya.network.Volley;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.util.AccountManagerCompat;
 import me.zhanghai.android.douya.util.GsonHelper;
 
 public class AccountUtils {
@@ -51,9 +52,7 @@ public class AccountUtils {
     }
 
     public static void addAccount(Activity activity, Intent onAddedIntent) {
-        Intent intent = new Intent(activity, AddAccountActivity.class);
-        intent.putExtra(AddAccountActivity.EXTRA_ON_ADDED_INTENT, onAddedIntent);
-        activity.startActivity(intent);
+        activity.startActivity(AddAccountActivity.makeIntent(onAddedIntent, activity));
     }
 
     public static boolean addAccountExplicitly(Account account, String password) {
@@ -322,6 +321,12 @@ public class AccountUtils {
         }
 
         activity.startActivity(SelectAccountActivity.makeIntent(onSelectedIntent, activity));
+    }
+
+    public static Intent newChooseAccountIntent() {
+        return AccountManagerCompat.newChooseAccountIntent(getActiveAccount(), null,
+                new String[] { AccountContract.ACCOUNT_TYPE }, null,
+                AccountContract.AUTH_TOKEN_TYPE_FRODO, null, null);
     }
 
     public static boolean ensureActiveAccountAvailability(Activity activity) {

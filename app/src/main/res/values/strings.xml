@@ -113,7 +113,6 @@
     <string name="auth_error_empty_password">请输入密码</string>
     <string name="auth_error_invalid_response">服务器应答无效</string>
     <string name="auth_error_unknown">未知错误</string>
-    <string name="auth_select_account">选择账户</string>
 
     <string name="gallery_title">查看照片</string>
     <string name="gallery_load_timeout">加载超时</string>

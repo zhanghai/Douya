@@ -6,6 +6,9 @@
   -->
 
 <resources>
+    <style name="Theme.Douya.TransparentStatusBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 
     <style name="Theme.Douya.ScrimStatusBar">
         <item name="android:statusBarColor">@color/system_window_scrim</item>

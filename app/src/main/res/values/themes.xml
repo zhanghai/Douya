@@ -64,16 +64,18 @@
         <item name="preferenceTheme">@style/ThemeOverlay.Preference</item>
     </style>
 
-    <style name="Theme.Douya.NoDisplay">
+    <style name="Theme.Douya.TransparentStatusBar" />
+
+    <style name="Theme.Douya.Translucent" parent="Theme.Douya.TransparentStatusBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowBackground">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoDisplay">true</item>
     </style>
 
-    <style name="Theme.Douya.TransparentBackground">
+    <style name="Theme.Douya.TransparentBackground" parent="Theme.Douya.TransparentStatusBar">
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -87,7 +89,7 @@
         <item name="android:windowBackground">?colorPrimary</item>
     </style>
 
-    <style name="Theme.Douya.ScrimStatusBar"/>
+    <style name="Theme.Douya.ScrimStatusBar" />
 
     <style name="Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar">
         <item name="android:windowBackground">@color/grey_200</item>

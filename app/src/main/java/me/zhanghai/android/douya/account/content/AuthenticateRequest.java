@@ -78,10 +78,10 @@ public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.Req
         public String username;
         public String password;
 
-        public RequestState(String authTokenType, String password, String username) {
+        public RequestState(String authTokenType, String username, String password) {
             this.authTokenType = authTokenType;
-            this.password = password;
             this.username = username;
+            this.password = password;
         }
     }
 

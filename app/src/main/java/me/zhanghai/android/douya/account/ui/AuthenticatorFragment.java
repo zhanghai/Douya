@@ -308,15 +308,13 @@ public class AuthenticatorFragment extends Fragment implements AuthenticateReque
         mFormLayout.setEnabled(!authenticating);
         if (animate) {
             if (authenticating) {
-                ViewUtils.fadeOut(mFormLayout);
-                ViewUtils.fadeIn(mProgress);
+                ViewUtils.fadeOutThenFadeIn(mFormLayout, mProgress, false);
             } else {
-                ViewUtils.fadeOut(mProgress);
-                ViewUtils.fadeIn(mFormLayout);
+                ViewUtils.fadeOutThenFadeIn(mProgress, mFormLayout, false);
             }
         } else {
-            ViewUtils.setVisibleOrGone(mFormLayout, !authenticating);
-            ViewUtils.setVisibleOrGone(mProgress, authenticating);
+            ViewUtils.setVisibleOrInvisible(mFormLayout, !authenticating);
+            ViewUtils.setVisibleOrInvisible(mProgress, authenticating);
         }
     }
 
