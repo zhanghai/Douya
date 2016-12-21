@@ -37,11 +37,11 @@
             android:noHistory="true"
             android:theme="@style/Theme.Douya.Translucent" />
 
-        <!-- NOTE: android:noHistory="true" disables onActivityResult(). -->
         <activity
             android:name=".account.ui.SelectAccountActivity"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.Douya.MainActivity" />
+            android:noHistory="true"
+            android:theme="@style/Theme.Douya.Translucent" />
 
         <activity
             android:name=".ui.WebViewActivity"
