@@ -36,7 +36,7 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
 
     private static final String KEY_PREFIX = BroadcastActivityDialogFragment.class.getName() + '.';
 
-    public static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
+    private static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
 
     @BindView(R.id.tab)
     TabLayout mTabLayout;

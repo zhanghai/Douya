@@ -33,7 +33,7 @@ public class ItemCollectionFragment extends Fragment {
 
     private static final String KEY_PREFIX = ItemCollectionFragment.class.getName() + '.';
 
-    public static final String EXTRA_COLLECTION = KEY_PREFIX + "collection";
+    private static final String EXTRA_COLLECTION = KEY_PREFIX + "collection";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;

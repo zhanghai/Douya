@@ -25,8 +25,8 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
 
     private static final String KEY_PREFIX = BroadcastAndCommentListResource.class.getName() + '.';
 
-    public static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
-    public static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
+    private static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
+    private static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
 
     private static final int BROADCAST_ID_INVALID = -1;
 

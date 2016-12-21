@@ -23,7 +23,7 @@ public class CopyTextDialogFragment extends AppCompatDialogFragment {
 
     private static final String KEY_PREFIX = CopyTextDialogFragment.class.getName() + '.';
 
-    public static final String EXTRA_TEXT = KEY_PREFIX + "text";
+    private static final String EXTRA_TEXT = KEY_PREFIX + "text";
 
     private String mText;
 

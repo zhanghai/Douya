@@ -22,7 +22,7 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     private static final String KEY_PREFIX = ConfirmDeleteCommentDialogFragment.class.getName()
             + '.';
 
-    public static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
+    private static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
 
     private Comment mComment;
 

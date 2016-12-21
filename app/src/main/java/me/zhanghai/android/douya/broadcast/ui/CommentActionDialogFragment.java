@@ -24,9 +24,9 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
 
     private static final String KEY_PREFIX = CommentActionDialogFragment.class.getName() + '.';
 
-    public static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
-    public static final String EXTRA_CAN_REPLY_TO = KEY_PREFIX + "can_reply_to";
-    public static final String EXTRA_CAN_DELETE = KEY_PREFIX + "can_delete";
+    private static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
+    private static final String EXTRA_CAN_REPLY_TO = KEY_PREFIX + "can_reply_to";
+    private static final String EXTRA_CAN_DELETE = KEY_PREFIX + "can_delete";
 
     private Comment mComment;
     private boolean mCanReplyTo;

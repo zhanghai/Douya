@@ -26,7 +26,7 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
 
-    public final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
+    private final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
 
     private Broadcast mBroadcast;
 

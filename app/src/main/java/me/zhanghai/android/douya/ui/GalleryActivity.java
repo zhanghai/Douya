@@ -27,8 +27,8 @@ public class GalleryActivity extends AppCompatActivity {
 
     private static final String KEY_PREFIX = GalleryActivity.class.getSimpleName() + '.';
 
-    public static final String EXTRA_IMAGE_LIST = KEY_PREFIX + "image_list";
-    public static final String EXTRA_POSITION = KEY_PREFIX + "position";
+    private static final String EXTRA_IMAGE_LIST = KEY_PREFIX + "image_list";
+    private static final String EXTRA_POSITION = KEY_PREFIX + "position";
 
     @BindInt(android.R.integer.config_mediumAnimTime)
     int mToolbarHideDuration;

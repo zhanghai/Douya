@@ -321,9 +321,7 @@ public class AccountUtils {
             throw new IllegalStateException("Should have checked for hasAccount()");
         }
 
-        Intent intent = new Intent(activity, SelectAccountActivity.class);
-        intent.putExtra(SelectAccountActivity.EXTRA_ON_SELECTED_INTENT, onSelectedIntent);
-        activity.startActivity(intent);
+        activity.startActivity(SelectAccountActivity.makeIntent(onSelectedIntent, activity));
     }
 
     public static boolean ensureActiveAccountAvailability(Activity activity) {

@@ -18,7 +18,7 @@ public class UserReviewListResource extends BaseReviewListResource {
 
     private static final String KEY_PREFIX = UserReviewListResource.class.getName() + '.';
 
-    public final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
 
     private String mUserIdOrUid;
 
@@ -52,7 +52,7 @@ public class UserReviewListResource extends BaseReviewListResource {
      */
     public UserReviewListResource() {}
 
-    private void setArguments(String userIdOrUid) {
+    protected void setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
     }

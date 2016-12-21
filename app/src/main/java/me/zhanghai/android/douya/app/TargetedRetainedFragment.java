@@ -19,9 +19,9 @@ public class TargetedRetainedFragment extends RetainedFragment {
 
     private static final String KEY_PREFIX = TargetedRetainedFragment.class.getName() + '.';
 
-    public static final String EXTRA_TARGETED_AT_ACTIVITY = KEY_PREFIX + "targeted_at_activity";
-    public static final String EXTRA_TARGET_FRAGMENT_WHO = KEY_PREFIX + "target_fragment_who";
-    public static final String EXTRA_REQUEST_CODE = KEY_PREFIX + "request_code";
+    private static final String EXTRA_TARGETED_AT_ACTIVITY = KEY_PREFIX + "targeted_at_activity";
+    private static final String EXTRA_TARGET_FRAGMENT_WHO = KEY_PREFIX + "target_fragment_who";
+    private static final String EXTRA_REQUEST_CODE = KEY_PREFIX + "request_code";
 
     private boolean mTargetedAtActivity;
     private Fragment mTargetFragment;

@@ -18,7 +18,7 @@ public class ItemReviewListResource extends BaseReviewListResource {
 
     private static final String KEY_PREFIX = ItemReviewListResource.class.getName() + '.';
 
-    public static final String EXTRA_ITEM_ID = KEY_PREFIX + "item_id";
+    private static final String EXTRA_ITEM_ID = KEY_PREFIX + "item_id";
 
     private long mItemId;
 
@@ -52,7 +52,7 @@ public class ItemReviewListResource extends BaseReviewListResource {
      */
     public ItemReviewListResource() {}
 
-    private void setArguments(long itemId) {
+    protected void setArguments(long itemId) {
         FragmentUtils.ensureArguments(this)
                 .putLong(EXTRA_ITEM_ID, itemId);
     }

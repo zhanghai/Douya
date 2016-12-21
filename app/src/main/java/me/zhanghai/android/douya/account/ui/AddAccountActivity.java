@@ -20,8 +20,9 @@ import me.zhanghai.android.douya.account.util.AccountUtils;
 
 public class AddAccountActivity extends AppCompatActivity {
 
-    public static final String EXTRA_ON_ADDED_INTENT = AddAccountActivity.class.getName()
-            + ".on_added_intent";
+    private static final String KEY_PREFIX = AddAccountActivity.class.getName() + '.';
+
+    private static final String EXTRA_ON_ADDED_INTENT = KEY_PREFIX + "on_added_intent";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

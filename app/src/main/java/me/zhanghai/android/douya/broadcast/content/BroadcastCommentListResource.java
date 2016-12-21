@@ -24,7 +24,7 @@ public class BroadcastCommentListResource extends CommentListResource {
 
     private static final String KEY_PREFIX = BroadcastCommentListResource.class.getName() + '.';
 
-    public static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
+    private static final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
 
     private long mBroadcastId;
 

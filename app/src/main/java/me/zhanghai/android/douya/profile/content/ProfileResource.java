@@ -34,9 +34,9 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
 
     private static final String KEY_PREFIX = ProfileResource.class.getName() + '.';
 
-    public static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
-    public static final String EXTRA_USER = KEY_PREFIX + "user";
-    public static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
+    private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private static final String EXTRA_USER = KEY_PREFIX + "user";
+    private static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
     private String mUserIdOrUid;
     private User mUser;

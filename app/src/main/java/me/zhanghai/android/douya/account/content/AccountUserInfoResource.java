@@ -55,7 +55,7 @@ public class AccountUserInfoResource extends UserInfoResource {
     @SuppressWarnings("deprecation")
     public AccountUserInfoResource() {}
 
-    private void setArguments(Account account) {
+    protected void setArguments(Account account) {
         FragmentUtils.ensureArguments(this).putParcelable(EXTRA_ACCOUNT, account);
         User user = makePartialUser(account);
         setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account));
