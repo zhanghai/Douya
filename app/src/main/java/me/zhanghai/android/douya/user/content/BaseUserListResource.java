@@ -10,113 +10,48 @@ import com.android.volley.VolleyError;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.ResourceFragment;
-import me.zhanghai.android.douya.network.RequestFragment;
+import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.util.LogUtils;
 
-public abstract class BaseUserListResource<T> extends ResourceFragment
-        implements RequestFragment.Listener<T, BaseUserListResource.State> {
+public abstract class BaseUserListResource<ResponseType>
+        extends MoreRawListResourceFragment<User, ResponseType> {
 
-    private static final int DEFAULT_COUNT_PER_LOAD = 20;
-
-    private List<User> mUserList;
-
-    private boolean mCanLoadMore = true;
-    private boolean mLoading;
-    private boolean mLoadingMore;
-
-    /**
-     * @return Unmodifiable user list, or {@code null}.
-     */
-    public List<User> get() {
-        return mUserList != null ? Collections.unmodifiableList(mUserList) : null;
+    @Override
+    protected Request<ResponseType> onCreateRequest(boolean more, int count) {
+        Integer start = more ? (has() ? get().size() : 0) : null;
+        return onCreateRequest(start, count);
     }
 
-    public boolean has() {
-        return mUserList != null;
-    }
+    protected abstract ApiRequest<ResponseType> onCreateRequest(Integer start, Integer count);
 
-    public boolean isEmpty() {
-        return mUserList == null || mUserList.isEmpty();
-    }
-
-    public boolean isLoading() {
-        return mLoading;
-    }
-
-    public boolean isLoadingMore() {
-        return mLoadingMore;
+    @Override
+    protected void onLoadStarted() {
+        getListener().onLoadUserListStarted(getRequestCode());
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        if (mUserList == null || (mUserList.isEmpty() && mCanLoadMore)) {
-            load(false);
-        }
+    protected final void onLoadFinished(boolean more, int count, boolean successful,
+                                        ResponseType response, VolleyError error) {
+        onCallRawLoadFinished(more, count, successful, response, error);
     }
 
-    public void load(boolean loadMore, int count) {
+    protected abstract void onCallRawLoadFinished(boolean more, int count, boolean successful,
+                                                  ResponseType response, VolleyError error);
 
-        if (loadMore && mUserList == null) {
-            LogUtils.w("loadMore=true when mUserList is null");
-            loadMore = false;
-        }
-        if (mLoading || (loadMore && !mCanLoadMore)) {
-            return;
-        }
-
-        mLoading = true;
-        mLoadingMore = loadMore;
-        getListener().onLoadUserListStarted(getRequestCode(), loadMore);
-
-        Integer start = loadMore ? (mUserList != null ? mUserList.size() : 0) : null;
-        ApiRequest<T> request = onCreateRequest(start, count);
-        State state = new State(loadMore, count);
-        RequestFragment.startRequest(request, state, this);
-    }
-
-    public void load(boolean loadMore) {
-        load(loadMore, DEFAULT_COUNT_PER_LOAD);
-    }
-
-    protected abstract ApiRequest<T> onCreateRequest(Integer start, Integer count);
-
-    @Override
-    public void onVolleyResponse(int requestCode, final boolean successful, final T result,
-                                 final VolleyError error, final State requestState) {
-        postOnResumed(new Runnable() {
-            @Override
-            public void run() {
-                onDeliverLoadFinished(successful, result, error, requestState.loadMore,
-                        requestState.count);
-            }
-        });
-    }
-
-    protected abstract void onDeliverLoadFinished(boolean successful, T userList, VolleyError error,
-                                                  boolean loadMore, int count);
-
-    protected void onLoadFinished(boolean successful, List<User> userList, VolleyError error,
-                                  boolean loadMore, int count) {
-
-        mLoading = false;
-        mLoadingMore = false;
-        getListener().onLoadUserListFinished(getRequestCode(), loadMore);
-
+    protected void onRawLoadFinished(boolean more, int count, boolean successful,
+                                     List<User> response, VolleyError error) {
+        getListener().onLoadUserListFinished(getRequestCode());
         if (successful) {
-            mCanLoadMore = userList.size() == count;
-            if (loadMore) {
-                mUserList.addAll(userList);
+            if (more) {
+                append(response);
                 getListener().onUserListAppended(getRequestCode(),
-                        Collections.unmodifiableList(userList));
+                        Collections.unmodifiableList(response));
             } else {
-                mUserList = userList;
+                set(response);
                 getListener().onUserListChanged(getRequestCode(),
-                        Collections.unmodifiableList(userList));
+                        Collections.unmodifiableList(get()));
             }
         } else {
             getListener().onLoadUserListError(getRequestCode(), error);
@@ -127,20 +62,9 @@ public abstract class BaseUserListResource<T> extends ResourceFragment
         return (Listener) getTarget();
     }
 
-    static class State {
-
-        public boolean loadMore;
-        public int count;
-
-        public State(boolean loadMore, int count) {
-            this.loadMore = loadMore;
-            this.count = count;
-        }
-    }
-
     public interface Listener {
-        void onLoadUserListStarted(int requestCode, boolean loadMore);
-        void onLoadUserListFinished(int requestCode, boolean loadMore);
+        void onLoadUserListStarted(int requestCode);
+        void onLoadUserListFinished(int requestCode);
         void onLoadUserListError(int requestCode, VolleyError error);
         /**
          * @param newUserList Unmodifiable.

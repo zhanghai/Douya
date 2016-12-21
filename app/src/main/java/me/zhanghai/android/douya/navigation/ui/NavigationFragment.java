@@ -227,15 +227,15 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
 
     @Override
     public UserInfo getUserInfo(Account account) {
-        return mUserInfoResourceMap.get(account).getUserInfo();
+        return mUserInfoResourceMap.get(account).get();
     }
 
     @Override
     public void openProfile(Account account) {
         UserInfoResource userInfoResource = mUserInfoResourceMap.get(account);
         Intent intent;
-        if (userInfoResource.hasUserInfo()) {
-            intent = ProfileActivity.makeIntent(userInfoResource.getUserInfo(), getActivity());
+        if (userInfoResource.has()) {
+            intent = ProfileActivity.makeIntent(userInfoResource.get(), getActivity());
         } else {
             // If we don't have user info, then user must also be partial. In this case we
             // can only pass user id or uid.

@@ -15,7 +15,7 @@ import me.zhanghai.android.douya.app.TargetedRetainedFragment;
  *
  * @param <ResponseType> The type of parsed response the request expects.
  */
-public abstract class RequestFragment<ResponseType, RequestStateType>
+public abstract class RequestFragment<RequestStateType, ResponseType>
         extends TargetedRetainedFragment implements Response.Listener<ResponseType>,
         Response.ErrorListener {
 
@@ -46,20 +46,26 @@ public abstract class RequestFragment<ResponseType, RequestStateType>
         return mRequestState;
     }
 
-    protected void startRequest(Request<ResponseType> request, RequestStateType requestState) {
+    protected void start(RequestStateType requestState) {
 
-        if (mRequesting) {
+        if (mRequesting || shouldIgnoreStartRequest()) {
             return;
         }
         mRequesting = true;
 
-        mRequest = request;
+        mRequest = onCreateRequest(requestState);
         mRequestState = requestState;
         mRequest.setListener(this).setErrorListener(this);
         Volley.getInstance().addToRequestQueue(mRequest);
 
         onRequestStarted();
     }
+
+    protected boolean shouldIgnoreStartRequest() {
+        return false;
+    }
+
+    protected abstract Request<ResponseType> onCreateRequest(RequestStateType requestState);
 
     protected abstract void onRequestStarted();
 

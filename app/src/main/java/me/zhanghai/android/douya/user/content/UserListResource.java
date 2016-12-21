@@ -15,9 +15,7 @@ public abstract class UserListResource extends BaseUserListResource<UserList> {
     protected abstract ApiRequest<UserList> onCreateRequest(Integer start, Integer count);
 
     @Override
-    protected void onDeliverLoadFinished(boolean successful, UserList userList, VolleyError error,
-                                         boolean loadMore, int count) {
-        onLoadFinished(successful, userList != null ? userList.users : null, error, loadMore,
-                count);
+    protected void onCallRawLoadFinished(boolean more, int count, boolean successful, UserList response, VolleyError error) {
+        onRawLoadFinished(more, count, successful, response != null ? response.users : null, error);
     }
 }

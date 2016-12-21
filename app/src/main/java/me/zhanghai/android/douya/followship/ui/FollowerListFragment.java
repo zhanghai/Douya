@@ -23,7 +23,7 @@ public class FollowerListFragment extends FollowshipListFragment {
     }
 
     @Override
-    protected BaseUserListResource onAttachUserListResource() {
+    protected BaseUserListResource<?> onAttachUserListResource() {
         return FollowerListResource.attachTo(getUserIdOrUid(), this);
     }
 }

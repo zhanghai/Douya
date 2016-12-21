@@ -46,7 +46,7 @@ public abstract class UserListFragment extends Fragment implements BaseUserListR
     private BaseUserAdapter mUserAdapter;
     private LoadMoreAdapter mAdapter;
 
-    private BaseUserListResource mUserListResource;
+    private BaseUserListResource<?> mUserListResource;
 
     @Nullable
     @Override
@@ -103,15 +103,15 @@ public abstract class UserListFragment extends Fragment implements BaseUserListR
         mUserListResource.detach();
     }
 
-    protected abstract BaseUserListResource onAttachUserListResource();
+    protected abstract BaseUserListResource<?> onAttachUserListResource();
 
     @Override
-    public void onLoadUserListStarted(int requestCode, boolean loadMore) {
+    public void onLoadUserListStarted(int requestCode) {
         updateRefreshing();
     }
 
     @Override
-    public void onLoadUserListFinished(int requestCode, boolean loadMore) {
+    public void onLoadUserListFinished(int requestCode) {
         updateRefreshing();
     }
 

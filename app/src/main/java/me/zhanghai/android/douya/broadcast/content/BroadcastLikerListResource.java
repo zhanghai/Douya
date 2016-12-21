@@ -21,43 +21,25 @@ public class BroadcastLikerListResource extends BroadcastUserListResource {
 
     private static BroadcastLikerListResource newInstance(long broadcastId) {
         //noinspection deprecation
-        BroadcastLikerListResource resource = new BroadcastLikerListResource();
-        resource.setArguments(broadcastId);
-        return resource;
-    }
-
-    public static BroadcastLikerListResource attachTo(long broadcastId, FragmentActivity activity,
-                                                      String tag, int requestCode) {
-        return attachTo(broadcastId, activity, tag, true, null, requestCode);
-    }
-
-    public static BroadcastLikerListResource attachTo(long broadcastId, FragmentActivity activity) {
-        return attachTo(broadcastId, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+        BroadcastLikerListResource instance = new BroadcastLikerListResource();
+        instance.setArguments(broadcastId);
+        return instance;
     }
 
     public static BroadcastLikerListResource attachTo(long broadcastId, Fragment fragment,
                                                       String tag, int requestCode) {
-        return attachTo(broadcastId, fragment.getActivity(), tag, false, fragment, requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        BroadcastLikerListResource resource = FragmentUtils.findByTag(activity, tag);
+        if (resource == null) {
+            resource = newInstance(broadcastId);
+            resource.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(resource, activity, tag);
+        }
+        return resource;
     }
 
     public static BroadcastLikerListResource attachTo(long broadcastId, Fragment fragment) {
         return attachTo(broadcastId, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    private static BroadcastLikerListResource attachTo(long broadcastId, FragmentActivity activity,
-                                                      String tag, boolean targetAtActivity,
-                                                      Fragment targetFragment, int requestCode) {
-        BroadcastLikerListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(broadcastId);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**

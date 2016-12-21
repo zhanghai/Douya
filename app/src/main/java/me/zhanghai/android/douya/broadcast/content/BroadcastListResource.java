@@ -17,23 +17,18 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.ResourceFragment;
+import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.RequestFragment;
-import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
-import me.zhanghai.android.douya.util.LogUtils;
 
-public class BroadcastListResource extends ResourceFragment
-        implements RequestFragment.Listener<List<Broadcast>, BroadcastListResource.State> {
-
-    private static final int DEFAULT_COUNT_PER_LOAD = 20;
+public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast, List<Broadcast>> {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
@@ -44,58 +39,30 @@ public class BroadcastListResource extends ResourceFragment
     private String mUserIdOrUid;
     private String mTopic;
 
-    private List<Broadcast> mBroadcastList;
-
-    private boolean mCanLoadMore = true;
-    private boolean mLoading;
-    private boolean mLoadingMore;
-
     private static final String FRAGMENT_TAG_DEFAULT = BroadcastListResource.class.getName();
 
     private static BroadcastListResource newInstance(String userIdOrUid, String topic) {
         //noinspection deprecation
-        BroadcastListResource resource = new BroadcastListResource();
-        resource.setArguments(userIdOrUid, topic);
-        return resource;
-    }
-
-    public static BroadcastListResource attachTo(String userIdOrUid, String topic,
-                                                 FragmentActivity activity, String tag,
-                                                 int requestCode) {
-        return attachTo(userIdOrUid, topic, activity, tag, true, null, requestCode);
-    }
-
-    public static BroadcastListResource attachTo(String userIdOrUid, String topic,
-                                                 FragmentActivity activity) {
-        return attachTo(userIdOrUid, topic, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+        BroadcastListResource instance = new BroadcastListResource();
+        instance.setArguments(userIdOrUid, topic);
+        return instance;
     }
 
     public static BroadcastListResource attachTo(String userIdOrUid, String topic,
                                                  Fragment fragment, String tag, int requestCode) {
-        return attachTo(userIdOrUid, topic, fragment.getActivity(), tag, false, fragment,
-                requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        BroadcastListResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(userIdOrUid, topic);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
     }
 
     public static BroadcastListResource attachTo(String userIdOrUid, String topic,
                                                  Fragment fragment) {
         return attachTo(userIdOrUid, topic, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    private static BroadcastListResource attachTo(String userIdOrUid, String topic,
-                                                  FragmentActivity activity, String tag,
-                                                  boolean targetAtActivity, Fragment targetFragment,
-                                                  int requestCode) {
-        BroadcastListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(userIdOrUid, topic);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**
@@ -118,115 +85,37 @@ public class BroadcastListResource extends ResourceFragment
         mTopic = arguments.getString(EXTRA_TOPIC);
     }
 
-    /**
-     * @return Unmodifiable broadcast list, or {@code null}.
-     */
-    public List<Broadcast> get() {
-        return mBroadcastList != null ? Collections.unmodifiableList(mBroadcastList) : null;
-    }
-
-    public boolean has() {
-        return mBroadcastList != null;
-    }
-
-    public boolean isEmpty() {
-        return mBroadcastList == null || mBroadcastList.isEmpty();
-    }
-
-    public boolean isLoading() {
-        return mLoading;
-    }
-
-    public boolean isLoadingMore() {
-        return mLoadingMore;
-    }
-
     @Override
-    public void onStart() {
-        super.onStart();
-
-        EventBusUtils.register(this);
-
-        if (mBroadcastList == null || (mBroadcastList.isEmpty() && mCanLoadMore)) {
-            loadOnStart();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBusUtils.unregister(this);
-    }
-
-    public void load(boolean loadMore, int count) {
-
-        if (loadMore && mBroadcastList == null) {
-            LogUtils.w("loadMore=true when mBroadcastList is null");
-            loadMore = false;
-        }
-        if (mLoading || (loadMore && !mCanLoadMore)) {
-            return;
-        }
-
-        mLoading = true;
-        mLoadingMore = loadMore;
-        getListener().onLoadBroadcastListStarted(getRequestCode());
-
-        onStartLoad();
+    protected Request<List<Broadcast>> onCreateRequest(boolean more, int count) {
         Long untilId = null;
-        if (loadMore && mBroadcastList != null) {
-            int size = mBroadcastList.size();
+        if (more && has()) {
+            List<Broadcast> broadcastList = get();
+            int size = broadcastList.size();
             if (size > 0) {
-                untilId = mBroadcastList.get(size - 1).id;
+                untilId = broadcastList.get(size - 1).id;
             }
         }
-        ApiRequest<List<Broadcast>> request = ApiRequests.newBroadcastListRequest(mUserIdOrUid,
-                mTopic, untilId, count);
-        State state = new State(loadMore, count);
-        RequestFragment.startRequest(request, state, this);
+        return ApiRequests.newBroadcastListRequest(mUserIdOrUid, mTopic, untilId, count);
     }
-
-    public void load(boolean loadMore) {
-        load(loadMore, DEFAULT_COUNT_PER_LOAD);
-    }
-
-    protected void loadOnStart() {
-        load(false);
-    }
-
-    protected void onStartLoad() {}
 
     @Override
-    public void onVolleyResponse(int requestCode, final boolean successful,
-                                 final List<Broadcast> result, final VolleyError error,
-                                 final State requestState) {
-        postOnResumed(new Runnable() {
-            @Override
-            public void run() {
-                onLoadFinished(successful, result, error, requestState.loadMore,
-                        requestState.count);
-            }
-        });
+    protected void onLoadStarted() {
+        getListener().onLoadBroadcastListStarted(getRequestCode());
     }
 
-    private void onLoadFinished(boolean successful, List<Broadcast> broadcastList,
-                                VolleyError error, boolean loadMore, int count) {
-
-        mLoading = false;
-        mLoadingMore = false;
+    @Override
+    protected void onLoadFinished(boolean more, int count, boolean successful,
+                                  List<Broadcast> response, VolleyError error) {
         getListener().onLoadBroadcastListFinished(getRequestCode());
-
         if (successful) {
-            mCanLoadMore = broadcastList.size() == count;
-            if (loadMore) {
-                mBroadcastList.addAll(broadcastList);
+            if (more) {
+                append(response);
                 getListener().onBroadcastListAppended(getRequestCode(),
-                        Collections.unmodifiableList(broadcastList));
+                        Collections.unmodifiableList(response));
             } else {
-                set(broadcastList);
+                setAndNotifyListener(response);
             }
-            for (Broadcast broadcast : broadcastList) {
+            for (Broadcast broadcast : response) {
                 EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, this));
             }
         } else {
@@ -234,18 +123,25 @@ public class BroadcastListResource extends ResourceFragment
         }
     }
 
+    protected void setAndNotifyListener(List<Broadcast> broadcastList) {
+        set(broadcastList);
+        getListener().onBroadcastListChanged(getRequestCode(),
+                Collections.unmodifiableList(get()));
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
-        if (event.isFromMyself(this) || mBroadcastList == null) {
+        if (event.isFromMyself(this) || isEmpty()) {
             return;
         }
 
-        for (int i = 0, size = mBroadcastList.size(); i < size; ++i) {
-            Broadcast broadcast = mBroadcastList.get(i);
+        List<Broadcast> broadcastList = get();
+        for (int i = 0, size = broadcastList.size(); i < size; ++i) {
+            Broadcast broadcast = broadcastList.get(i);
             boolean changed = false;
             if (broadcast.id == event.broadcast.id) {
-                mBroadcastList.set(i, event.broadcast);
+                broadcastList.set(i, event.broadcast);
                 changed = true;
             } else if (broadcast.rebroadcastedBroadcast != null
                     && broadcast.rebroadcastedBroadcast.id == event.broadcast.id) {
@@ -253,7 +149,7 @@ public class BroadcastListResource extends ResourceFragment
                 changed = true;
             }
             if (changed) {
-                getListener().onBroadcastChanged(getRequestCode(), i, mBroadcastList.get(i));
+                getListener().onBroadcastChanged(getRequestCode(), i, broadcastList.get(i));
             }
         }
     }
@@ -261,16 +157,17 @@ public class BroadcastListResource extends ResourceFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastDeleted(BroadcastDeletedEvent event) {
 
-        if (event.isFromMyself(this) || mBroadcastList == null) {
+        if (event.isFromMyself(this) || isEmpty()) {
             return;
         }
 
-        for (int i = 0, size = mBroadcastList.size(); i < size; ) {
-            Broadcast broadcast = mBroadcastList.get(i);
+        List<Broadcast> broadcastList = get();
+        for (int i = 0, size = broadcastList.size(); i < size; ) {
+            Broadcast broadcast = broadcastList.get(i);
             if (broadcast.id == event.broadcastId
                     || (broadcast.rebroadcastedBroadcast != null
                         && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
-                mBroadcastList.remove(i);
+                broadcastList.remove(i);
                 getListener().onBroadcastRemoved(getRequestCode(), i);
                 --size;
             } else {
@@ -282,12 +179,13 @@ public class BroadcastListResource extends ResourceFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastWriteStarted(BroadcastWriteStartedEvent event) {
 
-        if (event.isFromMyself(this) || mBroadcastList == null) {
+        if (event.isFromMyself(this) || isEmpty()) {
             return;
         }
 
-        for (int i = 0, size = mBroadcastList.size(); i < size; ++i) {
-            Broadcast broadcast = mBroadcastList.get(i);
+        List<Broadcast> broadcastList = get();
+        for (int i = 0, size = broadcastList.size(); i < size; ++i) {
+            Broadcast broadcast = broadcastList.get(i);
             if (broadcast.id == event.broadcastId
                     || (broadcast.rebroadcastedBroadcast != null
                     && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
@@ -299,12 +197,13 @@ public class BroadcastListResource extends ResourceFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastWriteFinished(BroadcastWriteFinishedEvent event) {
 
-        if (event.isFromMyself(this) || mBroadcastList == null) {
+        if (event.isFromMyself(this) || isEmpty()) {
             return;
         }
 
-        for (int i = 0, size = mBroadcastList.size(); i < size; ++i) {
-            Broadcast broadcast = mBroadcastList.get(i);
+        List<Broadcast> broadcastList = get();
+        for (int i = 0, size = broadcastList.size(); i < size; ++i) {
+            Broadcast broadcast = broadcastList.get(i);
             if (broadcast.id == event.broadcastId
                     || (broadcast.rebroadcastedBroadcast != null
                     && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
@@ -313,37 +212,8 @@ public class BroadcastListResource extends ResourceFragment
         }
     }
 
-    protected void setLoading(boolean loading) {
-        if (mLoading == loading) {
-            return;
-        }
-        mLoading = loading;
-        if (mLoading) {
-            getListener().onLoadBroadcastListStarted(getRequestCode());
-        } else {
-            getListener().onLoadBroadcastListFinished(getRequestCode());
-        }
-    }
-
-    protected void set(List<Broadcast> broadcastList) {
-        mBroadcastList = broadcastList;
-        getListener().onBroadcastListChanged(getRequestCode(),
-                Collections.unmodifiableList(broadcastList));
-    }
-
     private Listener getListener() {
         return (Listener) getTarget();
-    }
-
-    static class State {
-
-        public boolean loadMore;
-        public int count;
-
-        public State(boolean loadMore, int count) {
-            this.loadMore = loadMore;
-            this.count = count;
-        }
     }
 
     public interface Listener {

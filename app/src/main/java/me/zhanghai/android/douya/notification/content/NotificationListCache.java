@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.notification.app;
+package me.zhanghai.android.douya.notification.content;
 
 import android.accounts.Account;
 import android.content.Context;

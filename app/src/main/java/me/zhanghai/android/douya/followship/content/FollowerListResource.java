@@ -19,43 +19,25 @@ public class FollowerListResource extends FollowshipUserListResource {
 
     private static FollowerListResource newInstance(String userIdOrUid) {
         //noinspection deprecation
-        FollowerListResource resource = new FollowerListResource();
-        resource.setArguments(userIdOrUid);
-        return resource;
-    }
-
-    public static FollowerListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                                      String tag, int requestCode) {
-        return attachTo(userIdOrUid, activity, tag, true, null, requestCode);
-    }
-
-    public static FollowerListResource attachTo(String userIdOrUid, FragmentActivity activity) {
-        return attachTo(userIdOrUid, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+        FollowerListResource instance = new FollowerListResource();
+        instance.setArguments(userIdOrUid);
+        return instance;
     }
 
     public static FollowerListResource attachTo(String userIdOrUid, Fragment fragment,
                                                       String tag, int requestCode) {
-        return attachTo(userIdOrUid, fragment.getActivity(), tag, false, fragment, requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        FollowerListResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(userIdOrUid);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
     }
 
     public static FollowerListResource attachTo(String userIdOrUid, Fragment fragment) {
         return attachTo(userIdOrUid, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    private static FollowerListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                                 String tag, boolean targetAtActivity,
-                                                 Fragment targetFragment, int requestCode) {
-        FollowerListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(userIdOrUid);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**

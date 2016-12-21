@@ -10,13 +10,14 @@ import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.TokenRequest;
 import me.zhanghai.android.douya.network.api.TokenRequests;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class AuthenticateRequest extends RequestFragment<TokenRequest.Response,
-        AuthenticateRequest.RequestState> {
+public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.RequestState,
+        TokenRequest.Response> {
 
     private static final String FRAGMENT_TAG_DEFAULT = AuthenticateRequest.class.getName();
 
@@ -41,9 +42,14 @@ public class AuthenticateRequest extends RequestFragment<TokenRequest.Response,
      */
     public AuthenticateRequest() {}
 
-    public void authenticate(String authTokenType, String username, String password) {
-        startRequest(TokenRequests.newRequest(authTokenType, username, password),
-                new RequestState(authTokenType, username, password));
+    public void start(String authTokenType, String username, String password) {
+        start(new RequestState(authTokenType, username, password));
+    }
+
+    @Override
+    protected Request<TokenRequest.Response> onCreateRequest(RequestState requestState) {
+        return TokenRequests.newRequest(requestState.authTokenType, requestState.username,
+                requestState.password);
     }
 
     @Override

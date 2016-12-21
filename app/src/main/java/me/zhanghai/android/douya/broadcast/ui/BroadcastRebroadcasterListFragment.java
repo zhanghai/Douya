@@ -27,7 +27,7 @@ public class BroadcastRebroadcasterListFragment extends BroadcastUserListFragmen
     }
 
     @Override
-    protected BaseUserListResource onAttachUserListResource() {
+    protected BaseUserListResource<?> onAttachUserListResource() {
         return BroadcastRebroadcasterListResource.attachTo(getBroadcast().id, this);
     }
 

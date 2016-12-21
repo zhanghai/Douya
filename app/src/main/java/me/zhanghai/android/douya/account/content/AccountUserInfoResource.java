@@ -6,8 +6,6 @@
 package me.zhanghai.android.douya.account.content;
 
 import android.accounts.Account;
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,45 +26,27 @@ public class AccountUserInfoResource extends UserInfoResource {
 
     private static final String FRAGMENT_TAG_DEFAULT = AccountUserInfoResource.class.getName();
 
-    private static AccountUserInfoResource newInstance(Account account, Context context) {
+    private static AccountUserInfoResource newInstance(Account account) {
         //noinspection deprecation
-        AccountUserInfoResource resource = new AccountUserInfoResource();
-        resource.setArguments(account, context);
-        return resource;
-    }
-
-    public static AccountUserInfoResource attachTo(Account account, FragmentActivity activity,
-                                                   String tag, int requestCode) {
-        return attachTo(account, activity, tag, true, null, requestCode);
-    }
-
-    public static AccountUserInfoResource attachTo(Account account, FragmentActivity activity) {
-        return attachTo(account, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+        AccountUserInfoResource instance = new AccountUserInfoResource();
+        instance.setArguments(account);
+        return instance;
     }
 
     public static AccountUserInfoResource attachTo(Account account, Fragment fragment, String tag,
                                                    int requestCode) {
-        return attachTo(account, fragment.getActivity(), tag, false, fragment, requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        AccountUserInfoResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(account);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
     }
 
     public static AccountUserInfoResource attachTo(Account account, Fragment fragment) {
         return attachTo(account, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    private static AccountUserInfoResource attachTo(Account account, FragmentActivity activity,
-                                                    String tag, boolean targetAtActivity,
-                                                    Fragment targetFragment, int requestCode) {
-        AccountUserInfoResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(account, activity);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**
@@ -75,13 +55,13 @@ public class AccountUserInfoResource extends UserInfoResource {
     @SuppressWarnings("deprecation")
     public AccountUserInfoResource() {}
 
-    private void setArguments(Account account, Context context) {
+    private void setArguments(Account account) {
         FragmentUtils.ensureArguments(this).putParcelable(EXTRA_ACCOUNT, account);
-        User user = makePartialUser(account, context);
+        User user = makePartialUser(account);
         setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account));
     }
 
-    private User makePartialUser(Account account, Context context) {
+    private User makePartialUser(Account account) {
         User user = new User();
         //noinspection deprecation
         user.id = AccountUtils.getUserId(account);
@@ -101,14 +81,13 @@ public class AccountUserInfoResource extends UserInfoResource {
     @Override
     protected void loadOnStart() {
         // Always load, so that we can ever get refreshed.
-        load();
+        onLoadOnStart();
     }
 
     @Override
-    protected void onUserInfoLoaded(UserInfo userInfo) {
-        super.onUserInfoLoaded(userInfo);
+    protected void onLoadSuccess(UserInfo userInfo) {
+        super.onLoadSuccess(userInfo);
 
-        Activity activity = getActivity();
         AccountUtils.setUserName(mAccount, userInfo.name);
         AccountUtils.setUserInfo(mAccount, userInfo);
     }
@@ -122,7 +101,7 @@ public class AccountUserInfoResource extends UserInfoResource {
     @Deprecated
     @Override
     public User getUser() {
-        throw new IllegalStateException("Call getPartialUser() instead");
+        throw new IllegalStateException("Use getPartialUser() instead");
     }
 
     public User getPartialUser() {

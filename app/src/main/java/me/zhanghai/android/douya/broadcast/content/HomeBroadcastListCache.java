@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.util.DiskCacheHelper;
 
 public class HomeBroadcastListCache {
 
-    private static final int MAX_LIST_SIZE = 20;
+    public static final int MAX_LIST_SIZE = 20;
 
     private static final String KEY_PREFIX = HomeBroadcastListCache.class.getName();
 

@@ -13,8 +13,8 @@ import com.android.volley.VolleyError;
 
 import java.util.List;
 
+import me.zhanghai.android.douya.app.TargetedRetainedFragment;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
-import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.diary.content.UserDiaryListResource;
 import me.zhanghai.android.douya.followship.content.FollowingListResource;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
@@ -27,7 +27,7 @@ import me.zhanghai.android.douya.review.content.UserReviewListResource;
 import me.zhanghai.android.douya.user.content.UserInfoResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class ProfileResource extends ResourceFragment implements UserInfoResource.Listener,
+public class ProfileResource extends TargetedRetainedFragment implements UserInfoResource.Listener,
         BroadcastListResource.Listener, FollowingListResource.Listener,
         UserDiaryListResource.Listener, UserItemListResource.Listener,
         UserReviewListResource.Listener {
@@ -56,50 +56,27 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
 
     private static ProfileResource newInstance(String userIdOrUid, User user, UserInfo userInfo) {
         //noinspection deprecation
-        ProfileResource resource = new ProfileResource();
-        resource.setArguments(userIdOrUid, user, userInfo);
-        return resource;
-    }
-
-    public static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
-                                           FragmentActivity activity, String tag,
-                                           int requestCode) {
-        return attachTo(userIdOrUid, user, userInfo, activity, tag, true, null, requestCode);
-    }
-
-    public static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
-                                           FragmentActivity activity) {
-        return attachTo(userIdOrUid, user, userInfo, activity, FRAGMENT_TAG_DEFAULT,
-                REQUEST_CODE_INVALID);
+        ProfileResource instance = new ProfileResource();
+        instance.setArguments(userIdOrUid, user, userInfo);
+        return instance;
     }
 
     public static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
                                            Fragment fragment, String tag, int requestCode) {
-        return attachTo(userIdOrUid, user, userInfo, fragment.getActivity(), tag, false, fragment,
-                requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        ProfileResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(userIdOrUid, user, userInfo);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
     }
 
     public static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
                                            Fragment fragment) {
         return attachTo(userIdOrUid, user, userInfo, fragment, FRAGMENT_TAG_DEFAULT,
                 REQUEST_CODE_INVALID);
-    }
-
-    private static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
-                                            FragmentActivity activity, String tag,
-                                            boolean targetAtActivity, Fragment targetFragment,
-                                            int requestCode) {
-        ProfileResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(userIdOrUid, user, userInfo);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**
@@ -283,10 +260,10 @@ public class ProfileResource extends ResourceFragment implements UserInfoResourc
     public void onBroadcastWriteFinished(int requestCode, int position) {}
 
     @Override
-    public void onLoadUserListStarted(int requestCode, boolean loadMore) {}
+    public void onLoadUserListStarted(int requestCode) {}
 
     @Override
-    public void onLoadUserListFinished(int requestCode, boolean loadMore) {}
+    public void onLoadUserListFinished(int requestCode) {}
 
     @Override
     public void onLoadUserListError(int requestCode, VolleyError error) {

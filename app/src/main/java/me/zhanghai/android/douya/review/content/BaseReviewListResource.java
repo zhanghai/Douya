@@ -13,127 +13,55 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
+import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.ReviewDeletedEvent;
 import me.zhanghai.android.douya.eventbus.ReviewUpdatedEvent;
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.util.LogUtils;
 
-public abstract class BaseReviewListResource extends ResourceFragment
-        implements RequestFragment.Listener<ReviewList, BaseReviewListResource.State> {
-
-    private static final int DEFAULT_COUNT_PER_LOAD = 20;
-
-    private List<Review> mReviewList;
-
-    private boolean mCanLoadMore = true;
-    private boolean mLoading;
-    private boolean mLoadingMore;
-
-    /**
-     * @return Unmodifiable review list, or {@code null}.
-     */
-    public List<Review> get() {
-        return mReviewList != null ? Collections.unmodifiableList(mReviewList) : null;
-    }
-
-    public boolean has() {
-        return mReviewList != null;
-    }
-
-    public boolean isEmpty() {
-        return mReviewList == null || mReviewList.isEmpty();
-    }
-
-    public boolean isLoading() {
-        return mLoading;
-    }
-
-    public boolean isLoadingMore() {
-        return mLoadingMore;
-    }
+public abstract class BaseReviewListResource
+        extends MoreRawListResourceFragment<Review, ReviewList> {
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        EventBusUtils.register(this);
-
-        if (mReviewList == null || (mReviewList.isEmpty() && mCanLoadMore)) {
-            load(false);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBusUtils.unregister(this);
-    }
-
-    public void load(boolean loadMore, int count) {
-
-        if (loadMore && mReviewList == null) {
-            LogUtils.w("loadMore=true when mReviewList is null");
-            loadMore = false;
-        }
-        if (mLoading || (loadMore && !mCanLoadMore)) {
-            return;
-        }
-
-        mLoading = true;
-        mLoadingMore = loadMore;
-        getListener().onLoadReviewListStarted(getRequestCode());
-
-        Integer start = loadMore ? (mReviewList != null ? mReviewList.size() : 0) : null;
-        ApiRequest<ReviewList> request = onCreateRequest(start, count);
-        State state = new State(loadMore, count);
-        RequestFragment.startRequest(request, state, this);
-    }
-
-    public void load(boolean loadMore) {
-        load(loadMore, DEFAULT_COUNT_PER_LOAD);
+    protected Request<ReviewList> onCreateRequest(boolean more, int count) {
+        Integer start = more ? (has() ? get().size() : 0) : null;
+        return onCreateRequest(start, count);
     }
 
     protected abstract ApiRequest<ReviewList> onCreateRequest(Integer start, Integer count);
 
     @Override
-    public void onVolleyResponse(int requestCode, final boolean successful,
-                                 final ReviewList result, final VolleyError error,
-                                 final State requestState) {
-        postOnResumed(new Runnable() {
-            @Override
-            public void run() {
-                onLoadFinished(successful, result != null ? result.reviews : null, error,
-                        requestState.loadMore, requestState.count);
-            }
-        });
+    protected void onLoadStarted() {
+        getListener().onLoadReviewListStarted(getRequestCode());
     }
 
-    private void onLoadFinished(boolean successful, List<Review> reviewList, VolleyError error,
-                                boolean loadMore, int count) {
+    @Override
+    protected void onLoadFinished(boolean more, int count, boolean successful, ReviewList response,
+                                  VolleyError error) {
+        onLoadFinished(more, count, successful, response != null ? response.reviews : null, error);
+    }
 
-        mLoading = false;
-        mLoadingMore = false;
+    private void onLoadFinished(boolean more, int count, boolean successful,
+                                List<Review> response, VolleyError error) {
         getListener().onLoadReviewListFinished(getRequestCode());
-
         if (successful) {
-            mCanLoadMore = reviewList.size() == count;
-            if (loadMore) {
-                mReviewList.addAll(reviewList);
+            if (more) {
+                append(response);
                 getListener().onReviewListAppended(getRequestCode(),
-                        Collections.unmodifiableList(reviewList));
-                for (Review review : reviewList) {
-                    EventBusUtils.postAsync(new ReviewUpdatedEvent(review, this));
-                }
+                        Collections.unmodifiableList(response));
             } else {
-                mReviewList = reviewList;
+                set(response);
                 getListener().onReviewListChanged(getRequestCode(),
-                        Collections.unmodifiableList(reviewList));
+                        Collections.unmodifiableList(get()));
+            }
+            for (Review review : response) {
+                EventBusUtils.postAsync(new ReviewUpdatedEvent(review, this));
             }
         } else {
             getListener().onLoadReviewListError(getRequestCode(), error);
@@ -143,15 +71,16 @@ public abstract class BaseReviewListResource extends ResourceFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReviewUpdated(ReviewUpdatedEvent event) {
 
-        if (event.isFromMyself(this) || mReviewList == null) {
+        if (event.isFromMyself(this) || isEmpty()) {
             return;
         }
 
-        for (int i = 0, size = mReviewList.size(); i < size; ++i) {
-            Review review = mReviewList.get(i);
+        List<Review> reviewList = get();
+        for (int i = 0, size = reviewList.size(); i < size; ++i) {
+            Review review = reviewList.get(i);
             if (review.id == event.review.id) {
-                mReviewList.set(i, event.review);
-                getListener().onReviewChanged(getRequestCode(), i, mReviewList.get(i));
+                reviewList.set(i, event.review);
+                getListener().onReviewChanged(getRequestCode(), i, reviewList.get(i));
             }
         }
     }
@@ -159,14 +88,15 @@ public abstract class BaseReviewListResource extends ResourceFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReviewDeleted(ReviewDeletedEvent event) {
 
-        if (event.isFromMyself(this) || mReviewList == null) {
+        if (event.isFromMyself(this) || isEmpty()) {
             return;
         }
 
-        for (int i = 0, size = mReviewList.size(); i < size; ) {
-            Review review = mReviewList.get(i);
+        List<Review> reviewList = get();
+        for (int i = 0, size = reviewList.size(); i < size; ) {
+            Review review = reviewList.get(i);
             if (review.id == event.reviewId) {
-                mReviewList.remove(i);
+                reviewList.remove(i);
                 getListener().onReviewRemoved(getRequestCode(), i);
                 --size;
             } else {
@@ -177,17 +107,6 @@ public abstract class BaseReviewListResource extends ResourceFragment
 
     private Listener getListener() {
         return (Listener) getTarget();
-    }
-
-    static class State {
-
-        public boolean loadMore;
-        public int count;
-
-        public State(boolean loadMore, int count) {
-            this.loadMore = loadMore;
-            this.count = count;
-        }
     }
 
     public interface Listener {

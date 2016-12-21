@@ -14,16 +14,14 @@ import com.android.volley.VolleyError;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.ResourceFragment;
-import me.zhanghai.android.douya.network.RequestFragment;
-import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.content.RawListResourceFragment;
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class UserItemListResource extends ResourceFragment
-        implements RequestFragment.Listener<UserItemList, Void> {
+public class UserItemListResource extends RawListResourceFragment<UserItems, UserItemList> {
 
     private static final String KEY_PREFIX = UserItemListResource.class.getName() + '.';
 
@@ -31,51 +29,29 @@ public class UserItemListResource extends ResourceFragment
 
     private String mUserIdOrUid;
 
-    private List<UserItems> mUserItemList;
-
-    private boolean mLoading;
-
     private static final String FRAGMENT_TAG_DEFAULT = UserItemListResource.class.getName();
 
     private static UserItemListResource newInstance(String userIdOrUid) {
         //noinspection deprecation
-        UserItemListResource resource = new UserItemListResource();
-        resource.setArguments(userIdOrUid);
-        return resource;
-    }
-
-    public static UserItemListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                                String tag, int requestCode) {
-        return attachTo(userIdOrUid, activity, tag, true, null, requestCode);
-    }
-
-    public static UserItemListResource attachTo(String userIdOrUid, FragmentActivity activity) {
-        return attachTo(userIdOrUid, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+        UserItemListResource instance = new UserItemListResource();
+        instance.setArguments(userIdOrUid);
+        return instance;
     }
 
     public static UserItemListResource attachTo(String userIdOrUid, Fragment fragment, String tag,
                                                 int requestCode) {
-        return attachTo(userIdOrUid, fragment.getActivity(), tag, false, fragment, requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        UserItemListResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(userIdOrUid);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
     }
 
     public static UserItemListResource attachTo(String userIdOrUid, Fragment fragment) {
         return attachTo(userIdOrUid, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    private static UserItemListResource attachTo(String userIdOrUid, FragmentActivity activity,
-                                                 String tag, boolean targetAtActivity,
-                                                 Fragment targetFragment, int requestCode) {
-        UserItemListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(userIdOrUid);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**
@@ -95,69 +71,27 @@ public class UserItemListResource extends ResourceFragment
         mUserIdOrUid = getArguments().getString(EXTRA_USER_ID_OR_UID);
     }
 
-    /**
-     * @return Unmodifiable user item list, or {@code null}.
-     */
-    public List<UserItems> get() {
-        return mUserItemList != null ? Collections.unmodifiableList(mUserItemList) : null;
-    }
-
-    public boolean has() {
-        return mUserItemList != null;
-    }
-
-    public boolean isEmpty() {
-        return mUserItemList == null || mUserItemList.isEmpty();
-    }
-
-    public boolean isLoading() {
-        return mLoading;
+    @Override
+    protected Request<UserItemList> onCreateRequest() {
+        return ApiRequests.newUserItemListRequest(mUserIdOrUid);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        if (mUserItemList == null) {
-            load();
-        }
-    }
-
-    public void load() {
-
-        if (mLoading) {
-            return;
-        }
-
-        mLoading = true;
+    protected void onLoadStarted() {
         getListener().onLoadUserItemListStarted(getRequestCode());
-
-        ApiRequest<UserItemList> request = ApiRequests.newUserItemListRequest(mUserIdOrUid);
-        RequestFragment.startRequest(request, null, this);
     }
 
     @Override
-    public void onVolleyResponse(int requestCode, final boolean successful,
-                                 final UserItemList result, final VolleyError error,
-                                 Void requestState) {
-        postOnResumed(new Runnable() {
-            @Override
-            public void run() {
-                onLoadFinished(successful, result != null ? result.list : null, error);
-            }
-        });
+    protected void onLoadFinished(boolean successful, UserItemList response, VolleyError error) {
+        onLoadFinished(successful, response != null ? response.list : null, error);
     }
 
-    private void onLoadFinished(boolean successful, List<UserItems> userItemList,
-                                VolleyError error) {
-
-        mLoading = false;
+    private void onLoadFinished(boolean successful, List<UserItems> response, VolleyError error) {
         getListener().onLoadUserItemListFinished(getRequestCode());
-
         if (successful) {
-            mUserItemList = userItemList;
+            set(response);
             getListener().onUserItemListChanged(getRequestCode(),
-                    Collections.unmodifiableList(userItemList));
+                    Collections.unmodifiableList(response));
         } else {
             getListener().onLoadUserItemListError(getRequestCode(), error);
         }

@@ -26,43 +26,25 @@ public class ItemReviewListResource extends BaseReviewListResource {
 
     private static ItemReviewListResource newInstance(long itemId) {
         //noinspection deprecation
-        ItemReviewListResource resource = new ItemReviewListResource();
-        resource.setArguments(itemId);
-        return resource;
-    }
-
-    public static ItemReviewListResource attachTo(long itemId, FragmentActivity activity,
-                                                  String tag, int requestCode) {
-        return attachTo(itemId, activity, tag, true, null, requestCode);
-    }
-
-    public static ItemReviewListResource attachTo(long itemId, FragmentActivity activity) {
-        return attachTo(itemId, activity, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+        ItemReviewListResource instance = new ItemReviewListResource();
+        instance.setArguments(itemId);
+        return instance;
     }
 
     public static ItemReviewListResource attachTo(long itemId, Fragment fragment, String tag,
                                                   int requestCode) {
-        return attachTo(itemId, fragment.getActivity(), tag, false, fragment, requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        ItemReviewListResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(itemId);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
     }
 
     public static ItemReviewListResource attachTo(long itemId, Fragment fragment) {
         return attachTo(itemId, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
-    }
-
-    private static ItemReviewListResource attachTo(long itemId, FragmentActivity activity,
-                                                   String tag, boolean targetAtActivity,
-                                                   Fragment targetFragment, int requestCode) {
-        ItemReviewListResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(itemId);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**

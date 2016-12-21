@@ -27,7 +27,7 @@ public class BroadcastLikerListFragment extends BroadcastUserListFragment {
     }
 
     @Override
-    protected BaseUserListResource onAttachUserListResource() {
+    protected BaseUserListResource<?> onAttachUserListResource() {
         return BroadcastLikerListResource.attachTo(getBroadcast().id, this);
     }
 

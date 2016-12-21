@@ -19,15 +19,13 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.UserInfoUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.UserInfoWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.UserInfoWriteStartedEvent;
-import me.zhanghai.android.douya.network.RequestFragment;
-import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiRequests;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class UserInfoResource extends ResourceFragment
-        implements RequestFragment.Listener<UserInfo, Void> {
+public class UserInfoResource extends ResourceFragment<UserInfo, UserInfo> {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
@@ -38,59 +36,33 @@ public class UserInfoResource extends ResourceFragment
 
     private String mUserIdOrUid;
     private User mUser;
-
-    private UserInfo mUserInfo;
-
-    private boolean mLoading;
+    private UserInfo mExtraUserInfo;
 
     private static final String FRAGMENT_TAG_DEFAULT = UserInfoResource.class.getName();
 
     private static UserInfoResource newInstance(String userIdOrUid, User user, UserInfo userInfo) {
         //noinspection deprecation
-        UserInfoResource resource = new UserInfoResource();
-        resource.setArguments(userIdOrUid, user, userInfo);
-        return resource;
-    }
-
-    public static UserInfoResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
-                                            FragmentActivity activity, String tag,
-                                            int requestCode) {
-        return attachTo(userIdOrUid, user, userInfo, activity, tag, true, null, requestCode);
-    }
-
-    public static UserInfoResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
-                                            FragmentActivity activity) {
-        return attachTo(userIdOrUid, user, userInfo, activity, FRAGMENT_TAG_DEFAULT,
-                REQUEST_CODE_INVALID);
+        UserInfoResource instance = new UserInfoResource();
+        instance.setArguments(userIdOrUid, user, userInfo);
+        return instance;
     }
 
     public static UserInfoResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
                                             Fragment fragment, String tag, int requestCode) {
-        return attachTo(userIdOrUid, user, userInfo, fragment.getActivity(), tag, false, fragment,
-                requestCode);
+        FragmentActivity activity = fragment.getActivity();
+        UserInfoResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(userIdOrUid, user, userInfo);
+            instance.targetAtFragment(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
     }
 
     public static UserInfoResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
                                             Fragment fragment) {
         return attachTo(userIdOrUid, user, userInfo, fragment, FRAGMENT_TAG_DEFAULT,
                 REQUEST_CODE_INVALID);
-    }
-
-    private static UserInfoResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
-                                             FragmentActivity activity, String tag,
-                                             boolean targetAtActivity, Fragment targetFragment,
-                                             int requestCode) {
-        UserInfoResource resource = FragmentUtils.findByTag(activity, tag);
-        if (resource == null) {
-            resource = newInstance(userIdOrUid, user, userInfo);
-            if (targetAtActivity) {
-                resource.targetAtActivity(requestCode);
-            } else {
-                resource.targetAtFragment(targetFragment, requestCode);
-            }
-            FragmentUtils.add(resource, activity, tag);
-        }
-        return resource;
     }
 
     /**
@@ -112,11 +84,57 @@ public class UserInfoResource extends ResourceFragment
         }
     }
 
+    public String getUserIdOrUid() {
+        ensureArguments();
+        return mUserIdOrUid;
+    }
+
+    public User getUser() {
+        // Can be called before onCreate() is called.
+        ensureArguments();
+        return mUser;
+    }
+
+    public boolean hasUser() {
+        return getUser() != null;
+    }
+
+    @Override
+    public UserInfo get() {
+        UserInfo userInfo = super.get();
+        if (userInfo == null) {
+            // Can be called before onCreate() is called.
+            ensureArguments();
+            userInfo = mExtraUserInfo;
+        }
+        return userInfo;
+    }
+
+    @Override
+    protected void set(UserInfo userInfo) {
+        super.set(userInfo);
+
+        userInfo = get();
+        if (userInfo != null) {
+            mUser = userInfo;
+            mUserIdOrUid = userInfo.getIdOrUid();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
+        ensureArguments();
+    }
+
+    private void ensureArguments() {
+        if (mUserIdOrUid == null) {
+            Bundle arguments = getArguments();
+            mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
+            mUser = arguments.getParcelable(EXTRA_USER);
+            mExtraUserInfo = arguments.getParcelable(EXTRA_USER_INFO);
+        }
     }
 
     @Override
@@ -126,113 +144,33 @@ public class UserInfoResource extends ResourceFragment
         Bundle arguments = getArguments();
         arguments.putString(EXTRA_USER_ID_OR_UID, mUserIdOrUid);
         arguments.putParcelable(EXTRA_USER, mUser);
-        arguments.putParcelable(EXTRA_USER_INFO, mUserInfo);
-    }
-
-    public String getUserIdOrUid() {
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
-        return mUserIdOrUid;
-    }
-
-    public User getUser() {
-        // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
-        return mUser;
-    }
-
-    public boolean hasUser() {
-        // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
-        return mUser != null;
-    }
-
-    public UserInfo getUserInfo() {
-        // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
-        return mUserInfo;
-    }
-
-    public boolean hasUserInfo() {
-        // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
-        return mUserInfo != null;
-    }
-
-    public boolean isLoading() {
-        return mLoading;
-    }
-
-    private void ensureUserInfoAndUserAndIdOrUidFromArguments() {
-        if (mUserIdOrUid == null) {
-            Bundle arguments = getArguments();
-            mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
-            mUser = arguments.getParcelable(EXTRA_USER);
-            mUserInfo = arguments.getParcelable(EXTRA_USER_INFO);
-        }
+        arguments.putParcelable(EXTRA_USER_INFO, mExtraUserInfo);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        EventBusUtils.register(this);
-
-        loadOnStart();
-    }
-
-    protected void loadOnStart() {
-        if (mUserInfo == null) {
-            load();
-        }
+    protected Request<UserInfo> onCreateRequest() {
+        return ApiRequests.newUserInfoRequest(mUserIdOrUid);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBusUtils.unregister(this);
-    }
-
-    public void load() {
-
-        if (mLoading) {
-            return;
-        }
-
-        mLoading = true;
+    protected void onLoadStarted() {
         getListener().onLoadUserInfoStarted(getRequestCode());
-
-        ApiRequest<UserInfo> request = ApiRequests.newUserInfoRequest(mUserIdOrUid);
-        RequestFragment.startRequest(request, null, this);
     }
 
     @Override
-    public void onVolleyResponse(int requestCode, final boolean successful,
-                                 final UserInfo result, final VolleyError error,
-                                 final Void requestState) {
-        postOnResumed(new Runnable() {
-            @Override
-            public void run() {
-                onLoadFinished(successful, result, error);
-            }
-        });
-    }
-
-    private void onLoadFinished(boolean successful, UserInfo userInfo, VolleyError error) {
-
-        mLoading = false;
+    protected void onLoadFinished(boolean successful, UserInfo response, VolleyError error) {
         getListener().onLoadUserInfoFinished(getRequestCode());
-
         if (successful) {
-            setUserInfo(userInfo);
-            onUserInfoLoaded(userInfo);
-            EventBusUtils.postAsync(new UserInfoUpdatedEvent(mUserInfo, this));
+            set(response);
+            onLoadSuccess(response);
+            getListener().onUserInfoChanged(getRequestCode(), get());
+            EventBusUtils.postAsync(new UserInfoUpdatedEvent(response, this));
         } else {
             getListener().onLoadUserInfoError(getRequestCode(), error);
         }
     }
 
-    protected void onUserInfoLoaded(UserInfo userInfo) {}
+    protected void onLoadSuccess(UserInfo userInfo) {}
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoUpdated(UserInfoUpdatedEvent event) {
@@ -242,15 +180,9 @@ public class UserInfoResource extends ResourceFragment
         }
 
         if (event.userInfo.hasIdOrUid(mUserIdOrUid)) {
-            setUserInfo(event.userInfo);
+            set(event.userInfo);
+            getListener().onUserInfoChanged(getRequestCode(), get());
         }
-    }
-
-    private void setUserInfo(UserInfo userInfo) {
-        mUserInfo = userInfo;
-        mUser = mUserInfo;
-        mUserIdOrUid = mUserInfo.getIdOrUid();
-        getListener().onUserInfoChanged(getRequestCode(), mUserInfo);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -261,7 +193,7 @@ public class UserInfoResource extends ResourceFragment
         }
 
         // Only call listener when we have the data.
-        if (mUserInfo != null && mUserInfo.hasIdOrUid(event.userIdOrUid)) {
+        if (mExtraUserInfo != null && mExtraUserInfo.hasIdOrUid(event.userIdOrUid)) {
             getListener().onUserInfoWriteStarted(getRequestCode());
         }
     }
@@ -274,7 +206,7 @@ public class UserInfoResource extends ResourceFragment
         }
 
         // Only call listener when we have the data.
-        if (mUserInfo != null && mUserInfo.hasIdOrUid(event.userIdOrUid)) {
+        if (mExtraUserInfo != null && mExtraUserInfo.hasIdOrUid(event.userIdOrUid)) {
             getListener().onUserInfoWriteFinished(getRequestCode());
         }
     }
