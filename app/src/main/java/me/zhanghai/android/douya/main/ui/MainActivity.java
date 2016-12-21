@@ -79,14 +79,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         ScalpelHelperFragment.attachTo(this);
 
         mNavigationFragment = FragmentUtils.findById(this, R.id.navigation_fragment);
-        mNotificationListFragment = FragmentUtils.findById(this, R.id.notification_list_fragment);
-        mNotificationListFragment.setListener(this);
 
         if (savedInstanceState == null) {
-            mMainFragment = HomeFragment.newInstance();
-            FragmentUtils.add(mMainFragment, this, R.id.container);
+            addFragments();
         } else {
             mMainFragment = FragmentUtils.findById(this, R.id.container);
+            mNotificationListFragment = FragmentUtils.findById(this, R.id.notification_list_drawer);
         }
     }
 
@@ -148,10 +146,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     @Override
     public void reloadForActiveAccountChange() {
+        FragmentUtils.remove(mMainFragment);
+        FragmentUtils.remove(mNotificationListFragment);
+        FragmentUtils.execPendingTransactions(this);
+        addFragments();
+        FragmentUtils.execPendingTransactions(this);
+    }
+
+    private void addFragments() {
         mMainFragment = HomeFragment.newInstance();
-        FragmentUtils.replace(mMainFragment, this, R.id.container);
-        // TODO: NotificationFragment
-        mNotificationListFragment.refresh();
+        FragmentUtils.add(mMainFragment, this, R.id.container);
+        mNotificationListFragment = NotificationListFragment.newInstance();
+        mNotificationListFragment.setListener(this);
+        FragmentUtils.add(mNotificationListFragment, this, R.id.notification_list_drawer);
     }
 
     @Override

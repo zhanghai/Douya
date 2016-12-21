@@ -169,4 +169,12 @@ public class FragmentUtils {
         //noinspection deprecation
         replace(fragment, parentFragment.getChildFragmentManager(), null);
     }
+
+    public static void execPendingTransactions(FragmentActivity activity) {
+        activity.getSupportFragmentManager().executePendingTransactions();
+    }
+
+    public static void execPendingTransactions(Fragment fragment) {
+        fragment.getFragmentManager().executePendingTransactions();
+    }
 }

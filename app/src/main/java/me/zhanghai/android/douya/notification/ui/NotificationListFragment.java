@@ -53,6 +53,16 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
     private Listener mListener;
 
+    public static NotificationListFragment newInstance() {
+        //noinspection deprecation
+        return new NotificationListFragment();
+    }
+
+    /**
+     * @deprecated Use {@link #newInstance()} instead.
+     */
+    public NotificationListFragment() {}
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,9 +81,9 @@ public class NotificationListFragment extends Fragment implements NotificationLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final Activity activity = getActivity();
-
         mNotificationListResource = NotificationListResource.attachTo(this);
+
+        Activity activity = getActivity();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

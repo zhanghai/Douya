@@ -35,13 +35,5 @@
         android:maxWidth="@dimen/drawer_max_width"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="@color/window_background_light">
-
-        <fragment
-            android:id="@+id/notification_list_fragment"
-            android:name="me.zhanghai.android.douya.notification.ui.NotificationListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout="@layout/notification_list_fragment" />
-    </me.zhanghai.android.douya.ui.MaxDimensionDispatchInsetsFrameLayout>
+        android:background="@color/window_background_light" />
 </me.zhanghai.android.douya.ui.DispatchInsetsDrawerLayout>
