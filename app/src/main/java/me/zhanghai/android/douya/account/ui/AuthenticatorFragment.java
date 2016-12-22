@@ -34,6 +34,7 @@ import me.zhanghai.android.douya.account.content.AuthenticateRequest;
 import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.account.util.AuthenticatorUtils;
+import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes.Token;
 import me.zhanghai.android.douya.network.api.TokenRequest;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -66,8 +67,10 @@ public class AuthenticatorFragment extends Fragment implements AuthenticateReque
     TextInputLayout mPasswordLayout;
     @BindView(R.id.password)
     EditText mPasswordEdit;
-    @BindView(R.id.login)
-    Button mLoginButton;
+    @BindView(R.id.sign_in)
+    Button mSignInButton;
+    @BindView(R.id.sign_up)
+    Button mSignUpButton;
     @BindView(R.id.progress)
     ProgressBar mProgress;
 
@@ -140,11 +143,16 @@ public class AuthenticatorFragment extends Fragment implements AuthenticateReque
                 return false;
             }
         });
-
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 authenticate();
+            }
+        });
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NotImplementedManager.signUp(getActivity());
             }
         });
 

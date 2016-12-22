@@ -37,4 +37,8 @@ public class NotImplementedManager {
     public static void showNotYetImplementedToast(Context context) {
         ToastUtils.show(R.string.not_yet_implemented, context);
     }
+
+    public static void signUp(Context context) {
+        UrlHandler.open("https://www.douban.com/accounts/register", context);
+    }
 }

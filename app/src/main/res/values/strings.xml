@@ -107,8 +107,8 @@
     <string name="auth_title_confirm">确认密码</string>
     <string name="auth_username">用户名</string>
     <string name="auth_password">密码</string>
-    <string name="auth_log_in">登录</string>
-    <string name="auth_register">没有账户？现在注册</string>
+    <string name="auth_sign_in">登录</string>
+    <string name="auth_sign_up">没有账户？现在注册</string>
     <string name="auth_error_empty_username">请输入用户名</string>
     <string name="auth_error_empty_password">请输入密码</string>
     <string name="auth_error_invalid_response">服务器应答无效</string>
