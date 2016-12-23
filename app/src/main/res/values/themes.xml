@@ -99,6 +99,8 @@
         <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
     </style>
 
+    <style name="Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />
+
     <style name="Base.Theme.Douya.Gallery" parent="Theme.Design">
 
         <item name="actionModeBackground">@color/background_material_dark</item>

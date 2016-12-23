@@ -6,6 +6,7 @@
   -->
 
 <resources>
+
     <style name="Theme.Douya.TransparentStatusBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
@@ -17,6 +18,10 @@
     <style name="Theme.Douya.MainActivity.ColdStart">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
+    </style>
+
+    <style name="Theme.Douya.BroadcastActivity">
+        <item name="android:statusBarColor">?colorPrimaryDark</item>
     </style>
 
     <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery">

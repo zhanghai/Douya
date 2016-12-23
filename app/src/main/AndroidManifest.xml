@@ -70,7 +70,7 @@
 
         <activity
             android:name=".broadcast.ui.BroadcastActivity"
-            android:theme="@style/Theme.Douya.DarkBackground"
+            android:theme="@style/Theme.Douya.BroadcastActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
