@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.settings.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -75,7 +76,7 @@ public class AboutFragment extends Fragment implements ConfirmEnableScalpelDialo
 
         ScalpelHelperFragment.attachTo(this);
 
-        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
         activity.getSupportActionBar().setTitle(null);
 
@@ -92,6 +93,7 @@ public class AboutFragment extends Fragment implements ConfirmEnableScalpelDialo
         mDoubanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Activity activity = getActivity();
                 activity.startActivity(ProfileActivity.makeIntent("douban-douya", activity));
             }
         });

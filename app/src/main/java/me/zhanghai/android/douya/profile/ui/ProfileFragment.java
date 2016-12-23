@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.followship.content.FollowUserManager;
-import me.zhanghai.android.douya.item.ui.ItemCollectionActivity;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;

@@ -164,14 +164,14 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         mBroadcastAndCommentListResource = BroadcastAndCommentListResource.attachTo(mBroadcastId,
                 mBroadcast, this);
 
-        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setTitle(getTitle());
         activity.setSupportActionBar(mToolbar);
 
         mContainerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.finishAfterTransition(activity);
+                ActivityCompat.finishAfterTransition(getActivity());
             }
         });
         ViewCompat.setTransitionName(mSharedView, Broadcast.makeTransitionName(mBroadcastId));

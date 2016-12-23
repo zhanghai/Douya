@@ -100,7 +100,7 @@ public class ItemCollectionFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
         //activity.setTitle(getTitle());
         activity.setSupportActionBar(mToolbar);
 
@@ -134,7 +134,8 @@ public class ItemCollectionFragment extends Fragment {
         mRatingBar.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
             @Override
             public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
-                mRatingHintText.setText(DoubanUtils.getRatingHint((int) rating, activity));
+                mRatingHintText.setText(DoubanUtils.getRatingHint((int) rating,
+                        mRatingHintText.getContext()));
             }
         });
     }

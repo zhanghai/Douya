@@ -83,8 +83,6 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
         mNotificationListResource = NotificationListResource.attachTo(this);
 
-        Activity activity = getActivity();
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -94,6 +92,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
         mNotificationList.setHasFixedSize(true);
         mNotificationList.setItemAnimator(new NoChangeAnimationItemAnimator());
+        Activity activity = getActivity();
         mNotificationList.setLayoutManager(new LinearLayoutManager(activity));
         mNotificationAdapter = new NotificationAdapter(mNotificationListResource.get(), activity);
         mNotificationAdapter.setListener(this);

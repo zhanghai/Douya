@@ -84,8 +84,6 @@ public abstract class BaseBroadcastListFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final Activity activity = getActivity();
-
         CustomTabsHelperFragment.attachTo(this);
         mBroadcastListResource = onAttachBroadcastListResource();
 
@@ -99,6 +97,7 @@ public abstract class BaseBroadcastListFragment extends Fragment
         mBroadcastList.setHasFixedSize(true);
         mBroadcastList.setItemAnimator(new NoChangeAnimationItemAnimator());
         // Always use StaggeredGridLayoutManager so that instance state can be saved.
+        Activity activity = getActivity();
         int columnCount = CardUtils.getColumnCount(activity);
         mBroadcastList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
                 StaggeredGridLayoutManager.VERTICAL));
