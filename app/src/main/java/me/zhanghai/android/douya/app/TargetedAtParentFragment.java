@@ -10,11 +10,11 @@ import android.support.v4.app.Fragment;
 
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class TargetParentFragment extends Fragment {
+public class TargetedAtParentFragment extends Fragment {
 
     public static final int REQUEST_CODE_INVALID = -1;
 
-    private static final String KEY_PREFIX = TargetParentFragment.class.getName() + '.';
+    private static final String KEY_PREFIX = TargetedAtParentFragment.class.getName() + '.';
 
     private static final String EXTRA_REQUEST_CODE = KEY_PREFIX + "request_code";
 
