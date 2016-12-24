@@ -129,7 +129,7 @@ public class ViewUtils {
     }
 
     public static void crossfade(View fromView, View toView) {
-        crossfade(fromView, toView, true);
+        crossfade(fromView, toView, false);
     }
 
     public static void fadeOutThenFadeIn(final View fromView, final View toView, final int duration,
@@ -147,7 +147,7 @@ public class ViewUtils {
     }
 
     public static void fadeOutThenFadeIn(final View fromView, final View toView) {
-        fadeOutThenFadeIn(fromView, toView, true);
+        fadeOutThenFadeIn(fromView, toView, false);
     }
 
     public static float dpToPx(float dp, Context context) {

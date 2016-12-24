@@ -62,8 +62,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle arguments = getArguments();
-        mRequestCode = arguments.getInt(EXTRA_REQUEST_CODE);
+        mRequestCode = getArguments().getInt(EXTRA_REQUEST_CODE);
     }
 
     @Override
