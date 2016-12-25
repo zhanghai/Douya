@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.util;
 
+import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -16,5 +17,13 @@ public class SnackbarUtils {
 
     public static void show(View view, int textRes) {
         show(view, view.getResources().getText(textRes));
+    }
+
+    public static void show(CharSequence text, Activity activity) {
+        show(activity.findViewById(android.R.id.content), text);
+    }
+
+    public static void show(int textRes, Activity activity) {
+        show(activity.getText(textRes), activity);
     }
 }
