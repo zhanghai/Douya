@@ -15,6 +15,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="@dimen/profile_large_avatar_size"
         android:layout_height="@dimen/profile_large_avatar_size"
+        android:clickable="true"
         android:src="@drawable/profile_avatar_icon_white_128dp"
         app:civ_border_color="@android:color/white"
         app:civ_border_width="3dp"
@@ -24,7 +25,6 @@
         android:id="@+id/avatar"
         android:layout_width="@dimen/profile_large_avatar_size"
         android:layout_height="@dimen/profile_large_avatar_size"
-        android:clickable="true"
         android:visibility="gone"
         app:civ_border_color="@android:color/white"
         app:civ_border_width="3dp" />
