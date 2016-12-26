@@ -20,7 +20,7 @@
         <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
     </style>
 
-    <style name="Theme.Douya.BroadcastActivity">
+    <style name="Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground">
         <item name="android:statusBarColor">?colorPrimaryDark</item>
     </style>
 
