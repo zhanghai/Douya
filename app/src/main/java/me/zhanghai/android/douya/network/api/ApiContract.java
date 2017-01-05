@@ -43,7 +43,7 @@ public interface ApiContract {
         interface Frodo {
 
             // API protocol version is derived from user agent string.
-            String USER_AGENT = "api-client/Volley/1 com.douban.frodo/4.4.0(81) Android/"
+            String USER_AGENT = "api-client/Volley/1 com.douban.frodo/4.9.0(88) Android/"
                     + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
                     + Build.MODEL + "  rom:android";
 
