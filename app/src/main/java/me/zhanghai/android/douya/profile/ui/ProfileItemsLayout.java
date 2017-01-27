@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
-import me.zhanghai.android.douya.network.api.info.frodo.Item;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
@@ -77,7 +77,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
 
         final Context context = getContext();
         ItemCollectionState state = primaryItems.getState();
-        Item.Type type = primaryItems.getType();
+        CollectableItem.Type type = primaryItems.getType();
         String stateString = state.getString(type, context);
         mTitleText.setText(stateString);
         OnClickListener viewMoreListener = new OnClickListener() {
@@ -138,7 +138,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
         UserItems primaryItems = null;
         UserItems secondaryItems = null;
         UserItems tertiaryItems = null;
-        Item.Type type = getItemType();
+        CollectableItem.Type type = getItemType();
         for (UserItems userItems : userItemList) {
             if (userItems.getType() == type) {
                 switch (userItems.getState()) {
@@ -169,7 +169,7 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
         return mUserIdOrUid;
     }
 
-    protected abstract Item.Type getItemType();
+    protected abstract CollectableItem.Type getItemType();
 
     protected abstract void onViewPrimaryItems();
 

@@ -12,22 +12,24 @@ import me.zhanghai.android.douya.R;
 
 public enum ItemCollectionState {
 
-    TODO("wish", R.string.item_todo_format),
-    DOING("do", R.string.item_doing_format),
-    DONE("collect", R.string.item_done_format);
+    TODO(new String[] { "mark", "wish" }, R.string.item_todo_format),
+    DOING(new String[] { "doing", "do" }, R.string.item_doing_format),
+    DONE(new String[] { "done", "collect"}, R.string.item_done_format);
 
-    private String apiString;
-    private int formatRes;
+    private String[] mApiStrings;
+    private int mFormatRes;
 
-    ItemCollectionState(String apiString, int formatRes) {
-        this.apiString = apiString;
-        this.formatRes = formatRes;
+    ItemCollectionState(String[] apiStrings, int formatRes) {
+        mApiStrings = apiStrings;
+        mFormatRes = formatRes;
     }
 
     public static ItemCollectionState ofString(String apiString, ItemCollectionState defaultValue) {
         for (ItemCollectionState state : ItemCollectionState.values()) {
-            if (TextUtils.equals(state.apiString, apiString)) {
-                return state;
+            for (String stateApiString : state.mApiStrings) {
+                if (TextUtils.equals(apiString, stateApiString)) {
+                    return state;
+                }
             }
         }
         return defaultValue;
@@ -41,22 +43,22 @@ public enum ItemCollectionState {
      * @deprecated HACK-only.
      */
     public String getApiString() {
-        return apiString;
+        return mApiStrings[0];
     }
 
     public int getFormatRes() {
-        return formatRes;
+        return mFormatRes;
     }
 
     public String getFormat(Context context) {
-        return context.getString(formatRes);
+        return context.getString(mFormatRes);
     }
 
     public String getString(String action, Context context) {
-        return context.getString(formatRes, action);
+        return context.getString(mFormatRes, action);
     }
 
-    public String getString(Item.Type type, Context context) {
+    public String getString(CollectableItem.Type type, Context context) {
         return getString(type.getAction(context), context);
     }
 }

@@ -30,10 +30,22 @@ public class UserInfo extends User {
         }
     }
 
+    @SerializedName("ark_published_count")
+    public int arkPublicationCount;
+
     public String birthday;
 
+    @SerializedName("can_donate")
+    public boolean canAcceptDonation;
+
+    @SerializedName("can_set_original")
+    public boolean canDeclareOriginal;
+
     @SerializedName("collected_subjects_count")
-    public int collectedSubjectCount;
+    public int collectedItemCount;
+
+    @SerializedName("dramas_count")
+    public int collectedDramaCount;
 
     @SerializedName("followed")
     public boolean isFollowed;
@@ -50,11 +62,17 @@ public class UserInfo extends User {
     @SerializedName("group_chat_count")
     public int groupChatCount;
 
+    @SerializedName("has_user_hot_module")
+    public boolean hasUserHotModule;
+
     @SerializedName("in_blacklist")
     public boolean isInBlacklist;
 
     // The same as "abstract" which is "introduction" in User.
     //public String intro;
+
+    @SerializedName("is_phone_bound")
+    public boolean isPhoneBound;
 
     @SerializedName("is_normal")
     public boolean hasEmailOrPhone;
@@ -72,7 +90,7 @@ public class UserInfo extends User {
     public int albumCount;
 
     @SerializedName("profile_banner")
-    public String profileBackdrop;
+    public Image profileBackdrop;
 
     @SerializedName("reg_time")
     public String registrationTime;
@@ -120,20 +138,26 @@ public class UserInfo extends User {
     protected UserInfo(Parcel in) {
         super(in);
 
+        arkPublicationCount = in.readInt();
         birthday = in.readString();
-        collectedSubjectCount = in.readInt();
+        canAcceptDonation = in.readByte() != 0;
+        canDeclareOriginal = in.readByte() != 0;
+        collectedItemCount = in.readInt();
+        collectedDramaCount = in.readInt();
         isFollowed = in.readByte() != 0;
         followerCount = in.readInt();
         followingCount = in.readInt();
         followingDoulistCount = in.readInt();
         groupChatCount = in.readInt();
+        hasUserHotModule = in.readByte() != 0;
         isInBlacklist = in.readByte() != 0;
+        isPhoneBound = in.readByte() != 0;
         hasEmailOrPhone = in.readByte() != 0;
         joinedGroupCount = in.readInt();
         diaryCount = in.readInt();
         doulistCount = in.readInt();
         albumCount = in.readInt();
-        profileBackdrop = in.readString();
+        profileBackdrop = in.readParcelable(Image.class.getClassLoader());
         registrationTime = in.readString();
         comment = in.readString();
         setiChannelCount = in.readInt();
@@ -153,20 +177,26 @@ public class UserInfo extends User {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
+        dest.writeInt(arkPublicationCount);
         dest.writeString(birthday);
-        dest.writeInt(collectedSubjectCount);
+        dest.writeByte(canAcceptDonation ? (byte) 1 : (byte) 0);
+        dest.writeByte(canDeclareOriginal ? (byte) 1 : (byte) 0);
+        dest.writeInt(collectedItemCount);
+        dest.writeInt(collectedDramaCount);
         dest.writeByte(isFollowed ? (byte) 1 : (byte) 0);
         dest.writeInt(followerCount);
         dest.writeInt(followingCount);
         dest.writeInt(followingDoulistCount);
         dest.writeInt(groupChatCount);
+        dest.writeByte(hasUserHotModule ? (byte) 1 : (byte) 0);
         dest.writeByte(isInBlacklist ? (byte) 1 : (byte) 0);
+        dest.writeByte(isPhoneBound ? (byte) 1 : (byte) 0);
         dest.writeByte(hasEmailOrPhone ? (byte) 1 : (byte) 0);
         dest.writeInt(joinedGroupCount);
         dest.writeInt(diaryCount);
         dest.writeInt(doulistCount);
         dest.writeInt(albumCount);
-        dest.writeString(profileBackdrop);
+        dest.writeParcelable(profileBackdrop, flags);
         dest.writeString(registrationTime);
         dest.writeString(comment);
         dest.writeInt(setiChannelCount);

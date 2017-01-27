@@ -17,7 +17,7 @@ public class ItemCollection implements Parcelable {
     public String comment;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String creationTime;
 
     public long id;
 
@@ -53,7 +53,7 @@ public class ItemCollection implements Parcelable {
 
     protected ItemCollection(Parcel in) {
         comment = in.readString();
-        createdAt = in.readString();
+        creationTime = in.readString();
         id = in.readLong();
         rating = in.readParcelable(Rating.class.getClassLoader());
         //noinspection deprecation
@@ -69,7 +69,7 @@ public class ItemCollection implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(comment);
-        dest.writeString(createdAt);
+        dest.writeString(creationTime);
         dest.writeLong(id);
         dest.writeParcelable(rating, flags);
         //noinspection deprecation

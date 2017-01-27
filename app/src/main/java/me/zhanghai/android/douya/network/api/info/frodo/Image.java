@@ -26,16 +26,16 @@ public class Image implements Parcelable {
      */
     public String normal;
 
+    public String getLarge() {
+        //noinspection deprecation
+        return !TextUtils.isEmpty(large) ? large : normal;
+    }
 
     public String getNormal() {
         //noinspection deprecation
         return !TextUtils.isEmpty(normal) ? normal : large;
     }
 
-    public String getLarge() {
-        //noinspection deprecation
-        return !TextUtils.isEmpty(large) ? large : normal;
-    }
 
     public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
         @Override

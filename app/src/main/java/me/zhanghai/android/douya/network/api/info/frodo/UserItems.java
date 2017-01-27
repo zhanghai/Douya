@@ -21,7 +21,7 @@ public class UserItems implements Parcelable {
     public String state;
 
     @SerializedName("subjects")
-    public ArrayList<Item> items = new ArrayList<>();
+    public ArrayList<CollectableItem> items = new ArrayList<>();
 
     public int total;
 
@@ -36,10 +36,10 @@ public class UserItems implements Parcelable {
         return ItemCollectionState.ofString(state, null);
     }
 
-    public Item.Type getType() {
+    public CollectableItem.Type getType() {
         // FIXME: Correct to use null?
         //noinspection deprecation
-        return Item.Type.ofString(type, null);
+        return CollectableItem.Type.ofApiString(type, null);
     }
 
 
@@ -60,7 +60,7 @@ public class UserItems implements Parcelable {
     protected UserItems(Parcel in) {
         //noinspection deprecation
         state = in.readString();
-        items = in.createTypedArrayList(Item.CREATOR);
+        items = in.createTypedArrayList(CollectableItem.CREATOR);
         total = in.readInt();
         //noinspection deprecation
         type = in.readString();

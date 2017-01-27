@@ -9,7 +9,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.frodo.Item;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 
 public class ProfileMusicLayout extends ProfileItemsLayout {
 
@@ -26,8 +26,8 @@ public class ProfileMusicLayout extends ProfileItemsLayout {
     }
 
     @Override
-    protected Item.Type getItemType() {
-        return Item.Type.MUSIC;
+    protected CollectableItem.Type getItemType() {
+        return CollectableItem.Type.MUSIC;
     }
 
     @Override

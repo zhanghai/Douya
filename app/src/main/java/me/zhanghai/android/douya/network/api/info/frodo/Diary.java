@@ -57,7 +57,7 @@ public class Diary implements Parcelable {
     public String cover;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String creationTime;
 
     /**
      * @deprecated Use {@link #getVisibility()} instead.
@@ -119,7 +119,7 @@ public class Diary implements Parcelable {
         author = in.readParcelable(User.class.getClassLoader());
         commentCount = in.readInt();
         cover = in.readString();
-        createdAt = in.readString();
+        creationTime = in.readString();
         //noinspection deprecation
         visibility = in.readString();
         donationCount = in.readInt();
@@ -148,7 +148,7 @@ public class Diary implements Parcelable {
         dest.writeParcelable(author, flags);
         dest.writeInt(commentCount);
         dest.writeString(cover);
-        dest.writeString(createdAt);
+        dest.writeString(creationTime);
         //noinspection deprecation
         dest.writeString(visibility);
         dest.writeInt(donationCount);

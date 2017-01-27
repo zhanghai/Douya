@@ -50,7 +50,7 @@ public class Review implements Parcelable {
     public String cover;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String creationTime;
 
     @SerializedName("donate_count")
     public int donationCount;
@@ -79,7 +79,7 @@ public class Review implements Parcelable {
     public boolean isSpoiler;
 
     @SerializedName("subject")
-    public Item item;
+    public CollectableItem item;
 
     public String title;
 
@@ -132,7 +132,7 @@ public class Review implements Parcelable {
         commentCount = in.readInt();
         content = in.readString();
         cover = in.readString();
-        createdAt = in.readString();
+        creationTime = in.readString();
         donationCount = in.readInt();
         id = in.readLong();
         isDonated = in.readByte() != 0;
@@ -143,7 +143,7 @@ public class Review implements Parcelable {
         rType = in.readString();
         shareUrl = in.readString();
         isSpoiler = in.readByte() != 0;
-        item = in.readParcelable(Item.class.getClassLoader());
+        item = in.readParcelable(CollectableItem.class.getClassLoader());
         title = in.readString();
         type = in.readString();
         typeName = in.readString();
@@ -168,7 +168,7 @@ public class Review implements Parcelable {
         dest.writeInt(commentCount);
         dest.writeString(content);
         dest.writeString(cover);
-        dest.writeString(createdAt);
+        dest.writeString(creationTime);
         dest.writeInt(donationCount);
         dest.writeLong(id);
         dest.writeByte(isDonated ? (byte) 1 : (byte) 0);

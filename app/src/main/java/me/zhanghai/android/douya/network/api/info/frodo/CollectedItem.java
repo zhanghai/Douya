@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class CollectedItem implements Parcelable {
 
     @SerializedName("attend_time")
-    public String attendTime;
+    public String attendanceTime;
 
     public String comment;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String creationTime;
 
     @SerializedName("done_index")
     public int doneIndex;
@@ -50,7 +50,7 @@ public class CollectedItem implements Parcelable {
     public boolean isVoted;
 
     @SerializedName("subject")
-    public Item item;
+    public CollectableItem item;
 
     public ArrayList<String> tags = new ArrayList<>();
 
@@ -78,9 +78,9 @@ public class CollectedItem implements Parcelable {
     public CollectedItem() {}
 
     protected CollectedItem(Parcel in) {
-        attendTime = in.readString();
+        attendanceTime = in.readString();
         comment = in.readString();
-        createdAt = in.readString();
+        creationTime = in.readString();
         doneIndex = in.readInt();
         id = in.readLong();
         collectedIndex = in.readInt();
@@ -91,7 +91,7 @@ public class CollectedItem implements Parcelable {
         //noinspection deprecation
         state = in.readString();
         isVoted = in.readByte() != 0;
-        item = in.readParcelable(Item.class.getClassLoader());
+        item = in.readParcelable(CollectableItem.class.getClassLoader());
         tags = in.createStringArrayList();
         voteCount = in.readInt();
     }
@@ -103,9 +103,9 @@ public class CollectedItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(attendTime);
+        dest.writeString(attendanceTime);
         dest.writeString(comment);
-        dest.writeString(createdAt);
+        dest.writeString(creationTime);
         dest.writeInt(doneIndex);
         dest.writeLong(id);
         dest.writeInt(collectedIndex);

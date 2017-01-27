@@ -39,7 +39,7 @@ public class User implements Parcelable {
     public String name;
 
     // The value of this field is always "user", so we are using "kind" as "type" instead.
-    // public String type;
+    //public String type;
 
     public String uid;
 

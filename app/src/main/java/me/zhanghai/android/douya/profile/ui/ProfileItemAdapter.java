@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.frodo.Item;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.RatioFrameLayout;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.DrawableUtils;
@@ -26,7 +26,8 @@ import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.ViewHolder> {
+public class ProfileItemAdapter
+        extends SimpleAdapter<CollectableItem, ProfileItemAdapter.ViewHolder> {
 
     public ProfileItemAdapter() {
         setHasStableIds(true);
@@ -46,7 +47,7 @@ public class ProfileItemAdapter extends SimpleAdapter<Item, ProfileItemAdapter.V
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Item item = getItem(position);
+        final CollectableItem item = getItem(position);
         float ratio = 1;
         switch (item.getType()) {
             case BOOK:
