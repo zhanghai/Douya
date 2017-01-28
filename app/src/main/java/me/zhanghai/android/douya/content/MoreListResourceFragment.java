@@ -24,11 +24,13 @@ public abstract class MoreListResourceFragment<ResourceListType, ResponseType>
     @Override
     protected void set(ResourceListType resource) {
         super.set(resource);
+
         mCanLoadMore = getSize(resource) == mLoadCount;
     }
 
     protected void append(ResourceListType more) {
         super.set(addAll(get(), more));
+
         mCanLoadMore = getSize(more) == mLoadCount;
     }
 
@@ -48,15 +50,12 @@ public abstract class MoreListResourceFragment<ResourceListType, ResponseType>
 
     public void load(boolean more, int count) {
 
-        if (more && !mCanLoadMore) {
+        if (isLoading() || (more && !mCanLoadMore)) {
             return;
         }
 
-        if (!isLoading()) {
-            mLoadingMore = more;
-            mLoadCount = count;
-        }
-
+        mLoadingMore = more;
+        mLoadCount = count;
         super.load();
     }
 

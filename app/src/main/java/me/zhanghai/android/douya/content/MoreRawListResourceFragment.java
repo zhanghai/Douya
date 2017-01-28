@@ -12,7 +12,7 @@ public abstract class MoreRawListResourceFragment<ResourceType, ResponseType>
 
     @Override
     protected int getSize(List<ResourceType> resource) {
-        return get().size();
+        return resource.size();
     }
 
     @Override
