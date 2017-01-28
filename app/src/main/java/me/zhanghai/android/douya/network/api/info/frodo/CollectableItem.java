@@ -18,8 +18,6 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-
 import me.zhanghai.android.douya.R;
 
 /**
@@ -112,13 +110,7 @@ public class CollectableItem extends BaseItem {
     @SerializedName("vendor_count")
     public int vendorCount;
 
-    /**
-     * @deprecated Use {@link #getType()} instead.
-     */
-    public String type;
-
     public Type getType() {
-        //noinspection deprecation
         return Type.ofApiString(type);
     }
 
@@ -208,8 +200,6 @@ public class CollectableItem extends BaseItem {
         rating = in.readParcelable(Rating.class.getClassLoader());
         reviewCount = in.readInt();
         vendorCount = in.readInt();
-        //noinspection deprecation
-        type = in.readString();
     }
 
     @Override
@@ -231,7 +221,5 @@ public class CollectableItem extends BaseItem {
         dest.writeParcelable(rating, flags);
         dest.writeInt(reviewCount);
         dest.writeInt(vendorCount);
-        //noinspection deprecation
-        dest.writeString(type);
     }
 }

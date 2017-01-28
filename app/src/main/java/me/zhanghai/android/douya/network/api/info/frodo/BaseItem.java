@@ -10,14 +10,12 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BaseItem implements Parcelable {
+public abstract class BaseItem implements Parcelable {
 
     public long id;
 
     @SerializedName("pic")
     public Image cover;
-
-    public Rating rating;
 
     @SerializedName("sharing_url")
     public String shareUrl;
@@ -36,7 +34,6 @@ public class BaseItem implements Parcelable {
     protected BaseItem(Parcel in) {
         id = in.readLong();
         cover = in.readParcelable(Image.class.getClassLoader());
-        rating = in.readParcelable(Rating.class.getClassLoader());
         shareUrl = in.readString();
         title = in.readString();
         type = in.readString();
@@ -53,7 +50,6 @@ public class BaseItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeParcelable(cover, flags);
-        dest.writeParcelable(rating, flags);
         dest.writeString(shareUrl);
         dest.writeString(title);
         dest.writeString(type);
