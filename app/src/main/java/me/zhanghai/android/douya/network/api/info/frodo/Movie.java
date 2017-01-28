@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.os.Parcel;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -63,4 +65,74 @@ public class Movie extends CollectableItem {
     public MovieTrailer trailer;
 
     public String year;
+
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    public Movie() {}
+
+    protected Movie(Parcel in) {
+        super(in);
+
+        actors = in.createTypedArrayList(Celebrity.CREATOR);
+        alternativeNames = in.createStringArrayList();
+        countries = in.createStringArrayList();
+        poster = in.readParcelable(Photo.class.getClassLoader());
+        directors = in.createTypedArrayList(Celebrity.CREATOR);
+        durations = in.createStringArrayList();
+        episodeCount = in.readInt();
+        genres = in.createStringArrayList();
+        hasOnlineSource = in.readByte() != 0;
+        isInBlacklist = in.readByte() != 0;
+        informationUrl = in.readString();
+        isReleased = in.readByte() != 0;
+        isTv = in.readByte() != 0;
+        languages = in.createStringArrayList();
+        ticketUrl = in.readString();
+        originalTitle = in.readString();
+        releaseDates = in.createStringArrayList();
+        ticketPriceInformation = in.readString();
+        trailer = in.readParcelable(MovieTrailer.class.getClassLoader());
+        year = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+
+        dest.writeTypedList(actors);
+        dest.writeStringList(alternativeNames);
+        dest.writeStringList(countries);
+        dest.writeParcelable(poster, flags);
+        dest.writeTypedList(directors);
+        dest.writeStringList(durations);
+        dest.writeInt(episodeCount);
+        dest.writeStringList(genres);
+        dest.writeByte(hasOnlineSource ? (byte) 1 : (byte) 0);
+        dest.writeByte(isInBlacklist ? (byte) 1 : (byte) 0);
+        dest.writeString(informationUrl);
+        dest.writeByte(isReleased ? (byte) 1 : (byte) 0);
+        dest.writeByte(isTv ? (byte) 1 : (byte) 0);
+        dest.writeStringList(languages);
+        dest.writeString(ticketUrl);
+        dest.writeString(originalTitle);
+        dest.writeStringList(releaseDates);
+        dest.writeString(ticketPriceInformation);
+        dest.writeParcelable(trailer, flags);
+        dest.writeString(year);
+    }
 }
