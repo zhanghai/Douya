@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -63,7 +63,7 @@ public class ProfileReviewsLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(final UserInfo userInfo, List<Review> reviewList) {
+    public void bind(final User user, List<Review> reviewList) {
 
         final Context context = getContext();
         OnClickListener viewMoreListener = new OnClickListener() {
@@ -71,8 +71,8 @@ public class ProfileReviewsLayout extends FriendlyCardView {
             public void onClick(View view) {
                 // TODO
                 UriHandler.open(StringUtils.formatUs("https://www.douban.com/people/%s/reviews",
-                        userInfo.getIdOrUid()), context);
-                //context.startActivity(ReviewListActivity.makeIntent(userInfo, context));
+                        user.getIdOrUid()), context);
+                //context.startActivity(ReviewListActivity.makeIntent(mUser, context));
             }
         };
         mTitleText.setOnClickListener(viewMoreListener);
@@ -125,10 +125,10 @@ public class ProfileReviewsLayout extends FriendlyCardView {
         ViewUtils.setVisibleOrGone(mReviewList, i != 0);
         ViewUtils.setVisibleOrGone(mEmptyView, i == 0);
 
-        // HACK: We don't have userInfo.reviewCount, but normally we request more than
+        // HACK: We don't have mUser.reviewCount, but normally we request more than
         // REVIEW_COUNT_MAX.
         // FIXME: Fix this hack?
-        //if (userInfo.reviewCount > i) {
+        //if (mUser.reviewCount > i) {
         if (reviewList.size() > i) {
             mViewMoreText.setText(R.string.view_more);
         } else {

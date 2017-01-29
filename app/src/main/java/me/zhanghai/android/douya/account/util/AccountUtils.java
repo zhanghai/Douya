@@ -29,7 +29,7 @@ import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.ui.AddAccountActivity;
 import me.zhanghai.android.douya.account.ui.SelectAccountActivity;
 import me.zhanghai.android.douya.network.Volley;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.GsonHelper;
 
@@ -450,13 +450,13 @@ public class AccountUtils {
         }
     }
 
-    public static UserInfo getUserInfo(Account account) {
+    public static User getUser(Account account) {
         String userInfoJson = AccountPreferences.forAccount(account).getString(
                 AccountContract.KEY_USER_INFO, null);
         if (!TextUtils.isEmpty(userInfoJson)) {
             try {
                 return GsonHelper.get().fromJson(userInfoJson,
-                        new TypeToken<UserInfo>() {}.getType());
+                        new TypeToken<User>() {}.getType());
             } catch (JsonParseException e) {
                 e.printStackTrace();
             }
@@ -464,18 +464,18 @@ public class AccountUtils {
         return null;
     }
 
-    public static void setUserInfo(Account account, UserInfo userInfo) {
-        String userInfoJson = GsonHelper.get().toJson(userInfo,
-                new TypeToken<UserInfo>() {}.getType());
+    public static void setUser(Account account, User user) {
+        String userInfoJson = GsonHelper.get().toJson(user,
+                new TypeToken<User>() {}.getType());
         AccountPreferences.forAccount(account).putString(AccountContract.KEY_USER_INFO,
                 userInfoJson);
     }
 
-    public static UserInfo getUserInfo() {
-        return getUserInfo(getActiveAccount());
+    public static User getUser() {
+        return getUser(getActiveAccount());
     }
 
-    public static void setUserInfo(UserInfo userInfo) {
-        setUserInfo(getActiveAccount(), userInfo);
+    public static void setUser(User user) {
+        setUser(getActiveAccount(), user);
     }
 }

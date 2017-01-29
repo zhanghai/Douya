@@ -5,11 +5,11 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-public class UserInfoWriteStartedEvent extends Event {
+public class UserWriteStartedEvent extends Event {
 
     public String userIdOrUid;
 
-    public UserInfoWriteStartedEvent(String userIdOrUid, Object source) {
+    public UserWriteStartedEvent(String userIdOrUid, Object source) {
         super(source);
 
         this.userIdOrUid = userIdOrUid;

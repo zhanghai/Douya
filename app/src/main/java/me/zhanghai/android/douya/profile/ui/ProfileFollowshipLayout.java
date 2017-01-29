@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -63,7 +63,7 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(final UserInfo userInfo, List<User> followingList) {
+    public void bind(final User userInfo, List<SimpleUser> followingList) {
 
         final Context context = getContext();
         OnClickListener viewFollowingListListener = new OnClickListener() {
@@ -77,7 +77,7 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
         mViewMoreText.setOnClickListener(viewFollowingListListener);
 
         int i = 0;
-        for (final User user : followingList) {
+        for (final SimpleUser user : followingList) {
 
             if (i >= USER_COUNT_MAX) {
                 break;

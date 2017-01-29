@@ -12,9 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie extends CollectableItem {
-
-    public List<Celebrity> actors = new ArrayList<>();
+public class Movie extends SimpleMovie {
 
     @SerializedName("aka")
     public List<String> alternativeNames = new ArrayList<>();
@@ -24,17 +22,10 @@ public class Movie extends CollectableItem {
     @SerializedName("cover")
     public Photo poster;
 
-    public List<Celebrity> directors = new ArrayList<>();
-
     public List<String> durations = new ArrayList<>();
 
     @SerializedName("episodes_count")
     public int episodeCount;
-
-    public List<String> genres = new ArrayList<>();
-
-    @SerializedName("has_linewatch")
-    public boolean hasOnlineSource;
 
     @SerializedName("in_blacklist")
     public boolean isInBlacklist;
@@ -56,15 +47,10 @@ public class Movie extends CollectableItem {
     @SerializedName("original_title")
     public String originalTitle;
 
-    @SerializedName("pubdate")
-    public List<String> releaseDates = new ArrayList<>();
-
     @SerializedName("ticket_price_info")
     public String ticketPriceInformation;
 
     public MovieTrailer trailer;
-
-    public String year;
 
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -78,33 +64,6 @@ public class Movie extends CollectableItem {
         }
     };
 
-    public Movie() {}
-
-    protected Movie(Parcel in) {
-        super(in);
-
-        actors = in.createTypedArrayList(Celebrity.CREATOR);
-        alternativeNames = in.createStringArrayList();
-        countries = in.createStringArrayList();
-        poster = in.readParcelable(Photo.class.getClassLoader());
-        directors = in.createTypedArrayList(Celebrity.CREATOR);
-        durations = in.createStringArrayList();
-        episodeCount = in.readInt();
-        genres = in.createStringArrayList();
-        hasOnlineSource = in.readByte() != 0;
-        isInBlacklist = in.readByte() != 0;
-        informationUrl = in.readString();
-        isReleased = in.readByte() != 0;
-        isTv = in.readByte() != 0;
-        languages = in.createStringArrayList();
-        ticketUrl = in.readString();
-        originalTitle = in.readString();
-        releaseDates = in.createStringArrayList();
-        ticketPriceInformation = in.readString();
-        trailer = in.readParcelable(MovieTrailer.class.getClassLoader());
-        year = in.readString();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -114,15 +73,11 @@ public class Movie extends CollectableItem {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeTypedList(actors);
         dest.writeStringList(alternativeNames);
         dest.writeStringList(countries);
         dest.writeParcelable(poster, flags);
-        dest.writeTypedList(directors);
         dest.writeStringList(durations);
         dest.writeInt(episodeCount);
-        dest.writeStringList(genres);
-        dest.writeByte(hasOnlineSource ? (byte) 1 : (byte) 0);
         dest.writeByte(isInBlacklist ? (byte) 1 : (byte) 0);
         dest.writeString(informationUrl);
         dest.writeByte(isReleased ? (byte) 1 : (byte) 0);
@@ -130,9 +85,28 @@ public class Movie extends CollectableItem {
         dest.writeStringList(languages);
         dest.writeString(ticketUrl);
         dest.writeString(originalTitle);
-        dest.writeStringList(releaseDates);
         dest.writeString(ticketPriceInformation);
         dest.writeParcelable(trailer, flags);
-        dest.writeString(year);
+    }
+
+    public Movie() {}
+
+    protected Movie(Parcel in) {
+        super(in);
+
+        alternativeNames = in.createStringArrayList();
+        countries = in.createStringArrayList();
+        poster = in.readParcelable(Photo.class.getClassLoader());
+        durations = in.createStringArrayList();
+        episodeCount = in.readInt();
+        isInBlacklist = in.readByte() != 0;
+        informationUrl = in.readString();
+        isReleased = in.readByte() != 0;
+        isTv = in.readByte() != 0;
+        languages = in.createStringArrayList();
+        ticketUrl = in.readString();
+        originalTitle = in.readString();
+        ticketPriceInformation = in.readString();
+        trailer = in.readParcelable(MovieTrailer.class.getClassLoader());
     }
 }

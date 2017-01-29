@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class UserList extends BaseList implements Parcelable {
 
-    public ArrayList<User> users = new ArrayList<>();
+    public ArrayList<SimpleUser> users = new ArrayList<>();
 
 
     public static final Creator<UserList> CREATOR = new Creator<UserList>() {
@@ -31,7 +31,7 @@ public class UserList extends BaseList implements Parcelable {
     protected UserList(Parcel in) {
         super(in);
 
-        users = in.createTypedArrayList(User.CREATOR);
+        users = in.createTypedArrayList(SimpleUser.CREATOR);
     }
 
     @Override

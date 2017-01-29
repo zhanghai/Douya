@@ -9,7 +9,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastRebroadcasterListResource;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.user.content.BaseUserListResource;
 
 public class BroadcastRebroadcasterListFragment extends BroadcastUserListFragment {
@@ -36,7 +36,7 @@ public class BroadcastRebroadcasterListFragment extends BroadcastUserListFragmen
     }
 
     @Override
-    protected boolean onUpdateBroadcast(Broadcast broadcast, List<User> userList) {
+    protected boolean onUpdateBroadcast(Broadcast broadcast, List<SimpleUser> userList) {
         if (broadcast.rebroadcastCount < userList.size()) {
             broadcast.rebroadcastCount = userList.size();
             return true;

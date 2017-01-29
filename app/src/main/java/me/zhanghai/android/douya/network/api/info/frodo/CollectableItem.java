@@ -21,7 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import me.zhanghai.android.douya.R;
 
 /**
- * {@code LegacySubject}, for those that can have a rating.
+ * {@code LegacySubject} in Frodo, for those that can have a rating.
  */
 public class CollectableItem extends BaseItem {
 

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 
 public class DoubanUtils {
 
@@ -70,7 +70,7 @@ public class DoubanUtils {
         return '@' + userIdOrUid + ' ';
     }
 
-    public static String getAtUserString(User user) {
+    public static String getAtUserString(SimpleUser user) {
         //noinspection deprecation
         return getAtUserString(user.uid);
     }

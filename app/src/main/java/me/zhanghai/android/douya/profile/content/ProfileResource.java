@@ -18,16 +18,16 @@ import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
 import me.zhanghai.android.douya.diary.content.UserDiaryListResource;
 import me.zhanghai.android.douya.followship.content.FollowingListResource;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.review.content.UserReviewListResource;
-import me.zhanghai.android.douya.user.content.UserInfoResource;
+import me.zhanghai.android.douya.user.content.UserResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class ProfileResource extends TargetedRetainedFragment implements UserInfoResource.Listener,
+public class ProfileResource extends TargetedRetainedFragment implements UserResource.Listener,
         BroadcastListResource.Listener, FollowingListResource.Listener,
         UserDiaryListResource.Listener, UserItemListResource.Listener,
         UserReviewListResource.Listener {
@@ -35,15 +35,15 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
     private static final String KEY_PREFIX = ProfileResource.class.getName() + '.';
 
     private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private static final String EXTRA_SIMPLE_USER = KEY_PREFIX + "simple_user";
     private static final String EXTRA_USER = KEY_PREFIX + "user";
-    private static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
     private String mUserIdOrUid;
+    private SimpleUser mSimpleUser;
+
     private User mUser;
 
-    private UserInfo mUserInfo;
-
-    private UserInfoResource mUserInfoResource;
+    private UserResource mUserResource;
     private BroadcastListResource mBroadcastListResource;
     private FollowingListResource mFollowingListResource;
     private UserDiaryListResource mDiaryListResource;
@@ -54,26 +54,26 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
 
     private static final String FRAGMENT_TAG_DEFAULT = ProfileResource.class.getName();
 
-    private static ProfileResource newInstance(String userIdOrUid, User user, UserInfo userInfo) {
+    private static ProfileResource newInstance(String userIdOrUid, SimpleUser simpleUser, User user) {
         //noinspection deprecation
-        return new ProfileResource().setArguments(userIdOrUid, user, userInfo);
+        return new ProfileResource().setArguments(userIdOrUid, simpleUser, user);
     }
 
-    public static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
+    public static ProfileResource attachTo(String userIdOrUid, SimpleUser simpleUser, User user,
                                            Fragment fragment, String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
         ProfileResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
-            instance = newInstance(userIdOrUid, user, userInfo);
+            instance = newInstance(userIdOrUid, simpleUser, user);
             instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
         return instance;
     }
 
-    public static ProfileResource attachTo(String userIdOrUid, User user, UserInfo userInfo,
+    public static ProfileResource attachTo(String userIdOrUid, SimpleUser simpleUser, User user,
                                            Fragment fragment) {
-        return attachTo(userIdOrUid, user, userInfo, fragment, FRAGMENT_TAG_DEFAULT,
+        return attachTo(userIdOrUid, simpleUser, user, fragment, FRAGMENT_TAG_DEFAULT,
                 REQUEST_CODE_INVALID);
     }
 
@@ -82,11 +82,11 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
      */
     public ProfileResource() {}
 
-    protected ProfileResource setArguments(String userIdOrUid, User user, UserInfo userInfo) {
+    protected ProfileResource setArguments(String userIdOrUid, SimpleUser simpleUser, User user) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        arguments.putParcelable(EXTRA_SIMPLE_USER, simpleUser);
         arguments.putParcelable(EXTRA_USER, user);
-        arguments.putParcelable(EXTRA_USER_INFO, userInfo);
         return this;
     }
 
@@ -94,17 +94,17 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
+        ensureArguments();
 
-        mUserInfoResource = UserInfoResource.attachTo(mUserIdOrUid, mUser, mUserInfo, this);
-        ensureResourcesIfHasUser();
+        mUserResource = UserResource.attachTo(mUserIdOrUid, mSimpleUser, mUser, this);
+        ensureResourcesIfHasSimpleUser();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mUserInfoResource.detach();
+        mUserResource.detach();
         if (mBroadcastListResource != null) {
             mBroadcastListResource.detach();
         }
@@ -123,102 +123,103 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
 
         Bundle arguments = getArguments();
         arguments.putString(EXTRA_USER_ID_OR_UID, mUserIdOrUid);
+        arguments.putParcelable(EXTRA_SIMPLE_USER, mSimpleUser);
         arguments.putParcelable(EXTRA_USER, mUser);
-        arguments.putParcelable(EXTRA_USER_INFO, mUserInfo);
     }
 
     public String getUserIdOrUid() {
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
+        ensureArguments();
         return mUserIdOrUid;
+    }
+
+    public SimpleUser getSimpleUser() {
+        // Can be called before onCreate() is called.
+        ensureArguments();
+        return mSimpleUser;
+    }
+
+    public boolean hasSimpleUser() {
+        // Can be called before onCreate() is called.
+        ensureArguments();
+        return mSimpleUser != null;
     }
 
     public User getUser() {
         // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
+        ensureArguments();
         return mUser;
     }
 
     public boolean hasUser() {
         // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
+        ensureArguments();
         return mUser != null;
     }
 
-    public UserInfo getUserInfo() {
-        // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
-        return mUserInfo;
-    }
-
-    public boolean hasUserInfo() {
-        // Can be called before onCreate() is called.
-        ensureUserInfoAndUserAndIdOrUidFromArguments();
-        return mUserInfo != null;
-    }
-
-    private void ensureUserInfoAndUserAndIdOrUidFromArguments() {
-        if (mUserIdOrUid == null) {
-            Bundle arguments = getArguments();
-            mUserInfo = arguments.getParcelable(EXTRA_USER_INFO);
-            if (mUserInfo != null) {
-                mUser = mUserInfo;
-                mUserIdOrUid = mUserInfo.getIdOrUid();
+    private void ensureArguments() {
+        if (mUserIdOrUid != null) {
+            return;
+        }
+        Bundle arguments = getArguments();
+        mUser = arguments.getParcelable(EXTRA_USER);
+        if (mUser != null) {
+            mSimpleUser = mUser;
+            mUserIdOrUid = mUser.getIdOrUid();
+        } else {
+            mSimpleUser = arguments.getParcelable(EXTRA_SIMPLE_USER);
+            if (mSimpleUser != null) {
+                mUserIdOrUid = mSimpleUser.getIdOrUid();
             } else {
-                mUser = arguments.getParcelable(EXTRA_USER);
-                if (mUser != null) {
-                    mUserIdOrUid = mUser.getIdOrUid();
-                } else {
-                    mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
-                }
+                mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
             }
         }
     }
 
     @Override
-    public void onLoadUserInfoStarted(int requestCode) {}
+    public void onLoadUserStarted(int requestCode) {}
 
     @Override
-    public void onLoadUserInfoFinished(int requestCode) {}
+    public void onLoadUserFinished(int requestCode) {}
 
     @Override
-    public void onLoadUserInfoError(int requestCode, VolleyError error) {
+    public void onLoadUserError(int requestCode, VolleyError error) {
         notifyError(error);
     }
 
     @Override
-    public void onUserInfoChanged(int requestCode, UserInfo newUserInfo) {
-        mUserInfo = newUserInfo;
-        mUser = newUserInfo;
-        mUserIdOrUid = newUserInfo.getIdOrUid();
-        getListener().onUserInfoChanged(getRequestCode(), newUserInfo);
+    public void onUserChanged(int requestCode, User newUser) {
+        mUser = newUser;
+        mSimpleUser = newUser;
+        mUserIdOrUid = newUser.getIdOrUid();
+        getListener().onUserChanged(getRequestCode(), newUser);
         notifyChangedIfLoaded();
-        ensureResourcesIfHasUser();
+        ensureResourcesIfHasSimpleUser();
     }
 
     @Override
-    public void onUserInfoWriteStarted(int requestCode) {
-        getListener().onUserInfoWriteStarted(getRequestCode());
+    public void onUserWriteStarted(int requestCode) {
+        getListener().onUserWriteStarted(getRequestCode());
     }
 
     @Override
-    public void onUserInfoWriteFinished(int requestCode) {
-        getListener().onUserInfoWriteFinished(getRequestCode());
+    public void onUserWriteFinished(int requestCode) {
+        getListener().onUserWriteFinished(getRequestCode());
     }
 
-    private void ensureResourcesIfHasUser() {
+    private void ensureResourcesIfHasSimpleUser() {
         if (mBroadcastListResource != null || mFollowingListResource != null
                 || mDiaryListResource != null || mUserItemListResource != null
                 || mReviewListResource != null) {
             return;
         }
-        if (mUser == null) {
+        if (mSimpleUser == null) {
             return;
         }
-        mBroadcastListResource = BroadcastListResource.attachTo(mUser.getIdOrUid(), null, this);
-        mFollowingListResource = FollowingListResource.attachTo(mUser.getIdOrUid(), this);
-        mDiaryListResource = UserDiaryListResource.attachTo(mUser.getIdOrUid(), this);
-        mUserItemListResource = UserItemListResource.attachTo(mUser.getIdOrUid(), this);
-        mReviewListResource = UserReviewListResource.attachTo(mUser.getIdOrUid(), this);
+        mBroadcastListResource = BroadcastListResource.attachTo(mSimpleUser.getIdOrUid(), null, this);
+        mFollowingListResource = FollowingListResource.attachTo(mSimpleUser.getIdOrUid(), this);
+        mDiaryListResource = UserDiaryListResource.attachTo(mSimpleUser.getIdOrUid(), this);
+        mUserItemListResource = UserItemListResource.attachTo(mSimpleUser.getIdOrUid(), this);
+        mReviewListResource = UserReviewListResource.attachTo(mSimpleUser.getIdOrUid(), this);
     }
 
     @Override
@@ -270,12 +271,12 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
     }
 
     @Override
-    public void onUserListChanged(int requestCode, List<User> newUserList) {
+    public void onUserListChanged(int requestCode, List<SimpleUser> newUserList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onUserListAppended(int requestCode, List<User> appendedUserList) {
+    public void onUserListAppended(int requestCode, List<SimpleUser> appendedUserList) {
         notifyChangedIfLoaded();
     }
 
@@ -358,7 +359,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
     }
 
     public boolean isLoaded() {
-        return hasUserInfo() && mBroadcastListResource != null && mBroadcastListResource.has()
+        return hasUser() && mBroadcastListResource != null && mBroadcastListResource.has()
                 && mFollowingListResource != null && mFollowingListResource.has()
                 && mDiaryListResource != null && mDiaryListResource.has()
                 && mUserItemListResource != null && mUserItemListResource.has()
@@ -367,7 +368,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
 
     public void notifyChangedIfLoaded() {
         if (isLoaded()) {
-            getListener().onChanged(getRequestCode(), getUserInfo(), mBroadcastListResource.get(),
+            getListener().onChanged(getRequestCode(), getUser(), mBroadcastListResource.get(),
                     mFollowingListResource.get(), mDiaryListResource.get(),
                     mUserItemListResource.get(), mReviewListResource.get());
         }
@@ -386,11 +387,11 @@ public class ProfileResource extends TargetedRetainedFragment implements UserInf
 
     public interface Listener {
         void onLoadError(int requestCode, VolleyError error);
-        void onUserInfoChanged(int requestCode, UserInfo newUserInfo);
-        void onUserInfoWriteStarted(int requestCode);
-        void onUserInfoWriteFinished(int requestCode);
-        void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
-                       List<User> newFollowingList, List<Diary> newDiaryList,
+        void onUserChanged(int requestCode, User newUser);
+        void onUserWriteStarted(int requestCode);
+        void onUserWriteFinished(int requestCode);
+        void onChanged(int requestCode, User newUser, List<Broadcast> newBroadcastList,
+                       List<SimpleUser> newFollowingList, List<Diary> newDiaryList,
                        List<UserItems> newUserItemList, List<Review> newReviewList);
     }
 }

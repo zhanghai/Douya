@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -39,10 +39,10 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     Toolbar mToolbar;
 
     private String mUserIdOrUid;
-    private User mUser;
+    private SimpleUser mUser;
     private String mTopic;
 
-    public static BroadcastListActivityFragment newInstance(String userIdOrUid, User user,
+    public static BroadcastListActivityFragment newInstance(String userIdOrUid, SimpleUser user,
                                                             String topic) {
         //noinspection deprecation
         BroadcastListActivityFragment fragment = new BroadcastListActivityFragment();
@@ -54,7 +54,7 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     }
 
     /**
-     * @deprecated Use {@link #newInstance(String, User, String)} instead.
+     * @deprecated Use {@link #newInstance(String, SimpleUser, String)} instead.
      */
     public BroadcastListActivityFragment() {}
 

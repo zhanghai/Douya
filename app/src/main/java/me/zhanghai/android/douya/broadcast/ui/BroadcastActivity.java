@@ -29,7 +29,7 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     public static Intent makeIntent(Broadcast broadcast, Context context) {
-        return new Intent(context, BroadcastActivity.class)
+        return makeIntent(broadcast.id, context)
                 .putExtra(EXTRA_BROADCAST, broadcast);
     }
 

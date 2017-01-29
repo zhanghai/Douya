@@ -6,98 +6,69 @@
 package me.zhanghai.android.douya.network.api.info.apiv2;
 
 import android.os.Parcel;
-import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import me.zhanghai.android.douya.account.util.AccountUtils;
+public class User extends SimpleUser {
 
-public class User implements Parcelable {
+    @SerializedName("albums_count")
+    public int albumCount;
 
-    private static final String LARGE_AVATAR_DEFAULT =
-            "https://img3.doubanio.com/icon/user_large.jpg";
+    @SerializedName("blocked")
+    public boolean isBlocked;
 
-    public enum Type {
+    @SerializedName("blocking")
+    public boolean isBlocking;
 
-        USER("user"),
-        SITE("site");
+    @SerializedName("created")
+    public String createdAt;
 
-        private String apiString;
+    @SerializedName("desc")
+    public String introduction;
 
-        Type(String apiString) {
-            this.apiString = apiString;
-        }
+    @SerializedName("followers_count")
+    public int followerCount;
 
-        public static Type ofString(String apiString, Type defaultValue) {
-            for (Type type : Type.values()) {
-                if (TextUtils.equals(type.apiString, apiString)) {
-                    return type;
-                }
+    @SerializedName("following")
+    public boolean isFollowed;
+
+    @SerializedName("following_count")
+    public int followingCount;
+
+    @SerializedName("icon_avatar")
+    public String iconAvatar;
+
+    @SerializedName("is_follower")
+    public boolean isFollower;
+
+    @SerializedName("loc_id")
+    public String locationId;
+
+    @SerializedName("loc_name")
+    public String locationName;
+
+    @SerializedName("logged_in")
+    public boolean isLoggedIn;
+
+    @SerializedName("notes_count")
+    public int diaryCount;
+
+    public String relation;
+
+    public String signature;
+
+    @SerializedName("statuses_count")
+    public int broadcastCount;
+
+    public void fixFollowed(boolean followed) {
+        if (isFollowed != followed) {
+            isFollowed = followed;
+            if (isFollowed) {
+                ++followerCount;
+            } else {
+                --followerCount;
             }
-            return defaultValue;
         }
-
-        public static Type ofString(String apiString) {
-            return ofString(apiString, USER);
-        }
-    }
-
-    public String alt;
-
-    public String avatar;
-
-    /**
-     * @deprecated Use {@link #getIdOrUid()} instead.
-     */
-    public long id;
-
-    @SerializedName("is_suicide")
-    public boolean isSuicided;
-
-    /**
-     * @deprecated Use {@link #getLargeAvatarOrAvatar()} instead.
-     */
-    @SerializedName("large_avatar")
-    public String largeAvatar;
-
-    public String name;
-
-    /**
-     * @deprecated Use {@link #getType()} instead.
-     */
-    public String type;
-
-    /**
-     * @deprecated Use {@link #getIdOrUid()} instead.
-     */
-    public String uid;
-
-    public String getLargeAvatarOrAvatar() {
-        //noinspection deprecation
-        return !TextUtils.isEmpty(largeAvatar)
-                && !TextUtils.equals(largeAvatar, LARGE_AVATAR_DEFAULT) ? largeAvatar : avatar;
-    }
-
-    public String getIdOrUid() {
-        // Some Frodo API does not recognize uid, e.g. 'user/*/notes'.
-        //noinspection deprecation
-        return String.valueOf(id);
-    }
-
-    public boolean hasIdOrUid(String idOrUid) {
-        //noinspection deprecation
-        return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
-    }
-
-    public boolean isOneself() {
-        //noinspection deprecation
-        return id == AccountUtils.getUserId();
-    }
-
-    public Type getType() {
-        //noinspection deprecation
-        return Type.ofString(type);
     }
 
 
@@ -113,36 +84,52 @@ public class User implements Parcelable {
     public User() {}
 
     protected User(Parcel in) {
-        alt = in.readString();
-        avatar = in.readString();
-        //noinspection deprecation
-        id = in.readLong();
-        isSuicided = in.readByte() != 0;
-        //noinspection deprecation
-        largeAvatar = in.readString();
-        name = in.readString();
-        type = in.readString();
-        //noinspection deprecation
-        uid = in.readString();
+        super(in);
+
+        albumCount = in.readInt();
+        isBlocked = in.readByte() != 0;
+        isBlocking = in.readByte() != 0;
+        createdAt = in.readString();
+        introduction = in.readString();
+        followerCount = in.readInt();
+        isFollowed = in.readByte() != 0;
+        followingCount = in.readInt();
+        iconAvatar = in.readString();
+        isFollower = in.readByte() != 0;
+        locationId = in.readString();
+        locationName = in.readString();
+        isLoggedIn = in.readByte() != 0;
+        diaryCount = in.readInt();
+        relation = in.readString();
+        signature = in.readString();
+        broadcastCount = in.readInt();
     }
 
     @Override
     public int describeContents() {
-        return 0;
+        return super.describeContents();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(alt);
-        dest.writeString(avatar);
-        //noinspection deprecation
-        dest.writeLong(id);
-        dest.writeByte(isSuicided ? (byte) 1 : (byte) 0);
-        //noinspection deprecation
-        dest.writeString(largeAvatar);
-        dest.writeString(name);
-        dest.writeString(type);
-        //noinspection deprecation
-        dest.writeString(uid);
+        super.writeToParcel(dest, flags);
+
+        dest.writeInt(albumCount);
+        dest.writeByte(isBlocked ? (byte) 1 : (byte) 0);
+        dest.writeByte(isBlocking ? (byte) 1 : (byte) 0);
+        dest.writeString(createdAt);
+        dest.writeString(introduction);
+        dest.writeInt(followerCount);
+        dest.writeByte(isFollowed ? (byte) 1 : (byte) 0);
+        dest.writeInt(followingCount);
+        dest.writeString(iconAvatar);
+        dest.writeByte(isFollower ? (byte) 1 : (byte) 0);
+        dest.writeString(locationId);
+        dest.writeString(locationName);
+        dest.writeByte(isLoggedIn ? (byte) 1 : (byte) 0);
+        dest.writeInt(diaryCount);
+        dest.writeString(relation);
+        dest.writeString(signature);
+        dest.writeInt(broadcastCount);
     }
 }

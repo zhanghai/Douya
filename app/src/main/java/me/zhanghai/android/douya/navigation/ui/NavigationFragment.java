@@ -24,18 +24,18 @@ import com.android.volley.VolleyError;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.account.content.AccountUserInfoResource;
+import me.zhanghai.android.douya.account.content.AccountUserResource;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.link.NotImplementedManager;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
-import me.zhanghai.android.douya.user.content.UserInfoResource;
+import me.zhanghai.android.douya.user.content.UserResource;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class NavigationFragment extends Fragment implements OnAccountsUpdateListener,
-        AccountUserInfoResource.Listener, NavigationHeaderLayout.Adapter,
+        AccountUserResource.Listener, NavigationHeaderLayout.Adapter,
         NavigationHeaderLayout.Listener, NavigationAccountListLayout.Adapter,
         NavigationAccountListLayout.Listener, ConfirmRemoveCurrentAccountDialogFragment.Listener {
 
@@ -49,7 +49,7 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     NavigationView mNavigationView;
     private NavigationHeaderLayout mHeaderLayout;
 
-    private ArrayMap<Account, AccountUserInfoResource> mUserInfoResourceMap;
+    private ArrayMap<Account, AccountUserResource> mUserResourceMap;
 
     private NavigationViewAdapter mNavigationViewAdapter;
 
@@ -87,9 +87,9 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mUserInfoResourceMap = new ArrayMap<>();
+        mUserResourceMap = new ArrayMap<>();
         for (Account account : AccountUtils.getAccounts()) {
-            mUserInfoResourceMap.put(account, AccountUserInfoResource.attachTo(account, this,
+            mUserResourceMap.put(account, AccountUserResource.attachTo(account, this,
                     account.name, -1));
         }
 
@@ -161,8 +161,8 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
 
         AccountUtils.removeOnAccountListUpdatedListener(this);
 
-        for (AccountUserInfoResource userInfoResource : mUserInfoResourceMap.values()) {
-            userInfoResource.detach();
+        for (AccountUserResource userResource : mUserResourceMap.values()) {
+            userResource.detach();
         }
     }
 
@@ -184,15 +184,15 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
 
     private void onAccountListChanged() {
 
-        ArrayMap<Account, AccountUserInfoResource> oldUserInfoResourceMap = mUserInfoResourceMap;
-        mUserInfoResourceMap = new ArrayMap<>();
+        ArrayMap<Account, AccountUserResource> oldUserResourceMap = mUserResourceMap;
+        mUserResourceMap = new ArrayMap<>();
         for (Account account : AccountUtils.getAccounts()) {
-            mUserInfoResourceMap.put(account, AccountUserInfoResource.attachTo(account, this,
+            mUserResourceMap.put(account, AccountUserResource.attachTo(account, this,
                     account.name, -1));
-            oldUserInfoResourceMap.remove(account);
+            oldUserResourceMap.remove(account);
         }
-        for (AccountUserInfoResource userInfoResource : oldUserInfoResourceMap.values()) {
-            userInfoResource.detach();
+        for (AccountUserResource userResource : oldUserResourceMap.values()) {
+            userResource.detach();
         }
 
         mHeaderLayout.onAccountListChanged();
@@ -200,46 +200,46 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     }
 
     @Override
-    public void onLoadUserInfoStarted(int requestCode) {}
+    public void onLoadUserStarted(int requestCode) {}
 
     @Override
-    public void onLoadUserInfoFinished(int requestCode) {}
+    public void onLoadUserFinished(int requestCode) {}
 
     @Override
-    public void onLoadUserInfoError(int requestCode, VolleyError error) {}
+    public void onLoadUserError(int requestCode, VolleyError error) {}
 
     @Override
-    public void onUserInfoChanged(int requestCode, UserInfo newUserInfo) {
+    public void onUserChanged(int requestCode, User newUser) {
         mHeaderLayout.bind();
-        mNavigationViewAdapter.onUserInfoChanged();
+        mNavigationViewAdapter.onUserChanged();
     }
 
     @Override
-    public void onUserInfoWriteStarted(int requestCode) {}
+    public void onUserWriteStarted(int requestCode) {}
 
     @Override
-    public void onUserInfoWriteFinished(int requestCode) {}
+    public void onUserWriteFinished(int requestCode) {}
 
     @Override
-    public User getPartialUser(Account account) {
-        return mUserInfoResourceMap.get(account).getPartialUser();
+    public SimpleUser getPartialUser(Account account) {
+        return mUserResourceMap.get(account).getPartialUser();
     }
 
     @Override
-    public UserInfo getUserInfo(Account account) {
-        return mUserInfoResourceMap.get(account).get();
+    public User getUser(Account account) {
+        return mUserResourceMap.get(account).get();
     }
 
     @Override
     public void openProfile(Account account) {
-        UserInfoResource userInfoResource = mUserInfoResourceMap.get(account);
+        UserResource userResource = mUserResourceMap.get(account);
         Intent intent;
-        if (userInfoResource.has()) {
-            intent = ProfileActivity.makeIntent(userInfoResource.get(), getActivity());
+        if (userResource.has()) {
+            intent = ProfileActivity.makeIntent(userResource.get(), getActivity());
         } else {
             // If we don't have user info, then user must also be partial. In this case we
             // can only pass user id or uid.
-            intent = ProfileActivity.makeIntent(userInfoResource.getUserIdOrUid(), getActivity());
+            intent = ProfileActivity.makeIntent(userResource.getUserIdOrUid(), getActivity());
         }
         startActivity(intent);
     }
@@ -323,9 +323,7 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     }
 
     public interface Host {
-
         DrawerLayout getDrawer();
-
         void reloadForActiveAccountChange();
     }
 }

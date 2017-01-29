@@ -30,8 +30,8 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.ui.CrossfadeText;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -150,18 +150,18 @@ public class NavigationHeaderLayout extends FrameLayout {
 
         mActiveAccount = AccountUtils.getActiveAccount();
 
-        UserInfo userInfo = mAdapter.getUserInfo(mActiveAccount);
-        if (userInfo != null) {
-            bindAvatarImage(mAvatarImage, userInfo.getLargeAvatarOrAvatar());
-            mNameText.setText(userInfo.name);
-            if (!TextUtils.isEmpty(userInfo.signature)) {
-                mDescriptionText.setText(userInfo.signature);
+        User user = mAdapter.getUser(mActiveAccount);
+        if (user != null) {
+            bindAvatarImage(mAvatarImage, user.getLargeAvatarOrAvatar());
+            mNameText.setText(user.name);
+            if (!TextUtils.isEmpty(user.signature)) {
+                mDescriptionText.setText(user.signature);
             } else {
                 //noinspection deprecation
-                mDescriptionText.setText(userInfo.uid);
+                mDescriptionText.setText(user.uid);
             }
         } else {
-            User partialUser = mAdapter.getPartialUser(mActiveAccount);
+            SimpleUser partialUser = mAdapter.getPartialUser(mActiveAccount);
             bindAvatarImage(mAvatarImage, null);
             mNameText.setText(partialUser.name);
             //noinspection deprecation
@@ -196,9 +196,9 @@ public class NavigationHeaderLayout extends FrameLayout {
         }
 
         avatarImage.setVisibility(VISIBLE);
-        UserInfo userInfo = mAdapter.getUserInfo(account);
-        if (userInfo != null) {
-            bindAvatarImage(avatarImage, userInfo.getLargeAvatarOrAvatar());
+        User user = mAdapter.getUser(account);
+        if (user != null) {
+            bindAvatarImage(avatarImage, user.getLargeAvatarOrAvatar());
         } else {
             bindAvatarImage(avatarImage, null);
         }
@@ -410,8 +410,8 @@ public class NavigationHeaderLayout extends FrameLayout {
     }
 
     public interface Adapter {
-        User getPartialUser(Account account);
-        UserInfo getUserInfo(Account account);
+        SimpleUser getPartialUser(Account account);
+        User getUser(Account account);
     }
 
     public interface Listener {

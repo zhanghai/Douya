@@ -153,7 +153,7 @@ public class NavigationViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyAccountListViewChanged();
     }
 
-    public void onUserInfoChanged() {
+    public void onUserChanged() {
         notifyAccountListViewChanged();
     }
 

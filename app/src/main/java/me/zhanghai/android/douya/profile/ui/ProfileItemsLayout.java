@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
@@ -131,9 +131,9 @@ public abstract class ProfileItemsLayout extends FriendlyCardView {
         }
     }
 
-    public void bind(UserInfo userInfo, List<UserItems> userItemList) {
+    public void bind(User user, List<UserItems> userItemList) {
 
-        mUserIdOrUid = userInfo.getIdOrUid();
+        mUserIdOrUid = user.getIdOrUid();
 
         UserItems primaryItems = null;
         UserItems secondaryItems = null;

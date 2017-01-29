@@ -17,7 +17,7 @@ import me.zhanghai.android.douya.util.TimeUtils;
 
 public class Comment implements Parcelable {
 
-    public User author;
+    public SimpleUser author;
 
     public String content;
 
@@ -60,7 +60,7 @@ public class Comment implements Parcelable {
     public Comment() {}
 
     protected Comment(Parcel in) {
-        author = in.readParcelable(User.class.getClassLoader());
+        author = in.readParcelable(SimpleUser.class.getClassLoader());
         content = in.readString();
         createdAt = in.readString();
         entities = in.createTypedArrayList(Entity.CREATOR);

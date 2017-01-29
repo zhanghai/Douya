@@ -14,7 +14,7 @@ public class Photo extends BaseItem {
     @SerializedName("allow_comment")
     public boolean isCommentAllowed;
 
-    public User author;
+    public SimpleUser author;
 
     @SerializedName("create_time")
     public String creationTime;
@@ -55,7 +55,7 @@ public class Photo extends BaseItem {
         super(in);
 
         isCommentAllowed = in.readByte() != 0;
-        author = in.readParcelable(User.class.getClassLoader());
+        author = in.readParcelable(SimpleUser.class.getClassLoader());
         creationTime = in.readString();
         commentCount = in.readInt();
         description = in.readString();

@@ -16,11 +16,10 @@ import java.util.List;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
-import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
+import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
@@ -31,21 +30,21 @@ public class ApiRequests {
 
     private ApiRequests() {}
 
-    public static ApiRequest<UserInfo> newUserInfoRequest(String userIdOrUid) {
+    public static ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.User> newUserRequest(String userIdOrUid) {
 
         if (TextUtils.isEmpty(userIdOrUid)) {
-            userIdOrUid = ApiContract.Request.ApiV2.UserInfo.UID_CURRENT;
+            userIdOrUid = ApiContract.Request.ApiV2.User.UID_CURRENT;
         }
 
         return new LifeStreamRequest<>(ApiRequest.Method.GET,
-                StringUtils.formatUs(ApiContract.Request.ApiV2.UserInfo.URL_FORMAT, userIdOrUid),
-                new TypeToken<UserInfo>() {});
+                StringUtils.formatUs(ApiContract.Request.ApiV2.User.URL_FORMAT, userIdOrUid),
+                new TypeToken<me.zhanghai.android.douya.network.api.info.apiv2.User>() {});
     }
 
-    public static ApiRequest<UserInfo> newFollowshipRequest(String userIdOrUid, boolean follow) {
+    public static ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.User> newFollowshipRequest(String userIdOrUid, boolean follow) {
         return new LifeStreamRequest<>(follow ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.Followship.URL_FORMAT, userIdOrUid),
-                new TypeToken<UserInfo>() {});
+                new TypeToken<me.zhanghai.android.douya.network.api.info.apiv2.User>() {});
     }
 
     public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
@@ -192,13 +191,13 @@ public class ApiRequests {
                         broadcastId), new TypeToken<Broadcast>() {});
     }
 
-    public static ApiRequest<List<User>> newBroadcastLikerListRequest(long broadcastId,
-                                                                      Integer start,
-                                                                      Integer count) {
+    public static ApiRequest<List<SimpleUser>> newBroadcastLikerListRequest(long broadcastId,
+                                                                            Integer start,
+                                                                            Integer count) {
 
-        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
+        ApiRequest<List<SimpleUser>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.BroadcastLikerList.URL_FORMAT,
-                        broadcastId), new TypeToken<List<User>>() {});
+                        broadcastId), new TypeToken<List<SimpleUser>>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.BroadcastLikerList.START,
@@ -212,14 +211,14 @@ public class ApiRequests {
         return request;
     }
 
-    public static ApiRequest<List<User>> newBroadcastRebroadcasterListRequest(long broadcastId,
-                                                                              Integer start,
-                                                                              Integer count) {
+    public static ApiRequest<List<SimpleUser>> newBroadcastRebroadcasterListRequest(long broadcastId,
+                                                                                    Integer start,
+                                                                                    Integer count) {
 
-        ApiRequest<List<User>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
+        ApiRequest<List<SimpleUser>> request = new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(
                         ApiContract.Request.ApiV2.BroadcastRebroadcasterList.URL_FORMAT,
-                        broadcastId), new TypeToken<List<User>>() {});
+                        broadcastId), new TypeToken<List<SimpleUser>>() {});
 
         if (start != null) {
             request.addParam(ApiContract.Request.ApiV2.BroadcastRebroadcasterList.START,
@@ -300,10 +299,10 @@ public class ApiRequests {
         return request;
     }
 
-    public static ApiRequest<CollectableItem> newItemRequest(long itemId) {
+    public static ApiRequest<Movie> newMovieRequest(long movieId) {
         return new FrodoRequest<>(ApiRequest.Method.GET,
-                StringUtils.formatUs(ApiContract.Request.Frodo.Item.URL_FORMAT, itemId),
-                new TypeToken<CollectableItem>() {});
+                StringUtils.formatUs(ApiContract.Request.Frodo.Movie.URL_FORMAT, movieId),
+                new TypeToken<Movie>() {});
     }
 
     public static ApiRequest<ReviewList> newItemReviewListRequest(long itemId, Integer start,

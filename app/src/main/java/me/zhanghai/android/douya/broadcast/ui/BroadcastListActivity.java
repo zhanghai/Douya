@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
@@ -27,7 +27,7 @@ public class BroadcastListActivity extends AppCompatActivity {
                 .putExtra(EXTRA_USER_ID_OR_UID, userIdOrUid);
     }
 
-    public static Intent makeIntent(User user, Context context) {
+    public static Intent makeIntent(SimpleUser user, Context context) {
         return new Intent(context, BroadcastListActivity.class)
                 .putExtra(EXTRA_USER, user);
     }
@@ -52,7 +52,7 @@ public class BroadcastListActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             String userIdOrUid = intent.getStringExtra(EXTRA_USER_ID_OR_UID);
-            User user = intent.getParcelableExtra(EXTRA_USER);
+            SimpleUser user = intent.getParcelableExtra(EXTRA_USER);
             String topic = intent.getStringExtra(EXTRA_TOPIC);
             FragmentUtils.add(BroadcastListActivityFragment.newInstance(userIdOrUid, user, topic),
                     this, android.R.id.content);

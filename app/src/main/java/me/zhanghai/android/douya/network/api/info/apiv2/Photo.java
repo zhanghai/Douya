@@ -22,7 +22,7 @@ public class Photo implements Parcelable {
 
     public String alt;
 
-    public User author;
+    public SimpleUser author;
 
     public ArrayList<Comment> comments = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class Photo implements Parcelable {
         albumId = in.readString();
         albumTitle = in.readString();
         alt = in.readString();
-        author = in.readParcelable(User.class.getClassLoader());
+        author = in.readParcelable(SimpleUser.class.getClassLoader());
         comments = in.createTypedArrayList(Comment.CREATOR);
         commentCount = in.readInt();
         cover = in.readString();

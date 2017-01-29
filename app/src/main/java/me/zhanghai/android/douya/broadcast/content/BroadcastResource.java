@@ -99,14 +99,15 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
     }
 
     private void ensureArguments() {
-        if (mBroadcastId == BROADCAST_ID_INVALID) {
-            Bundle arguments = getArguments();
-            mExtraBroadcast = arguments.getParcelable(EXTRA_BROADCAST);
-            if (mExtraBroadcast != null) {
-                mBroadcastId = mExtraBroadcast.id;
-            } else {
-                mBroadcastId = arguments.getLong(EXTRA_BROADCAST_ID);
-            }
+        if (mBroadcastId != BROADCAST_ID_INVALID) {
+            return;
+        }
+        Bundle arguments = getArguments();
+        mExtraBroadcast = arguments.getParcelable(EXTRA_BROADCAST);
+        if (mExtraBroadcast != null) {
+            mBroadcastId = mExtraBroadcast.id;
+        } else {
+            mBroadcastId = arguments.getLong(EXTRA_BROADCAST_ID);
         }
     }
 

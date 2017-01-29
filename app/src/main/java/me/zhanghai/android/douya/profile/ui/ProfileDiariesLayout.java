@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -63,7 +63,7 @@ public class ProfileDiariesLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(final UserInfo userInfo, List<Diary> diaryList) {
+    public void bind(final User user, List<Diary> diaryList) {
 
         final Context context = getContext();
         OnClickListener viewMoreListener = new OnClickListener() {
@@ -71,8 +71,8 @@ public class ProfileDiariesLayout extends FriendlyCardView {
             public void onClick(View view) {
                 // TODO
                 UriHandler.open(StringUtils.formatUs("https://www.douban.com/people/%s/notes",
-                        userInfo.getIdOrUid()), context);
-                //context.startActivity(DiaryListActivity.makeIntent(userInfo, context));
+                        user.getIdOrUid()), context);
+                //context.startActivity(DiaryListActivity.makeIntent(mUser, context));
             }
         };
         mTitleText.setOnClickListener(viewMoreListener);
@@ -121,9 +121,9 @@ public class ProfileDiariesLayout extends FriendlyCardView {
         ViewUtils.setVisibleOrGone(mDiaryList, i != 0);
         ViewUtils.setVisibleOrGone(mEmptyView, i == 0);
 
-        if (userInfo.diaryCount > i) {
+        if (user.diaryCount > i) {
             mViewMoreText.setText(context.getString(R.string.view_more_with_count_format,
-                    userInfo.diaryCount));
+                    user.diaryCount));
         } else {
             mViewMoreText.setVisibility(GONE);
         }

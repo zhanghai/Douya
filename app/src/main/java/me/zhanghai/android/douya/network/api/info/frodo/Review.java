@@ -99,7 +99,7 @@ public class Review implements Parcelable {
     public int uselessCount;
 
     @SerializedName("user")
-    public User author;
+    public SimpleUser author;
 
     /**
      * @deprecated Use {@link #getVoteState()} instead.
@@ -151,7 +151,7 @@ public class Review implements Parcelable {
         url = in.readString();
         usefulCount = in.readInt();
         uselessCount = in.readInt();
-        author = in.readParcelable(User.class.getClassLoader());
+        author = in.readParcelable(SimpleUser.class.getClassLoader());
         //noinspection deprecation
         voteState = in.readInt();
     }

@@ -27,8 +27,8 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
@@ -156,10 +156,10 @@ public class NavigationAccountListLayout extends LinearLayout {
                 accountLayout.setTag(holder);
             }
 
-            UserInfo userInfo = mAdapter.getUserInfo(account);
-            if (userInfo != null) {
+            User user = mAdapter.getUser(account);
+            if (user != null) {
                 ImageUtils.loadNavigationAccountListAvatar(holder.avatarImage,
-                        userInfo.getLargeAvatarOrAvatar());
+                        user.getLargeAvatarOrAvatar());
             } else {
                 holder.avatarImage.setImageResource(R.drawable.avatar_icon_grey600_40dp);
             }
@@ -196,8 +196,8 @@ public class NavigationAccountListLayout extends LinearLayout {
     }
 
     public interface Adapter {
-        User getPartialUser(Account account);
-        UserInfo getUserInfo(Account account);
+        SimpleUser getPartialUser(Account account);
+        User getUser(Account account);
     }
 
     public interface Listener {

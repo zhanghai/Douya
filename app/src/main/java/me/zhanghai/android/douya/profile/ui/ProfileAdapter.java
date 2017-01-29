@@ -13,8 +13,8 @@ import java.util.List;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
@@ -38,9 +38,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     private Data mData;
 
     public ProfileAdapter(ProfileIntroductionLayout.Listener listener) {
-
         mListener = listener;
-
         setHasStableIds(true);
     }
 
@@ -103,48 +101,48 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         switch (position) {
             case ITEM_INTRODUCTION: {
                 ProfileIntroductionLayout layout = ((ProfileIntroductionLayout) holder.getChild());
-                layout.bind(mData.userInfo);
+                layout.bind(mData.mUser);
                 layout.setListener(mListener);
                 break;
             }
             case ITEM_BROADCASTS:
-                ((ProfileBroadcastsLayout) holder.getChild()).bind(mData.userInfo,
+                ((ProfileBroadcastsLayout) holder.getChild()).bind(mData.mUser,
                         mData.broadcastList);
                 break;
             case ITEM_FOLLOWSHIP:
-                ((ProfileFollowshipLayout) holder.getChild()).bind(mData.userInfo,
+                ((ProfileFollowshipLayout) holder.getChild()).bind(mData.mUser,
                         mData.followingList);
                 break;
             case ITEM_DIARIES:
-                ((ProfileDiariesLayout) holder.getChild()).bind(mData.userInfo, mData.diaryList);
+                ((ProfileDiariesLayout) holder.getChild()).bind(mData.mUser, mData.diaryList);
                 break;
             case ITEM_BOOKS:
-                ((ProfileBooksLayout) holder.getChild()).bind(mData.userInfo, mData.userItemList);
+                ((ProfileBooksLayout) holder.getChild()).bind(mData.mUser, mData.userItemList);
                 break;
             case ITEM_MOVIES:
-                ((ProfileMoviesLayout) holder.getChild()).bind(mData.userInfo, mData.userItemList);
+                ((ProfileMoviesLayout) holder.getChild()).bind(mData.mUser, mData.userItemList);
                 break;
             case ITEM_MUSIC:
-                ((ProfileMusicLayout) holder.getChild()).bind(mData.userInfo, mData.userItemList);
+                ((ProfileMusicLayout) holder.getChild()).bind(mData.mUser, mData.userItemList);
                 break;
             case ITEM_REVIEWS:
-                ((ProfileReviewsLayout) holder.getChild()).bind(mData.userInfo, mData.reviewList);
+                ((ProfileReviewsLayout) holder.getChild()).bind(mData.mUser, mData.reviewList);
                 break;
         }
     }
 
     public static class Data {
 
-        public UserInfo userInfo;
+        public User mUser;
         public List<Broadcast> broadcastList;
-        public List<User> followingList;
+        public List<SimpleUser> followingList;
         public List<Diary> diaryList;
         public List<UserItems> userItemList;
         public List<Review> reviewList;
 
-        public Data(UserInfo userInfo, List<Broadcast> broadcastList, List<User> followingList,
+        public Data(User user, List<Broadcast> broadcastList, List<SimpleUser> followingList,
                     List<Diary> diaryList, List<UserItems> userItemList, List<Review> reviewList) {
-            this.userInfo = userInfo;
+            this.mUser = user;
             this.broadcastList = broadcastList;
             this.followingList = followingList;
             this.diaryList = diaryList;

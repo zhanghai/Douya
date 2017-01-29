@@ -88,8 +88,8 @@ public interface ApiContract {
                 String COUNT = "count";
             }
 
-            interface Item {
-                String URL_FORMAT = API_HOST + "subject/%d";
+            interface Movie {
+                String URL_FORMAT = API_HOST + "movie/%d";
             }
 
             interface ItemReviewList {
@@ -121,7 +121,7 @@ public interface ApiContract {
                 }
             }
 
-            interface UserInfo {
+            interface User {
 
                 String URL_FORMAT = API_HOST + "lifestream/user/%s";
 

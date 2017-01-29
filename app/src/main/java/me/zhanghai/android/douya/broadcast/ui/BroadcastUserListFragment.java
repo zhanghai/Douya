@@ -15,7 +15,7 @@ import java.util.List;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.user.ui.BaseUserAdapter;
 import me.zhanghai.android.douya.user.ui.DialogUserAdapter;
 import me.zhanghai.android.douya.user.ui.UserListFragment;
@@ -58,7 +58,7 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
     }
 
     @Override
-    protected void onUserListUpdated(List<User> userList) {
+    protected void onUserListUpdated(List<SimpleUser> userList) {
         if (onUpdateBroadcast(mBroadcast, userList)) {
             EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
         }
@@ -69,7 +69,7 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
         return new DialogUserAdapter();
     }
 
-    protected abstract boolean onUpdateBroadcast(Broadcast broadcast, List<User> userList);
+    protected abstract boolean onUpdateBroadcast(Broadcast broadcast, List<SimpleUser> userList);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {

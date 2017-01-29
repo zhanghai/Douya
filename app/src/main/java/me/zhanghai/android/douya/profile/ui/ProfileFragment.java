@@ -33,8 +33,8 @@ import me.zhanghai.android.douya.followship.content.FollowUserManager;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
@@ -54,8 +54,8 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     private static final String KEY_PREFIX = ProfileFragment.class.getName() + '.';
 
     private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
+    private static final String EXTRA_SIMPLE_USER = KEY_PREFIX + "simple_user";
     private static final String EXTRA_USER = KEY_PREFIX + "user";
-    private static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
     @BindView(R.id.scroll)
     ProfileLayout mScrollLayout;
@@ -71,25 +71,25 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     RecyclerView mContentList;
 
     private String mUserIdOrUid;
+    private SimpleUser mSimpleUser;
     private User mUser;
-    private UserInfo mUserInfo;
 
     private ProfileResource mProfileResource;
 
     private ProfileAdapter mProfileAdapter;
 
-    public static ProfileFragment newInstance(String userIdOrUid, User user, UserInfo userInfo) {
+    public static ProfileFragment newInstance(String userIdOrUid, SimpleUser simpleUser, User user) {
         //noinspection deprecation
         ProfileFragment fragment = new ProfileFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        arguments.putParcelable(EXTRA_SIMPLE_USER, simpleUser);
         arguments.putParcelable(EXTRA_USER, user);
-        arguments.putParcelable(EXTRA_USER_INFO, userInfo);
         return fragment;
     }
 
     /**
-     * @deprecated Use {@link #newInstance(String, User, UserInfo)} instead.
+     * @deprecated Use {@link #newInstance(String, SimpleUser, User)} instead.
      */
     public ProfileFragment() {}
 
@@ -99,8 +99,8 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
 
         Bundle arguments = getArguments();
         mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
+        mSimpleUser = arguments.getParcelable(EXTRA_SIMPLE_USER);
         mUser = arguments.getParcelable(EXTRA_USER);
-        mUserInfo = arguments.getParcelable(EXTRA_USER_INFO);
 
         setHasOptionsMenu(true);
     }
@@ -126,7 +126,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         super.onActivityCreated(savedInstanceState);
 
         CustomTabsHelperFragment.attachTo(this);
-        mProfileResource = ProfileResource.attachTo(mUserIdOrUid, mUser, mUserInfo, this);
+        mProfileResource = ProfileResource.attachTo(mUserIdOrUid, mSimpleUser, mUser, this);
 
         mScrollLayout.setListener(new ProfileLayout.Listener() {
             @Override
@@ -151,10 +151,10 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         activity.setSupportActionBar(mToolbar);
         activity.getSupportActionBar().setTitle(null);
 
-        if (mProfileResource.hasUserInfo()) {
-            mHeaderLayout.bindUserInfo(mProfileResource.getUserInfo());
-        } else if (mProfileResource.hasUser()) {
+        if (mProfileResource.hasUser()) {
             mHeaderLayout.bindUser(mProfileResource.getUser());
+        } else if (mProfileResource.hasSimpleUser()) {
+            mHeaderLayout.bindSimpleUser(mProfileResource.getSimpleUser());
         }
         mHeaderLayout.setListener(this);
 
@@ -233,38 +233,38 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     }
 
     @Override
-    public void onUserInfoChanged(int requestCode, UserInfo newUserInfo) {
-        mHeaderLayout.bindUserInfo(newUserInfo);
+    public void onUserChanged(int requestCode, User newUser) {
+        mHeaderLayout.bindUser(newUser);
     }
 
     @Override
-    public void onUserInfoWriteStarted(int requestCode) {
-        mHeaderLayout.bindUserInfo(mProfileResource.getUserInfo());
+    public void onUserWriteStarted(int requestCode) {
+        mHeaderLayout.bindUser(mProfileResource.getUser());
     }
 
     @Override
-    public void onUserInfoWriteFinished(int requestCode) {
-        mHeaderLayout.bindUserInfo(mProfileResource.getUserInfo());
+    public void onUserWriteFinished(int requestCode) {
+        mHeaderLayout.bindUser(mProfileResource.getUser());
     }
 
     @Override
-    public void onChanged(int requestCode, UserInfo newUserInfo, List<Broadcast> newBroadcastList,
-                          List<User> newFollowingList, List<Diary> newDiaryList,
+    public void onChanged(int requestCode, User newUser, List<Broadcast> newBroadcastList,
+                          List<SimpleUser> newFollowingList, List<Diary> newDiaryList,
                           List<UserItems> newUserItemList, List<Review> newReviewList) {
-        mProfileAdapter.setData(new ProfileAdapter.Data(newUserInfo, newBroadcastList,
+        mProfileAdapter.setData(new ProfileAdapter.Data(newUser, newBroadcastList,
                 newFollowingList, newDiaryList, newUserItemList, newReviewList));
         mContentStateLayout.setLoaded(true);
     }
 
     @Override
-    public void onEditProfile(UserInfo userInfo) {
+    public void onEditProfile(User user) {
         NotImplementedManager.showNotYetImplementedToast(getActivity());
     }
 
     @Override
-    public void onFollowUser(UserInfo userInfo, boolean follow) {
+    public void onFollowUser(User user, boolean follow) {
         if (follow) {
-            FollowUserManager.getInstance().write(userInfo, true, getActivity());
+            FollowUserManager.getInstance().write(user, true, getActivity());
         } else {
             ConfirmUnfollowUserDialogFragment.show(this);
         }
@@ -272,7 +272,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
 
     @Override
     public void onUnfollowUser() {
-        FollowUserManager.getInstance().write(mProfileResource.getUserInfo(), false, getActivity());
+        FollowUserManager.getInstance().write(mProfileResource.getUser(), false, getActivity());
     }
 
     @Override

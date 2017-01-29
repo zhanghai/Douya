@@ -15,7 +15,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -76,8 +76,8 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
         }
     }
 
-    public void bind(UserInfo userInfo) {
-        bind(userInfo.introduction);
+    public void bind(User user) {
+        bind(user.introduction);
     }
 
     private void onCopyText(String text) {

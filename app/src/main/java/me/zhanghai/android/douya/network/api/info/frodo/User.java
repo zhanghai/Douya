@@ -6,58 +6,119 @@
 package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.os.Parcel;
-import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import me.zhanghai.android.douya.account.util.AccountUtils;
+public class User extends SimpleUser {
 
-public class User implements Parcelable {
+    public enum VerificationType {
 
-    @SerializedName("abstract")
-    public String introduction;
+        NONE,
+        OFFICIAL,
+        THIRD_PARTY;
 
-    public String avatar;
+        public static VerificationType ofApiInt(int apiInt, VerificationType defaultValue) {
+            if (apiInt >= 0 && apiInt < values().length) {
+                return values()[apiInt];
+            } else {
+                return defaultValue;
+            }
+        }
 
-    public String gender;
+        public static VerificationType ofApiInt(int apiInt) {
+            return ofApiInt(apiInt, NONE);
+        }
+    }
 
-    public long id;
+    @SerializedName("ark_published_count")
+    public int arkPublicationCount;
 
-    @SerializedName("kind")
-    public String type;
+    public String birthday;
+
+    @SerializedName("can_donate")
+    public boolean canAcceptDonation;
+
+    @SerializedName("can_set_original")
+    public boolean canDeclareOriginal;
+
+    @SerializedName("collected_subjects_count")
+    public int collectedItemCount;
+
+    @SerializedName("dramas_count")
+    public int collectedDramaCount;
+
+    @SerializedName("followed")
+    public boolean isFollowed;
+
+    @SerializedName("followers_count")
+    public int followerCount;
+
+    @SerializedName("following_count")
+    public int followingCount;
+
+    @SerializedName("following_doulist_count")
+    public int followingDoulistCount;
+
+    @SerializedName("group_chat_count")
+    public int groupChatCount;
+
+    @SerializedName("has_user_hot_module")
+    public boolean hasUserHotModule;
+
+    @SerializedName("in_blacklist")
+    public boolean isInBlacklist;
+
+    // The same as "abstract" which is "introduction" in SimpleUser.
+    //public String intro;
+
+    @SerializedName("is_phone_bound")
+    public boolean isPhoneBound;
+
+    @SerializedName("is_normal")
+    public boolean hasEmailOrPhone;
+
+    @SerializedName("joined_group_count")
+    public int joinedGroupCount;
+
+    @SerializedName("notes_count")
+    public int diaryCount;
+
+    @SerializedName("owned_doulist_count")
+    public int doulistCount;
+
+    @SerializedName("photo_albums_count")
+    public int albumCount;
+
+    @SerializedName("profile_banner")
+    public Image profileBackdrop;
+
+    @SerializedName("reg_time")
+    public String registrationTime;
+
+    @SerializedName("remark")
+    public String comment;
+
+    @SerializedName("seti_channel_count")
+    public int setiChannelCount;
+
+    @SerializedName("statuses_count")
+    public int broadcastCount;
+
+    @SerializedName("updated_profile")
+    public boolean hasUpdatedProfile;
 
     /**
-     * @deprecated Use {@link #getLargeAvatar()} instead.
+     * @deprecated Use {@link #getVerificationType()} instead.
      */
-    @SerializedName("large_avatar")
-    public String largeAvatar;
+    @SerializedName("verify_type")
+    public int verificationType;
 
-    @SerializedName("loc")
-    public Location location;
+    @SerializedName("verify_reason")
+    public String verificationReason;
 
-    public String name;
-
-    // The value of this field is always "user", so we are using "kind" as "type" instead.
-    //public String type;
-
-    public String uid;
-
-    public String uri;
-
-    public String url;
-
-    public String getLargeAvatar() {
+    public VerificationType getVerificationType() {
         //noinspection deprecation
-        return !TextUtils.isEmpty(largeAvatar) ? largeAvatar : avatar;
-    }
-
-    public boolean hasIdOrUid(String idOrUid) {
-        return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
-    }
-
-    public boolean isOneself() {
-        return id == AccountUtils.getUserId();
+        return VerificationType.ofApiInt(verificationType);
     }
 
 
@@ -75,18 +136,36 @@ public class User implements Parcelable {
     public User() {}
 
     protected User(Parcel in) {
-        introduction = in.readString();
-        avatar = in.readString();
-        gender = in.readString();
-        id = in.readLong();
-        type = in.readString();
+        super(in);
+
+        arkPublicationCount = in.readInt();
+        birthday = in.readString();
+        canAcceptDonation = in.readByte() != 0;
+        canDeclareOriginal = in.readByte() != 0;
+        collectedItemCount = in.readInt();
+        collectedDramaCount = in.readInt();
+        isFollowed = in.readByte() != 0;
+        followerCount = in.readInt();
+        followingCount = in.readInt();
+        followingDoulistCount = in.readInt();
+        groupChatCount = in.readInt();
+        hasUserHotModule = in.readByte() != 0;
+        isInBlacklist = in.readByte() != 0;
+        isPhoneBound = in.readByte() != 0;
+        hasEmailOrPhone = in.readByte() != 0;
+        joinedGroupCount = in.readInt();
+        diaryCount = in.readInt();
+        doulistCount = in.readInt();
+        albumCount = in.readInt();
+        profileBackdrop = in.readParcelable(Image.class.getClassLoader());
+        registrationTime = in.readString();
+        comment = in.readString();
+        setiChannelCount = in.readInt();
+        broadcastCount = in.readInt();
+        hasUpdatedProfile = in.readByte() != 0;
         //noinspection deprecation
-        largeAvatar = in.readString();
-        location = in.readParcelable(Location.class.getClassLoader());
-        name = in.readString();
-        uid = in.readString();
-        uri = in.readString();
-        url = in.readString();
+        verificationType = in.readInt();
+        verificationReason = in.readString();
     }
 
     @Override
@@ -96,17 +175,35 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(introduction);
-        dest.writeString(avatar);
-        dest.writeString(gender);
-        dest.writeLong(id);
-        dest.writeString(type);
+        super.writeToParcel(dest, flags);
+
+        dest.writeInt(arkPublicationCount);
+        dest.writeString(birthday);
+        dest.writeByte(canAcceptDonation ? (byte) 1 : (byte) 0);
+        dest.writeByte(canDeclareOriginal ? (byte) 1 : (byte) 0);
+        dest.writeInt(collectedItemCount);
+        dest.writeInt(collectedDramaCount);
+        dest.writeByte(isFollowed ? (byte) 1 : (byte) 0);
+        dest.writeInt(followerCount);
+        dest.writeInt(followingCount);
+        dest.writeInt(followingDoulistCount);
+        dest.writeInt(groupChatCount);
+        dest.writeByte(hasUserHotModule ? (byte) 1 : (byte) 0);
+        dest.writeByte(isInBlacklist ? (byte) 1 : (byte) 0);
+        dest.writeByte(isPhoneBound ? (byte) 1 : (byte) 0);
+        dest.writeByte(hasEmailOrPhone ? (byte) 1 : (byte) 0);
+        dest.writeInt(joinedGroupCount);
+        dest.writeInt(diaryCount);
+        dest.writeInt(doulistCount);
+        dest.writeInt(albumCount);
+        dest.writeParcelable(profileBackdrop, flags);
+        dest.writeString(registrationTime);
+        dest.writeString(comment);
+        dest.writeInt(setiChannelCount);
+        dest.writeInt(broadcastCount);
+        dest.writeByte(hasUpdatedProfile ? (byte) 1 : (byte) 0);
         //noinspection deprecation
-        dest.writeString(largeAvatar);
-        dest.writeParcelable(location, flags);
-        dest.writeString(name);
-        dest.writeString(uid);
-        dest.writeString(uri);
-        dest.writeString(url);
+        dest.writeInt(verificationType);
+        dest.writeString(verificationReason);
     }
 }

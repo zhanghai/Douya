@@ -15,14 +15,14 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapter.ViewHolder> {
+public abstract class BaseUserAdapter extends SimpleAdapter<SimpleUser, BaseUserAdapter.ViewHolder> {
 
     public BaseUserAdapter() {
         setHasStableIds(true);
@@ -42,7 +42,7 @@ public abstract class BaseUserAdapter extends SimpleAdapter<User, BaseUserAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Context context = RecyclerViewUtils.getContext(holder);
-        final User user = getItem(position);
+        final SimpleUser user = getItem(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

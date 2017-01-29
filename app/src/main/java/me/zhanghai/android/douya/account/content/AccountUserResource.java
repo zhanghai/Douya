@@ -11,30 +11,30 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
-import me.zhanghai.android.douya.user.content.UserInfoResource;
+import me.zhanghai.android.douya.user.content.UserResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class AccountUserInfoResource extends UserInfoResource {
+public class AccountUserResource extends UserResource {
 
-    private static final String KEY_PREFIX = AccountUserInfoResource.class.getName() + '.';
+    private static final String KEY_PREFIX = AccountUserResource.class.getName() + '.';
 
     private final String EXTRA_ACCOUNT = KEY_PREFIX + "account";
 
     private Account mAccount;
 
-    private static final String FRAGMENT_TAG_DEFAULT = AccountUserInfoResource.class.getName();
+    private static final String FRAGMENT_TAG_DEFAULT = AccountUserResource.class.getName();
 
-    private static AccountUserInfoResource newInstance(Account account) {
+    private static AccountUserResource newInstance(Account account) {
         //noinspection deprecation
-        return new AccountUserInfoResource().setArguments(account);
+        return new AccountUserResource().setArguments(account);
     }
 
-    public static AccountUserInfoResource attachTo(Account account, Fragment fragment, String tag,
-                                                   int requestCode) {
+    public static AccountUserResource attachTo(Account account, Fragment fragment, String tag,
+                                               int requestCode) {
         FragmentActivity activity = fragment.getActivity();
-        AccountUserInfoResource instance = FragmentUtils.findByTag(activity, tag);
+        AccountUserResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(account);
             instance.targetAt(fragment, requestCode);
@@ -43,7 +43,7 @@ public class AccountUserInfoResource extends UserInfoResource {
         return instance;
     }
 
-    public static AccountUserInfoResource attachTo(Account account, Fragment fragment) {
+    public static AccountUserResource attachTo(Account account, Fragment fragment) {
         return attachTo(account, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
     }
 
@@ -51,24 +51,24 @@ public class AccountUserInfoResource extends UserInfoResource {
      * @deprecated Use {@code attachTo()} instead.
      */
     @SuppressWarnings("deprecation")
-    public AccountUserInfoResource() {}
+    public AccountUserResource() {}
 
-    protected AccountUserInfoResource setArguments(Account account) {
-        User user = makePartialUser(account);
-        super.setArguments(user.getIdOrUid(), user, AccountUtils.getUserInfo(account));
+    protected AccountUserResource setArguments(Account account) {
+        SimpleUser partialUser = makePartialUser(account);
+        super.setArguments(partialUser.getIdOrUid(), partialUser, AccountUtils.getUser(account));
         FragmentUtils.ensureArguments(this)
                 .putParcelable(EXTRA_ACCOUNT, account);
         return this;
     }
 
-    private User makePartialUser(Account account) {
-        User user = new User();
+    private SimpleUser makePartialUser(Account account) {
+        SimpleUser partialUser = new SimpleUser();
         //noinspection deprecation
-        user.id = AccountUtils.getUserId(account);
+        partialUser.id = AccountUtils.getUserId(account);
         //noinspection deprecation
-        user.uid = String.valueOf(user.id);
-        user.name = AccountUtils.getUserName(account);
-        return user;
+        partialUser.uid = String.valueOf(partialUser.id);
+        partialUser.name = AccountUtils.getUserName(account);
+        return partialUser;
     }
 
     @Override
@@ -85,26 +85,26 @@ public class AccountUserInfoResource extends UserInfoResource {
     }
 
     @Override
-    protected void onLoadSuccess(UserInfo userInfo) {
-        super.onLoadSuccess(userInfo);
+    protected void onLoadSuccess(User user) {
+        super.onLoadSuccess(user);
 
-        AccountUtils.setUserName(mAccount, userInfo.name);
-        AccountUtils.setUserInfo(mAccount, userInfo);
+        AccountUtils.setUserName(mAccount, user.name);
+        AccountUtils.setUser(mAccount, user);
     }
 
     @Deprecated
     @Override
-    public boolean hasUser() {
+    public boolean hasSimpleUser() {
         throw new IllegalStateException("We always have a (partial) user");
     }
 
     @Deprecated
     @Override
-    public User getUser() {
+    public SimpleUser getSimpleUser() {
         throw new IllegalStateException("Use getPartialUser() instead");
     }
 
-    public User getPartialUser() {
-        return super.getUser();
+    public SimpleUser getPartialUser() {
+        return super.getSimpleUser();
     }
 }

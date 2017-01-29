@@ -13,10 +13,10 @@ import java.util.List;
 import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 
 public abstract class BaseUserListResource<ResponseType>
-        extends MoreRawListResourceFragment<User, ResponseType> {
+        extends MoreRawListResourceFragment<SimpleUser, ResponseType> {
 
     @Override
     protected Request<ResponseType> onCreateRequest(boolean more, int count) {
@@ -41,7 +41,7 @@ public abstract class BaseUserListResource<ResponseType>
                                                   ResponseType response, VolleyError error);
 
     protected void onRawLoadFinished(boolean more, int count, boolean successful,
-                                     List<User> response, VolleyError error) {
+                                     List<SimpleUser> response, VolleyError error) {
         getListener().onLoadUserListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -69,10 +69,10 @@ public abstract class BaseUserListResource<ResponseType>
         /**
          * @param newUserList Unmodifiable.
          */
-        void onUserListChanged(int requestCode, List<User> newUserList);
+        void onUserListChanged(int requestCode, List<SimpleUser> newUserList);
         /**
          * @param appendedUserList Unmodifiable.
          */
-        void onUserListAppended(int requestCode, List<User> appendedUserList);
+        void onUserListAppended(int requestCode, List<SimpleUser> appendedUserList);
     }
 }

@@ -24,7 +24,7 @@ public class Broadcast implements Parcelable {
 
     public Attachment attachment;
 
-    public User author;
+    public SimpleUser author;
 
     @SerializedName("can_reply")
     public int canCommentInt;
@@ -191,7 +191,7 @@ public class Broadcast implements Parcelable {
     protected Broadcast(Parcel in) {
         action = in.readString();
         attachment = in.readParcelable(Attachment.class.getClassLoader());
-        author = in.readParcelable(User.class.getClassLoader());
+        author = in.readParcelable(SimpleUser.class.getClassLoader());
         canCommentInt = in.readInt();
         commentCount = in.readInt();
         createdAt = in.readString();

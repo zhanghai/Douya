@@ -48,7 +48,7 @@ public class Diary implements Parcelable {
     @SerializedName("allow_donate")
     public boolean allowDonate;
 
-    public User author;
+    public SimpleUser author;
 
     @SerializedName("comments_count")
     public int commentCount;
@@ -116,7 +116,7 @@ public class Diary implements Parcelable {
         abstract_ = in.readString();
         allowComment = in.readByte() != 0;
         allowDonate = in.readByte() != 0;
-        author = in.readParcelable(User.class.getClassLoader());
+        author = in.readParcelable(SimpleUser.class.getClassLoader());
         commentCount = in.readInt();
         cover = in.readString();
         creationTime = in.readString();

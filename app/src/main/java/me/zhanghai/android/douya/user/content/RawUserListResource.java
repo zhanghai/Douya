@@ -10,15 +10,15 @@ import com.android.volley.VolleyError;
 import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 
-public abstract class RawUserListResource extends BaseUserListResource<List<User>> {
+public abstract class RawUserListResource extends BaseUserListResource<List<SimpleUser>> {
 
-    protected abstract ApiRequest<List<User>> onCreateRequest(Integer start, Integer count);
+    protected abstract ApiRequest<List<SimpleUser>> onCreateRequest(Integer start, Integer count);
 
     @Override
     protected void onCallRawLoadFinished(boolean more, int count, boolean successful,
-                                         List<User> response, VolleyError error) {
+                                         List<SimpleUser> response, VolleyError error) {
         onRawLoadFinished(more, count, successful, response, error);
     }
 }

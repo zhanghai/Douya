@@ -9,7 +9,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastLikerListResource;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.user.content.BaseUserListResource;
 
 public class BroadcastLikerListFragment extends BroadcastUserListFragment {
@@ -36,7 +36,7 @@ public class BroadcastLikerListFragment extends BroadcastUserListFragment {
     }
 
     @Override
-    protected boolean onUpdateBroadcast(Broadcast broadcast, List<User> userList) {
+    protected boolean onUpdateBroadcast(Broadcast broadcast, List<SimpleUser> userList) {
         if (broadcast.likeCount < userList.size()) {
             broadcast.likeCount = userList.size();
             return true;

@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -20,7 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final String KEY_PREFIX = ProfileFragment.class.getName() + '.';
 
     private static final String EXTRA_USER_ID_OR_UID = KEY_PREFIX + "user_id_or_uid";
-    private static final String EXTRA_USER = KEY_PREFIX + "user";
+    private static final String EXTRA_SIMPLE_USER = KEY_PREFIX + "simple_user";
     private static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
     private ProfileFragment mProfileFragment;
@@ -30,14 +30,14 @@ public class ProfileActivity extends AppCompatActivity {
                 .putExtra(EXTRA_USER_ID_OR_UID, userIdOrUid);
     }
 
-    public static Intent makeIntent(User user, Context context) {
+    public static Intent makeIntent(SimpleUser simpleUser, Context context) {
         return new Intent(context, ProfileActivity.class)
-                .putExtra(EXTRA_USER, user);
+                .putExtra(EXTRA_SIMPLE_USER, simpleUser);
     }
 
-    public static Intent makeIntent(UserInfo userInfo, Context context) {
+    public static Intent makeIntent(User user, Context context) {
         return new Intent(context, ProfileActivity.class)
-                .putExtra(EXTRA_USER_INFO, userInfo);
+                .putExtra(EXTRA_USER_INFO, user);
     }
 
     @Override
@@ -52,9 +52,9 @@ public class ProfileActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             String userIdOrUid = intent.getStringExtra(EXTRA_USER_ID_OR_UID);
-            User user = intent.getParcelableExtra(EXTRA_USER);
-            UserInfo userInfo = intent.getParcelableExtra(EXTRA_USER_INFO);
-            mProfileFragment = ProfileFragment.newInstance(userIdOrUid, user, userInfo);
+            SimpleUser simpleUser = intent.getParcelableExtra(EXTRA_SIMPLE_USER);
+            User user = intent.getParcelableExtra(EXTRA_USER_INFO);
+            mProfileFragment = ProfileFragment.newInstance(userIdOrUid, simpleUser, user);
             FragmentUtils.add(mProfileFragment, this, android.R.id.content);
         } else {
             mProfileFragment = FragmentUtils.findById(this, android.R.id.content);

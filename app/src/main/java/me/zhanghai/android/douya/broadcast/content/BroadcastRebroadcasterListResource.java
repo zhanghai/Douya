@@ -12,7 +12,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiRequests;
-import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastRebroadcasterListResource extends BroadcastUserListResource {
@@ -53,7 +53,7 @@ public class BroadcastRebroadcasterListResource extends BroadcastUserListResourc
     }
 
     @Override
-    protected ApiRequest<List<User>> onCreateRequest(Integer start, Integer count) {
+    protected ApiRequest<List<SimpleUser>> onCreateRequest(Integer start, Integer count) {
         return ApiRequests.newBroadcastRebroadcasterListRequest(getBroadcastId(), start, count);
     }
 }
