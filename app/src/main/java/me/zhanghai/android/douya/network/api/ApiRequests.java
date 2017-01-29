@@ -19,6 +19,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserInfo;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
@@ -26,10 +27,6 @@ import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.util.StringUtils;
 
-/**
- * The {@code context} argument is only used for
- * {@code Volley.getInstance(context).getAuthenticator()}.
- */
 public class ApiRequests {
 
     private ApiRequests() {}
@@ -301,6 +298,12 @@ public class ApiRequests {
         }
 
         return request;
+    }
+
+    public static ApiRequest<CollectableItem> newItemRequest(long itemId) {
+        return new FrodoRequest<>(ApiRequest.Method.GET,
+                StringUtils.formatUs(ApiContract.Request.Frodo.Item.URL_FORMAT, itemId),
+                new TypeToken<CollectableItem>() {});
     }
 
     public static ApiRequest<ReviewList> newItemReviewListRequest(long itemId, Integer start,

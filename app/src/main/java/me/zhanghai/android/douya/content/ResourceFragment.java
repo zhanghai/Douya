@@ -14,7 +14,7 @@ import me.zhanghai.android.douya.eventbus.PreventNoSubscriptionExceptionEvent;
 import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.RequestFragment;
 
-public abstract class ResourceFragment<ResourceType, ResponseType>
+public abstract class ResourceFragment<ResponseType, ResourceType>
         extends RequestFragment<Void, ResponseType> {
 
     ResourceType mResource;

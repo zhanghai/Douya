@@ -88,6 +88,10 @@ public interface ApiContract {
                 String COUNT = "count";
             }
 
+            interface Item {
+                String URL_FORMAT = API_HOST + "subject/%d";
+            }
+
             interface ItemReviewList {
 
                 String URL_FORMAT = API_HOST + "subject/%d/reviews";

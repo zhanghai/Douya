@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.content;
 
 public abstract class ListResourceFragment<ResourceListType, ResponseType>
-        extends ResourceFragment<ResourceListType, ResponseType> {
+        extends ResourceFragment<ResponseType, ResourceListType> {
 
     protected abstract int getSize(ResourceListType resource);
 
