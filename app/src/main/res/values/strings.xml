@@ -236,6 +236,8 @@
     <string name="item_movie_action">看</string>
     <string name="item_music_name">音乐</string>
     <string name="item_music_action">听</string>
+    <string name="item_tv_name">电视剧</string>
+    <string name="item_tv_action">看</string>
     <string name="item_todo_format">想%1$s</string>
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>

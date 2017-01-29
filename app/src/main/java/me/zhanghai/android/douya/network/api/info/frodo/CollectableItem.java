@@ -32,7 +32,8 @@ public class CollectableItem extends BaseItem {
         EVENT("event", R.string.item_event_name, R.string.item_event_action),
         GAME("game", R.string.item_game_name, R.string.item_game_action),
         MOVIE("movie", R.string.item_movie_name, R.string.item_movie_action),
-        MUSIC("music", R.string.item_music_name, R.string.item_music_action);
+        MUSIC("music", R.string.item_music_name, R.string.item_music_action),
+        TV("tv", R.string.item_tv_name, R.string.item_tv_action);
 
         private String apiString;
         private int nameRes;
@@ -135,6 +136,7 @@ public class CollectableItem extends BaseItem {
 //                case GAME:
 //                    return context.deserialize(json, new TypeToken<Game>() {}.getClass());
                 case MOVIE:
+                case TV:
                     return context.deserialize(json, new TypeToken<Movie>() {}.getClass());
 //                case MUSIC:
 //                    return context.deserialize(json, new TypeToken<Music>() {}.getClass());
@@ -164,6 +166,7 @@ public class CollectableItem extends BaseItem {
 //                case GAME:
 //                    return context.serialize(src, new TypeToken<Game>() {}.getClass());
                 case MOVIE:
+                case TV:
                     return context.serialize(src, new TypeToken<Movie>() {}.getClass());
 //                case MUSIC:
 //                    return context.serialize(src, new TypeToken<Music>() {}.getClass());
