@@ -70,16 +70,9 @@ public class UserResource extends ResourceFragment<User, User> {
 
     protected UserResource setArguments(String userIdOrUid, SimpleUser simpleUser, User user) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
-        if (user != null) {
-            arguments.putString(EXTRA_USER_ID_OR_UID, user.getIdOrUid());
-            arguments.putParcelable(EXTRA_SIMPLE_USER, user);
-            arguments.putParcelable(EXTRA_USER, user);
-        } else if (simpleUser != null) {
-            arguments.putString(EXTRA_USER_ID_OR_UID, simpleUser.getIdOrUid());
-            arguments.putParcelable(EXTRA_SIMPLE_USER, simpleUser);
-        } else {
-            arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        }
+        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
+        arguments.putParcelable(EXTRA_SIMPLE_USER, simpleUser);
+        arguments.putParcelable(EXTRA_USER, user);
         return this;
     }
 
@@ -132,19 +125,28 @@ public class UserResource extends ResourceFragment<User, User> {
             return;
         }
         Bundle arguments = getArguments();
-        mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
-        mSimpleUser = arguments.getParcelable(EXTRA_SIMPLE_USER);
         mExtraUser = arguments.getParcelable(EXTRA_USER);
+        if (mExtraUser != null) {
+            mSimpleUser = mExtraUser;
+            mUserIdOrUid = mExtraUser.getIdOrUid();
+        } else {
+            mSimpleUser = arguments.getParcelable(EXTRA_SIMPLE_USER);
+            if (mSimpleUser != null) {
+                mUserIdOrUid = mSimpleUser.getIdOrUid();
+            } else {
+                mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
+            }
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        Bundle arguments = getArguments();
-        arguments.putString(EXTRA_USER_ID_OR_UID, mUserIdOrUid);
-        arguments.putParcelable(EXTRA_SIMPLE_USER, mSimpleUser);
-        arguments.putParcelable(EXTRA_USER, mExtraUser);
+        if (has()) {
+            User user = get();
+            setArguments(user.getIdOrUid(), user, user);
+        }
     }
 
     @Override

@@ -116,7 +116,8 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         super.onDestroy();
 
         if (has()) {
-            getArguments().putParcelable(EXTRA_BROADCAST, get());
+            Broadcast broadcast = get();
+            setArguments(broadcast.id, broadcast);
         }
     }
 
