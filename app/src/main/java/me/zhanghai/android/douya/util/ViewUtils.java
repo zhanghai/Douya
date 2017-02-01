@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.util;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -14,6 +15,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -367,6 +369,17 @@ public class ViewUtils {
         layoutParams.width = size;
         layoutParams.height = size;
         view.setLayoutParams(layoutParams);
+    }
+
+    public static void setLayoutFullscreen(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+    }
+
+    public static void setLayoutFullscreen(Activity activity) {
+        setLayoutFullscreen(activity.getWindow().getDecorView());
     }
 
     public static void setTextViewBold(TextView textView, boolean bold) {

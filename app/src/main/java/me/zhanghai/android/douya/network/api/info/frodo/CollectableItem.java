@@ -18,12 +18,15 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.GsonHelper;
 
 /**
  * {@code LegacySubject} in Frodo, for those that can have a rating.
  */
-public class CollectableItem extends BaseItem {
+public abstract class CollectableItem extends BaseItem {
 
     public enum Type {
 
@@ -121,29 +124,29 @@ public class CollectableItem extends BaseItem {
         public CollectableItem deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
                                            JsonDeserializationContext context)
                 throws JsonParseException {
-            Type type = Type.ofApiString(json.getAsJsonObject().get("type").getAsString());
-            if (type == null) {
-                // FIXME
-                return context.deserialize(json, new TypeToken<CollectableItem>() {}.getClass());
-            }
-            switch (type) {
+            java.lang.reflect.Type type = null;
+            Type itemType = Type.ofApiString(json.getAsJsonObject().get("type").getAsString());
+            if (itemType != null) {
+                switch (itemType) {
 //                case APP:
-//                    return context.deserialize(json, new TypeToken<App>() {}.getClass());
+//
 //                case BOOK:
-//                    return context.deserialize(json, new TypeToken<Book>() {}.getClass());
+//
 //                case EVENT:
-//                    return context.deserialize(json, new TypeToken<Event>() {}.getClass());
+//
 //                case GAME:
-//                    return context.deserialize(json, new TypeToken<Game>() {}.getClass());
-                case MOVIE:
-                case TV:
-                    return context.deserialize(json, new TypeToken<Movie>() {}.getClass());
+//
+                    case MOVIE:
+                    case TV:
+                        type = new TypeToken<SimpleMovie>() {}.getType();
 //                case MUSIC:
 //                    return context.deserialize(json, new TypeToken<Music>() {}.getClass());
-                default:
-                    return context.deserialize(json,
-                            new TypeToken<CollectableItem>() {}.getClass());
+                }
             }
+            if (type == null) {
+                type = new TypeToken<UnknownCollectableItem>() {}.getType();
+            }
+            return context.deserialize(json, type);
         }
     }
 
@@ -151,42 +154,32 @@ public class CollectableItem extends BaseItem {
         @Override
         public JsonElement serialize(CollectableItem src, java.lang.reflect.Type typeOfSrc,
                                      JsonSerializationContext context) {
-            Type type = src.getType();
+            java.lang.reflect.Type type = null;
+            Type itemType = src.getType();
+            if (itemType != null) {
+                switch (itemType) {
+//                    case APP:
+//
+//                    case BOOK:
+//
+//                    case EVENT:
+//
+//                    case GAME:
+//
+                    case MOVIE:
+                    case TV:
+                        type = new TypeToken<SimpleMovie>() {}.getClass();
+//                    case MUSIC:
+//
+                }
+            }
             if (type == null) {
-                // TODO
-                return context.serialize(src, new TypeToken<CollectableItem>() {}.getClass());
+                type = new TypeToken<UnknownCollectableItem>() {}.getType();
             }
-            switch (type) {
-//                case APP:
-//                    return context.serialize(src, new TypeToken<App>() {}.getClass());
-//                case BOOK:
-//                    return context.serialize(src, new TypeToken<Book>() {}.getClass());
-//                case EVENT:
-//                    return context.serialize(src, new TypeToken<Event>() {}.getClass());
-//                case GAME:
-//                    return context.serialize(src, new TypeToken<Game>() {}.getClass());
-                case MOVIE:
-                case TV:
-                    return context.serialize(src, new TypeToken<Movie>() {}.getClass());
-//                case MUSIC:
-//                    return context.serialize(src, new TypeToken<Music>() {}.getClass());
-                default:
-                    return context.serialize(src, new TypeToken<CollectableItem>() {}.getClass());
-            }
+            return context.serialize(src, type);
         }
     }
 
-
-    public static final Creator<CollectableItem> CREATOR = new Creator<CollectableItem>() {
-        @Override
-        public CollectableItem createFromParcel(Parcel source) {
-            return new CollectableItem(source);
-        }
-        @Override
-        public CollectableItem[] newArray(int size) {
-            return new CollectableItem[size];
-        }
-    };
 
     public CollectableItem() {}
 

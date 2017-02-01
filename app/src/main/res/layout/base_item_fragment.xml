@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/backdrop_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        android:theme="?actionBarTheme">
+
+        <me.zhanghai.android.douya.ui.RatioImageView
+            android:id="@+id/backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/backdrop_scrim"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scrim_height" />
+
+        <ImageView
+            android:id="@+id/backdrop_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="@dimen/hint_pressed_alpha_material_dark"
+            android:src="@drawable/play_circle_outline_icon_white_48dp" />
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/item_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/card_list_horizontal_padding"
+        android:paddingRight="@dimen/card_list_horizontal_padding"
+        android:paddingTop="@dimen/toolbar_height"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay" />
+
+    <me.zhanghai.android.douya.ui.AppBarWrapperLayout
+        android:id="@+id/appBarWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+            android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
+            android:elevation="@dimen/appbar_elevation"
+            android:theme="?actionBarTheme"
+            app:navigationIcon="@drawable/back_icon_white_24dp"
+            app:popupTheme="?actionBarPopupTheme"
+            app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+    </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
+</FrameLayout>

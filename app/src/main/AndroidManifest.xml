@@ -89,6 +89,11 @@
             android:label="@string/profile_following_list_title" />
 
         <activity
+            android:name=".item.ui.MovieActivity"
+            android:theme="@style/Theme.Douya.TransparentStatusBar"
+            android:label="@string/item_movie_title" />
+
+        <activity
             android:name=".item.ui.ItemCollectionActivity"
             android:theme="@style/Theme.Douya"
             android:label="@string/item_collection_title" />

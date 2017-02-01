@@ -5,14 +5,12 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class UserItems implements Parcelable {
+// Not parcelable because items may not be of the same type.
+public class UserItems {
 
     /**
      * @deprecated Use {@link #getState()} instead.
@@ -40,44 +38,5 @@ public class UserItems implements Parcelable {
         // FIXME: Correct to use null?
         //noinspection deprecation
         return CollectableItem.Type.ofApiString(type, null);
-    }
-
-
-    public static final Parcelable.Creator<UserItems> CREATOR =
-            new Parcelable.Creator<UserItems>() {
-                @Override
-                public UserItems createFromParcel(Parcel source) {
-                    return new UserItems(source);
-                }
-                @Override
-                public UserItems[] newArray(int size) {
-                    return new UserItems[size];
-                }
-            };
-
-    public UserItems() {}
-
-    protected UserItems(Parcel in) {
-        //noinspection deprecation
-        state = in.readString();
-        items = in.createTypedArrayList(CollectableItem.CREATOR);
-        total = in.readInt();
-        //noinspection deprecation
-        type = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        //noinspection deprecation
-        dest.writeString(state);
-        dest.writeTypedList(items);
-        dest.writeInt(total);
-        //noinspection deprecation
-        dest.writeString(type);
     }
 }

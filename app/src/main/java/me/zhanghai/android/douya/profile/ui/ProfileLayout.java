@@ -82,10 +82,7 @@ public class ProfileLayout extends FlexibleSpaceLayout {
         Context context = getContext();
         mUseWideLayout = ProfileUtils.shouldUseWideLayout(context);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE | SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-
+        ViewUtils.setLayoutFullscreen(this);
         mWindowBackground = new ColorDrawable(mBackgroundColor);
         AppUtils.getActivityFromContext(context).getWindow()
                 .setBackgroundDrawable(mWindowBackground);

@@ -6,12 +6,13 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+
+import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
  * Layouts in fullscreen, and {@code android:fitsSystemWindows="true"} will be ignored.
@@ -66,12 +67,8 @@ public class DispatchInsetsDrawerLayout extends DrawerLayout {
     }
 
     private void init() {
-
         setFitsSystemWindows(false);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE | SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
+        ViewUtils.setLayoutFullscreen(this);
     }
 
     @Override

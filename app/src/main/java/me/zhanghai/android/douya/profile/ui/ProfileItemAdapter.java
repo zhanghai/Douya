@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.profile.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.item.ui.ItemActivities;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.RatioFrameLayout;
@@ -53,7 +55,8 @@ public class ProfileItemAdapter
             case BOOK:
             case EVENT:
             case MOVIE:
-                ratio = 2f / 3;
+            case TV:
+                ratio = 2f / 3f;
                 break;
         }
         holder.itemLayout.setRatio(ratio);
@@ -62,7 +65,12 @@ public class ProfileItemAdapter
             @Override
             public void onClick(View view) {
                 // TODO
-                UriHandler.open(item.url, context);
+                Intent intent = ItemActivities.makeIntent(item, context);
+                if (intent != null) {
+                    context.startActivity(intent);
+                } else {
+                    UriHandler.open(item.url, context);
+                }
             }
         });
         ImageUtils.loadImage(holder.coverImage, item.cover.getLarge());

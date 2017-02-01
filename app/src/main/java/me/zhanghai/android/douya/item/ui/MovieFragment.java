@@ -9,6 +9,8 @@ import me.zhanghai.android.douya.item.content.BaseItemResource;
 import me.zhanghai.android.douya.item.content.MovieResource;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
+import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
 
@@ -29,5 +31,29 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
                                                                         SimpleMovie simpleMovie,
                                                                         Movie movie) {
         return MovieResource.attachTo(movieId, simpleMovie, movie, this);
+    }
+
+    @Override
+    public void updateWithItem(Movie movie) {
+        super.updateWithItem(movie);
+
+        boolean hasTrailer = movie.trailer != null;
+        if (hasTrailer) {
+            ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
+        } else if (movie.poster != null) {
+            ImageUtils.loadImage(mBackdropImage, movie.poster.image);
+        } else {
+            ImageUtils.loadImage(mBackdropImage, movie.cover);
+        }
+        ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
+    }
+
+    @Override
+    public void updateWithSimpleItem(SimpleMovie simpleMovie) {
+        super.updateWithSimpleItem(simpleMovie);
+
+        // FIXME: Remove, this is only for testing.
+        ImageUtils.loadImage(mBackdropImage, simpleMovie.cover);
+        ViewUtils.setVisibleOrGone(mBackdropPlayImage, false);
     }
 }

@@ -14,12 +14,14 @@ import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
+import me.zhanghai.android.douya.item.ui.MovieActivity;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.util.UriUtils;
 
 public class DoubanUriHandler {
 
     private static final String AUTHORITY = "www.douban.com";
+    private static final String AUTHORITY_MOVIE = "movie.douban.com";
     private static final String AUTHORITY_FRODO = "douban.com";
 
     private enum UriType {
@@ -30,9 +32,11 @@ public class DoubanUriHandler {
         BROADCAST_FRODO(AUTHORITY_FRODO, "status/#"),
         USER("people/*"),
         USER_FOLLOWER_LIST("people/*/followers"),
-        USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/follower"),
+        USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/rev_contacts"),
         USER_FOLLOWING_LIST("people/*/followings"),
-        USER_FOLLOWING_LIST_FRODO(AUTHORITY_FRODO, "user/*/following");
+        USER_FOLLOWING_LIST_FRODO(AUTHORITY_FRODO, "user/*/contacts"),
+        MOVIE(AUTHORITY_MOVIE, "subject/#"),
+        MOVIE_FRODO(AUTHORITY_FRODO, "movie/#");
 
         String mAuthority;
         String mPath;
@@ -95,6 +99,10 @@ public class DoubanUriHandler {
             case USER_FOLLOWING_LIST:
             case USER_FOLLOWING_LIST_FRODO:
                 intent = FollowingListActivity.makeIntent(uri.getPathSegments().get(1), context);
+                break;
+            case MOVIE:
+            case MOVIE_FRODO:
+                intent = MovieActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
             default:
                 return false;
