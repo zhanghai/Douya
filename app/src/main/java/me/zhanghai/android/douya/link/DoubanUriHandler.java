@@ -31,10 +31,10 @@ public class DoubanUriHandler {
         BROADCAST("people/*/status/#"),
         BROADCAST_FRODO(AUTHORITY_FRODO, "status/#"),
         USER("people/*"),
-        USER_FOLLOWER_LIST("people/*/followers"),
-        USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/rev_contacts"),
-        USER_FOLLOWING_LIST("people/*/followings"),
-        USER_FOLLOWING_LIST_FRODO(AUTHORITY_FRODO, "user/*/contacts"),
+        USER_FOLLOWER_LIST("people/*/rev_contacts"),
+        USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/follower"),
+        USER_FOLLOWING_LIST("people/*/contacts"),
+        USER_FOLLOWING_LIST_FRODO(AUTHORITY_FRODO, "user/*/following"),
         MOVIE(AUTHORITY_MOVIE, "subject/#"),
         MOVIE_FRODO(AUTHORITY_FRODO, "movie/#");
 
