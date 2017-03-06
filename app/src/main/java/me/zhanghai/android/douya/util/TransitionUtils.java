@@ -41,7 +41,7 @@ public class TransitionUtils {
         // But this fix (
         // https://android.googlesource.com/platform/frameworks/base/+/a0a0260e48e1ee4e9b5d98b49571e8d2a6fd6c3a
         // ) should have been incorporated into android-5.0.0_r1. So I really don't know the root
-        // cause now.﻿
+        // cause now.
         // New finding at 2015-12-06: OOM even happens on Android 5.1 (CM).
         // TODO: Allow disabling transition on some pre-marshmallow devices for OOM.
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
