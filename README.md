@@ -8,8 +8,7 @@
 
 ![Travis CI](https://travis-ci.org/DreaminginCodeZH/Douya.svg)
 
-<a href="https://play.google.com/store/apps/details?id=me.zhanghai.android.douya" target="_blank">
-<img src="https://play.google.com/intl/zh_CN/badges/images/generic/zh-cn_badge_web_generic.png" alt="Google Play"/></a>
+<a href="https://play.google.com/store/apps/details?id=me.zhanghai.android.douya" target="_blank"><img alt="Google Play" height="90" src="https://play.google.com/intl/zh_CN/badges/images/generic/zh-cn_badge_web_generic.png"/></a>
 
 [豆芽 CI 构建](https://github.com/DreaminginCodeZH/DouyaCiBuilds)
 
