@@ -133,7 +133,13 @@ public class ForegroundRelativeLayout extends RelativeLayout {
      */
     @Override
     public void setForegroundGravity(int foregroundGravity) {
-        mForegroundHelper.setForegroundGravity(foregroundGravity);
+        if (mForegroundHelper == null) {
+            // Can be null during super class initialization. In this case framework has support for
+            // foreground, so simply call super.
+            super.setForegroundGravity(foregroundGravity);
+        } else {
+            mForegroundHelper.setForegroundGravity(foregroundGravity);
+        }
     }
 
     /**
@@ -181,7 +187,13 @@ public class ForegroundRelativeLayout extends RelativeLayout {
      */
     @Override
     public void setForeground(Drawable foreground) {
-        mForegroundHelper.setForeground(foreground);
+        if (mForegroundHelper == null) {
+            // Can be null during super class initialization. In this case framework has support for
+            // foreground, so simply call super.
+            super.setForeground(foreground);
+        } else {
+            mForegroundHelper.setForeground(foreground);
+        }
     }
 
     /**
