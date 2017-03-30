@@ -17,9 +17,7 @@ android {
     defaultConfig {
         applicationId "me.zhanghai.android.douya"
         minSdkVersion 15
-        // We haven't been ready for Marshmallow's permission model yet.
-        //noinspection OldTargetApi
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 6
         versionName "1.0.0-beta.4"
         resValue 'string', 'application_id', applicationId
