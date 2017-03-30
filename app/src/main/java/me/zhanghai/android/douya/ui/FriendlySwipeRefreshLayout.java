@@ -43,6 +43,7 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
         init(attrs);
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void init(AttributeSet attrs) {
 
         updateCircleDiameter();

@@ -55,6 +55,7 @@ public class ImageLayout extends FrameLayout {
         init(attrs, defStyleAttr, defStyleRes);
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         setClickable(true);

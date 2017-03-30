@@ -71,7 +71,7 @@ import android.widget.CompoundButton;
  * @attr ref android.support.v7.appcompat.R.styleable#SwitchCompat_track
  */
 @SuppressLint("PrivateResource")
-@SuppressWarnings({"JavaDoc", "unused"})
+@SuppressWarnings({"JavaDoc", "RestrictedApi", "unused"})
 public class FriendlySwitchCompat extends CompoundButton {
     private static final int THUMB_ANIMATION_DURATION = 250;
 

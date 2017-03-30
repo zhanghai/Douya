@@ -54,6 +54,7 @@ public class InsetBackgroundFrameLayout extends FrameLayout {
         init(attrs, defStyleAttr, defStyleRes);
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,

@@ -28,7 +28,8 @@ public class MaxDimensionHelper {
         mDelegate = delegate;
     }
 
-    public void onInit(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    @SuppressWarnings("RestrictedApi")
+    public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs, STYLEABLE,
                 defStyleAttr, defStyleRes);
         mMaxWidth = a.getDimensionPixelSize(STYLEABLE_ANDROID_MAX_WIDTH, -1);

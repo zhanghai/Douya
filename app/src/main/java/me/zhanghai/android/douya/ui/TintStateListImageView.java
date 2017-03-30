@@ -38,6 +38,7 @@ public class TintStateListImageView extends AppCompatImageView {
         init(attrs, defStyleAttr, 0);
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.TintStateListImageView, defStyleAttr, defStyleRes);

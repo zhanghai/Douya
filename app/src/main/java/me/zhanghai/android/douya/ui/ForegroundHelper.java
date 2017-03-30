@@ -50,6 +50,7 @@ public class ForegroundHelper {
         mDelegate = delegate;
     }
 
+    @SuppressWarnings("RestrictedApi")
     public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         // TODO: Check for FrameLayout

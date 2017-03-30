@@ -38,6 +38,7 @@ public class RatioHeightRecyclerView extends RecyclerView {
         init(attrs, defStyle);
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void init(AttributeSet attrs, int defStyle) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.RatioHeightRecyclerView, defStyle, 0);

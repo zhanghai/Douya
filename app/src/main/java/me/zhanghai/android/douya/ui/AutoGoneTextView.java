@@ -5,19 +5,17 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
  * TextView that automatically sets its visibility to View.GONE when empty.
  */
-public class AutoGoneTextView extends TextView {
+public class AutoGoneTextView extends AppCompatTextView {
 
     public AutoGoneTextView(Context context) {
         super(context);
@@ -29,11 +27,6 @@ public class AutoGoneTextView extends TextView {
 
     public AutoGoneTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public AutoGoneTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override

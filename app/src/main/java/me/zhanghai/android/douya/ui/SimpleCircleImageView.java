@@ -16,7 +16,6 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -30,12 +29,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-public class SimpleCircleImageView extends ImageView {
+public class SimpleCircleImageView extends AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -73,13 +71,6 @@ public class SimpleCircleImageView extends ImageView {
 
     public SimpleCircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        init();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SimpleCircleImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
 
         init();
     }

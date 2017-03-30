@@ -70,6 +70,7 @@ public class ContentStateLayout extends FrameLayout {
         init(attrs, defStyleAttr, defStyleRes);
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.ContentStateLayout, defStyleAttr, defStyleRes);

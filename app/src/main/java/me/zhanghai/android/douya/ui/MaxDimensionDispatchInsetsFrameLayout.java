@@ -51,7 +51,7 @@ public class MaxDimensionDispatchInsetsFrameLayout extends DispatchInsetsFrameLa
     }
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        mMaxDimensionHelper.onInit(getContext(), attrs, defStyleAttr, defStyleRes);
+        mMaxDimensionHelper.init(getContext(), attrs, defStyleAttr, defStyleRes);
     }
 
     @Override

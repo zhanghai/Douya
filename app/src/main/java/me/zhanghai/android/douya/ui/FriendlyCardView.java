@@ -35,6 +35,7 @@ public class FriendlyCardView extends CardView {
         init(attrs, defStyleAttr);
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr) {
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
