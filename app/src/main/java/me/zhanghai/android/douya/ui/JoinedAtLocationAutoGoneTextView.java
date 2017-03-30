@@ -33,11 +33,6 @@ public class JoinedAtLocationAutoGoneTextView extends TimeTextView {
         super(context, attrs, defStyleAttr);
     }
 
-    public JoinedAtLocationAutoGoneTextView(Context context, AttributeSet attrs, int defStyleAttr,
-                                            int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     @Override
     public void setDoubanTime(String doubanTime) {
         throw new UnsupportedOperationException("Use setJoinedAtAndLocation() instead.");
