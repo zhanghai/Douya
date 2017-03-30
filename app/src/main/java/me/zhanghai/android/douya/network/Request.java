@@ -79,7 +79,8 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
 
     @Override
     public String getUrl() {
-        if (getMethod() == Method.GET && !mParams.isEmpty()) {
+        int method = getMethod();
+        if ((method == Method.GET || method == Method.DELETE) && !mParams.isEmpty()) {
             return getUrlWithParams();
         } else {
             return mUrl;

@@ -19,6 +19,8 @@ import me.zhanghai.android.douya.R;
 
 public class AppUtils {
 
+    private AppUtils() {}
+
     @Nullable
     public static Activity getActivityFromContext(Context context) {
         if (context instanceof Activity) {

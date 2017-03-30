@@ -74,11 +74,12 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     private SimpleUser mSimpleUser;
     private User mUser;
 
-    private ProfileResource mProfileResource;
+    private ProfileResource mResource;
 
-    private ProfileAdapter mProfileAdapter;
+    private ProfileAdapter mAdapter;
 
-    public static ProfileFragment newInstance(String userIdOrUid, SimpleUser simpleUser, User user) {
+    public static ProfileFragment newInstance(String userIdOrUid, SimpleUser simpleUser,
+                                              User user) {
         //noinspection deprecation
         ProfileFragment fragment = new ProfileFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
@@ -126,7 +127,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         super.onActivityCreated(savedInstanceState);
 
         CustomTabsHelperFragment.attachTo(this);
-        mProfileResource = ProfileResource.attachTo(mUserIdOrUid, mSimpleUser, mUser, this);
+        mResource = ProfileResource.attachTo(mUserIdOrUid, mSimpleUser, mUser, this);
 
         mScrollLayout.setListener(new ProfileLayout.Listener() {
             @Override
@@ -151,10 +152,10 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         activity.setSupportActionBar(mToolbar);
         activity.getSupportActionBar().setTitle(null);
 
-        if (mProfileResource.hasUser()) {
-            mHeaderLayout.bindUser(mProfileResource.getUser());
-        } else if (mProfileResource.hasSimpleUser()) {
-            mHeaderLayout.bindSimpleUser(mProfileResource.getSimpleUser());
+        if (mResource.hasUser()) {
+            mHeaderLayout.bindUser(mResource.getUser());
+        } else if (mResource.hasSimpleUser()) {
+            mHeaderLayout.bindSimpleUser(mResource.getSimpleUser());
         }
         mHeaderLayout.setListener(this);
 
@@ -164,10 +165,10 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         } else {
             mContentList.setLayoutManager(new LinearLayoutManager(activity));
         }
-        mProfileAdapter = new ProfileAdapter(this);
-        mContentList.setAdapter(mProfileAdapter);
-        if (mProfileResource.isLoaded()) {
-            mProfileResource.notifyChangedIfLoaded();
+        mAdapter = new ProfileAdapter(this);
+        mContentList.setAdapter(mAdapter);
+        if (mResource.isLoaded()) {
+            mResource.notifyChangedIfLoaded();
         } else {
             mContentStateLayout.setLoading();
         }
@@ -177,7 +178,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     public void onDestroy() {
         super.onDestroy();
 
-        mProfileResource.detach();
+        mResource.detach();
     }
 
     public void onBackPressed() {
@@ -239,19 +240,19 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
 
     @Override
     public void onUserWriteStarted(int requestCode) {
-        mHeaderLayout.bindUser(mProfileResource.getUser());
+        mHeaderLayout.bindUser(mResource.getUser());
     }
 
     @Override
     public void onUserWriteFinished(int requestCode) {
-        mHeaderLayout.bindUser(mProfileResource.getUser());
+        mHeaderLayout.bindUser(mResource.getUser());
     }
 
     @Override
     public void onChanged(int requestCode, User newUser, List<Broadcast> newBroadcastList,
                           List<SimpleUser> newFollowingList, List<Diary> newDiaryList,
                           List<UserItems> newUserItemList, List<Review> newReviewList) {
-        mProfileAdapter.setData(new ProfileAdapter.Data(newUser, newBroadcastList,
+        mAdapter.setData(new ProfileAdapter.Data(newUser, newBroadcastList,
                 newFollowingList, newDiaryList, newUserItemList, newReviewList));
         mContentStateLayout.setLoaded(true);
     }
@@ -272,7 +273,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
 
     @Override
     public void onUnfollowUser() {
-        FollowUserManager.getInstance().write(mProfileResource.getUser(), false, getActivity());
+        FollowUserManager.getInstance().write(mResource.getUser(), false, getActivity());
     }
 
     @Override

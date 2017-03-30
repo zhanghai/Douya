@@ -14,9 +14,9 @@ import me.zhanghai.android.douya.DouyaApplication;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.SharedPrefsUtils;
 
-public class SettingsEntries {
+public interface SettingsEntries {
 
-    public static class StringSettingsEntry extends SettingsEntry<String> {
+    class StringSettingsEntry extends SettingsEntry<String> {
 
         public StringSettingsEntry(int keyResId, int defaultValueResId) {
             super(keyResId, defaultValueResId);
@@ -38,7 +38,7 @@ public class SettingsEntries {
         }
     }
 
-    public static class StringSetSettingsEntry extends SettingsEntry<Set<String>> {
+    class StringSetSettingsEntry extends SettingsEntry<Set<String>> {
 
         public StringSetSettingsEntry(int keyResId, int defaultValueResId) {
             super(keyResId, defaultValueResId);
@@ -63,7 +63,7 @@ public class SettingsEntries {
         }
     }
 
-    public static class IntegerSettingsEntry extends SettingsEntry<Integer> {
+    class IntegerSettingsEntry extends SettingsEntry<Integer> {
 
         public IntegerSettingsEntry(int keyResId, int defaultValueResId) {
             super(keyResId, defaultValueResId);
@@ -85,7 +85,7 @@ public class SettingsEntries {
         }
     }
 
-    public static class LongSettingsEntry extends SettingsEntry<Long> {
+    class LongSettingsEntry extends SettingsEntry<Long> {
 
         public LongSettingsEntry(int keyResId, int defaultValueResId) {
             super(keyResId, defaultValueResId);
@@ -108,7 +108,7 @@ public class SettingsEntries {
         }
     }
 
-    public static class FloatSettingsEntry extends SettingsEntry<Float> {
+    class FloatSettingsEntry extends SettingsEntry<Float> {
 
         public FloatSettingsEntry(int keyResId, int defaultValueResId) {
             super(keyResId, defaultValueResId);
@@ -131,7 +131,7 @@ public class SettingsEntries {
         }
     }
 
-    public static class BooleanSettingsEntry extends SettingsEntry<Boolean> {
+    class BooleanSettingsEntry extends SettingsEntry<Boolean> {
 
         public BooleanSettingsEntry(int keyResId, int defaultValueResId) {
             super(keyResId, defaultValueResId);
@@ -153,7 +153,7 @@ public class SettingsEntries {
         }
     }
 
-    public static class EnumSettingsEntry<E extends Enum<E>> extends StringSettingsEntry {
+    class EnumSettingsEntry<E extends Enum<E>> extends StringSettingsEntry {
 
         private E[] mEnumValues;
 

@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.fabric;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
 
 import io.fabric.sdk.android.Fabric;
 import me.zhanghai.android.douya.BuildConfig;
@@ -20,6 +21,6 @@ public class FabricUtils {
         if (BuildConfig.DEBUG) {
             return;
         }
-        Fabric.with(context, new Crashlytics());
+        Fabric.with(context, new Crashlytics(), new Answers());
     }
 }

@@ -13,6 +13,10 @@ public class CollectionUtils {
 
     private CollectionUtils() {}
 
+    public static <E> E firstOrNull(List<E> list) {
+        return !list.isEmpty() ? list.get(0) : null;
+    }
+
     public static <E> List<E> union(List<E> list1, List<E> list2) {
         if (list1 instanceof RandomAccess && list2 instanceof RandomAccess) {
             return new RandomAccessUnionList<>(list1, list2);
