@@ -19,6 +19,7 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 
 public class ForegroundHelper {
 
@@ -35,7 +36,7 @@ public class ForegroundHelper {
 
     private Delegate mDelegate;
 
-    private boolean mHasFrameworkBackground;
+    private boolean mHasFrameworkForeground;
 
     private Drawable mForeground;
 
@@ -53,11 +54,12 @@ public class ForegroundHelper {
     @SuppressWarnings("RestrictedApi")
     public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
-        // TODO: Check for FrameLayout
-        mHasFrameworkBackground = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && context.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.M;
+        // @see View#View(android.content.Context, android.util.AttributeSet, int, int)
+        mHasFrameworkForeground = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && context.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.M)
+                || mDelegate.getOwner() instanceof FrameLayout;
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
@@ -78,7 +80,7 @@ public class ForegroundHelper {
 
     public int getForegroundGravity() {
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return mDelegate.superGetForegroundGravity();
         }
 
@@ -87,7 +89,7 @@ public class ForegroundHelper {
 
     public void setForegroundGravity(int foregroundGravity) {
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             mDelegate.superSetForegroundGravity(foregroundGravity);
             return;
         }
@@ -111,7 +113,7 @@ public class ForegroundHelper {
     public void setVisibility(int visibility) {
         mDelegate.superSetVisibility(visibility);
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
@@ -122,7 +124,7 @@ public class ForegroundHelper {
 
     public boolean verifyDrawable(Drawable who) {
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return mDelegate.superVerifyDrawable(who);
         }
 
@@ -132,7 +134,7 @@ public class ForegroundHelper {
     public void jumpDrawablesToCurrentState() {
         mDelegate.superJumpDrawablesToCurrentState();
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
@@ -144,7 +146,7 @@ public class ForegroundHelper {
     public void drawableStateChanged() {
         mDelegate.superDrawableStateChanged();
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
@@ -157,7 +159,7 @@ public class ForegroundHelper {
     public void drawableHotspotChanged(float x, float y) {
         mDelegate.superDrawableHotspotChanged(x, y);
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
@@ -168,7 +170,7 @@ public class ForegroundHelper {
 
     public void setForeground(Drawable foreground) {
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             mDelegate.superSetForeground(foreground);
             return;
         }
@@ -201,7 +203,7 @@ public class ForegroundHelper {
 
     public Drawable getForeground() {
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return mDelegate.superGetForeground();
         }
 
@@ -211,7 +213,7 @@ public class ForegroundHelper {
     public void onLayout(boolean changed, int left, int top, int right, int bottom) {
         mDelegate.superOnLayout(changed, left, top, right, bottom);
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
@@ -221,7 +223,7 @@ public class ForegroundHelper {
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         mDelegate.superOnSizeChanged(w, h, oldw, oldh);
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
@@ -231,7 +233,7 @@ public class ForegroundHelper {
     public void draw(@NonNull Canvas canvas) {
         mDelegate.superDraw(canvas);
 
-        if (mHasFrameworkBackground) {
+        if (mHasFrameworkForeground) {
             return;
         }
 
