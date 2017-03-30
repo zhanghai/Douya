@@ -31,11 +31,6 @@ public class TimeActionTextView extends TimeTextView {
         super(context, attrs, defStyleAttr);
     }
 
-    public TimeActionTextView(Context context, AttributeSet attrs, int defStyleAttr,
-                              int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     @Override
     public void setDoubanTime(String doubanTime) {
         throw new UnsupportedOperationException("Use setDoubanTimeAndAction() instead.");
