@@ -121,4 +121,10 @@
     </style>
 
     <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />
+
+    <style name="Theme.Douya.Movie" parent="Theme.Douya">
+        <item name="colorPrimary">@color/movie_primary</item>
+        <item name="colorPrimaryDark">@color/movie_primary_dark</item>
+        <item name="colorAccent">@color/movie_primary</item>
+    </style>
 </resources>

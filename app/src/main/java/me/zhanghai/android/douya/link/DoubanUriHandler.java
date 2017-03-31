@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.UriMatcher;
 import android.net.Uri;
 
+import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
@@ -102,6 +103,10 @@ public class DoubanUriHandler {
                 break;
             case MOVIE:
             case MOVIE_FRODO:
+                // FIXME: Not finished, disable for release build.
+                if (BuildConfig.DEBUG) {
+                    return false;
+                }
                 intent = MovieActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
             default:

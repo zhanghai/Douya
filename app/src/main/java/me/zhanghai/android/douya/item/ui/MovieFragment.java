@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.item.ui;
 
+import android.support.v7.widget.RecyclerView;
+
 import me.zhanghai.android.douya.item.content.BaseItemResource;
 import me.zhanghai.android.douya.item.content.MovieResource;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
@@ -13,6 +15,8 @@ import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
+
+    private MovieAdapter mAdapter;
 
     public static MovieFragment newInstance(long movieId, SimpleMovie simpleMovie, Movie movie) {
         //noinspection deprecation
@@ -34,6 +38,12 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
     }
 
     @Override
+    protected RecyclerView.Adapter<?> onCreateAdapter() {
+        mAdapter = new MovieAdapter();
+        return mAdapter;
+    }
+
+    @Override
     public void updateWithItem(Movie movie) {
         super.updateWithItem(movie);
 
@@ -41,11 +51,13 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
         if (hasTrailer) {
             ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
         } else if (movie.poster != null) {
-            ImageUtils.loadImage(mBackdropImage, movie.poster.image);
+            ImageUtils.loadImage(mBackdropImage, movie.poster);
         } else {
             ImageUtils.loadImage(mBackdropImage, movie.cover);
         }
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
+
+        mAdapter.setData(new MovieAdapter.Data(movie));
     }
 
     @Override

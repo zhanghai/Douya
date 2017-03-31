@@ -10,6 +10,10 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+import me.zhanghai.android.douya.util.StringCompat;
+
 public abstract class BaseItem implements Parcelable {
 
     public long id;
@@ -27,6 +31,10 @@ public abstract class BaseItem implements Parcelable {
     public String uri;
 
     public String url;
+
+    public static String getListAsString(List<String> list) {
+        return StringCompat.join(" / ", list);
+    }
 
 
     public BaseItem() {}

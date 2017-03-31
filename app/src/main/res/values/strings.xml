@@ -27,6 +27,7 @@
     <string name="yesterday">昨天</string>
     <string name="month_day_pattern">M月d日</string>
     <string name="date_pattern">Y年M月d日</string>
+    <string name="year_month_pattern">Y年M月</string>
 
     <!-- Overrides strings in LicensesDialog. -->
     <string name="notices_title">@string/settings_open_source_licenses_title</string>

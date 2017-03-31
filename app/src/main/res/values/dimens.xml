@@ -25,7 +25,9 @@
     <dimen name="content_horizontal_margin_from_screen_edge_with_40dp_padding">16dp</dimen>
     <dimen name="content_horizontal_margin_from_screen_edge_with_44dp_padding">12dp</dimen>
     <dimen name="screen_edge_vertical_margin">16dp</dimen>
+    <dimen name="content_horizontal_space">16dp</dimen>
     <dimen name="content_vertical_space">16dp</dimen>
+    <dimen name="content_vertical_space_with_6dp_margin">10dp</dimen>
     <dimen name="toolbar_navigation_button_left_margin">-2dp</dimen>
     <dimen name="toolbar_title_left_margin">18dp</dimen>
     <dimen name="toolbar_button_right_margin">2dp</dimen>

@@ -12,6 +12,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.zhanghai.android.douya.util.CollectionUtils;
+
 public class Movie extends SimpleMovie {
 
     @SerializedName("aka")
@@ -51,6 +53,14 @@ public class Movie extends SimpleMovie {
     public String ticketPriceInformation;
 
     public MovieTrailer trailer;
+
+    public String getEpisodeCountString() {
+        return episodeCount != 0 ? episodeCount + "集" : null;
+    }
+
+    public String getDurationString() {
+        return CollectionUtils.firstOrNull(durations);
+    }
 
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

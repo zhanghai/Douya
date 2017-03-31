@@ -5,11 +5,14 @@
 
 package me.zhanghai.android.douya.item.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +31,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
@@ -48,6 +52,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     View mBackdropScrim;
     @BindView(R.id.backdrop_play)
     ImageView mBackdropPlayImage;
+    @BindView(R.id.content)
+    RecyclerView mContentList;
 
     private long mItemId;
     private SimpleItemType mSimpleItem;
@@ -99,10 +105,13 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
+        StatusBarColorUtils.set(Color.TRANSPARENT, activity);
         ViewUtils.setLayoutFullscreen(activity);
 
         mBackdropImage.setRatio(16, 9);
         ViewCompat.setBackground(mBackdropScrim, DrawableUtils.makeScrimDrawable(Gravity.TOP));
+        mContentList.setLayoutManager(new LinearLayoutManager(activity));
+        mContentList.setAdapter(onCreateAdapter());
 
         if (mItemResource.has()) {
             updateWithItem(mItemResource.get());
@@ -113,6 +122,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
     protected abstract BaseItemResource<SimpleItemType, ItemType> onAttachItemResource(long itemId,
             SimpleItemType simpleItem, ItemType item);
+
+    protected abstract RecyclerView.Adapter<?> onCreateAdapter();
 
     @Override
     public void onDestroy() {

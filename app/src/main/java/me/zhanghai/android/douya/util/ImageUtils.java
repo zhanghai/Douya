@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.Target;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.Image;
 import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
+import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.ui.RatioImageView;
 
 public class ImageUtils {
@@ -117,6 +118,10 @@ public class ImageUtils {
                 .into(view);
     }
 
+    public static void loadImage(ImageView view, Photo photo) {
+        loadImage(view, photo.image);
+    }
+
     public static void loadImage(ImageView view, String url,
                                  RequestListener<String, GlideDrawable> listener) {
         Glide.with(view.getContext())
@@ -140,6 +145,10 @@ public class ImageUtils {
                 .dontTransform()
                 .placeholder(android.R.color.transparent)
                 .into(view);
+    }
+
+    public static void loadImageWithRatio(RatioImageView view, Photo photo) {
+        loadImageWithRatio(view, photo.image);
     }
 
     public static void loadImageWithRatio(RatioImageView view,

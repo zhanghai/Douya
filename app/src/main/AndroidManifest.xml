@@ -90,7 +90,7 @@
 
         <activity
             android:name=".item.ui.MovieActivity"
-            android:theme="@style/Theme.Douya.TransparentStatusBar"
+            android:theme="@style/Theme.Douya.Movie"
             android:label="@string/item_movie_title" />
 
         <activity

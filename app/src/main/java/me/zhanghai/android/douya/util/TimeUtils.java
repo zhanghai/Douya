@@ -42,6 +42,13 @@ public class TimeUtils {
     /**
      * @throws DateTimeParseException
      */
+    public static LocalDate parseDoubanDate(String doubanDate) {
+        return LocalDate.parse(doubanDate);
+    }
+
+    /**
+     * @throws DateTimeParseException
+     */
     public static ZonedDateTime parseDoubanDateTime(String doubanDateTime) {
         return ZonedDateTime.of(LocalDateTime.parse(doubanDateTime, DOUBAN_DATE_TIME_FORMATTER),
                 DOUBAN_ZONED_ID);
