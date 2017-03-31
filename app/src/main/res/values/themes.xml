@@ -7,30 +7,15 @@
 
 <resources>
 
-    <color name="preference_fallback_accent_color">@color/douya_primary</color>
-    <style name="Base.ThemeOverlay.Preference" parent="">
-
-        <item name="listPreferredItemPaddingLeft">@dimen/screen_edge_horizontal_margin</item>
-        <item name="listPreferredItemPaddingRight">@dimen/screen_edge_horizontal_margin</item>
-
-        <item name="preferenceScreenStyle">@style/Preference.PreferenceScreen.Material</item>
-        <item name="preferenceFragmentStyle">@style/PreferenceFragment</item>
-        <item name="preferenceCategoryStyle">@style/Preference.Category.Material</item>
-        <item name="preferenceStyle">@style/Preference.Material</item>
-        <item name="preferenceInformationStyle">@style/Preference.Information.Material</item>
-        <item name="checkBoxPreferenceStyle">@style/Preference.CheckBoxPreference.Material</item>
-        <item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat.Material</item>
-        <item name="switchPreferenceStyle">@style/Preference.SwitchPreference.Material</item>
-        <item name="dialogPreferenceStyle">@style/Preference.DialogPreference.Material</item>
-        <item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference.Material</item>
-        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material</item>
+    <style name="PreferenceFixTheme.Design" parent="PreferenceFixTheme">
+        <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
-    <style name="ThemeOverlay.Preference" parent="Base.ThemeOverlay.Preference" />
 
     <style name="ThemeOverlay.Design.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
-    <style name="Theme.Design.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!--<style name="Theme.Design.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <style name="PreferenceFixTheme.Design.Light.DarkActionBar" parent="PreferenceFixTheme.Light.DarkActionBar">
         <item name="textColorError">@color/design_textinput_error_color_light</item>
         <item name="actionBarTheme">@style/ThemeOverlay.Design.Dark.ActionBar</item>
     </style>
@@ -39,7 +24,7 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
-    <style name="Theme.Douya" parent="Theme.Design.Light.DarkActionBar">
+    <style name="Theme.Douya" parent="PreferenceFixTheme.Design.Light.DarkActionBar">
 
         <item name="actionModeBackground">@color/background_material_dark</item>
         <item name="windowActionBar">false</item>
@@ -60,8 +45,6 @@
         <item name="colorPrimary">@color/douya_primary</item>
         <item name="colorPrimaryDark">@color/douya_primary_dark</item>
         <item name="colorAccent">@color/douya_primary</item>
-
-        <item name="preferenceTheme">@style/ThemeOverlay.Preference</item>
     </style>
 
     <style name="Theme.Douya.TransparentStatusBar" />
@@ -101,7 +84,7 @@
 
     <style name="Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />
 
-    <style name="Base.Theme.Douya.Gallery" parent="Theme.Design">
+    <style name="Base.Theme.Douya.Gallery" parent="PreferenceFixTheme.Design">
 
         <item name="actionModeBackground">@color/background_material_dark</item>
         <item name="windowActionBar">false</item>
