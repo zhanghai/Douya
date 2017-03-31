@@ -8,6 +8,7 @@
 <resources>
 
     <style name="PreferenceFixTheme.Design" parent="PreferenceFixTheme">
+        <item name="preferenceCategory_marginBottom">0dp</item>
         <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
 
@@ -16,6 +17,7 @@
     </style>
     <!--<style name="Theme.Design.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">-->
     <style name="PreferenceFixTheme.Design.Light.DarkActionBar" parent="PreferenceFixTheme.Light.DarkActionBar">
+        <item name="preferenceCategory_marginBottom">0dp</item>
         <item name="textColorError">@color/design_textinput_error_color_light</item>
         <item name="actionBarTheme">@style/ThemeOverlay.Design.Dark.ActionBar</item>
     </style>
