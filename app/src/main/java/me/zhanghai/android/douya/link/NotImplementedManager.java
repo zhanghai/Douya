@@ -15,6 +15,10 @@ public class NotImplementedManager {
 
     private NotImplementedManager() {}
 
+    public static void editProfile(Context context) {
+        UrlHandler.open("https://www.douban.com/accounts/", context);
+    }
+
     public static void openDoumail(Context context) {
         UrlHandler.open("https://www.douban.com/doumail/", context);
     }

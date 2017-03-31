@@ -259,7 +259,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
 
     @Override
     public void onEditProfile(User user) {
-        NotImplementedManager.showNotYetImplementedToast(getActivity());
+        NotImplementedManager.editProfile(getActivity());
     }
 
     @Override

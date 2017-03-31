@@ -29,7 +29,7 @@ public class FrodoBridge {
     private static final String SEARCH_EXTRA_TYPE = "com.douban.frodo.QUERY_TYPE";
     private static final String SEARCH_EXTRA_ENTRY = "search_entry";
 
-    private static final String SEND_STATUS_CLASS_NAME = ".activity.StatusEditActivity";
+    private static final String SEND_STATUS_CLASS_NAME = ".status.activity.StatusEditActivity";
     private static final String SEND_STATUS_EXTRA_HASHTAG_NAME = "hashtag_name";
 
     private FrodoBridge() {}
