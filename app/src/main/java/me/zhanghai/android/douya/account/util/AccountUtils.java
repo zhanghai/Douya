@@ -349,10 +349,6 @@ public class AccountUtils {
         return getAccountManager().peekAuthToken(account, type);
     }
 
-    public static String peekAuthToken() {
-        return peekAuthToken(getActiveAccount(), AccountContract.AUTH_TOKEN_TYPE_FRODO);
-    }
-
     public static void getAuthToken(Account account, String type,
                                     AccountManagerCallback<Bundle> callback, Handler handler) {
         getAccountManager().getAuthToken(account, type, null, true, callback, handler);

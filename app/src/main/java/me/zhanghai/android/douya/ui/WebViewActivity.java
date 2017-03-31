@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.link.DoubanUriHandler;
 import me.zhanghai.android.douya.link.FrodoBridge;
@@ -160,13 +162,17 @@ public class WebViewActivity extends AppCompatActivity {
 
         Map<String, String> headers = null;
         if (isDoubanUrl(url)) {
-            String authToken = AccountUtils.peekAuthToken();
-            if (!TextUtils.isEmpty(authToken)) {
-                url = StringUtils.formatUs(DOUBAN_OAUTH2_REDIRECT_URL_FORMAT, Uri.encode(url),
-                        Uri.encode(ApiCredential.ApiV2.KEY));
-                headers = new HashMap<>();
-                headers.put(Http.Headers.AUTHORIZATION,
-                        Http.Headers.makeBearerAuthorization(authToken));
+            Account account = AccountUtils.getActiveAccount();
+            if (account != null) {
+                String authToken = AccountUtils.peekAuthToken(account,
+                        AccountContract.AUTH_TOKEN_TYPE_FRODO);
+                if (!TextUtils.isEmpty(authToken)) {
+                    url = StringUtils.formatUs(DOUBAN_OAUTH2_REDIRECT_URL_FORMAT, Uri.encode(url),
+                            Uri.encode(ApiCredential.ApiV2.KEY));
+                    headers = new HashMap<>();
+                    headers.put(Http.Headers.AUTHORIZATION,
+                            Http.Headers.makeBearerAuthorization(authToken));
+                }
             }
         }
 
