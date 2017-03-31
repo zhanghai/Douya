@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.settings.info;
 
+import android.support.annotation.StringRes;
+
 import me.zhanghai.android.douya.DouyaApplication;
 import me.zhanghai.android.douya.util.SharedPrefsUtils;
 
@@ -13,7 +15,7 @@ public abstract class SettingsEntry<T> implements SharedPrefsUtils.Entry<T> {
     private int mKeyResId;
     private int mDefaultValueResId;
 
-    public SettingsEntry(int keyResId, int defaultValueResId) {
+    public SettingsEntry(@StringRes int keyResId, int defaultValueResId) {
         mKeyResId = keyResId;
         mDefaultValueResId = defaultValueResId;
     }

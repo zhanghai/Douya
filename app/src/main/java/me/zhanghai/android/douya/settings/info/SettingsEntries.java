@@ -5,6 +5,11 @@
 
 package me.zhanghai.android.douya.settings.info;
 
+import android.support.annotation.ArrayRes;
+import android.support.annotation.BoolRes;
+import android.support.annotation.IntegerRes;
+import android.support.annotation.StringRes;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,7 +23,7 @@ public interface SettingsEntries {
 
     class StringSettingsEntry extends SettingsEntry<String> {
 
-        public StringSettingsEntry(int keyResId, int defaultValueResId) {
+        public StringSettingsEntry(@StringRes int keyResId, @StringRes int defaultValueResId) {
             super(keyResId, defaultValueResId);
         }
 
@@ -40,7 +45,7 @@ public interface SettingsEntries {
 
     class StringSetSettingsEntry extends SettingsEntry<Set<String>> {
 
-        public StringSetSettingsEntry(int keyResId, int defaultValueResId) {
+        public StringSetSettingsEntry(@StringRes int keyResId, @ArrayRes int defaultValueResId) {
             super(keyResId, defaultValueResId);
         }
 
@@ -65,7 +70,7 @@ public interface SettingsEntries {
 
     class IntegerSettingsEntry extends SettingsEntry<Integer> {
 
-        public IntegerSettingsEntry(int keyResId, int defaultValueResId) {
+        public IntegerSettingsEntry(@StringRes int keyResId, @IntegerRes int defaultValueResId) {
             super(keyResId, defaultValueResId);
         }
 
@@ -87,7 +92,7 @@ public interface SettingsEntries {
 
     class LongSettingsEntry extends SettingsEntry<Long> {
 
-        public LongSettingsEntry(int keyResId, int defaultValueResId) {
+        public LongSettingsEntry(@StringRes int keyResId, @StringRes int defaultValueResId) {
             super(keyResId, defaultValueResId);
         }
 
@@ -110,7 +115,7 @@ public interface SettingsEntries {
 
     class FloatSettingsEntry extends SettingsEntry<Float> {
 
-        public FloatSettingsEntry(int keyResId, int defaultValueResId) {
+        public FloatSettingsEntry(@StringRes int keyResId, @StringRes int defaultValueResId) {
             super(keyResId, defaultValueResId);
         }
 
@@ -133,7 +138,7 @@ public interface SettingsEntries {
 
     class BooleanSettingsEntry extends SettingsEntry<Boolean> {
 
-        public BooleanSettingsEntry(int keyResId, int defaultValueResId) {
+        public BooleanSettingsEntry(@StringRes int keyResId, @BoolRes int defaultValueResId) {
             super(keyResId, defaultValueResId);
         }
 
@@ -157,7 +162,8 @@ public interface SettingsEntries {
 
         private E[] mEnumValues;
 
-        public EnumSettingsEntry(int keyResId, int defaultValueResId, Class<E> enumClass) {
+        public EnumSettingsEntry(@StringRes int keyResId, @StringRes int defaultValueResId,
+                                 Class<E> enumClass) {
             super(keyResId, defaultValueResId);
 
             mEnumValues = enumClass.getEnumConstants();
