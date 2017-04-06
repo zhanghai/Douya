@@ -12,6 +12,7 @@ import android.support.v7.preference.Preference;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.ui.LicensesDialogPreference;
 
 public class SettingsFragment extends PreferenceFragmentCompatDividers {
 

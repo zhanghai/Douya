@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.settings.ui;
+package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
