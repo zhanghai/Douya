@@ -281,6 +281,7 @@
     <string name="settings_always_copy_to_clipboard_as_text_summary">可以避免部分输入法的粘贴功能问题</string>
     <string name="settings_about_title">关于</string>
     <string name="settings_open_source_licenses_title">开放源代码许可</string>
+    <string name="settings_privacy_policy_title">隐私权政策</string>
     <string name="settings_about_douya_title">关于豆芽</string>
 
     <string name="about_title">关于</string>
