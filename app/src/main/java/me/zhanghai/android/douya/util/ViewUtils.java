@@ -36,6 +36,8 @@ import me.zhanghai.android.douya.ui.ClickableMovementMethod;
 
 public class ViewUtils {
 
+    private ViewUtils() {}
+
     public static void fadeOut(final View view, int duration, final boolean gone,
                                final Runnable nextRunnable) {
         if (view.getVisibility() != View.VISIBLE || view.getAlpha() == 0) {
@@ -175,49 +177,62 @@ public class ViewUtils {
         }
     }
 
-    public static int getColorFromAttrRes(int attrRes, int defValue, Context context) {
-        int[] attrs = new int[] { attrRes };
-        TypedArray a = context.obtainStyledAttributes(attrs);
-        int color = a.getColor(0, defValue);
-        a.recycle();
-        return color;
+    public static int getColorFromAttrRes(int attrRes, int defaultValue, Context context) {
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            return a.getColor(0, defaultValue);
+        } finally {
+            a.recycle();
+        }
     }
 
     public static ColorStateList getColorStateListFromAttrRes(int attrRes, Context context) {
-        int[] attrs = new int[] { attrRes };
         // TODO: Switch to TintTypedArray when they added this overload.
-        TypedArray a = context.obtainStyledAttributes(attrs);
-        // 0 is an invalid identifier according to the docs of {@link Resources}.
-        int resId = a.getResourceId(0, 0);
-        ColorStateList colorStateList = null;
-        if (resId != 0) {
-            colorStateList = AppCompatResources.getColorStateList(context, resId);
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            // 0 is an invalid identifier according to the docs of {@link Resources}.
+            int resId = a.getResourceId(0, 0);
+            if (resId != 0) {
+                return AppCompatResources.getColorStateList(context, resId);
+            }
+            return null;
+        } finally {
+            a.recycle();
         }
-        a.recycle();
-        return colorStateList;
     }
 
     public static Drawable getDrawableFromAttrRes(int attrRes, Context context) {
-        int[] attrs = new int[] { attrRes };
         // TODO: Switch to TintTypedArray when they added this overload.
-        TypedArray a = context.obtainStyledAttributes(attrs);
-        // 0 is an invalid identifier according to the docs of {@link Resources}.
-        int resId = a.getResourceId(0, 0);
-        Drawable drawable = null;
-        if (resId != 0) {
-            drawable = AppCompatResources.getDrawable(context, resId);
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            // 0 is an invalid identifier according to the docs of {@link Resources}.
+            int resId = a.getResourceId(0, 0);
+            if (resId != 0) {
+                return AppCompatResources.getDrawable(context, resId);
+            }
+            return null;
+        } finally {
+            a.recycle();
         }
-        a.recycle();
-        return drawable;
     }
 
-    public static int getResIdFromAttrRes(int attrRes, int defValue, Context context) {
-        int[] attrs = new int[] { attrRes };
+    public static float getFloatFromAttrRes(int attrRes, float defaultValue, Context context) {
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            return a.getFloat(0, defaultValue);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    public static int getResIdFromAttrRes(int attrRes, int defaultValue, Context context) {
         // TODO: Switch to TintTypedArray when they added this overload.
-        TypedArray a = context.obtainStyledAttributes(attrs);
-        int resId = a.getResourceId(0, defValue);
-        a.recycle();
-        return resId;
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            return a.getResourceId(0, defaultValue);
+        } finally {
+            a.recycle();
+        }
     }
 
     public static int getShortAnimTime(Resources resources) {
