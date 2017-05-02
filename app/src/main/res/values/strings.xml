@@ -121,6 +121,7 @@
     <string name="gallery_load_error">加载错误</string>
 
     <string name="webview_title">查看网页</string>
+    <string name="webview_go_forward">前进</string>
     <string name="webview_copy_url">复制链接</string>
     <string name="webview_copy_url_empty">链接为空</string>
     <string name="webview_open_with_native">使用应用界面</string>

@@ -72,6 +72,7 @@ public class WebViewActivity extends AppCompatActivity {
     @BindView(R.id.error)
     TextView mErrorText;
 
+    private MenuItem mGoForwardMenuItem;
     private MenuItem mOpenWithNativeMenuItem;
     private boolean mProgressVisible;
 
@@ -120,6 +121,8 @@ public class WebViewActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.webview, menu);
 
+        mGoForwardMenuItem = menu.findItem(R.id.action_go_forward);
+        updateGoForward();
         mOpenWithNativeMenuItem = menu.findItem(R.id.action_open_with_native);
         updateOpenWithNative();
 
@@ -131,6 +134,9 @@ public class WebViewActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.action_go_forward:
+                goForward();
                 return true;
             case R.id.action_reload:
                 reloadWebView();
@@ -186,7 +192,9 @@ public class WebViewActivity extends AppCompatActivity {
         return DOUBAN_HOST_PATTERN.matcher(Uri.parse(url).getHost()).matches();
     }
 
-    protected void onPageStared(WebView webView, String url, Bitmap favicon) {}
+    protected void onPageStared(WebView webView, String url, Bitmap favicon) {
+        updateGoForward();
+    }
 
     protected void onPageFinished(WebView webView, String url) {}
 
@@ -246,6 +254,19 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.setVisibility(View.VISIBLE);
     }
 
+    private void goForward() {
+        mWebView.goForward();
+        // Handled in onPageStared().
+        //updateGoForward();
+    }
+
+    private void updateGoForward() {
+        if (mGoForwardMenuItem == null) {
+            return;
+        }
+        mGoForwardMenuItem.setEnabled(mWebView.canGoForward());
+    }
+
     private void copyUrl() {
         String url = mWebView.getUrl();
         if (!TextUtils.isEmpty(url)) {
@@ -262,6 +283,9 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void updateOpenWithNative() {
+        if (mOpenWithNativeMenuItem == null) {
+            return;
+        }
         mOpenWithNativeMenuItem.setChecked(Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
     }
 
