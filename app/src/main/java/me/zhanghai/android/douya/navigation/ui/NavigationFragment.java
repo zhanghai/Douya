@@ -31,7 +31,6 @@ import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
-import me.zhanghai.android.douya.user.content.UserResource;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class NavigationFragment extends Fragment implements OnAccountsUpdateListener,
@@ -232,10 +231,11 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
 
     @Override
     public void openProfile(Account account) {
-        UserResource userResource = mUserResourceMap.get(account);
+        AccountUserResource userResource = mUserResourceMap.get(account);
         Intent intent;
         if (userResource.has()) {
-            intent = ProfileActivity.makeIntent(userResource.get(), getActivity());
+            // User info contains information such as isFollowed, which is affected by active user.
+            intent = ProfileActivity.makeIntent((SimpleUser) userResource.get(), getActivity());
         } else {
             // If we don't have user info, then user must also be partial. In this case we
             // can only pass user id or uid.

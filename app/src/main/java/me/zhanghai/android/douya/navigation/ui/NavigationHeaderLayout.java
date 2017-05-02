@@ -178,6 +178,18 @@ public class NavigationHeaderLayout extends FrameLayout {
                 }
             }
         });
+        mAvatarImage.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (mAccountTransitionRunning) {
+                    return false;
+                }
+                if (mListener != null) {
+                    mListener.openProfile(mActiveAccount);
+                }
+                return true;
+            }
+        });
         //mBackdropImage.setImageResource();
     }
 
@@ -206,6 +218,18 @@ public class NavigationHeaderLayout extends FrameLayout {
             @Override
             public void onClick(View view) {
                 switchToAccountWithTransitionIfNotRunning(account);
+            }
+        });
+        avatarImage.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (mAccountTransitionRunning) {
+                    return false;
+                }
+                if (mListener != null) {
+                    mListener.openProfile(account);
+                }
+                return true;
             }
         });
     }
