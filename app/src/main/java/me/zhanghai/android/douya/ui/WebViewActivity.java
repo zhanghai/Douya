@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -59,6 +58,9 @@ public class WebViewActivity extends AppCompatActivity {
     private static final String DOUBAN_OAUTH2_REDIRECT_URL_FORMAT =
             "https://www.douban.com/accounts/auth2_redir?url=%1$s&apikey=%2$s";
 
+    @BindDimen(R.dimen.toolbar_height)
+    int mToolbarHeight;
+
     @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppbarWrapperLayout;
     @BindView(R.id.toolbar)
@@ -70,9 +72,7 @@ public class WebViewActivity extends AppCompatActivity {
     @BindView(R.id.error)
     TextView mErrorText;
 
-    @BindDimen(R.dimen.toolbar_height)
-    int mToolbarHeight;
-
+    private MenuItem mOpenWithNativeMenuItem;
     private boolean mProgressVisible;
 
     public static Intent makeIntent(Uri uri, Context context) {
@@ -82,9 +82,6 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.webview_activity);
@@ -123,6 +120,9 @@ public class WebViewActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.webview, menu);
 
+        mOpenWithNativeMenuItem = menu.findItem(R.id.action_open_with_native);
+        updateOpenWithNative();
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -137,6 +137,9 @@ public class WebViewActivity extends AppCompatActivity {
                 return true;
             case R.id.action_copy_url:
                 copyUrl();
+                return true;
+            case R.id.action_open_with_native:
+                toggleOpenWithNative();
                 return true;
             case R.id.action_open_in_browser:
                 openInBrowser();
@@ -189,7 +192,8 @@ public class WebViewActivity extends AppCompatActivity {
 
     protected boolean shouldOverrideUrlLoading(WebView webView, String url) {
         Uri uri = Uri.parse(url);
-        return DoubanUriHandler.open(uri, this) || FrodoBridge.openFrodoUri(uri, this)
+        return (Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue() && DoubanUriHandler.open(uri, this))
+                || FrodoBridge.openFrodoUri(uri, this)
                 || (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue()
                     && FrodoBridge.openUri(uri, this));
     }
@@ -249,6 +253,16 @@ public class WebViewActivity extends AppCompatActivity {
         } else {
             ToastUtils.show(R.string.webview_copy_url_empty, this);
         }
+    }
+
+    private void toggleOpenWithNative() {
+        Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.putValue(
+                !Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
+        updateOpenWithNative();
+    }
+
+    private void updateOpenWithNative() {
+        mOpenWithNativeMenuItem.setChecked(Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
     }
 
     private void openInBrowser() {

@@ -35,6 +35,12 @@
             android:entries="@array/settings_open_url_with_entries" />
 
         <SwitchPreferenceCompat
+            android:key="@string/pref_key_open_with_native_in_webview"
+            android:defaultValue="@bool/pref_default_value_open_with_native_in_webview"
+            android:title="@string/settings_open_with_native_in_webview_title"
+            android:summary="@string/settings_open_with_native_in_webview_summary" />
+
+        <SwitchPreferenceCompat
             android:key="@string/pref_key_request_desktop_site_in_webview"
             android:defaultValue="@bool/pref_default_value_request_desktop_site_in_webview"
             android:title="@string/settings_request_desktop_site_in_webview_title"

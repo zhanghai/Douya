@@ -52,6 +52,10 @@ public interface Settings {
             R.string.pref_key_open_url_with, R.string.pref_default_value_open_url_with,
             OpenUrlWithMethod.class);
 
+    BooleanSettingsEntry OPEN_WITH_NATIVE_IN_WEBVIEW = new BooleanSettingsEntry(
+            R.string.pref_key_open_with_native_in_webview,
+            R.bool.pref_default_value_open_with_native_in_webview);
+
     BooleanSettingsEntry REQUEST_DESKTOP_SITE_IN_WEBVIEW = new BooleanSettingsEntry(
             R.string.pref_key_request_desktop_site_in_webview,
             R.bool.pref_default_value_request_desktop_site_in_webview);

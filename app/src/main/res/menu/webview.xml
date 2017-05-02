@@ -20,6 +20,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_open_with_native"
+        android:checkable="true"
+        android:title="@string/webview_open_with_native"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_open_in_browser"
         android:title="@string/webview_open_in_browser"
         app:showAsAction="never" />

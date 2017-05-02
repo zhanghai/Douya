@@ -15,6 +15,9 @@
     <style name="ThemeOverlay.Design.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
+    <style name="ThemeOverlay.Design.Light" parent="ThemeOverlay.AppCompat.Light">
+        <item name="textColorError">@color/design_textinput_error_color_light</item>
+    </style>
     <!--<style name="Theme.Design.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">-->
     <style name="PreferenceFixTheme.Design.Light.DarkActionBar" parent="PreferenceFixTheme.Light.DarkActionBar">
         <item name="preferenceCategory_marginBottom">0dp</item>
@@ -24,6 +27,10 @@
 
     <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.Design.Dark.ActionBar">
         <item name="colorAccent">@android:color/white</item>
+    </style>
+
+    <style name="ThemeOverlay.Douya.Light" parent="ThemeOverlay.Design.Light">
+        <item name="colorAccent">@color/douya_primary</item>
     </style>
 
     <style name="Theme.Douya" parent="PreferenceFixTheme.Design.Light.DarkActionBar">
@@ -36,6 +43,7 @@
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.Douya.Light</item>
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
         <item name="android:textColorLink">?colorAccent</item>
         <!-- NOTE: The following two framework attributes are v11. Anyway. -->

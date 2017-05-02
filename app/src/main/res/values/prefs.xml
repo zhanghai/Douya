@@ -37,6 +37,9 @@
     </string-array>
     <string name="pref_default_value_open_url_with">0</string>
 
+    <string name="pref_key_open_with_native_in_webview">key_open_with_native_in_webview</string>
+    <bool name="pref_default_value_open_with_native_in_webview">true</bool>
+
     <string name="pref_key_request_desktop_site_in_webview">key_request_desktop_site_in_webview</string>
     <bool name="pref_default_value_request_desktop_site_in_webview">true</bool>
 
