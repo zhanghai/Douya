@@ -42,7 +42,4 @@
 
     <string name="pref_key_request_desktop_site_in_webview">key_request_desktop_site_in_webview</string>
     <bool name="pref_default_value_request_desktop_site_in_webview">true</bool>
-
-    <string name="pref_key_always_copy_to_clipboard_as_text">key_always_copy_to_clipboard_as_text</string>
-    <bool name="pref_default_value_always_copy_to_clipboard_as_text">true</bool>
 </resources>

@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.settings.info.Settings;
 
 public class ClipboardUtils {
 
@@ -31,40 +30,16 @@ public class ClipboardUtils {
     }
 
     public static void copyRawUri(CharSequence label, Uri uri, Context context) {
-        if (Settings.ALWAYS_COPY_TO_CLIPBOARD_AS_TEXT.getValue()) {
-            copyText(label, uri.toString(), context);
-        } else {
-            copyRawUriInt(label, uri, context);
-        }
-    }
-
-    private static void copyRawUriInt(CharSequence label, Uri uri, Context context) {
         ClipData clipData = ClipData.newRawUri(label, uri);
         getClipboardManager(context).setPrimaryClip(clipData);
         showToast(uri.toString(), context);
     }
 
     public static void copyUrl(CharSequence label, String url, Context context) {
-        if (Settings.ALWAYS_COPY_TO_CLIPBOARD_AS_TEXT.getValue()) {
-            copyText(label, url, context);
-        } else {
-            copyUrlInt(label, url, context);
-        }
-    }
-
-    private static void copyUrlInt(CharSequence label, String url, Context context) {
         copyRawUri(label, Uri.parse(url), context);
     }
 
     public static void copyUri(CharSequence label, Uri uri, Context context) {
-        if (Settings.ALWAYS_COPY_TO_CLIPBOARD_AS_TEXT.getValue()) {
-            copyText(label, uri.toString(), context);
-        } else {
-            copyUriInt(label, uri, context);
-        }
-    }
-
-    public static void copyUriInt(CharSequence label, Uri uri, Context context) {
         ClipData clipData = ClipData.newUri(context.getContentResolver(), label, uri);
         getClipboardManager(context).setPrimaryClip(clipData);
         showToast(uri.toString(), context);

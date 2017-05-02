@@ -270,7 +270,7 @@ public class WebViewActivity extends AppCompatActivity {
     private void copyUrl() {
         String url = mWebView.getUrl();
         if (!TextUtils.isEmpty(url)) {
-            ClipboardUtils.copyUrl(mWebView.getTitle(), url, this);
+            ClipboardUtils.copyText(mWebView.getTitle(), url, this);
         } else {
             ToastUtils.show(R.string.webview_copy_url_empty, this);
         }

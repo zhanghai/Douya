@@ -281,8 +281,6 @@
     <string name="settings_open_with_native_in_webview_summary">应用界面美观易用但可能有未覆盖的功能</string>
     <string name="settings_request_desktop_site_in_webview_title">在内置浏览器中请求桌面版网站</string>
     <string name="settings_request_desktop_site_in_webview_summary">豆瓣移动端网站功能有限</string>
-    <string name="settings_always_copy_to_clipboard_as_text_title">总是复制纯文本到剪贴板</string>
-    <string name="settings_always_copy_to_clipboard_as_text_summary">可以避免部分输入法的粘贴功能问题</string>
     <string name="settings_about_title">关于</string>
     <string name="settings_open_source_licenses_title">开放源代码许可</string>
     <string name="settings_privacy_policy_title">隐私权政策</string>
