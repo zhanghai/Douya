@@ -17,6 +17,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
@@ -30,7 +31,7 @@ public class ApiRequests {
 
     private ApiRequests() {}
 
-    public static ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.User> newUserRequest(String userIdOrUid) {
+    public static ApiRequest<User> newUserRequest(String userIdOrUid) {
 
         if (TextUtils.isEmpty(userIdOrUid)) {
             userIdOrUid = ApiContract.Request.ApiV2.User.UID_CURRENT;
@@ -38,13 +39,13 @@ public class ApiRequests {
 
         return new LifeStreamRequest<>(ApiRequest.Method.GET,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.User.URL_FORMAT, userIdOrUid),
-                new TypeToken<me.zhanghai.android.douya.network.api.info.apiv2.User>() {});
+                new TypeToken<User>() {});
     }
 
-    public static ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.User> newFollowshipRequest(String userIdOrUid, boolean follow) {
+    public static ApiRequest<User> newFollowshipRequest(String userIdOrUid, boolean follow) {
         return new LifeStreamRequest<>(follow ? ApiRequest.Method.POST : ApiRequest.Method.DELETE,
                 StringUtils.formatUs(ApiContract.Request.ApiV2.Followship.URL_FORMAT, userIdOrUid),
-                new TypeToken<me.zhanghai.android.douya.network.api.info.apiv2.User>() {});
+                new TypeToken<User>() {});
     }
 
     public static ApiRequest<UserList> newFollowingListRequest(String userIdOrUid, Integer start,
