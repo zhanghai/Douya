@@ -24,6 +24,8 @@ import java.util.concurrent.TimeoutException;
  */
 public abstract class Request<T> extends com.android.volley.Request<T> {
 
+    private UploadProgressListener mUploadProgressListener;
+    private DownloadProgressListener mDownloadProgressListener;
     private Response.Listener<T> mListener;
     private Response.ErrorListener mErrorListener;
     // Take over control of url from super class.
@@ -44,6 +46,22 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
         mUrl = url;
     }
 
+    public UploadProgressListener getUploadProgressListener() {
+        return mUploadProgressListener;
+    }
+
+    public void setUploadProgressListener(UploadProgressListener uploadProgressListener) {
+        mUploadProgressListener = uploadProgressListener;
+    }
+
+    public DownloadProgressListener getDownloadProgressListener() {
+        return mDownloadProgressListener;
+    }
+
+    public void setDownloadProgressListener(DownloadProgressListener downloadProgressListener) {
+        mDownloadProgressListener = downloadProgressListener;
+    }
+
     public Response.Listener<T> getListener() {
         return mListener;
     }
@@ -61,6 +79,18 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
     public Request<T> setErrorListener(Response.ErrorListener errorListener) {
         mErrorListener = errorListener;
         return this;
+    }
+
+    protected void deliverUploadProgress(int currentBytes, int totalBytes) {
+        if (mUploadProgressListener != null) {
+            mUploadProgressListener.onUploadProgress(currentBytes, totalBytes);
+        }
+    }
+
+    protected void deliverDownloadProgress(int currentBytes, int totalBytes) {
+        if (mDownloadProgressListener != null) {
+            mDownloadProgressListener.onDownloadProgress(currentBytes, totalBytes);
+        }
     }
 
     @Override
@@ -283,5 +313,13 @@ public abstract class Request<T> extends com.android.volley.Request<T> {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public interface UploadProgressListener {
+        void onUploadProgress(int currentBytes, int totalBytes);
+    }
+
+    public interface DownloadProgressListener {
+        void onDownloadProgress(int currentBytes, int totalBytes);
     }
 }

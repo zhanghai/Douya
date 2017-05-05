@@ -12,7 +12,6 @@ import com.android.volley.Cache;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
-import com.android.volley.Request;
 import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
@@ -52,6 +51,14 @@ public class BasicNetwork extends com.android.volley.toolbox.BasicNetwork {
     }
 
     @Override
+    public NetworkResponse performRequest(com.android.volley.Request<?> request)
+            throws VolleyError {
+        if (!(request instanceof Request<?>)) {
+            throw new IllegalArgumentException("Use " + Request.class.getName() + " instead");
+        }
+        return performRequest((Request<?>) request);
+    }
+
     public NetworkResponse performRequest(Request<?> request) throws VolleyError {
         long requestStart = SystemClock.elapsedRealtime();
         while (true) {
@@ -89,7 +96,7 @@ public class BasicNetwork extends com.android.volley.toolbox.BasicNetwork {
 
                 // Some responses such as 204s do not have content.  We must check.
                 if (httpResponse.getEntity() != null) {
-                    responseContents = entityToBytes(httpResponse.getEntity());
+                    responseContents = entityToBytes(httpResponse.getEntity(), request);
                 } else {
                     // Add 0 byte response as a way of honestly representing a
                     // no-content request.
@@ -192,9 +199,10 @@ public class BasicNetwork extends com.android.volley.toolbox.BasicNetwork {
     }
 
     /** Reads the contents of HttpEntity into a byte[]. */
-    private byte[] entityToBytes(HttpEntity entity) throws IOException, ServerError {
-        PoolingByteArrayOutputStream bytes =
-                new PoolingByteArrayOutputStream(mPool, (int) entity.getContentLength());
+    private byte[] entityToBytes(HttpEntity entity, Request<?> request)
+            throws IOException, ServerError {
+        int contentLength = (int) entity.getContentLength();
+        PoolingByteArrayOutputStream bytes = new PoolingByteArrayOutputStream(mPool, contentLength);
         byte[] buffer = null;
         try {
             InputStream in = entity.getContent();
@@ -205,6 +213,7 @@ public class BasicNetwork extends com.android.volley.toolbox.BasicNetwork {
             int count;
             while ((count = in.read(buffer)) != -1) {
                 bytes.write(buffer, 0, count);
+                request.deliverDownloadProgress(bytes.size(), contentLength);
             }
             return bytes.toByteArray();
         } finally {
