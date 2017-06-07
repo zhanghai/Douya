@@ -148,12 +148,9 @@ public class Broadcast implements Parcelable {
     }
 
     public String getClipboardText(Context context) {
-        StringBuilder builder = new StringBuilder()
-                .append(getAuthorName())
-                .append(' ')
-                .append(getActionWithTime(context));
+        StringBuilder builder = new StringBuilder();
         if (attachment != null) {
-            builder.append('\n')
+            builder
                     .append(attachment.title)
                     .append('\n')
                     .append(attachment.href)
@@ -161,9 +158,10 @@ public class Broadcast implements Parcelable {
                     .append(attachment.description);
         }
         if (!TextUtils.isEmpty(text)) {
-            builder
-                    .append('\n')
-                    .append(getTextWithEntities(context));
+            if (builder.length() > 0) {
+                builder.append('\n');
+            }
+            builder.append(getTextWithEntities(context));
         }
         return builder.toString();
     }

@@ -43,8 +43,7 @@ public class Comment implements Parcelable {
     }
 
     public String getClipboardText(Context context) {
-        return author.name + ' ' + TimeUtils.formatDoubanDateTime(createdAt, context) + '\n'
-                + getContentWithEntities(context);
+        return getContentWithEntities(context).toString();
     }
 
 
