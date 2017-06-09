@@ -9,7 +9,7 @@ apply from: '../signing.gradle'
 
 android {
 
-    compileSdkVersion 26
+    compileSdkVersion 25
     buildToolsVersion "26.0.0"
     // For customization of Volley to build.
     useLibrary 'org.apache.http.legacy'
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "me.zhanghai.android.douya"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 7
         versionName "1.0.0-beta.5"
         resValue 'string', 'application_id', applicationId
