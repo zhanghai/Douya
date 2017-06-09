@@ -15,6 +15,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        // Replace this with `google()` when upgraded to Android Gradle Plugin 3.0+ and Gradle 4.0+.
         maven {
             url "https://maven.google.com"
         }
