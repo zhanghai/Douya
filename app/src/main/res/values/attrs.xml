@@ -41,6 +41,6 @@
     </declare-styleable>
 
     <declare-styleable name="TintStateListImageView">
-        <attr name="tint" format="color|reference" />
+        <attr name="tint" format="color" />
     </declare-styleable>
 </resources>

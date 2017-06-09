@@ -9,15 +9,15 @@ apply from: '../signing.gradle'
 
 android {
 
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
     // For customization of Volley to build.
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "me.zhanghai.android.douya"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 7
         versionName "1.0.0-beta.5"
         resValue 'string', 'application_id', applicationId
@@ -60,11 +60,11 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:customtabs:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:cardview-v7:25.4.0'
+    compile 'com.android.support:customtabs:25.4.0'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support:recyclerview-v7:25.4.0'
 
     compile "com.andkulikov:transitionseverywhere:1.6.9"
     compile 'com.android.volley:volley:1.0.0'
@@ -83,7 +83,7 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    compile 'com.takisoft.fix:preference-v7:25.3.1.0'
+    compile 'com.takisoft.fix:preference-v7:25.4.0.3'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
