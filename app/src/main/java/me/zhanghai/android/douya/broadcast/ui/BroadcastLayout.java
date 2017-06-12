@@ -61,6 +61,10 @@ public class BroadcastLayout extends LinearLayout {
     TextView mNameText;
     @BindView(R.id.time_action)
     TimeActionTextView mTimeActionText;
+    @BindView(R.id.text_space)
+    Space mTextSpace;
+    @BindView(R.id.text)
+    TextView mTextText;
     @BindView(R.id.attachment)
     RelativeLayout mAttachmentLayout;
     @BindView(R.id.attachment_image)
@@ -79,10 +83,6 @@ public class BroadcastLayout extends LinearLayout {
     TextView mImageListDescriptionText;
     @BindView(R.id.image_list)
     RecyclerView mImageList;
-    @BindView(R.id.text_space)
-    Space mTextSpace;
-    @BindView(R.id.text)
-    TextView mTextText;
     @BindView(R.id.like)
     CardIconButton mLikeButton;
     @BindView(R.id.comment)
@@ -196,6 +196,8 @@ public class BroadcastLayout extends LinearLayout {
         // HACK: Attachment and text should not change on rebind.
         if (!isRebind) {
 
+            mTextText.setText(broadcast.getTextWithEntities(context));
+
             Attachment attachment = broadcast.attachment;
             if (attachment != null) {
                 mAttachmentLayout.setVisibility(VISIBLE);
@@ -258,7 +260,6 @@ public class BroadcastLayout extends LinearLayout {
             boolean textSpaceVisible = (attachment != null || numImages > 0)
                     && !TextUtils.isEmpty(broadcast.text);
             ViewUtils.setVisibleOrGone(mTextSpace, textSpaceVisible);
-            mTextText.setText(broadcast.getTextWithEntities(context));
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());

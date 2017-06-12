@@ -51,6 +51,19 @@
             android:textColor="?android:textColorSecondary" />
     </RelativeLayout>
 
+    <me.zhanghai.android.douya.ui.AutoGoneTextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+        android:layout_marginRight="@dimen/card_content_horizontal_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <Space
+        android:id="@+id/text_space"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/card_content_vertical_space" />
+
     <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
         android:id="@+id/attachment"
         android:layout_width="match_parent"
@@ -135,19 +148,6 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1.Inverse" />
         </FrameLayout>
     </FrameLayout>
-
-    <Space
-        android:id="@+id/text_space"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/card_content_vertical_space" />
-
-    <me.zhanghai.android.douya.ui.AutoGoneTextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-        android:layout_marginRight="@dimen/card_content_horizontal_margin"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <LinearLayout
         android:layout_width="match_parent"
