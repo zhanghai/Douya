@@ -169,5 +169,6 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
     protected void updateWithSimpleItem(SimpleItemType simpleItem) {
         getActivity().setTitle(simpleItem.title);
+        mToolbar.setTitle(null);
     }
 }
