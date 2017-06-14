@@ -8,12 +8,15 @@ package me.zhanghai.android.douya.ui;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.OnPhotoTapListener;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
@@ -22,8 +25,6 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class GalleryAdapter extends PagerAdapter {
 
@@ -51,9 +52,9 @@ public class GalleryAdapter extends PagerAdapter {
         PhotoView imageView = ButterKnife.findById(layout, R.id.image);
         final TextView errorText = ButterKnife.findById(layout, R.id.error);
         final ProgressBar progressBar = ButterKnife.findById(layout, R.id.progress);
-        imageView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+        imageView.setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override
-            public void onViewTap(View view, float x, float y) {
+            public void onPhotoTap(ImageView view, float x, float y) {
                 if (mOnTapListener != null) {
                     mOnTapListener.onTap();
                 }
