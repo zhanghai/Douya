@@ -7,15 +7,13 @@ package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
 
-import com.android.volley.VolleyError;
-
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.CommentDeletedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
@@ -41,8 +39,8 @@ class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastComment
     }
 
     @Override
-    protected Request<Boolean> onCreateRequest() {
-        return ApiRequests.newDeleteBroadcastCommentRequest(mBroadcastId, mCommentId);
+    protected ApiRequest<Boolean> onCreateRequest() {
+        return ApiService.getInstance().deleteBroadcastComment(mBroadcastId, mCommentId);
     }
 
     @Override
@@ -56,7 +54,7 @@ class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastComment
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
+    public void onErrorResponse(ApiError error) {
 
         LogUtils.e(error.toString());
         Context context = getContext();

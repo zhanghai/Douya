@@ -57,9 +57,9 @@
     </notice>
 
     <notice>
-        <name>Volley</name>
-        <url>https://github.com/mcxiaoke/android-volley</url>
-        <copyright>Copyright 2014 Xiaoke Zhang&lt;br&gt;Copyright 2011 The Android Open Source Project</copyright>
+        <name>Retrofit</name>
+        <url>https://github.com/square/retrofit</url>
+        <copyright>Copyright 2013 Square, Inc.</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 

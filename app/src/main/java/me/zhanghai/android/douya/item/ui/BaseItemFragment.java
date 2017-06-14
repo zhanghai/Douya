@@ -21,12 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.item.content.BaseItemResource;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.DrawableUtils;
@@ -154,7 +153,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     }
 
     @Override
-    public void onLoadItemError(int requestCode, VolleyError error) {
+    public void onLoadItemError(int requestCode, ApiError error) {
 
     }
 

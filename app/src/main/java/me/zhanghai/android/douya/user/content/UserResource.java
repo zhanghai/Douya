@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -19,8 +17,9 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.UserUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.UserWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.UserWriteStartedEvent;
-import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -150,8 +149,8 @@ public class UserResource extends ResourceFragment<User, User> {
     }
 
     @Override
-    protected Request<User> onCreateRequest() {
-        return ApiRequests.newUserRequest(mUserIdOrUid);
+    protected ApiRequest<User> onCreateRequest() {
+        return ApiService.getInstance().getUser(mUserIdOrUid);
     }
 
     @Override
@@ -160,7 +159,7 @@ public class UserResource extends ResourceFragment<User, User> {
     }
 
     @Override
-    protected void onLoadFinished(boolean successful, User response, VolleyError error) {
+    protected void onLoadFinished(boolean successful, User response, ApiError error) {
         getListener().onLoadUserFinished(getRequestCode());
         if (successful) {
             set(response);
@@ -220,7 +219,7 @@ public class UserResource extends ResourceFragment<User, User> {
     public interface Listener {
         void onLoadUserStarted(int requestCode);
         void onLoadUserFinished(int requestCode);
-        void onLoadUserError(int requestCode, VolleyError error);
+        void onLoadUserError(int requestCode, ApiError error);
         void onUserChanged(int requestCode, User newUser);
         void onUserWriteStarted(int requestCode);
         void onUserWriteFinished(int requestCode);

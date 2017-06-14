@@ -13,8 +13,17 @@ public class Http {
         public static final String ACCEPT_ENCODING = "Accept-Encoding";
         public static final String ACCEPT_VERSION = "X-Accept-Version";
         public static final String AUTHORIZATION = "Authorization";
+        private static final String BEARER_PREFIX = "Bearer ";
         public static String makeBearerAuthorization(String token) {
-            return "Bearer " + token;
+            return BEARER_PREFIX + token;
+        }
+        public static String getTokenFromBearerAuthorization(String bearerAuthorization) {
+            int bearerPrefixLength = BEARER_PREFIX.length();
+            if (bearerAuthorization == null || bearerAuthorization.length() < bearerPrefixLength) {
+                return null;
+            } else {
+                return bearerAuthorization.substring(bearerPrefixLength);
+            }
         }
         public static final String CONTENT_ENCODING = "Content-Encoding";
         public static final String CONTENT_LENGTH = "Content-Length";

@@ -7,8 +7,6 @@ package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -18,10 +16,10 @@ import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -60,8 +58,8 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
     }
 
     @Override
-    protected Request<Broadcast> onCreateRequest() {
-        return ApiRequests.newLikeBroadcastRequest(mBroadcastId, mLike);
+    protected ApiRequest<Broadcast> onCreateRequest() {
+        return ApiService.getInstance().likeBroadcast(mBroadcastId, mLike);
     }
 
     @Override
@@ -90,7 +88,7 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
+    public void onErrorResponse(ApiError error) {
 
         LogUtils.e(error.toString());
         Context context = getContext();

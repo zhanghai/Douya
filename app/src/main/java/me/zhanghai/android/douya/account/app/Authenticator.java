@@ -15,21 +15,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.android.volley.ParseError;
-import com.android.volley.VolleyError;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
-
 import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.ui.AuthenticatorActivity;
 import me.zhanghai.android.douya.account.util.AccountUtils;
-import me.zhanghai.android.douya.network.Volley;
+import me.zhanghai.android.douya.account.util.AuthenticatorUtils;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.TokenRequest;
-import me.zhanghai.android.douya.network.api.TokenRequests;
-import me.zhanghai.android.douya.account.util.AuthenticatorUtils;
+import me.zhanghai.android.douya.network.api.ApiService;
+import me.zhanghai.android.douya.network.api.info.AuthenticationResponse;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.MoreTextUtils;
 
@@ -86,19 +79,15 @@ public class Authenticator extends AbstractAccountAuthenticator {
             String refreshToken = AccountUtils.getRefreshToken(account, authTokenType);
             if (!TextUtils.isEmpty(refreshToken)) {
                 try {
-                    TokenRequest.Response tokenResponse = TokenRequests.newRequest(authTokenType,
-                            refreshToken).getResponse();
-                    authToken = tokenResponse.accessToken;
-                    AccountUtils.setUserName(account, tokenResponse.userName);
-                    AccountUtils.setUserId(account, tokenResponse.userId);
+                    AuthenticationResponse authenticationResponse = ApiService.getInstance()
+                            .authenticate(authTokenType, refreshToken).execute();
+                    authToken = authenticationResponse.accessToken;
+                    AccountUtils.setUserName(account, authenticationResponse.userName);
+                    AccountUtils.setUserId(account, authenticationResponse.userId);
                     AccountUtils.setRefreshToken(account, authTokenType,
-                            tokenResponse.refreshToken);
-                } catch (InterruptedException | TimeoutException e) {
+                            authenticationResponse.refreshToken);
+                } catch (ApiError e) {
                     LogUtils.e(e.toString());
-                    // Try again with XAuth afterwards.
-                } catch (ExecutionException e) {
-                    VolleyError error = (VolleyError) e.getCause();
-                    LogUtils.e(error.toString());
                     // Try again with XAuth afterwards.
                 }
             }
@@ -110,49 +99,46 @@ public class Authenticator extends AbstractAccountAuthenticator {
                 return makeErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
                         "AccountManager.getPassword() returned null");
             }
+            ApiService apiService = ApiService.getInstance();
             try {
-                TokenRequest.Response tokenResponse = TokenRequests.newRequest(authTokenType,
-                        account.name, password).getResponse();
-                authToken = tokenResponse.accessToken;
-                AccountUtils.setUserName(account, tokenResponse.userName);
-                AccountUtils.setUserId(account, tokenResponse.userId);
-                AccountUtils.setRefreshToken(account, authTokenType, tokenResponse.refreshToken);
-            } catch (InterruptedException | TimeoutException e) {
+                AuthenticationResponse authenticationResponse = apiService.authenticate(
+                        authTokenType, account.name, password).execute();
+                authToken = authenticationResponse.accessToken;
+                AccountUtils.setUserName(account, authenticationResponse.userName);
+                AccountUtils.setUserId(account, authenticationResponse.userId);
+                AccountUtils.setRefreshToken(account, authTokenType,
+                        authenticationResponse.refreshToken);
+            } catch (ApiError e) {
                 LogUtils.e(e.toString());
-                return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
-            } catch (ExecutionException e) {
-                VolleyError error = (VolleyError) e.getCause();
-                LogUtils.e(error.toString());
-                if (error instanceof ParseError) {
-                    return makeErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE, error);
-                } else if (error instanceof TokenRequest.Error) {
-                    TokenRequest.Error tokenError = (TokenRequest.Error) error;
-                    String errorString = ApiError.getErrorString(tokenError, mContext);
-                    switch (tokenError.code) {
+                if (e.bodyJson != null && e.code != Codes.Custom.INVALID_ERROR_RESPONSE) {
+                    String errorString = ApiError.getErrorString(e, mContext);
+                    switch (e.code) {
                         case Codes.Token.INVALID_APIKEY:
                         case Codes.Token.APIKEY_IS_BLOCKED:
                         case Codes.Token.INVALID_REQUEST_URI:
                         case Codes.Token.INVALID_CREDENCIAL2:
                         case Codes.Token.REQUIRED_PARAMETER_IS_MISSING:
                         case Codes.Token.CLIENT_SECRET_MISMATCH:
-                            Volley.getInstance().cancelApiRequests();
+                            ApiService.getInstance().cancelApiRequests();
                             return makeFailureIntentBundle(
                                     AuthenticatorUtils.makeSetApiKeyIntent(mContext), errorString);
                         case Codes.Token.USERNAME_PASSWORD_MISMATCH:
-                            Volley.getInstance().cancelApiRequests();
+                            ApiService.getInstance().cancelApiRequests();
                             return makeFailureIntentBundle(makeUpdateCredentialIntent(response,
                                     account), errorString);
                         case Codes.Token.INVALID_USER:
                         case Codes.Token.USER_HAS_BLOCKED:
                         case Codes.Token.USER_LOCKED:
-                            Volley.getInstance().cancelApiRequests();
+                            ApiService.getInstance().cancelApiRequests();
                             return makeFailureIntentBundle(
                                     AuthenticatorUtils.makeWebsiteIntent(mContext), errorString);
                     }
                     return makeErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
                             errorString);
+                } else if (e.response != null) {
+                    return makeErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE, e);
                 } else {
-                    return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, error);
+                    return makeErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e);
                 }
             }
         }

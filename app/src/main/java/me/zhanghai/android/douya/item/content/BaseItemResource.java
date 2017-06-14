@@ -7,9 +7,8 @@ package me.zhanghai.android.douya.item.content;
 
 import android.os.Bundle;
 
-import com.android.volley.VolleyError;
-
 import me.zhanghai.android.douya.content.ResourceFragment;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -112,7 +111,7 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
     }
 
     @Override
-    protected void onLoadFinished(boolean successful, ItemType response, VolleyError error) {
+    protected void onLoadFinished(boolean successful, ItemType response, ApiError error) {
         getListener().onLoadItemFinished(getRequestCode());
         if (successful) {
             set(response);
@@ -130,7 +129,7 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
     public interface Listener<ItemType> {
         void onLoadItemStarted(int requestCode);
         void onLoadItemFinished(int requestCode);
-        void onLoadItemError(int requestCode, VolleyError error);
+        void onLoadItemError(int requestCode, ApiError error);
         void onItemChanged(int requestCode, ItemType newItem);
     }
 }

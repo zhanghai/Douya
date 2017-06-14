@@ -24,9 +24,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.ParseError;
-import com.android.volley.VolleyError;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
@@ -35,8 +32,9 @@ import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.account.util.AuthenticatorUtils;
 import me.zhanghai.android.douya.link.NotImplementedManager;
-import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes.Token;
-import me.zhanghai.android.douya.network.api.TokenRequest;
+import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.info.AuthenticationResponse;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -227,7 +225,7 @@ public class AuthenticatorFragment extends Fragment implements AuthenticateReque
     @Override
     public void onAuthenticateSuccess(int requestCode,
                                       AuthenticateRequest.RequestState requestState,
-                                      TokenRequest.Response response) {
+                                      AuthenticationResponse response) {
 
         Account account = new Account(requestState.username, AccountContract.ACCOUNT_TYPE);
 
@@ -272,40 +270,39 @@ public class AuthenticatorFragment extends Fragment implements AuthenticateReque
 
     @Override
     public void onAuthenticateError(int requestCode, AuthenticateRequest.RequestState requestState,
-                                    VolleyError error) {
+                                    ApiError error) {
 
         updateViews(true);
 
         LogUtils.e(error.toString());
-        if (error instanceof ParseError) {
-            mPasswordLayout.setError(getString(R.string.auth_error_invalid_response));
-        } else if (error instanceof TokenRequest.Error) {
-            TokenRequest.Error apiError = (TokenRequest.Error) error;
-            String errorString = getString(apiError.getErrorStringRes());
+        if (error.bodyJson != null && error.code != Codes.Custom.INVALID_ERROR_RESPONSE) {
+            String errorString = getString(error.getErrorStringRes());
             Activity activity = getActivity();
-            switch (apiError.code) {
-                case Token.INVALID_APIKEY:
-                case Token.APIKEY_IS_BLOCKED:
-                case Token.INVALID_REQUEST_URI:
-                case Token.INVALID_CREDENCIAL2:
-                case Token.REQUIRED_PARAMETER_IS_MISSING:
-                case Token.CLIENT_SECRET_MISMATCH:
+            switch (error.code) {
+                case Codes.Token.INVALID_APIKEY:
+                case Codes.Token.APIKEY_IS_BLOCKED:
+                case Codes.Token.INVALID_REQUEST_URI:
+                case Codes.Token.INVALID_CREDENCIAL2:
+                case Codes.Token.REQUIRED_PARAMETER_IS_MISSING:
+                case Codes.Token.CLIENT_SECRET_MISMATCH:
                     ToastUtils.show(errorString, activity);
                     startActivity(AuthenticatorUtils.makeSetApiKeyIntent((activity)));
                     break;
-                case Token.USER_HAS_BLOCKED:
-                case Token.USER_LOCKED:
+                case Codes.Token.USER_HAS_BLOCKED:
+                case Codes.Token.USER_LOCKED:
                     ToastUtils.show(errorString, activity);
                     startActivity(AuthenticatorUtils.makeWebsiteIntent(activity));
                     break;
-                case Token.NOT_TRIAL_USER:
-                case Token.INVALID_USER:
+                case Codes.Token.NOT_TRIAL_USER:
+                case Codes.Token.INVALID_USER:
                     mUsernameLayout.setError(errorString);
                     break;
                 default:
                     mPasswordLayout.setError(errorString);
                     break;
             }
+        } else if (error.response != null) {
+            mPasswordLayout.setError(getString(R.string.auth_error_invalid_response));
         } else {
             mPasswordLayout.setError(getString(R.string.auth_error_unknown));
         }

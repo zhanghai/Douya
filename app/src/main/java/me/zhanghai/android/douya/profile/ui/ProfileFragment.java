@@ -21,8 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.VolleyError;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -226,7 +224,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     }
 
     @Override
-    public void onLoadError(int requestCode, VolleyError error) {
+    public void onLoadError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
         mContentStateLayout.setError();
         Activity activity = getActivity();

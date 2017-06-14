@@ -5,14 +5,13 @@
 
 package me.zhanghai.android.douya.content;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.PreventNoSubscriptionExceptionEvent;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.RequestFragment;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiError;
 
 public abstract class ResourceFragment<ResponseType, ResourceType>
         extends RequestFragment<Void, ResponseType> {
@@ -71,11 +70,11 @@ public abstract class ResourceFragment<ResponseType, ResourceType>
     }
 
     @Override
-    protected final Request<ResponseType> onCreateRequest(Void requestState) {
+    protected final ApiRequest<ResponseType> onCreateRequest(Void requestState) {
         return onCreateRequest();
     }
 
-    protected abstract Request<ResponseType> onCreateRequest();
+    protected abstract ApiRequest<ResponseType> onCreateRequest();
 
     @Override
     protected final void onRequestStarted() {
@@ -86,12 +85,12 @@ public abstract class ResourceFragment<ResponseType, ResourceType>
 
     @Override
     protected void onRequestFinished(boolean successful, Void requestState, ResponseType response,
-                                     VolleyError error) {
+                                     ApiError error) {
         onLoadFinished(successful, response, error);
     }
 
     protected abstract void onLoadFinished(boolean successful, ResponseType response,
-                                           VolleyError error);
+                                           ApiError error);
 
     @Subscribe
     public final void onPreventNoSubscriptionException(PreventNoSubscriptionExceptionEvent event) {}

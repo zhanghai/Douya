@@ -13,7 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import java.util.List;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
-import me.zhanghai.android.douya.network.Request;
+import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.Callback;
@@ -110,7 +110,7 @@ public class HomeBroadcastListResource extends BroadcastListResource {
     }
 
     @Override
-    protected Request<List<Broadcast>> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<List<Broadcast>> onCreateRequest(boolean more, int count) {
         mAccount = AccountUtils.getActiveAccount();
         return super.onCreateRequest(more, count);
     }

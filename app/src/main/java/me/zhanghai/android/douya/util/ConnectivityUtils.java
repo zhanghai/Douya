@@ -11,20 +11,22 @@ import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import me.zhanghai.android.douya.DouyaApplication;
+
 public class ConnectivityUtils {
 
     private ConnectivityUtils() {}
 
-    public static boolean isConnected(Context context) {
-        return isConnected(getActiveNetworkInfo(context));
+    public static boolean isConnected() {
+        return isConnected(getActiveNetworkInfo());
     }
 
     private static boolean isConnected(NetworkInfo networkInfo) {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    public static boolean isNonMobileConnected(Context context) {
-        return isNonMobileConnected(getActiveNetworkInfo(context));
+    public static boolean isNonMobileConnected() {
+        return isNonMobileConnected(getActiveNetworkInfo());
     }
 
     private static boolean isNonMobileConnected(NetworkInfo networkInfo) {
@@ -60,11 +62,12 @@ public class ConnectivityUtils {
     }
 
     @Nullable
-    private static NetworkInfo getActiveNetworkInfo(Context context) {
-        return getConnectivityManager(context).getActiveNetworkInfo();
+    private static NetworkInfo getActiveNetworkInfo() {
+        return getConnectivityManager().getActiveNetworkInfo();
     }
 
-    private static ConnectivityManager getConnectivityManager(Context context) {
-        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    private static ConnectivityManager getConnectivityManager() {
+        return (ConnectivityManager) DouyaApplication.getInstance().getSystemService(
+                Context.CONNECTIVITY_SERVICE);
     }
 }

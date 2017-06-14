@@ -19,14 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.VolleyError;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.content.AccountUserResource;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.link.NotImplementedManager;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
@@ -205,7 +204,7 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
     public void onLoadUserFinished(int requestCode) {}
 
     @Override
-    public void onLoadUserError(int requestCode, VolleyError error) {}
+    public void onLoadUserError(int requestCode, ApiError error) {}
 
     @Override
     public void onUserChanged(int requestCode, User newUser) {

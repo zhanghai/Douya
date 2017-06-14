@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -23,8 +21,9 @@ import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -85,7 +84,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast
     }
 
     @Override
-    protected Request<List<Broadcast>> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<List<Broadcast>> onCreateRequest(boolean more, int count) {
         Long untilId = null;
         if (more && has()) {
             List<Broadcast> broadcastList = get();
@@ -94,7 +93,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast
                 untilId = broadcastList.get(size - 1).id;
             }
         }
-        return ApiRequests.newBroadcastListRequest(mUserIdOrUid, mTopic, untilId, count);
+        return ApiService.getInstance().getBroadcastList(mUserIdOrUid, mTopic, untilId, count);
     }
 
     @Override
@@ -104,7 +103,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
-                                  List<Broadcast> response, VolleyError error) {
+                                  List<Broadcast> response, ApiError error) {
         getListener().onLoadBroadcastListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -218,7 +217,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast
     public interface Listener {
         void onLoadBroadcastListStarted(int requestCode);
         void onLoadBroadcastListFinished(int requestCode);
-        void onLoadBroadcastListError(int requestCode, VolleyError error);
+        void onLoadBroadcastListError(int requestCode, ApiError error);
         /**
          * @param newBroadcastList Unmodifiable.
          */

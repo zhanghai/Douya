@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -65,6 +65,6 @@ public class UserReviewListResource extends BaseReviewListResource {
 
     @Override
     protected ApiRequest<ReviewList> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newUserReviewListRequest(mUserIdOrUid, start, count);
+        return ApiService.getInstance().getUserReviewList(mUserIdOrUid, start, count);
     }
 }

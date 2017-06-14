@@ -7,28 +7,24 @@ package me.zhanghai.android.douya.network.api;
 
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.AuthenticationException;
+import me.zhanghai.android.douya.network.ResponseConversionException;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes.*;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
-public class ApiError extends VolleyError {
+public class ApiError extends Throwable {
 
     private static final Map<Integer, Integer> ERROR_CODE_STRING_RES_MAP;
     static {
@@ -132,48 +128,46 @@ public class ApiError extends VolleyError {
                 R.string.api_error_rebroadcast_broadcast_not_rebroadcasted_yet);
     }
 
-    public String responseString;
-    public JSONObject responseJson;
+    public Response response;
+    public String bodyString;
+    public JSONObject bodyJson;
     public int code;
     public String localizedMessage;
     public String message;
     public String request;
 
-    protected ApiError(NetworkResponse response) {
-        super(response);
+    public ApiError(Throwable throwable) {
+        super(throwable);
+    }
 
-        if (response.headers == null || response.data == null) {
-            return;
-        }
-        String charset = HttpHeaderParser.parseCharset(response.headers);
-        // Don't throw an exception from here, just do the best we can.
-        try {
-            responseString = new String(response.data, charset);
-            parseResponse();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+    public ApiError(Response response) {
+        this.response = response;
+        ResponseBody responseBody = response.body();
+        if (responseBody != null) {
+            // Don't throw an exception from here, just do the best we can.
+            try {
+                bodyString = responseBody.string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            responseBody.close();
+            if (bodyString != null) {
+                parseResponse();
+            }
         }
     }
 
-    protected ApiError(VolleyError volleyError) {
-        super(volleyError);
-    }
-
-    public static ApiError wrap(VolleyError error) {
-        if (error.networkResponse != null) {
-            return new ApiError(error.networkResponse);
-        } else {
-            return new ApiError(error);
-        }
+    public ApiError(retrofit2.Response<?> response) {
+        this(response.raw());
     }
 
     private void parseResponse() {
         try {
-            responseJson = new JSONObject(responseString);
-            code = responseJson.optInt(Error.CODE, 0);
-            message = responseJson.optString(Error.MSG, null);
-            request = responseJson.optString(Error.REQUEST, null);
-            localizedMessage = responseJson.optString(Error.LOCALIZED_MESSAGE, null);
+            bodyJson = new JSONObject(bodyString);
+            code = bodyJson.optInt(Error.CODE, 0);
+            message = bodyJson.optString(Error.MSG, null);
+            request = bodyJson.optString(Error.REQUEST, null);
+            localizedMessage = bodyJson.optString(Error.LOCALIZED_MESSAGE, null);
         } catch (JSONException e) {
             e.printStackTrace();
             code = Custom.INVALID_ERROR_RESPONSE;
@@ -182,28 +176,26 @@ public class ApiError extends VolleyError {
 
     public int getErrorStringRes() {
 
-        if (networkResponse == null) {
+        if (response == null) {
             // Return as the wrapped error.
             // We only have two constructors, so this cast is safe.
-            return getErrorStringRes((VolleyError) this.getCause());
+            return getErrorStringRes(this.getCause());
         }
 
         Integer StringRes = ERROR_CODE_STRING_RES_MAP.get(code);
         return StringRes != null ? StringRes : R.string.api_error_unknown;
     }
 
-    public static int getErrorStringRes(VolleyError error) {
-        if (error instanceof ParseError) {
+    public static int getErrorStringRes(Throwable error) {
+        if (error instanceof ResponseConversionException) {
             return R.string.api_error_parse;
-        } else if (error instanceof TimeoutError) {
-            return R.string.api_error_timeout;
-        } else if (error instanceof NoConnectionError) {
-            return R.string.api_error_no_connection;
-        } else if (error instanceof AuthFailureError) {
+        } else if (error instanceof AuthenticationException) {
             return R.string.api_error_auth_failure;
-        } else if (error instanceof ServerError) {
-            return R.string.api_error_server;
-        } else if (error instanceof NetworkError) {
+        } else if (error instanceof SocketTimeoutException) {
+            return R.string.api_error_timeout;
+        } else if (error instanceof UnknownHostException) {
+            return R.string.api_error_no_connection;
+        } else if (error instanceof IOException) {
             return R.string.api_error_network;
         } else if (error instanceof ApiError) {
             return ((ApiError) error).getErrorStringRes();
@@ -212,19 +204,20 @@ public class ApiError extends VolleyError {
         }
     }
 
-    public static String getErrorString(VolleyError error, Context context) {
+    public static String getErrorString(Throwable error, Context context) {
         return context.getString(getErrorStringRes(error));
     }
 
     @Override
     public String toString() {
         return "ApiError{" +
-                "responseString='" + responseString + '\'' +
-                ", responseJson=" + responseJson +
+                "response=" + response +
+                ", bodyString='" + bodyString + '\'' +
+                ", bodyJson=" + bodyJson +
                 ", code=" + code +
                 ", localizedMessage='" + localizedMessage + '\'' +
                 ", message='" + message + '\'' +
                 ", request='" + request + '\'' +
-                "} " + super.toString();
+                '}';
     }
 }

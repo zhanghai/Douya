@@ -7,17 +7,13 @@ package me.zhanghai.android.douya.content;
 
 import android.content.Context;
 
-import com.android.volley.Response;
+import me.zhanghai.android.douya.network.api.ApiRequest;
 
-import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.Volley;
-
-public abstract class ResourceWriter<W extends ResourceWriter, T>
-        implements Response.Listener<T>, Response.ErrorListener {
+public abstract class ResourceWriter<W extends ResourceWriter, T> implements ApiRequest.Callback<T> {
 
     private ResourceWriterManager<W> mManager;
 
-    private Request<T> mRequest;
+    private ApiRequest<T> mRequest;
 
     public ResourceWriter(ResourceWriterManager<W> manager) {
         mManager = manager;
@@ -25,17 +21,14 @@ public abstract class ResourceWriter<W extends ResourceWriter, T>
 
     public void onStart() {
         mRequest = onCreateRequest();
-        mRequest.setListener(this);
-        mRequest.setErrorListener(this);
-        Volley.getInstance().addToRequestQueue(mRequest);
+        mRequest.enqueue(this);
     }
 
-    protected abstract Request<T> onCreateRequest();
+    protected abstract ApiRequest<T> onCreateRequest();
 
     public void onDestroy() {
         mRequest.cancel();
-        mRequest.setListener(null);
-        mRequest.setErrorListener(null);
+        mRequest = null;
     }
 
     protected Context getContext() {

@@ -29,8 +29,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -320,7 +318,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Override
-    public void onLoadBroadcastError(int requestCode, VolleyError error) {
+    public void onLoadBroadcastError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);
@@ -363,7 +361,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Override
-    public void onLoadCommentListError(int requestCode, VolleyError error) {
+    public void onLoadCommentListError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);

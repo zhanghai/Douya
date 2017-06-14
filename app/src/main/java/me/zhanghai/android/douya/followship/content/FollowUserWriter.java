@@ -8,8 +8,6 @@ package me.zhanghai.android.douya.followship.content;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -19,10 +17,10 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.UserUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.UserWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.UserWriteStartedEvent;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -66,8 +64,8 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, User> {
     }
 
     @Override
-    protected Request<User> onCreateRequest() {
-        return ApiRequests.newFollowshipRequest(mUserIdOrUid, mFollow);
+    protected ApiRequest<User> onCreateRequest() {
+        return ApiService.getInstance().follow(mUserIdOrUid, mFollow);
     }
 
     @Override
@@ -96,7 +94,7 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, User> {
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
+    public void onErrorResponse(ApiError error) {
 
         LogUtils.e(error.toString());
         Context context = getContext();

@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -21,8 +19,9 @@ import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.eventbus.DiaryDeletedEvent;
 import me.zhanghai.android.douya.eventbus.DiaryUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -77,9 +76,9 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<Diary, Di
     }
 
     @Override
-    protected Request<DiaryList> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<DiaryList> onCreateRequest(boolean more, int count) {
         Integer start = more ? (has() ? get().size() : 0) : null;
-        return ApiRequests.newDiaryListRequest(mUserIdOrUid, start, count);
+        return ApiService.getInstance().getDiaryList(mUserIdOrUid, start, count);
     }
 
     @Override
@@ -89,12 +88,12 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<Diary, Di
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful, DiaryList response,
-                                  VolleyError error) {
+                                  ApiError error) {
         onLoadFinished(more, count, successful, response != null ? response.diaries : null, error);
     }
 
     private void onLoadFinished(boolean more, int count, boolean successful, List<Diary> response,
-                                VolleyError error) {
+                                ApiError error) {
         getListener().onLoadDiaryListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -158,7 +157,7 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<Diary, Di
     public interface Listener {
         void onLoadDiaryListStarted(int requestCode);
         void onLoadDiaryListFinished(int requestCode);
-        void onLoadDiaryListError(int requestCode, VolleyError error);
+        void onLoadDiaryListError(int requestCode, ApiError error);
         /**
          * @param newDiaryList Unmodifiable.
          */

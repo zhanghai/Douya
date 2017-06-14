@@ -7,15 +7,13 @@ package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
 
-import com.android.volley.VolleyError;
-
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.BroadcastDeletedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -35,8 +33,8 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Broadc
     }
 
     @Override
-    protected Request<Broadcast> onCreateRequest() {
-        return ApiRequests.newDeleteBroadcastRequest(mBroadcastId);
+    protected ApiRequest<Broadcast> onCreateRequest() {
+        return ApiService.getInstance().deleteBroadcast(mBroadcastId);
     }
 
     @Override
@@ -50,7 +48,7 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Broadc
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
+    public void onErrorResponse(ApiError error) {
 
         LogUtils.e(error.toString());
         Context context = getContext();

@@ -17,8 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.android.volley.VolleyError;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -116,7 +114,7 @@ public abstract class UserListFragment extends Fragment implements BaseUserListR
     }
 
     @Override
-    public void onLoadUserListError(int requestCode, VolleyError error) {
+    public void onLoadUserListError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);

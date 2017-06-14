@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.review.content;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -18,8 +16,8 @@ import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.ReviewDeletedEvent;
 import me.zhanghai.android.douya.eventbus.ReviewUpdatedEvent;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.RequestFragment;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
@@ -29,7 +27,7 @@ public abstract class BaseReviewListResource
         extends MoreRawListResourceFragment<Review, ReviewList> {
 
     @Override
-    protected Request<ReviewList> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<ReviewList> onCreateRequest(boolean more, int count) {
         Integer start = more ? (has() ? get().size() : 0) : null;
         return onCreateRequest(start, count);
     }
@@ -43,12 +41,12 @@ public abstract class BaseReviewListResource
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful, ReviewList response,
-                                  VolleyError error) {
+                                  ApiError error) {
         onLoadFinished(more, count, successful, response != null ? response.reviews : null, error);
     }
 
     private void onLoadFinished(boolean more, int count, boolean successful,
-                                List<Review> response, VolleyError error) {
+                                List<Review> response, ApiError error) {
         getListener().onLoadReviewListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -112,7 +110,7 @@ public abstract class BaseReviewListResource
     public interface Listener {
         void onLoadReviewListStarted(int requestCode);
         void onLoadReviewListFinished(int requestCode);
-        void onLoadReviewListError(int requestCode, VolleyError error);
+        void onLoadReviewListError(int requestCode, ApiError error);
         /**
          * @param newReviewList Unmodifiable.
          */

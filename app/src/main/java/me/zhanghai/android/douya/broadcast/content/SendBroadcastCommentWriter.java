@@ -7,16 +7,14 @@ package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
 
-import com.android.volley.VolleyError;
-
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -43,8 +41,8 @@ class SendBroadcastCommentWriter extends ResourceWriter<SendBroadcastCommentWrit
     }
 
     @Override
-    protected Request<Comment> onCreateRequest() {
-        return ApiRequests.newSendBroadcastCommentRequest(mBroadcastId, mComment);
+    protected ApiRequest<Comment> onCreateRequest() {
+        return ApiService.getInstance().sendBroadcastComment(mBroadcastId, mComment);
     }
 
     @Override
@@ -58,7 +56,7 @@ class SendBroadcastCommentWriter extends ResourceWriter<SendBroadcastCommentWrit
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
+    public void onErrorResponse(ApiError error) {
 
         LogUtils.e(error.toString());
         Context context = getContext();

@@ -136,7 +136,7 @@
 应用除了对少数内容进行缓存，其他内容均直接从网络获取。
 
 - 基于 Android 账户系统提供用户账户和身份认证。
-- 使用 Volley 及部分自定义增强处理网络请求。
+- 使用 Retrofit 及部分自定义增强处理网络请求。
 - 使用 Gson 自动填充数据模型。
 - 使用 Glide 加载图片。
 - 使用 DiskLRUCache 及自定义增强对首页数据进行缓存。
@@ -154,7 +154,7 @@
 
 ### 网络请求
 
-Volley 本身是一个不算十分完备的库，对于请求参数、重试、认证等方面都需要开发者自己实现。在豆芽中，应用对 Volley 进行了包装，增加了以上功能，并且尽力做到了通用，为之后 API 层建立提供了很多方便。
+Retrofit 本身已经较为强大，而在豆芽中则对 Retrofit 进行了包装，增加了认证和错误处理等功能，为之后 API 层建立提供了很多方便。
 
 ### 磁盘缓存
 
@@ -216,7 +216,7 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
 - [DiskLruCache](https://github.com/JakeWharton/DiskLruCache/)
 - [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP/)
-- [Volley](https://github.com/mcxiaoke/android-volley)
+- [Retrofit](https://github.com/square/retrofit)
 - [EventBus](https://github.com/greenrobot/EventBus)
 - [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)
 - [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)

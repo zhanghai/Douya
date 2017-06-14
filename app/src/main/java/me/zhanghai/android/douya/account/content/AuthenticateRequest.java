@@ -8,16 +8,15 @@ package me.zhanghai.android.douya.account.content;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
-import me.zhanghai.android.douya.network.Request;
 import me.zhanghai.android.douya.network.RequestFragment;
-import me.zhanghai.android.douya.network.api.TokenRequest;
-import me.zhanghai.android.douya.network.api.TokenRequests;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiService;
+import me.zhanghai.android.douya.network.api.info.AuthenticationResponse;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.RequestState,
-        TokenRequest.Response> {
+        AuthenticationResponse> {
 
     private static final String FRAGMENT_TAG_DEFAULT = AuthenticateRequest.class.getName();
 
@@ -47,9 +46,9 @@ public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.Req
     }
 
     @Override
-    protected Request<TokenRequest.Response> onCreateRequest(RequestState requestState) {
-        return TokenRequests.newRequest(requestState.authTokenType, requestState.username,
-                requestState.password);
+    protected ApiRequest<AuthenticationResponse> onCreateRequest(RequestState requestState) {
+        return ApiService.getInstance().authenticate(requestState.authTokenType,
+                requestState.username, requestState.password);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.Req
 
     @Override
     protected void onRequestFinished(boolean successful, RequestState requestState,
-                                     TokenRequest.Response response, VolleyError error) {
+                                     AuthenticationResponse response, ApiError error) {
         getListener().onAuthenticateFinished(getRequestCode());
         if (successful) {
             getListener().onAuthenticateSuccess(getRequestCode(), requestState, response);
@@ -89,7 +88,7 @@ public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.Req
         void onAuthenticateStarted(int requestCode);
         void onAuthenticateFinished(int requestCode);
         void onAuthenticateSuccess(int requestCode, RequestState requestState,
-                                   TokenRequest.Response response);
-        void onAuthenticateError(int requestCode, RequestState requestState, VolleyError error);
+                                   AuthenticationResponse response);
+        void onAuthenticateError(int requestCode, RequestState requestState, ApiError error);
     }
 }

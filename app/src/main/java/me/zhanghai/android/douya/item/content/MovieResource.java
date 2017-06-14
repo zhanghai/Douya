@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -51,6 +51,6 @@ public class MovieResource extends BaseItemResource<SimpleMovie, Movie> {
 
     @Override
     protected ApiRequest<Movie> onCreateRequest(long movieId) {
-        return ApiRequests.newMovieRequest(movieId);
+        return ApiService.getInstance().getMovie(movieId);
     }
 }

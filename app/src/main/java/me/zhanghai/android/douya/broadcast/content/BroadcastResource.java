@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -20,8 +18,9 @@ import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -122,8 +121,8 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
     }
 
     @Override
-    protected Request<Broadcast> onCreateRequest() {
-        return ApiRequests.newBroadcastRequest(mBroadcastId);
+    protected ApiRequest<Broadcast> onCreateRequest() {
+        return ApiService.getInstance().getBroadcast(mBroadcastId);
     }
 
     @Override
@@ -132,7 +131,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
     }
 
     @Override
-    protected void onLoadFinished(boolean successful, Broadcast response, VolleyError error) {
+    protected void onLoadFinished(boolean successful, Broadcast response, ApiError error) {
         getListener().onLoadBroadcastFinished(getRequestCode());
         if (successful) {
             set(response);
@@ -214,7 +213,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
     public interface Listener {
         void onLoadBroadcastStarted(int requestCode);
         void onLoadBroadcastFinished(int requestCode);
-        void onLoadBroadcastError(int requestCode, VolleyError error);
+        void onLoadBroadcastError(int requestCode, ApiError error);
         void onBroadcastChanged(int requestCode, Broadcast newBroadcast);
         void onBroadcastRemoved(int requestCode);
         void onBroadcastWriteStarted(int requestCode);

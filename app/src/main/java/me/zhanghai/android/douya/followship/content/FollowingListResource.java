@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -51,6 +51,6 @@ public class FollowingListResource extends FollowshipUserListResource {
 
     @Override
     protected ApiRequest<UserList> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newFollowingListRequest(getUserIdOrUid(), start, count);
+        return ApiService.getInstance().getFollowingList(getUserIdOrUid(), start, count);
     }
 }

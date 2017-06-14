@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -15,7 +13,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.eventbus.CommentDeletedEvent;
-import me.zhanghai.android.douya.network.Request;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
@@ -24,7 +22,7 @@ public abstract class CommentListResource
         extends MoreRawListResourceFragment<Comment, CommentList> {
 
     @Override
-    protected Request<CommentList> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<CommentList> onCreateRequest(boolean more, int count) {
         Integer start = more && has() ? get().size() : null;
         return onCreateRequest(start, count);
     }
@@ -38,12 +36,12 @@ public abstract class CommentListResource
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful, CommentList response,
-                                  VolleyError error) {
+                                  ApiError error) {
         onLoadFinished(more, count, successful, response != null ? response.comments : null, error);
     }
 
     private void onLoadFinished(boolean more, int count, boolean successful, List<Comment> response,
-                                VolleyError error) {
+                                ApiError error) {
         getListener().onLoadCommentListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -92,7 +90,7 @@ public abstract class CommentListResource
     public interface Listener {
         void onLoadCommentListStarted(int requestCode);
         void onLoadCommentListFinished(int requestCode);
-        void onLoadCommentListError(int requestCode, VolleyError error);
+        void onLoadCommentListError(int requestCode, ApiError error);
         /**
          * @param newCommentList Unmodifiable.
          */

@@ -7,37 +7,29 @@ package me.zhanghai.android.douya.network.api;
 
 import android.os.Build;
 
-import com.android.volley.DefaultRetryPolicy;
+import me.zhanghai.android.douya.network.Http;
 
 public interface ApiContract {
 
     interface Request {
 
-        interface Token {
+        interface Authentication {
 
             String URL = "https://www.douban.com/service/auth2/token";
 
-            String CLIENT_ID = "client_id";
-            String CLIENT_SECRET = "client_secret";
-            String REDIRECT_URI = "redirect_uri";
+            String ACCEPT_CHARSET = Http.Charsets.UTF8;
             interface RedirectUris {
                 String API_V2 = "http://shuo.douban.com/!service/android";
                 String FRODO = "frodo://app/oauth/callback/";
             }
-            String GRANT_TYPE = "grant_type";
             interface GrantTypes {
                 String PASSWORD = "password";
                 String REFRESH_TOKEN = "refresh_token";
             }
-            String USERNAME = "username";
-            String PASSWORD = "password";
-            String REFRESH_TOKEN = "refresh_token";
         }
 
         interface Base {
-            int INITIAL_TIMEOUT_MS = 10000;
             int MAX_NUM_RETRIES = 2;
-            float BACKOFF_MULTIPLIER = DefaultRetryPolicy.DEFAULT_BACKOFF_MULT;
         }
 
         interface Frodo {
@@ -59,46 +51,6 @@ public interface ApiContract {
                 }
                 String OS_ROM = "os_rom";
             }
-
-            interface NotificationList {
-
-                String URL = API_HOST + "mine/notifications";
-
-                String START = "start";
-                String COUNT = "count";
-            }
-
-            interface UserDiaryList {
-
-                String URL_FORMAT = API_HOST + "user/%s/notes";
-
-                String START = "start";
-                String COUNT = "count";
-            }
-
-            interface UserItemList {
-                String URL_FORMAT = API_HOST + "user/%s/itemlist";
-            }
-
-            interface UserReviewList {
-
-                String URL_FORMAT = API_HOST + "user/%s/reviews";
-
-                String START = "start";
-                String COUNT = "count";
-            }
-
-            interface Movie {
-                String URL_FORMAT = API_HOST + "movie/%d";
-            }
-
-            interface ItemReviewList {
-
-                String URL_FORMAT = API_HOST + "subject/%d/reviews";
-
-                String START = "start";
-                String COUNT = "count";
-            }
         }
 
         interface ApiV2 {
@@ -119,100 +71,6 @@ public interface ApiContract {
                 interface Versions {
                     int TWO = 2;
                 }
-            }
-
-            interface User {
-
-                String URL_FORMAT = API_HOST + "lifestream/user/%s";
-
-                String UID_CURRENT = "~me";
-            }
-
-            interface Followship {
-                String URL_FORMAT = API_HOST + "lifestream/user/%s/follow";
-            }
-
-            interface FollowingList {
-
-                String URL_FORMAT = API_HOST + "lifestream/user/%s/followings";
-
-                String COUNT = "count";
-                String START = "start";
-                String TAG = "tag";
-            }
-
-            interface FollowerList {
-
-                String URL_FORMAT = API_HOST + "lifestream/user/%s/followers";
-
-                String COUNT = "count";
-                String START = "start";
-            }
-
-            interface BroadcastList {
-
-                interface Urls {
-                    String HOME = API_HOST + "lifestream/home_timeline";
-                    String USER_FORMAT = API_HOST + "lifestream/user_timeline/%s";
-                    String TOPIC = API_HOST + "lifestream/topics";
-                }
-
-                String SINCE_ID = "since_id";
-                String UNTIL_ID = "until_id";
-                String COUNT = "count";
-                String START = "start";
-                String Q = "q";
-            }
-
-            interface Broadcast {
-                String URL_FORMAT = API_HOST + "lifestream/status/%d";
-            }
-
-            interface LikeBroadcast {
-                String URL_FORMAT = API_HOST + "lifestream/status/%d/like";
-            }
-
-            interface RebroadcastBroadcast {
-                String URL_FORMAT = API_HOST + "lifestream/status/%d/reshare";
-            }
-
-            interface BroadcastCommentList {
-
-                String URL_FORMAT = API_HOST + "lifestream/status/%d/comments";
-
-                String COUNT = "count";
-                String START = "start";
-            }
-
-            interface BroadcastLikerList {
-
-                String URL_FORMAT = API_HOST + "lifestream/status/%d/likers";
-
-                String COUNT = "count";
-                String START = "start";
-            }
-
-            interface BroadcastRebroadcasterList {
-
-                String URL_FORMAT = API_HOST + "lifestream/status/%d/resharers";
-
-                String COUNT = "count";
-                String START = "start";
-            }
-
-            interface DeleteBroadcastComment {
-                String URL_FORMAT = API_HOST + "lifestream/status/%d/comment/%d";
-            }
-
-            interface SendBroadcastComment {
-
-                String URL_FORMAT = API_HOST + "lifestream/status/%d/comments";
-
-                String TEXT = "text";
-            }
-
-            interface DeleteBroadcast {
-                String URL_FORMAT = API_HOST + "lifestream/status/%d";
             }
         }
     }
@@ -293,14 +151,6 @@ public interface ApiContract {
             String MSG = "msg";
             String REQUEST = "request";
             String LOCALIZED_MESSAGE = "localized_message";
-        }
-
-        interface Token {
-            String DOUBAN_UESR_NAME = "douban_user_name";
-            String DOUBAN_USER_ID = "douban_user_id";
-            String ACCESS_TOKEN = "access_token";
-            String REFRESH_TOKEN = "refresh_token";
-            String EXPIRES_IN = "expires_in";
         }
     }
 }

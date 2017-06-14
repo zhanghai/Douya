@@ -11,8 +11,6 @@ android {
 
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
-    // For customization of Volley to build.
-    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "me.zhanghai.android.douya"
@@ -67,7 +65,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.4.0'
 
     compile "com.andkulikov:transitionseverywhere:1.6.9"
-    compile 'com.android.volley:volley:1.0.0'
     compile 'com.commit451:PhotoView:1.2.5'
     compile('com.crashlytics.sdk.android:answers:1.3.13@aar') {
         transitive = true;
@@ -75,14 +72,16 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:volley-integration:1.4.0@aar'
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.5.0@aar'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.takisoft.fix:preference-v7:25.4.0.3'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'

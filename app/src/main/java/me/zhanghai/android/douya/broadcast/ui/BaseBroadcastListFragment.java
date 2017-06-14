@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.android.volley.VolleyError;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -163,7 +161,7 @@ public abstract class BaseBroadcastListFragment extends Fragment
     }
 
     @Override
-    public void onLoadBroadcastListError(int requestCode, VolleyError error) {
+    public void onLoadBroadcastListError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);

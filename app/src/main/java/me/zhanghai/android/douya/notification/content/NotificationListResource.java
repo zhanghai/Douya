@@ -10,8 +10,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -24,8 +22,9 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.NotificationDeletedEvent;
 import me.zhanghai.android.douya.eventbus.NotificationListUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.NotificationUpdatedEvent;
-import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.settings.info.Settings;
@@ -148,10 +147,10 @@ public class NotificationListResource
     }
 
     @Override
-    protected Request<NotificationList> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<NotificationList> onCreateRequest(boolean more, int count) {
         mAccount = AccountUtils.getActiveAccount();
         Integer start = more ? (has() ? get().size() : 0) : null;
-        return ApiRequests.newNotificationListRequest(start, count);
+        return ApiService.getInstance().getNotificationList(start, count);
     }
 
     @Override
@@ -161,13 +160,13 @@ public class NotificationListResource
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
-                                  NotificationList response, VolleyError error) {
+                                  NotificationList response, ApiError error) {
         onLoadFinished(more, count, successful, response != null ? response.notifications : null,
                 error);
     }
 
     private void onLoadFinished(boolean more, int count, boolean successful,
-                                List<Notification> response, VolleyError error) {
+                                List<Notification> response, ApiError error) {
         getListener().onLoadNotificationListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -258,7 +257,7 @@ public class NotificationListResource
     public interface Listener {
         void onLoadNotificationListStarted(int requestCode);
         void onLoadNotificationListFinished(int requestCode);
-        void onLoadNotificationListError(int requestCode, VolleyError error);
+        void onLoadNotificationListError(int requestCode, ApiError error);
         /**
          * @param newNotificationList Unmodifiable.
          */

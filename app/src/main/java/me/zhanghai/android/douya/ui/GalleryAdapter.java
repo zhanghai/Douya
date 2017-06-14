@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.TimeoutError;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -66,8 +66,8 @@ public class GalleryAdapter extends PagerAdapter {
                                                Target<GlideDrawable> target,
                                                boolean isFirstResource) {
                         (e != null ? e : new NullPointerException()).printStackTrace();
-                        int errorRes = e != null && e.getCause() instanceof TimeoutError
-                                ? R.string.gallery_load_timeout : R.string.gallery_load_error;
+                        int errorRes = e instanceof SocketTimeoutException ?
+                                R.string.gallery_load_timeout : R.string.gallery_load_error;
                         errorText.setText(errorRes);
                         ViewUtils.crossfade(progressBar, errorText);
                         return false;

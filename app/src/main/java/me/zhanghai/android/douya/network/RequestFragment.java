@@ -5,10 +5,9 @@
 
 package me.zhanghai.android.douya.network;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiError;
 
 /**
  * <p>Response will only be delivered when this Fragment is in resumed state.</p>
@@ -16,11 +15,10 @@ import me.zhanghai.android.douya.app.TargetedRetainedFragment;
  * @param <ResponseType> The type of parsed response the request expects.
  */
 public abstract class RequestFragment<RequestStateType, ResponseType>
-        extends TargetedRetainedFragment implements Response.Listener<ResponseType>,
-        Response.ErrorListener {
+        extends TargetedRetainedFragment implements ApiRequest.Callback<ResponseType> {
 
     private boolean mRequesting;
-    private Request<ResponseType> mRequest;
+    private ApiRequest<ResponseType> mRequest;
     private RequestStateType mRequestState;
 
     @Override
@@ -38,7 +36,7 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
         return mRequesting;
     }
 
-    public Request<ResponseType> getRequest() {
+    public ApiRequest<ResponseType> getRequest() {
         return mRequest;
     }
 
@@ -55,8 +53,7 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
 
         mRequest = onCreateRequest(requestState);
         mRequestState = requestState;
-        mRequest.setListener(this).setErrorListener(this);
-        Volley.getInstance().addToRequestQueue(mRequest);
+        mRequest.enqueue(this);
 
         onRequestStarted();
     }
@@ -65,22 +62,22 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
         return false;
     }
 
-    protected abstract Request<ResponseType> onCreateRequest(RequestStateType requestState);
+    protected abstract ApiRequest<ResponseType> onCreateRequest(RequestStateType requestState);
 
     protected abstract void onRequestStarted();
 
     @Override
     public final void onResponse(ResponseType response) {
-        onVolleyResponse(true, response, null);
+        onCallResponse(true, response, null);
     }
 
     @Override
-    public final void onErrorResponse(VolleyError error) {
-        onVolleyResponse(false, null, error);
+    public final void onErrorResponse(ApiError error) {
+        onCallResponse(false, null, error);
     }
 
-    private void onVolleyResponse(final boolean successful, final ResponseType response,
-                                  final VolleyError error) {
+    private void onCallResponse(final boolean successful, final ResponseType response,
+                                final ApiError error) {
         postOnResumed(new Runnable() {
             @Override
             public void run() {
@@ -92,11 +89,10 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
     }
 
     private void clearRequest() {
-        mRequest.setListener(null).setErrorListener(null);
         mRequest = null;
         mRequestState = null;
     }
 
     protected abstract void onRequestFinished(boolean successful, RequestStateType requestState,
-                                              ResponseType response, VolleyError error);
+                                              ResponseType response, ApiError error);
 }

@@ -28,7 +28,7 @@ import me.zhanghai.android.douya.account.app.AccountPreferences;
 import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.ui.AddAccountActivity;
 import me.zhanghai.android.douya.account.ui.SelectAccountActivity;
-import me.zhanghai.android.douya.network.Volley;
+import me.zhanghai.android.douya.network.api.ApiAuthenticators;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.GsonHelper;
@@ -217,7 +217,7 @@ public class AccountUtils {
             }
         }
 
-        Volley.getInstance().notifyActiveAccountChanged();
+        ApiAuthenticators.getInstance().notifyActiveAccountChanged();
     }
 
     public static boolean hasActiveAccount() {

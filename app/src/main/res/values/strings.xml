@@ -36,13 +36,12 @@
     <string name="app_name">豆芽</string>
 
     <string name="api_error_parse">解析错误</string>
+    <string name="api_error_auth_failure">认证失败</string>
     <string name="api_error_timeout">请求超时</string>
     <string name="api_error_no_connection">无网络连接</string>
-    <string name="api_error_auth_failure">认证失败</string>
-    <string name="api_error_server">服务器错误</string>
     <string name="api_error_network">网络错误</string>
 
-    <string name="api_error_invalid_error_response">@string/api_error_server</string>
+    <string name="api_error_invalid_error_response">服务器错误</string>
     <string name="api_error_unknown_v2_error">未知 V2 错误</string>
     <string name="api_error_need_permission">需要权限</string>
     <string name="api_error_uri_not_found">资源不存在</string>

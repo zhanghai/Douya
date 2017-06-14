@@ -5,9 +5,8 @@
 
 package me.zhanghai.android.douya.content;
 
-import com.android.volley.VolleyError;
-
-import me.zhanghai.android.douya.network.Request;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
 
 public abstract class MoreListResourceFragment<ResourceListType, ResponseType>
         extends ListResourceFragment<ResourceListType, ResponseType> {
@@ -68,19 +67,19 @@ public abstract class MoreListResourceFragment<ResourceListType, ResponseType>
     }
 
     @Override
-    protected final Request<ResponseType> onCreateRequest() {
+    protected final ApiRequest<ResponseType> onCreateRequest() {
         return onCreateRequest(mLoadingMore, mLoadCount);
     }
 
-    protected abstract Request<ResponseType> onCreateRequest(boolean more, int count);
+    protected abstract ApiRequest<ResponseType> onCreateRequest(boolean more, int count);
 
     @Override
     protected final void onLoadFinished(boolean successful, ResponseType response,
-                                        VolleyError error) {
+                                        ApiError error) {
         onLoadFinished(mLoadingMore, mLoadCount, successful, response, error);
         mLoadingMore = false;
     }
 
     protected abstract void onLoadFinished(boolean more, int count, boolean successful,
-                                           ResponseType response, VolleyError error);
+                                           ResponseType response, ApiError error);
 }

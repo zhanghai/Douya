@@ -9,14 +9,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
 import me.zhanghai.android.douya.diary.content.UserDiaryListResource;
 import me.zhanghai.android.douya.followship.content.FollowingListResource;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
@@ -182,7 +181,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     public void onLoadUserFinished(int requestCode) {}
 
     @Override
-    public void onLoadUserError(int requestCode, VolleyError error) {
+    public void onLoadUserError(int requestCode, ApiError error) {
         notifyError(error);
     }
 
@@ -229,7 +228,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     public void onLoadBroadcastListFinished(int requestCode) {}
 
     @Override
-    public void onLoadBroadcastListError(int requestCode, VolleyError error) {
+    public void onLoadBroadcastListError(int requestCode, ApiError error) {
         notifyError(error);
     }
 
@@ -266,7 +265,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     public void onLoadUserListFinished(int requestCode) {}
 
     @Override
-    public void onLoadUserListError(int requestCode, VolleyError error) {
+    public void onLoadUserListError(int requestCode, ApiError error) {
         notifyError(error);
     }
 
@@ -287,7 +286,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     public void onLoadDiaryListFinished(int requestCode) {}
 
     @Override
-    public void onLoadDiaryListError(int requestCode, VolleyError error) {
+    public void onLoadDiaryListError(int requestCode, ApiError error) {
         notifyError(error);
     }
 
@@ -318,7 +317,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     public void onLoadUserItemListFinished(int requestCode) {}
 
     @Override
-    public void onLoadUserItemListError(int requestCode, VolleyError error) {
+    public void onLoadUserItemListError(int requestCode, ApiError error) {
         notifyError(error);
     }
 
@@ -334,7 +333,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     public void onLoadReviewListFinished(int requestCode) {}
 
     @Override
-    public void onLoadReviewListError(int requestCode, VolleyError error) {
+    public void onLoadReviewListError(int requestCode, ApiError error) {
         notifyError(error);
     }
 
@@ -374,7 +373,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         }
     }
 
-    private void notifyError(VolleyError error) {
+    private void notifyError(ApiError error) {
         if (!mHasError) {
             mHasError = true;
             getListener().onLoadError(getRequestCode(), error);
@@ -386,7 +385,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     }
 
     public interface Listener {
-        void onLoadError(int requestCode, VolleyError error);
+        void onLoadError(int requestCode, ApiError error);
         void onUserChanged(int requestCode, User newUser);
         void onUserWriteStarted(int requestCode);
         void onUserWriteFinished(int requestCode);

@@ -9,14 +9,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import java.util.Collections;
 import java.util.List;
 
 import me.zhanghai.android.douya.content.RawListResourceFragment;
-import me.zhanghai.android.douya.network.Request;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -71,8 +70,8 @@ public class UserItemListResource extends RawListResourceFragment<UserItems, Use
     }
 
     @Override
-    protected Request<UserItemList> onCreateRequest() {
-        return ApiRequests.newUserItemListRequest(mUserIdOrUid);
+    protected ApiRequest<UserItemList> onCreateRequest() {
+        return ApiService.getInstance().getUserItemList(mUserIdOrUid);
     }
 
     @Override
@@ -81,11 +80,11 @@ public class UserItemListResource extends RawListResourceFragment<UserItems, Use
     }
 
     @Override
-    protected void onLoadFinished(boolean successful, UserItemList response, VolleyError error) {
+    protected void onLoadFinished(boolean successful, UserItemList response, ApiError error) {
         onLoadFinished(successful, response != null ? response.list : null, error);
     }
 
-    private void onLoadFinished(boolean successful, List<UserItems> response, VolleyError error) {
+    private void onLoadFinished(boolean successful, List<UserItems> response, ApiError error) {
         getListener().onLoadUserItemListFinished(getRequestCode());
         if (successful) {
             set(response);
@@ -103,7 +102,7 @@ public class UserItemListResource extends RawListResourceFragment<UserItems, Use
     public interface Listener {
         void onLoadUserItemListStarted(int requestCode);
         void onLoadUserItemListFinished(int requestCode);
-        void onLoadUserItemListError(int requestCode, VolleyError error);
+        void onLoadUserItemListError(int requestCode, ApiError error);
         /**
          * @param newUserItemList Unmodifiable.
          */

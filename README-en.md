@@ -51,7 +51,7 @@ Video:
 Most data are fetched from network while some of them are cached for offline.
 
 - Account system based on  Android `AccountManager`.
-- Volley with custom extensions for network requests.
+- Retrofit with custom extensions for network requests.
 - Gson for data model.
 - Glide for image loading.
 - DiskLRUCache with custom extensions for caching.
@@ -78,7 +78,7 @@ Most data are fetched from network while some of them are cached for offline.
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
 - [DiskLruCache](https://github.com/JakeWharton/DiskLruCache/)
 - [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP/)
-- [Volley](https://github.com/mcxiaoke/android-volley)
+- [Retrofit](https://github.com/square/retrofit)
 - [EventBus](https://github.com/greenrobot/EventBus)
 - [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)
 - [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)

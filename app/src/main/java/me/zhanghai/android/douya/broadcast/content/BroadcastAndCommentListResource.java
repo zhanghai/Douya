@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.android.volley.VolleyError;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -174,7 +173,7 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
     }
 
     @Override
-    public void onLoadBroadcastError(int requestCode, VolleyError error) {
+    public void onLoadBroadcastError(int requestCode, ApiError error) {
         getListener().onLoadBroadcastError(getRequestCode(), error);
     }
 
@@ -234,7 +233,7 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
     }
 
     @Override
-    public void onLoadCommentListError(int requestCode, final VolleyError error) {
+    public void onLoadCommentListError(int requestCode, final ApiError error) {
         if (hasBroadcast()) {
             getListener().onLoadCommentListError(getRequestCode(), error);
         } else {

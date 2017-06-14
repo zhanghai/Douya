@@ -16,7 +16,7 @@ import java.util.Collections;
 
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -71,7 +71,7 @@ public class BroadcastCommentListResource extends CommentListResource {
 
     @Override
     protected ApiRequest<CommentList> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newBroadcastCommentListRequest(mBroadcastId, start, count);
+        return ApiService.getInstance().getBroadcastCommentList(mBroadcastId, start, count);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

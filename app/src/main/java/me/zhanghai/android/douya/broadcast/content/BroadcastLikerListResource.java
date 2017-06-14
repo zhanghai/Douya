@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiRequests;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -53,6 +53,6 @@ public class BroadcastLikerListResource extends BroadcastUserListResource {
 
     @Override
     protected ApiRequest<List<SimpleUser>> onCreateRequest(Integer start, Integer count) {
-        return ApiRequests.newBroadcastLikerListRequest(getBroadcastId(), start, count);
+        return ApiService.getInstance().getBroadcastLikerList(getBroadcastId(), start, count);
     }
 }
