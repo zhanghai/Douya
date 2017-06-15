@@ -26,6 +26,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
+import me.zhanghai.android.douya.util.StethoHelper;
 import me.zhanghai.android.douya.util.StringUtils;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -72,7 +73,9 @@ public class ApiService {
                 .addConverterFactory(GsonResponseBodyConverterFactory.create())
                 // Make Retrofit happy.
                 .baseUrl("https://www.douban.com")
-                .client(new OkHttpClient())
+                .client(new OkHttpClient.Builder()
+                        .addNetworkInterceptor(StethoHelper.newInterceptor())
+                        .build())
                 .build()
                 .create(AuthenticationService.class);
     }
@@ -81,6 +84,7 @@ public class ApiService {
         return new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .addNetworkInterceptor(new ApiAuthenticationInterceptor(authTokenType))
+                .addNetworkInterceptor(StethoHelper.newInterceptor())
                 .build();
     }
 

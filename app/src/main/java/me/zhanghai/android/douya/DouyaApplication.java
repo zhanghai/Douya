@@ -11,6 +11,7 @@ import com.bumptech.glide.request.target.ViewTarget;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import me.zhanghai.android.douya.fabric.FabricUtils;
+import me.zhanghai.android.douya.util.StethoHelper;
 
 public class DouyaApplication extends Application {
 
@@ -29,9 +30,8 @@ public class DouyaApplication extends Application {
         super.onCreate();
 
         AndroidThreeTen.init(this);
-
         FabricUtils.init(this);
-
         ViewTarget.setTagId(R.id.glide_view_target_tag_id);
+        StethoHelper.initializeWithDefaults(this);
     }
 }
