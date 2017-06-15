@@ -31,7 +31,7 @@ public class DouyaApplication extends Application {
 
         AndroidThreeTen.init(this);
         FabricUtils.init(this);
-        ViewTarget.setTagId(R.id.glide_view_target_tag_id);
+        ViewTarget.setTagId(R.id.glide_view_target_tag);
         StethoHelper.initializeWithDefaults(this);
     }
 }

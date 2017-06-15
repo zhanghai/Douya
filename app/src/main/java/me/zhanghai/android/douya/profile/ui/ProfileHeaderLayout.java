@@ -248,7 +248,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     public void scrollTo(int scroll) {
 
         int scrollExtent = getScrollExtent();
-        scroll = MathUtils.clamp(scroll, 0, scrollExtent);
+        scroll = MathUtils.constrain(scroll, 0, scrollExtent);
         if (mScroll == scroll) {
             return;
         }

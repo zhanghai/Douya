@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:mpb_determinateCircularProgressStyle="dynamic"
+        android:visibility="invisible"
         app:mpb_showProgressBackground="true"
         style="@style/Widget.MaterialProgressBar.ProgressBar" />
 </FrameLayout>

@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -66,6 +68,16 @@ public class AppUtils {
 
     public static void navigateUp(Activity activity) {
         navigateUp(activity, null);
+    }
+
+    private static final Handler sMainHandler = new Handler(Looper.getMainLooper());
+
+    public static void runOnUiThread(Runnable runnable) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            runnable.run();
+        } else {
+            sMainHandler.post(runnable);
+        }
     }
 
     public static void startActivity(Intent intent, Context context) {

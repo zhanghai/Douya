@@ -65,7 +65,7 @@ public class RatioImageView extends AppCompatImageView {
                 int height = MeasureSpec.getSize(heightMeasureSpec);
                 int width = Math.round(mRatio * height);
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-                    width = MathUtils.clamp(width, getMinimumWidth(), getMaxWidth());
+                    width = MathUtils.constrain(width, getMinimumWidth(), getMaxWidth());
                     if (getAdjustViewBounds()) {
                         width = Math.min(width, getMeasuredWidth());
                     }
@@ -75,7 +75,7 @@ public class RatioImageView extends AppCompatImageView {
                 int width = MeasureSpec.getSize(widthMeasureSpec);
                 int height = Math.round(width / mRatio);
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-                    height = MathUtils.clamp(height, getMinimumHeight(), getMaxHeight());
+                    height = MathUtils.constrain(height, getMinimumHeight(), getMaxHeight());
                     if (getAdjustViewBounds()) {
                         height = Math.min(height, getMeasuredHeight());
                     }

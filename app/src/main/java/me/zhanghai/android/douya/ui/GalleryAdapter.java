@@ -24,12 +24,14 @@ import com.github.chrisbanes.photoview.PhotoView;
 import java.net.SocketTimeoutException;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+//import me.zhanghai.android.douya.glide.GlideApp;
+import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.glide.progress.ProgressListener;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
-import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class GalleryAdapter extends PagerAdapter {
@@ -55,10 +57,9 @@ public class GalleryAdapter extends PagerAdapter {
     @Override
     public View instantiateItem(ViewGroup container, int position) {
         View layout = ViewUtils.inflate(R.layout.gallery_item, container);
-        PhotoView imageView = ButterKnife.findById(layout, R.id.image);
-        final TextView errorText = ButterKnife.findById(layout, R.id.error);
-        final ProgressBar progressBar = ButterKnife.findById(layout, R.id.progress);
-        imageView.setOnPhotoTapListener(new OnPhotoTapListener() {
+        final ViewHolder holder = new ViewHolder(layout);
+        layout.setTag(holder);
+        holder.image.setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override
             public void onPhotoTap(ImageView view, float x, float y) {
                 if (mOnTapListener != null) {
@@ -66,42 +67,63 @@ public class GalleryAdapter extends PagerAdapter {
                 }
             }
         });
-        ImageUtils.loadImage(imageView, mImageList.get(position), new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                        Target<Drawable> target, boolean isFirstResource) {
-                (e != null ? e : new NullPointerException()).printStackTrace();
-                // FIXME: Don't think this will work.
-                int errorRes = CollectionUtils.firstOrNull(e.getCauses())
-                        instanceof SocketTimeoutException ? R.string.gallery_load_timeout
-                        : R.string.gallery_load_error;
-                errorText.setText(errorRes);
-                ViewUtils.crossfade(progressBar, errorText);
-                return false;
-            }
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
-                                           DataSource dataSource, boolean isFirstResource) {
-                ViewUtils.fadeOut(progressBar);
-                return false;
-            }
-        }, new ProgressListener() {
-            @Override
-            public void onProgress(long bytesRead, long contentLength, boolean done) {
-                int progress = Math.round((float) bytesRead / contentLength * progressBar.getMax());
-                progressBar.setProgress(progress);
-            }
-        });
+        ViewUtils.fadeIn(holder.progress);
+        ImageUtils.loadImage(holder.image, mImageList.get(position),
+                new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<Drawable> target, boolean isFirstResource) {
+                        (e != null ? e : new NullPointerException()).printStackTrace();
+                        // FIXME: Don't think this will work.
+                        int errorRes = CollectionUtils.firstOrNull(e.getCauses())
+                                instanceof SocketTimeoutException ? R.string.gallery_load_timeout
+                                : R.string.gallery_load_error;
+                        holder.errorText.setText(errorRes);
+                        ViewUtils.crossfade(holder.progress, holder.errorText);
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model,
+                                                   Target<Drawable> target, DataSource dataSource,
+                                                   boolean isFirstResource) {
+                        ViewUtils.fadeOut(holder.progress);
+                        return false;
+                    }
+                }, new ProgressListener() {
+                    @Override
+                    public void onProgress(long bytesRead, long contentLength, boolean done) {
+                        int progress = Math.round((float) bytesRead / contentLength
+                                * holder.progress.getMax());
+                        ProgressBarCompat.setProgress(holder.progress, progress, true);
+                    }
+                });
         container.addView(layout);
         return layout;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+        View view = (View) object;
+        ViewHolder holder = (ViewHolder) view.getTag();
+        GlideApp.with(holder.image).clear(holder.image);
+        container.removeView(view);
     }
 
     public interface OnTapListener {
         void onTap();
+    }
+
+    static class ViewHolder {
+
+        @BindView(R.id.image)
+        public PhotoView image;
+        @BindView(R.id.error)
+        public TextView errorText;
+        @BindView(R.id.progress)
+        public ProgressBar progress;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

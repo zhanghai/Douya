@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -29,7 +30,6 @@ public class ImageUtils {
 
     private static final RequestOptions REQUEST_OPTIONS_LOAD_AVATAR = new RequestOptions()
             .placeholder(R.drawable.avatar_icon_grey600_40dp)
-            .dontAnimate()
             .dontTransform();
 
     public static void loadAvatar(ImageView view, String url) {
@@ -43,7 +43,6 @@ public class ImageUtils {
             new RequestOptions()
                     .placeholder(R.drawable.avatar_icon_white_inactive_64dp)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontAnimate()
                     .dontTransform();
 
     public static void loadNavigationHeaderAvatar(final ImageView view, final String url) {
@@ -76,7 +75,6 @@ public class ImageUtils {
             new RequestOptions()
                     .placeholder(R.drawable.avatar_icon_grey600_40dp)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontAnimate()
                     .dontTransform();
 
     public static void loadNavigationAccountListAvatar(ImageView view, String url) {
@@ -92,7 +90,6 @@ public class ImageUtils {
 
     private static final RequestOptions REQUEST_OPTIONS_LOAD_PROFILE_AVATAR =
             new RequestOptions()
-                    .dontAnimate()
                     .dontTransform();
 
     public static void loadProfileAvatarAndFadeIn(final ImageView view, String url) {
@@ -126,6 +123,8 @@ public class ImageUtils {
         GlideApp.with(view.getContext())
                 .load(url)
                 .apply(REQUEST_OPTIONS_LOAD_IMAGE)
+                .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
+                        view)))
                 .listener(listener)
                 .progressListener(progressListener)
                 .into(view);
@@ -158,6 +157,8 @@ public class ImageUtils {
         GlideApp.with(view.getContext())
                 .load(imageItem.url)
                 .apply(REQUEST_OPTIONS_LOAD_IMAGE_WITH_RATIO)
+                .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
+                        view)))
                 .into(view);
     }
 

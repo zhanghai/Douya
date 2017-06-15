@@ -6,5 +6,6 @@
   -->
 
 <resources>
-    <item name="glide_view_target_tag_id" type="id" />
+    <item name="glide_view_target_tag" type="id" />
+    <item name="progress_bar_compat_object_animator_tag" type="id" />
 </resources>
