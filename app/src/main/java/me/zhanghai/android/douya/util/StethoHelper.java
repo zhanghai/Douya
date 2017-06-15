@@ -8,9 +8,6 @@ package me.zhanghai.android.douya.util;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
-
 import java.io.IOException;
 
 import me.zhanghai.android.douya.BuildConfig;
@@ -23,13 +20,13 @@ public class StethoHelper {
 
     public static void initializeWithDefaults(Context context) {
         if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(context);
+            com.facebook.stetho.Stetho.initializeWithDefaults(context);
         }
     }
 
     public static Interceptor newInterceptor() {
         if (BuildConfig.DEBUG) {
-            return new StethoInterceptor();
+            return new com.facebook.stetho.okhttp3.StethoInterceptor();
         } else {
             return new NoOpInterceptor();
         }
