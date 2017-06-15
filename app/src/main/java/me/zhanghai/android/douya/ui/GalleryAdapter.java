@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
@@ -23,7 +26,10 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.glide.progress.ProgressListener;
+import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class GalleryAdapter extends PagerAdapter {
@@ -60,28 +66,32 @@ public class GalleryAdapter extends PagerAdapter {
                 }
             }
         });
-        ImageUtils.loadImage(imageView, mImageList.get(position),
-                new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model,
-                                               Target<GlideDrawable> target,
-                                               boolean isFirstResource) {
-                        (e != null ? e : new NullPointerException()).printStackTrace();
-                        int errorRes = e instanceof SocketTimeoutException ?
-                                R.string.gallery_load_timeout : R.string.gallery_load_error;
-                        errorText.setText(errorRes);
-                        ViewUtils.crossfade(progressBar, errorText);
-                        return false;
-                    }
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model,
-                                                   Target<GlideDrawable> target,
-                                                   boolean isFromMemoryCache,
-                                                   boolean isFirstResource) {
-                        ViewUtils.fadeOut(progressBar);
-                        return false;
-                    }
-                });
+        ImageUtils.loadImage(imageView, mImageList.get(position), new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                        Target<Drawable> target, boolean isFirstResource) {
+                (e != null ? e : new NullPointerException()).printStackTrace();
+                // FIXME: Don't think this will work.
+                int errorRes = CollectionUtils.firstOrNull(e.getCauses())
+                        instanceof SocketTimeoutException ? R.string.gallery_load_timeout
+                        : R.string.gallery_load_error;
+                errorText.setText(errorRes);
+                ViewUtils.crossfade(progressBar, errorText);
+                return false;
+            }
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
+                                           DataSource dataSource, boolean isFirstResource) {
+                ViewUtils.fadeOut(progressBar);
+                return false;
+            }
+        }, new ProgressListener() {
+            @Override
+            public void onProgress(long bytesRead, long contentLength, boolean done) {
+                int progress = Math.round((float) bytesRead / contentLength * progressBar.getMax());
+                progressBar.setProgress(progress);
+            }
+        });
         container.addView(layout);
         return layout;
     }

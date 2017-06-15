@@ -43,6 +43,16 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
 }
 
+repositories {
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+dependencies {
+    compile 'com.github.bumptech.glide:compiler:4.0.0-SNAPSHOT'
+    compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
+}
+
 buildscript {
     repositories {
         maven {
@@ -82,8 +92,8 @@ dependencies {
     }
     debugCompile 'com.facebook.stetho:stetho:1.5.0'
     debugCompile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    compile 'com.github.bumptech.glide:glide:3.8.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.5.0@aar'
+//    compile 'com.github.bumptech.glide:compiler:4.0.0-RC0'
+//    compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
