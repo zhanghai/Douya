@@ -11,35 +11,35 @@ import okhttp3.Request;
 
 public class DelegateApiRequest<T> implements ApiRequest<T> {
 
-    private ApiRequest<T> mCall;
+    private ApiRequest<T> mRequest;
 
-    public DelegateApiRequest(ApiRequest<T> call) {
-        mCall = call;
+    public DelegateApiRequest(ApiRequest<T> request) {
+        mRequest = request;
     }
 
     @Override
     public T execute() throws ApiError {
-        return mCall.execute();
+        return mRequest.execute();
     }
 
     @Override
     public void enqueue(@NonNull Callback<T> callback) {
-        mCall.enqueue(callback);
+        mRequest.enqueue(callback);
     }
 
     @Override
     public boolean isExecuted() {
-        return mCall.isExecuted();
+        return mRequest.isExecuted();
     }
 
     @Override
     public void cancel() {
-        mCall.cancel();
+        mRequest.cancel();
     }
 
     @Override
     public boolean isCanceled() {
-        return mCall.isCanceled();
+        return mRequest.isCanceled();
     }
 
     @Override
@@ -52,12 +52,12 @@ public class DelegateApiRequest<T> implements ApiRequest<T> {
             // Should never happen.
             throw new RuntimeException(e);
         }
-        clone.mCall = mCall.clone();
+        clone.mRequest = mRequest.clone();
         return clone;
     }
 
     @Override
     public Request request() {
-        return mCall.request();
+        return mRequest.request();
     }
 }

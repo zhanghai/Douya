@@ -15,13 +15,13 @@ import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class DelegateCallApiRequest<T> implements ApiRequest<T> {
+public class CallApiRequest<T> implements ApiRequest<T> {
 
     private static Handler sMainThreadHandler = new Handler(Looper.getMainLooper());
 
     private Call<T> mCall;
 
-    public DelegateCallApiRequest(Call<T> call) {
+    public CallApiRequest(Call<T> call) {
         mCall = call;
     }
 
@@ -84,11 +84,11 @@ public class DelegateCallApiRequest<T> implements ApiRequest<T> {
     }
 
     @Override
-    public DelegateCallApiRequest<T> clone() {
-        DelegateCallApiRequest<T> clone;
+    public CallApiRequest<T> clone() {
+        CallApiRequest<T> clone;
         try {
             //noinspection unchecked
-            clone = (DelegateCallApiRequest<T>) super.clone();
+            clone = (CallApiRequest<T>) super.clone();
         } catch (CloneNotSupportedException e) {
             // Should never happen.
             throw new RuntimeException(e);

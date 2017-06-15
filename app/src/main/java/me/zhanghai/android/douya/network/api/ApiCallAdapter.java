@@ -32,7 +32,7 @@ public class ApiCallAdapter<R> implements CallAdapter<R, ApiRequest<R>> {
 
     @Override
     public ApiRequest<R> adapt(@NonNull Call<R> call) {
-        return new DelegateCallApiRequest<>(call);
+        return new CallApiRequest<>(call);
     }
 
     public static class Factory extends CallAdapter.Factory {
