@@ -60,13 +60,14 @@ public class ProgressBarCompat {
             return;
         }
 
-        float savedVisualProgress = getVisualProgressCompat(progressBar, android.R.id.progress);
-        progressBar.setProgress(progress);
-        setVisualProgressCompat(progressBar, android.R.id.progress, savedVisualProgress);
         final int finalProgress = progress;
         AppUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                float savedVisualProgress = getVisualProgressCompat(progressBar,
+                        android.R.id.progress);
+                progressBar.setProgress(finalProgress);
+                setVisualProgressCompat(progressBar, android.R.id.progress, savedVisualProgress);
                 int max = progressBar.getMax();
                 float scale = max > 0 ? (float) finalProgress /  max : 0;
                 ObjectAnimator animator = ObjectAnimator.ofFloat(progressBar, VISUAL_PROGRESS,
