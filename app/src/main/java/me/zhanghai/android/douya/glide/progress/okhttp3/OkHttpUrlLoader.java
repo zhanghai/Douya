@@ -38,6 +38,8 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
     public LoadData<InputStream> buildLoadData(GlideUrl model, int width, int height,
                                                Options options) {
         ProgressListener progressListener = options.get(ProgressGlideExtension.OPTION_LISTENER);
+        // Otherwise memory leak happens because options is kept in cache.
+        options.set(ProgressGlideExtension.OPTION_LISTENER, null);
         return new LoadData<>(model, new OkHttpStreamFetcher(client, model, progressListener));
     }
 
