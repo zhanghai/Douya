@@ -79,7 +79,6 @@ public class ProgressBarCompat {
                         R.id.progress_bar_compat_object_animator_tag);
                 if (oldAnimator != null) {
                     oldAnimator.cancel();
-                    progressBar.setTag(R.id.progress_bar_compat_object_animator_tag, null);
                 }
                 animator.addListener(new AnimatorListenerAdapter() {
                     @Override
