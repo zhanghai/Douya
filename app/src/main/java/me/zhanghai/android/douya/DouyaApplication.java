@@ -9,7 +9,6 @@ import android.app.Application;
 
 import com.bumptech.glide.request.target.ViewTarget;
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.squareup.leakcanary.LeakCanary;
 
 import me.zhanghai.android.douya.fabric.FabricUtils;
 import me.zhanghai.android.douya.util.StethoHelper;
@@ -29,13 +28,6 @@ public class DouyaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
 
         AndroidThreeTen.init(this);
         FabricUtils.init(this);

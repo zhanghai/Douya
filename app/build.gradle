@@ -100,8 +100,6 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.takisoft.fix:preference-v7:25.4.0.3'
