@@ -8,10 +8,10 @@ package me.zhanghai.android.douya;
 import android.app.Application;
 
 import com.bumptech.glide.request.target.ViewTarget;
+import com.facebook.stetho.Stetho;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import me.zhanghai.android.douya.fabric.FabricUtils;
-import me.zhanghai.android.douya.util.StethoHelper;
 
 public class DouyaApplication extends Application {
 
@@ -32,6 +32,6 @@ public class DouyaApplication extends Application {
         AndroidThreeTen.init(this);
         FabricUtils.init(this);
         ViewTarget.setTagId(R.id.glide_view_target_tag);
-        StethoHelper.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
     }
 }
