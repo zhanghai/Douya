@@ -172,6 +172,8 @@ public class ImageUtils {
         GlideApp.with(view.getContext())
                 .load(image.medium)
                 .apply(REQUEST_OPTIONS_LOAD_IMAGE_WITH_RATIO)
+                .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
+                        view)))
                 .into(view);
     }
 }
