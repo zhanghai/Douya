@@ -39,7 +39,12 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
                                                Options options) {
         ProgressListener progressListener = options.get(ProgressGlideExtension.OPTION_LISTENER);
         // Otherwise memory leak happens because options is kept in cache.
-        options.set(ProgressGlideExtension.OPTION_LISTENER, null);
+        // But don't add a null option if it wasn't there so that we won't break the hash for cache.
+        // Note that we made ProgressListener.hashCode() return 0 which matches the hash code of
+        // null in SimpleArrayMap.hashCode() which is in turn used by Options.hashCode().
+        if (progressListener != null) {
+            options.set(ProgressGlideExtension.OPTION_LISTENER, null);
+        }
         return new LoadData<>(model, new OkHttpStreamFetcher(client, model, progressListener));
     }
 
