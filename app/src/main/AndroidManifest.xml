@@ -50,7 +50,7 @@
             android:label="@string/webview_title" />
 
         <activity
-            android:name=".ui.GalleryActivity"
+            android:name=".gallery.ui.GalleryActivity"
             android:label="@string/gallery_title"
             android:theme="@style/Theme.Douya.Gallery" />
 
@@ -137,7 +137,7 @@
 
         <service android:name=".content.ResourceWriterService" />
 
-        <service android:name=".gallery.SaveImageService" />
+        <service android:name=".gallery.app.SaveImageService" />
 
         <receiver
             android:name=".network.api.credential.SetApiCredentialReceiver"

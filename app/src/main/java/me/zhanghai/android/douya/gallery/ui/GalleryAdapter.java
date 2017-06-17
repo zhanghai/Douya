@@ -1,12 +1,13 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.ui;
+package me.zhanghai.android.douya.gallery.ui;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.glide.progress.ProgressListener;
+import me.zhanghai.android.douya.ui.ProgressBarCompat;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -38,6 +40,7 @@ public class GalleryAdapter extends PagerAdapter {
 
     private List<String> mImageList;
     private OnTapListener mOnTapListener;
+    private SparseArrayCompat<File> mFileMap = new SparseArrayCompat<>();
 
     public GalleryAdapter(List<String> imageList, OnTapListener onTapListener) {
         mImageList = imageList;
@@ -55,7 +58,7 @@ public class GalleryAdapter extends PagerAdapter {
     }
 
     @Override
-    public View instantiateItem(ViewGroup container, int position) {
+    public View instantiateItem(ViewGroup container, final int position) {
         View layout = ViewUtils.inflate(R.layout.gallery_item, container);
         final ViewHolder holder = new ViewHolder(layout);
         layout.setTag(holder);
@@ -98,6 +101,7 @@ public class GalleryAdapter extends PagerAdapter {
                     @Override
                     public void onResourceReady(File resource,
                                                 Transition<? super File> transition) {
+                        mFileMap.put(position, resource);
                         ImageUtils.loadImageFile(holder.image, resource,
                                 new RequestListener<Drawable>() {
                                     @Override
@@ -132,6 +136,10 @@ public class GalleryAdapter extends PagerAdapter {
         ViewHolder holder = (ViewHolder) view.getTag();
         GlideApp.with(holder.image).clear(holder.image);
         container.removeView(view);
+    }
+
+    public File getFile(int position) {
+        return mFileMap.get(position);
     }
 
     public interface OnTapListener {

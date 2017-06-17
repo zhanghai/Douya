@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.ui;
+package me.zhanghai.android.douya.gallery.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +15,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.gallery.SaveImageService;
+import me.zhanghai.android.douya.gallery.app.SaveImageService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
+import me.zhanghai.android.douya.ui.ViewPagerTransformers;
 import me.zhanghai.android.systemuihelper.SystemUiHelper;
 
 public class GalleryActivity extends AppCompatActivity {
@@ -41,7 +43,7 @@ public class GalleryActivity extends AppCompatActivity {
     ViewPager mViewPager;
 
     private SystemUiHelper mSystemUiHelper;
-    private ArrayList<String> mImageList;
+    private GalleryAdapter mAdapter;
 
     public static Intent makeIntent(ArrayList<String> imageList, int position, Context context) {
         return new Intent(context, GalleryActivity.class)
@@ -102,13 +104,14 @@ public class GalleryActivity extends AppCompatActivity {
         // This will set up window flags.
         mSystemUiHelper.show();
 
-        mImageList = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
-        mViewPager.setAdapter(new GalleryAdapter(mImageList, new GalleryAdapter.OnTapListener() {
+        ArrayList<String> imageList = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
+        mAdapter = new GalleryAdapter(imageList, new GalleryAdapter.OnTapListener() {
             @Override
             public void onTap() {
                 mSystemUiHelper.toggle();
             }
-        }));
+        });
+        mViewPager.setAdapter(mAdapter);
         int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
         mViewPager.setCurrentItem(position);
         mViewPager.setPageTransformer(true, new ViewPagerTransformers.Depth());
@@ -139,9 +142,22 @@ public class GalleryActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        boolean hasFile = mAdapter.getFile(mViewPager.getCurrentItem()) != null;
+        menu.findItem(R.id.action_save).setEnabled(hasFile);
+        menu.findItem(R.id.action_share).setEnabled(hasFile);
+        return true;
+    }
+
     private void saveImage() {
-        String url = mImageList.get(mViewPager.getCurrentItem());
-        SaveImageService.start(url, this);
+        File file = mAdapter.getFile(mViewPager.getCurrentItem());
+        if (file == null) {
+            return;
+        }
+        SaveImageService.start(file, this);
     }
 
     private void shareImage() {

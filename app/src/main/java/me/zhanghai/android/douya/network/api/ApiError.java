@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.network.api;
 
 import android.content.Context;
+import android.util.SparseIntArray;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,8 +14,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.AuthenticationException;
@@ -26,10 +25,10 @@ import okhttp3.ResponseBody;
 
 public class ApiError extends Throwable {
 
-    private static final Map<Integer, Integer> ERROR_CODE_STRING_RES_MAP;
+    private static final SparseIntArray ERROR_CODE_STRING_RES_MAP;
     static {
 
-        ERROR_CODE_STRING_RES_MAP = new HashMap<>();
+        ERROR_CODE_STRING_RES_MAP = new SparseIntArray();
 
         ERROR_CODE_STRING_RES_MAP.put(Custom.INVALID_ERROR_RESPONSE,
                 R.string.api_error_invalid_error_response);

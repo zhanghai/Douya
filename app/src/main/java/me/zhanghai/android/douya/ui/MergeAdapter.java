@@ -6,11 +6,10 @@
 package me.zhanghai.android.douya.ui;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseIntArray;
 import android.view.ViewGroup;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.zhanghai.android.douya.util.LogUtils;
 
@@ -18,7 +17,7 @@ public class MergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private RecyclerView.Adapter[] mAdapters;
 
-    private Map<Integer, Integer> mItemViewTypeToAdapterIndexMap = new HashMap<>();
+    private SparseIntArray mItemViewTypeToAdapterIndexMap = new SparseIntArray();
 
     public MergeAdapter(RecyclerView.Adapter... adapters) {
 

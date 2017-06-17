@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.gallery;
+package me.zhanghai.android.douya.gallery.app;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -11,25 +11,22 @@ import android.content.Intent;
 import android.os.Handler;
 import android.provider.MediaStore;
 
-import com.bumptech.glide.request.FutureTarget;
-
 import java.io.File;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.util.ToastUtils;
 
 public class SaveImageService extends IntentService {
 
     private static final String KEY_PREFIX = SaveImageService.class.getName() + '.';
 
-    private static final String EXTRA_URL = KEY_PREFIX + "url";
+    private static final String EXTRA_FILE = KEY_PREFIX + "file";
 
     private Handler mServiceHandler;
 
-    public static void start(String url, Context context) {
+    public static void start(File file, Context context) {
         Intent intent = new Intent(context, SaveImageService.class);
-        intent.putExtra(EXTRA_URL, url);
+        intent.putExtra(EXTRA_FILE, file);
         context.startService(intent);
     }
 
@@ -51,26 +48,20 @@ public class SaveImageService extends IntentService {
             return;
         }
 
-        String url = intent.getStringExtra(EXTRA_URL);
-        saveImage(url);
+        File file = intent.getParcelableExtra(EXTRA_FILE);
+        saveImage(file);
     }
 
-    private void saveImage(String url) {
-        FutureTarget<File> futureTarget = GlideApp.with(getApplicationContext())
-                .downloadOnly()
-                .load(url)
-                .submit();
+    private void saveImage(File file) {
         try {
-            File file = futureTarget.get();
             // TODO: Request permission: android.permission.WRITE_EXTERNAL_STORAGE
+            // TODO: Save to Pictures/Douya
             MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(),
                     file.getName(), null);
             postToast(R.string.gallery_save_successful);
         } catch (Exception e) {
             e.printStackTrace();
             postToast(R.string.gallery_save_failed);
-        } finally {
-            futureTarget.cancel(true);
         }
     }
 
