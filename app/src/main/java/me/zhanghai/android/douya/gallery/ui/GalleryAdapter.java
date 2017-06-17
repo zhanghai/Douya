@@ -39,12 +39,12 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class GalleryAdapter extends PagerAdapter {
 
     private List<String> mImageList;
-    private OnTapListener mOnTapListener;
+    private Listener mListener;
     private SparseArrayCompat<File> mFileMap = new SparseArrayCompat<>();
 
-    public GalleryAdapter(List<String> imageList, OnTapListener onTapListener) {
+    public GalleryAdapter(List<String> imageList, Listener listener) {
         mImageList = imageList;
-        mOnTapListener = onTapListener;
+        mListener = listener;
     }
 
     @Override
@@ -65,8 +65,8 @@ public class GalleryAdapter extends PagerAdapter {
         holder.image.setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override
             public void onPhotoTap(ImageView view, float x, float y) {
-                if (mOnTapListener != null) {
-                    mOnTapListener.onTap();
+                if (mListener != null) {
+                    mListener.onTap();
                 }
             }
         });
@@ -102,6 +102,9 @@ public class GalleryAdapter extends PagerAdapter {
                     public void onResourceReady(File resource,
                                                 Transition<? super File> transition) {
                         mFileMap.put(position, resource);
+                        if (mListener != null) {
+                            mListener.onFileDownloaded();
+                        }
                         ImageUtils.loadImageFile(holder.image, resource,
                                 new RequestListener<Drawable>() {
                                     @Override
@@ -142,8 +145,9 @@ public class GalleryAdapter extends PagerAdapter {
         return mFileMap.get(position);
     }
 
-    public interface OnTapListener {
+    public interface Listener {
         void onTap();
+        void onFileDownloaded();
     }
 
     static class ViewHolder {

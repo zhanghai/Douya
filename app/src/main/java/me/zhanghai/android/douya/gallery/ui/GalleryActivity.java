@@ -43,6 +43,9 @@ public class GalleryActivity extends AppCompatActivity {
     ViewPager mViewPager;
 
     private SystemUiHelper mSystemUiHelper;
+
+    private Menu mMenu;
+
     private GalleryAdapter mAdapter;
 
     public static Intent makeIntent(ArrayList<String> imageList, int position, Context context) {
@@ -105,10 +108,14 @@ public class GalleryActivity extends AppCompatActivity {
         mSystemUiHelper.show();
 
         ArrayList<String> imageList = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
-        mAdapter = new GalleryAdapter(imageList, new GalleryAdapter.OnTapListener() {
+        mAdapter = new GalleryAdapter(imageList, new GalleryAdapter.Listener() {
             @Override
             public void onTap() {
                 mSystemUiHelper.toggle();
+            }
+            @Override
+            public void onFileDownloaded() {
+                updateOptionsMenu();
             }
         });
         mViewPager.setAdapter(mAdapter);
@@ -122,7 +129,18 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.gallery, menu);
+        mMenu = menu;
+        updateOptionsMenu();
         return true;
+    }
+
+    private void updateOptionsMenu() {
+        if (mMenu == null) {
+            return;
+        }
+        boolean hasFile = mAdapter.getFile(mViewPager.getCurrentItem()) != null;
+        mMenu.findItem(R.id.action_save).setEnabled(hasFile);
+        mMenu.findItem(R.id.action_share).setEnabled(hasFile);
     }
 
     @Override
@@ -140,16 +158,6 @@ public class GalleryActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        boolean hasFile = mAdapter.getFile(mViewPager.getCurrentItem()) != null;
-        menu.findItem(R.id.action_save).setEnabled(hasFile);
-        menu.findItem(R.id.action_share).setEnabled(hasFile);
-        return true;
     }
 
     private void saveImage() {
