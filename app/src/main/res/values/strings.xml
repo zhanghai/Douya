@@ -116,7 +116,7 @@
     <string name="auth_select_account">选择账户</string>
 
     <string name="gallery_title">查看照片</string>
-    <string name="gallery_load_timeout">加载超时</string>
+    <string name="gallery_network_error">网络错误</string>
     <string name="gallery_load_error">加载错误</string>
 
     <string name="webview_title">查看网页</string>

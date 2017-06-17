@@ -18,9 +18,10 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
+import java.io.File;
+
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.glide.GlideApp;
-import me.zhanghai.android.douya.glide.progress.ProgressListener;
 import me.zhanghai.android.douya.network.api.info.frodo.Image;
 import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
@@ -118,20 +119,18 @@ public class ImageUtils {
             .dontTransform()
             .placeholder(android.R.color.transparent);
 
-    public static void loadImage(ImageView view, String url, RequestListener<Drawable> listener,
-                                 ProgressListener progressListener) {
+    public static void loadImage(ImageView view, String url, RequestListener<Drawable> listener) {
         GlideApp.with(view.getContext())
                 .load(url)
                 .apply(REQUEST_OPTIONS_LOAD_IMAGE)
                 .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
                         view)))
                 .listener(listener)
-                .progressListener(progressListener)
                 .into(view);
     }
 
     public static void loadImage(ImageView view, String url) {
-        loadImage(view, url, null, null);
+        loadImage(view, url, null);
     }
 
     public static void loadImage(ImageView view, Image image) {
@@ -144,6 +143,17 @@ public class ImageUtils {
 
     public static void loadImage(ImageView view, Photo photo) {
         loadImage(view, photo.image);
+    }
+
+    public static void loadImageFile(ImageView view, File file,
+                                     RequestListener<Drawable> listener) {
+        GlideApp.with(view.getContext())
+                .load(file)
+                .apply(REQUEST_OPTIONS_LOAD_IMAGE)
+                .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
+                        view)))
+                .listener(listener)
+                .into(view);
     }
 
     private static final RequestOptions REQUEST_OPTIONS_LOAD_IMAGE_WITH_RATIO = new RequestOptions()

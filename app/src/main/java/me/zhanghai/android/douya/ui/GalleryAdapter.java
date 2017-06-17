@@ -17,20 +17,20 @@ import android.widget.TextView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 
-import java.net.SocketTimeoutException;
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-//import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.glide.progress.ProgressListener;
-import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -68,33 +68,58 @@ public class GalleryAdapter extends PagerAdapter {
             }
         });
         ViewUtils.fadeIn(holder.progress);
-        ImageUtils.loadImage(holder.image, mImageList.get(position),
-                new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                Target<Drawable> target, boolean isFirstResource) {
-                        (e != null ? e : new NullPointerException()).printStackTrace();
-                        // FIXME: Don't think this will work.
-                        int errorRes = CollectionUtils.firstOrNull(e.getCauses())
-                                instanceof SocketTimeoutException ? R.string.gallery_load_timeout
-                                : R.string.gallery_load_error;
-                        holder.errorText.setText(errorRes);
-                        ViewUtils.crossfade(holder.progress, holder.errorText);
-                        return false;
-                    }
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model,
-                                                   Target<Drawable> target, DataSource dataSource,
-                                                   boolean isFirstResource) {
-                        ViewUtils.fadeOut(holder.progress);
-                        return false;
-                    }
-                }, new ProgressListener() {
+        GlideApp.with(holder.image.getContext())
+                .downloadOnlyDefaultPriority()
+                .load(mImageList.get(position))
+                .progressListener(new ProgressListener() {
                     @Override
                     public void onProgress(long bytesRead, long contentLength, boolean done) {
                         int progress = Math.round((float) bytesRead / contentLength
                                 * holder.progress.getMax());
                         ProgressBarCompat.setProgress(holder.progress, progress, true);
+                    }
+                })
+                .listener(new RequestListener<File>() {
+                    @Override
+                    public boolean onResourceReady(File resource, Object model, Target<File> target,
+                                                   DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<File> target, boolean isFirstResource) {
+                        (e != null ? e : new NullPointerException()).printStackTrace();
+                        holder.errorText.setText(R.string.gallery_network_error);
+                        ViewUtils.crossfade(holder.progress, holder.errorText);
+                        return false;
+                    }
+                })
+                .into(new SimpleTarget<File>() {
+                    @Override
+                    public void onResourceReady(File resource,
+                                                Transition<? super File> transition) {
+                        ImageUtils.loadImageFile(holder.image, resource,
+                                new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e,
+                                                                Object model,
+                                                                Target<Drawable> target,
+                                                                boolean isFirstResource) {
+                                        (e != null ? e : new NullPointerException())
+                                                .printStackTrace();
+                                        holder.errorText.setText(R.string.gallery_load_error);
+                                        ViewUtils.crossfade(holder.progress, holder.errorText);
+                                        return false;
+                                    }
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model,
+                                                                   Target<Drawable> target,
+                                                                   DataSource dataSource,
+                                                                   boolean isFirstResource) {
+                                        ViewUtils.fadeOut(holder.progress);
+                                        return false;
+                                    }
+                                });
                     }
                 });
         container.addView(layout);
