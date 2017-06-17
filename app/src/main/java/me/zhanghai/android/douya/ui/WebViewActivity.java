@@ -118,15 +118,14 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.webview, menu);
-
         mGoForwardMenuItem = menu.findItem(R.id.action_go_forward);
         updateGoForward();
         mOpenWithNativeMenuItem = menu.findItem(R.id.action_open_with_native);
         updateOpenWithNative();
-
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override

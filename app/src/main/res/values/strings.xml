@@ -6,6 +6,8 @@
     <string name="copy_to_clipboard">复制到剪贴板</string>
     <string name="no">否</string>
     <string name="reload">重新加载</string>
+    <string name="save">保存</string>
+    <string name="share">分享</string>
     <string name="yes">是</string>
 
     <string name="activity_not_found">未找到可处理此操作的应用</string>
@@ -118,6 +120,8 @@
     <string name="gallery_title">查看照片</string>
     <string name="gallery_network_error">网络错误</string>
     <string name="gallery_load_error">加载错误</string>
+    <string name="gallery_save_successful">已保存图片至相册</string>
+    <string name="gallery_save_failed">保存图片失败</string>
 
     <string name="webview_title">查看网页</string>
     <string name="webview_go_forward">前进</string>

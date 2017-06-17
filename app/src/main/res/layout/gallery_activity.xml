@@ -31,7 +31,7 @@
             android:layout_height="?actionBarSize"
             android:elevation="@dimen/appbar_elevation"
             android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
-            android:paddingRight="@dimen/screen_edge_horizontal_margin"
+            android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
             android:background="@color/dark_50_percent"
             app:navigationIcon="@drawable/back_icon_white_24dp"
             app:popupTheme="?actionBarPopupTheme"

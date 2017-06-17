@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -20,12 +21,13 @@ import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.gallery.SaveImageService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.systemuihelper.SystemUiHelper;
 
 public class GalleryActivity extends AppCompatActivity {
 
-    private static final String KEY_PREFIX = GalleryActivity.class.getSimpleName() + '.';
+    private static final String KEY_PREFIX = GalleryActivity.class.getName() + '.';
 
     private static final String EXTRA_IMAGE_LIST = KEY_PREFIX + "image_list";
     private static final String EXTRA_POSITION = KEY_PREFIX + "position";
@@ -39,6 +41,7 @@ public class GalleryActivity extends AppCompatActivity {
     ViewPager mViewPager;
 
     private SystemUiHelper mSystemUiHelper;
+    private ArrayList<String> mImageList;
 
     public static Intent makeIntent(ArrayList<String> imageList, int position, Context context) {
         return new Intent(context, GalleryActivity.class)
@@ -99,8 +102,8 @@ public class GalleryActivity extends AppCompatActivity {
         // This will set up window flags.
         mSystemUiHelper.show();
 
-        ArrayList<String> imageList = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
-        mViewPager.setAdapter(new GalleryAdapter(imageList, new GalleryAdapter.OnTapListener() {
+        mImageList = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
+        mViewPager.setAdapter(new GalleryAdapter(mImageList, new GalleryAdapter.OnTapListener() {
             @Override
             public void onTap() {
                 mSystemUiHelper.toggle();
@@ -112,13 +115,36 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.gallery, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.action_save:
+                saveImage();
+                return true;
+            case R.id.action_share:
+                shareImage();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void saveImage() {
+        String url = mImageList.get(mViewPager.getCurrentItem());
+        SaveImageService.start(url, this);
+    }
+
+    private void shareImage() {
+        // TODO
     }
 }
