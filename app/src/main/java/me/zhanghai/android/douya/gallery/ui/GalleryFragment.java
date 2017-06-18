@@ -137,8 +137,10 @@ public class GalleryFragment extends Fragment {
                 mSystemUiHelper.toggle();
             }
             @Override
-            public void onFileDownloaded() {
-                updateOptionsMenu();
+            public void onFileDownloaded(int position) {
+                if (position == mViewPager.getCurrentItem()) {
+                    updateOptionsMenu();
+                }
             }
         });
         mViewPager.setAdapter(mAdapter);

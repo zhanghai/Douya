@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.PagerAdapter;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.glide.GlideApp;
+import me.zhanghai.android.douya.glide.info.ImageInfo;
 import me.zhanghai.android.douya.glide.progress.ProgressListener;
 import me.zhanghai.android.douya.ui.ProgressBarCompat;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -62,7 +64,7 @@ public class GalleryAdapter extends PagerAdapter {
 
     @Override
     public View instantiateItem(ViewGroup container, final int position) {
-        View layout = ViewUtils.inflate(R.layout.gallery_item, container);
+        final View layout = ViewUtils.inflate(R.layout.gallery_item, container);
         final ViewHolder holder = new ViewHolder(layout);
         layout.setTag(holder);
         holder.image.setOnPhotoTapListener(new OnPhotoTapListener() {
@@ -81,8 +83,14 @@ public class GalleryAdapter extends PagerAdapter {
                 }
             }
         });
+        loadImageForPosition(position, holder);
+        container.addView(layout);
+        return layout;
+    }
+
+    private void loadImageForPosition(final int position, final ViewHolder holder) {
         ViewUtils.fadeIn(holder.progress);
-        GlideApp.with(holder.image.getContext())
+        GlideApp.with(holder.progress.getContext())
                 .downloadOnlyDefaultPriority()
                 .load(mImageList.get(position))
                 .progressListener(new ProgressListener() {
@@ -102,69 +110,131 @@ public class GalleryAdapter extends PagerAdapter {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model,
                                                 Target<File> target, boolean isFirstResource) {
-                        (e != null ? e : new NullPointerException()).printStackTrace();
-                        holder.errorText.setText(R.string.gallery_network_error);
-                        ViewUtils.crossfade(holder.progress, holder.errorText);
+                        showError(e, R.string.gallery_network_error, holder);
                         return false;
                     }
                 })
                 .into(new SimpleTarget<File>() {
                     @Override
-                    public void onResourceReady(File resource,
+                    public void onResourceReady(File file,
                                                 Transition<? super File> transition) {
-                        mFileMap.put(position, resource);
+                        mFileMap.put(position, file);
                         if (mListener != null) {
-                            mListener.onFileDownloaded();
+                            mListener.onFileDownloaded(position);
                         }
-                        if (false) {
-                            ImageUtils.loadImageFile(holder.image, resource,
-                                    new RequestListener<Drawable>() {
-                                        @Override
-                                        public boolean onResourceReady(Drawable resource,
-                                                                       Object model,
-                                                                       Target<Drawable> target,
-                                                                       DataSource dataSource,
-                                                                       boolean isFirstResource) {
-                                            ViewUtils.fadeOut(holder.progress);
-                                            ViewUtils.setVisibleOrGone(holder.image, true);
-                                            return false;
-                                        }
-                                        @Override
-                                        public boolean onLoadFailed(@Nullable GlideException e,
-                                                                    Object model,
-                                                                    Target<Drawable> target,
-                                                                    boolean isFirstResource) {
-                                            (e != null ? e : new NullPointerException())
-                                                    .printStackTrace();
-                                            holder.errorText.setText(R.string.gallery_load_error);
-                                            ViewUtils.crossfade(holder.progress, holder.errorText);
-                                            return false;
-                                        }
-                                    });
-                        } else {
-                            holder.largeImage.setDoubleTapZoomDuration(250);
-                            holder.largeImage.setDoubleTapZoomStyle(
-                                    SubsamplingScaleImageView.ZOOM_FOCUS_CENTER);
-                            // Otherwise OnImageEventListener.onReady() is never called.
-                            ViewUtils.setVisibleOrGone(holder.largeImage, true);
-                            holder.largeImage.setAlpha(0);
-                            holder.largeImage.setOnImageEventListener(
-                                    new SubsamplingScaleImageView.DefaultOnImageEventListener() {
-                                        @Override
-                                        public void onReady() {
-                                            ViewUtils.crossfade(holder.progress, holder.largeImage);
-                                        }
-                                        @Override
-                                        public void onImageLoadError(Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    });
-                            holder.largeImage.setImage(ImageSource.uri(Uri.fromFile(resource)));
-                        }
+                        holder.progress.setIndeterminate(true);
+                        loadImageFromFile(file, holder);
                     }
                 });
-        container.addView(layout);
-        return layout;
+    }
+
+    private void loadImageFromFile(final File file, final ViewHolder holder) {
+        GlideApp
+                .with(holder.progress.getContext())
+                .asInfo()
+                .load(file)
+                .listener(new RequestListener<ImageInfo>() {
+                    @Override
+                    public boolean onResourceReady(ImageInfo resource, Object model,
+                                                   Target<ImageInfo> target, DataSource dataSource,
+                                                   boolean isFirstResource) {
+                        return false;
+                    }
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<ImageInfo> target, boolean isFirstResource) {
+                        showError(e, R.string.gallery_load_error, holder);
+                        return false;
+                    }
+                })
+                .into(new SimpleTarget<ImageInfo>() {
+                    @Override
+                    public void onResourceReady(ImageInfo imageInfo,
+                                                Transition<? super ImageInfo> transition) {
+                        loadImageIntoView(file, imageInfo, holder);
+                    }
+                });
+    }
+
+    private void loadImageIntoView(File file, ImageInfo imageInfo, final ViewHolder holder) {
+        if (!shouldUseLargeImageView(imageInfo)) {
+            // Otherwise SizeReadyCallback.onSizeReady() is never called.
+            ViewUtils.setVisibleOrGone(holder.image, true);
+            ImageUtils.loadImageFile(holder.image, file, new RequestListener<Drawable>() {
+                @Override
+                public boolean onResourceReady(Drawable drawable, Object model,
+                                               Target<Drawable> target, DataSource dataSource,
+                                               boolean isFirstResource) {
+                    ViewUtils.fadeOut(holder.progress);
+                    ViewUtils.setVisibleOrGone(holder.image, true);
+                    return false;
+                }
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                            Target<Drawable> target, boolean isFirstResource) {
+                    showError(e, R.string.gallery_load_error, holder);
+                    return false;
+                }
+            });
+        } else {
+            holder.largeImage.setDoubleTapZoomDuration(300);
+            holder.largeImage.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+            // Otherwise OnImageEventListener.onReady() is never called.
+            ViewUtils.setVisibleOrGone(holder.largeImage, true);
+            holder.largeImage.setAlpha(0);
+            holder.largeImage.setOnImageEventListener(
+                    new SubsamplingScaleImageView.DefaultOnImageEventListener() {
+                        @Override
+                        public void onReady() {
+                            int viewWidth = holder.largeImage.getWidth()
+                                    - holder.largeImage.getPaddingLeft()
+                                    - holder.largeImage.getPaddingRight();
+                            int viewHeight = holder.largeImage.getHeight()
+                                    - holder.largeImage.getPaddingTop()
+                                    - holder.largeImage.getPaddingBottom();
+                            int orientation = holder.largeImage.getAppliedOrientation();
+                            boolean rotated90Or270 =
+                                    orientation == SubsamplingScaleImageView.ORIENTATION_90
+                                            || orientation
+                                            == SubsamplingScaleImageView.ORIENTATION_270;
+                            int imageWidth = rotated90Or270 ? holder.largeImage.getSHeight()
+                                    : holder.largeImage.getSWidth();
+                            int imageHeight = rotated90Or270 ? holder.largeImage.getSWidth()
+                                    : holder.largeImage.getSHeight();
+                            float cropScale = Math.max((float) viewWidth / imageWidth,
+                                    (float) viewHeight / imageHeight);
+                            holder.largeImage.setDoubleTapZoomScale(cropScale);
+                            ViewUtils.crossfade(holder.progress, holder.largeImage);
+                        }
+                        @Override
+                        public void onImageLoadError(Exception e) {
+                            e.printStackTrace();
+                            showError(e, R.string.gallery_load_error, holder);
+                        }
+                    });
+            holder.largeImage.setImage(ImageSource.uri(Uri.fromFile(file)));
+        }
+    }
+
+    private boolean shouldUseLargeImageView(ImageInfo imageInfo) {
+        // See BitmapFactory.cpp encodedFormatToString()
+        if (TextUtils.equals(imageInfo.mimeType, "image/gif")) {
+            return false;
+        }
+        if (imageInfo.width == 0 || imageInfo.height == 0) {
+            return false;
+        }
+        float ratio = imageInfo.width / imageInfo.height;
+        if (ratio > 0.5 && ratio < 2) {
+            return false;
+        }
+        return true;
+    }
+
+    private void showError(@Nullable Exception e, int resId, ViewHolder holder) {
+        (e != null ? e : new NullPointerException()).printStackTrace();
+        holder.errorText.setText(resId);
+        ViewUtils.crossfade(holder.progress, holder.errorText);
     }
 
     @Override
@@ -181,7 +251,7 @@ public class GalleryAdapter extends PagerAdapter {
 
     public interface Listener {
         void onTap();
-        void onFileDownloaded();
+        void onFileDownloaded(int position);
     }
 
     static class ViewHolder {

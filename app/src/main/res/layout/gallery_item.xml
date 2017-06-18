@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="invisible"
+        app:mpb_setBothDrawables="true"
         app:mpb_showProgressBackground="true"
         style="@style/Widget.MaterialProgressBar.ProgressBar" />
 </FrameLayout>
