@@ -50,13 +50,13 @@ public class GalleryFragment extends Fragment {
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
 
+    private MenuItem mSaveMenuItem;
+    private MenuItem mShareMenuItem;
+
     private ArrayList<String> mImageList;
     private int mInitialPosition;
 
     private SystemUiHelper mSystemUiHelper;
-
-    private MenuItem mSaveMenuItem;
-    private MenuItem mShareMenuItem;
 
     private GalleryAdapter mAdapter;
 

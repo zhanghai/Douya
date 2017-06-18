@@ -93,7 +93,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @BindView(R.id.send)
     ImageButton mSendButton;
 
-    private Menu mMenu;
+    private MenuItem mCopyTextMenuItem;
+    private MenuItem mDeleteMenuItem;
 
     private long mBroadcastId;
     private Broadcast mBroadcast;
@@ -265,7 +266,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.broadcast, menu);
-        mMenu = menu;
+        mCopyTextMenuItem = menu.findItem(R.id.action_copy_text);
+        mDeleteMenuItem = menu.findItem(R.id.action_delete);
     }
 
     @Override
@@ -276,14 +278,14 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     private void updateOptionsMenu() {
-        if (mMenu == null) {
+        if (mCopyTextMenuItem == null && mDeleteMenuItem == null) {
             return;
         }
         Broadcast broadcast = mBroadcastAndCommentListResource.getBroadcast();
         boolean hasBroadcast = broadcast != null;
-        mMenu.findItem(R.id.action_copy_text).setVisible(hasBroadcast);
+        mCopyTextMenuItem.setVisible(hasBroadcast);
         boolean canDelete = hasBroadcast && broadcast.isAuthorOneself(getActivity());
-        mMenu.findItem(R.id.action_delete).setVisible(canDelete);
+        mDeleteMenuItem.setVisible(canDelete);
     }
 
     @Override
