@@ -30,7 +30,7 @@ import me.zhanghai.android.douya.ui.RatioImageView;
 public class ImageUtils {
 
     private static final RequestOptions REQUEST_OPTIONS_LOAD_AVATAR = new RequestOptions()
-            .placeholder(R.drawable.avatar_icon_grey600_40dp)
+            .placeholder(R.drawable.avatar_icon_40dp)
             .dontTransform();
 
     public static void loadAvatar(ImageView view, String url) {
@@ -74,7 +74,7 @@ public class ImageUtils {
 
     private static final RequestOptions REQUEST_OPTIONS_LOAD_NAVIGATION_ACCOUNT_LIST_AVATAR =
             new RequestOptions()
-                    .placeholder(R.drawable.avatar_icon_grey600_40dp)
+                    .placeholder(R.drawable.avatar_icon_40dp)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .dontTransform();
 

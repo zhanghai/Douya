@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <style name="Base.Theme.Douya" parent="PreferenceFixTheme.Design">
+
+        <!-- Fixes. -->
+        <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.Douya</item>
+
+        <item name="colorAccent">@color/douya_accent_dark</item>
+
+        <item name="colorPrimaryDarkWithoutSystemWindowScrim">@android:color/black</item>
+    </style>
+
+    <style name="Base.Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar" />
+
+    <style name="Base.Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />
+</resources>

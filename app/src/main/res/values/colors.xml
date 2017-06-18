@@ -20,6 +20,7 @@
     <color name="grey_200">#eeeeee</color>
     <color name="grey_300">#e0e0e0</color>
     <color name="grey_600">#757575</color>
+    <color name="grey_700">#616161</color>
     <color name="grey_800">#424242</color>
 
     <color name="dark_30_percent">#4d000000</color>
@@ -29,12 +30,15 @@
     <color name="system_window_scrim">#44000000</color>
 
     <color name="window_background_light">@color/grey_50</color>
+    <color name="window_background_dark">#303030</color>
     <color name="card_background_light">@android:color/white</color>
     <color name="card_background_dark">@color/grey_800</color>
 
     <color name="douya_primary">@color/green_500</color>
     <color name="douya_primary_dark">@color/green_700</color>
     <color name="douya_primary_dark_without_system_window_scrim">#4dc252</color>
+    <color name="douya_accent">@color/green_500</color>
+    <color name="douya_accent_dark">@color/green_300</color>
 
     <color name="movie_primary">@color/blue_500</color>
     <color name="movie_primary_dark">@color/blue_700</color>

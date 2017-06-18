@@ -9,18 +9,14 @@
 
     <!-- HACK: Fixes. -->
     <style name="CardView">
-        <item name="cardBackgroundColor">@color/card_background_light</item>
+        <item name="cardBackgroundColor">?colorBackgroundFloating</item>
         <item name="cardCornerRadius">@dimen/cardview_default_radius</item>
         <item name="cardElevation">@dimen/cardview_default_elevation</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="cardPreventCornerOverlap">false</item>
     </style>
-    <style name="CardView.Dark">
-        <item name="cardBackgroundColor">@color/card_background_dark</item>
-    </style>
-    <style name="CardView.Light">
-        <item name="cardBackgroundColor">@color/card_background_light</item>
-    </style>
+    <style name="CardView.Dark" />
+    <style name="CardView.Light" />
 
     <!-- Additions. -->
     <style name="TextAppearance.AppCompat.Body1.Inverse">

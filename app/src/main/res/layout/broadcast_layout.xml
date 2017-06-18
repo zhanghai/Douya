@@ -115,12 +115,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground"
+        android:theme="@style/ThemeOverlay.Douya.Dark"
         app:fillOrientation="horizontal" />
 
     <FrameLayout
         android:id="@+id/image_list_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.Douya.Dark">
 
         <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
             android:id="@+id/image_list"
@@ -145,7 +147,7 @@
                 android:layout_marginBottom="@dimen/card_content_vertical_margin"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1.Inverse" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
         </FrameLayout>
     </FrameLayout>
 

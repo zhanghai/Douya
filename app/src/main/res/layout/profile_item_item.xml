@@ -15,7 +15,8 @@
         android:id="@+id/item"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:foreground="?selectableItemBackground">
+        android:foreground="?selectableItemBackground"
+        android:theme="@style/ThemeOverlay.Douya.Dark">
 
         <ImageView
             android:id="@+id/cover"
@@ -40,7 +41,7 @@
             android:layout_marginBottom="@dimen/card_content_vertical_space"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
     </me.zhanghai.android.douya.ui.RatioFrameLayout>
 
     <Space

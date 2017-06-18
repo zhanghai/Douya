@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
   ~ All Rights Reserved.
   -->
 
-<ripple
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="?colorControlHighlight">
-
-    <item android:id="@android:id/mask">
-        <shape android:shape="oval">
-            <solid android:color="@android:color/white" />
-        </shape>
-    </item>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
         <selector>
@@ -29,14 +21,17 @@
             </item>
             <item android:state_activated="true">
                 <shape android:shape="oval">
-                    <solid android:color="?colorControlActivated" />
+                    <solid android:color="@color/douya_accent_dark" />
                 </shape>
             </item>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="@color/grey_200" />
+                    <solid android:color="@color/grey_700" />
                 </shape>
             </item>
         </selector>
     </item>
-</ripple>
+
+    <!-- FIXME: Use an oval background instead. -->
+    <item android:drawable="@drawable/abc_item_background_holo_light" />
+</layer-list>

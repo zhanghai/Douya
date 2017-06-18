@@ -161,7 +161,7 @@ public class NavigationAccountListLayout extends LinearLayout {
                 ImageUtils.loadNavigationAccountListAvatar(holder.avatarImage,
                         user.getLargeAvatarOrAvatar());
             } else {
-                holder.avatarImage.setImageResource(R.drawable.avatar_icon_grey600_40dp);
+                holder.avatarImage.setImageResource(R.drawable.avatar_icon_40dp);
             }
             holder.nameText.setText(mAdapter.getPartialUser(account).name);
             accountLayout.setOnClickListener(new OnClickListener() {

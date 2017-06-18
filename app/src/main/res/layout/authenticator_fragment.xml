@@ -102,6 +102,8 @@
                     android:layout_marginLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
                     android:layout_marginRight="@dimen/card_content_horizontal_margin_with_4dp_padding"
                     android:text="@string/auth_sign_in"
+                    android:textAppearance="?android:textAppearanceButton"
+                    android:theme="@style/ThemeOverlay.Douya.Dark"
                     style="@style/Widget.AppCompat.Button.Colored" />
 
                 <Button

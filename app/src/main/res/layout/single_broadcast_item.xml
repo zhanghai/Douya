@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/card_background_light">
+    android:background="?colorBackgroundFloating">
 
     <me.zhanghai.android.douya.broadcast.ui.BroadcastLayout
         android:id="@+id/broadcast"

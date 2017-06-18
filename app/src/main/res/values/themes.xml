@@ -7,16 +7,41 @@
 
 <resources>
 
-    <style name="PreferenceFixTheme.Design" parent="PreferenceFixTheme">
-        <item name="preferenceCategory_marginBottom">0dp</item>
+    <style name="ThemeOverlay.Design" parent="ThemeOverlay.AppCompat">
         <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
-
+    <style name="ThemeOverlay.Design.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="textColorError">@color/design_textinput_error_color_dark</item>
+    </style>
+    <style name="ThemeOverlay.Design.Dark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="textColorError">@color/design_textinput_error_color_dark</item>
+    </style>
     <style name="ThemeOverlay.Design.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
     <style name="ThemeOverlay.Design.Light" parent="ThemeOverlay.AppCompat.Light">
         <item name="textColorError">@color/design_textinput_error_color_light</item>
+    </style>
+
+    <style name="ThemeOverlay.Douya" parent="ThemeOverlay.Design">
+        <item name="colorAccent">@color/douya_accent_dark</item>
+    </style>
+    <style name="ThemeOverlay.Douya.ActionBar" parent="ThemeOverlay.Design.ActionBar">
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+    <style name="ThemeOverlay.Douya.Dark" parent="ThemeOverlay.Design.Dark">
+        <item name="colorAccent">@color/douya_accent_dark</item>
+    </style>
+    <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.Design.Dark.ActionBar">
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+    <style name="ThemeOverlay.Douya.Light" parent="ThemeOverlay.Design.Light">
+        <item name="colorAccent">@color/douya_accent</item>
+    </style>
+
+    <style name="PreferenceFixTheme.Design" parent="PreferenceFixTheme">
+        <item name="preferenceCategory_marginBottom">0dp</item>
+        <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
     <!--<style name="Theme.Design.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">-->
     <style name="PreferenceFixTheme.Design.Light.DarkActionBar" parent="PreferenceFixTheme.Light.DarkActionBar">
@@ -25,25 +50,27 @@
         <item name="actionBarTheme">@style/ThemeOverlay.Design.Dark.ActionBar</item>
     </style>
 
-    <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.Design.Dark.ActionBar">
-        <item name="colorAccent">@android:color/white</item>
-    </style>
-
-    <style name="ThemeOverlay.Douya.Light" parent="ThemeOverlay.Design.Light">
-        <item name="colorAccent">@color/douya_primary</item>
-    </style>
-
-    <style name="Theme.Douya" parent="PreferenceFixTheme.Design.Light.DarkActionBar">
-
-        <item name="actionModeBackground">@color/background_material_dark</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="android:windowBackground">@color/window_background_light</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Base.Theme.Douya" parent="PreferenceFixTheme.Design.Light.DarkActionBar">
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.Douya.Light</item>
+
+        <item name="colorPrimary">@color/douya_primary</item>
+        <item name="colorPrimaryDark">@color/douya_primary_dark</item>
+        <item name="colorAccent">@color/douya_accent</item>
+
+        <item name="colorPrimaryDarkWithoutSystemWindowScrim">@color/douya_primary_dark_without_system_window_scrim</item>
+    </style>
+
+    <style name="Theme.Douya" parent="Base.Theme.Douya">
+
+        <item name="actionModeBackground">@color/background_material_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Fixes. -->
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
         <item name="android:textColorLink">?colorAccent</item>
         <!-- NOTE: The following two framework attributes are v11. Anyway. -->
@@ -51,10 +78,6 @@
         <item name="dividerVertical">?android:dividerVertical</item>
         <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
-
-        <item name="colorPrimary">@color/douya_primary</item>
-        <item name="colorPrimaryDark">@color/douya_primary_dark</item>
-        <item name="colorAccent">@color/douya_primary</item>
     </style>
 
     <style name="Theme.Douya.TransparentStatusBar" />
@@ -84,15 +107,21 @@
 
     <style name="Theme.Douya.ScrimStatusBar" />
 
-    <style name="Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar">
+    <style name="Base.Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar">
         <item name="android:windowBackground">@color/grey_200</item>
     </style>
+
+    <style name="Theme.Douya.MainActivity" parent="Base.Theme.Douya.MainActivity" />
 
     <style name="Theme.Douya.MainActivity.ColdStart">
         <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
     </style>
 
-    <style name="Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />
+    <style name="Base.Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground">
+        <item name="android:colorBackground">@color/grey_100</item>
+    </style>
+
+    <style name="Theme.Douya.BroadcastActivity" parent="Base.Theme.Douya.BroadcastActivity" />
 
     <style name="Base.Theme.Douya.Gallery" parent="PreferenceFixTheme.Design">
 

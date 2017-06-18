@@ -172,7 +172,7 @@ public class BroadcastLayout extends LinearLayout {
 
         if (broadcast.isInterest) {
             mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
-                    R.drawable.recommendation_avatar_icon_grey600_40dp));
+                    R.drawable.recommendation_avatar_icon_40dp));
             mAvatarImage.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {

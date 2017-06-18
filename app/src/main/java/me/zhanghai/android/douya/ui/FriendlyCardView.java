@@ -39,7 +39,7 @@ public class FriendlyCardView extends CardView {
     private void init(AttributeSet attrs, int defStyleAttr) {
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
-                R.styleable.CardView, defStyleAttr, R.style.CardView_Light);
+                R.styleable.CardView, defStyleAttr, R.style.CardView);
         setMaxCardElevation(a.getDimension(R.styleable.CardView_cardMaxElevation,
                 getCardElevation()));
         a.recycle();

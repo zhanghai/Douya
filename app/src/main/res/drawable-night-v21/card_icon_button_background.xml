@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
   ~ All Rights Reserved.
   -->
 
@@ -19,12 +19,12 @@
         <selector>
             <item android:state_enabled="false" android:state_activated="true">
                 <shape android:shape="oval">
-                    <solid android:color="@color/green_300" />
+                    <solid android:color="@color/green_500" />
                 </shape>
             </item>
             <item android:state_enabled="false">
                 <shape android:shape="oval">
-                    <solid android:color="@color/green_100" />
+                    <solid android:color="@color/green_700" />
                 </shape>
             </item>
             <item android:state_activated="true">
@@ -34,7 +34,7 @@
             </item>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="@color/grey_200" />
+                    <solid android:color="@color/grey_700" />
                 </shape>
             </item>
         </selector>

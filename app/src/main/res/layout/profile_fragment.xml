@@ -47,7 +47,7 @@
             android:id="@+id/contentState"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/window_background_light">
+            android:background="?android:colorBackground">
 
             <me.zhanghai.android.douya.ui.FlexibleSpaceContentRecyclerView
                 android:id="@+id/content"

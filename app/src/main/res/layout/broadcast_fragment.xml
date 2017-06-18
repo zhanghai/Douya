@@ -26,7 +26,7 @@
             android:layout_marginRight="@dimen/card_activity_horizontal_margin"
             android:layout_marginTop="@dimen/toolbar_height"
             android:layout_marginBottom="@dimen/toolbar_height"
-            android:background="@color/grey_100">
+            android:background="?android:colorBackground">
 
             <me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout
                 android:id="@+id/swipe_refresh"
@@ -67,7 +67,7 @@
         android:layout_marginRight="@dimen/card_activity_horizontal_margin"
         android:paddingLeft="@dimen/toolbar_edit_left_margin"
         android:paddingRight="@dimen/toolbar_button_right_margin"
-        android:background="@color/card_background_light"
+        android:background="?colorBackgroundFloating"
         android:clickable="true"
         android:elevation="@dimen/appbar_elevation"
         android:orientation="horizontal">

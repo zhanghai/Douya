@@ -7,6 +7,8 @@
 
 <resources>
 
+    <attr name="colorPrimaryDarkWithoutSystemWindowScrim" format="color" />
+
     <declare-styleable name="CardIconButton">
         <attr name="android:src" />
         <attr name="android:text" />

@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.bumptech.glide.request.target.ViewTarget;
 import com.facebook.stetho.Stetho;
@@ -14,6 +15,10 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import me.zhanghai.android.douya.fabric.FabricUtils;
 
 public class DouyaApplication extends Application {
+
+    static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
 
     private static DouyaApplication sInstance;
 
