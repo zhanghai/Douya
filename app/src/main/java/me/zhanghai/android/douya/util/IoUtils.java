@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.util;
 
+import android.os.ParcelFileDescriptor;
 import android.util.Base64;
 
 import org.json.JSONArray;
@@ -31,6 +32,15 @@ public class IoUtils {
     public static void close(Closeable closeable) {
         try {
             closeable.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ParcelFileDescriptor did not implement Closable before API level 16.
+    public static void close(ParcelFileDescriptor parcelFileDescriptor) {
+        try {
+            parcelFileDescriptor.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
