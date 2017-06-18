@@ -86,17 +86,15 @@ public class AppBarWrapperLayout extends LinearLayout {
 
     @Override
     protected Parcelable onSaveInstanceState() {
-
         Parcelable superState = super.onSaveInstanceState();
+
         SavedState savedState = new SavedState(superState);
         savedState.showing = mShowing;
-
         return savedState;
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
@@ -213,7 +211,6 @@ public class AppBarWrapperLayout extends LinearLayout {
                     public SavedState createFromParcel(Parcel source) {
                         return new SavedState(source);
                     }
-
                     @Override
                     public SavedState[] newArray(int size) {
                         return new SavedState[size];

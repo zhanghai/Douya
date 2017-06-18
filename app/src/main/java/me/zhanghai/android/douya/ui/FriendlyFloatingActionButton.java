@@ -52,17 +52,15 @@ public class FriendlyFloatingActionButton extends FloatingActionButton {
 
     @Override
     protected Parcelable onSaveInstanceState() {
-
         Parcelable superState = super.onSaveInstanceState();
+
         SavedState savedState = new SavedState(superState);
         savedState.showing = mShowing;
-
         return savedState;
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
@@ -151,7 +149,6 @@ public class FriendlyFloatingActionButton extends FloatingActionButton {
                     public SavedState createFromParcel(Parcel source) {
                         return new SavedState(source);
                     }
-
                     @Override
                     public SavedState[] newArray(int size) {
                         return new SavedState[size];
