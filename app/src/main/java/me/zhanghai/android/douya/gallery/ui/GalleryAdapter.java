@@ -38,10 +38,12 @@ import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.glide.info.ImageInfo;
 import me.zhanghai.android.douya.glide.progress.ProgressListener;
 import me.zhanghai.android.douya.ui.ProgressBarCompat;
+import me.zhanghai.android.douya.ui.SaveStateSubsamplingScaleImageView;
+import me.zhanghai.android.douya.ui.ViewStatePagerAdapter;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class GalleryAdapter extends PagerAdapter {
+public class GalleryAdapter extends ViewStatePagerAdapter {
 
     private List<String> mImageList;
     private Listener mListener;
@@ -63,7 +65,7 @@ public class GalleryAdapter extends PagerAdapter {
     }
 
     @Override
-    public View instantiateItem(ViewGroup container, final int position) {
+    public View onCreateView(ViewGroup container, int position) {
         final View layout = ViewUtils.inflate(R.layout.gallery_item, container);
         final ViewHolder holder = new ViewHolder(layout);
         layout.setTag(holder);
@@ -212,7 +214,7 @@ public class GalleryAdapter extends PagerAdapter {
                             showError(e, R.string.gallery_load_error, holder);
                         }
                     });
-            holder.largeImage.setImage(ImageSource.uri(Uri.fromFile(file)));
+            holder.largeImage.setImageRestoringSavedState(ImageSource.uri(Uri.fromFile(file)));
         }
     }
 
@@ -238,8 +240,7 @@ public class GalleryAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        View view = (View) object;
+    public void onDestroyView(ViewGroup container, int position, View view) {
         ViewHolder holder = (ViewHolder) view.getTag();
         GlideApp.with(holder.image).clear(holder.image);
         container.removeView(view);
@@ -259,7 +260,7 @@ public class GalleryAdapter extends PagerAdapter {
         @BindView(R.id.image)
         public PhotoView image;
         @BindView(R.id.largeImage)
-        public SubsamplingScaleImageView largeImage;
+        public SaveStateSubsamplingScaleImageView largeImage;
         @BindView(R.id.error)
         public TextView errorText;
         @BindView(R.id.progress)

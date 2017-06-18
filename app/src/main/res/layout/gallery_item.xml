@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <me.zhanghai.android.douya.ui.SaveStateSubsamplingScaleImageView
         android:id="@+id/largeImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
