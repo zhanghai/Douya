@@ -66,7 +66,7 @@ public class IntentUtils {
         return makeSendText(text, null);
     }
 
-    public static Intent makeSendImage(Uri imageUri, CharSequence text) {
+    public static Intent makeSendImage(Uri uri, CharSequence text) {
         return new Intent()
                 .setAction(Intent.ACTION_SEND)
                 // For maximum compatibility.
@@ -75,8 +75,12 @@ public class IntentUtils {
                 .putExtra(Intent.EXTRA_SUBJECT, text)
                 // HACK: WeChat moments respects this extra only.
                 .putExtra("Kdescription", text)
-                .putExtra(Intent.EXTRA_STREAM, imageUri)
+                .putExtra(Intent.EXTRA_STREAM, uri)
                 .setType(MIME_TYPE_IMAGE_ANY);
+    }
+
+    public static Intent makeSendImage(Uri uri) {
+        return makeSendImage(uri, null);
     }
 
     public static Intent makeSyncSettings(String[] authorities) {

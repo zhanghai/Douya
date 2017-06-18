@@ -7,28 +7,13 @@ package me.zhanghai.android.douya.gallery.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import butterknife.BindInt;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.gallery.app.SaveImageService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
-import me.zhanghai.android.douya.ui.ViewPagerTransformers;
-import me.zhanghai.android.douya.util.FileUtils;
-import me.zhanghai.android.douya.util.IntentUtils;
-import me.zhanghai.android.systemuihelper.SystemUiHelper;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -36,21 +21,6 @@ public class GalleryActivity extends AppCompatActivity {
 
     private static final String EXTRA_IMAGE_LIST = KEY_PREFIX + "image_list";
     private static final String EXTRA_POSITION = KEY_PREFIX + "position";
-
-    @BindInt(android.R.integer.config_mediumAnimTime)
-    int mToolbarHideDuration;
-
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.viewPager)
-    ViewPager mViewPager;
-
-    private SystemUiHelper mSystemUiHelper;
-
-    private MenuItem mSaveMenuItem;
-    private MenuItem mShareMenuItem;
-
-    private GalleryAdapter mAdapter;
 
     public static Intent makeIntent(ArrayList<String> imageList, int position, Context context) {
         return new Intent(context, GalleryActivity.class)
@@ -81,108 +51,15 @@ public class GalleryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.gallery_activity);
-        ButterKnife.bind(this);
+        // Calls ensureSubDecor().
+        findViewById(android.R.id.content);
 
-        setSupportActionBar(mToolbar);
-
-        mSystemUiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE,
-                SystemUiHelper.FLAG_IMMERSIVE_STICKY,
-                new SystemUiHelper.OnVisibilityChangeListener() {
-                    @Override
-                    public void onVisibilityChange(boolean visible) {
-                        if (visible) {
-                            mToolbar.animate()
-                                    .alpha(1)
-                                    .translationY(0)
-                                    .setDuration(mToolbarHideDuration)
-                                    .setInterpolator(new FastOutSlowInInterpolator())
-                                    .start();
-                        } else {
-                            mToolbar.animate()
-                                    .alpha(0)
-                                    .translationY(-mToolbar.getBottom())
-                                    .setDuration(mToolbarHideDuration)
-                                    .setInterpolator(new FastOutSlowInInterpolator())
-                                    .start();
-                        }
-                    }
-                });
-        // This will set up window flags.
-        mSystemUiHelper.show();
-
-        ArrayList<String> imageList = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
-        mAdapter = new GalleryAdapter(imageList, new GalleryAdapter.Listener() {
-            @Override
-            public void onTap() {
-                mSystemUiHelper.toggle();
-            }
-            @Override
-            public void onFileDownloaded() {
-                updateOptionsMenu();
-            }
-        });
-        mViewPager.setAdapter(mAdapter);
-        int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
-        mViewPager.setCurrentItem(position);
-        mViewPager.setPageTransformer(true, new ViewPagerTransformers.Depth());
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                updateOptionsMenu();
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        getMenuInflater().inflate(R.menu.gallery, menu);
-        mSaveMenuItem = menu.findItem(R.id.action_save);
-        mShareMenuItem = menu.findItem(R.id.action_share);
-        updateOptionsMenu();
-        return true;
-    }
-
-    private void updateOptionsMenu() {
-        boolean hasFile = mAdapter.getFile(mViewPager.getCurrentItem()) != null;
-        mSaveMenuItem.setEnabled(hasFile);
-        mShareMenuItem.setEnabled(hasFile);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_save:
-                saveImage();
-                return true;
-            case R.id.action_share:
-                shareImage();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            ArrayList<String> imageList = intent.getStringArrayListExtra(EXTRA_IMAGE_LIST);
+            int position = intent.getIntExtra(EXTRA_POSITION, 0);
+            FragmentUtils.add(GalleryFragment.newInstance(imageList, position), this,
+                    android.R.id.content);
         }
-    }
-
-    private void saveImage() {
-        File file = mAdapter.getFile(mViewPager.getCurrentItem());
-        if (file == null) {
-            return;
-        }
-        SaveImageService.start(file, this);
-    }
-
-    private void shareImage() {
-        File file = mAdapter.getFile(mViewPager.getCurrentItem());
-        if (file == null) {
-            return;
-        }
-        Uri uri = FileUtils.getContentUri(file, this);
-        startActivity(Intent.createChooser(IntentUtils.makeSendImage(uri, null), getText(
-                R.string.gallery_share_chooser_title)));
     }
 }
