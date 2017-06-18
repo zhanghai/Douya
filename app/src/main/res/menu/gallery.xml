@@ -21,6 +21,5 @@
         android:id="@+id/action_share"
         android:orderInCategory="100"
         android:title="@string/share"
-        app:showAsAction="never"
-        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+        app:showAsAction="never" />
 </menu>

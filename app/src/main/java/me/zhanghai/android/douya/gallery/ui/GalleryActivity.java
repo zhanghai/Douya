@@ -9,12 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.FileProvider;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,11 +22,11 @@ import java.util.ArrayList;
 import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.app.SaveImageService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.ui.ViewPagerTransformers;
+import me.zhanghai.android.douya.util.FileUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.systemuihelper.SystemUiHelper;
 
@@ -149,16 +146,9 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     private void updateOptionsMenu() {
-        File file = mAdapter.getFile(mViewPager.getCurrentItem());
-        boolean hasFile = file != null;
+        boolean hasFile = mAdapter.getFile(mViewPager.getCurrentItem()) != null;
         mSaveMenuItem.setEnabled(hasFile);
         mShareMenuItem.setEnabled(hasFile);
-        if (hasFile) {
-            ShareActionProvider shareActionProvider = (ShareActionProvider)
-                    MenuItemCompat.getActionProvider(mShareMenuItem);
-            Uri uri = FileProvider.getUriForFile(this, BuildConfig.FILE_PROVIDIER_AUTHORITY, file);
-            shareActionProvider.setShareIntent(IntentUtils.makeSendImage(uri, null));
-        }
     }
 
     @Override
@@ -169,6 +159,9 @@ public class GalleryActivity extends AppCompatActivity {
                 return true;
             case R.id.action_save:
                 saveImage();
+                return true;
+            case R.id.action_share:
+                shareImage();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -181,5 +174,15 @@ public class GalleryActivity extends AppCompatActivity {
             return;
         }
         SaveImageService.start(file, this);
+    }
+
+    private void shareImage() {
+        File file = mAdapter.getFile(mViewPager.getCurrentItem());
+        if (file == null) {
+            return;
+        }
+        Uri uri = FileUtils.getContentUri(file, this);
+        startActivity(Intent.createChooser(IntentUtils.makeSendImage(uri, null), getText(
+                R.string.gallery_share_chooser_title)));
     }
 }

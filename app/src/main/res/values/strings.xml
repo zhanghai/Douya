@@ -117,11 +117,12 @@
     <string name="auth_error_unknown">未知错误</string>
     <string name="auth_select_account">选择账户</string>
 
-    <string name="gallery_title">查看照片</string>
+    <string name="gallery_title">查看图片</string>
     <string name="gallery_network_error">网络错误</string>
     <string name="gallery_load_error">加载错误</string>
     <string name="gallery_save_successful">已保存图片至相册</string>
     <string name="gallery_save_failed">保存图片失败</string>
+    <string name="gallery_share_chooser_title">分享图片</string>
 
     <string name="webview_title">查看网页</string>
     <string name="webview_go_forward">前进</string>
