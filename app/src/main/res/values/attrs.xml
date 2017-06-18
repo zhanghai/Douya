@@ -13,7 +13,7 @@
     </declare-styleable>
 
     <declare-styleable name="ContentStateLayout">
-        <attr name="animationEnabled" format="boolean|reference" />
+        <attr name="animationEnabled" format="boolean" />
         <attr name="loadingView" format="reference" />
         <attr name="contentView" format="reference" />
         <attr name="emptyView" format="reference" />
@@ -21,8 +21,8 @@
     </declare-styleable>
 
     <declare-styleable name="FriendlySwipeRefreshLayout">
-        <attr name="progressOffset" format="dimension|reference" />
-        <attr name="progressDistanceOffset" format="dimension|reference" />
+        <attr name="progressOffset" format="dimension" />
+        <attr name="progressDistanceOffset" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="ImageLayout">
@@ -33,11 +33,11 @@
     </declare-styleable>
 
     <declare-styleable name="InsetBackgroundFrameLayout">
-        <attr name="insetBackground" format="color|reference" />
+        <attr name="insetBackground" format="color" />
     </declare-styleable>
 
     <declare-styleable name="RatioHeightRecyclerView">
-        <attr name="ratio" format="string|reference" />
+        <attr name="ratio" format="string" />
     </declare-styleable>
 
     <declare-styleable name="TintStateListImageView">
