@@ -23,22 +23,6 @@ public class IntentUtils {
 
     private IntentUtils() {}
 
-    public static Intent makeSyncSettings(String[] authorities) {
-        Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
-        if (!ArrayUtils.isEmpty(authorities)) {
-            intent.putExtra(Settings.EXTRA_AUTHORITIES, authorities);
-        }
-        return intent;
-    }
-
-    public static Intent makeSyncSettings(String authority) {
-        return makeSyncSettings(authority != null ? new String[] { authority } : null);
-    }
-
-    public static Intent makeSyncSettings() {
-        return makeSyncSettings((String) null);
-    }
-
     public static Intent makeInstallShortcut(int iconRes, int nameRes, Class<?> intentClass,
                                              Context context) {
         return new Intent()
@@ -93,6 +77,22 @@ public class IntentUtils {
                 .putExtra("Kdescription", text)
                 .putExtra(Intent.EXTRA_STREAM, imageUri)
                 .setType(MIME_TYPE_IMAGE_ANY);
+    }
+
+    public static Intent makeSyncSettings(String[] authorities) {
+        Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
+        if (!ArrayUtils.isEmpty(authorities)) {
+            intent.putExtra(Settings.EXTRA_AUTHORITIES, authorities);
+        }
+        return intent;
+    }
+
+    public static Intent makeSyncSettings(String authority) {
+        return makeSyncSettings(authority != null ? new String[] { authority } : null);
+    }
+
+    public static Intent makeSyncSettings() {
+        return makeSyncSettings((String) null);
     }
 
     public static Intent makeView(Uri uri) {

@@ -64,3 +64,6 @@
 -dontwarn okio.**
 -dontwarn javax.annotation.Nullable
 -dontwarn javax.annotation.ParametersAreNonnullByDefault
+
+# Support library
+-keep class android.support.v7.widget.ShareActionProvider { *; }

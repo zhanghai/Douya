@@ -19,6 +19,8 @@ android {
         versionCode 7
         versionName "1.0.0-beta.5"
         resValue 'string', 'application_id', applicationId
+        buildConfigField 'String', 'FILE_PROVIDIER_AUTHORITY', 'APPLICATION_ID + ".file_provider"'
+        resValue 'string', 'file_provider_authority', applicationId + '.file_provider'
     }
 
     buildTypes {

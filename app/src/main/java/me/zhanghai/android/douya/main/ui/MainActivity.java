@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @BindView(R.id.container)
     FrameLayout mContainerLayout;
 
-    private MenuItem mNotificationMenu;
+    private MenuItem mNotificationMenuItem;
 
     private NavigationFragment mNavigationFragment;
     private NotificationListFragment mNotificationListFragment;
@@ -93,11 +93,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.main, menu);
-        mNotificationMenu = menu.findItem(R.id.action_notification);
-        ActionItemBadge.setup(mNotificationMenu, R.drawable.notifications_icon_white_24dp,
+        mNotificationMenuItem = menu.findItem(R.id.action_notification);
+        ActionItemBadge.setup(mNotificationMenuItem, R.drawable.notifications_icon_white_24dp,
                 mNotificationListFragment.getUnreadNotificationCount(), this);
-        MenuItem mDouMailMenu = menu.findItem(R.id.action_doumail);
-        ActionItemBadge.setup(mDouMailMenu, R.drawable.mail_icon_white_24dp, 0, this);
+        MenuItem mDouMailMenuItem = menu.findItem(R.id.action_doumail);
+        ActionItemBadge.setup(mDouMailMenuItem, R.drawable.mail_icon_white_24dp, 0, this);
         return true;
     }
 
@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     @Override
     public void onUnreadNotificationUpdate(int count) {
-        if (mNotificationMenu != null) {
-            ActionItemBadge.update(mNotificationMenu, count);
+        if (mNotificationMenuItem != null) {
+            ActionItemBadge.update(mNotificationMenuItem, count);
         }
     }
 

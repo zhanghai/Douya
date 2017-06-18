@@ -147,6 +147,16 @@
             </intent-filter>
         </receiver>
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="@string/file_provider_authority"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="dc160e13d1b3c3e917e331e8b272c51a523d8599" />
