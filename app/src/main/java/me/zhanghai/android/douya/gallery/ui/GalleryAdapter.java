@@ -124,7 +124,6 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
                         if (mListener != null) {
                             mListener.onFileDownloaded(position);
                         }
-                        holder.progress.setIndeterminate(true);
                         loadImageFromFile(file, holder);
                     }
                 });
@@ -215,6 +214,7 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
                         }
                     });
             holder.largeImage.setImageRestoringSavedState(ImageSource.uri(Uri.fromFile(file)));
+            holder.progress.setIndeterminate(true);
         }
     }
 
