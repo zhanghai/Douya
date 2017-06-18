@@ -226,7 +226,7 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
         if (imageInfo.width == 0 || imageInfo.height == 0) {
             return false;
         }
-        float ratio = imageInfo.width / imageInfo.height;
+        float ratio = (float) imageInfo.width / imageInfo.height;
         if (ratio > 0.5 && ratio < 2) {
             return false;
         }
