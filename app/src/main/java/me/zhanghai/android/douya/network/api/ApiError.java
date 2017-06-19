@@ -127,7 +127,7 @@ public class ApiError extends Throwable {
                 R.string.api_error_rebroadcast_broadcast_not_rebroadcasted_yet);
     }
 
-    public Response response;
+    public Object response;
     public String bodyString;
     public JSONObject bodyJson;
     public int code;
@@ -139,9 +139,8 @@ public class ApiError extends Throwable {
         super(throwable);
     }
 
-    public ApiError(Response response) {
+    public ApiError(Object response, ResponseBody responseBody) {
         this.response = response;
-        ResponseBody responseBody = response.body();
         if (responseBody != null) {
             // Don't throw an exception from here, just do the best we can.
             try {
@@ -156,8 +155,12 @@ public class ApiError extends Throwable {
         }
     }
 
+    public ApiError(Response response) {
+        this(response, response.body());
+    }
+
     public ApiError(retrofit2.Response<?> response) {
-        this(response.raw());
+        this(response, response.errorBody());
     }
 
     private void parseResponse() {
