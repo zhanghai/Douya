@@ -32,6 +32,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.ui.ClickableMovementMethod;
 
 public class ViewUtils {
@@ -177,6 +178,15 @@ public class ViewUtils {
         }
     }
 
+    public static boolean getBooleanFromAttrRes(int attrRes, boolean defaultValue, Context context) {
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            return a.getBoolean(0, defaultValue);
+        } finally {
+            a.recycle();
+        }
+    }
+
     public static int getColorFromAttrRes(int attrRes, int defaultValue, Context context) {
         TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
         try {
@@ -319,6 +329,10 @@ public class ViewUtils {
 
     public static View inflateInto(int resource, ViewGroup parent) {
         return LayoutInflater.from(parent.getContext()).inflate(resource, parent);
+    }
+
+    public static boolean isLightTheme(Context context) {
+        return getBooleanFromAttrRes(R.attr.isLightTheme, false, context);
     }
 
     public static boolean isInLandscape(Context context) {

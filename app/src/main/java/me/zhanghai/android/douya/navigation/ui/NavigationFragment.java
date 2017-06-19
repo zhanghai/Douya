@@ -7,7 +7,9 @@ package me.zhanghai.android.douya.navigation.ui;
 
 import android.accounts.Account;
 import android.accounts.OnAccountsUpdateListener;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -30,6 +32,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.settings.ui.SettingsActivity;
+import me.zhanghai.android.douya.util.TintHelper;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class NavigationFragment extends Fragment implements OnAccountsUpdateListener,
@@ -96,13 +99,17 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
         mHeaderLayout.setAdapter(this);
         mHeaderLayout.setListener(this);
         mHeaderLayout.bind();
+        Activity activity = getActivity();
+        if (!ViewUtils.isLightTheme(activity)) {
+            TintHelper.setNavigationItemTint(mNavigationView, ViewUtils.getColorFromAttrRes(
+                    android.R.attr.textColorPrimary, Color.BLACK, activity));
+        }
         mNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.navigation_home:
-                                // TODO
                                 break;
                             case R.id.navigation_settings:
                                 openSettings();
