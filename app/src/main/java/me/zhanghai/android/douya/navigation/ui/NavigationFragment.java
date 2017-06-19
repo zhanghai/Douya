@@ -96,6 +96,12 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
 
         AccountUtils.addOnAccountListUpdatedListener(this);
 
+        getDrawer().addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                mHeaderLayout.setShowingAccountList(false);
+            }
+        });
         mHeaderLayout.setAdapter(this);
         mHeaderLayout.setListener(this);
         mHeaderLayout.bind();
