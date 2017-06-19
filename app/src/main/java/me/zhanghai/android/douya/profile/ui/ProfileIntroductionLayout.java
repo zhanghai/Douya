@@ -56,7 +56,9 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
     }
 
     public void bind(String introduction) {
-        introduction = introduction.trim();
+        introduction = introduction
+                .replaceAll("\\A(\\h*\n)*", "")
+                .replaceAll("(\n\\h*)*\n?\\Z", "");
         if (!TextUtils.isEmpty(introduction)) {
             final String finalIntroduction = introduction;
             mTitleText.setOnClickListener(new OnClickListener() {
