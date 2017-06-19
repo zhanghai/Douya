@@ -17,8 +17,7 @@ public class TabViewPagerAdapter extends PagerAdapter {
 
     private static final String KEY_PREFIX = TabViewPagerAdapter.class.getName() + '.';
 
-    private static final String STATE_KEY_HIERARCHY_STATE_FORMAT = KEY_PREFIX
-            + "hierarchy_state_%1$d";
+    private static final String STATE_HIERARCHY_STATE_FORMAT = KEY_PREFIX + "hierarchy_state_%1$d";
 
     private View[] mViews;
     private CharSequence[] mTitles;
@@ -103,6 +102,6 @@ public class TabViewPagerAdapter extends PagerAdapter {
     }
 
     private String makeHierarchyStateKey(int position) {
-        return String.format(STATE_KEY_HIERARCHY_STATE_FORMAT, position);
+        return String.format(STATE_HIERARCHY_STATE_FORMAT, position);
     }
 }
