@@ -7,9 +7,6 @@
 
 <resources>
 
-    <style name="ThemeOverlay.Design" parent="ThemeOverlay.AppCompat">
-        <item name="textColorError">@color/design_textinput_error_color_dark</item>
-    </style>
     <style name="ThemeOverlay.Design.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="textColorError">@color/design_textinput_error_color_dark</item>
     </style>
@@ -23,9 +20,6 @@
         <item name="textColorError">@color/design_textinput_error_color_light</item>
     </style>
 
-    <style name="ThemeOverlay.Douya" parent="ThemeOverlay.Design">
-        <item name="colorAccent">@color/douya_accent_dark</item>
-    </style>
     <style name="ThemeOverlay.Douya.ActionBar" parent="ThemeOverlay.Design.ActionBar">
         <item name="colorAccent">@android:color/white</item>
     </style>
@@ -50,6 +44,11 @@
         <item name="actionBarTheme">@style/ThemeOverlay.Design.Dark.ActionBar</item>
     </style>
 
+    <style name="DarkTheme" parent="ThemeOverlay.AppCompat.Dark" />
+    <style name="DarkTheme.Light" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorAccent">@color/douya_accent</item>
+    </style>
+
     <style name="Base.Theme.Douya" parent="PreferenceFixTheme.Design.Light.DarkActionBar">
 
         <!-- Fixes. -->
@@ -60,6 +59,7 @@
         <item name="colorPrimaryDark">@color/douya_primary_dark</item>
         <item name="colorAccent">@color/douya_accent</item>
 
+        <item name="darkTheme">@style/DarkTheme.Light</item>
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">@color/douya_primary_dark_without_system_window_scrim</item>
     </style>
 

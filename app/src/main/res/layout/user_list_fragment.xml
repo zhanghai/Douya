@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout
+    <android.support.v4.widget.FriendlySwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -22,7 +22,7 @@
             android:clipToPadding="false"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay" />
-    </me.zhanghai.android.douya.ui.FriendlySwipeRefreshLayout>
+    </android.support.v4.widget.FriendlySwipeRefreshLayout>
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/progress"

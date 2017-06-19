@@ -115,14 +115,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground"
-        android:theme="@style/ThemeOverlay.Douya.Dark"
+        android:theme="?darkTheme"
         app:fillOrientation="horizontal" />
 
     <FrameLayout
         android:id="@+id/image_list_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.Douya.Dark">
+        android:theme="?darkTheme">
 
         <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
             android:id="@+id/image_list"

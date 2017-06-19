@@ -87,7 +87,7 @@
             android:layout_weight="1"
             android:stateListAnimator="@null"
             android:textAppearance="?android:textAppearanceButton"
-            android:theme="@style/ThemeOverlay.Douya.Dark"
+            android:theme="?darkTheme"
             style="@style/Widget.AppCompat.Button.Colored" />
 
         <Button
@@ -97,7 +97,7 @@
             android:layout_weight="1"
             android:stateListAnimator="@null"
             android:textAppearance="?android:textAppearanceButton"
-            android:theme="@style/ThemeOverlay.Douya.Dark"
+            android:theme="?darkTheme"
             style="@style/Widget.AppCompat.Button.Colored" />
 
         <Button
@@ -107,7 +107,7 @@
             android:layout_weight="1"
             android:stateListAnimator="@null"
             android:textAppearance="?android:textAppearanceButton"
-            android:theme="@style/ThemeOverlay.Douya.Dark"
+            android:theme="?darkTheme"
             style="@style/Widget.AppCompat.Button.Colored" />
     </LinearLayout>
 </LinearLayout>

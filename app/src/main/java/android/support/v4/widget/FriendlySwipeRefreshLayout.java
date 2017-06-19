@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.ui;
+package android.support.v4.widget;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.graphics.drawable.ShapeDrawable;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
@@ -20,10 +20,10 @@ import me.zhanghai.android.douya.util.ViewUtils;
  */
 public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
 
-    private static final int CIRCLE_DIAMETER_DP = 40;
-    private static final int CIRCLE_DIAMETER_LARGE_DP = 56;
+    private static final int CIRCLE_DIAMETER_DP = CIRCLE_DIAMETER;
+    private static final int CIRCLE_DIAMETER_LARGE_DP = CIRCLE_DIAMETER_LARGE;
     private static final int CIRCLE_SHADOW_DP = 7;
-    private static final int DEFAULT_CIRCLE_DISTANCE_DP = 64;
+    private static final int DEFAULT_CIRCLE_DISTANCE_DP = 64; // DEFAULT_CIRCLE_TARGET
 
     private int mSize = DEFAULT;
     private int mCircleDiameter;
@@ -62,8 +62,12 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
             setProgressViewOffset(progressOffset, progressDistanceOffset);
         }
 
-        setColorSchemeColors(ViewUtils.getColorFromAttrRes(R.attr.colorPrimary, Color.BLACK,
-                context));
+        int backgroundColor = ViewUtils.getColorFromAttrRes(R.attr.colorBackgroundFloating,
+                Color.WHITE, context);
+        ((ShapeDrawable) mCircleView.getBackground()).getPaint().setColor(backgroundColor);
+        mProgress.setBackgroundColor(backgroundColor);
+        setColorSchemeColors(ViewUtils.getColorFromAttrRes(R.attr.colorControlActivated,
+                Color.BLACK, context));
     }
 
     @Override
@@ -90,6 +94,11 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
 
     public void setProgressViewOffset(int offset) {
         setProgressViewOffset(offset, 0);
+    }
+
+    @Override
+    public int getProgressCircleDiameter() {
+        return mCircleDiameter;
     }
 
     public CanChildScrollUpCallback getCanChildScrollUpCallback() {

@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:foreground="?selectableItemBackground"
-        android:theme="@style/ThemeOverlay.Douya.Dark">
+        android:theme="?darkTheme">
 
         <ImageView
             android:id="@+id/cover"

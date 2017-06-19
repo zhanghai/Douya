@@ -7,6 +7,7 @@
 
 <resources>
 
+    <attr name="darkTheme" format="reference" />
     <attr name="colorPrimaryDarkWithoutSystemWindowScrim" format="color" />
 
     <declare-styleable name="CardIconButton">

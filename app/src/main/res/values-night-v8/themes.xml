@@ -11,10 +11,10 @@
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
-        <item name="actionBarPopupTheme">@style/ThemeOverlay.Douya</item>
 
         <item name="colorAccent">@color/douya_accent_dark</item>
 
+        <item name="darkTheme">@style/DarkTheme</item>
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">@android:color/black</item>
     </style>
 
