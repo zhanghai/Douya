@@ -7,12 +7,14 @@ package me.zhanghai.android.douya.util;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.app.AppCompatDelegateNightModeHelper;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.zhanghai.android.douya.settings.info.Settings;
 
@@ -31,6 +33,10 @@ public class NightModeHelper {
         setDefaultNightMode(Settings.NIGHT_MODE.getEnumValue());
     }
 
+    private static int getDefaultNightMode() {
+        return AppCompatDelegate.getDefaultNightMode();
+    }
+
     private static void setDefaultNightMode(Settings.NightMode nightMode) {
         int nightModeValue = nightMode.getValue();
         if (AppCompatDelegate.getDefaultNightMode() == nightModeValue) {
@@ -41,26 +47,47 @@ public class NightModeHelper {
 
     public static void updateNightMode(AppCompatActivity activity) {
         syncDefaultNightMode();
-        boolean changed = activity.getDelegate().applyDayNight();
-        if (changed) {
-            sActivityHelper.markActivitiesAsStale();
-            sActivityHelper.markActivityAsFresh(activity);
-        }
+        sActivityHelper.onActivityStarted(activity);
     }
 
+    // AppCompatDelegateImplV14.updateForNightMode() won't update when multiple Activities share a
+    // Resources and a Configuration instance. We do this ourselves.
     private static class ActivityHelper implements Application.ActivityLifecycleCallbacks {
 
-        private Set<Activity> mCreatedActivities = new HashSet<>();
-        private Set<Activity> mStaleActivities = new HashSet<>();
+        private Map<Activity, Boolean> mActivities = new HashMap<>();
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-            mCreatedActivities.add(activity);
+            // This runs after AppCompatActivity calls AppCompatDelegate.applyDayNight().
+            int uiModeNight = activity.getResources().getConfiguration().uiMode
+                    & Configuration.UI_MODE_NIGHT_MASK;
+            boolean isNight = uiModeNight == Configuration.UI_MODE_NIGHT_YES;
+            // Night mode cannot change once an Activity is created.
+            mActivities.put(activity, isNight);
         }
 
         @Override
         public void onActivityStarted(Activity activity) {
-            if (mStaleActivities.remove(activity)) {
+            if (!(activity instanceof AppCompatActivity)) {
+                return;
+            }
+            AppCompatActivity appCompatActivity = (AppCompatActivity) activity;
+            // This runs before AppCompatDelegateImplV14.onStart() calls
+            // AppCompatDelegate.applyDayNight().
+            // And we don't care about things below V14 where this is a no-op returning false.
+            if (appCompatActivity.getDelegate().applyDayNight()) {
+                return;
+            }
+            boolean isNight = mActivities.get(activity);
+            int nightMode = AppCompatDelegateNightModeHelper.mapNightMode(
+                    // And we don't use local night mode.
+                    appCompatActivity.getDelegate(), getDefaultNightMode());
+            if (nightMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                // Let our future system handle it.
+                return;
+            }
+            boolean shouldBeNight = nightMode == AppCompatDelegate.MODE_NIGHT_YES;
+            if (isNight != shouldBeNight) {
                 activity.recreate();
             }
         }
@@ -79,16 +106,7 @@ public class NightModeHelper {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-            mCreatedActivities.remove(activity);
-            mStaleActivities.remove(activity);
-        }
-
-        public void markActivitiesAsStale() {
-            mStaleActivities.addAll(mCreatedActivities);
-        }
-
-        public void markActivityAsFresh(Activity activity) {
-            mStaleActivities.remove(activity);
+            mActivities.remove(activity);
         }
     }
 }
