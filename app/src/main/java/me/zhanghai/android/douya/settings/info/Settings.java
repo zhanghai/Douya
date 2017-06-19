@@ -33,15 +33,14 @@ public interface Settings {
     StringSettingsEntry RECENT_TWO_ACCOUNT_NAME = new StringSettingsEntry(
             R.string.pref_key_recent_two_account_name, R.string.pref_default_value_empty_string);
 
-    BooleanSettingsEntry AUTO_REFRESH_HOME = new BooleanSettingsEntry(
-            R.string.pref_key_auto_refresh_home, R.bool.pref_default_value_auto_refresh_home);
-
     BooleanSettingsEntry SHOW_TITLE_FOR_LINK_ENTITY = new BooleanSettingsEntry(
             R.string.pref_key_show_title_for_link_entity,
             R.bool.pref_default_value_show_title_for_link_entity);
 
     enum NightMode {
 
+        // Disabled because AppCompatDelegate delegates night mode change to the non-existent system
+        // implementation.
         FOLLOW_SYSTEM(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM),
         OFF(AppCompatDelegate.MODE_NIGHT_NO),
         ON(AppCompatDelegate.MODE_NIGHT_YES),
@@ -60,6 +59,9 @@ public interface Settings {
 
     EnumSettingsEntry<NightMode> NIGHT_MODE = new EnumSettingsEntry<>(R.string.pref_key_night_mode,
             R.string.pref_default_value_night_mode, NightMode.class);
+
+    BooleanSettingsEntry AUTO_REFRESH_HOME = new BooleanSettingsEntry(
+            R.string.pref_key_auto_refresh_home, R.bool.pref_default_value_auto_refresh_home);
 
     BooleanSettingsEntry PROGRESSIVE_THIRD_PARTY_APP = new BooleanSettingsEntry(
             R.string.pref_key_progressive_third_party_app,

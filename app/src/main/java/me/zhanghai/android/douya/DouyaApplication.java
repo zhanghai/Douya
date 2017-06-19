@@ -6,20 +6,15 @@
 package me.zhanghai.android.douya;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.bumptech.glide.request.target.ViewTarget;
 import com.facebook.stetho.Stetho;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import me.zhanghai.android.douya.fabric.FabricUtils;
-import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.util.NightModeHelper;
 
 public class DouyaApplication extends Application {
-
-    static {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-    }
 
     private static DouyaApplication sInstance;
 
@@ -35,7 +30,7 @@ public class DouyaApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        AppCompatDelegate.setDefaultNightMode(Settings.NIGHT_MODE.getEnumValue().getValue());
+        NightModeHelper.syncDefaultNightMode();
 
         AndroidThreeTen.init(this);
         FabricUtils.init(this);

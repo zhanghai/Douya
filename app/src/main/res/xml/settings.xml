@@ -15,7 +15,7 @@
             android:title="@string/settings_show_title_for_link_entity_title"
             android:summary="@string/settings_show_title_for_link_entity_summary" />
 
-        <ListPreference
+        <me.zhanghai.android.douya.ui.DropDownPreference
             android:key="@string/pref_key_night_mode"
             android:entryValues="@array/pref_entry_values_night_mode"
             android:defaultValue="@string/pref_default_value_night_mode"
@@ -37,7 +37,7 @@
             android:title="@string/settings_progressive_third_party_app_title"
             android:summary="@string/settings_progressive_third_party_app_summary" />
 
-        <ListPreference
+        <me.zhanghai.android.douya.ui.DropDownPreference
             android:key="@string/pref_key_open_url_with"
             android:entryValues="@array/pref_entry_values_open_url_with"
             android:defaultValue="@string/pref_default_value_open_url_with"

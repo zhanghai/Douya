@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<!--
+  ~ See @android:layout/simple_spinner_dropdown_item and @android:layout/popup_menu_item_layout .
+  -->
+<CheckedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:minWidth="112dp"
+    android:layout_height="?dropdownListPreferredItemHeight"
+    android:paddingLeft="?listPreferredItemPaddingLeft"
+    android:paddingRight="?listPreferredItemPaddingRight"
+    android:ellipsize="marquee"
+    android:fadingEdge="horizontal"
+    android:singleLine="true"
+    style="?android:attr/spinnerDropDownItemStyle" />
