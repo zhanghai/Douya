@@ -165,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/broadcast_like"
-            android:src="@drawable/like_icon_black_18dp" />
+            android:src="@drawable/like_icon_white_18dp" />
 
         <Space
             android:layout_width="0dp"
@@ -178,13 +178,13 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:contentDescription="@string/broadcast_comment"
-            android:src="@drawable/comment_icon_black_18dp" />
+            android:src="@drawable/comment_icon_white_18dp" />
 
         <me.zhanghai.android.douya.ui.CardIconButton
             android:id="@+id/rebroadcast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/broadcast_rebroadcast"
-            android:src="@drawable/rebroadcast_icon_black_18dp" />
+            android:src="@drawable/rebroadcast_icon_white_18dp" />
     </LinearLayout>
 </merge>

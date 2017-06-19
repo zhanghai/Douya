@@ -13,22 +13,22 @@
 
         <item
             android:id="@+id/navigation_home"
-            android:icon="@drawable/home_icon_black_24dp"
+            android:icon="@drawable/home_icon_white_24dp"
             android:title="@string/navigation_home" />
 
         <item
             android:id="@+id/navigation_book"
-            android:icon="@drawable/book_icon_black_24dp"
+            android:icon="@drawable/book_icon_white_24dp"
             android:title="@string/navigation_book" />
 
         <item
             android:id="@+id/navigation_movie"
-            android:icon="@drawable/movie_icon_black_24dp"
+            android:icon="@drawable/movie_icon_white_24dp"
             android:title="@string/navigation_movie" />
 
         <item
             android:id="@+id/navigation_music"
-            android:icon="@drawable/music_icon_black_24dp"
+            android:icon="@drawable/music_icon_white_24dp"
             android:title="@string/navigation_music" />
     </group>
 
@@ -42,7 +42,7 @@
 
         <item
             android:id="@+id/navigation_feedback"
-            android:icon="@drawable/feedback_icon_black_24dp"
+            android:icon="@drawable/feedback_icon_white_24dp"
             android:title="@string/navigation_feedback" />
     </group>
 </menu>

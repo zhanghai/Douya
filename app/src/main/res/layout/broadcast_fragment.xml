@@ -92,7 +92,7 @@
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_comment"
             android:padding="@dimen/icon_button_padding"
-            android:src="@drawable/send_icon_black_24dp"
+            android:src="@drawable/send_icon_white_24dp"
             android:tint="?colorAccent" />
     </LinearLayout>
 
