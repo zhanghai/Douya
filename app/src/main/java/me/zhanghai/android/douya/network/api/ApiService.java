@@ -283,20 +283,22 @@ public class ApiService {
     public interface AuthenticationService {
 
         @POST(ApiContract.Request.Authentication.URL)
+        @FormUrlEncoded
         ApiRequest<AuthenticationResponse> authenticate(
                 @Header(Http.Headers.USER_AGENT) String userAgent,
                 @Header(Http.Headers.ACCEPT_CHARSET) String acceptCharset,
-                @Query("client_id") String clientId, @Query("client_secret") String clientSecret,
-                @Query("redirect_uri") String redirectUri, @Query("grant_type") String grantType,
-                @Query("username") String username, @Query("password") String password);
+                @Field("client_id") String clientId, @Field("client_secret") String clientSecret,
+                @Field("redirect_uri") String redirectUri, @Field("grant_type") String grantType,
+                @Field("username") String username, @Field("password") String password);
 
         @POST(ApiContract.Request.Authentication.URL)
+        @FormUrlEncoded
         ApiRequest<AuthenticationResponse> authenticate(
                 @Header(Http.Headers.USER_AGENT) String userAgent,
                 @Header(Http.Headers.ACCEPT_CHARSET) String acceptCharset,
-                @Query("client_id") String clientId, @Query("client_secret") String clientSecret,
-                @Query("redirect_uri") String redirectUri, @Query("grant_type") String grantType,
-                @Query("refresh_token") String refreshToken);
+                @Field("client_id") String clientId, @Field("client_secret") String clientSecret,
+                @Field("redirect_uri") String redirectUri, @Field("grant_type") String grantType,
+                @Field("refresh_token") String refreshToken);
     }
 
     public interface LifeStreamService {
