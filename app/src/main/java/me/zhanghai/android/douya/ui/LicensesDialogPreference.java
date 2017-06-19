@@ -12,9 +12,6 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.AttributeSet;
 
-import de.psdev.licensesdialog.LicensesDialogFragment;
-import me.zhanghai.android.douya.R;
-
 public class LicensesDialogPreference extends DialogPreference {
 
     // As in PreferenceFragmentCompat, because we want to ensure that at most one dialog is showing.
@@ -39,11 +36,7 @@ public class LicensesDialogPreference extends DialogPreference {
             // fragment manager.
             FragmentManager fragmentManager = preferenceFragment.getFragmentManager();
             if(fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
-                LicensesDialogFragment dialogFragment =
-                        new LicensesDialogFragment.Builder(preferenceFragment.getActivity())
-                                .setNotices(R.raw.licenses)
-                                .setUseAppCompat(true)
-                                .build();
+                LicensesDialogFragment dialogFragment = LicensesDialogFragment.newInstance();
                 dialogFragment.setTargetFragment(preferenceFragment, 0);
                 dialogFragment.show(fragmentManager, DIALOG_FRAGMENT_TAG);
             }
