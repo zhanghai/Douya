@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.settings.info;
 
+import android.support.v7.app.AppCompatDelegate;
+
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.settings.info.SettingsEntries.*;
 
@@ -37,6 +39,27 @@ public interface Settings {
     BooleanSettingsEntry SHOW_TITLE_FOR_LINK_ENTITY = new BooleanSettingsEntry(
             R.string.pref_key_show_title_for_link_entity,
             R.bool.pref_default_value_show_title_for_link_entity);
+
+    enum NightMode {
+
+        FOLLOW_SYSTEM(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM),
+        OFF(AppCompatDelegate.MODE_NIGHT_NO),
+        ON(AppCompatDelegate.MODE_NIGHT_YES),
+        AUTO(AppCompatDelegate.MODE_NIGHT_AUTO);
+
+        private int value;
+
+        NightMode(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    EnumSettingsEntry<NightMode> NIGHT_MODE = new EnumSettingsEntry<>(R.string.pref_key_night_mode,
+            R.string.pref_default_value_night_mode, NightMode.class);
 
     BooleanSettingsEntry PROGRESSIVE_THIRD_PARTY_APP = new BooleanSettingsEntry(
             R.string.pref_key_progressive_third_party_app,

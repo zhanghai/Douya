@@ -268,10 +268,19 @@
     <string name="item_comment_hint">我的评论…</string>
 
     <string name="settings_title">设置</string>
-    <string name="settings_misc_title">其他</string>
-    <string name="settings_auto_refresh_home_title">打开时自动刷新主页</string>
+    <string name="settings_appearance_title">外观</string>
     <string name="settings_show_title_for_link_entity_title">显示完整链接文本</string>
     <string name="settings_show_title_for_link_entity_summary">替换经过 dou.bz 缩短的链接</string>
+    <string name="settings_night_mode_title">夜间模式</string>
+    <string name="settings_night_mode_summary">%1$s</string>
+    <string-array name="settings_night_mode_entries">
+        <item>跟随系统</item>
+        <item>关闭</item>
+        <item>开启</item>
+        <item>自动</item>
+    </string-array>
+    <string name="settings_behavior_title">行为</string>
+    <string name="settings_auto_refresh_home_title">打开时自动刷新主页</string>
     <string name="settings_progressive_third_party_app_title">渐进式第三方应用</string>
     <string name="settings_progressive_third_party_app_summary">使用豆瓣官方应用打开尚未实现的页面</string>
     <string name="settings_open_url_with_title">打开链接的方式</string>

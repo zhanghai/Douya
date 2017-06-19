@@ -13,6 +13,7 @@ import com.facebook.stetho.Stetho;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import me.zhanghai.android.douya.fabric.FabricUtils;
+import me.zhanghai.android.douya.settings.info.Settings;
 
 public class DouyaApplication extends Application {
 
@@ -33,6 +34,8 @@ public class DouyaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        AppCompatDelegate.setDefaultNightMode(Settings.NIGHT_MODE.getEnumValue().getValue());
 
         AndroidThreeTen.init(this);
         FabricUtils.init(this);
