@@ -42,7 +42,7 @@
         android:gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
+    <me.zhanghai.android.douya.ui.TintDrawablesTextView
         android:id="@+id/view_more"
         android:layout_width="match_parent"
         android:layout_height="@dimen/single_line_list_item_height"
@@ -50,14 +50,15 @@
         android:paddingRight="@dimen/card_content_horizontal_margin"
         android:background="?selectableItemBackground"
         android:clickable="true"
-        android:drawableLeft="@drawable/forward_icon_grey600_24dp"
+        android:drawableLeft="@drawable/forward_icon_white_24dp"
         android:drawablePadding="@dimen/card_content_horizontal_space_with_4dp_padding"
         android:ellipsize="end"
         android:focusable="true"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="?android:textColorSecondary" />
+        android:textColor="?android:textColorSecondary"
+        app:drawableTint="?android:textColorSecondary" />
 
     <TextView
         android:id="@+id/secondary"
