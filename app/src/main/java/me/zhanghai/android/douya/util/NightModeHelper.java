@@ -23,10 +23,11 @@ public class NightModeHelper {
     private NightModeHelper() {}
 
     public static void setup(Application application) {
+        syncDefaultNightMode();
         application.registerActivityLifecycleCallbacks(sActivityHelper);
     }
 
-    public static void syncDefaultNightMode() {
+    private static void syncDefaultNightMode() {
         setDefaultNightMode(Settings.NIGHT_MODE.getEnumValue());
     }
 
@@ -36,12 +37,15 @@ public class NightModeHelper {
             return;
         }
         AppCompatDelegate.setDefaultNightMode(nightModeValue);
-        sActivityHelper.markActivitiesAsStale();
     }
 
     public static void updateNightMode(AppCompatActivity activity) {
-        activity.getDelegate().applyDayNight();
-        sActivityHelper.markActivityAsFresh(activity);
+        syncDefaultNightMode();
+        boolean changed = activity.getDelegate().applyDayNight();
+        if (changed) {
+            sActivityHelper.markActivitiesAsStale();
+            sActivityHelper.markActivityAsFresh(activity);
+        }
     }
 
     private static class ActivityHelper implements Application.ActivityLifecycleCallbacks {
@@ -76,6 +80,7 @@ public class NightModeHelper {
         @Override
         public void onActivityDestroyed(Activity activity) {
             mCreatedActivities.remove(activity);
+            mStaleActivities.remove(activity);
         }
 
         public void markActivitiesAsStale() {
