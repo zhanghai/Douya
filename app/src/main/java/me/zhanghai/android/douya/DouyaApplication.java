@@ -30,7 +30,7 @@ public class DouyaApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        NightModeHelper.syncDefaultNightMode();
+        NightModeHelper.setup(this);
 
         AndroidThreeTen.init(this);
         FabricUtils.init(this);
