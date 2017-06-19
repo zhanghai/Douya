@@ -7,16 +7,19 @@
 
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <me.zhanghai.android.douya.ui.TintStateListImageView
+    <!-- See AppCompatImageView for app:tint . -->
+    <ImageView
         android:id="@+id/cardiconbutton_image"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:padding="9dp"
         android:background="@drawable/card_icon_button_background"
+        android:duplicateParentState="true"
         app:tint="@drawable/card_icon_button_tint"
-        android:duplicateParentState="true" />
+        tools:ignore="MissingPrefix" />
 
     <me.zhanghai.android.douya.ui.AutoGoneTextView
         android:id="@+id/cardiconbutton_text"

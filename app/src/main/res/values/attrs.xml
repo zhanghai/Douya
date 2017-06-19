@@ -42,8 +42,4 @@
     <declare-styleable name="RatioHeightRecyclerView">
         <attr name="ratio" format="string" />
     </declare-styleable>
-
-    <declare-styleable name="TintStateListImageView">
-        <attr name="tint" format="color" />
-    </declare-styleable>
 </resources>
