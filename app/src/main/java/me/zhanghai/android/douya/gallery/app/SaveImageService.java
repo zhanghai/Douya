@@ -48,14 +48,13 @@ public class SaveImageService extends IntentService {
             return;
         }
 
-        File file = intent.getParcelableExtra(EXTRA_FILE);
+        File file = (File) intent.getSerializableExtra(EXTRA_FILE);
         saveImage(file);
     }
 
     private void saveImage(File file) {
         try {
-            // TODO: Request permission: android.permission.WRITE_EXTERNAL_STORAGE
-            // TODO: Save to Pictures/Douya
+            // TODO: Save to Pictures/Douya?
             MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(),
                     file.getName(), null);
             postToast(R.string.gallery_save_successful);

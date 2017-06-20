@@ -5,9 +5,11 @@
 
 package me.zhanghai.android.douya.gallery.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -33,7 +35,12 @@ import me.zhanghai.android.douya.ui.ViewPagerTransformers;
 import me.zhanghai.android.douya.util.FileUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
+import me.zhanghai.android.douya.util.ToastUtils;
+import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
+import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
+import me.zhanghai.android.effortlesspermissions.StartAppDetailsDialogFragment;
 import me.zhanghai.android.systemuihelper.SystemUiHelper;
+import pub.devrel.easypermissions.AfterPermissionGranted;
 
 public class GalleryFragment extends Fragment {
 
@@ -41,6 +48,11 @@ public class GalleryFragment extends Fragment {
 
     private static final String EXTRA_IMAGE_LIST = KEY_PREFIX + "image_list";
     private static final String EXTRA_POSITION = KEY_PREFIX + "position";
+
+    private static final int REQUEST_CODE_SAVE_IMAGE_PERMISSION = 1;
+    private static final String[] PERMISSIONS_SAVE_IMAGE = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @BindInt(android.R.integer.config_mediumAnimTime)
     int mToolbarHideDuration;
@@ -187,7 +199,37 @@ public class GalleryFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EffortlessPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults,
+                this);
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE_SAVE_IMAGE_PERMISSION)
     private void saveImage() {
+        if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_SAVE_IMAGE)) {
+            saveImageWithPermission();
+        } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
+                PERMISSIONS_SAVE_IMAGE)) {
+            StartAppDetailsDialogFragment.show(
+                    R.string.gallery_save_permission_permanently_denied_message,
+                    R.string.gallery_save_permission_permanently_denied_open_settings, this);
+        } else  {
+            EffortlessPermissions.requestPermissions(this,
+                    R.string.gallery_save_permission_request_message,
+                    REQUEST_CODE_SAVE_IMAGE_PERMISSION, PERMISSIONS_SAVE_IMAGE);
+        }
+    }
+
+    @AfterPermissionDenied(REQUEST_CODE_SAVE_IMAGE_PERMISSION)
+    private void onSaveImagePermissionDenied() {
+        ToastUtils.show(R.string.gallery_save_permission_denied, getActivity());
+    }
+
+    private void saveImageWithPermission() {
         File file = mAdapter.getFile(mViewPager.getCurrentItem());
         if (file == null) {
             return;
