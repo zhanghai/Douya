@@ -24,9 +24,9 @@ import me.zhanghai.android.douya.R;
 
 public class TintHelper {
 
-    private static final int[] CHECKED_STATE_SET = new int[] { android.R.attr.state_checked };
-    private static final int[] DISABLED_STATE_SET = new int[] { -android.R.attr.state_enabled };
-    private static final int[] EMPTY_STATE_SET = new int[] {};
+    private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };
+    private static final int[] DISABLED_STATE_SET = { -android.R.attr.state_enabled };
+    private static final int[] EMPTY_STATE_SET = {};
 
     private TintHelper() {}
 

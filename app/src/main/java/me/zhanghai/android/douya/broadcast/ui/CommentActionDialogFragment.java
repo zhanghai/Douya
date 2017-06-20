@@ -65,7 +65,7 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
         CharSequence[] items;
         DialogInterface.OnClickListener onClickListener;
         if (mCanReplyTo && mCanDelete) {
-            items = new CharSequence[]{
+            items = new CharSequence[] {
                     getString(R.string.broadcast_comment_action_reply_to),
                     getString(R.string.broadcast_comment_action_copy_text),
                     getString(R.string.broadcast_comment_action_delete)
@@ -87,7 +87,7 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
                 }
             };
         } else if (mCanReplyTo) {
-            items = new CharSequence[]{
+            items = new CharSequence[] {
                     getString(R.string.broadcast_comment_action_reply_to),
                     getString(R.string.broadcast_comment_action_copy_text)
             };
@@ -105,7 +105,7 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
                 }
             };
         } else if (mCanDelete) {
-            items = new CharSequence[]{
+            items = new CharSequence[] {
                     getString(R.string.broadcast_comment_action_copy_text),
                     getString(R.string.broadcast_comment_action_delete)
             };
@@ -123,7 +123,7 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
                 }
             };
         } else {
-            items = new CharSequence[]{
+            items = new CharSequence[] {
                     getString(R.string.broadcast_comment_action_copy_text),
             };
             onClickListener = new DialogInterface.OnClickListener() {

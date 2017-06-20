@@ -12,7 +12,7 @@ import android.view.View;
 
 public class MaxDimensionHelper {
 
-    private static final int[] STYLEABLE = new int[] {
+    private static final int[] STYLEABLE = {
             android.R.attr.maxWidth,
             android.R.attr.maxHeight
     };

@@ -25,7 +25,7 @@ public class ForegroundHelper {
 
     //com.android.internal.R.attr.foregroundInsidePadding
     private static final int COM_ANDROID_INTERNAL_R_ATTR_FOREGROUND_INSIDE_PADDING = -300063;
-    private static final int[] STYLEABLE = new int[] {
+    private static final int[] STYLEABLE = {
             android.R.attr.foreground,
             android.R.attr.foregroundGravity,
             COM_ANDROID_INTERNAL_R_ATTR_FOREGROUND_INSIDE_PADDING
