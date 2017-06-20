@@ -65,6 +65,7 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
                 R.string.settings_open_source_licenses_html_style_light
                 : R.string.settings_open_source_licenses_html_style_dark;
         return new LicensesDialog.Builder(getActivity())
+                .setThemeResourceId(getTheme())
                 .setTitle(R.string.settings_open_source_licenses_title)
                 .setCloseText(R.string.close)
                 .setNotices(mNotices)
