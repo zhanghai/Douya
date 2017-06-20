@@ -161,9 +161,20 @@ public class GalleryFragment extends Fragment {
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                updateTitle();
                 updateOptionsMenu();
             }
         });
+        updateTitle();
+    }
+
+    private void updateTitle() {
+        int size = mImageList.size();
+        if (size <= 1) {
+            return;
+        }
+        getActivity().setTitle(getString(R.string.gallery_title_multiple_format,
+                mViewPager.getCurrentItem() + 1, size));
     }
 
     @Override

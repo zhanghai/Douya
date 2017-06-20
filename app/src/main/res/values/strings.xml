@@ -118,6 +118,7 @@
     <string name="auth_select_account">选择账户</string>
 
     <string name="gallery_title">查看图片</string>
+    <string name="gallery_title_multiple_format">查看图片（%1$d/%2$d）</string>
     <string name="gallery_network_error">网络错误</string>
     <string name="gallery_load_error">加载错误</string>
     <string name="gallery_save_permission_request_message">豆芽需要权限以保存图片，请您在之后弹出的系统对话框中点击“允许”。</string>
