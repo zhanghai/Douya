@@ -38,7 +38,7 @@ import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
 import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
-import me.zhanghai.android.effortlesspermissions.StartAppDetailsDialogFragment;
+import me.zhanghai.android.effortlesspermissions.OpenAppDetailsDialogFragment;
 import me.zhanghai.android.systemuihelper.SystemUiHelper;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 
@@ -225,7 +225,7 @@ public class GalleryFragment extends Fragment {
             saveImageWithPermission();
         } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
                 PERMISSIONS_SAVE_IMAGE)) {
-            StartAppDetailsDialogFragment.show(
+            OpenAppDetailsDialogFragment.show(
                     R.string.gallery_save_permission_permanently_denied_message,
                     R.string.gallery_save_permission_permanently_denied_open_settings, this);
         } else  {

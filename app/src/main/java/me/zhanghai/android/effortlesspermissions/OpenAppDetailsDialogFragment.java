@@ -17,13 +17,14 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
 
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class StartAppDetailsDialogFragment extends AppCompatDialogFragment {
+public class OpenAppDetailsDialogFragment extends AppCompatDialogFragment {
 
-    private static final String KEY_PREFIX = StartAppDetailsDialogFragment.class.getName() + '.';
+    private static final String KEY_PREFIX = OpenAppDetailsDialogFragment.class.getName() + '.';
 
     private static final String EXTRA_REQUEST_CODE = KEY_PREFIX + "REQUEST_CODE";
     private static final String EXTRA_PACKAGE_NAME = KEY_PREFIX + "PACKAGE_NAME";
@@ -43,14 +44,14 @@ public class StartAppDetailsDialogFragment extends AppCompatDialogFragment {
     private CharSequence mNegativeButtonText;
     private boolean mCancelable;
 
-    public static StartAppDetailsDialogFragment newInstance(int requestCode, String packageName,
-                                                            CharSequence title,
-                                                            CharSequence message,
-                                                            CharSequence positiveButtonText,
-                                                            CharSequence negativeButtonText,
-                                                            boolean cancelable) {
+    public static OpenAppDetailsDialogFragment newInstance(int requestCode, String packageName,
+                                                           CharSequence title,
+                                                           CharSequence message,
+                                                           CharSequence positiveButtonText,
+                                                           CharSequence negativeButtonText,
+                                                           boolean cancelable) {
         //noinspection deprecation
-        StartAppDetailsDialogFragment fragment = new StartAppDetailsDialogFragment();
+        OpenAppDetailsDialogFragment fragment = new OpenAppDetailsDialogFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putInt(EXTRA_REQUEST_CODE, requestCode);
         arguments.putString(EXTRA_PACKAGE_NAME, packageName);
@@ -67,7 +68,7 @@ public class StartAppDetailsDialogFragment extends AppCompatDialogFragment {
      * {@link #newInstance(int, String, CharSequence, CharSequence, CharSequence, CharSequence, boolean)}
      * instead.
      */
-    public StartAppDetailsDialogFragment() {}
+    public OpenAppDetailsDialogFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class StartAppDetailsDialogFragment extends AppCompatDialogFragment {
         builder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startAppDetailsActivity();
+                openAppDetails();
             }
         });
         if (mNegativeButtonText != null) {
@@ -119,7 +120,7 @@ public class StartAppDetailsDialogFragment extends AppCompatDialogFragment {
         getArguments().putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 
-    private void startAppDetailsActivity() {
+    private void openAppDetails() {
         Activity activity = getActivity();
         String packageName = mPackageName != null ? mPackageName : activity.getPackageName();
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -152,7 +153,7 @@ public class StartAppDetailsDialogFragment extends AppCompatDialogFragment {
     public static void show(CharSequence title, CharSequence message,
                             CharSequence positiveButtonText, CharSequence negativeButtonText,
                             Fragment fragment) {
-        StartAppDetailsDialogFragment.newInstance(REQUEST_CODE_INVALID, null, title, message,
+        OpenAppDetailsDialogFragment.newInstance(REQUEST_CODE_INVALID, null, title, message,
                 positiveButtonText, negativeButtonText, false)
                 .show(fragment.getChildFragmentManager(), null);
     }
@@ -169,5 +170,27 @@ public class StartAppDetailsDialogFragment extends AppCompatDialogFragment {
                             Fragment fragment) {
         show(null, fragment.getText(messageRes), fragment.getText(positiveButtonTextRes),
                 fragment.getText(android.R.string.cancel), fragment);
+    }
+
+    public static void show(CharSequence title, CharSequence message,
+                            CharSequence positiveButtonText, CharSequence negativeButtonText,
+                            AppCompatActivity activity) {
+        OpenAppDetailsDialogFragment.newInstance(REQUEST_CODE_INVALID, null, title, message,
+                positiveButtonText, negativeButtonText, false)
+                .show(activity.getSupportFragmentManager(), null);
+    }
+
+    public static void show(@StringRes int titleRes, @StringRes int messageRes,
+                            @StringRes int positiveButtonTextRes,
+                            @StringRes int negativeButtonTextRes, AppCompatActivity activity) {
+        show(activity.getText(titleRes), activity.getText(messageRes),
+                activity.getText(positiveButtonTextRes), activity.getText(negativeButtonTextRes),
+                activity);
+    }
+
+    public static void show(@StringRes int messageRes, @StringRes int positiveButtonTextRes,
+                            AppCompatActivity activity) {
+        show(null, activity.getText(messageRes), activity.getText(positiveButtonTextRes),
+                activity.getText(android.R.string.cancel), activity);
     }
 }
