@@ -85,6 +85,13 @@
     </notice>
 
     <notice>
+        <name>EffortlessPermissions</name>
+        <url>https://github.com/DreaminginCodeZH/EffortlessPermissions</url>
+        <copyright>Copyright 2017 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
         <name>MaterialEditText</name>
         <url>https://github.com/DreaminginCodeZH/MaterialEditText</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>

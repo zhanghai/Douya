@@ -16,13 +16,6 @@
 #   public *;
 #}
 
-# EffortlessPermissions
--keepattributes *Annotation*
--keepclassmembers class ** {
-    @pub.devrel.easypermissions.AfterPermissionGranted <methods>;
-    @me.zhanghai.android.effortlesspermissions.AfterPermissionDenied <methods>;
-}
-
 # EventBus
 -keepattributes *Annotation*
 -keepclassmembers class ** {

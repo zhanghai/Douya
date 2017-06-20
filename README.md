@@ -219,6 +219,7 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 - [Retrofit](https://github.com/square/retrofit)
 - [EventBus](https://github.com/greenrobot/EventBus)
 - [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)
+- [EffortlessPermissions](https://github.com/DreaminginCodeZH/EffortlessPermissions)
 - [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)
 - [MaterialProgressBar](https://github.com/DreaminginCodeZH/MaterialProgressBar)
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)

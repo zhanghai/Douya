@@ -81,6 +81,7 @@ Most data are fetched from network while some of them are cached for offline.
 - [Retrofit](https://github.com/square/retrofit)
 - [EventBus](https://github.com/greenrobot/EventBus)
 - [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)
+- [EffortlessPermissions](https://github.com/DreaminginCodeZH/EffortlessPermissions)
 - [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)
 - [MaterialProgressBar](https://github.com/DreaminginCodeZH/MaterialProgressBar)
 - [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
