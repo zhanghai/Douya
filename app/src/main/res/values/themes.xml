@@ -63,7 +63,35 @@
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">@color/douya_primary_dark_without_system_window_scrim</item>
     </style>
 
+    <style name="Base.Theme.Douya.Dark" parent="PreferenceFixTheme.Design">
+
+        <!-- Fixes. -->
+        <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
+
+        <item name="colorAccent">@color/douya_accent_dark</item>
+
+        <item name="darkTheme">@style/DarkTheme</item>
+        <item name="colorPrimaryDarkWithoutSystemWindowScrim">@android:color/black</item>
+    </style>
+
     <style name="Theme.Douya" parent="Base.Theme.Douya">
+
+        <item name="actionModeBackground">@color/background_material_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Fixes. -->
+        <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
+        <item name="android:textColorLink">?colorAccent</item>
+        <!-- NOTE: The following two framework attributes are v11. Anyway. -->
+        <item name="dividerHorizontal">?android:dividerHorizontal</item>
+        <item name="dividerVertical">?android:dividerVertical</item>
+        <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
+    </style>
+
+    <style name="Theme.Douya.Dark" parent="Base.Theme.Douya.Dark">
 
         <item name="actionModeBackground">@color/background_material_dark</item>
         <item name="windowActionBar">false</item>
@@ -123,23 +151,17 @@
 
     <style name="Theme.Douya.BroadcastActivity" parent="Base.Theme.Douya.BroadcastActivity" />
 
-    <style name="Base.Theme.Douya.Gallery" parent="PreferenceFixTheme.Design">
-
-        <item name="actionModeBackground">@color/background_material_dark</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="android:windowBackground">@android:color/black</item>
-        <item name="windowNoTitle">true</item>
-
-        <!-- Fixes. -->
-        <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
-        <item name="android:textColorLink">?colorAccent</item>
-        <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
-        <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
-
-        <item name="colorPrimary">@color/douya_primary</item>
-        <item name="colorPrimaryDark">@color/douya_primary_dark</item>
+    <style name="ThemeOverlay.Douya.Gallery.Dialog" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/douya_accent_dark</item>
+    </style>
+    <style name="ThemeOverlay.Douya.Gallery.Dialog.Alert" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/douya_accent_dark</item>
+    </style>
+    <style name="Base.Theme.Douya.Gallery" parent="Theme.Douya.Dark">
         <item name="colorAccent">@android:color/white</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="dialogTheme">@style/ThemeOverlay.Douya.Gallery.Dialog</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.Douya.Gallery.Dialog.Alert</item>
     </style>
 
     <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />

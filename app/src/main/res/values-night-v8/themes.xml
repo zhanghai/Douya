@@ -7,16 +7,7 @@
 
 <resources>
 
-    <style name="Base.Theme.Douya" parent="PreferenceFixTheme.Design">
-
-        <!-- Fixes. -->
-        <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
-
-        <item name="colorAccent">@color/douya_accent_dark</item>
-
-        <item name="darkTheme">@style/DarkTheme</item>
-        <item name="colorPrimaryDarkWithoutSystemWindowScrim">@android:color/black</item>
-    </style>
+    <style name="Base.Theme.Douya" parent="Base.Theme.Douya.Dark" />
 
     <style name="Base.Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar" />
 
