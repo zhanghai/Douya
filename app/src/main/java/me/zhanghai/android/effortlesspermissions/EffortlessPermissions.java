@@ -228,8 +228,8 @@ public class EffortlessPermissions {
                         if (!(parameterTypes.length == 0 || (parameterTypes.length == 1
                                 && parameterTypes[0].isAssignableFrom(List.class)))) {
                             throw new RuntimeException("Cannot execute method " + method.getName() +
-                                    " because its parameter list is not empty or contains only a" +
-                                    " List<String>.");
+                                    " because its parameter list is not empty or containing only" +
+                                    " a List<String>.");
                         }
                         try {
                             if (!method.isAccessible()) {
