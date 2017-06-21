@@ -11,7 +11,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.ui.HomeBroadcastListFragment;
 import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
+import me.zhanghai.android.douya.ui.DoubleClickToolBar;
 import me.zhanghai.android.douya.ui.NotYetImplementedFragment;
 import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
 
@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment implements AppBarHost {
     @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppBarWrapperLayout;
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    DoubleClickToolBar mToolbar;
     @BindView(R.id.tab)
     TabLayout mTabLayout;
     @BindView(R.id.viewPager)
@@ -101,5 +101,10 @@ public class HomeFragment extends Fragment implements AppBarHost {
     @Override
     public void hideAppBar() {
         mAppBarWrapperLayout.hide();
+    }
+
+    @Override
+    public void setToolBarOnDoubleClickListener(DoubleClickToolBar.OnDoubleClickListener listener) {
+        mToolbar.setOnDoubleClickListener(listener);
     }
 }

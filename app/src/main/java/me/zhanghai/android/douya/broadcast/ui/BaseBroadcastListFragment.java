@@ -33,6 +33,8 @@ import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.ui.AppBarHost;
+import me.zhanghai.android.douya.ui.DoubleClickToolBar;
+import me.zhanghai.android.douya.ui.FastSmoothScrollStaggeredGridLayoutManager;
 import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
@@ -97,7 +99,7 @@ public abstract class BaseBroadcastListFragment extends Fragment
         // Always use StaggeredGridLayoutManager so that instance state can be saved.
         Activity activity = getActivity();
         int columnCount = CardUtils.getColumnCount(activity);
-        mBroadcastList.setLayoutManager(new StaggeredGridLayoutManager(columnCount,
+        mBroadcastList.setLayoutManager(new FastSmoothScrollStaggeredGridLayoutManager(columnCount,
                 StaggeredGridLayoutManager.VERTICAL));
         mBroadcastAdapter = new BroadcastAdapter(mBroadcastListResource.get(), this);
         mAdapter = new LoadMoreAdapter(R.layout.load_more_card_item, mBroadcastAdapter);
@@ -131,6 +133,13 @@ public abstract class BaseBroadcastListFragment extends Fragment
                         mBroadcastListResource.load(true);
                     }
                 });
+        appBarHost.setToolBarOnDoubleClickListener(new DoubleClickToolBar.OnDoubleClickListener() {
+            @Override
+            public boolean onDoubleClick(View view) {
+                mBroadcastList.smoothScrollToPosition(0);
+                return true;
+            }
+        });
 
         updateRefreshing();
 

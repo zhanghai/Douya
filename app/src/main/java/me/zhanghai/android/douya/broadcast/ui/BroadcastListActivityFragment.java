@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,6 +21,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
+import me.zhanghai.android.douya.ui.DoubleClickToolBar;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
@@ -36,7 +36,7 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppBarWrapperLayout;
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    DoubleClickToolBar mToolbar;
 
     private String mUserIdOrUid;
     private SimpleUser mUser;
@@ -134,5 +134,10 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     @Override
     public void hideAppBar() {
         mAppBarWrapperLayout.hide();
+    }
+
+    @Override
+    public void setToolBarOnDoubleClickListener(DoubleClickToolBar.OnDoubleClickListener listener) {
+        mToolbar.setOnDoubleClickListener(listener);
     }
 }

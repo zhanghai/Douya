@@ -10,4 +10,6 @@ public interface AppBarHost {
     void showAppBar();
 
     void hideAppBar();
+
+    void setToolBarOnDoubleClickListener(DoubleClickToolBar.OnDoubleClickListener listener);
 }
