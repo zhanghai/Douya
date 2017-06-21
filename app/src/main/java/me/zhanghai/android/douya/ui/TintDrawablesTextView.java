@@ -161,6 +161,10 @@ public class TintDrawablesTextView extends AppCompatTextView {
 
     private Drawable applyTintForDrawable(Drawable drawable) {
 
+        if (drawable == null) {
+            return null;
+        }
+
         if (mDrawablesTintInfo.mHasTint || mDrawablesTintInfo.mHasTintMode) {
 
             drawable = DrawableCompat.wrap(drawable);
