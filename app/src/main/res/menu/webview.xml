@@ -31,12 +31,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_request_desktop_site"
-        android:checkable="true"
-        android:title="@string/webview_request_desktop_site"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_open_in_browser"
         android:title="@string/webview_open_in_browser"
         app:showAsAction="never" />

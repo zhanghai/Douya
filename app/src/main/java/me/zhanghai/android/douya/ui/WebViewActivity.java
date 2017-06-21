@@ -74,11 +74,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     private MenuItem mGoForwardMenuItem;
     private MenuItem mOpenWithNativeMenuItem;
-    private MenuItem mRequestDesktopSiteMenuItem;
-
     private boolean mProgressVisible;
-    private String mDefaultUserAgent;
-    private String mDesktopUserAgent;
 
     public static Intent makeIntent(Uri uri, Context context) {
         return new Intent(context, WebViewActivity.class)
@@ -129,8 +125,6 @@ public class WebViewActivity extends AppCompatActivity {
         updateGoForward();
         mOpenWithNativeMenuItem = menu.findItem(R.id.action_open_with_native);
         updateOpenWithNative();
-        mRequestDesktopSiteMenuItem = menu.findItem(R.id.action_request_desktop_site);
-        updateRequestDesktopSite();
         return true;
     }
 
@@ -151,9 +145,6 @@ public class WebViewActivity extends AppCompatActivity {
                 return true;
             case R.id.action_open_with_native:
                 toggleOpenWithNative();
-                return true;
-            case R.id.action_request_desktop_site:
-                toggleRequestDesktopSite();
                 return true;
             case R.id.action_open_in_browser:
                 openInBrowser();
@@ -237,8 +228,12 @@ public class WebViewActivity extends AppCompatActivity {
         webSettings.setDisplayZoomControls(false);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
-        initializeUserAgents();
-        updateUserAgent();
+        if (Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue()) {
+            String desktopUserAgent = webSettings.getUserAgentString()
+                    .replaceFirst("(Linux;.*?)", "(X11; Linux x86_64)")
+                    .replace("Mobile Safari/", "Safari/");
+            webSettings.setUserAgentString(desktopUserAgent);
+        }
         // NOTE: This gives double tap zooming.
         webSettings.setUseWideViewPort(true);
         mWebView.setWebChromeClient(new ChromeClient());
@@ -291,46 +286,6 @@ public class WebViewActivity extends AppCompatActivity {
             return;
         }
         mOpenWithNativeMenuItem.setChecked(Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
-    }
-
-    private void toggleRequestDesktopSite() {
-        Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.putValue(
-                !Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue());
-        updateRequestDesktopSite();
-        updateUserAgent();
-    }
-
-    private void updateRequestDesktopSite() {
-        if (mRequestDesktopSiteMenuItem == null) {
-            return;
-        }
-        mRequestDesktopSiteMenuItem.setChecked(Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue());
-    }
-
-    private void initializeUserAgents() {
-        mDefaultUserAgent = mWebView.getSettings().getUserAgentString();
-        mDesktopUserAgent = mDefaultUserAgent
-                .replaceFirst("(Linux;.*?)", "(X11; Linux x86_64)")
-                .replace("Mobile Safari/", "Safari/");
-    }
-
-    private void updateUserAgent() {
-        boolean requestDesktopSite = Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue();
-        WebSettings webSettings = mWebView.getSettings();
-        String oldUserAgent = webSettings.getUserAgentString();
-        boolean changed = false;
-        if (requestDesktopSite && !TextUtils.equals(oldUserAgent, mDesktopUserAgent)) {
-            webSettings.setUserAgentString(mDesktopUserAgent);
-            changed = true;
-        } else if (!requestDesktopSite && !TextUtils.equals(oldUserAgent, mDefaultUserAgent)) {
-            // This will requrie API level 17.
-            //webSettings.setUserAgentString(WebSettings.getDefaultUserAgent(this));
-            webSettings.setUserAgentString(mDefaultUserAgent);
-            changed = true;
-        }
-        if (changed) {
-            mWebView.reload();
-        }
     }
 
     private void openInBrowser() {
