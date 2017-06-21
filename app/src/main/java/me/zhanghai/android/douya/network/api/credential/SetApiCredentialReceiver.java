@@ -9,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import me.zhanghai.android.douya.util.LogUtils;
+
 public class SetApiCredentialReceiver extends BroadcastReceiver {
 
     private static final String EXTRA_API_V2_API_KEY =
@@ -22,6 +24,7 @@ public class SetApiCredentialReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        LogUtils.i("Received intent: " + intent);
         String apiV2ApiKey = intent.getStringExtra(EXTRA_API_V2_API_KEY);
         String apiV2ApiSecret = intent.getStringExtra(EXTRA_API_V2_API_SECRET);
         String frodoApiKey = intent.getStringExtra(EXTRA_FRODO_API_KEY);
