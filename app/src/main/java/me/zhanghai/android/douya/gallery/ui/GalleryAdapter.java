@@ -228,11 +228,11 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
         }
         if (imageInfo.width > 2048 || imageInfo.height > 2048) {
             float ratio = (float) imageInfo.width / imageInfo.height;
-            if (ratio > 0.5 && ratio < 2) {
-                return false;
+            if (ratio < 0.5 || ratio > 2) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private void showError(@Nullable Exception e, int resId, ViewHolder holder) {
