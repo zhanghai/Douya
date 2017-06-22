@@ -46,6 +46,7 @@ import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.ClipboardUtils;
+import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
@@ -140,11 +141,14 @@ public class WebViewActivity extends AppCompatActivity {
             case R.id.action_reload:
                 reloadWebView();
                 return true;
+            case R.id.action_open_with_native:
+                toggleOpenWithNative();
+                return true;
             case R.id.action_copy_url:
                 copyUrl();
                 return true;
-            case R.id.action_open_with_native:
-                toggleOpenWithNative();
+            case R.id.action_share:
+                shareUrl();
                 return true;
             case R.id.action_open_in_browser:
                 openInBrowser();
@@ -266,15 +270,6 @@ public class WebViewActivity extends AppCompatActivity {
         mGoForwardMenuItem.setEnabled(mWebView.canGoForward());
     }
 
-    private void copyUrl() {
-        String url = mWebView.getUrl();
-        if (!TextUtils.isEmpty(url)) {
-            ClipboardUtils.copyText(mWebView.getTitle(), url, this);
-        } else {
-            ToastUtils.show(R.string.webview_copy_url_empty, this);
-        }
-    }
-
     private void toggleOpenWithNative() {
         Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.putValue(
                 !Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
@@ -288,12 +283,31 @@ public class WebViewActivity extends AppCompatActivity {
         mOpenWithNativeMenuItem.setChecked(Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
     }
 
+    private void copyUrl() {
+        String url = mWebView.getUrl();
+        if (TextUtils.isEmpty(url)) {
+            ToastUtils.show(R.string.webview_error_url_empty, this);
+            return;
+        }
+        ClipboardUtils.copyText(mWebView.getTitle(), url, this);
+    }
+
+    private void shareUrl() {
+        String url = mWebView.getUrl();
+        if (TextUtils.isEmpty(url)) {
+            ToastUtils.show(R.string.webview_error_url_empty, this);
+            return;
+        }
+        startActivity(Intent.createChooser(IntentUtils.makeSendText(url), getText(
+                R.string.share_activity_chooser_title)));
+    }
+
     private void openInBrowser() {
         String url = mWebView.getUrl();
         if (!TextUtils.isEmpty(url)) {
             UrlUtils.openWithIntent(url, this);
         } else {
-            ToastUtils.show(R.string.webview_copy_url_empty, this);
+            ToastUtils.show(R.string.webview_error_url_empty, this);
         }
     }
 

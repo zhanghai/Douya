@@ -20,14 +20,19 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_open_with_native"
+        android:checkable="true"
+        android:title="@string/webview_open_with_native"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_copy_url"
         android:title="@string/webview_copy_url"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_open_with_native"
-        android:checkable="true"
-        android:title="@string/webview_open_with_native"
+        android:id="@+id/action_share"
+        android:title="@string/share"
         app:showAsAction="never" />
 
     <item

@@ -15,6 +15,7 @@
     <string name="load_error">加载失败</string>
     <string name="not_yet_implemented">尚未实现，敬请期待</string>
     <string name="report_abuse">举报不良信息</string>
+    <string name="share_activity_chooser_title">分享方式</string>
     <string name="view_more">查看更多</string>
     <string name="view_more_with_count_format">查看更多（%1$d）</string>
 
@@ -127,13 +128,12 @@
     <string name="gallery_save_permission_denied">保存图片失败，缺少权限</string>
     <string name="gallery_save_successful">已保存图片至相册</string>
     <string name="gallery_save_failed">保存图片失败</string>
-    <string name="gallery_share_chooser_title">分享图片</string>
 
     <string name="webview_title">查看网页</string>
     <string name="webview_go_forward">前进</string>
-    <string name="webview_copy_url">复制链接</string>
-    <string name="webview_copy_url_empty">链接为空</string>
     <string name="webview_open_with_native">使用应用界面</string>
+    <string name="webview_copy_url">复制链接</string>
+    <string name="webview_error_url_empty">链接为空</string>
     <string name="webview_open_in_browser">在浏览器中打开</string>
 
     <string name="navigation_home">首页</string>
