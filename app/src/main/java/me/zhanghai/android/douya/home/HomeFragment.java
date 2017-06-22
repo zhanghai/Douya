@@ -87,6 +87,12 @@ public class HomeFragment extends Fragment implements AppBarHost {
             public Fragment createFragment() {
                 return NotYetImplementedFragment.newInstance();
             }
+        }, getString(R.string.home_topic));
+        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
+            @Override
+            public Fragment createFragment() {
+                return NotYetImplementedFragment.newInstance();
+            }
         }, getString(R.string.home_online));
         mViewPager.setOffscreenPageLimit(mTabAdapter.getCount() - 1);
         mViewPager.setAdapter(mTabAdapter);
