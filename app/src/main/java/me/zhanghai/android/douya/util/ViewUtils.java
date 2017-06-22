@@ -17,6 +17,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
@@ -379,6 +380,16 @@ public class ViewUtils {
         int index = viewGroup.indexOfChild(oldChild);
         viewGroup.removeViewAt(index);
         viewGroup.addView(newChild, index);
+    }
+
+    public static void setBackgroundPreservingPadding(View view, Drawable background) {
+        int savedPaddingStart = ViewCompat.getPaddingStart(view);
+        int savedPaddingEnd = ViewCompat.getPaddingEnd(view);
+        int savedPaddingTop = view.getPaddingTop();
+        int savedPaddingBottom = view.getPaddingBottom();
+        ViewCompat.setBackground(view, background);
+        ViewCompat.setPaddingRelative(view, savedPaddingStart, savedPaddingTop, savedPaddingEnd,
+                savedPaddingBottom);
     }
 
     public static void setHeight(View view, int height) {

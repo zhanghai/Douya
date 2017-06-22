@@ -6,6 +6,8 @@
 package me.zhanghai.android.douya.profile.ui;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -74,8 +76,15 @@ public class ProfileIntroductionLayout extends FriendlyCardView {
                     onCopyText(finalIntroduction);
                 }
             });
-            ViewCompat.setBackground(mTitleText, ViewUtils.getDrawableFromAttrRes(
-                    R.attr.selectableItemBackground, getContext()));
+            Drawable selectableItemBackground = ViewUtils.getDrawableFromAttrRes(
+                    R.attr.selectableItemBackground, getContext());
+            // ?selectableItemBackground is a nine-patch drawable which reports its padding (of 0).
+            boolean shouldSavePadding = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
+            if (shouldSavePadding) {
+                ViewUtils.setBackgroundPreservingPadding(mTitleText, selectableItemBackground);
+            } else {
+                ViewCompat.setBackground(mTitleText, selectableItemBackground);
+            }
             mContentText.setText(introduction);
         } else {
             mTitleText.setOnClickListener(null);
