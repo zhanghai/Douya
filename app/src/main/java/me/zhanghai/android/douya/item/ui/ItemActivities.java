@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.item.ui;
 import android.content.Context;
 import android.content.Intent;
 
+import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
@@ -15,6 +16,9 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 public class ItemActivities {
 
     public static Intent makeIntent(CollectableItem item, Context context) {
+        if (!BuildConfig.DEBUG) {
+            return null;
+        }
         if (item instanceof Movie) {
             return MovieActivity.makeIntent((Movie) item, context);
         } else if (item instanceof SimpleMovie) {
