@@ -19,7 +19,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
@@ -28,7 +27,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,8 +68,6 @@ public class WebViewActivity extends AppCompatActivity {
     ProgressBar mProgress;
     @BindView(R.id.web)
     WebView mWebView;
-    @BindView(R.id.error)
-    TextView mErrorText;
 
     private MenuItem mGoForwardMenuItem;
     private MenuItem mOpenWithNativeMenuItem;
@@ -210,7 +206,6 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     protected void reloadWebView() {
-        hideError();
         mWebView.reload();
     }
 
@@ -243,18 +238,6 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
         onLoadUri(mWebView);
-    }
-
-    private void showError(String error) {
-        mWebView.setVisibility(View.INVISIBLE);
-        mErrorText.setText(error);
-        mErrorText.setVisibility(View.VISIBLE);
-    }
-
-    private void hideError() {
-        mErrorText.setVisibility(View.INVISIBLE);
-        mErrorText.setText(null);
-        mWebView.setVisibility(View.VISIBLE);
     }
 
     private void goForward() {
@@ -366,7 +349,7 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description,
                                     String failingUrl) {
-            showError(description);
+            setTitle(description);
         }
 
         @Override

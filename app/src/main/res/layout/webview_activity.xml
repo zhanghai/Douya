@@ -18,16 +18,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/toolbar_height" />
 
-    <TextView
-        android:id="@+id/error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
-        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:visibility="gone" />
-
     <!-- Don't set background color on this layout because it will mess up with wrap_content. -->
     <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
