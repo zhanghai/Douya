@@ -8,10 +8,12 @@ package me.zhanghai.android.douya.util;
 import android.app.Activity;
 import android.app.Application;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.CheckResult;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.app.AppCompatDelegateNightModeHelper;
+import android.support.v7.app.AppCompatNightModeHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,20 +52,39 @@ public class NightModeHelper {
         sActivityHelper.onActivityStarted(activity);
     }
 
+    // Should be called as:
+    // super.onConfigurationChanged(NightModeHelper.onConfigurationChanged(newConfig, this));
+    // See also AppCompatDelegateImplV14#updateForNightMode(int) .
+    @CheckResult
+    public static Configuration onConfigurationChanged(Configuration newConfig,
+                                                       AppCompatActivity activity) {
+        boolean isInNightMode = sActivityHelper.isActivityInNightMode(activity);
+        Configuration newConfigWithNightMode = new Configuration(newConfig);
+        int uiModeNight = isInNightMode ? Configuration.UI_MODE_NIGHT_YES
+                : Configuration.UI_MODE_NIGHT_NO;
+        newConfigWithNightMode.uiMode = uiModeNight | (newConfigWithNightMode.uiMode
+                & ~Configuration.UI_MODE_NIGHT_MASK);
+        Resources resources = activity.getResources();
+        //noinspection deprecation
+        resources.updateConfiguration(newConfigWithNightMode, resources.getDisplayMetrics());
+        AppCompatNightModeHelper.flushResources(resources);
+        return newConfigWithNightMode;
+    }
+
     // AppCompatDelegateImplV14.updateForNightMode() won't update when multiple Activities share a
     // Resources and a Configuration instance. We do this ourselves.
     private static class ActivityHelper implements Application.ActivityLifecycleCallbacks {
 
-        private Map<Activity, Boolean> mActivities = new HashMap<>();
+        private Map<Activity, Boolean> mActivityNightModeMap = new HashMap<>();
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
             // This runs after AppCompatActivity calls AppCompatDelegate.applyDayNight().
             int uiModeNight = activity.getResources().getConfiguration().uiMode
                     & Configuration.UI_MODE_NIGHT_MASK;
-            boolean isNight = uiModeNight == Configuration.UI_MODE_NIGHT_YES;
+            boolean isInNightMode = uiModeNight == Configuration.UI_MODE_NIGHT_YES;
             // Night mode cannot change once an Activity is created.
-            mActivities.put(activity, isNight);
+            mActivityNightModeMap.put(activity, isInNightMode);
         }
 
         @Override
@@ -78,16 +99,16 @@ public class NightModeHelper {
             if (appCompatActivity.getDelegate().applyDayNight()) {
                 return;
             }
-            boolean isNight = mActivities.get(activity);
-            int nightMode = AppCompatDelegateNightModeHelper.mapNightMode(
-                    // And we don't use local night mode.
-                    appCompatActivity.getDelegate(), getDefaultNightMode());
+            boolean isInNightMode = mActivityNightModeMap.get(activity);
+            int nightMode = AppCompatNightModeHelper.mapNightMode(appCompatActivity.getDelegate(),
+                    // We don't use local night mode.
+                    getDefaultNightMode());
             if (nightMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
                 // Let our future system handle it.
                 return;
             }
-            boolean shouldBeNight = nightMode == AppCompatDelegate.MODE_NIGHT_YES;
-            if (isNight != shouldBeNight) {
+            boolean shouldBeInNightMode = nightMode == AppCompatDelegate.MODE_NIGHT_YES;
+            if (isInNightMode != shouldBeInNightMode) {
                 activity.recreate();
             }
         }
@@ -106,7 +127,11 @@ public class NightModeHelper {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-            mActivities.remove(activity);
+            mActivityNightModeMap.remove(activity);
+        }
+
+        public boolean isActivityInNightMode(Activity activity) {
+            return mActivityNightModeMap.get(activity);
         }
     }
 }

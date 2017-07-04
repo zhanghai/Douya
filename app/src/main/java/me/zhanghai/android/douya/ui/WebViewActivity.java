@@ -45,6 +45,7 @@ import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.ClipboardUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
+import me.zhanghai.android.douya.util.NightModeHelper;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
@@ -100,7 +101,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged(NightModeHelper.onConfigurationChanged(newConfig, this));
 
         Toolbar newToolbar = (Toolbar) LayoutInflater.from(mToolbar.getContext())
                 .inflate(R.layout.webview_acitivity_toolbar, mAppbarWrapperLayout, false);

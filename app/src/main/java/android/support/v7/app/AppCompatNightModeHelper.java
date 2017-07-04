@@ -5,9 +5,15 @@
 
 package android.support.v7.app;
 
-public class AppCompatDelegateNightModeHelper {
+import android.content.res.Resources;
 
-    private AppCompatDelegateNightModeHelper() {}
+public class AppCompatNightModeHelper {
+
+    private AppCompatNightModeHelper() {}
+
+    public static boolean flushResources(Resources resources) {
+        return ResourcesFlusher.flush(resources);
+    }
 
     public static int mapNightMode(AppCompatDelegate delegate, int mode) {
         // We don't care about APIs below 14.
