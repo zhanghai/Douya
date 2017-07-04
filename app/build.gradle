@@ -43,7 +43,7 @@ repositories {
 }
 dependencies {
     releaseCompile 'com.github.mypplication:stetho-noop:1.1'
-    compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    compile 'com.github.chrisbanes:PhotoView:2.1.2'
 }
 
 repositories {
