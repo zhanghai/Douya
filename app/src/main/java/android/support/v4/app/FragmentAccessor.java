@@ -11,9 +11,9 @@ import android.content.Intent;
  * Expose the {@link FragmentManagerImpl#findFragmentByWho(String)} interface used by
  * {@link FragmentActivity#onActivityResult(int, int, Intent)}.
  */
-public class FriendlyFragment {
+public class FragmentAccessor {
 
-    private FriendlyFragment() {}
+    private FragmentAccessor() {}
 
     public static String getWho(Fragment fragment) {
         return fragment.mWho;

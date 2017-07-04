@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.CheckResult;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.app.AppCompatNightModeHelper;
+import android.support.v7.app.NightModeAccessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +67,7 @@ public class NightModeHelper {
         Resources resources = activity.getResources();
         //noinspection deprecation
         resources.updateConfiguration(newConfigWithNightMode, resources.getDisplayMetrics());
-        AppCompatNightModeHelper.flushResources(resources);
+        NightModeAccessor.flushResources(resources);
         return newConfigWithNightMode;
     }
 
@@ -100,7 +100,7 @@ public class NightModeHelper {
                 return;
             }
             boolean isInNightMode = mActivityNightModeMap.get(activity);
-            int nightMode = AppCompatNightModeHelper.mapNightMode(appCompatActivity.getDelegate(),
+            int nightMode = NightModeAccessor.mapNightMode(appCompatActivity.getDelegate(),
                     // We don't use local night mode.
                     getDefaultNightMode());
             if (nightMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {

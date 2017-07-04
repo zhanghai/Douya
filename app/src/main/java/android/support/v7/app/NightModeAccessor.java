@@ -7,9 +7,9 @@ package android.support.v7.app;
 
 import android.content.res.Resources;
 
-public class AppCompatNightModeHelper {
+public class NightModeAccessor {
 
-    private AppCompatNightModeHelper() {}
+    private NightModeAccessor() {}
 
     public static boolean flushResources(Resources resources) {
         return ResourcesFlusher.flush(resources);

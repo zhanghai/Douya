@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.app;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FriendlyFragment;
+import android.support.v4.app.FragmentAccessor;
 import android.text.TextUtils;
 
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -50,7 +50,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
 
     protected void targetAt(Fragment fragment, int requestCode) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putString(EXTRA_TARGET_FRAGMENT_WHO, FriendlyFragment.getWho(fragment));
+        arguments.putString(EXTRA_TARGET_FRAGMENT_WHO, FragmentAccessor.getWho(fragment));
         arguments.putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 
@@ -86,7 +86,7 @@ public class TargetedRetainedFragment extends RetainedFragment {
         if (TextUtils.isEmpty(who)) {
             throw new IllegalStateException("Target fragment not set");
         }
-        mTargetFragment = FriendlyFragment.findByWho(getActivity(), who);
+        mTargetFragment = FragmentAccessor.findByWho(getActivity(), who);
         if (mTargetFragment == null) {
             throw new IllegalStateException("Target fragment not found");
         }
