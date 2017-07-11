@@ -83,8 +83,10 @@ public class ApiService {
 
     private static OkHttpClient createApiHttpClient(Interceptor interceptor, String authTokenType) {
         return new OkHttpClient.Builder()
+                // AuthenticationInterceptor may retry the request, so it must be an application
+                // interceptor.
+                .addInterceptor(new ApiAuthenticationInterceptor(authTokenType))
                 .addNetworkInterceptor(interceptor)
-                .addNetworkInterceptor(new ApiAuthenticationInterceptor(authTokenType))
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
     }
