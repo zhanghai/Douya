@@ -100,4 +100,11 @@
     <style name="Widget.Douya.Toolbar.Button.Navigation" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:paddingLeft">0dp</item>
     </style>
+
+    <style name="TextAppearance.Widget.Douya.Toolbar.Title.WebView" parent="TextAppearance.Widget.Douya.Toolbar.Title">
+        <item name="android:textSize">16dp</item>
+    </style>
+    <style name="TextAppearance.Widget.Douya.Toolbar.Subtitle.WebView" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">12dp</item>
+    </style>
 </resources>

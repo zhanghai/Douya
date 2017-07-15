@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -72,6 +73,8 @@ public class WebViewActivity extends AppCompatActivity {
 
     private MenuItem mGoForwardMenuItem;
     private MenuItem mOpenWithNativeMenuItem;
+
+    private String mTitleOrError;
     private boolean mProgressVisible;
 
     public static Intent makeIntent(Uri uri, Context context) {
@@ -165,10 +168,7 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     protected void onLoadUri(WebView webView) {
-
         String url = getIntent().getData().toString();
-        setTitle(url);
-
         Map<String, String> headers = null;
         if (isDoubanUrl(url)) {
             Account account = AccountUtils.getActiveAccount();
@@ -184,7 +184,6 @@ public class WebViewActivity extends AppCompatActivity {
                 }
             }
         }
-
         webView.loadUrl(url, headers);
     }
 
@@ -194,6 +193,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     protected void onPageStared(WebView webView, String url, Bitmap favicon) {
         updateGoForward();
+        updateToolbarTitleAndSubtitle();
     }
 
     protected void onPageFinished(WebView webView, String url) {}
@@ -212,6 +212,26 @@ public class WebViewActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
+        updateToolbarTitleAndSubtitle();
+    }
+
+    private void updateToolbarTitleAndSubtitle() {
+        String url = mWebView.getUrl();
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        if (TextUtils.isEmpty(mTitleOrError)) {
+            mTitleOrError = Uri.parse(url).getHost();
+        }
+        ActionBar actionBar = getSupportActionBar();
+        if (TextUtils.isEmpty(actionBar.getSubtitle())) {
+            mToolbar.setTitleTextAppearance(mToolbar.getContext(),
+                    R.style.TextAppearance_Widget_Douya_Toolbar_Title_WebView);
+            mToolbar.setSubtitleTextAppearance(mToolbar.getContext(),
+                    R.style.TextAppearance_Widget_Douya_Toolbar_Subtitle_WebView);
+        }
+        setTitle(mTitleOrError);
+        actionBar.setSubtitle(url);
     }
 
     private void setProgressVisible(boolean visible) {
@@ -331,7 +351,8 @@ public class WebViewActivity extends AppCompatActivity {
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            setTitle(title);
+            mTitleOrError = title;
+            updateToolbarTitleAndSubtitle();
         }
     }
 
@@ -350,7 +371,8 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description,
                                     String failingUrl) {
-            setTitle(description);
+            mTitleOrError = description;
+            updateToolbarTitleAndSubtitle();
         }
 
         @Override
