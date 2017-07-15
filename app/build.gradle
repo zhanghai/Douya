@@ -16,8 +16,8 @@ android {
         applicationId "me.zhanghai.android.douya"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.0.0-beta.6"
+        versionCode 9
+        versionName "1.0.0-beta.7"
         resValue 'string', 'application_id', applicationId
         buildConfigField 'String', 'FILE_PROVIDIER_AUTHORITY', 'APPLICATION_ID + ".file_provider"'
         resValue 'string', 'file_provider_authority', applicationId + '.file_provider'
