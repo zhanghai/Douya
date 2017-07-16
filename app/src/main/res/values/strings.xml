@@ -134,6 +134,7 @@
     <string name="webview_open_with_native">使用应用界面</string>
     <string name="webview_copy_url">复制链接</string>
     <string name="webview_error_url_empty">链接为空</string>
+    <string name="webview_request_desktop_site">请求桌面版网站</string>
     <string name="webview_open_in_browser">在浏览器中打开</string>
 
     <string name="navigation_home">首页</string>

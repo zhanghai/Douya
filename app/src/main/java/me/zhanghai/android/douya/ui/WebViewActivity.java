@@ -73,9 +73,12 @@ public class WebViewActivity extends AppCompatActivity {
 
     private MenuItem mGoForwardMenuItem;
     private MenuItem mOpenWithNativeMenuItem;
+    private MenuItem mRequestDesktopSiteMenuItem;
 
     private String mTitleOrError;
     private boolean mProgressVisible;
+    private String mDefaultUserAgent;
+    private String mDesktopUserAgent;
 
     public static Intent makeIntent(Uri uri, Context context) {
         return new Intent(context, WebViewActivity.class)
@@ -126,6 +129,8 @@ public class WebViewActivity extends AppCompatActivity {
         updateGoForward();
         mOpenWithNativeMenuItem = menu.findItem(R.id.action_open_with_native);
         updateOpenWithNative();
+        mRequestDesktopSiteMenuItem = menu.findItem(R.id.action_request_desktop_site);
+        updateRequestDesktopSite();
         return true;
     }
 
@@ -150,6 +155,9 @@ public class WebViewActivity extends AppCompatActivity {
             case R.id.action_share:
                 shareUrl();
                 return true;
+            case R.id.action_request_desktop_site:
+                toggleRequestDesktopSite();
+                return true;
             case R.id.action_open_in_browser:
                 openInBrowser();
                 return true;
@@ -169,6 +177,9 @@ public class WebViewActivity extends AppCompatActivity {
 
     protected void onLoadUri(WebView webView) {
         String url = getIntent().getData().toString();
+        if (Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue()) {
+            url = getDoubanDesktopSiteUrl(url);
+        }
         Map<String, String> headers = null;
         if (isDoubanUrl(url)) {
             Account account = AccountUtils.getActiveAccount();
@@ -248,12 +259,8 @@ public class WebViewActivity extends AppCompatActivity {
         webSettings.setDisplayZoomControls(false);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
-        if (Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue()) {
-            String desktopUserAgent = webSettings.getUserAgentString()
-                    .replaceFirst("(Linux;.*?)", "(X11; Linux x86_64)")
-                    .replace("Mobile Safari/", "Safari/");
-            webSettings.setUserAgentString(desktopUserAgent);
-        }
+        initializeUserAgents();
+        updateUserAgent();
         // NOTE: This gives double tap zooming.
         webSettings.setUseWideViewPort(true);
         mWebView.setWebChromeClient(new ChromeClient());
@@ -304,6 +311,68 @@ public class WebViewActivity extends AppCompatActivity {
         }
         startActivity(Intent.createChooser(IntentUtils.makeSendText(url), getText(
                 R.string.share_activity_chooser_title)));
+    }
+
+    private void toggleRequestDesktopSite() {
+        Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.putValue(
+                !Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue());
+        updateRequestDesktopSite();
+        updateUserAgent();
+    }
+
+    private void updateRequestDesktopSite() {
+        if (mRequestDesktopSiteMenuItem == null) {
+            return;
+        }
+        mRequestDesktopSiteMenuItem.setChecked(Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue());
+    }
+
+    private void initializeUserAgents() {
+        mDefaultUserAgent = mWebView.getSettings().getUserAgentString();
+        mDesktopUserAgent = mDefaultUserAgent
+                .replaceFirst("(Linux;.*?)", "(X11; Linux x86_64)")
+                .replace("Mobile Safari/", "Safari/");
+    }
+
+    private void updateUserAgent() {
+        boolean requestDesktopSite = Settings.REQUEST_DESKTOP_SITE_IN_WEBVIEW.getValue();
+        WebSettings webSettings = mWebView.getSettings();
+        String oldUserAgent = webSettings.getUserAgentString();
+        boolean changed = false;
+        if (requestDesktopSite && !TextUtils.equals(oldUserAgent, mDesktopUserAgent)) {
+            webSettings.setUserAgentString(mDesktopUserAgent);
+            changed = true;
+        } else if (!requestDesktopSite && !TextUtils.equals(oldUserAgent, mDefaultUserAgent)) {
+            // This will requrie API level 17.
+            //webSettings.setUserAgentString(WebSettings.getDefaultUserAgent(this));
+            webSettings.setUserAgentString(mDefaultUserAgent);
+            changed = true;
+        }
+        String url = mWebView.getUrl();
+        if (!TextUtils.isEmpty(url) && changed) {
+            if (requestDesktopSite) {
+                String doubanDesktopSiteUrl = getDoubanDesktopSiteUrl(url);
+                if (!TextUtils.equals(url, doubanDesktopSiteUrl)) {
+                    mWebView.loadUrl(doubanDesktopSiteUrl);
+                } else {
+                    mWebView.reload();
+                }
+            } else {
+                mWebView.reload();
+            }
+        }
+    }
+
+    private String getDoubanDesktopSiteUrl(String url) {
+        Uri uri = Uri.parse(url);
+        if (!TextUtils.equals(uri.getHost(), "m.douban.com")) {
+            return url;
+        }
+        return uri.buildUpon()
+                .path("/to_pc/")
+                .appendQueryParameter("url", url)
+                .build()
+                .toString();
     }
 
     private void openInBrowser() {
