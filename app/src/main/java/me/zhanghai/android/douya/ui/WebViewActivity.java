@@ -146,14 +146,14 @@ public class WebViewActivity extends AppCompatActivity {
             case R.id.action_reload:
                 reloadWebView();
                 return true;
-            case R.id.action_open_with_native:
-                toggleOpenWithNative();
-                return true;
             case R.id.action_copy_url:
                 copyUrl();
                 return true;
             case R.id.action_share:
                 shareUrl();
+                return true;
+            case R.id.action_open_with_native:
+                toggleOpenWithNative();
                 return true;
             case R.id.action_request_desktop_site:
                 toggleRequestDesktopSite();
@@ -281,19 +281,6 @@ public class WebViewActivity extends AppCompatActivity {
         mGoForwardMenuItem.setEnabled(mWebView.canGoForward());
     }
 
-    private void toggleOpenWithNative() {
-        Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.putValue(
-                !Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
-        updateOpenWithNative();
-    }
-
-    private void updateOpenWithNative() {
-        if (mOpenWithNativeMenuItem == null) {
-            return;
-        }
-        mOpenWithNativeMenuItem.setChecked(Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
-    }
-
     private void copyUrl() {
         String url = mWebView.getUrl();
         if (TextUtils.isEmpty(url)) {
@@ -311,6 +298,19 @@ public class WebViewActivity extends AppCompatActivity {
         }
         startActivity(Intent.createChooser(IntentUtils.makeSendText(url), getText(
                 R.string.share_activity_chooser_title)));
+    }
+
+    private void toggleOpenWithNative() {
+        Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.putValue(
+                !Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
+        updateOpenWithNative();
+    }
+
+    private void updateOpenWithNative() {
+        if (mOpenWithNativeMenuItem == null) {
+            return;
+        }
+        mOpenWithNativeMenuItem.setChecked(Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue());
     }
 
     private void toggleRequestDesktopSite() {
