@@ -109,7 +109,7 @@ dependencies {
     compile 'com.takisoft.fix:preference-v7:25.4.0.3'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
+    compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
     compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
     compile 'me.zhanghai.android.effortlesspermissions:library:1.0.0'
     compile 'me.zhanghai.android.materialedittext:library:1.0.5'
