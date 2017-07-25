@@ -8,16 +8,16 @@
 <resources>
 
     <style name="ThemeOverlay.Design.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="textColorError">@color/design_textinput_error_color_dark</item>
+        <item name="textColorError">?colorError</item>
     </style>
     <style name="ThemeOverlay.Design.Dark" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="textColorError">@color/design_textinput_error_color_dark</item>
+        <item name="textColorError">?colorError</item>
     </style>
     <style name="ThemeOverlay.Design.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="textColorError">@color/design_textinput_error_color_dark</item>
+        <item name="textColorError">?colorError</item>
     </style>
     <style name="ThemeOverlay.Design.Light" parent="ThemeOverlay.AppCompat.Light">
-        <item name="textColorError">@color/design_textinput_error_color_light</item>
+        <item name="textColorError">?colorError</item>
     </style>
 
     <style name="ThemeOverlay.Douya.ActionBar" parent="ThemeOverlay.Design.ActionBar">
@@ -35,12 +35,12 @@
 
     <style name="PreferenceFixTheme.Design" parent="PreferenceFixTheme">
         <item name="preferenceCategory_marginBottom">0dp</item>
-        <item name="textColorError">@color/design_textinput_error_color_dark</item>
+        <item name="textColorError">?colorError</item>
     </style>
     <!--<style name="Theme.Design.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">-->
     <style name="PreferenceFixTheme.Design.Light.DarkActionBar" parent="PreferenceFixTheme.Light.DarkActionBar">
         <item name="preferenceCategory_marginBottom">0dp</item>
-        <item name="textColorError">@color/design_textinput_error_color_light</item>
+        <item name="textColorError">?colorError</item>
         <item name="actionBarTheme">@style/ThemeOverlay.Design.Dark.ActionBar</item>
     </style>
 
