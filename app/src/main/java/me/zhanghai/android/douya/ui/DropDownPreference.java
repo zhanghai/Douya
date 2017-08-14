@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 
 import me.zhanghai.android.douya.R;
 
-class DropDownPreference extends android.support.v7.preference.DropDownPreference {
+public class DropDownPreference extends android.support.v7.preference.DropDownPreference {
 
     public DropDownPreference(Context context) {
         super(context);

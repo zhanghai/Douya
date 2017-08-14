@@ -26,17 +26,12 @@ public class IntentUtils {
     public static Intent makeInstallShortcut(int iconRes, int nameRes, Class<?> intentClass,
                                              Context context) {
         return new Intent()
+                .setAction(ACTION_INSTALL_SHORTCUT)
                 .putExtra(Intent.EXTRA_SHORTCUT_INTENT, new Intent(context.getApplicationContext(),
                         intentClass))
                 .putExtra(Intent.EXTRA_SHORTCUT_NAME, context.getString(nameRes))
                 .putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                         Intent.ShortcutIconResource.fromContext(context, iconRes));
-    }
-
-    public static Intent makeInstallShortcutWithAction(int iconRes, int nameRes,
-                                                       Class<?> intentClass, Context context) {
-        return makeInstallShortcut(iconRes, nameRes, intentClass, context)
-                .setAction(ACTION_INSTALL_SHORTCUT);
     }
 
     public static Intent makeLaunchApp(String packageName, Context context) {
