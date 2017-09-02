@@ -7,9 +7,12 @@ package me.zhanghai.android.douya.util;
 
 import android.util.Log;
 
+import me.zhanghai.android.douya.BuildConfig;
+
 public class LogUtils {
 
-    private static final String TAG = "douya";
+    private static final String TAG = BuildConfig.APPLICATION_ID.substring(
+            BuildConfig.APPLICATION_ID.lastIndexOf('.') + 1);
 
     private LogUtils() {}
 

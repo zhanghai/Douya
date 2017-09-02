@@ -5,10 +5,12 @@
 
 package me.zhanghai.android.douya.settings.info;
 
+import android.net.Uri;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.BoolRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
+import android.text.TextUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -188,6 +190,29 @@ public interface SettingsEntries {
 
         public void putEnumValue(E value) {
             putValue(String.valueOf(value.ordinal()));
+        }
+    }
+
+    class UriSettingsEntry extends StringSettingsEntry {
+
+        public UriSettingsEntry(@StringRes int keyResId, int defaultValueResId) {
+            super(keyResId, defaultValueResId);
+        }
+
+        public Uri getDefaultUriValue() {
+            return stringToUri(getDefaultValue());
+        }
+
+        public Uri getUriValue() {
+            return stringToUri(getValue());
+        }
+
+        private static Uri stringToUri(String string) {
+            return !TextUtils.isEmpty(string) ? Uri.parse(string) : null;
+        }
+
+        public void putUriValue(Uri value) {
+            putValue(value != null ? value.toString() : null);
         }
     }
 }
