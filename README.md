@@ -29,17 +29,7 @@
 
 图片：
 
-<p><img src="screenshot/00-main.png" width="32%" />
-<img src="screenshot/01-immersive.jpg" width="32%" />
-<img src="screenshot/02-gallery.jpg" width="32%" />
-<img src="screenshot/03-broadcast-menu.png" width="32%" />
-<img src="screenshot/04-broadcast-activity.png" width="32%" />
-<img src="screenshot/05-send-comment.png" width="32%" />
-<img src="screenshot/06-comment-action.png" width="32%" />
-<img src="screenshot/07-settings.png" width="32%" />
-<img src="screenshot/08-licenses.png" width="32%" />
-<img src="screenshot/09-tablet-portrait.jpg" width="34.7%" />
-<img src="screenshot/10-tablet-landscape.png" width="61.7%" /></p>
+![](screenshot/feature-graphic.png)
 
 视频：
 
