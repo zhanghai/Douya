@@ -80,11 +80,11 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:cardview-v7:26.0.2'
-    compile 'com.android.support:customtabs:26.0.2'
-    compile 'com.android.support:design:26.0.2'
-    compile 'com.android.support:recyclerview-v7:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:customtabs:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
 
     compile "com.andkulikov:transitionseverywhere:1.6.9"
     compile('com.crashlytics.sdk.android:answers:1.3.13@aar') {
@@ -106,7 +106,7 @@ dependencies {
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.takisoft.fix:preference-v7:26.0.2.0'
+    compile 'com.takisoft.fix:preference-v7:26.1.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
