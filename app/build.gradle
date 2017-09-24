@@ -46,16 +46,6 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.1.2'
 }
 
-repositories {
-    maven {
-        url 'http://oss.sonatype.org/content/repositories/snapshots'
-    }
-}
-dependencies {
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-SNAPSHOT'
-    compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
-}
-
 buildscript {
     repositories {
         maven {
@@ -96,8 +86,8 @@ dependencies {
     debugCompile 'com.facebook.stetho:stetho:1.5.0'
     debugCompile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
-    //annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
-    //compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+    compile 'com.github.bumptech.glide:glide:4.1.1'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.jakewharton:butterknife:8.8.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
@@ -106,7 +96,7 @@ dependencies {
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.takisoft.fix:preference-v7:26.1.0.0'
+    compile 'com.takisoft.fix:preference-v7:26.1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
