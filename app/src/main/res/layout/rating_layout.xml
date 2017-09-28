@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="LinearLayout"
+    tools:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/rating_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:includeFontPadding="false"
+        android:textColor="?android:textColorPrimary"
+        style="@style/TextAppearance.AppCompat.Display3" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:baselineAlignedChildIndex="1"
+        android:orientation="vertical">
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginRight="-1dp"
+            android:layout_marginTop="-2dp"
+            android:layout_marginBottom="-2dp"
+            android:minHeight="14dp"
+            android:maxHeight="14dp"
+            app:mrb_progressTint="?android:textColorSecondary"
+            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small"
+
+            android:rating="3.5" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/rating_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Caption" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/rating_count"
+                android:layout_alignBaseline="@id/rating_count"
+                android:layout_marginLeft="2dp"
+                android:baselineAlignBottom="true"
+                android:src="@drawable/person_icon_white_8dp"
+                android:tint="?android:textColorSecondary" />
+        </RelativeLayout>
+    </LinearLayout>
+</merge>

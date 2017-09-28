@@ -104,6 +104,6 @@ dependencies {
     compile 'me.zhanghai.android.effortlesspermissions:library:1.0.2'
     compile 'me.zhanghai.android.materialedittext:library:1.0.5'
     compile 'me.zhanghai.android.materialprogressbar:library:1.4.2'
-    compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
+    compile 'me.zhanghai.android.materialratingbar:library:1.1.1'
     compile 'me.zhanghai.android.systemuihelper:library:1.0.0'
 }

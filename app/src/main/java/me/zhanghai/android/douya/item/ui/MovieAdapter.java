@@ -26,8 +26,9 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM_HEADER = 0;
+    private static final int ITEM_RATING = 1;
 
-    private static final int ITEM_COUNT = 1;
+    private static final int ITEM_COUNT = 2;
 
     private Data mData;
 
@@ -60,6 +61,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (viewType) {
             case ITEM_HEADER:
                 return new HeaderHolder(ViewUtils.inflate(R.layout.movie_header_item, parent));
+            case ITEM_RATING:
+                return new RatingHolder(ViewUtils.inflate(R.layout.item_rating_item, parent));
             default:
                 return null;
         }
@@ -85,6 +88,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         CollectableItem.Type.MOVIE, context));
                 headerHolder.mDoneButton.setText(ItemCollectionState.DONE.getString(
                         CollectableItem.Type.MOVIE, context));
+                break;
+            }
+            case ITEM_RATING: {
+                RatingHolder ratingHolder = (RatingHolder) holder;
+                ratingHolder.mRatingLayout.setRating(mData.movie.rating);
                 break;
             }
         }
@@ -124,6 +132,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Button mDoneButton;
 
         public HeaderHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class RatingHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.rating_layout)
+        RatingLayout mRatingLayout;
+
+        public RatingHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

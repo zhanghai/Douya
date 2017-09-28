@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<TableRow
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/rating_distribution_stars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="right"
+        android:includeFontPadding="false"
+        android:textSize="8dp"
+        style="@style/TextAppearance.AppCompat.Caption" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/rating_distribution_bar"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:minHeight="8dp"
+
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/rating_distribution_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            style="@style/TextAppearance.AppCompat.Caption"
+
+            android:text="1,274" />
+    </LinearLayout>
+</TableRow>
