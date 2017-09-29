@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<inset
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="@dimen/abc_button_inset_horizontal_material"
+    android:insetTop="@dimen/abc_button_inset_vertical_material"
+    android:insetRight="@dimen/abc_button_inset_horizontal_material"
+    android:insetBottom="@dimen/abc_button_inset_vertical_material">
+    <ripple android:color="?android:attr/colorControlHighlight">
+        <item android:id="@android:id/mask">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/abc_control_corner_material" />
+                <solid android:color="@android:color/white" />
+                <padding
+                    android:left="@dimen/abc_button_padding_horizontal_material"
+                    android:right="@dimen/abc_button_padding_horizontal_material"
+                    android:top="@dimen/abc_button_padding_vertical_material"
+                    android:bottom="@dimen/abc_button_padding_vertical_material" />
+            </shape>
+        </item>
+        <item>
+            <!-- As we can't use themed ColorStateLists in L, we'll use a Drawable selector which
+                 changes the shape's fill color. -->
+            <selector>
+                <item android:state_enabled="false">
+                    <shape android:shape="rectangle">
+                        <corners android:radius="@dimen/abc_control_corner_material" />
+                        <stroke
+                            android:color="?android:attr/colorButtonNormal"
+                            android:width="1dp" />
+                        <padding
+                            android:left="@dimen/abc_button_padding_horizontal_material"
+                            android:right="@dimen/abc_button_padding_horizontal_material"
+                            android:top="@dimen/abc_button_padding_vertical_material"
+                            android:bottom="@dimen/abc_button_padding_vertical_material" />
+                    </shape>
+                </item>
+                <item>
+                    <shape android:shape="rectangle">
+                        <corners android:radius="@dimen/abc_control_corner_material" />
+                        <stroke
+                            android:color="?android:attr/colorAccent"
+                            android:width="1dp" />
+                        <padding
+                            android:left="@dimen/abc_button_padding_horizontal_material"
+                            android:right="@dimen/abc_button_padding_horizontal_material"
+                            android:top="@dimen/abc_button_padding_vertical_material"
+                            android:bottom="@dimen/abc_button_padding_vertical_material" />
+                    </shape>
+                </item>
+            </selector>
+        </item>
+    </ripple>
+</inset>

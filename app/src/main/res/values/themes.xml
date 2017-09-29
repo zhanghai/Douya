@@ -166,9 +166,13 @@
 
     <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />
 
+    <style name="DarkTheme.Light.Movie" parent="DarkTheme.Light">
+        <item name="colorAccent">@color/movie_primary</item>
+    </style>
     <style name="Theme.Douya.Movie" parent="Theme.Douya">
         <item name="colorPrimary">@color/movie_primary</item>
         <item name="colorPrimaryDark">@color/movie_primary_dark</item>
         <item name="colorAccent">@color/movie_primary</item>
+        <item name="darkTheme">@style/DarkTheme.Light.Movie</item>
     </style>
 </resources>

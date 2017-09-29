@@ -78,27 +78,23 @@
         android:layout_marginTop="@dimen/content_vertical_space_with_6dp_margin"
         android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
         android:paddingRight="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
-        android:orientation="horizontal">
+        android:divider="@drawable/transparent_divider_horizontal_4dp"
+        android:orientation="horizontal"
+        android:showDividers="middle">
 
-        <Button
+        <me.zhanghai.android.douya.ui.ColoredBorderButton
             android:id="@+id/todo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:stateListAnimator="@null"
-            android:textAppearance="?android:textAppearanceButton"
-            android:theme="?darkTheme"
-            style="@style/Widget.AppCompat.Button.Colored" />
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
 
-        <Button
+        <me.zhanghai.android.douya.ui.ColoredBorderButton
             android:id="@+id/doing"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:stateListAnimator="@null"
-            android:textAppearance="?android:textAppearanceButton"
-            android:theme="?darkTheme"
-            style="@style/Widget.AppCompat.Button.Colored" />
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
 
         <Button
             android:id="@+id/done"
