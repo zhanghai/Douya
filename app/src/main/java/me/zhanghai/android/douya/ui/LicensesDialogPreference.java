@@ -6,44 +6,16 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.DialogPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.AttributeSet;
+
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 public class LicensesDialogPreference extends DialogPreference {
 
-    // As in PreferenceFragmentCompat, because we want to ensure that at most one dialog is showing.
-    private static final String DIALOG_FRAGMENT_TAG =
-            "android.support.v7.preference.PreferenceFragment.DIALOG";
-
-    /**
-     * Users should override {@link PreferenceFragmentCompat#onDisplayPreferenceDialog(Preference)}
-     * and check the return value of this method, only call through to super implementation if
-     * {@code false} is returned.
-     *
-     * @param preferenceFragment The preference fragment
-     * @param preference The preference, as in
-     * {@link PreferenceFragmentCompat#onDisplayPreferenceDialog(Preference)}
-     * @return Whether the call has been handled by this method.
-     */
-    public static boolean onDisplayPreferenceDialog(PreferenceFragmentCompat preferenceFragment,
-                                                    Preference preference) {
-
-        if (preference instanceof LicensesDialogPreference) {
-            // getChildFragmentManager() will lead to looking for target fragment in the child
-            // fragment manager.
-            FragmentManager fragmentManager = preferenceFragment.getFragmentManager();
-            if(fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
-                LicensesDialogFragment dialogFragment = LicensesDialogFragment.newInstance();
-                dialogFragment.setTargetFragment(preferenceFragment, 0);
-                dialogFragment.show(fragmentManager, DIALOG_FRAGMENT_TAG);
-            }
-            return true;
-        }
-
-        return false;
+    static {
+        PreferenceFragmentCompat.addDialogPreference(LicensesDialogPreference.class,
+                LicensesDialogFragment.class);
     }
 
     public LicensesDialogPreference(Context context) {
