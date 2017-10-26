@@ -9,13 +9,13 @@ apply from: '../signing.gradle'
 
 android {
 
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.0"
 
     defaultConfig {
         applicationId "me.zhanghai.android.douya"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 9
         versionName "1.0.0-beta.7"
         resValue 'string', 'application_id', applicationId
@@ -78,11 +78,11 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
-    compile 'com.android.support:customtabs:26.1.0'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:appcompat-v7:27.0.0'
+    compile 'com.android.support:cardview-v7:27.0.0'
+    compile 'com.android.support:customtabs:27.0.0'
+    compile 'com.android.support:design:27.0.0'
+    compile 'com.android.support:recyclerview-v7:27.0.0'
 
     compile "com.andkulikov:transitionseverywhere:1.6.9"
     debugCompile 'com.facebook.stetho:stetho:1.5.0'
@@ -99,6 +99,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.takisoft.fix:preference-v7:26.1.0.3'
+    // Temporary fix for com.takisoft.fix:preference-v7:26.1.0.3.
+    compile 'com.android.support:preference-v14:27.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'

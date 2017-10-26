@@ -7,8 +7,8 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-26.0.1
-    - android-26
+    - build-tools-27.0.0
+    - android-27
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
