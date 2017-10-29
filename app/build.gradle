@@ -98,9 +98,7 @@ dependencies {
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.takisoft.fix:preference-v7:26.1.0.3'
-    // Temporary fix for com.takisoft.fix:preference-v7:26.1.0.3.
-    compile 'com.android.support:preference-v14:27.0.0'
+    compile 'com.takisoft.fix:preference-v7:27.0.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
