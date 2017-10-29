@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?dividerHorizontal" />
+
+    <LinearLayout
+        android:id="@+id/introduction_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/content_horizontal_space_with_4dp_padding"
+            android:layout_marginRight="@dimen/content_horizontal_space_with_4dp_padding"
+            android:layout_marginTop="@dimen/content_vertical_space_with_4dp_padding"
+            android:layout_marginBottom="@dimen/content_vertical_space_with_4dp_padding"
+            android:gravity="center_horizontal"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:includeFontPadding="false"
+            android:text="@string/view_more"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
+    </LinearLayout>
+</LinearLayout>

@@ -5,7 +5,6 @@
   ~ All Rights Reserved.
   -->
 
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -19,7 +18,9 @@
     <me.zhanghai.android.douya.item.ui.RatingLayout
         android:id="@+id/rating_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp" />
 
     <me.zhanghai.android.douya.item.ui.RatingDistributionLayout
         android:id="@+id/rating_distribution_layout"

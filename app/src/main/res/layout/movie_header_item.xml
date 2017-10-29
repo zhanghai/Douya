@@ -19,13 +19,12 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/screen_edge_horizontal_margin"
         android:paddingRight="@dimen/screen_edge_horizontal_margin"
-        android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal">
 
         <me.zhanghai.android.douya.ui.RatioImageView
             android:id="@+id/poster"
-            android:layout_width="100dp"
+            android:layout_width="104dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="-16dp"
             android:layout_marginRight="@dimen/content_horizontal_space" />
@@ -75,12 +74,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_vertical_space_with_6dp_margin"
+        android:layout_marginTop="@dimen/content_vertical_space_with_6dp_padding"
+        android:layout_marginBottom="@dimen/content_vertical_space_with_6dp_padding"
         android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
         android:paddingRight="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
-        android:divider="@drawable/transparent_divider_horizontal_4dp"
-        android:orientation="horizontal"
-        android:showDividers="middle">
+        android:orientation="horizontal">
 
         <me.zhanghai.android.douya.ui.ColoredBorderButton
             android:id="@+id/todo"
@@ -96,6 +94,7 @@
             android:layout_weight="1"
             style="@style/Widget.AppCompat.Button.Borderless.Colored" />
 
+        <!--
         <Button
             android:id="@+id/done"
             android:layout_width="0dp"
@@ -105,5 +104,20 @@
             android:textAppearance="?android:textAppearanceButton"
             android:theme="?darkTheme"
             style="@style/Widget.AppCompat.Button.Colored" />
+        -->
+
+        <me.zhanghai.android.douya.ui.ColoredBorderButton
+            android:id="@+id/done"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?dividerHorizontal" />
 </LinearLayout>

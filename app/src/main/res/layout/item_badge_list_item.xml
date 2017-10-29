@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<me.zhanghai.android.douya.item.ui.BadgeListLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/badge_list_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+    android:paddingRight="@dimen/screen_edge_horizontal_margin"
+    android:paddingTop="@dimen/content_horizontal_space"
+    android:paddingBottom="@dimen/content_horizontal_space"
+    android:background="@color/cardview_light_background"
+    android:clipToPadding="false"
+    android:scrollbarStyle="outsideOverlay" />

@@ -11,17 +11,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:parentTag="LinearLayout"
+    tools:parentTag="android.widget.LinearLayout"
     tools:orientation="horizontal">
 
     <TextView
         android:id="@+id/rating_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="2dp"
         android:fontFamily="sans-serif-light"
         android:includeFontPadding="false"
-        android:textColor="?android:textColorPrimary"
-        style="@style/TextAppearance.AppCompat.Display3" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="?android:textColorPrimary" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,7 +32,7 @@
         android:orientation="vertical">
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
-            android:id="@+id/rating"
+            android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="-1dp"
@@ -45,25 +46,6 @@
 
             android:rating="3.5" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/rating_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Caption" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/rating_count"
-                android:layout_alignBaseline="@id/rating_count"
-                android:layout_marginLeft="2dp"
-                android:baselineAlignBottom="true"
-                android:src="@drawable/person_icon_white_8dp"
-                android:tint="?android:textColorSecondary" />
-        </RelativeLayout>
+        <include layout="@layout/item_rating_count_layout"/>
     </LinearLayout>
 </merge>

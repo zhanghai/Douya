@@ -24,7 +24,7 @@ public class RatingLayout extends LinearLayout {
 
     @BindView(R.id.rating_text)
     TextView mRatingText;
-    @BindView(R.id.rating)
+    @BindView(R.id.rating_bar)
     RatingBar mRatingBar;
     @BindView(R.id.rating_count)
     TextView mRatingCountText;
@@ -55,7 +55,7 @@ public class RatingLayout extends LinearLayout {
     }
 
     private void init() {
-        ViewUtils.inflateInto(R.layout.rating_layout, this);
+        ViewUtils.inflateInto(R.layout.item_rating_layout, this);
         ButterKnife.bind(this);
     }
 

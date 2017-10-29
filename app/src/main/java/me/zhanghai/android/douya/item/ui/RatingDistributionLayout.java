@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class RatingDistributionLayout extends TableLayout {
             0xFFFF8A65,
     };
 
-    private RatingDistributionRow[] mRows = new RatingDistributionRow[5];
+    private RowHolder[] mRowHolders = new RowHolder[5];
 
     public RatingDistributionLayout(Context context) {
         super(context);
@@ -49,17 +50,22 @@ public class RatingDistributionLayout extends TableLayout {
         setColumnShrinkable(1, true);
         setColumnStretchable(1, true);
 
-        for (int i = 0; i < mRows.length; ++i) {
-            View rowView = ViewUtils.inflate(R.layout.rating_distribution_layout_row, this);
-            RatingDistributionRow row = new RatingDistributionRow(rowView);
-            row.mStarsText.setText(makeStars(mRows.length - i));
-            row.mBarView.setBackgroundColor(COLORS[i]);
-            mRows[i] = row;
+        for (int i = 0; i < mRowHolders.length; ++i) {
+            View rowView = ViewUtils.inflate(R.layout.item_rating_distribution_layout_row, this);
+            RowHolder rowHolder = new RowHolder(rowView);
+            rowHolder.mStarsText.setText(makeStars(mRowHolders.length - i));
+            rowHolder.mBarView.setBackgroundColor(COLORS[i]);
+            mRowHolders[i] = rowHolder;
             addView(rowView);
         }
 
         // FIXME: Only for debugging.
         setCompact(true);
+        for (int i = 0; i < mRowHolders.length; i++) {
+            RowHolder rowHolder = mRowHolders[i];
+            ((LinearLayout) rowHolder.mBarView.getParent()).setWeightSum(5);
+            ((LinearLayout.LayoutParams) rowHolder.mBarView.getLayoutParams()).weight = 5 - i;
+        }
     }
 
     private static String makeStars(int count) {
@@ -79,12 +85,12 @@ public class RatingDistributionLayout extends TableLayout {
     public void setCompact(boolean compact) {
         setShowDividers(compact ? SHOW_DIVIDER_NONE : SHOW_DIVIDER_MIDDLE);
         setColumnCollapsed(0, compact);
-        for (RatingDistributionRow row : mRows) {
+        for (RowHolder row : mRowHolders) {
             ViewUtils.setVisibleOrGone(row.mCountText, !compact);
         }
     }
 
-    static class RatingDistributionRow {
+    static class RowHolder {
 
         @BindView(R.id.rating_distribution_stars)
         public TextView mStarsText;
@@ -93,8 +99,8 @@ public class RatingDistributionLayout extends TableLayout {
         @BindView(R.id.rating_distribution_count)
         public TextView mCountText;
 
-        public RatingDistributionRow(View view) {
-            ButterKnife.bind(this, view);
+        public RowHolder(View rowView) {
+            ButterKnife.bind(this, rowView);
         }
     }
 }

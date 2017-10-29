@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.HorizontalScrollView">
+
+    <LinearLayout
+        android:id="@+id/badge_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/rating_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/rating_badge"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:theme="?darkTheme">
+
+                <TextView
+                    android:id="@+id/rating_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:includeFontPadding="false"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-0.5dp"
+                    android:layout_marginRight="-0.5dp"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginBottom="-1dp"
+                    android:minHeight="7dp"
+                    android:maxHeight="7dp"
+                    app:mrb_progressTint="?android:textColorPrimary"
+                    style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
+            </LinearLayout>
+
+            <include
+                layout="@layout/item_rating_count_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/genre_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/genre_badge"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:background="@drawable/item_badge_white"
+                app:backgroundTint="?colorAccent" />
+
+            <TextView
+                android:id="@+id/genre_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/similar_items_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:background="@drawable/item_badge_white"
+                android:src="@drawable/similar_items_badge_white_40dp"
+                app:backgroundTint="?colorAccent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/item_similar_items"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        </LinearLayout>
+    </LinearLayout>
+</merge>

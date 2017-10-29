@@ -14,7 +14,7 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 public class LicensesDialogPreference extends DialogPreference {
 
     static {
-        PreferenceFragmentCompat.addDialogPreference(LicensesDialogPreference.class,
+        PreferenceFragmentCompat.registerPreferenceFragment(LicensesDialogPreference.class,
                 LicensesDialogFragment.class);
     }
 

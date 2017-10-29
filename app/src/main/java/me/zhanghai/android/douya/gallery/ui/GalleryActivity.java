@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import me.zhanghai.android.douya.network.api.info.apiv2.Image;
+import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class GalleryActivity extends AppCompatActivity {
@@ -45,6 +46,15 @@ public class GalleryActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Image image, Context context) {
         return makeIntent(image.getLargest(), context);
+    }
+
+    public static Intent makeIntent(ImageWithSize image, Context context) {
+        return makeIntent(image.getLarge().url, context);
+    }
+
+    public static Intent makeIntent(me.zhanghai.android.douya.network.api.info.frodo.Image image,
+                                    Context context) {
+        return makeIntent(image.getLarge(), context);
     }
 
     @Override
