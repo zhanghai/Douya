@@ -50,6 +50,8 @@ public class PolygonShape extends Shape {
 
     @Override
     public PolygonShape clone() throws CloneNotSupportedException {
-        return (PolygonShape) super.clone();
+        PolygonShape polygonShape = (PolygonShape) super.clone();
+        polygonShape.mPolygon = new Path(mPolygon);
+        return polygonShape;
     }
 }

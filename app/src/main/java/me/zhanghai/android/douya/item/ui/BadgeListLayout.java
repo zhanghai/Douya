@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
+import me.zhanghai.android.douya.ui.CircleRectShape;
 import me.zhanghai.android.douya.ui.PolygonShape;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -33,6 +34,10 @@ public class BadgeListLayout extends HorizontalScrollView {
 
     @BindView(R.id.badge_list)
     ViewGroup mBadgeListLayout;
+    @BindView(R.id.top_250_layout)
+    ViewGroup mTop250Layout;
+    @BindView(R.id.top_250_douban_badge)
+    TextView mTop250DoubanBadge;
     @BindView(R.id.rating_layout)
     ViewGroup mRatingLayout;
     @BindView(R.id.rating_badge)
@@ -85,6 +90,13 @@ public class BadgeListLayout extends HorizontalScrollView {
         ButterKnife.bind(this);
 
         Context context = getContext();
+        ViewCompat.setBackground(mTop250DoubanBadge, new ShapeDrawable(new CircleRectShape()));
+        mTop250Layout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO
+            }
+        });
         Drawable ratingBadgeDrawable = new RatingBadgeDrawable(context);
         ratingBadgeDrawable = DrawableCompat.wrap(ratingBadgeDrawable);
         int colorAccent = ViewUtils.getColorFromAttrRes(R.attr.colorAccent, 0, context);

@@ -21,6 +21,58 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/top_250_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/item_badge_circle_outline_white"
+                    android:gravity="center"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="24dp"
+                    app:backgroundTint="?colorAccent"
+                    tools:ignore="SpUsage"
+
+                    android:text="123" />
+
+                <TextView
+                    android:id="@+id/top_250_douban_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:paddingLeft="4.5dp"
+                    android:paddingRight="4.5dp"
+                    android:paddingTop="2.5dp"
+                    android:paddingBottom="2dp"
+                    android:background="@drawable/item_badge_circle_outline_white"
+                    android:includeFontPadding="false"
+                    android:text="@string/item_douban_top_250_badge"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="9dp"
+                    android:theme="?darkTheme"
+                    app:backgroundTint="?colorAccent"
+                    tools:ignore="SpUsage" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/item_douban_top_250"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/rating_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +134,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:background="@drawable/item_badge_white"
+                android:background="@drawable/item_badge_circle_filled_white"
                 app:backgroundTint="?colorAccent" />
 
             <TextView
@@ -106,7 +158,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:background="@drawable/item_badge_white"
+                android:background="@drawable/item_badge_circle_filled_white"
                 android:src="@drawable/similar_items_badge_white_40dp"
                 app:backgroundTint="?colorAccent" />
 
