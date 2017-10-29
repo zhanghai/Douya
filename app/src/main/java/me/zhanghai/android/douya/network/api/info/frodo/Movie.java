@@ -29,6 +29,9 @@ public class Movie extends SimpleMovie {
     @SerializedName("episodes_count")
     public int episodeCount;
 
+    @SerializedName("honor_infos")
+    public List<Honor> honors = new ArrayList<>();
+
     @SerializedName("in_blacklist")
     public boolean isInBlacklist;
 
@@ -74,6 +77,28 @@ public class Movie extends SimpleMovie {
         }
     };
 
+    public Movie() {}
+
+    protected Movie(Parcel in) {
+        super(in);
+
+        alternativeNames = in.createStringArrayList();
+        countries = in.createStringArrayList();
+        poster = in.readParcelable(Photo.class.getClassLoader());
+        durations = in.createStringArrayList();
+        episodeCount = in.readInt();
+        honors = in.createTypedArrayList(Honor.CREATOR);
+        isInBlacklist = in.readByte() != 0;
+        informationUrl = in.readString();
+        isReleased = in.readByte() != 0;
+        isTv = in.readByte() != 0;
+        languages = in.createStringArrayList();
+        ticketUrl = in.readString();
+        originalTitle = in.readString();
+        ticketPriceInformation = in.readString();
+        trailer = in.readParcelable(MovieTrailer.class.getClassLoader());
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -88,6 +113,7 @@ public class Movie extends SimpleMovie {
         dest.writeParcelable(poster, flags);
         dest.writeStringList(durations);
         dest.writeInt(episodeCount);
+        dest.writeTypedList(honors);
         dest.writeByte(isInBlacklist ? (byte) 1 : (byte) 0);
         dest.writeString(informationUrl);
         dest.writeByte(isReleased ? (byte) 1 : (byte) 0);
@@ -97,26 +123,5 @@ public class Movie extends SimpleMovie {
         dest.writeString(originalTitle);
         dest.writeString(ticketPriceInformation);
         dest.writeParcelable(trailer, flags);
-    }
-
-    public Movie() {}
-
-    protected Movie(Parcel in) {
-        super(in);
-
-        alternativeNames = in.createStringArrayList();
-        countries = in.createStringArrayList();
-        poster = in.readParcelable(Photo.class.getClassLoader());
-        durations = in.createStringArrayList();
-        episodeCount = in.readInt();
-        isInBlacklist = in.readByte() != 0;
-        informationUrl = in.readString();
-        isReleased = in.readByte() != 0;
-        isTv = in.readByte() != 0;
-        languages = in.createStringArrayList();
-        ticketUrl = in.readString();
-        originalTitle = in.readString();
-        ticketPriceInformation = in.readString();
-        trailer = in.readParcelable(MovieTrailer.class.getClassLoader());
     }
 }

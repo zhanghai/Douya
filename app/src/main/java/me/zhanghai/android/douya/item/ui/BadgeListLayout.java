@@ -25,6 +25,8 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.link.UriHandler;
+import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.ui.CircleRectShape;
 import me.zhanghai.android.douya.ui.PolygonShape;
@@ -36,8 +38,10 @@ public class BadgeListLayout extends HorizontalScrollView {
     ViewGroup mBadgeListLayout;
     @BindView(R.id.top_250_layout)
     ViewGroup mTop250Layout;
-    @BindView(R.id.top_250_douban_badge)
-    TextView mTop250DoubanBadge;
+    @BindView(R.id.top_250_rank)
+    TextView mTop250RankText;
+    @BindView(R.id.top_250_badge)
+    TextView mTop250Badge;
     @BindView(R.id.rating_layout)
     ViewGroup mRatingLayout;
     @BindView(R.id.rating_badge)
@@ -90,13 +94,7 @@ public class BadgeListLayout extends HorizontalScrollView {
         ButterKnife.bind(this);
 
         Context context = getContext();
-        ViewCompat.setBackground(mTop250DoubanBadge, new ShapeDrawable(new CircleRectShape()));
-        mTop250Layout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
-            }
-        });
+        ViewCompat.setBackground(mTop250Badge, new ShapeDrawable(new CircleRectShape()));
         Drawable ratingBadgeDrawable = new RatingBadgeDrawable(context);
         ratingBadgeDrawable = DrawableCompat.wrap(ratingBadgeDrawable);
         int colorAccent = ViewUtils.getColorFromAttrRes(R.attr.colorAccent, 0, context);
@@ -106,6 +104,24 @@ public class BadgeListLayout extends HorizontalScrollView {
             @Override
             public void onClick(View view) {
                 // TODO
+            }
+        });
+    }
+
+    public void setTop250(Honor honor) {
+        boolean isTop250 = honor != null;
+        ViewUtils.setVisibleOrGone(mTop250Layout, isTop250);
+        if (!isTop250) {
+            return;
+        }
+        final Context context = getContext();
+        mTop250RankText.setText(context.getString(R.string.item_top_250_rank_format, honor.rank));
+        mTop250Layout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //UriHandler.open(honor.uri, context);
+                // HACK
+                UriHandler.open("https://movie.douban.com/top250", context);
             }
         });
     }

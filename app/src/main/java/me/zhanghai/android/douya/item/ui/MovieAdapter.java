@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.ui.RatioImageView;
@@ -116,6 +117,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_BADGE_LIST: {
                 BadgeListHolder badgeListHolder = (BadgeListHolder) holder;
+                Honor top250Honor = null;
+                for (Honor honor : mData.movie.honors) {
+                    if (honor.getType() == Honor.Type.TOP_250) {
+                        top250Honor = honor;
+                        break;
+                    }
+                }
+                badgeListHolder.mBadgeListLayout.setTop250(top250Honor);
                 badgeListHolder.mBadgeListLayout.setRating(mData.movie.rating);
                 badgeListHolder.mBadgeListLayout.setGenre(R.drawable.movie_badge_white_40dp,
                         mData.movie.genres.get(0));

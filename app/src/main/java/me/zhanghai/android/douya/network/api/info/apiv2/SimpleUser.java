@@ -29,7 +29,7 @@ public class SimpleUser implements Parcelable {
             this.apiString = apiString;
         }
 
-        public static Type ofString(String apiString, Type defaultValue) {
+        public static Type ofApiString(String apiString, Type defaultValue) {
             for (Type type : Type.values()) {
                 if (TextUtils.equals(type.apiString, apiString)) {
                     return type;
@@ -38,8 +38,8 @@ public class SimpleUser implements Parcelable {
             return defaultValue;
         }
 
-        public static Type ofString(String apiString) {
-            return ofString(apiString, USER);
+        public static Type ofApiString(String apiString) {
+            return ofApiString(apiString, USER);
         }
     }
 
@@ -97,7 +97,7 @@ public class SimpleUser implements Parcelable {
 
     public Type getType() {
         //noinspection deprecation
-        return Type.ofString(type);
+        return Type.ofApiString(type);
     }
 
 

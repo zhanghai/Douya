@@ -34,6 +34,7 @@
                 android:layout_height="60dp">
 
                 <TextView
+                    android:id="@+id/top_250_rank"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/item_badge_circle_outline_white"
@@ -41,12 +42,10 @@
                     android:textColor="?android:textColorSecondary"
                     android:textSize="24dp"
                     app:backgroundTint="?colorAccent"
-                    tools:ignore="SpUsage"
-
-                    android:text="123" />
+                    tools:ignore="SpUsage" />
 
                 <TextView
-                    android:id="@+id/top_250_douban_badge"
+                    android:id="@+id/top_250_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
@@ -56,7 +55,7 @@
                     android:paddingBottom="2dp"
                     android:background="@drawable/item_badge_circle_outline_white"
                     android:includeFontPadding="false"
-                    android:text="@string/item_douban_top_250_badge"
+                    android:text="@string/item_top_250_badge"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="9dp"
                     android:theme="?darkTheme"
@@ -68,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="@string/item_douban_top_250"
+                android:text="@string/item_top_250"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
         </LinearLayout>
 

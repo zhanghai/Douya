@@ -256,8 +256,9 @@
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
     <string name="item_movie_title">电影</string>
-    <string name="item_douban_top_250">豆瓣 250</string>
-    <string name="item_douban_top_250_badge">TOP</string>
+    <string name="item_top_250">豆瓣 250</string>
+    <string name="item_top_250_badge">TOP</string>
+    <string name="item_top_250_rank_format">%1$d</string>
     <string name="item_similar_items">类似条目</string>
     <string name="item_collection_title">条目收藏</string>
     <string name="item_add_collection_title">收藏 %1$s</string>
