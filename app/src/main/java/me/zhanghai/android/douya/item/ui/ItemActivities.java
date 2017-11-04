@@ -15,6 +15,8 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 
 public class ItemActivities {
 
+    private ItemActivities() {}
+
     public static Intent makeIntent(CollectableItem item, Context context) {
         if (!BuildConfig.DEBUG) {
             return null;
@@ -28,10 +30,9 @@ public class ItemActivities {
                 case MOVIE:
                 case TV:
                     return MovieActivity.makeIntent(item.id, context);
+                default:
+                    return null;
             }
-            return null;
         }
     }
-
-    private ItemActivities() {}
 }
