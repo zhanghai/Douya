@@ -15,6 +15,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.Collection;
 
 public class IoUtils {
@@ -44,6 +45,18 @@ public class IoUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static long inputStreamToOutputStream(InputStream inputStream,
+                                                 OutputStream outputStream) throws IOException {
+        long count = 0;
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, length);
+            count += length;
+        }
+        return count;
     }
 
     public static String inputStreamToString(InputStream inputStream, String charsetName)
