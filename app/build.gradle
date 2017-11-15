@@ -23,6 +23,11 @@ android {
         resValue 'string', 'file_provider_authority', applicationId + '.file_provider'
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         debug {
             ext.enableCrashlytics = false
