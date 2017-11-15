@@ -12,10 +12,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.Collection;
 
 public class IoUtils {
@@ -47,6 +52,12 @@ public class IoUtils {
         }
     }
 
+    public static String fileToString(File file, Charset charset) throws IOException {
+        try (InputStream inputStream = new FileInputStream(file)) {
+            return inputStreamToString(inputStream, charset);
+        }
+    }
+
     public static long inputStreamToOutputStream(InputStream inputStream,
                                                  OutputStream outputStream) throws IOException {
         long count = 0;
@@ -59,16 +70,30 @@ public class IoUtils {
         return count;
     }
 
-    public static String inputStreamToString(InputStream inputStream, String charsetName)
+    public static String inputStreamToString(InputStream inputStream, Charset charset)
             throws IOException {
+        return readerToString(new InputStreamReader(inputStream, charset));
+    }
+
+    public static String readerToString(Reader reader) throws IOException {
         StringBuilder builder = new StringBuilder();
-        InputStreamReader reader = new InputStreamReader(inputStream, charsetName);
         char[] buffer = new char[BUFFER_SIZE];
         int length;
         while ((length = reader.read(buffer)) != -1) {
             builder.append(buffer, 0, length);
         }
         return builder.toString();
+    }
+
+    public static void stringToFile(String string, File file, Charset charset) throws IOException {
+        try (OutputStream outputStream = new FileOutputStream(file)) {
+            stringToOutputStream(string, outputStream, charset);
+        }
+    }
+
+    public static void stringToOutputStream(String string, OutputStream outputStream,
+                                            Charset charset) throws IOException {
+        outputStream.write(string.getBytes(charset));
     }
 
     public static String byteArrayToBase64(byte[] byteArray) {
