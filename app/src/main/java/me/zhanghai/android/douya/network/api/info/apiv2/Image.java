@@ -10,19 +10,30 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Image implements Parcelable {
+import me.zhanghai.android.douya.ui.ImageItemWithSize;
+
+public class Image implements ImageItemWithSize, Parcelable {
 
     public int height;
 
+    /**
+     * @deprecated Use {@link #getSmallUrl()} instead.
+     */
     @SerializedName("href")
     public String small;
 
+    /**
+     * @deprecated Use {@link #getLargeUrl()} instead.
+     */
     @SerializedName("image")
-    public String raw;
+    public String large;
 
     @SerializedName("is_animated")
-    public boolean animated;
+    public boolean isAnimated;
 
+    /**
+     * @deprecated Use {@link #getMediumUrl()} instead.
+     */
     @SerializedName("thumb")
     public String medium;
     
@@ -30,10 +41,64 @@ public class Image implements Parcelable {
     
     public int width;
 
-    public String getLargest() {
-        return raw != null ? raw
+
+    @Override
+    public String getLargeUrl() {
+        //noinspection deprecation
+        return large != null ? large
                 : medium != null ? medium
                 : small;
+    }
+
+    @Override
+    public int getLargeWidth() {
+        return width;
+    }
+
+    @Override
+    public int getLargeHeight() {
+        return height;
+    }
+
+    @Override
+    public String getMediumUrl() {
+        //noinspection deprecation
+        return medium != null ? medium
+                : large != null ? large
+                : small;
+    }
+
+    @Override
+    public int getMediumWidth() {
+        return width;
+    }
+
+    @Override
+    public int getMediumHeight() {
+        return height;
+    }
+
+    @Override
+    public String getSmallUrl() {
+        //noinspection deprecation
+        return small != null ? small
+                : medium != null ? medium
+                : large;
+    }
+
+    @Override
+    public int getSmallWidth() {
+        return width;
+    }
+
+    @Override
+    public int getSmallHeight() {
+        return height;
+    }
+
+    @Override
+    public boolean isAnimated() {
+        return false;
     }
 
 
@@ -54,9 +119,12 @@ public class Image implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(height);
+        //noinspection deprecation
         dest.writeString(small);
-        dest.writeString(raw);
-        dest.writeByte(animated ? (byte) 1 : (byte) 0);
+        //noinspection deprecation
+        dest.writeString(large);
+        dest.writeByte(isAnimated ? (byte) 1 : (byte) 0);
+        //noinspection deprecation
         dest.writeString(medium);
         dest.writeString(type);
         dest.writeInt(width);
@@ -66,9 +134,12 @@ public class Image implements Parcelable {
 
     protected Image(Parcel in) {
         height = in.readInt();
+        //noinspection deprecation
         small = in.readString();
-        raw = in.readString();
-        animated = in.readByte() != 0;
+        //noinspection deprecation
+        large = in.readString();
+        isAnimated = in.readByte() != 0;
+        //noinspection deprecation
         medium = in.readString();
         type = in.readString();
         width = in.readInt();

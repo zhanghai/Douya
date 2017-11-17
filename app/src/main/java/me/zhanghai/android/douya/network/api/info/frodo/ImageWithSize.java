@@ -10,7 +10,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ImageWithSize implements Parcelable {
+import me.zhanghai.android.douya.ui.ImageItemWithSize;
+
+public class ImageWithSize implements ImageItemWithSize, Parcelable {
 
     @SerializedName("is_animated")
     public boolean isAnimated;
@@ -21,9 +23,10 @@ public class ImageWithSize implements Parcelable {
     public Item large;
 
     /**
-     * @deprecated Use {@link #getNormal()} ()} instead.
+     * @deprecated Use {@link #getMedium()} ()} instead.
      */
-    public Item normal;
+    @SerializedName("normal")
+    public Item medium;
 
     /**
      * @deprecated Use {@link #getSmall()} ()} instead.
@@ -33,13 +36,13 @@ public class ImageWithSize implements Parcelable {
     public Item getLarge() {
         //noinspection deprecation
         return large != null ? large
-                : normal != null ? normal
+                : medium != null ? medium
                 : small;
     }
 
-    public Item getNormal() {
+    public Item getMedium() {
         //noinspection deprecation
-        return normal != null ? normal
+        return medium != null ? medium
                 : large != null ? large
                 : small;
     }
@@ -47,8 +50,59 @@ public class ImageWithSize implements Parcelable {
     public Item getSmall() {
         //noinspection deprecation
         return small != null ? small
-                : normal != null ? normal
+                : medium != null ? medium
                 : large;
+    }
+
+
+    @Override
+    public String getLargeUrl() {
+        return getLarge().url;
+    }
+
+    @Override
+    public int getLargeWidth() {
+        return getLarge().width;
+    }
+
+    @Override
+    public int getLargeHeight() {
+        return getLarge().height;
+    }
+
+    @Override
+    public String getMediumUrl() {
+        return getMedium().url;
+    }
+
+    @Override
+    public int getMediumWidth() {
+        return getMedium().width;
+    }
+
+    @Override
+    public int getMediumHeight() {
+        return getMedium().height;
+    }
+
+    @Override
+    public String getSmallUrl() {
+        return getSmall().url;
+    }
+
+    @Override
+    public int getSmallWidth() {
+        return getSmall().width;
+    }
+
+    @Override
+    public int getSmallHeight() {
+        return getSmall().height;
+    }
+
+    @Override
+    public boolean isAnimated() {
+        return isAnimated;
     }
 
 
@@ -71,7 +125,7 @@ public class ImageWithSize implements Parcelable {
         //noinspection deprecation
         large = in.readParcelable(Item.class.getClassLoader());
         //noinspection deprecation
-        normal = in.readParcelable(Item.class.getClassLoader());
+        medium = in.readParcelable(Item.class.getClassLoader());
         //noinspection deprecation
         small = in.readParcelable(Item.class.getClassLoader());
     }
@@ -87,7 +141,7 @@ public class ImageWithSize implements Parcelable {
         //noinspection deprecation
         dest.writeParcelable(large, flags);
         //noinspection deprecation
-        dest.writeParcelable(normal, flags);
+        dest.writeParcelable(medium, flags);
         //noinspection deprecation
         dest.writeParcelable(small, flags);
     }

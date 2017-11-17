@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -78,9 +77,9 @@ public class ImageLayout extends FrameLayout {
         mImageView.setLayoutParams(layoutParams);
     }
 
-    public void loadImage(Image image) {
+    public void loadImage(ImageItemWithSize image) {
         ImageUtils.loadImageWithRatio(mImageView, image);
-        ViewUtils.setVisibleOrGone(mGifImage, image.animated);
+        ViewUtils.setVisibleOrGone(mGifImage, image.isAnimated());
     }
 
     public void releaseImage() {

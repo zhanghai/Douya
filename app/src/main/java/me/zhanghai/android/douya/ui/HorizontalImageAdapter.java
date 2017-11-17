@@ -13,11 +13,10 @@ import android.widget.Space;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.Image;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class HorizontalImageAdapter
-        extends SimpleAdapter<Image, HorizontalImageAdapter.ViewHolder> {
+        extends SimpleAdapter<ImageItemWithSize, HorizontalImageAdapter.ViewHolder> {
 
     private OnImageClickListener mOnImageClickListener;
 

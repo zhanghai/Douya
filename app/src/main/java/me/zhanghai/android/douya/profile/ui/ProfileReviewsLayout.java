@@ -99,7 +99,7 @@ public class ProfileReviewsLayout extends FriendlyCardView {
 
             String coverUrl = review.cover;
             if (TextUtils.isEmpty(coverUrl) && review.item != null && review.item.cover != null) {
-                coverUrl = review.item.cover.getNormal();
+                coverUrl = review.item.cover.getMediumUrl();
             }
             if (!TextUtils.isEmpty(coverUrl)) {
                 holder.coverImage.setVisibility(VISIBLE);

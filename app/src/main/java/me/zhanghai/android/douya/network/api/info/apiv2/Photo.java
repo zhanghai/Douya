@@ -12,7 +12,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Photo implements Parcelable {
+import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
+import me.zhanghai.android.douya.ui.ImageItemWithSize;
+
+public class Photo implements ImageItemWithSize, Parcelable {
 
     @SerializedName("album_id")
     public String albumId;
@@ -44,7 +47,7 @@ public class Photo implements Parcelable {
     public String image;
 
     @SerializedName("is_animated")
-    public boolean animated;
+    public boolean isAnimated;
 
     public String large;
 
@@ -64,23 +67,98 @@ public class Photo implements Parcelable {
     public String privacy;
 
     @SerializedName("recs_count")
-    public int recsCount;
+    public int recommendCount;
 
     public PhotoSizes sizes;
 
     @SerializedName("thumb")
     public String thumbnail;
 
-    public static ArrayList<Image> toImageList(ArrayList<Photo> photoList) {
-        ArrayList<Image> imageList = new ArrayList<>();
-        for (Photo photo : photoList) {
-            Image image = new Image();
-            image.medium = photo.image;
-            image.width = photo.sizes.image.get(0);
-            image.height = photo.sizes.image.get(1);
-            imageList.add(image);
-        }
-        return imageList;
+
+    @Override
+    public String getLargeUrl() {
+        return large != null ? large
+                : image != null ? image
+                : cover != null ? cover
+                : thumbnail != null ? thumbnail
+                : icon;
+    }
+
+    @Override
+    public int getLargeWidth() {
+        return large != null ? sizes.large.get(0)
+                : image != null ? sizes.image.get(0)
+                : cover != null ? sizes.cover.get(0)
+                : thumbnail != null ? sizes.thumbnail.get(0)
+                : sizes.icon.get(0);
+    }
+
+    @Override
+    public int getLargeHeight() {
+        return large != null ? sizes.large.get(1)
+                : image != null ? sizes.image.get(1)
+                : cover != null ? sizes.cover.get(1)
+                : thumbnail != null ? sizes.thumbnail.get(1)
+                : sizes.icon.get(1);
+    }
+
+    @Override
+    public String getMediumUrl() {
+        return image != null ? image
+                : large != null ? large
+                : cover != null ? cover
+                : thumbnail != null ? thumbnail
+                : icon;
+    }
+
+    @Override
+    public int getMediumWidth() {
+        return image != null ? sizes.image.get(0)
+                : large != null ? sizes.large.get(0)
+                : cover != null ? sizes.cover.get(0)
+                : thumbnail != null ? sizes.thumbnail.get(0)
+                : sizes.icon.get(0);
+    }
+
+    @Override
+    public int getMediumHeight() {
+        return image != null ? sizes.image.get(1)
+                : large != null ? sizes.large.get(1)
+                : cover != null ? sizes.cover.get(1)
+                : thumbnail != null ? sizes.thumbnail.get(1)
+                : sizes.icon.get(1);
+    }
+
+    @Override
+    public String getSmallUrl() {
+        return cover != null ? cover
+                : thumbnail != null ? thumbnail
+                : icon != null ? icon
+                : image != null ? image
+                : large;
+    }
+
+    @Override
+    public int getSmallWidth() {
+        return cover != null ? sizes.cover.get(0)
+                : thumbnail != null ? sizes.thumbnail.get(0)
+                : icon != null ? sizes.icon.get(0)
+                : image != null ? sizes.image.get(0)
+                : sizes.large.get(0);
+    }
+
+    @Override
+    public int getSmallHeight() {
+        return cover != null ? sizes.cover.get(1)
+                : thumbnail != null ? sizes.thumbnail.get(1)
+                : icon != null ? sizes.icon.get(1)
+                : image != null ? sizes.image.get(1)
+                : sizes.large.get(1);
+    }
+
+    @Override
+    public boolean isAnimated() {
+        return isAnimated;
     }
 
 
@@ -108,7 +186,7 @@ public class Photo implements Parcelable {
         icon = in.readString();
         id = in.readString();
         image = in.readString();
-        animated = in.readByte() != 0;
+        isAnimated = in.readByte() != 0;
         large = in.readString();
         liked = in.readByte() != 0;
         likeCount = in.readInt();
@@ -116,7 +194,7 @@ public class Photo implements Parcelable {
         position = in.readInt();
         prevPhoto = in.readString();
         privacy = in.readString();
-        recsCount = in.readInt();
+        recommendCount = in.readInt();
         sizes = in.readParcelable(PhotoSizes.class.getClassLoader());
         thumbnail = in.readString();
     }
@@ -140,7 +218,7 @@ public class Photo implements Parcelable {
         dest.writeString(icon);
         dest.writeString(id);
         dest.writeString(image);
-        dest.writeByte(animated ? (byte) 1 : (byte) 0);
+        dest.writeByte(isAnimated ? (byte) 1 : (byte) 0);
         dest.writeString(large);
         dest.writeByte(liked ? (byte) 1 : (byte) 0);
         dest.writeInt(likeCount);
@@ -148,7 +226,7 @@ public class Photo implements Parcelable {
         dest.writeInt(position);
         dest.writeString(prevPhoto);
         dest.writeString(privacy);
-        dest.writeInt(recsCount);
+        dest.writeInt(recommendCount);
         dest.writeParcelable(sizes, flags);
         dest.writeString(thumbnail);
     }

@@ -73,7 +73,7 @@ public class ProfileItemAdapter
                 }
             }
         });
-        ImageUtils.loadImage(holder.coverImage, item.cover.getLarge());
+        ImageUtils.loadImage(holder.coverImage, item.cover.getLargeUrl());
         holder.titleText.setText(item.title);
         // FIXME: This won't work properly if items are changed.
         ViewUtils.setVisibleOrGone(holder.dividerSpace, position != getItemCount() - 1);

@@ -33,11 +33,10 @@ import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.apiv2.Attachment;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.Image;
-import me.zhanghai.android.douya.network.api.info.apiv2.Photo;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.CardIconButton;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
+import me.zhanghai.android.douya.ui.ImageItemWithSize;
 import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
@@ -224,11 +223,11 @@ public class BroadcastLayout extends LinearLayout {
                 mAttachmentLayout.setVisibility(GONE);
             }
 
-            final ArrayList<Image> images = broadcast.images.size() > 0 ? broadcast.images
-                    : Photo.toImageList(broadcast.photos);
+            final ArrayList<? extends ImageItemWithSize> images = broadcast.images.size() > 0 ?
+                    broadcast.images : broadcast.photos;
             int numImages = images.size();
             if (numImages == 1) {
-                final Image image = images.get(0);
+                final ImageItemWithSize image = images.get(0);
                 mSingleImageLayout.setVisibility(VISIBLE);
                 mSingleImageLayout.loadImage(image);
                 mSingleImageLayout.setOnClickListener(new OnClickListener() {

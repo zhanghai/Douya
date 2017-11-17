@@ -25,6 +25,7 @@ import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.network.api.info.frodo.Image;
 import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
+import me.zhanghai.android.douya.ui.ImageItemWithSize;
 import me.zhanghai.android.douya.ui.RatioImageView;
 
 public class ImageUtils {
@@ -134,11 +135,11 @@ public class ImageUtils {
     }
 
     public static void loadImage(ImageView view, Image image) {
-        loadImage(view, image.getNormal());
+        loadImage(view, image.getMediumUrl());
     }
 
     public static void loadImage(ImageView view, ImageWithSize image) {
-        loadImage(view, image.getNormal().url);
+        loadImage(view, image.getMedium().url);
     }
 
     public static void loadImage(ImageView view, Photo photo) {
@@ -161,11 +162,11 @@ public class ImageUtils {
             .dontTransform()
             .placeholder(android.R.color.transparent);
 
-    public static void loadImageWithRatio(RatioImageView view, ImageWithSize image) {
-        ImageWithSize.Item imageItem = image.getNormal();
-        view.setRatio(imageItem.width, imageItem.height);
+    public static void loadImageWithRatio(RatioImageView view,
+                                          ImageItemWithSize image) {
+        view.setRatio(image.getMediumWidth(), image.getMediumHeight());
         GlideApp.with(view.getContext())
-                .load(imageItem.url)
+                .load(image.getMediumUrl())
                 .apply(REQUEST_OPTIONS_LOAD_IMAGE_WITH_RATIO)
                 .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
                         view)))
@@ -174,16 +175,5 @@ public class ImageUtils {
 
     public static void loadImageWithRatio(RatioImageView view, Photo photo) {
         loadImageWithRatio(view, photo.image);
-    }
-
-    public static void loadImageWithRatio(RatioImageView view,
-                                          me.zhanghai.android.douya.network.api.info.apiv2.Image image) {
-        view.setRatio(image.width, image.height);
-        GlideApp.with(view.getContext())
-                .load(image.medium)
-                .apply(REQUEST_OPTIONS_LOAD_IMAGE_WITH_RATIO)
-                .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
-                        view)))
-                .into(view);
     }
 }

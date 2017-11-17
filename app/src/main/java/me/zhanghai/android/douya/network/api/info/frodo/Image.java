@@ -7,33 +7,46 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Image implements Parcelable {
+import me.zhanghai.android.douya.ui.ImageItem;
+
+public class Image implements ImageItem, Parcelable {
 
     @SerializedName("is_animated")
     public boolean isAnimated;
 
     /**
-     * @deprecated Use {@link #getLarge()} instead.
+     * @deprecated Use {@link #getLargeUrl()} instead.
      */
     public String large;
 
     /**
-     * @deprecated Use {@link #getNormal()} ()} instead.
+     * @deprecated Use {@link #getMediumUrl()} ()} instead.
      */
-    public String normal;
+    @SerializedName("normal")
+    public String medium;
 
-    public String getLarge() {
+
+    public String getLargeUrl() {
         //noinspection deprecation
-        return !TextUtils.isEmpty(large) ? large : normal;
+        return large != null ? large : medium;
     }
 
-    public String getNormal() {
+    public String getMediumUrl() {
         //noinspection deprecation
-        return !TextUtils.isEmpty(normal) ? normal : large;
+        return medium != null ? medium : large;
+    }
+
+    @Override
+    public String getSmallUrl() {
+        return getMediumUrl();
+    }
+
+    @Override
+    public boolean isAnimated() {
+        return isAnimated;
     }
 
 
@@ -55,7 +68,7 @@ public class Image implements Parcelable {
         //noinspection deprecation
         large = in.readString();
         //noinspection deprecation
-        normal = in.readString();
+        medium = in.readString();
     }
 
     @Override
@@ -69,6 +82,6 @@ public class Image implements Parcelable {
         //noinspection deprecation
         dest.writeString(large);
         //noinspection deprecation
-        dest.writeString(normal);
+        dest.writeString(medium);
     }
 }

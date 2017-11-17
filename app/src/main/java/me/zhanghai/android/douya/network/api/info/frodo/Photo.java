@@ -9,7 +9,9 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Photo extends BaseItem {
+import me.zhanghai.android.douya.ui.ImageItemWithSize;
+
+public class Photo extends BaseItem implements ImageItemWithSize {
 
     @SerializedName("allow_comment")
     public boolean isCommentAllowed;
@@ -36,6 +38,57 @@ public class Photo extends BaseItem {
     public String ownerUri;
 
     public int position;
+
+
+    @Override
+    public String getLargeUrl() {
+        return image.getLargeUrl();
+    }
+
+    @Override
+    public int getLargeWidth() {
+        return image.getLargeWidth();
+    }
+
+    @Override
+    public int getLargeHeight() {
+        return image.getLargeHeight();
+    }
+
+    @Override
+    public String getMediumUrl() {
+        return image.getMediumUrl();
+    }
+
+    @Override
+    public int getMediumWidth() {
+        return image.getMediumWidth();
+    }
+
+    @Override
+    public int getMediumHeight() {
+        return image.getMediumHeight();
+    }
+
+    @Override
+    public String getSmallUrl() {
+        return image.getSmallUrl();
+    }
+
+    @Override
+    public int getSmallWidth() {
+        return image.getSmallWidth();
+    }
+
+    @Override
+    public int getSmallHeight() {
+        return image.getSmallHeight();
+    }
+
+    @Override
+    public boolean isAnimated() {
+        return image.isAnimated();
+    }
 
 
     public static final Creator<Photo> CREATOR = new Creator<Photo>() {
