@@ -252,9 +252,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     public boolean isLoaded() {
-        return hasItem() && mRatingResource.has()
-                && (mPhotoListResource == null || mPhotoListResource.has())
-                && (mReviewListResource == null || mReviewListResource.has());
+        return hasItem() && (mRatingResource != null && mRatingResource.has())
+                && (!hasPhotoList() || (mPhotoListResource != null && mPhotoListResource.has()))
+                && (!hasReviewList() || (mReviewListResource != null && mReviewListResource.has()));
     }
 
     public void notifyChangedIfLoaded() {

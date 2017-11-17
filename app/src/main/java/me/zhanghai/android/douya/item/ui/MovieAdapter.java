@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -36,9 +38,10 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_HEADER = 0;
     private static final int ITEM_BADGE_LIST = 1;
     private static final int ITEM_INTRODUCTION = 2;
-    private static final int ITEM_RATING = 3;
+    private static final int ITEM_GALLERY = 3;
+    private static final int ITEM_RATING = 4;
 
-    private static final int ITEM_COUNT = 4;
+    private static final int ITEM_COUNT = 5;
 
     private Data mData;
 
@@ -77,6 +80,15 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_INTRODUCTION:
                 return new IntroductionHolder(ViewUtils.inflate(R.layout.item_introduction_item,
                         parent));
+            case ITEM_GALLERY: {
+                GalleryHolder holder = new GalleryHolder(ViewUtils.inflate(
+                        R.layout.item_gallery_item, parent));
+                holder.mPhotoList.setHasFixedSize(true);
+                holder.mPhotoList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
+                        LinearLayoutManager.HORIZONTAL, false));
+                holder.mPhotoList.setAdapter(new HorizontalImageAdapter());
+                return holder;
+            }
             case ITEM_RATING:
                 return new RatingHolder(ViewUtils.inflate(R.layout.item_rating_item, parent));
             default:
@@ -145,6 +157,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 // TODO
                             }
                         });
+                break;
+            }
+            case ITEM_GALLERY: {
+                GalleryHolder galleryHolder = (GalleryHolder) holder;
+                HorizontalImageAdapter adapter = (HorizontalImageAdapter)
+                        galleryHolder.mPhotoList.getAdapter();
+                adapter.addAll(mData.photoList);
                 break;
             }
             case ITEM_RATING: {
@@ -221,6 +240,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView mIntroductionText;
 
         public IntroductionHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class GalleryHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.photo_list)
+        RecyclerView mPhotoList;
+
+        public GalleryHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

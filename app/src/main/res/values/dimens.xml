@@ -101,6 +101,8 @@
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">8dp</dimen>
     <dimen name="profile_small_avatar_size">32dp</dimen>
 
+    <dimen name="item_gallery_height">240dp</dimen>
+
     <dimen name="image_min_width">240dp</dimen>
     <dimen name="image_max_height">640dp</dimen>
 </resources>
