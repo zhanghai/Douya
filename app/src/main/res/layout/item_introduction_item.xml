@@ -45,6 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-1dp"
             android:layout_marginBottom="16dp"
             android:includeFontPadding="false"
             android:text="@string/view_more"
