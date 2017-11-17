@@ -185,7 +185,7 @@ public class ApiError extends Throwable {
         }
 
         Integer StringRes = ERROR_CODE_STRING_RES_MAP.get(code);
-        return StringRes != null ? StringRes : R.string.api_error_unknown;
+        return StringRes != 0 ? StringRes : R.string.api_error_unknown;
     }
 
     public static int getErrorStringRes(Throwable error) {
