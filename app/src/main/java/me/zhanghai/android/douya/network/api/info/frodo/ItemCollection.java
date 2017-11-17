@@ -21,7 +21,7 @@ public class ItemCollection implements Parcelable {
 
     public long id;
 
-    public Rating rating;
+    public SimpleRating rating;
 
     /**
      * @deprecated Use {@link #getState()} instead.
@@ -55,7 +55,7 @@ public class ItemCollection implements Parcelable {
         comment = in.readString();
         creationTime = in.readString();
         id = in.readLong();
-        rating = in.readParcelable(Rating.class.getClassLoader());
+        rating = in.readParcelable(SimpleRating.class.getClassLoader());
         //noinspection deprecation
         state = in.readString();
         tags = in.createStringArrayList();

@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
-import me.zhanghai.android.douya.network.api.info.frodo.Rating;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleRating;
 import me.zhanghai.android.douya.ui.CircleRectShape;
 import me.zhanghai.android.douya.ui.PolygonShape;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -126,7 +126,7 @@ public class BadgeListLayout extends HorizontalScrollView {
         });
     }
 
-    public void setRating(Rating rating) {
+    public void setRating(SimpleRating rating) {
         float ratingOutOfTen = (float) Math.round(rating.value / rating.max * 10 * 10) / 10;
         String ratingString = getContext().getString(R.string.item_rating_format, ratingOutOfTen);
         mRatingText.setText(ratingString);

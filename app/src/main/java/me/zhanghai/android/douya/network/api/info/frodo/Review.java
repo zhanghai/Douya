@@ -67,7 +67,7 @@ public class Review implements Parcelable {
 
     public List<GamePlatform> platforms = new ArrayList<>();
 
-    public Rating rating;
+    public SimpleRating rating;
 
     @SerializedName("rtype")
     public String rType;
@@ -139,7 +139,7 @@ public class Review implements Parcelable {
         isOriginal = in.readByte() != 0;
         photos = in.createTypedArrayList(SizedPhoto.CREATOR);
         platforms = in.createTypedArrayList(GamePlatform.CREATOR);
-        rating = in.readParcelable(Rating.class.getClassLoader());
+        rating = in.readParcelable(SimpleRating.class.getClassLoader());
         rType = in.readString();
         shareUrl = in.readString();
         isSpoiler = in.readByte() != 0;

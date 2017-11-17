@@ -35,7 +35,7 @@ public class CollectedItem implements Parcelable {
     @SerializedName("popular_tags")
     public ArrayList<String> popularTags = new ArrayList<>();
 
-    public Rating rating;
+    public SimpleRating rating;
 
     @SerializedName("sharing_url")
     public String shareUrl;
@@ -86,7 +86,7 @@ public class CollectedItem implements Parcelable {
         collectedIndex = in.readInt();
         platforms = in.createTypedArrayList(GamePlatform.CREATOR);
         popularTags = in.createStringArrayList();
-        rating = in.readParcelable(Rating.class.getClassLoader());
+        rating = in.readParcelable(SimpleRating.class.getClassLoader());
         shareUrl = in.readString();
         //noinspection deprecation
         state = in.readString();

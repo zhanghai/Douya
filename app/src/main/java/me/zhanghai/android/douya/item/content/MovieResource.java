@@ -8,8 +8,7 @@ package me.zhanghai.android.douya.item.content;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.ApiService;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -50,7 +49,7 @@ public class MovieResource extends BaseItemResource<SimpleMovie, Movie> {
     public MovieResource() {}
 
     @Override
-    protected ApiRequest<Movie> onCreateRequest(long movieId) {
-        return ApiService.getInstance().getMovie(movieId);
+    protected CollectableItem.Type getItemType() {
+        return CollectableItem.Type.MOVIE;
     }
 }

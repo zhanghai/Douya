@@ -18,10 +18,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.util.GsonHelper;
 
 /**
  * {@code LegacySubject} in Frodo, for those that can have a rating.
@@ -61,9 +58,6 @@ public abstract class CollectableItem extends BaseItem {
             return ofApiString(apiString, null);
         }
 
-        /**
-         * @deprecated HACK-only.
-         */
         public String getApiString() {
             return apiString;
         }
@@ -106,7 +100,7 @@ public abstract class CollectableItem extends BaseItem {
     @SerializedName("null_rating_reason")
     public String ratingUnavailableReason;
 
-    public Rating rating;
+    public SimpleRating rating;
 
     @SerializedName("review_count")
     public int reviewCount;
@@ -138,7 +132,7 @@ public abstract class CollectableItem extends BaseItem {
 //
                     case MOVIE:
                     case TV:
-                        type = new TypeToken<SimpleMovie>() {}.getType();
+                        type = new TypeToken<Movie>() {}.getType();
 //                case MUSIC:
 //                    return context.deserialize(json, new TypeToken<Music>() {}.getClass());
                 }
@@ -168,7 +162,7 @@ public abstract class CollectableItem extends BaseItem {
 //
                     case MOVIE:
                     case TV:
-                        type = new TypeToken<SimpleMovie>() {}.getClass();
+                        type = new TypeToken<Movie>() {}.getClass();
 //                    case MUSIC:
 //
                 }
@@ -193,7 +187,7 @@ public abstract class CollectableItem extends BaseItem {
         introduction = in.readString();
         isIntroductionByDouban = in.readByte() != 0;
         ratingUnavailableReason = in.readString();
-        rating = in.readParcelable(Rating.class.getClassLoader());
+        rating = in.readParcelable(SimpleRating.class.getClassLoader());
         reviewCount = in.readInt();
         vendorCount = in.readInt();
     }

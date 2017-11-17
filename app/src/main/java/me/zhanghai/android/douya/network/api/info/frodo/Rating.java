@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
@@ -7,14 +7,28 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class Rating implements Parcelable {
 
-    public int count;
+    @SerializedName("following")
+    public FollowingRating followingRating;
 
-    public int max;
+    @SerializedName("stats")
+    public ArrayList<Float> distribution = new ArrayList<>();
 
-    public float value;
+    @SerializedName("type_ranks")
+    public ArrayList<GenreRanking> genreRankings = new ArrayList<>();
+
+    /**
+     * Frodo API doesn't have this field, so this needs to be set manually.
+     */
+    @Nullable
+    public SimpleRating rating;
 
 
     public static final Parcelable.Creator<Rating> CREATOR = new Parcelable.Creator<Rating>() {
@@ -31,9 +45,10 @@ public class Rating implements Parcelable {
     public Rating() {}
 
     protected Rating(Parcel in) {
-        count = in.readInt();
-        max = in.readInt();
-        value = in.readFloat();
+        followingRating = in.readParcelable(FollowingRating.class.getClassLoader());
+        in.readList(distribution, Float.class.getClassLoader());
+        genreRankings = in.createTypedArrayList(GenreRanking.CREATOR);
+        rating = in.readParcelable(SimpleRating.class.getClassLoader());
     }
 
     @Override
@@ -43,8 +58,87 @@ public class Rating implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(count);
-        dest.writeInt(max);
-        dest.writeFloat(value);
+        dest.writeParcelable(followingRating, flags);
+        dest.writeList(distribution);
+        dest.writeTypedList(genreRankings);
+        dest.writeParcelable(rating, flags);
+    }
+
+
+    public static class FollowingRating extends SimpleRating {
+
+        public ArrayList<User> users = new ArrayList<>();
+
+
+        public static final Creator<FollowingRating> CREATOR = new Creator<FollowingRating>() {
+            @Override
+            public FollowingRating createFromParcel(Parcel source) {
+                return new FollowingRating(source);
+            }
+            @Override
+            public FollowingRating[] newArray(int size) {
+                return new FollowingRating[size];
+            }
+        };
+
+        public FollowingRating() {}
+
+        protected FollowingRating(Parcel in) {
+            super(in);
+
+            users = in.createTypedArrayList(User.CREATOR);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+
+            dest.writeTypedList(users);
+        }
+    }
+
+    public static class GenreRanking implements Parcelable {
+
+        @SerializedName("rank")
+        public float ranking;
+
+        @SerializedName("type")
+        public String gnere;
+
+
+        public static final Parcelable.Creator<GenreRanking> CREATOR =
+                new Parcelable.Creator<GenreRanking>() {
+                    @Override
+                    public GenreRanking createFromParcel(Parcel source) {
+                        return new GenreRanking(source);
+                    }
+                    @Override
+                    public GenreRanking[] newArray(int size) {
+                        return new GenreRanking[size];
+                    }
+                };
+
+        public GenreRanking() {}
+
+        protected GenreRanking(Parcel in) {
+            ranking = in.readFloat();
+            gnere = in.readString();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeFloat(ranking);
+            dest.writeString(gnere);
+        }
     }
 }

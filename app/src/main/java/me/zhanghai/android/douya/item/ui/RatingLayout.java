@@ -17,7 +17,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.frodo.Rating;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleRating;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class RatingLayout extends LinearLayout {
@@ -59,7 +59,7 @@ public class RatingLayout extends LinearLayout {
         ButterKnife.bind(this);
     }
 
-    public void setRating(Rating rating) {
+    public void setRating(SimpleRating rating) {
         float ratingOutOfTen = (float) Math.round(rating.value / rating.max * 10 * 10) / 10;
         String ratingString = getContext().getString(R.string.item_rating_format, ratingOutOfTen);
         mRatingText.setText(ratingString);

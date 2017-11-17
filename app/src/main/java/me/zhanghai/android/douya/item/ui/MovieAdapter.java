@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
@@ -21,6 +23,9 @@ import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
+import me.zhanghai.android.douya.network.api.info.frodo.Photo;
+import me.zhanghai.android.douya.network.api.info.frodo.Rating;
+import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -158,9 +163,15 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static class Data {
 
         public Movie movie;
+        public Rating rating;
+        public List<Photo> photoList;
+        public List<Review> reviewList;
 
-        public Data(Movie movie) {
+        public Data(Movie movie, Rating rating, List<Photo> photoList, List<Review> reviewList) {
             this.movie = movie;
+            this.rating = rating;
+            this.photoList = photoList;
+            this.reviewList = reviewList;
         }
     }
 

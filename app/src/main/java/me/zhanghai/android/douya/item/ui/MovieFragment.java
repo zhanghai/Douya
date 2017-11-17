@@ -7,14 +7,20 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.support.v7.widget.RecyclerView;
 
-import me.zhanghai.android.douya.item.content.BaseItemResource;
-import me.zhanghai.android.douya.item.content.MovieResource;
+import java.util.List;
+
+import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
+import me.zhanghai.android.douya.item.content.MovieFragmentResource;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
+import me.zhanghai.android.douya.network.api.info.frodo.Photo;
+import me.zhanghai.android.douya.network.api.info.frodo.Rating;
+import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
+public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
+        implements MovieFragmentResource.Listener {
 
     private MovieAdapter mAdapter;
 
@@ -31,10 +37,10 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
     public MovieFragment() {}
 
     @Override
-    protected BaseItemResource<SimpleMovie, Movie> onAttachItemResource(long movieId,
-                                                                        SimpleMovie simpleMovie,
-                                                                        Movie movie) {
-        return MovieResource.attachTo(movieId, simpleMovie, movie, this);
+    protected BaseItemFragmentResource<SimpleMovie, Movie> onAttachResource(long itemId,
+                                                                            SimpleMovie simpleItem,
+                                                                            Movie item) {
+        return MovieFragmentResource.attachTo(itemId, simpleItem, item, this);
     }
 
     @Override
@@ -44,8 +50,22 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
     }
 
     @Override
-    public void updateWithItem(Movie movie) {
-        super.updateWithItem(movie);
+    public void updateWithSimpleItem(SimpleMovie simpleMovie) {
+        super.updateWithSimpleItem(simpleMovie);
+
+        // FIXME: Remove, this is only for testing.
+        ImageUtils.loadImage(mBackdropImage, simpleMovie.cover);
+        ViewUtils.setVisibleOrGone(mBackdropPlayImage, false);
+    }
+
+    @Override
+    public void onChanged(int requestCode, Movie newMovie, Rating newRating,
+                          List<Photo> newPhotoList, List<Review> newReviewList) {
+        update(newMovie, newRating, newPhotoList, newReviewList);
+    }
+
+    private void update(Movie movie, Rating rating, List<Photo> photoList,
+                        List<Review> reviewList) {
 
         boolean hasTrailer = movie.trailer != null;
         if (hasTrailer) {
@@ -57,15 +77,6 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie> {
         }
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
 
-        mAdapter.setData(new MovieAdapter.Data(movie));
-    }
-
-    @Override
-    public void updateWithSimpleItem(SimpleMovie simpleMovie) {
-        super.updateWithSimpleItem(simpleMovie);
-
-        // FIXME: Remove, this is only for testing.
-        ImageUtils.loadImage(mBackdropImage, simpleMovie.cover);
-        ViewUtils.setVisibleOrGone(mBackdropPlayImage, false);
+        mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, reviewList));
     }
 }

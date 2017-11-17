@@ -30,7 +30,7 @@ public class CommentList extends BaseList implements Parcelable {
     protected CommentList(Parcel in) {
         super(in);
 
-        this.comments = in.createTypedArrayList(Comment.CREATOR);
+        comments = in.createTypedArrayList(Comment.CREATOR);
     }
 
     @Override

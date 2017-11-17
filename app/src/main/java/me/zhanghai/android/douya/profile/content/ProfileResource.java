@@ -89,44 +89,8 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         return this;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ensureArguments();
-
-        mUserResource = UserResource.attachTo(mUserIdOrUid, mSimpleUser, mUser, this);
-        ensureResourcesIfHasSimpleUser();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        mUserResource.detach();
-        if (mBroadcastListResource != null) {
-            mBroadcastListResource.detach();
-        }
-        if (mFollowingListResource != null) {
-            mFollowingListResource.detach();
-        }
-        if (mDiaryListResource != null) {
-            mDiaryListResource.detach();
-        }
-        if (mUserItemListResource != null) {
-            mUserItemListResource.detach();
-        }
-        if (mReviewListResource != null) {
-            mReviewListResource.detach();
-        }
-
-        Bundle arguments = getArguments();
-        arguments.putString(EXTRA_USER_ID_OR_UID, mUserIdOrUid);
-        arguments.putParcelable(EXTRA_SIMPLE_USER, mSimpleUser);
-        arguments.putParcelable(EXTRA_USER, mUser);
-    }
-
     public String getUserIdOrUid() {
+        // Can be called before onCreate() is called.
         ensureArguments();
         return mUserIdOrUid;
     }
@@ -155,6 +119,16 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         return mUser != null;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ensureArguments();
+
+        mUserResource = UserResource.attachTo(mUserIdOrUid, mSimpleUser, mUser, this);
+        ensureResourcesIfHasSimpleUser();
+    }
+
     private void ensureArguments() {
         if (mUserIdOrUid != null) {
             return;
@@ -172,6 +146,33 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
                 mUserIdOrUid = arguments.getString(EXTRA_USER_ID_OR_UID);
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mUserResource.detach();
+        if (mBroadcastListResource != null) {
+            mBroadcastListResource.detach();
+        }
+        if (mFollowingListResource != null) {
+            mFollowingListResource.detach();
+        }
+        if (mDiaryListResource != null) {
+            mDiaryListResource.detach();
+        }
+        if (mUserItemListResource != null) {
+            mUserItemListResource.detach();
+        }
+        if (mReviewListResource != null) {
+            mReviewListResource.detach();
+        }
+
+        Bundle arguments = getArguments();
+        arguments.putString(EXTRA_USER_ID_OR_UID, mUserIdOrUid);
+        arguments.putParcelable(EXTRA_SIMPLE_USER, mSimpleUser);
+        arguments.putParcelable(EXTRA_USER, mUser);
     }
 
     @Override

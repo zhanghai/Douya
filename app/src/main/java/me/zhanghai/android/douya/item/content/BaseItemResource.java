@@ -10,6 +10,7 @@ import android.os.Bundle;
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -26,7 +27,7 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
 
     private long mItemId = ITEM_ID_INVALID;
     private SimpleItemType mSimpleItem;
-    private ItemType mExtraItem;
+    private ItemType mItem;
 
     protected BaseItemResource setArguments(long itemId, SimpleItemType simpleItem, ItemType item) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
@@ -57,7 +58,7 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
         if (item == null) {
             // Can be called before onCreate() is called.
             ensureArguments();
-            item = mExtraItem;
+            item = mItem;
         }
         return item;
     }
@@ -74,10 +75,10 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
             return;
         }
         Bundle arguments = getArguments();
-        mExtraItem = arguments.getParcelable(EXTRA_ITEM);
-        if (mExtraItem != null) {
-            mSimpleItem = mExtraItem;
-            mItemId = mExtraItem.id;
+        mItem = arguments.getParcelable(EXTRA_ITEM);
+        if (mItem != null) {
+            mSimpleItem = mItem;
+            mItemId = mItem.id;
         } else {
             mSimpleItem = arguments.getParcelable(EXTRA_SIMPLE_ITEM);
             if (mSimpleItem != null) {
@@ -100,10 +101,10 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
 
     @Override
     protected ApiRequest<ItemType> onCreateRequest() {
-        return onCreateRequest(mItemId);
+        return ApiService.getInstance().getItem(getItemType(), mItemId);
     }
 
-    protected abstract ApiRequest<ItemType> onCreateRequest(long itemId);
+    protected abstract CollectableItem.Type getItemType();
 
     @Override
     protected void onLoadStarted() {

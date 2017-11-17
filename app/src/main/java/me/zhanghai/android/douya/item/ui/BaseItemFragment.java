@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.item.ui;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,18 +26,20 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.item.content.BaseItemResource;
+import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
+import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         ItemType extends SimpleItemType> extends Fragment
-        implements BaseItemResource.Listener<ItemType> {
+        implements BaseItemFragmentResource.Listener<ItemType> {
 
     private static final String KEY_PREFIX = BaseItemFragment.class.getName() + '.';
 
@@ -59,7 +62,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     private SimpleItemType mSimpleItem;
     private ItemType mItem;
 
-    private BaseItemResource<SimpleItemType, ItemType> mItemResource;
+    private BaseItemFragmentResource<SimpleItemType, ItemType> mResource;
 
     public BaseItemFragment<SimpleItemType, ItemType> setArguments(long itemId,
                                                                    SimpleItemType simpleItem,
@@ -101,7 +104,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mItemResource = onAttachItemResource(mItemId, mSimpleItem, mItem);
+        mResource = onAttachResource(mItemId, mSimpleItem, mItem);
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
@@ -113,15 +116,18 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         mContentList.setLayoutManager(new LinearLayoutManager(activity));
         mContentList.setAdapter(onCreateAdapter());
 
-        if (mItemResource.has()) {
-            updateWithItem(mItemResource.get());
-        } else if (mItemResource.hasSimpleItem()) {
-            updateWithSimpleItem(mItemResource.getSimpleItem());
+        if (mResource.isLoaded()) {
+            mResource.notifyChangedIfLoaded();
+        } else if (mResource.hasSimpleItem()) {
+            updateWithSimpleItem(mResource.getSimpleItem());
+        } else {
+            // TODO
+            //mContentStateLayout.setLoading();
         }
     }
 
-    protected abstract BaseItemResource<SimpleItemType, ItemType> onAttachItemResource(long itemId,
-            SimpleItemType simpleItem, ItemType item);
+    protected abstract BaseItemFragmentResource<SimpleItemType, ItemType> onAttachResource(
+            long itemId, SimpleItemType simpleItem, ItemType item);
 
     protected abstract RecyclerView.Adapter<?> onCreateAdapter();
 
@@ -129,7 +135,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     public void onDestroy() {
         super.onDestroy();
 
-        mItemResource.detach();
+        mResource.detach();
     }
 
     @Override
@@ -144,28 +150,16 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     }
 
     @Override
-    public void onLoadItemStarted(int requestCode) {
-
+    public void onLoadError(int requestCode, ApiError error) {
+        LogUtils.e(error.toString());
+        // TODO
+        //mContentStateLayout.setError();
+        Activity activity = getActivity();
+        ToastUtils.show(ApiError.getErrorString(error, activity), activity);
     }
 
     @Override
-    public void onLoadItemFinished(int requestCode) {
-
-    }
-
-    @Override
-    public void onLoadItemError(int requestCode, ApiError error) {
-
-    }
-
-    @Override
-    public void onItemChanged(int requestCode, ItemType newItem) {
-        updateWithItem(newItem);
-    }
-
-    protected void updateWithItem(ItemType item) {
-        updateWithSimpleItem(item);
-    }
+    public void onItemChanged(int requestCode, ItemType newItem) {}
 
     protected void updateWithSimpleItem(SimpleItemType simpleItem) {
         getActivity().setTitle(simpleItem.title);

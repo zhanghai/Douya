@@ -22,10 +22,13 @@ import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
+import me.zhanghai.android.douya.network.api.info.frodo.PhotoList;
+import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -114,7 +117,8 @@ public class ApiService {
         }
     }
 
-    public ApiRequest<AuthenticationResponse> authenticate(String authTokenType, String refreshToken) {
+    public ApiRequest<AuthenticationResponse> authenticate(String authTokenType,
+                                                           String refreshToken) {
         switch (authTokenType) {
             case AccountContract.AUTH_TOKEN_TYPE_API_V2:
                 return authenticateApiV2(refreshToken);
@@ -182,8 +186,8 @@ public class ApiService {
     }
 
     public ApiRequest<NotificationList> getNotificationList(Integer start, Integer count) {
-        return new TransformResponseBodyApiRequest<NotificationList>(mFrodoService.getNotificationList(
-                start, count)) {
+        return new TransformResponseBodyApiRequest<NotificationList>(
+                mFrodoService.getNotificationList(start, count)) {
             @Override
             protected void onTransformResponseBody(NotificationList notificationList) {
                 // Fix for Frodo API.
@@ -194,8 +198,8 @@ public class ApiService {
         };
     }
 
-    public ApiRequest<List<Broadcast>> getBroadcastList(String userIdOrUid, String topic, Long untilId,
-                                                        Integer count) {
+    public ApiRequest<List<Broadcast>> getBroadcastList(String userIdOrUid, String topic,
+                                                        Long untilId, Integer count) {
         String url;
         if (TextUtils.isEmpty(userIdOrUid) && TextUtils.isEmpty(topic)) {
             url = "lifestream/home_timeline";
@@ -237,7 +241,8 @@ public class ApiService {
         return mLifeStreamService.getBroadcastLikerList(broadcastId, start, count);
     }
 
-    public ApiRequest<List<SimpleUser>> getBroadcastRebroadcasterList(long broadcastId, Integer start,
+    public ApiRequest<List<SimpleUser>> getBroadcastRebroadcasterList(long broadcastId,
+                                                                      Integer start,
                                                                       Integer count) {
         return mLifeStreamService.getBroadcastRebroadcasterList(broadcastId, start, count);
     }
@@ -264,17 +269,29 @@ public class ApiService {
         return mFrodoService.getUserItemList(userIdOrUid);
     }
 
-    public ApiRequest<ReviewList> getUserReviewList(String userIdOrUid, Integer start, Integer count) {
+    public ApiRequest<ReviewList> getUserReviewList(String userIdOrUid, Integer start,
+                                                    Integer count) {
         // TODO: UserIdOrUidFrodoRequest
         return mFrodoService.getUserReviewList(userIdOrUid, start, count);
     }
 
-    public ApiRequest<Movie> getMovie(long movieId) {
-        return mFrodoService.getMovie(movieId);
+    public <ItemType> ApiRequest<ItemType> getItem(CollectableItem.Type itemType, long itemId) {
+        //noinspection unchecked
+        return (ApiRequest<ItemType>) mFrodoService.getItem(itemType.getApiString(), itemId);
     }
 
-    public ApiRequest<ReviewList> getItemReviewList(long itemId, Integer start, Integer count) {
-        return mFrodoService.getItemReviewList(itemId, start, count);
+    public ApiRequest<Rating> getItemRating(CollectableItem.Type itemType, long itemId) {
+        return mFrodoService.getItemRating(itemType.getApiString(), itemId);
+    }
+
+    public ApiRequest<PhotoList> getItemPhotoList(CollectableItem.Type itemType, long itemId,
+                                                  Integer start, Integer count) {
+        return mFrodoService.getItemPhotoList(itemType.getApiString(), itemId, start, count);
+    }
+
+    public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
+                                                    Integer start, Integer count) {
+        return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, start, count);
     }
 
     public void cancelApiRequests() {
@@ -317,7 +334,8 @@ public class ApiService {
         @GET("lifestream/user/{userIdOrUid}/followings")
         ApiRequest<UserList> getFollowingList(@Path("userIdOrUid") String userIdOrUid,
                                               @Query("start") Integer start,
-                                              @Query("count") Integer count, @Query("tag") String tag);
+                                              @Query("count") Integer count,
+                                              @Query("tag") String tag);
 
         @GET("lifestream/user/{userIdOrUid}/followers")
         ApiRequest<UserList> getFollowerList(@Path("userIdOrUid") String userIdOrUid,
@@ -325,7 +343,8 @@ public class ApiService {
                                              @Query("count") Integer count);
 
         @GET
-        ApiRequest<List<Broadcast>> getBroadcastList(@Url String url, @Query("until_id") Long untilId,
+        ApiRequest<List<Broadcast>> getBroadcastList(@Url String url,
+                                                     @Query("until_id") Long untilId,
                                                      @Query("count") Integer count,
                                                      @Query("q") String topic);
 
@@ -355,9 +374,9 @@ public class ApiService {
                                                            @Query("count") Integer count);
 
         @GET("lifestream/status/{broadcastId}/resharers")
-        ApiRequest<List<SimpleUser>> getBroadcastRebroadcasterList(@Path("broadcastId") long broadcastId,
-                                                                   @Query("start") Integer start,
-                                                                   @Query("count") Integer count);
+        ApiRequest<List<SimpleUser>> getBroadcastRebroadcasterList(
+                @Path("broadcastId") long broadcastId, @Query("start") Integer start,
+                @Query("count") Integer count);
 
         @DELETE("lifestream/status/{broadcastId}/comment/{commentId}")
         ApiRequest<Boolean> deleteBroadcastComment(@Path("broadcastId") long broadcastId,
@@ -380,7 +399,8 @@ public class ApiService {
 
         @GET("user/{userIdOrUid}/notes")
         ApiRequest<DiaryList> getDiaryList(@Path("userIdOrUid") String userIdOrUid,
-                                           @Query("start") Integer start, @Query("count") Integer count);
+                                           @Query("start") Integer start,
+                                           @Query("count") Integer count);
 
         @GET("user/{userIdOrUid}/itemlist")
         ApiRequest<UserItemList> getUserItemList(@Path("userIdOrUid") String userIdOrUid);
@@ -390,12 +410,23 @@ public class ApiService {
                                                  @Query("start") Integer start,
                                                  @Query("count") Integer count);
 
-        @GET("movie/{movieId}")
-        ApiRequest<Movie> getMovie(@Path("movieId") long movieId);
+        @GET("{itemType}/{itemId}")
+        ApiRequest<CollectableItem> getItem(@Path("itemType") String itemType,
+                                                @Path("itemId") long itemId);
 
+        @GET("{itemType}/{itemId}/rating")
+        ApiRequest<Rating> getItemRating(@Path("itemType") String itemType,
+                                         @Path("itemId") long itemId);
 
-        @GET("subject/{itemId}/reviews")
-        ApiRequest<ReviewList> getItemReviewList(@Path("itemId") long itemId,
+        @GET("{itemType}/{itemId}/photos")
+        ApiRequest<PhotoList> getItemPhotoList(@Path("itemType") String itemType,
+                                               @Path("itemId") long itemId,
+                                               @Query("start") Integer start,
+                                               @Query("count") Integer count);
+
+        @GET("{itemType}/{itemId}/reviews")
+        ApiRequest<ReviewList> getItemReviewList(@Path("itemType") String itemType,
+                                                 @Path("itemId") long itemId,
                                                  @Query("start") Integer start,
                                                  @Query("count") Integer count);
     }
