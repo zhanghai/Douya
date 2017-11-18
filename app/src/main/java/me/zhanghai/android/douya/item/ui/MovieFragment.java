@@ -67,9 +67,13 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<Review> reviewList) {
 
+        super.updateWithSimpleItem(movie);
+
         boolean hasTrailer = movie.trailer != null;
         if (hasTrailer) {
             ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
+        } else if (!photoList.isEmpty()) {
+            ImageUtils.loadImage(mBackdropImage, photoList.get(0));
         } else if (movie.poster != null) {
             ImageUtils.loadImage(mBackdropImage, movie.poster);
         } else {
