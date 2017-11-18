@@ -25,6 +25,7 @@ import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.network.api.info.frodo.Image;
 import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
+import me.zhanghai.android.douya.ui.ImageItem;
 import me.zhanghai.android.douya.ui.ImageItemWithSize;
 import me.zhanghai.android.douya.ui.RatioImageView;
 
@@ -134,16 +135,8 @@ public class ImageUtils {
         loadImage(view, url, null);
     }
 
-    public static void loadImage(ImageView view, Image image) {
+    public static void loadImage(ImageView view, ImageItem image) {
         loadImage(view, image.getMediumUrl());
-    }
-
-    public static void loadImage(ImageView view, ImageWithSize image) {
-        loadImage(view, image.getMedium().url);
-    }
-
-    public static void loadImage(ImageView view, Photo photo) {
-        loadImage(view, photo.image);
     }
 
     public static void loadImageFile(ImageView view, File file,
