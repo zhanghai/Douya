@@ -73,13 +73,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         if (hasTrailer) {
             ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
         } else if (!photoList.isEmpty()) {
-            Photo photo = photoList.get(0);
-            ImageUtils.loadLargeImage(mBackdropImage, photo);
-            if (photoList.size() >= 2) {
-                // HACK: Prevent duplicate visual effect.
-                photoList.set(0, photoList.get(1));
-                photoList.set(1, photo);
-            }
+            ImageUtils.loadLargeImage(mBackdropImage, photoList.get(0));
         } else if (movie.poster != null) {
             ImageUtils.loadLargeImage(mBackdropImage, movie.poster);
         } else {
