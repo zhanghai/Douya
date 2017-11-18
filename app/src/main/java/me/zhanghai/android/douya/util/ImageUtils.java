@@ -139,6 +139,10 @@ public class ImageUtils {
         loadImage(view, image.getMediumUrl());
     }
 
+    public static void loadLargeImage(ImageView view, ImageItem image) {
+        loadImage(view, image.getLargeUrl());
+    }
+
     public static void loadImageFile(ImageView view, File file,
                                      RequestListener<Drawable> listener) {
         GlideApp.with(view.getContext())

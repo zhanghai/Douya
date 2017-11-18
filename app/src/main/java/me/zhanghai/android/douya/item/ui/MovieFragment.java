@@ -73,11 +73,17 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         if (hasTrailer) {
             ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
         } else if (!photoList.isEmpty()) {
-            ImageUtils.loadImage(mBackdropImage, photoList.get(0));
+            Photo photo = photoList.get(0);
+            ImageUtils.loadLargeImage(mBackdropImage, photo);
+            if (photoList.size() >= 2) {
+                // HACK: Prevent duplicate visual effect.
+                photoList.set(0, photoList.get(1));
+                photoList.set(1, photo);
+            }
         } else if (movie.poster != null) {
-            ImageUtils.loadImage(mBackdropImage, movie.poster);
+            ImageUtils.loadLargeImage(mBackdropImage, movie.poster);
         } else {
-            ImageUtils.loadImage(mBackdropImage, movie.cover);
+            ImageUtils.loadLargeImage(mBackdropImage, movie.cover);
         }
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
 
