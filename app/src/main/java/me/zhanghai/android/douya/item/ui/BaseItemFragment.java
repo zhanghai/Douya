@@ -113,6 +113,17 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
         mBackdropImage.setRatio(16, 9);
         ViewCompat.setBackground(mBackdropScrim, DrawableUtils.makeScrimDrawable(Gravity.TOP));
+        mContentList.addOnLayoutChangeListener(
+                (view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                    int width = right - left;
+                    int oldWidth = oldRight - oldLeft;
+                    if (width == oldWidth) {
+                        return;
+                    }
+                    int paddingTop = Math.round((float) width / 16 * 9);
+                    mContentList.setPadding(mContentList.getPaddingLeft(), paddingTop,
+                            mContentList.getPaddingRight(), mContentList.getPaddingBottom());
+                });
         mContentList.setLayoutManager(new LinearLayoutManager(activity));
         mContentList.setAdapter(onCreateAdapter());
 
