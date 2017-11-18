@@ -61,4 +61,8 @@ public class FileNameUtils {
         int index = indexOfExtensionSeparator(file);
         return index != -1 ? file.substring(0, index) : file;
     }
+
+    public static String replaceExtension(String file, String extension) {
+        return removeExtension(file) + extension;
+    }
 }

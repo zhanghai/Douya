@@ -35,16 +35,13 @@ public class EditTextPreference extends com.takisoft.fix.support.v7.preference.E
             CharSequence hint = getEditText().getHint();
             if (!TextUtils.isEmpty(hint)) {
                 return hint;
-            } else {
-                return super.getSummary();
             }
+        }
+        CharSequence summary = super.getSummary();
+        if (!TextUtils.isEmpty(summary)) {
+            return String.format(summary.toString(), text);
         } else {
-            CharSequence summary = super.getSummary();
-            if (!TextUtils.isEmpty(summary)) {
-                return String.format(summary.toString(), text);
-            } else {
-                return summary;
-            }
+            return summary;
         }
     }
 }
