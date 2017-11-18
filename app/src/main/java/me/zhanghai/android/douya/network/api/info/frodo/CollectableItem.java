@@ -132,7 +132,7 @@ public abstract class CollectableItem extends BaseItem {
 //
                     case MOVIE:
                     case TV:
-                        type = new TypeToken<Movie>() {}.getType();
+                        type = new TypeToken<SimpleMovie>() {}.getType();
 //                case MUSIC:
 //                    return context.deserialize(json, new TypeToken<Music>() {}.getClass());
                 }
@@ -141,36 +141,6 @@ public abstract class CollectableItem extends BaseItem {
                 type = new TypeToken<UnknownCollectableItem>() {}.getType();
             }
             return context.deserialize(json, type);
-        }
-    }
-
-    public static class Serializer implements JsonSerializer<CollectableItem> {
-        @Override
-        public JsonElement serialize(CollectableItem src, java.lang.reflect.Type typeOfSrc,
-                                     JsonSerializationContext context) {
-            java.lang.reflect.Type type = null;
-            Type itemType = src.getType();
-            if (itemType != null) {
-                switch (itemType) {
-//                    case APP:
-//
-//                    case BOOK:
-//
-//                    case EVENT:
-//
-//                    case GAME:
-//
-                    case MOVIE:
-                    case TV:
-                        type = new TypeToken<Movie>() {}.getClass();
-//                    case MUSIC:
-//
-                }
-            }
-            if (type == null) {
-                type = new TypeToken<UnknownCollectableItem>() {}.getType();
-            }
-            return context.serialize(src, type);
         }
     }
 

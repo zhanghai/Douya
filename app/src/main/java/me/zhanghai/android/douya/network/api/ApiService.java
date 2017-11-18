@@ -23,6 +23,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
@@ -411,8 +412,8 @@ public class ApiService {
                                                  @Query("count") Integer count);
 
         @GET("{itemType}/{itemId}")
-        ApiRequest<CollectableItem> getItem(@Path("itemType") String itemType,
-                                                @Path("itemId") long itemId);
+        ApiRequest<CompleteCollectableItem> getItem(@Path("itemType") String itemType,
+                                                    @Path("itemId") long itemId);
 
         @GET("{itemType}/{itemId}/rating")
         ApiRequest<Rating> getItemRating(@Path("itemType") String itemType,

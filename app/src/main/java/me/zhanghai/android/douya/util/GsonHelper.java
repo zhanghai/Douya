@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 
 public class GsonHelper {
 
@@ -17,8 +18,8 @@ public class GsonHelper {
             .serializeNulls()
             .registerTypeAdapter(new TypeToken<CollectableItem>() {}.getType(),
                     new CollectableItem.Deserializer())
-            .registerTypeAdapter(new TypeToken<CollectableItem>() {}.getType(),
-                    new CollectableItem.Serializer())
+            .registerTypeAdapter(new TypeToken<CompleteCollectableItem>() {}.getType(),
+                    new CompleteCollectableItem.Deserializer())
             // TODO
             .create();
 
