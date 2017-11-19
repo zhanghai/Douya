@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
+import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleRating;
 import me.zhanghai.android.douya.ui.CircleRectShape;
 import me.zhanghai.android.douya.ui.PolygonShape;
@@ -52,6 +54,16 @@ public class BadgeListLayout extends HorizontalScrollView {
     RatingBar mRatingBar;
     @BindView(R.id.rating_count)
     TextView mRatingCountText;
+    @BindView(R.id.followings_rating_layout)
+    ViewGroup mFollowingsRatingLayout;
+    @BindView(R.id.followings_rating_badge)
+    ViewGroup mFollowingsRatingBadgeLayout;
+    @BindView(R.id.followings_rating_text)
+    TextView mFollowingsRatingText;
+    @BindView(R.id.followings_rating_bar)
+    RatingBar mFollowingsRatingBar;
+    @BindView(R.id.followings_rating_count)
+    TextView mFollowingsRatingCountText;
     @BindView(R.id.genre_layout)
     ViewGroup mGenreLayout;
     @BindView(R.id.genre_badge)
@@ -100,6 +112,10 @@ public class BadgeListLayout extends HorizontalScrollView {
         int colorAccent = ViewUtils.getColorFromAttrRes(R.attr.colorAccent, 0, context);
         DrawableCompat.setTint(ratingBadgeDrawable, colorAccent);
         ViewCompat.setBackground(mRatingBadgeLayout, ratingBadgeDrawable);
+        Drawable followingsRatingBadgeDrawable = new FollowingsRatingBadgeDrawable(context);
+        followingsRatingBadgeDrawable = DrawableCompat.wrap(followingsRatingBadgeDrawable);
+        DrawableCompat.setTint(followingsRatingBadgeDrawable, colorAccent);
+        ViewCompat.setBackground(mFollowingsRatingBadgeLayout, followingsRatingBadgeDrawable);
         mSimilarItemsLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,21 +142,34 @@ public class BadgeListLayout extends HorizontalScrollView {
         });
     }
 
-    public void setRating(SimpleRating rating) {
-        float ratingOutOfTen = (float) Math.round(rating.value / rating.max * 10 * 10) / 10;
-        String ratingString = getContext().getString(R.string.item_rating_format, ratingOutOfTen);
-        mRatingText.setText(ratingString);
-        float ratingValue = rating.value / rating.max * 5;
-        mRatingBar.setRating(ratingValue);
-        String ratingCount = getContext().getString(R.string.item_rating_count_format,
-                rating.count);
-        mRatingCountText.setText(ratingCount);
+    public void setRating(Rating rating) {
+        setRating(rating.rating, mRatingText, mRatingBar, mRatingCountText);
         mRatingLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO
             }
         });
+        setRating(rating.followingsRating, mFollowingsRatingText, mFollowingsRatingBar,
+                mFollowingsRatingCountText);
+        mFollowingsRatingLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO
+            }
+        });
+    }
+
+    private void setRating(SimpleRating rating, TextView ratingText, RatingBar ratingBar,
+                           TextView ratingCountText) {
+        float ratingOutOfTen = (float) Math.round(rating.value / rating.max * 10 * 10) / 10;
+        String ratingString = getContext().getString(R.string.item_rating_format, ratingOutOfTen);
+        ratingText.setText(ratingString);
+        float ratingValue = rating.value / rating.max * 5;
+        ratingBar.setRating(ratingValue);
+        String ratingCount = getContext().getString(R.string.item_rating_count_format,
+                rating.count);
+        ratingCountText.setText(ratingCount);
     }
 
     public void setGenre(int genreBadgeResId, CharSequence genre) {
@@ -154,18 +183,16 @@ public class BadgeListLayout extends HorizontalScrollView {
         });
     }
 
-    private static class RatingBadgeDrawable extends LayerDrawable {
+    private static abstract class BaseRatingBadgeDrawable extends LayerDrawable {
 
         private static final float STROKE_WIDTH_DP = 1.5f;
         private static final float STROKE_FILL_GAP_DP = 2;
 
-        public RatingBadgeDrawable(Context context) {
-            super(new Drawable[] {
-                    new ShapeDrawable(new PolygonShape(8)),
-                    new ShapeDrawable(new PolygonShape(8))
-            });
+        public BaseRatingBadgeDrawable(Drawable[] drawables, Context context) {
+            super(drawables);
 
-            int strokeInset = ViewUtils.dpToPxOffset(STROKE_WIDTH_DP / 2, context);
+            // Not using ViewUtils.dpToPxSize() because it causes truncation.
+            int strokeInset = ViewUtils.dpToPxSize(STROKE_WIDTH_DP / 2, context);
             setLayerInset(0, strokeInset, strokeInset, strokeInset, strokeInset);
             Paint strokePaint = ((ShapeDrawable) getDrawable(0)).getPaint();
             strokePaint.setStyle(Paint.Style.STROKE);
@@ -174,6 +201,26 @@ public class BadgeListLayout extends HorizontalScrollView {
 
             int fillInset = ViewUtils.dpToPxOffset(STROKE_WIDTH_DP + STROKE_FILL_GAP_DP, context);
             setLayerInset(1, fillInset, fillInset, fillInset, fillInset);
+        }
+    }
+
+    private static class RatingBadgeDrawable extends BaseRatingBadgeDrawable {
+
+        public RatingBadgeDrawable(Context context) {
+            super(new Drawable[] {
+                    new ShapeDrawable(new PolygonShape(8)),
+                    new ShapeDrawable(new PolygonShape(8))
+            }, context);
+        }
+    }
+
+    private static class FollowingsRatingBadgeDrawable extends BaseRatingBadgeDrawable {
+
+        public FollowingsRatingBadgeDrawable(Context context) {
+            super(new Drawable[] {
+                    new ShapeDrawable(new OvalShape()),
+                    new ShapeDrawable(new OvalShape())
+            }, context);
         }
     }
 }

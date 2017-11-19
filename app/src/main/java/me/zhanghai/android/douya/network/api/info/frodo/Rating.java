@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Rating implements Parcelable {
 
     @SerializedName("following")
-    public FollowingRating followingRating;
+    public FollowingsRating followingsRating;
 
     @SerializedName("stats")
     public ArrayList<Float> distribution = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Rating implements Parcelable {
     public Rating() {}
 
     protected Rating(Parcel in) {
-        followingRating = in.readParcelable(FollowingRating.class.getClassLoader());
+        followingsRating = in.readParcelable(FollowingsRating.class.getClassLoader());
         in.readList(distribution, Float.class.getClassLoader());
         genreRankings = in.createTypedArrayList(GenreRanking.CREATOR);
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
@@ -58,32 +58,32 @@ public class Rating implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(followingRating, flags);
+        dest.writeParcelable(followingsRating, flags);
         dest.writeList(distribution);
         dest.writeTypedList(genreRankings);
         dest.writeParcelable(rating, flags);
     }
 
 
-    public static class FollowingRating extends SimpleRating {
+    public static class FollowingsRating extends SimpleRating {
 
         public ArrayList<User> users = new ArrayList<>();
 
 
-        public static final Creator<FollowingRating> CREATOR = new Creator<FollowingRating>() {
+        public static final Creator<FollowingsRating> CREATOR = new Creator<FollowingsRating>() {
             @Override
-            public FollowingRating createFromParcel(Parcel source) {
-                return new FollowingRating(source);
+            public FollowingsRating createFromParcel(Parcel source) {
+                return new FollowingsRating(source);
             }
             @Override
-            public FollowingRating[] newArray(int size) {
-                return new FollowingRating[size];
+            public FollowingsRating[] newArray(int size) {
+                return new FollowingsRating[size];
             }
         };
 
-        public FollowingRating() {}
+        public FollowingsRating() {}
 
-        protected FollowingRating(Parcel in) {
+        protected FollowingsRating(Parcel in) {
             super(in);
 
             users = in.createTypedArrayList(User.CREATOR);

@@ -91,7 +91,7 @@
                     android:id="@+id/rating_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-2dp"
+                    android:layout_marginTop="-3dp"
                     android:includeFontPadding="false"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="22dp"
@@ -114,6 +114,55 @@
 
             <include
                 layout="@layout/item_rating_count_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/followings_rating_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/followings_rating_badge"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:theme="?darkTheme">
+
+                <TextView
+                    android:id="@+id/followings_rating_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:includeFontPadding="false"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/followings_rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-0.5dp"
+                    android:layout_marginRight="-0.5dp"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginBottom="-1dp"
+                    android:minHeight="7dp"
+                    android:maxHeight="7dp"
+                    app:mrb_progressTint="?android:textColorPrimary"
+                    style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
+            </LinearLayout>
+
+            <include
+                layout="@layout/item_followings_rating_count_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp" />
