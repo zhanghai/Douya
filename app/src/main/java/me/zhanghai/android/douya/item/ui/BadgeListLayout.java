@@ -101,6 +101,8 @@ public class BadgeListLayout extends HorizontalScrollView {
     private void init() {
 
         setFillViewport(true);
+        // Scroll bar looks ugly here, and Google Play also hid it.
+        setHorizontalScrollBarEnabled(false);
 
         ViewUtils.inflateInto(R.layout.item_badge_list_layout, this);
         ButterKnife.bind(this);
@@ -122,6 +124,17 @@ public class BadgeListLayout extends HorizontalScrollView {
                 // TODO
             }
         });
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+        // HorizontalScrollView's edge effect and scroll bar has an incorrect offset if padding is
+        // set.
+        getChildAt(0).setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(),
+                getPaddingBottom());
+        setPadding(0, 0, 0, 0);
     }
 
     public void setTop250(Honor honor) {
