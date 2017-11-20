@@ -36,9 +36,9 @@ public class Image implements ImageItemWithSize, Parcelable {
      */
     @SerializedName("thumb")
     public String medium;
-    
+
     public String type;
-    
+
     public int width;
 
 
@@ -98,7 +98,7 @@ public class Image implements ImageItemWithSize, Parcelable {
 
     @Override
     public boolean isAnimated() {
-        return false;
+        return isAnimated;
     }
 
 
