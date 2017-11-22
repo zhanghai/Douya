@@ -11,6 +11,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
@@ -22,7 +23,8 @@ import me.zhanghai.android.douya.util.FragmentUtils;
 public abstract class BaseItemFragmentResource<SimpleItemType extends CollectableItem,
         ItemType extends SimpleItemType> extends TargetedRetainedFragment
         implements BaseItemResource.Listener<ItemType>, RatingResource.Listener,
-        ItemPhotoListResource.Listener, ItemReviewListResource.Listener {
+        CelebrityListResource.Listener, ItemPhotoListResource.Listener,
+        ItemReviewListResource.Listener {
 
     private final String KEY_PREFIX = getClass().getName() + '.';
 
@@ -204,6 +206,22 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
+    public void onLoadCelebrityListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadCelebrityListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadCelebrityListError(int requestCode, ApiError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onCelebrityListChanged(int requestCode, CelebrityList newCelebrityList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
     public void onLoadPhotoListStarted(int requestCode) {}
 
     @Override
@@ -275,13 +293,16 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
             Rating rating = mRatingResource.get();
             rating.rating = item.rating;
             rating.ratingUnavailableReason = item.ratingUnavailableReason;
-            notifyChanged(getRequestCode(), item, rating, mPhotoListResource.get(),
-                    mReviewListResource.get());
+            notifyChanged(getRequestCode(), item, rating,
+                    hasCelebrityList() ? mCelebrityListResource.get() : null,
+                    hasPhotoList() ? mPhotoListResource.get() : null,
+                    hasReviewList() ? mReviewListResource.get() : null);
         }
     }
 
     protected abstract void notifyChanged(int requestCode, ItemType newItem, Rating newRating,
-                                          List<Photo> newPhotoList, List<Review> newReviewList);
+                                          CelebrityList newCelebrityList, List<Photo> newPhotoList,
+                                          List<Review> newReviewList);
 
     private void notifyError(ApiError error) {
         if (!mHasError) {

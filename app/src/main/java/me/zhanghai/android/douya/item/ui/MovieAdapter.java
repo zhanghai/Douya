@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
+import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
@@ -183,12 +184,15 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public Movie movie;
         public Rating rating;
+        public CelebrityList celebrityList;
         public List<Photo> photoList;
         public List<Review> reviewList;
 
-        public Data(Movie movie, Rating rating, List<Photo> photoList, List<Review> reviewList) {
+        public Data(Movie movie, Rating rating, CelebrityList celebrityList, List<Photo> photoList,
+                    List<Review> reviewList) {
             this.movie = movie;
             this.rating = rating;
+            this.celebrityList = celebrityList;
             this.photoList = photoList;
             this.reviewList = reviewList;
         }

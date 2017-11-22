@@ -32,9 +32,6 @@ public class Movie extends SimpleMovie {
     @SerializedName("honor_infos")
     public List<Honor> honors = new ArrayList<>();
 
-    @SerializedName("in_blacklist")
-    public boolean isInBlacklist;
-
     @SerializedName("info_url")
     public String informationUrl;
 
@@ -88,7 +85,6 @@ public class Movie extends SimpleMovie {
         durations = in.createStringArrayList();
         episodeCount = in.readInt();
         honors = in.createTypedArrayList(Honor.CREATOR);
-        isInBlacklist = in.readByte() != 0;
         informationUrl = in.readString();
         isReleased = in.readByte() != 0;
         isTv = in.readByte() != 0;
@@ -114,7 +110,6 @@ public class Movie extends SimpleMovie {
         dest.writeStringList(durations);
         dest.writeInt(episodeCount);
         dest.writeTypedList(honors);
-        dest.writeByte(isInBlacklist ? (byte) 1 : (byte) 0);
         dest.writeString(informationUrl);
         dest.writeByte(isReleased ? (byte) 1 : (byte) 0);
         dest.writeByte(isTv ? (byte) 1 : (byte) 0);
