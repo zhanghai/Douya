@@ -39,6 +39,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     private BaseItemResource<SimpleItemType, ItemType> mItemResource;
     private RatingResource mRatingResource;
+    private CelebrityListResource mCelebrityListResource;
     private ItemPhotoListResource mPhotoListResource;
     private ItemReviewListResource mReviewListResource;
 
@@ -92,6 +93,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         mItemResource = onAttachItemResource(mItemId, mSimpleItem, mItem);
         CollectableItem.Type itemType = getItemType();
         mRatingResource = RatingResource.attachTo(itemType, mItemId, this);
+        if (hasCelebrityList()) {
+            mCelebrityListResource = CelebrityListResource.attachTo(itemType, mItemId, this);
+        }
         if (hasPhotoList()) {
             mPhotoListResource = ItemPhotoListResource.attachTo(itemType, mItemId, this);
         }
@@ -124,6 +128,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     protected abstract CollectableItem.Type getItemType();
 
+    protected abstract boolean hasCelebrityList();
+
     protected abstract boolean hasPhotoList();
 
     protected abstract boolean hasReviewList();
@@ -134,6 +140,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
         mItemResource.detach();
         mRatingResource.detach();
+        if (mCelebrityListResource != null) {
+            mCelebrityListResource.detach();
+        }
         if (mPhotoListResource != null) {
             mPhotoListResource.detach();
         }
@@ -253,6 +262,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     public boolean isLoaded() {
         return hasItem() && (mRatingResource != null && mRatingResource.has())
+                && (!hasCelebrityList() || (mCelebrityListResource != null
+                        && mCelebrityListResource.has()))
                 && (!hasPhotoList() || (mPhotoListResource != null && mPhotoListResource.has()))
                 && (!hasReviewList() || (mReviewListResource != null && mReviewListResource.has()));
     }

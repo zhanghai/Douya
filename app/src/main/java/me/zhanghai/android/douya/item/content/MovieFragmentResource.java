@@ -71,6 +71,11 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
     }
 
     @Override
+    protected boolean hasCelebrityList() {
+        return true;
+    }
+
+    @Override
     protected boolean hasPhotoList() {
         return true;
     }
