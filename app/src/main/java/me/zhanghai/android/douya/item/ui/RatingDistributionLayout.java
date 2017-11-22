@@ -45,7 +45,7 @@ public class RatingDistributionLayout extends TableLayout {
     private void init() {
 
         setDividerDrawable(ContextCompat.getDrawable(getContext(),
-                R.drawable.transparent_divider_vertical_2dp));
+                R.drawable.transparent_divider_horizontal_2dp));
         setShowDividers(SHOW_DIVIDER_MIDDLE);
         setColumnShrinkable(1, true);
         setColumnStretchable(1, true);

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -131,6 +132,11 @@ public class BroadcastLayout extends LinearLayout {
         mImageList.setHasFixedSize(true);
         mImageList.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
+        Context context = getContext();
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                DividerItemDecoration.HORIZONTAL);
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(context,
+                R.drawable.transparent_divider_vertical_2dp));
         mImageListAdapter = new HorizontalImageAdapter();
         mImageList.setAdapter(mImageListAdapter);
         mImageList.addOnScrollListener(new OnHorizontalScrollListener() {

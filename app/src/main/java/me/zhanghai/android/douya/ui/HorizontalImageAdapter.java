@@ -50,8 +50,6 @@ public class HorizontalImageAdapter
                 }
             }
         });
-        // FIXME: This won't work properly if items are changed.
-        ViewUtils.setVisibleOrGone(holder.dividerSpace, position != getItemCount() - 1);
     }
 
     public interface OnImageClickListener {
@@ -62,8 +60,6 @@ public class HorizontalImageAdapter
 
         @BindView(R.id.image)
         public ImageLayout imageLayout;
-        @BindView(R.id.divider)
-        public Space dividerSpace;
 
         public ViewHolder(View itemView) {
             super(itemView);

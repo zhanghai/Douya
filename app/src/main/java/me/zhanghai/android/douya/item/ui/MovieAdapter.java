@@ -7,6 +7,8 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,10 +41,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_HEADER = 0;
     private static final int ITEM_BADGE_LIST = 1;
     private static final int ITEM_INTRODUCTION = 2;
-    private static final int ITEM_GALLERY = 3;
-    private static final int ITEM_RATING = 4;
+    private static final int ITEM_CELEBRITY_LIST = 3;
+    private static final int ITEM_GALLERY = 4;
+    private static final int ITEM_RATING = 5;
 
-    private static final int ITEM_COUNT = 5;
+    private static final int ITEM_COUNT = 6;
 
     private Data mData;
 
@@ -81,13 +84,34 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_INTRODUCTION:
                 return new IntroductionHolder(ViewUtils.inflate(R.layout.item_introduction_item,
                         parent));
+            case ITEM_CELEBRITY_LIST: {
+                CelebrityListHolder holder = new CelebrityListHolder(ViewUtils.inflate(
+                        R.layout.item_celebrity_list_item, parent));
+                holder.celebrityList.setHasFixedSize(true);
+                holder.celebrityList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
+                        LinearLayoutManager.HORIZONTAL, false));
+                Context context = holder.celebrityList.getContext();
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                        DividerItemDecoration.HORIZONTAL);
+                dividerItemDecoration.setDrawable(ContextCompat.getDrawable(context,
+                        R.drawable.transparent_divider_vertical_4dp));
+                holder.celebrityList.addItemDecoration(dividerItemDecoration);
+                holder.celebrityList.setAdapter(new CelebrityListAdapter());
+                return holder;
+            }
             case ITEM_GALLERY: {
                 GalleryHolder holder = new GalleryHolder(ViewUtils.inflate(
                         R.layout.item_gallery_item, parent));
-                holder.mPhotoList.setHasFixedSize(true);
-                holder.mPhotoList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
+                holder.photoList.setHasFixedSize(true);
+                holder.photoList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
                         LinearLayoutManager.HORIZONTAL, false));
-                holder.mPhotoList.setAdapter(new HorizontalImageAdapter());
+                Context context = holder.photoList.getContext();
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                        DividerItemDecoration.HORIZONTAL);
+                dividerItemDecoration.setDrawable(ContextCompat.getDrawable(context,
+                        R.drawable.transparent_divider_vertical_4dp));
+                holder.photoList.addItemDecoration(dividerItemDecoration);
+                holder.photoList.setAdapter(new HorizontalImageAdapter());
                 return holder;
             }
             case ITEM_RATING:
@@ -103,10 +127,10 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (position) {
             case ITEM_HEADER: {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
-                headerHolder.mPosterImage.setRatio(27, 40);
+                headerHolder.posterImage.setRatio(27, 40);
                 // Image from movie.poster is cropped except large.
-                ImageUtils.loadImage(headerHolder.mPosterImage, mData.movie.cover);
-                headerHolder.mPosterImage.setOnClickListener(new View.OnClickListener() {
+                ImageUtils.loadImage(headerHolder.posterImage, mData.movie.cover);
+                headerHolder.posterImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent;
@@ -118,18 +142,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         context.startActivity(intent);
                     }
                 });
-                headerHolder.mTitleText.setText(mData.movie.title);
-                headerHolder.mOriginalTitleText.setText(mData.movie.originalTitle);
+                headerHolder.titleText.setText(mData.movie.title);
+                headerHolder.originalTitleText.setText(mData.movie.originalTitle);
                 String detail = StringUtils.joinNonEmpty("  ", mData.movie.getYearMonth(context),
                         mData.movie.getEpisodeCountString(), mData.movie.getDurationString());
-                headerHolder.mDetailText.setText(detail);
-                headerHolder.mGenresText.setText(CollectableItem.getListAsString(
+                headerHolder.detailText.setText(detail);
+                headerHolder.genresText.setText(CollectableItem.getListAsString(
                         mData.movie.genres));
-                headerHolder.mTodoButton.setText(ItemCollectionState.TODO.getString(
+                headerHolder.todoButton.setText(ItemCollectionState.TODO.getString(
                         CollectableItem.Type.MOVIE, context));
-                headerHolder.mDoingButton.setText(ItemCollectionState.DOING.getString(
+                headerHolder.doingButton.setText(ItemCollectionState.DOING.getString(
                         CollectableItem.Type.MOVIE, context));
-                headerHolder.mDoneButton.setText(ItemCollectionState.DONE.getString(
+                headerHolder.doneButton.setText(ItemCollectionState.DONE.getString(
                         CollectableItem.Type.MOVIE, context));
                 break;
             }
@@ -142,16 +166,16 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         break;
                     }
                 }
-                badgeListHolder.mBadgeListLayout.setTop250(top250Honor);
-                badgeListHolder.mBadgeListLayout.setRating(mData.rating);
-                badgeListHolder.mBadgeListLayout.setGenre(R.drawable.movie_badge_white_40dp,
+                badgeListHolder.badgeListLayout.setTop250(top250Honor);
+                badgeListHolder.badgeListLayout.setRating(mData.rating);
+                badgeListHolder.badgeListLayout.setGenre(R.drawable.movie_badge_white_40dp,
                         mData.movie.genres.get(0));
                 break;
             }
             case ITEM_INTRODUCTION: {
                 IntroductionHolder introductionHolder = (IntroductionHolder) holder;
-                introductionHolder.mIntroductionText.setText(mData.movie.introduction);
-                introductionHolder.mIntroductionLayout.setOnClickListener(
+                introductionHolder.introductionText.setText(mData.movie.introduction);
+                introductionHolder.introductionLayout.setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -160,16 +184,23 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         });
                 break;
             }
+            case ITEM_CELEBRITY_LIST: {
+                CelebrityListHolder celebrityListHolder = (CelebrityListHolder) holder;
+                CelebrityListAdapter adapter = (CelebrityListAdapter)
+                        celebrityListHolder.celebrityList.getAdapter();
+                adapter.replaceWithCelebrityList(mData.celebrityList);
+                break;
+            }
             case ITEM_GALLERY: {
                 GalleryHolder galleryHolder = (GalleryHolder) holder;
                 HorizontalImageAdapter adapter = (HorizontalImageAdapter)
-                        galleryHolder.mPhotoList.getAdapter();
-                adapter.addAll(mData.photoList);
+                        galleryHolder.photoList.getAdapter();
+                adapter.replace(mData.photoList);
                 break;
             }
             case ITEM_RATING: {
                 RatingHolder ratingHolder = (RatingHolder) holder;
-                ratingHolder.mRatingLayout.setRating(mData.movie.rating);
+                ratingHolder.ratingLayout.setRating(mData.movie.rating);
                 break;
             }
         }
@@ -201,21 +232,21 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     static class HeaderHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.poster)
-        RatioImageView mPosterImage;
+        public RatioImageView posterImage;
         @BindView(R.id.title)
-        TextView mTitleText;
+        public TextView titleText;
         @BindView(R.id.original_title)
-        TextView mOriginalTitleText;
+        public TextView originalTitleText;
         @BindView(R.id.detail)
-        TextView mDetailText;
+        public TextView detailText;
         @BindView(R.id.genres)
-        TextView mGenresText;
+        public TextView genresText;
         @BindView(R.id.todo)
-        Button mTodoButton;
+        public Button todoButton;
         @BindView(R.id.doing)
-        Button mDoingButton;
+        public Button doingButton;
         @BindView(R.id.done)
-        Button mDoneButton;
+        public Button doneButton;
 
         public HeaderHolder(View itemView) {
             super(itemView);
@@ -227,7 +258,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     static class BadgeListHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.badge_list_layout)
-        BadgeListLayout mBadgeListLayout;
+        public BadgeListLayout badgeListLayout;
 
         public BadgeListHolder(View itemView) {
             super(itemView);
@@ -239,11 +270,23 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     static class IntroductionHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.introduction_layout)
-        ViewGroup mIntroductionLayout;
+        public ViewGroup introductionLayout;
         @BindView(R.id.introduction)
-        TextView mIntroductionText;
+        public TextView introductionText;
 
         public IntroductionHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class CelebrityListHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.celebrity_list)
+        public RecyclerView celebrityList;
+
+        public CelebrityListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
@@ -253,7 +296,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     static class GalleryHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.photo_list)
-        RecyclerView mPhotoList;
+        public RecyclerView photoList;
 
         public GalleryHolder(View itemView) {
             super(itemView);
@@ -265,7 +308,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     static class RatingHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.rating_layout)
-        RatingLayout mRatingLayout;
+        public RatingLayout ratingLayout;
 
         public RatingHolder(View itemView) {
             super(itemView);

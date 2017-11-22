@@ -5,22 +5,11 @@
   ~ All Rights Reserved.
   -->
 
-<LinearLayout
+<me.zhanghai.android.douya.ui.ImageLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/image"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-
-    <me.zhanghai.android.douya.ui.ImageLayout
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:foreground="?selectableItemBackground"
-        app:fillOrientation="vertical" />
-
-    <Space
-        android:id="@+id/divider"
-        android:layout_width="@dimen/vertical_space_width"
-        android:layout_height="0dp" />
-</LinearLayout>
+    android:foreground="?selectableItemBackground"
+    app:fillOrientation="vertical" />

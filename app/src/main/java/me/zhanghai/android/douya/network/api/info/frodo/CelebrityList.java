@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 public class CelebrityList implements Parcelable {
 
-    public ArrayList<Celebrity> actors = new ArrayList<>();
+    public ArrayList<SimpleCelebrity> actors = new ArrayList<>();
 
-    public ArrayList<Celebrity> directors = new ArrayList<>();
+    public ArrayList<SimpleCelebrity> directors = new ArrayList<>();
 
     public int total;
 
@@ -34,8 +34,8 @@ public class CelebrityList implements Parcelable {
     public CelebrityList() {}
 
     protected CelebrityList(Parcel in) {
-        actors = in.createTypedArrayList(Celebrity.CREATOR);
-        directors = in.createTypedArrayList(Celebrity.CREATOR);
+        actors = in.createTypedArrayList(SimpleCelebrity.CREATOR);
+        directors = in.createTypedArrayList(SimpleCelebrity.CREATOR);
         total = in.readInt();
     }
 

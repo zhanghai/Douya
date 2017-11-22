@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+    <me.zhanghai.android.douya.ui.NestedRecyclerView
+        android:id="@+id/celebrity_list"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_celebrity_list_height" />
+</LinearLayout>
