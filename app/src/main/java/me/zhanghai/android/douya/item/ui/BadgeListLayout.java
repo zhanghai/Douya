@@ -196,7 +196,7 @@ public class BadgeListLayout extends HorizontalScrollView {
         String ratingString = getContext().getString(ratingOutOfTen == 10 ?
                 R.string.item_rating_format_ten : R.string.item_rating_format, ratingOutOfTen);
         ratingText.setText(ratingString);
-        float ratingValue = rating.value / rating.max * 5;
+        float ratingValue = (float) Math.round(rating.value / rating.max * 10) / 2;
         ratingBar.setNumStars(Math.round(ratingValue));
         ratingBar.setRating(ratingValue);
         String ratingCount = getContext().getString(R.string.item_rating_count_format,
