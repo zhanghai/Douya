@@ -11,11 +11,11 @@ import java.util.List;
 
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.MovieFragmentResource;
-import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -61,12 +61,12 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
 
     @Override
     public void onChanged(int requestCode, Movie newMovie, Rating newRating,
-                          CelebrityList newCelebrityList, List<Photo> newPhotoList,
+                          List<SimpleCelebrity> newCelebrityList, List<Photo> newPhotoList,
                           List<Review> newReviewList) {
         update(newMovie, newRating, newCelebrityList, newPhotoList, newReviewList);
     }
 
-    private void update(Movie movie, Rating rating, CelebrityList celebrityList,
+    private void update(Movie movie, Rating rating, List<SimpleCelebrity> celebrityList,
                         List<Photo> photoList, List<Review> reviewList) {
 
         super.updateWithSimpleItem(movie);

@@ -10,7 +10,6 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -36,6 +35,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Attachment;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.CardIconButton;
+import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.ImageItemWithSize;
 import me.zhanghai.android.douya.ui.ImageLayout;
@@ -132,11 +132,8 @@ public class BroadcastLayout extends LinearLayout {
         mImageList.setHasFixedSize(true);
         mImageList.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
-        Context context = getContext();
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
-                DividerItemDecoration.HORIZONTAL);
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(context,
-                R.drawable.transparent_divider_vertical_2dp));
+        mImageList.addItemDecoration(new DividerItemDecoration(DividerItemDecoration.HORIZONTAL,
+                R.drawable.transparent_divider_vertical_2dp, getContext()));
         mImageListAdapter = new HorizontalImageAdapter();
         mImageList.setAdapter(mImageListAdapter);
         mImageList.addOnScrollListener(new OnHorizontalScrollListener() {

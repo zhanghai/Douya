@@ -38,9 +38,6 @@ public class Celebrity extends SimpleCelebrity {
     @SerializedName("intro")
     public String introduction;
 
-    // [sic]
-    //public boolean isDirector;
-
     @SerializedName("known_for")
     public ArrayList<SimpleMovie> worksByVote = new ArrayList<>();
 

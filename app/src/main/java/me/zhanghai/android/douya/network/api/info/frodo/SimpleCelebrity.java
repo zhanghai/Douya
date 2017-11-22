@@ -26,6 +26,8 @@ public class SimpleCelebrity extends BaseItem {
 
     public User user;
 
+    public transient boolean isDirector;
+
 
     public static final Creator<SimpleCelebrity> CREATOR = new Creator<SimpleCelebrity>() {
         @Override
@@ -49,6 +51,7 @@ public class SimpleCelebrity extends BaseItem {
         name = in.readString();
         roles = in.createStringArrayList();
         user = in.readParcelable(User.class.getClassLoader());
+        isDirector = in.readByte() != 0;
     }
 
     @Override
@@ -66,5 +69,6 @@ public class SimpleCelebrity extends BaseItem {
         dest.writeString(name);
         dest.writeStringList(roles);
         dest.writeParcelable(user, flags);
+        dest.writeByte(isDirector ? (byte) 1 : (byte) 0);
     }
 }

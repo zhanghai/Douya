@@ -25,29 +25,29 @@
         android:layout_height="@dimen/scrim_height"
         android:layout_gravity="bottom" />
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-        android:layout_marginRight="@dimen/card_content_horizontal_margin"
-        android:layout_marginTop="@dimen/card_content_vertical_space"
-        android:layout_marginBottom="@dimen/card_content_vertical_space"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        android:padding="12dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-        android:layout_marginRight="@dimen/card_content_horizontal_margin"
-        android:layout_marginTop="@dimen/card_content_vertical_space"
-        android:layout_marginBottom="@dimen/card_content_vertical_space"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="?android:textColorPrimary" />
+
+        <me.zhanghai.android.douya.ui.AutoGoneTextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="?android:textColorPrimary" />
+    </LinearLayout>
 </me.zhanghai.android.douya.ui.RatioFrameLayout>

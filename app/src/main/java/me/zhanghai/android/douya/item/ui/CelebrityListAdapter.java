@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.ui.RatioFrameLayout;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
@@ -50,16 +49,15 @@ public class CelebrityListAdapter
         SimpleCelebrity celebrity = getItem(position);
         ImageUtils.loadImage(holder.avatarImage, celebrity.avatar);
         holder.nameText.setText(celebrity.name);
+        if (celebrity.isDirector) {
+            holder.descriptionText.setText(R.string.item_celebrity_director);
+        } else {
+            holder.descriptionText.setText(celebrity.character);
+        }
         holder.celebrityLayout.setOnClickListener(view -> {
             // TODO
             UriHandler.open(celebrity.url, view.getContext());
         });
-    }
-
-    public void replaceWithCelebrityList(CelebrityList celebrityList) {
-        clear();
-        addAll(celebrityList.directors);
-        addAll(celebrityList.actors);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

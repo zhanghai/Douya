@@ -27,14 +27,12 @@ public class Rating implements Parcelable {
     /**
      * Frodo API doesn't have this field, so this needs to be set manually.
      */
-    @Nullable
-    public SimpleRating rating;
+    public transient SimpleRating rating;
 
     /**
      * Frodo API doesn't have this field, so this needs to be set manually.
      */
-    @Nullable
-    public String ratingUnavailableReason;
+    public transient String ratingUnavailableReason;
 
 
     public static final Parcelable.Creator<Rating> CREATOR = new Parcelable.Creator<Rating>() {

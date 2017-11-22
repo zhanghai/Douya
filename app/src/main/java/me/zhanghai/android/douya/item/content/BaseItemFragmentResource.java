@@ -11,11 +11,11 @@ import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.photo.content.ItemPhotoListResource;
 import me.zhanghai.android.douya.review.content.ItemReviewListResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -217,7 +217,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
-    public void onCelebrityListChanged(int requestCode, CelebrityList newCelebrityList) {
+    public void onCelebrityListChanged(int requestCode, List<SimpleCelebrity> newCelebrityList) {
         notifyChangedIfLoaded();
     }
 
@@ -301,8 +301,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     protected abstract void notifyChanged(int requestCode, ItemType newItem, Rating newRating,
-                                          CelebrityList newCelebrityList, List<Photo> newPhotoList,
-                                          List<Review> newReviewList);
+                                          List<SimpleCelebrity> newCelebrityList,
+                                          List<Photo> newPhotoList, List<Review> newReviewList);
 
     private void notifyError(ApiError error) {
         if (!mHasError) {

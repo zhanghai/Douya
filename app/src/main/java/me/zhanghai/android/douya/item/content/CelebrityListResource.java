@@ -9,15 +9,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class CelebrityListResource extends ResourceFragment<CelebrityList, CelebrityList> {
+public class CelebrityListResource extends ResourceFragment<CelebrityList, List<SimpleCelebrity>> {
 
     private static final String KEY_PREFIX = CelebrityListResource.class.getName() + '.';
 
@@ -85,11 +89,22 @@ public class CelebrityListResource extends ResourceFragment<CelebrityList, Celeb
     protected void onLoadFinished(boolean successful, CelebrityList response, ApiError error) {
         getListener().onLoadCelebrityListFinished(getRequestCode());
         if (successful) {
-            set(response);
-            getListener().onCelebrityListChanged(getRequestCode(), response);
+            List<SimpleCelebrity> celebrityList = transformResponse(response);
+            set(celebrityList);
+            getListener().onCelebrityListChanged(getRequestCode(), celebrityList);
         } else {
             getListener().onLoadCelebrityListError(getRequestCode(), error);
         }
+    }
+
+    private List<SimpleCelebrity> transformResponse(CelebrityList response) {
+        List<SimpleCelebrity> celebrityList = new ArrayList<>();
+        celebrityList.addAll(response.directors);
+        for (SimpleCelebrity celebrity : celebrityList) {
+            celebrity.isDirector = true;
+        }
+        celebrityList.addAll(response.actors);
+        return celebrityList;
     }
 
     private Listener getListener() {
@@ -100,6 +115,6 @@ public class CelebrityListResource extends ResourceFragment<CelebrityList, Celeb
         void onLoadCelebrityListStarted(int requestCode);
         void onLoadCelebrityListFinished(int requestCode);
         void onLoadCelebrityListError(int requestCode, ApiError error);
-        void onCelebrityListChanged(int requestCode, CelebrityList newCelebrityList);
+        void onCelebrityListChanged(int requestCode, List<SimpleCelebrity> newCelebrityList);
     }
 }
