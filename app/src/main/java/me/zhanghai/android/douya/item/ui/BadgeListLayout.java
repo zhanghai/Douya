@@ -33,6 +33,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleRating;
 import me.zhanghai.android.douya.ui.CircleRectShape;
 import me.zhanghai.android.douya.ui.PolygonShape;
+import me.zhanghai.android.douya.ui.StarShape;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class BadgeListLayout extends HorizontalScrollView {
@@ -256,8 +257,8 @@ public class BadgeListLayout extends HorizontalScrollView {
 
         public FollowingsRatingBadgeDrawable(Context context) {
             super(new Drawable[] {
-                    new ShapeDrawable(new OvalShape()),
-                    new ShapeDrawable(new OvalShape())
+                    new ShapeDrawable(new StarShape(10, 0.85f)),
+                    new ShapeDrawable(new StarShape(10, 0.85f))
             }, context);
         }
     }
