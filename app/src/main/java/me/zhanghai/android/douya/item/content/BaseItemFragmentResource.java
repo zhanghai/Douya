@@ -263,6 +263,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
             ItemType item = getItem();
             Rating rating = mRatingResource.get();
             rating.rating = item.rating;
+            rating.ratingUnavailableReason = item.ratingUnavailableReason;
             notifyChanged(getRequestCode(), item, rating, mPhotoListResource.get(),
                     mReviewListResource.get());
         }

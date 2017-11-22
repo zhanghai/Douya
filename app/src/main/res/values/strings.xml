@@ -265,7 +265,9 @@
     <string name="item_edit_collection_title">编辑收藏 %1$s</string>
     <string name="item_state">状态</string>
     <string name="item_rating">评价</string>
+    <string name="item_rating_unavailable">\?</string>
     <string name="item_rating_format">%1$.1f</string>
+    <string name="item_rating_format_ten">%1$.0f</string>
     <string-array name="item_rating_hints">
         <item>很差</item>
         <item>较差</item>

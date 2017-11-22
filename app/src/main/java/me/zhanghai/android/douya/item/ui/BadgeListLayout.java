@@ -15,6 +15,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,12 +55,16 @@ public class BadgeListLayout extends HorizontalScrollView {
     RatingBar mRatingBar;
     @BindView(R.id.rating_count)
     TextView mRatingCountText;
+    @BindView(R.id.rating_count_icon)
+    ImageView mRatingCountIconImage;
     @BindView(R.id.followings_rating_layout)
     ViewGroup mFollowingsRatingLayout;
     @BindView(R.id.followings_rating_badge)
     ViewGroup mFollowingsRatingBadgeLayout;
     @BindView(R.id.followings_rating_text)
     TextView mFollowingsRatingText;
+    @BindView(R.id.followings_rating_count_icon)
+    ImageView mFollowingsRatingCountIconImage;
     @BindView(R.id.followings_rating_bar)
     RatingBar mFollowingsRatingBar;
     @BindView(R.id.followings_rating_count)
@@ -156,33 +161,53 @@ public class BadgeListLayout extends HorizontalScrollView {
     }
 
     public void setRating(Rating rating) {
-        setRating(rating.rating, mRatingText, mRatingBar, mRatingCountText);
+        if (TextUtils.isEmpty(rating.ratingUnavailableReason)) {
+            setRating(rating.rating, mRatingText, mRatingBar, mRatingCountText,
+                    mRatingCountIconImage);
+        } else {
+            setRatingUnavailable(rating.ratingUnavailableReason);
+        }
         mRatingLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO
             }
         });
-        setRating(rating.followingsRating, mFollowingsRatingText, mFollowingsRatingBar,
-                mFollowingsRatingCountText);
-        mFollowingsRatingLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
-            }
-        });
+        boolean hasFollowingsRating = rating.followingsRating != null;
+        ViewUtils.setVisibleOrGone(mFollowingsRatingLayout, hasFollowingsRating);
+        if (hasFollowingsRating) {
+            setRating(rating.followingsRating, mFollowingsRatingText, mFollowingsRatingBar,
+                    mFollowingsRatingCountText, mFollowingsRatingCountIconImage);
+            mFollowingsRatingLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO
+                }
+            });
+        } else {
+            ViewUtils.setVisibleOrGone(mFollowingsRatingLayout, false);
+        }
     }
 
     private void setRating(SimpleRating rating, TextView ratingText, RatingBar ratingBar,
-                           TextView ratingCountText) {
+                           TextView ratingCountText, ImageView ratingCountIconImage) {
         float ratingOutOfTen = (float) Math.round(rating.value / rating.max * 10 * 10) / 10;
-        String ratingString = getContext().getString(R.string.item_rating_format, ratingOutOfTen);
+        String ratingString = getContext().getString(ratingOutOfTen == 10 ?
+                R.string.item_rating_format_ten : R.string.item_rating_format, ratingOutOfTen);
         ratingText.setText(ratingString);
-        float ratingValue = rating.value / rating.max * 5;
+        float ratingValue = rating.value / rating.max * mRatingBar.getNumStars();
         ratingBar.setRating(ratingValue);
         String ratingCount = getContext().getString(R.string.item_rating_count_format,
                 rating.count);
         ratingCountText.setText(ratingCount);
+        ViewUtils.setVisibleOrGone(ratingCountIconImage, true);
+    }
+
+    private void setRatingUnavailable(String ratingUnavailableReason) {
+        mRatingText.setText(R.string.item_rating_unavailable);
+        mRatingBar.setRating(mRatingBar.getNumStars());
+        mRatingCountText.setText(ratingUnavailableReason);
+        ViewUtils.setVisibleOrGone(mRatingCountIconImage, false);
     }
 
     public void setGenre(int genreBadgeResId, CharSequence genre) {

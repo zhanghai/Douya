@@ -30,6 +30,12 @@ public class Rating implements Parcelable {
     @Nullable
     public SimpleRating rating;
 
+    /**
+     * Frodo API doesn't have this field, so this needs to be set manually.
+     */
+    @Nullable
+    public String ratingUnavailableReason;
+
 
     public static final Parcelable.Creator<Rating> CREATOR = new Parcelable.Creator<Rating>() {
         @Override
@@ -49,6 +55,7 @@ public class Rating implements Parcelable {
         in.readList(distribution, Float.class.getClassLoader());
         genreRankings = in.createTypedArrayList(GenreRanking.CREATOR);
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
+        ratingUnavailableReason = in.readString();
     }
 
     @Override
@@ -62,6 +69,7 @@ public class Rating implements Parcelable {
         dest.writeList(distribution);
         dest.writeTypedList(genreRankings);
         dest.writeParcelable(rating, flags);
+        dest.writeString(ratingUnavailableReason);
     }
 
 
