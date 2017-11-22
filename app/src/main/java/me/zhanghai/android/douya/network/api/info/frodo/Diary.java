@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+// TODO: Extend from BaseItem.
 public class Diary implements Parcelable {
 
     public enum Visibility {

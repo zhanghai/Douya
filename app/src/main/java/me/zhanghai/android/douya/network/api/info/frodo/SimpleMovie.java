@@ -33,6 +33,9 @@ public class SimpleMovie extends CollectableItem {
     @SerializedName("has_linewatch")
     public boolean hasOnlineSource;
 
+    @SerializedName("release_date")
+    public String releaseDate;
+
     @SerializedName("pubdate")
     public List<String> releaseDates = new ArrayList<>();
 
@@ -82,6 +85,7 @@ public class SimpleMovie extends CollectableItem {
         dest.writeTypedList(directors);
         dest.writeStringList(genres);
         dest.writeByte(hasOnlineSource ? (byte) 1 : (byte) 0);
+        dest.writeString(releaseDate);
         dest.writeStringList(releaseDates);
         dest.writeString(year);
     }
@@ -95,6 +99,7 @@ public class SimpleMovie extends CollectableItem {
         directors = in.createTypedArrayList(Celebrity.CREATOR);
         genres = in.createStringArrayList();
         hasOnlineSource = in.readByte() != 0;
+        releaseDate = in.readString();
         releaseDates = in.createStringArrayList();
         year = in.readString();
     }

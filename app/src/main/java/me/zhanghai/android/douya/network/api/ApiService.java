@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
+import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
@@ -285,6 +286,11 @@ public class ApiService {
         return mFrodoService.getItemRating(itemType.getApiString(), itemId);
     }
 
+    public ApiRequest<CelebrityList> getItemCelebrityList(CollectableItem.Type itemType,
+                                                          long itemId) {
+        return mFrodoService.getItemCelebrityList(itemType.getApiString(), itemId);
+    }
+
     public ApiRequest<PhotoList> getItemPhotoList(CollectableItem.Type itemType, long itemId,
                                                   Integer start, Integer count) {
         return mFrodoService.getItemPhotoList(itemType.getApiString(), itemId, start, count);
@@ -418,6 +424,10 @@ public class ApiService {
         @GET("{itemType}/{itemId}/rating")
         ApiRequest<Rating> getItemRating(@Path("itemType") String itemType,
                                          @Path("itemId") long itemId);
+
+        @GET("{itemType}/{itemId}/celebrities")
+        ApiRequest<CelebrityList> getItemCelebrityList(@Path("itemType") String itemType,
+                                                       @Path("itemId") long itemId);
 
         @GET("{itemType}/{itemId}/photos")
         ApiRequest<PhotoList> getItemPhotoList(@Path("itemType") String itemType,

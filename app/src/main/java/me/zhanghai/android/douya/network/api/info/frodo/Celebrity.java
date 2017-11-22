@@ -10,21 +10,54 @@ import android.os.Parcel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Celebrity extends BaseItem {
+public class Celebrity extends SimpleCelebrity {
 
-    @SerializedName("abstract")
+    @SerializedName("album")
+    public PhotoList photos;
+
+    public ArrayList<AwardItem> awards = new ArrayList<>();
+
+    @SerializedName("awards_count")
+    public int awardCount;
+
+    @SerializedName("body_bg_color")
+    public String backgroundColor;
+
+    @SerializedName("fans_count")
+    public int fanCount;
+
+    @SerializedName("has_fanned")
+    public boolean isFanned;
+
+    @SerializedName("header_bg_color")
+    public String themeColor;
+
+    public String info;
+
+    @SerializedName("intro")
     public String introduction;
 
-    public Image avatar;
+    // [sic]
+    //public boolean isDirector;
 
-    @SerializedName("cover_url")
-    public String coverUrl;
+    @SerializedName("known_for")
+    public ArrayList<SimpleMovie> worksByVote = new ArrayList<>();
 
-    public String name;
+    @SerializedName("latest_works")
+    public ArrayList<SimpleMovie> latestWorks = new ArrayList<>();
 
-    public List<String> roles = new ArrayList<>();
+    @SerializedName("nominations_count")
+    public int nominationCount;
+
+    @SerializedName("related_celebrities")
+    public ArrayList<CelebrityRelationship> relatedCelebrities = new ArrayList<>();
+
+    @SerializedName("related_tag")
+    public Tag relatedTag;
+
+    @SerializedName("works_count")
+    public int workCount;
 
 
     public static final Creator<Celebrity> CREATOR = new Creator<Celebrity>() {
@@ -43,11 +76,21 @@ public class Celebrity extends BaseItem {
     protected Celebrity(Parcel in) {
         super(in);
 
+        photos = in.readParcelable(PhotoList.class.getClassLoader());
+        awards = in.createTypedArrayList(AwardItem.CREATOR);
+        awardCount = in.readInt();
+        backgroundColor = in.readString();
+        fanCount = in.readInt();
+        isFanned = in.readByte() != 0;
+        themeColor = in.readString();
+        info = in.readString();
         introduction = in.readString();
-        avatar = in.readParcelable(Image.class.getClassLoader());
-        coverUrl = in.readString();
-        name = in.readString();
-        roles = in.createStringArrayList();
+        worksByVote = in.createTypedArrayList(SimpleMovie.CREATOR);
+        latestWorks = in.createTypedArrayList(SimpleMovie.CREATOR);
+        nominationCount = in.readInt();
+        relatedCelebrities = in.createTypedArrayList(CelebrityRelationship.CREATOR);
+        relatedTag = in.readParcelable(Tag.class.getClassLoader());
+        workCount = in.readInt();
     }
 
     @Override
@@ -59,10 +102,20 @@ public class Celebrity extends BaseItem {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
+        dest.writeParcelable(photos, flags);
+        dest.writeTypedList(awards);
+        dest.writeInt(awardCount);
+        dest.writeString(backgroundColor);
+        dest.writeInt(fanCount);
+        dest.writeByte(isFanned ? (byte) 1 : (byte) 0);
+        dest.writeString(themeColor);
+        dest.writeString(info);
         dest.writeString(introduction);
-        dest.writeParcelable(avatar, flags);
-        dest.writeString(coverUrl);
-        dest.writeString(name);
-        dest.writeStringList(roles);
+        dest.writeTypedList(worksByVote);
+        dest.writeTypedList(latestWorks);
+        dest.writeInt(nominationCount);
+        dest.writeTypedList(relatedCelebrities);
+        dest.writeParcelable(relatedTag, flags);
+        dest.writeInt(workCount);
     }
 }

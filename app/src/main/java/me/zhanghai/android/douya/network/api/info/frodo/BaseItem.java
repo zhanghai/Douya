@@ -14,12 +14,18 @@ import java.util.List;
 
 import me.zhanghai.android.douya.util.StringCompat;
 
+/**
+ * {@code BaseFeedableitem} in Frodo.
+ */
 public abstract class BaseItem implements Parcelable {
 
-    public long id;
+    @SerializedName("abstract")
+    public String abstract_;
 
-    @SerializedName("pic")
-    public Image cover;
+    @SerializedName("cover_url")
+    public String coverUrl;
+
+    public long id;
 
     @SerializedName("sharing_url")
     public String shareUrl;
@@ -40,8 +46,9 @@ public abstract class BaseItem implements Parcelable {
     public BaseItem() {}
 
     protected BaseItem(Parcel in) {
+        abstract_ = in.readString();
+        coverUrl = in.readString();
         id = in.readLong();
-        cover = in.readParcelable(Image.class.getClassLoader());
         shareUrl = in.readString();
         title = in.readString();
         type = in.readString();
@@ -56,8 +63,9 @@ public abstract class BaseItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(abstract_);
+        dest.writeString(coverUrl);
         dest.writeLong(id);
-        dest.writeParcelable(cover, flags);
         dest.writeString(shareUrl);
         dest.writeString(title);
         dest.writeString(type);

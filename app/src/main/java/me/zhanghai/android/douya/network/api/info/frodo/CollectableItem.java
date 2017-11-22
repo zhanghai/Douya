@@ -94,11 +94,17 @@ public abstract class CollectableItem extends BaseItem {
     @SerializedName("intro")
     public String introduction;
 
+    @SerializedName("in_blacklist")
+    public boolean isInBlackList;
+
     @SerializedName("is_douban_intro")
     public boolean isIntroductionByDouban;
 
     @SerializedName("null_rating_reason")
     public String ratingUnavailableReason;
+
+    @SerializedName("pic")
+    public Image cover;
 
     public SimpleRating rating;
 
@@ -155,7 +161,9 @@ public abstract class CollectableItem extends BaseItem {
         themeColor = in.readString();
         collection = in.readParcelable(ItemCollection.class.getClassLoader());
         introduction = in.readString();
+        isInBlackList = in.readByte() != 0;
         isIntroductionByDouban = in.readByte() != 0;
+        cover = in.readParcelable(Image.class.getClassLoader());
         ratingUnavailableReason = in.readString();
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
         reviewCount = in.readInt();
@@ -176,7 +184,9 @@ public abstract class CollectableItem extends BaseItem {
         dest.writeString(themeColor);
         dest.writeParcelable(collection, flags);
         dest.writeString(introduction);
+        dest.writeByte(isInBlackList ? (byte) 1 : (byte) 0);
         dest.writeByte(isIntroductionByDouban ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(cover, flags);
         dest.writeString(ratingUnavailableReason);
         dest.writeParcelable(rating, flags);
         dest.writeInt(reviewCount);

@@ -13,6 +13,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Extend from BaseItem.
 public class Review implements Parcelable {
 
     public enum VoteState {
