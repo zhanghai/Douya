@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/followings_rating_count"
         android:layout_alignBaseline="@id/followings_rating_count"
-        android:layout_marginLeft="2.5dp"
+        android:layout_marginLeft="2dp"
         android:baselineAlignBottom="true"
         android:src="@drawable/favorite_icon_white_8dp"
         android:tint="?android:textColorSecondary"/>

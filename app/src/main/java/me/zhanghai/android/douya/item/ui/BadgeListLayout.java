@@ -196,7 +196,8 @@ public class BadgeListLayout extends HorizontalScrollView {
         String ratingString = getContext().getString(ratingOutOfTen == 10 ?
                 R.string.item_rating_format_ten : R.string.item_rating_format, ratingOutOfTen);
         ratingText.setText(ratingString);
-        float ratingValue = rating.value / rating.max * mRatingBar.getNumStars();
+        float ratingValue = rating.value / rating.max * 5;
+        ratingBar.setNumStars(Math.round(ratingValue));
         ratingBar.setRating(ratingValue);
         String ratingCount = getContext().getString(R.string.item_rating_count_format,
                 rating.count);
@@ -206,6 +207,7 @@ public class BadgeListLayout extends HorizontalScrollView {
 
     private void setRatingUnavailable(String ratingUnavailableReason) {
         mRatingText.setText(R.string.item_rating_unavailable);
+        mRatingBar.setNumStars(5);
         mRatingBar.setRating(mRatingBar.getNumStars());
         mRatingCountText.setText(ratingUnavailableReason);
         ViewUtils.setVisibleOrGone(mRatingCountIconImage, false);

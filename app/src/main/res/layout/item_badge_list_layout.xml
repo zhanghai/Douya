@@ -91,7 +91,8 @@
                     android:id="@+id/rating_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-3dp"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginBottom="-2dp"
                     android:includeFontPadding="false"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="22dp"
@@ -106,8 +107,8 @@
                     android:layout_marginRight="-0.5dp"
                     android:layout_marginTop="-1dp"
                     android:layout_marginBottom="-1dp"
-                    android:minHeight="7dp"
-                    android:maxHeight="7dp"
+                    android:minHeight="7.5dp"
+                    android:maxHeight="7.5dp"
                     app:mrb_progressTint="?android:textColorPrimary"
                     style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
             </LinearLayout>
@@ -140,7 +141,8 @@
                     android:id="@+id/followings_rating_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-3dp"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginBottom="-2dp"
                     android:includeFontPadding="false"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="22dp"
@@ -155,8 +157,8 @@
                     android:layout_marginRight="-0.5dp"
                     android:layout_marginTop="-1dp"
                     android:layout_marginBottom="-1dp"
-                    android:minHeight="7dp"
-                    android:maxHeight="7dp"
+                    android:minHeight="7.5dp"
+                    android:maxHeight="7.5dp"
                     app:mrb_progressTint="?android:textColorPrimary"
                     style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
             </LinearLayout>
