@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
@@ -76,6 +77,9 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
             ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
         } else if (!photoList.isEmpty()) {
             ImageUtils.loadLargeImage(mBackdropImage, photoList.get(0));
+            // HACK: Remove duplicate visual effect.
+            photoList = new ArrayList<>(photoList);
+            photoList.remove(0);
         } else if (movie.poster != null) {
             ImageUtils.loadLargeImage(mBackdropImage, movie.poster);
         } else {
