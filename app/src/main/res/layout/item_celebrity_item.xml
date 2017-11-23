@@ -28,8 +28,7 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="?android:textColorPrimary" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/description"
@@ -38,6 +37,5 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="?android:textColorSecondary" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 </android.support.design.internal.ForegroundLinearLayout>
