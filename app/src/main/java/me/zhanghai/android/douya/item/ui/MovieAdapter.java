@@ -40,7 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_HEADER = 0;
     private static final int ITEM_BADGE_LIST = 1;
     private static final int ITEM_INTRODUCTION = 2;
-    private static final int ITEM_GALLERY = 3;
+    private static final int ITEM_PHOTO_LIST = 3;
     private static final int ITEM_CELEBRITY_LIST = 4;
     private static final int ITEM_RATING = 5;
 
@@ -83,9 +83,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_INTRODUCTION:
                 return new IntroductionHolder(ViewUtils.inflate(R.layout.item_introduction_item,
                         parent));
-            case ITEM_GALLERY: {
-                GalleryHolder holder = new GalleryHolder(ViewUtils.inflate(
-                        R.layout.item_gallery_item, parent));
+            case ITEM_PHOTO_LIST: {
+                PhotoListHolder holder = new PhotoListHolder(ViewUtils.inflate(
+                        R.layout.item_photo_list_item, parent));
                 holder.photoList.setHasFixedSize(true);
                 holder.photoList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
                         LinearLayoutManager.HORIZONTAL, false));
@@ -172,10 +172,10 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 });
                 break;
             }
-            case ITEM_GALLERY: {
-                GalleryHolder galleryHolder = (GalleryHolder) holder;
+            case ITEM_PHOTO_LIST: {
+                PhotoListHolder photoListHolder = (PhotoListHolder) holder;
                 HorizontalImageAdapter adapter = (HorizontalImageAdapter)
-                        galleryHolder.photoList.getAdapter();
+                        photoListHolder.photoList.getAdapter();
                 adapter.replace(mData.photoList);
                 break;
             }
@@ -281,14 +281,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    static class GalleryHolder extends RecyclerView.ViewHolder {
+    static class PhotoListHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.photo_list)
         public RecyclerView photoList;
         @BindView(R.id.view_all)
         public Button viewAllButton;
 
-        public GalleryHolder(View itemView) {
+        public PhotoListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
