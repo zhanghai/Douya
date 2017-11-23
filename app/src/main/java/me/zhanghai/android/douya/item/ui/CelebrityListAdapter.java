@@ -18,6 +18,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.ui.RatioFrameLayout;
+import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -39,8 +40,7 @@ public class CelebrityListAdapter
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.item_celebrity_item, parent));
-        holder.celebrityLayout.setRatio(2, 3);
-        ViewCompat.setBackground(holder.scrimView, DrawableUtils.makeScrimDrawable());
+        holder.avatarImage.setRatio(2, 3);
         return holder;
     }
 
@@ -63,11 +63,9 @@ public class CelebrityListAdapter
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.celebrity)
-        public RatioFrameLayout celebrityLayout;
+        public ViewGroup celebrityLayout;
         @BindView(R.id.avatar)
-        public ImageView avatarImage;
-        @BindView(R.id.scrim)
-        public View scrimView;
+        public RatioImageView avatarImage;
         @BindView(R.id.name)
         public TextView nameText;
         @BindView(R.id.description)

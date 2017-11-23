@@ -281,6 +281,7 @@
     <string name="item_tags_hint">我的标签…</string>
     <string name="item_comment">评论</string>
     <string name="item_comment_hint">我的评论…</string>
+    <string name="item_gallery_view_all">查看全部剧照</string>
     <string name="item_celebrity_director">导演</string>
 
     <string name="settings_title">设置</string>

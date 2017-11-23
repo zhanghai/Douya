@@ -12,4 +12,5 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:foreground="?selectableItemBackground"
+    android:theme="?darkTheme"
     app:fillOrientation="vertical" />

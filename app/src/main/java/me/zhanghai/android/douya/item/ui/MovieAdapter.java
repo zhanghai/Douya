@@ -40,8 +40,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_HEADER = 0;
     private static final int ITEM_BADGE_LIST = 1;
     private static final int ITEM_INTRODUCTION = 2;
-    private static final int ITEM_CELEBRITY_LIST = 3;
-    private static final int ITEM_GALLERY = 4;
+    private static final int ITEM_GALLERY = 3;
+    private static final int ITEM_CELEBRITY_LIST = 4;
     private static final int ITEM_RATING = 5;
 
     private static final int ITEM_COUNT = 6;
@@ -83,19 +83,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_INTRODUCTION:
                 return new IntroductionHolder(ViewUtils.inflate(R.layout.item_introduction_item,
                         parent));
-            case ITEM_CELEBRITY_LIST: {
-                CelebrityListHolder holder = new CelebrityListHolder(ViewUtils.inflate(
-                        R.layout.item_celebrity_list_item, parent));
-                holder.celebrityList.setHasFixedSize(true);
-                holder.celebrityList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
-                        LinearLayoutManager.HORIZONTAL, false));
-                holder.celebrityList.addItemDecoration(new DividerItemDecoration(
-                        DividerItemDecoration.HORIZONTAL,
-                        R.drawable.transparent_divider_vertical_4dp,
-                        holder.celebrityList.getContext()));
-                holder.celebrityList.setAdapter(new CelebrityListAdapter());
-                return holder;
-            }
             case ITEM_GALLERY: {
                 GalleryHolder holder = new GalleryHolder(ViewUtils.inflate(
                         R.layout.item_gallery_item, parent));
@@ -107,6 +94,19 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         R.drawable.transparent_divider_vertical_4dp,
                         holder.photoList.getContext()));
                 holder.photoList.setAdapter(new HorizontalImageAdapter());
+                return holder;
+            }
+            case ITEM_CELEBRITY_LIST: {
+                CelebrityListHolder holder = new CelebrityListHolder(ViewUtils.inflate(
+                        R.layout.item_celebrity_list_item, parent));
+                holder.celebrityList.setHasFixedSize(true);
+                holder.celebrityList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
+                        LinearLayoutManager.HORIZONTAL, false));
+                holder.celebrityList.addItemDecoration(new DividerItemDecoration(
+                        DividerItemDecoration.HORIZONTAL,
+                        R.drawable.transparent_divider_vertical_16dp,
+                        holder.celebrityList.getContext()));
+                holder.celebrityList.setAdapter(new CelebrityListAdapter());
                 return holder;
             }
             case ITEM_RATING:
@@ -172,18 +172,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 });
                 break;
             }
-            case ITEM_CELEBRITY_LIST: {
-                CelebrityListHolder celebrityListHolder = (CelebrityListHolder) holder;
-                CelebrityListAdapter adapter = (CelebrityListAdapter)
-                        celebrityListHolder.celebrityList.getAdapter();
-                adapter.replace(mData.celebrityList);
-                break;
-            }
             case ITEM_GALLERY: {
                 GalleryHolder galleryHolder = (GalleryHolder) holder;
                 HorizontalImageAdapter adapter = (HorizontalImageAdapter)
                         galleryHolder.photoList.getAdapter();
                 adapter.replace(mData.photoList);
+                break;
+            }
+            case ITEM_CELEBRITY_LIST: {
+                CelebrityListHolder celebrityListHolder = (CelebrityListHolder) holder;
+                CelebrityListAdapter adapter = (CelebrityListAdapter)
+                        celebrityListHolder.celebrityList.getAdapter();
+                adapter.replace(mData.celebrityList);
                 break;
             }
             case ITEM_RATING: {
@@ -285,6 +285,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @BindView(R.id.photo_list)
         public RecyclerView photoList;
+        @BindView(R.id.view_all)
+        public Button viewAllButton;
 
         public GalleryHolder(View itemView) {
             super(itemView);

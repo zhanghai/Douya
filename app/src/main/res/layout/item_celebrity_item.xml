@@ -5,49 +5,39 @@
   ~ All Rights Reserved.
   -->
 
-<me.zhanghai.android.douya.ui.RatioFrameLayout
+<android.support.design.internal.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/celebrity"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground"
-    android:theme="?darkTheme">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <ImageView
+    <me.zhanghai.android.douya.ui.RatioImageView
         android:id="@+id/avatar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/item_celebrity_avatar_height"
         android:scaleType="centerCrop" />
 
-    <View
-        android:id="@+id/scrim"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/scrim_height"
-        android:layout_gravity="bottom" />
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:padding="12dp"
-        android:orientation="vertical">
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="?android:textColorPrimary" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="?android:textColorPrimary" />
-
-        <me.zhanghai.android.douya.ui.AutoGoneTextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="?android:textColorPrimary" />
-    </LinearLayout>
-</me.zhanghai.android.douya.ui.RatioFrameLayout>
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="?android:textColorSecondary" />
+</android.support.design.internal.ForegroundLinearLayout>

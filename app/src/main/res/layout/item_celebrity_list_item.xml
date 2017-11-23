@@ -9,11 +9,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/content_vertical_space"
+    android:paddingBottom="@dimen/content_vertical_space"
     android:background="@color/cardview_light_background"
     android:orientation="vertical">
 
     <me.zhanghai.android.douya.ui.NestedRecyclerView
         android:id="@+id/celebrity_list"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_celebrity_list_height" />
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay" />
 </LinearLayout>
