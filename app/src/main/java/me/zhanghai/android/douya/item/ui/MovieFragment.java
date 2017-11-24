@@ -75,13 +75,12 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         super.updateWithSimpleItem(movie);
 
         boolean hasTrailer = movie.trailer != null;
+        boolean excludeFirstPhoto = false;
         if (hasTrailer) {
             ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
         } else if (!photoList.isEmpty()) {
             ImageUtils.loadLargeImage(mBackdropImage, photoList.get(0));
-            // HACK: Remove duplicate visual effect.
-            photoList = new ArrayList<>(photoList);
-            photoList.remove(0);
+            excludeFirstPhoto = true;
         } else if (movie.poster != null) {
             ImageUtils.loadLargeImage(mBackdropImage, movie.poster);
         } else {
@@ -89,7 +88,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         }
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
 
-        mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, celebrityList, awardList,
-                reviewList));
+        mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
+                celebrityList, awardList, reviewList));
     }
 }

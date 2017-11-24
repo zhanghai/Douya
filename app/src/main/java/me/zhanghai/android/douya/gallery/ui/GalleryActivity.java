@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.zhanghai.android.douya.ui.ImageItem;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -28,7 +29,7 @@ public class GalleryActivity extends AppCompatActivity {
                 .putExtra(EXTRA_POSITION, position);
     }
 
-    public static Intent makeImageListIntent(ArrayList<? extends ImageItem> imageList, int position,
+    public static Intent makeImageListIntent(List<? extends ImageItem> imageList, int position,
                                              Context context) {
         ArrayList<String> imageUrlList = new ArrayList<>();
         for (ImageItem image : imageList) {

@@ -23,6 +23,7 @@ import android.widget.Space;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -226,7 +227,7 @@ public class BroadcastLayout extends LinearLayout {
                 mAttachmentLayout.setVisibility(GONE);
             }
 
-            final ArrayList<? extends ImageItemWithSize> images = broadcast.images.size() > 0 ?
+            final List<? extends ImageItemWithSize> images = broadcast.images.size() > 0 ?
                     broadcast.images : broadcast.photos;
             int numImages = images.size();
             if (numImages == 1) {

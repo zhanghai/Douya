@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -197,7 +198,24 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 PhotoListHolder photoListHolder = (PhotoListHolder) holder;
                 HorizontalImageAdapter adapter = (HorizontalImageAdapter)
                         photoListHolder.photoList.getAdapter();
-                adapter.replace(mData.photoList);
+                List<Photo> photoList = mData.photoList;
+                if (mData.excludeFirstPhoto) {
+                    photoList = new ArrayList<>(photoList);
+                    photoList.remove(0);
+                }
+                adapter.replace(photoList);
+                adapter.setOnImageClickListener(photoPosition -> {
+                    // TODO: Use PhotoAlbumGalleryActivity instead.
+                    if (mData.excludeFirstPhoto) {
+                        ++photoPosition;
+                    }
+                    context.startActivity(GalleryActivity.makeImageListIntent(mData.photoList,
+                            photoPosition, photoListHolder.photoList.getContext()));
+                });
+                photoListHolder.viewAllButton.setOnClickListener(view -> {
+                    // TODO
+                    UriHandler.open(mData.movie.url + "/photos", context);
+                });
                 break;
             }
             case ITEM_CELEBRITY_LIST: {
@@ -237,16 +255,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public Movie movie;
         public Rating rating;
         public List<Photo> photoList;
+        public boolean excludeFirstPhoto;
         public List<SimpleCelebrity> celebrityList;
         public List<ItemAwardItem> awardList;
         public List<Review> reviewList;
 
-        public Data(Movie movie, Rating rating, List<Photo> photoList,
+        public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                     List<Review> reviewList) {
             this.movie = movie;
             this.rating = rating;
             this.photoList = photoList;
+            this.excludeFirstPhoto = excludeFirstPhoto;
             this.celebrityList = celebrityList;
             this.awardList = awardList;
             this.reviewList = reviewList;
