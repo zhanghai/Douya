@@ -12,16 +12,16 @@ import android.support.v4.app.FragmentActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.ResourceFragment;
+import me.zhanghai.android.douya.content.RawListResourceFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
-import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class CelebrityListResource extends ResourceFragment<CelebrityList, List<SimpleCelebrity>> {
+public class CelebrityListResource extends RawListResourceFragment<CelebrityList, SimpleCelebrity> {
 
     private static final String KEY_PREFIX = CelebrityListResource.class.getName() + '.';
 

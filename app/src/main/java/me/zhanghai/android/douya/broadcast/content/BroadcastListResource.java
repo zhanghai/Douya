@@ -27,7 +27,7 @@ import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class BroadcastListResource extends MoreRawListResourceFragment<Broadcast, List<Broadcast>> {
+public class BroadcastListResource extends MoreRawListResourceFragment<List<Broadcast>, Broadcast> {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';

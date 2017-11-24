@@ -12,6 +12,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
@@ -72,12 +73,17 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
     }
 
     @Override
+    protected boolean hasPhotoList() {
+        return true;
+    }
+
+    @Override
     protected boolean hasCelebrityList() {
         return true;
     }
 
     @Override
-    protected boolean hasPhotoList() {
+    protected boolean hasAwardList() {
         return true;
     }
 
@@ -88,10 +94,10 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
 
     @Override
     protected void notifyChanged(int requestCode, Movie newItem, Rating newRating,
-                                 List<SimpleCelebrity> newCelebrityList, List<Photo> newPhotoList,
-                                 List<Review> newReviewList) {
-        getListener().onChanged(requestCode, newItem, newRating, newCelebrityList, newPhotoList,
-                newReviewList);
+                                 List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
+                                 List<ItemAwardItem> newAwardList, List<Review> newReviewList) {
+        getListener().onChanged(requestCode, newItem, newRating, newPhotoList, newCelebrityList,
+                newAwardList, newReviewList);
     }
 
     private Listener getListener() {
@@ -100,8 +106,8 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
 
     public interface Listener extends BaseItemFragmentResource.Listener<Movie> {
         void onLoadError(int requestCode, ApiError error);
-        void onChanged(int requestCode, Movie newMovie, Rating newRating,
-                       List<SimpleCelebrity> newCelebrityList, List<Photo> newPhotoList,
+        void onChanged(int requestCode, Movie newMovie, Rating newRating, List<Photo> newPhotoList,
+                       List<SimpleCelebrity> newCelebrityList, List<ItemAwardItem> newAwardList,
                        List<Review> newReviewList);
     }
 }

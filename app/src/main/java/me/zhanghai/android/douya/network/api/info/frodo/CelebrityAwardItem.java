@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * {@code Award} in Frodo.
  */
-public class AwardItem implements Parcelable {
+public class CelebrityAwardItem implements Parcelable {
 
     public SimpleAwardCategory category;
 
@@ -28,21 +28,21 @@ public class AwardItem implements Parcelable {
     public String type;
 
 
-    public static final Parcelable.Creator<AwardItem> CREATOR =
-            new Parcelable.Creator<AwardItem>() {
+    public static final Parcelable.Creator<CelebrityAwardItem> CREATOR =
+            new Parcelable.Creator<CelebrityAwardItem>() {
                 @Override
-                public AwardItem createFromParcel(Parcel source) {
-                    return new AwardItem(source);
+                public CelebrityAwardItem createFromParcel(Parcel source) {
+                    return new CelebrityAwardItem(source);
                 }
                 @Override
-                public AwardItem[] newArray(int size) {
-                    return new AwardItem[size];
+                public CelebrityAwardItem[] newArray(int size) {
+                    return new CelebrityAwardItem[size];
                 }
             };
 
-    public AwardItem() {}
+    public CelebrityAwardItem() {}
 
-    protected AwardItem(Parcel in) {
+    protected CelebrityAwardItem(Parcel in) {
         category = in.readParcelable(SimpleAwardCategory.class.getClassLoader());
         award = in.readParcelable(Award.class.getClassLoader());
         isWon = in.readByte() != 0;

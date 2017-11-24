@@ -12,19 +12,16 @@ import java.util.Collections;
 import java.util.List;
 
 import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
-import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.ReviewDeletedEvent;
 import me.zhanghai.android.douya.eventbus.ReviewUpdatedEvent;
-import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
-import me.zhanghai.android.douya.util.LogUtils;
 
 public abstract class BaseReviewListResource
-        extends MoreRawListResourceFragment<Review, ReviewList> {
+        extends MoreRawListResourceFragment<ReviewList, Review> {
 
     @Override
     protected ApiRequest<ReviewList> onCreateRequest(boolean more, int count) {

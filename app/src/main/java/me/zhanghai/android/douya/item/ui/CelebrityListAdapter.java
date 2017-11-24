@@ -5,11 +5,9 @@
 
 package me.zhanghai.android.douya.item.ui;
 
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -17,10 +15,8 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
-import me.zhanghai.android.douya.ui.RatioFrameLayout;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
-import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -33,7 +29,6 @@ public class CelebrityListAdapter
 
     @Override
     public long getItemId(int position) {
-        // Deliberately using plain hash code to identify only this instance.
         return getItem(position).id;
     }
 
@@ -54,7 +49,7 @@ public class CelebrityListAdapter
         } else {
             holder.descriptionText.setText(celebrity.character);
         }
-        holder.celebrityLayout.setOnClickListener(view -> {
+        holder.itemView.setOnClickListener(view -> {
             // TODO
             UriHandler.open(celebrity.url, view.getContext());
         });
@@ -62,8 +57,6 @@ public class CelebrityListAdapter
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.celebrity)
-        public ViewGroup celebrityLayout;
         @BindView(R.id.avatar)
         public RatioImageView avatarImage;
         @BindView(R.id.name)

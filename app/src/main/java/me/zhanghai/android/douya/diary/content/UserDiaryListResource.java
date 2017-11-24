@@ -26,7 +26,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class UserDiaryListResource extends MoreRawListResourceFragment<Diary, DiaryList> {
+public class UserDiaryListResource extends MoreRawListResourceFragment<DiaryList, Diary> {
 
     private static final String KEY_PREFIX = UserDiaryListResource.class.getName() + '.';
 

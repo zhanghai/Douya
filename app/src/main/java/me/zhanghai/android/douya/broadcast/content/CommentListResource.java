@@ -19,7 +19,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 
 public abstract class CommentListResource
-        extends MoreRawListResourceFragment<Comment, CommentList> {
+        extends MoreRawListResourceFragment<CommentList, Comment> {
 
     @Override
     protected ApiRequest<CommentList> onCreateRequest(boolean more, int count) {

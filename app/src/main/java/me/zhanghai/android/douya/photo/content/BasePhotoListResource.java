@@ -18,7 +18,7 @@ import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.PhotoList;
 
-public abstract class BasePhotoListResource extends MoreRawListResourceFragment<Photo, PhotoList> {
+public abstract class BasePhotoListResource extends MoreRawListResourceFragment<PhotoList, Photo> {
 
     @Override
     protected ApiRequest<PhotoList> onCreateRequest(boolean more, int count) {

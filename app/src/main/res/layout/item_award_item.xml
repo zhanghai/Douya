@@ -5,36 +5,28 @@
   ~ All Rights Reserved.
   -->
 
-<android.support.design.internal.ForegroundLinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackground"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <me.zhanghai.android.douya.ui.RatioImageView
-        android:id="@+id/avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/item_celebrity_avatar_height"
-        android:scaleType="centerCrop" />
-
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-</android.support.design.internal.ForegroundLinearLayout>
+</LinearLayout>

@@ -26,6 +26,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
@@ -286,14 +287,19 @@ public class ApiService {
         return mFrodoService.getItemRating(itemType.getApiString(), itemId);
     }
 
+    public ApiRequest<PhotoList> getItemPhotoList(CollectableItem.Type itemType, long itemId,
+                                                  Integer start, Integer count) {
+        return mFrodoService.getItemPhotoList(itemType.getApiString(), itemId, start, count);
+    }
+
     public ApiRequest<CelebrityList> getItemCelebrityList(CollectableItem.Type itemType,
                                                           long itemId) {
         return mFrodoService.getItemCelebrityList(itemType.getApiString(), itemId);
     }
 
-    public ApiRequest<PhotoList> getItemPhotoList(CollectableItem.Type itemType, long itemId,
-                                                  Integer start, Integer count) {
-        return mFrodoService.getItemPhotoList(itemType.getApiString(), itemId, start, count);
+    public ApiRequest<ItemAwardList> getItemAwardList(CollectableItem.Type itemType, long itemId,
+                                                      Integer start, Integer count) {
+        return mFrodoService.getItemAwardList(itemType.getApiString(), itemId, start, count);
     }
 
     public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
@@ -425,15 +431,21 @@ public class ApiService {
         ApiRequest<Rating> getItemRating(@Path("itemType") String itemType,
                                          @Path("itemId") long itemId);
 
-        @GET("{itemType}/{itemId}/celebrities")
-        ApiRequest<CelebrityList> getItemCelebrityList(@Path("itemType") String itemType,
-                                                       @Path("itemId") long itemId);
-
         @GET("{itemType}/{itemId}/photos")
         ApiRequest<PhotoList> getItemPhotoList(@Path("itemType") String itemType,
                                                @Path("itemId") long itemId,
                                                @Query("start") Integer start,
                                                @Query("count") Integer count);
+
+        @GET("{itemType}/{itemId}/celebrities")
+        ApiRequest<CelebrityList> getItemCelebrityList(@Path("itemType") String itemType,
+                                                       @Path("itemId") long itemId);
+
+        @GET("{itemType}/{itemId}/awards")
+        ApiRequest<ItemAwardList> getItemAwardList(@Path("itemType") String itemType,
+                                                   @Path("itemId") long itemId,
+                                                   @Query("start") Integer start,
+                                                   @Query("count") Integer count);
 
         @GET("{itemType}/{itemId}/reviews")
         ApiRequest<ReviewList> getItemReviewList(@Path("itemType") String itemType,

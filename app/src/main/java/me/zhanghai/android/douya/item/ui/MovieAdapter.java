@@ -20,8 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
+import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
@@ -42,9 +44,10 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_INTRODUCTION = 2;
     private static final int ITEM_PHOTO_LIST = 3;
     private static final int ITEM_CELEBRITY_LIST = 4;
-    private static final int ITEM_RATING = 5;
+    private static final int ITEM_AWARD_LIST = 5;
+    private static final int ITEM_RATING = 6;
 
-    private static final int ITEM_COUNT = 6;
+    private static final int ITEM_COUNT = 7;
 
     private Data mData;
 
@@ -107,6 +110,19 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         R.drawable.transparent_divider_vertical_16dp,
                         holder.celebrityList.getContext()));
                 holder.celebrityList.setAdapter(new CelebrityListAdapter());
+                return holder;
+            }
+            case ITEM_AWARD_LIST: {
+                AwardListHolder holder = new AwardListHolder(ViewUtils.inflate(
+                        R.layout.item_award_list_item, parent));
+                holder.awardList.setHasFixedSize(true);
+                holder.awardList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
+                        LinearLayoutManager.HORIZONTAL, false));
+                holder.awardList.addItemDecoration(new DividerItemDecoration(
+                        DividerItemDecoration.HORIZONTAL,
+                        R.drawable.transparent_divider_vertical_16dp,
+                        holder.awardList.getContext()));
+                holder.awardList.setAdapter(new AwardListAdapter());
                 return holder;
             }
             case ITEM_RATING:
@@ -186,6 +202,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 adapter.replace(mData.celebrityList);
                 break;
             }
+            case ITEM_AWARD_LIST: {
+                AwardListHolder awardListHolder = (AwardListHolder) holder;
+                AwardListAdapter adapter = (AwardListAdapter)
+                        awardListHolder.awardList.getAdapter();
+                adapter.replace(mData.awardList);
+                awardListHolder.itemView.setOnClickListener(view -> {
+                    // TODO
+                    UriHandler.open(mData.movie.url + "/awards/", view.getContext());
+                });
+                break;
+            }
             case ITEM_RATING: {
                 RatingHolder ratingHolder = (RatingHolder) holder;
                 ratingHolder.ratingLayout.setRating(mData.movie.rating);
@@ -203,16 +230,19 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public Movie movie;
         public Rating rating;
-        public List<SimpleCelebrity> celebrityList;
         public List<Photo> photoList;
+        public List<SimpleCelebrity> celebrityList;
+        public List<ItemAwardItem> awardList;
         public List<Review> reviewList;
 
-        public Data(Movie movie, Rating rating, List<SimpleCelebrity> celebrityList,
-                    List<Photo> photoList, List<Review> reviewList) {
+        public Data(Movie movie, Rating rating, List<Photo> photoList,
+                    List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
+                    List<Review> reviewList) {
             this.movie = movie;
             this.rating = rating;
-            this.celebrityList = celebrityList;
             this.photoList = photoList;
+            this.celebrityList = celebrityList;
+            this.awardList = awardList;
             this.reviewList = reviewList;
         }
     }
@@ -289,6 +319,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public Button viewAllButton;
 
         public PhotoListHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class AwardListHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.award_list)
+        public RecyclerView awardList;
+
+        public AwardListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

@@ -13,16 +13,17 @@ public class SimpleAwardCategory implements Parcelable {
     public String title;
 
 
-    public static final Parcelable.Creator<SimpleAwardCategory> CREATOR = new Parcelable.Creator<SimpleAwardCategory>() {
-        @Override
-        public SimpleAwardCategory createFromParcel(Parcel source) {
-            return new SimpleAwardCategory(source);
-        }
-        @Override
-        public SimpleAwardCategory[] newArray(int size) {
-            return new SimpleAwardCategory[size];
-        }
-    };
+    public static final Parcelable.Creator<SimpleAwardCategory> CREATOR =
+            new Parcelable.Creator<SimpleAwardCategory>() {
+                @Override
+                public SimpleAwardCategory createFromParcel(Parcel source) {
+                    return new SimpleAwardCategory(source);
+                }
+                @Override
+                public SimpleAwardCategory[] newArray(int size) {
+                    return new SimpleAwardCategory[size];
+                }
+            };
 
     public SimpleAwardCategory() {}
 

@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class UserItemListResource extends RawListResourceFragment<UserItems, UserItemList> {
+public class UserItemListResource extends RawListResourceFragment<UserItemList, UserItems> {
 
     private static final String KEY_PREFIX = UserItemListResource.class.getName() + '.';
 

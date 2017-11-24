@@ -1,0 +1,131 @@
+/*
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * All Rights Reserved.
+ */
+
+package me.zhanghai.android.douya.item.content;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+
+import java.util.Collections;
+import java.util.List;
+
+import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
+import me.zhanghai.android.douya.network.api.ApiError;
+import me.zhanghai.android.douya.network.api.ApiRequest;
+import me.zhanghai.android.douya.network.api.ApiService;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
+import me.zhanghai.android.douya.util.FragmentUtils;
+
+public class ItemAwardListResource
+        extends MoreRawListResourceFragment<ItemAwardList, ItemAwardItem> {
+
+    private static final String KEY_PREFIX = ItemAwardListResource.class.getName() + '.';
+
+    private static final String EXTRA_ITEM_TYPE = KEY_PREFIX + "item_type";
+    private static final String EXTRA_ITEM_ID = KEY_PREFIX + "item_id";
+
+    private CollectableItem.Type mItemType;
+    private long mItemId;
+
+    private static final String FRAGMENT_TAG_DEFAULT = ItemAwardListResource.class.getName();
+
+    private static ItemAwardListResource newInstance(CollectableItem.Type itemType, long itemId) {
+        //noinspection deprecation
+        return new ItemAwardListResource().setArguments(itemType, itemId);
+    }
+
+    public static ItemAwardListResource attachTo(CollectableItem.Type itemType, long itemId,
+                                                 Fragment fragment, String tag, int requestCode) {
+        FragmentActivity activity = fragment.getActivity();
+        ItemAwardListResource instance = FragmentUtils.findByTag(activity, tag);
+        if (instance == null) {
+            instance = newInstance(itemType, itemId);
+            instance.targetAt(fragment, requestCode);
+            FragmentUtils.add(instance, activity, tag);
+        }
+        return instance;
+    }
+
+    public static ItemAwardListResource attachTo(CollectableItem.Type itemType, long itemId,
+                                                 Fragment fragment) {
+        return attachTo(itemType, itemId, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+    }
+
+    /**
+     * @deprecated Use {@code attachTo()} instead.
+     */
+    public ItemAwardListResource() {}
+
+    protected ItemAwardListResource setArguments(CollectableItem.Type itemType, long itemId) {
+        Bundle arguments = FragmentUtils.ensureArguments(this);
+        arguments.putSerializable(EXTRA_ITEM_TYPE, itemType);
+        arguments.putLong(EXTRA_ITEM_ID, itemId);
+        return this;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mItemType = (CollectableItem.Type) getArguments().getSerializable(EXTRA_ITEM_TYPE);
+        mItemId = getArguments().getLong(EXTRA_ITEM_ID);
+    }
+
+    @Override
+    protected ApiRequest<ItemAwardList> onCreateRequest(boolean more, int count) {
+        Integer start = more ? (has() ? get().size() : 0) : null;
+        return ApiService.getInstance().getItemAwardList(mItemType, mItemId, start, count);
+    }
+
+    @Override
+    protected void onLoadStarted() {
+        getListener().onLoadAwardListStarted(getRequestCode());
+    }
+
+    @Override
+    protected void onLoadFinished(boolean more, int count, boolean successful,
+                                  ItemAwardList response, ApiError error) {
+        onLoadFinished(more, count, successful, response != null ? response.awards : null, error);
+    }
+
+    private void onLoadFinished(boolean more, int count, boolean successful,
+                                List<ItemAwardItem> response, ApiError error) {
+        getListener().onLoadAwardListFinished(getRequestCode());
+        if (successful) {
+            if (more) {
+                append(response);
+                getListener().onItemAwardListAppended(getRequestCode(),
+                        Collections.unmodifiableList(response));
+            } else {
+                set(response);
+                getListener().onItemAwardListChanged(getRequestCode(),
+                        Collections.unmodifiableList(get()));
+            }
+        } else {
+            getListener().onLoadAwardListError(getRequestCode(), error);
+        }
+    }
+
+    private Listener getListener() {
+        return (Listener) getTarget();
+    }
+
+    public interface Listener {
+        void onLoadAwardListStarted(int requestCode);
+        void onLoadAwardListFinished(int requestCode);
+        void onLoadAwardListError(int requestCode, ApiError error);
+        /**
+         * @param newAwardList Unmodifiable.
+         */
+        void onItemAwardListChanged(int requestCode, List<ItemAwardItem> newAwardList);
+        /**
+         * @param appendedAwardList Unmodifiable.
+         */
+        void onItemAwardListAppended(int requestCode, List<ItemAwardItem> appendedAwardList);
+    }
+}

@@ -14,7 +14,7 @@ import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 
 public abstract class BaseUserListResource<ResponseType>
-        extends MoreRawListResourceFragment<SimpleUser, ResponseType> {
+        extends MoreRawListResourceFragment<ResponseType, SimpleUser> {
 
     @Override
     protected ApiRequest<ResponseType> onCreateRequest(boolean more, int count) {

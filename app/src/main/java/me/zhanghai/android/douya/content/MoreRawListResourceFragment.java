@@ -7,8 +7,8 @@ package me.zhanghai.android.douya.content;
 
 import java.util.List;
 
-public abstract class MoreRawListResourceFragment<ResourceType, ResponseType>
-        extends MoreListResourceFragment<List<ResourceType>, ResponseType> {
+public abstract class MoreRawListResourceFragment<ResponseType, ResourceType>
+        extends MoreListResourceFragment<ResponseType, List<ResourceType>> {
 
     @Override
     protected int getSize(List<ResourceType> resource) {

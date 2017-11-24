@@ -32,7 +32,7 @@ import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class NotificationListResource
-        extends MoreRawListResourceFragment<Notification, NotificationList> {
+        extends MoreRawListResourceFragment<NotificationList, Notification> {
 
     private final Handler mHandler = new Handler();
     private boolean mStopped;

@@ -8,8 +8,8 @@ package me.zhanghai.android.douya.content;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 
-public abstract class MoreListResourceFragment<ResourceListType, ResponseType>
-        extends ListResourceFragment<ResourceListType, ResponseType> {
+public abstract class MoreListResourceFragment<ResponseType, ResourceListType>
+        extends ListResourceFragment<ResponseType, ResourceListType> {
 
     private static final int DEFAULT_LOAD_COUNT = 20;
 

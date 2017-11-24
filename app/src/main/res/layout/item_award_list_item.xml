@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:foreground="?selectableItemBackground"
+    android:orientation="vertical">
+
+    <!-- Setting top and bottom padding on the list so that user can scroll better. -->
+    <me.zhanghai.android.douya.ui.DispatchTouchEventToParentNestedRecyclerView
+        android:id="@+id/award_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:paddingTop="@dimen/content_vertical_space"
+        android:paddingBottom="@dimen/content_vertical_space"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay" />
+</FrameLayout>

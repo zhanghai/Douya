@@ -16,7 +16,7 @@ public class Celebrity extends SimpleCelebrity {
     @SerializedName("album")
     public PhotoList photos;
 
-    public ArrayList<AwardItem> awards = new ArrayList<>();
+    public ArrayList<CelebrityAwardItem> awards = new ArrayList<>();
 
     @SerializedName("awards_count")
     public int awardCount;
@@ -74,7 +74,7 @@ public class Celebrity extends SimpleCelebrity {
         super(in);
 
         photos = in.readParcelable(PhotoList.class.getClassLoader());
-        awards = in.createTypedArrayList(AwardItem.CREATOR);
+        awards = in.createTypedArrayList(CelebrityAwardItem.CREATOR);
         awardCount = in.readInt();
         backgroundColor = in.readString();
         fanCount = in.readInt();

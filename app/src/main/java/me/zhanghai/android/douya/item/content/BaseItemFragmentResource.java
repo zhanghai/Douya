@@ -12,6 +12,7 @@ import java.util.List;
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
@@ -23,8 +24,8 @@ import me.zhanghai.android.douya.util.FragmentUtils;
 public abstract class BaseItemFragmentResource<SimpleItemType extends CollectableItem,
         ItemType extends SimpleItemType> extends TargetedRetainedFragment
         implements BaseItemResource.Listener<ItemType>, RatingResource.Listener,
-        CelebrityListResource.Listener, ItemPhotoListResource.Listener,
-        ItemReviewListResource.Listener {
+        ItemPhotoListResource.Listener, CelebrityListResource.Listener,
+        ItemAwardListResource.Listener, ItemReviewListResource.Listener {
 
     private final String KEY_PREFIX = getClass().getName() + '.';
 
@@ -41,8 +42,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     private BaseItemResource<SimpleItemType, ItemType> mItemResource;
     private RatingResource mRatingResource;
-    private CelebrityListResource mCelebrityListResource;
     private ItemPhotoListResource mPhotoListResource;
+    private CelebrityListResource mCelebrityListResource;
+    private ItemAwardListResource mAwardListResource;
     private ItemReviewListResource mReviewListResource;
 
     private boolean mHasError;
@@ -95,11 +97,14 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         mItemResource = onAttachItemResource(mItemId, mSimpleItem, mItem);
         CollectableItem.Type itemType = getItemType();
         mRatingResource = RatingResource.attachTo(itemType, mItemId, this);
+        if (hasPhotoList()) {
+            mPhotoListResource = ItemPhotoListResource.attachTo(itemType, mItemId, this);
+        }
         if (hasCelebrityList()) {
             mCelebrityListResource = CelebrityListResource.attachTo(itemType, mItemId, this);
         }
-        if (hasPhotoList()) {
-            mPhotoListResource = ItemPhotoListResource.attachTo(itemType, mItemId, this);
+        if (hasAwardList()) {
+            mAwardListResource = ItemAwardListResource.attachTo(itemType, mItemId, this);
         }
         if (hasReviewList()) {
             mReviewListResource = ItemReviewListResource.attachTo(itemType, mItemId, this);
@@ -130,9 +135,11 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     protected abstract CollectableItem.Type getItemType();
 
+    protected abstract boolean hasPhotoList();
+
     protected abstract boolean hasCelebrityList();
 
-    protected abstract boolean hasPhotoList();
+    protected abstract boolean hasAwardList();
 
     protected abstract boolean hasReviewList();
 
@@ -142,11 +149,14 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
         mItemResource.detach();
         mRatingResource.detach();
+        if (mPhotoListResource != null) {
+            mPhotoListResource.detach();
+        }
         if (mCelebrityListResource != null) {
             mCelebrityListResource.detach();
         }
-        if (mPhotoListResource != null) {
-            mPhotoListResource.detach();
+        if (mAwardListResource != null) {
+            mAwardListResource.detach();
         }
         if (mReviewListResource != null) {
             mReviewListResource.detach();
@@ -206,22 +216,6 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
-    public void onLoadCelebrityListStarted(int requestCode) {}
-
-    @Override
-    public void onLoadCelebrityListFinished(int requestCode) {}
-
-    @Override
-    public void onLoadCelebrityListError(int requestCode, ApiError error) {
-        notifyError(error);
-    }
-
-    @Override
-    public void onCelebrityListChanged(int requestCode, List<SimpleCelebrity> newCelebrityList) {
-        notifyChangedIfLoaded();
-    }
-
-    @Override
     public void onLoadPhotoListStarted(int requestCode) {}
 
     @Override
@@ -244,6 +238,43 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onPhotoRemoved(int requestCode, int position) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onLoadCelebrityListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadCelebrityListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadCelebrityListError(int requestCode, ApiError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onCelebrityListChanged(int requestCode, List<SimpleCelebrity> newCelebrityList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onLoadAwardListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadAwardListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadAwardListError(int requestCode, ApiError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onItemAwardListChanged(int requestCode, List<ItemAwardItem> newAwardList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onItemAwardListAppended(int requestCode, List<ItemAwardItem> appendedAwardList) {
         notifyChangedIfLoaded();
     }
 
@@ -280,9 +311,10 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     public boolean isLoaded() {
         return hasItem() && (mRatingResource != null && mRatingResource.has())
+                && (!hasPhotoList() || (mPhotoListResource != null && mPhotoListResource.has()))
                 && (!hasCelebrityList() || (mCelebrityListResource != null
                         && mCelebrityListResource.has()))
-                && (!hasPhotoList() || (mPhotoListResource != null && mPhotoListResource.has()))
+                && (!hasAwardList() || (mAwardListResource != null && mAwardListResource.has()))
                 && (!hasReviewList() || (mReviewListResource != null && mReviewListResource.has()));
     }
 
@@ -294,15 +326,18 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
             rating.rating = item.rating;
             rating.ratingUnavailableReason = item.ratingUnavailableReason;
             notifyChanged(getRequestCode(), item, rating,
-                    hasCelebrityList() ? mCelebrityListResource.get() : null,
                     hasPhotoList() ? mPhotoListResource.get() : null,
+                    hasCelebrityList() ? mCelebrityListResource.get() : null,
+                    hasAwardList() ? mAwardListResource.get() : null,
                     hasReviewList() ? mReviewListResource.get() : null);
         }
     }
 
     protected abstract void notifyChanged(int requestCode, ItemType newItem, Rating newRating,
+                                          List<Photo> newPhotoList,
                                           List<SimpleCelebrity> newCelebrityList,
-                                          List<Photo> newPhotoList, List<Review> newReviewList);
+                                          List<ItemAwardItem> newAwardList,
+                                          List<Review> newReviewList);
 
     private void notifyError(ApiError error) {
         if (!mHasError) {
