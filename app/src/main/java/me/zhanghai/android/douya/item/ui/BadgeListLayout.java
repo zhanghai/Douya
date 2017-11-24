@@ -175,7 +175,7 @@ public class BadgeListLayout extends HorizontalScrollView {
                     mFollowingsRatingCountText, mFollowingsRatingCountIconImage);
             mFollowingsRatingLayout.setOnClickListener(view -> {
                 // TODO
-                UriHandler.open(item.url + "/follows_comments", view.getContext());
+                UriHandler.open(item.url + "/collections?show_followings=on", view.getContext());
             });
         }
     }
