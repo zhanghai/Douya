@@ -240,6 +240,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 RatingHolder ratingHolder = (RatingHolder) holder;
                 ratingHolder.ratingLayout.setRating(mData.rating.rating);
                 ratingHolder.ratingDistributionLayout.setRating(mData.rating);
+                ratingHolder.itemView.setOnClickListener(view -> {
+                    // TODO
+                });
                 break;
             }
         }
