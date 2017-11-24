@@ -11,10 +11,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class DiaryList extends BaseList {
+public class DiaryList extends BaseList<Diary> {
 
     @SerializedName("notes")
     public ArrayList<Diary> diaries = new ArrayList<>();
+
+    @Override
+    public ArrayList<Diary> getList() {
+        return diaries;
+    }
 
 
     public static final Creator<DiaryList> CREATOR = new Creator<DiaryList>() {

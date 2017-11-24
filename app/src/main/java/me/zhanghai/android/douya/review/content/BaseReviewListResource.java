@@ -11,25 +11,16 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
+import me.zhanghai.android.douya.content.MoreBaseListResourceFragment;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.ReviewDeletedEvent;
 import me.zhanghai.android.douya.eventbus.ReviewUpdatedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 
 public abstract class BaseReviewListResource
-        extends MoreRawListResourceFragment<ReviewList, Review> {
-
-    @Override
-    protected ApiRequest<ReviewList> onCreateRequest(boolean more, int count) {
-        Integer start = more ? (has() ? get().size() : 0) : null;
-        return onCreateRequest(start, count);
-    }
-
-    protected abstract ApiRequest<ReviewList> onCreateRequest(Integer start, Integer count);
+        extends MoreBaseListResourceFragment<ReviewList, Review> {
 
     @Override
     protected void onLoadStarted() {
@@ -37,13 +28,8 @@ public abstract class BaseReviewListResource
     }
 
     @Override
-    protected void onLoadFinished(boolean more, int count, boolean successful, ReviewList response,
-                                  ApiError error) {
-        onLoadFinished(more, count, successful, response != null ? response.reviews : null, error);
-    }
-
-    private void onLoadFinished(boolean more, int count, boolean successful,
-                                List<Review> response, ApiError error) {
+    protected void onLoadFinished(boolean more, int count, boolean successful,
+                                  List<Review> response, ApiError error) {
         getListener().onLoadReviewListFinished(getRequestCode());
         if (successful) {
             if (more) {

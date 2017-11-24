@@ -14,20 +14,11 @@ import java.util.List;
 import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.eventbus.CommentDeletedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
 import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 
 public abstract class CommentListResource
         extends MoreRawListResourceFragment<CommentList, Comment> {
-
-    @Override
-    protected ApiRequest<CommentList> onCreateRequest(boolean more, int count) {
-        Integer start = more && has() ? get().size() : null;
-        return onCreateRequest(start, count);
-    }
-
-    protected abstract ApiRequest<CommentList> onCreateRequest(Integer start, Integer count);
 
     @Override
     protected void onLoadStarted() {

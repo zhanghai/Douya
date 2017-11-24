@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
+import me.zhanghai.android.douya.content.MoreBaseListResourceFragment;
 import me.zhanghai.android.douya.eventbus.DiaryDeletedEvent;
 import me.zhanghai.android.douya.eventbus.DiaryUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
@@ -26,7 +26,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class UserDiaryListResource extends MoreRawListResourceFragment<DiaryList, Diary> {
+public class UserDiaryListResource extends MoreBaseListResourceFragment<DiaryList, Diary> {
 
     private static final String KEY_PREFIX = UserDiaryListResource.class.getName() + '.';
 
@@ -76,8 +76,7 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<DiaryList
     }
 
     @Override
-    protected ApiRequest<DiaryList> onCreateRequest(boolean more, int count) {
-        Integer start = more ? (has() ? get().size() : 0) : null;
+    protected ApiRequest<DiaryList> onCreateRequest(Integer start, Integer count) {
         return ApiService.getInstance().getDiaryList(mUserIdOrUid, start, count);
     }
 
@@ -87,13 +86,8 @@ public class UserDiaryListResource extends MoreRawListResourceFragment<DiaryList
     }
 
     @Override
-    protected void onLoadFinished(boolean more, int count, boolean successful, DiaryList response,
+    protected void onLoadFinished(boolean more, int count, boolean successful, List<Diary> response,
                                   ApiError error) {
-        onLoadFinished(more, count, successful, response != null ? response.diaries : null, error);
-    }
-
-    private void onLoadFinished(boolean more, int count, boolean successful, List<Diary> response,
-                                ApiError error) {
         getListener().onLoadDiaryListFinished(getRequestCode());
         if (successful) {
             if (more) {

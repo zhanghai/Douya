@@ -11,22 +11,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
+import me.zhanghai.android.douya.content.MoreBaseListResourceFragment;
 import me.zhanghai.android.douya.eventbus.PhotoDeletedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.PhotoList;
 
-public abstract class BasePhotoListResource extends MoreRawListResourceFragment<PhotoList, Photo> {
-
-    @Override
-    protected ApiRequest<PhotoList> onCreateRequest(boolean more, int count) {
-        Integer start = more && has() ? get().size() : null;
-        return onCreateRequest(start, count);
-    }
-
-    protected abstract ApiRequest<PhotoList> onCreateRequest(Integer start, Integer count);
+public abstract class BasePhotoListResource extends MoreBaseListResourceFragment<PhotoList, Photo> {
 
     @Override
     protected void onLoadStarted() {
@@ -34,13 +25,8 @@ public abstract class BasePhotoListResource extends MoreRawListResourceFragment<
     }
 
     @Override
-    protected void onLoadFinished(boolean more, int count, boolean successful, PhotoList response,
+    protected void onLoadFinished(boolean more, int count, boolean successful, List<Photo> response,
                                   ApiError error) {
-        onLoadFinished(more, count, successful, response != null ? response.photos : null, error);
-    }
-
-    private void onLoadFinished(boolean more, int count, boolean successful, List<Photo> response,
-                                ApiError error) {
         getListener().onLoadPhotoListFinished(getRequestCode());
         if (successful) {
             if (more) {

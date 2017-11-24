@@ -10,19 +10,10 @@ import java.util.List;
 
 import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 
 public abstract class BaseUserListResource<ResponseType>
         extends MoreRawListResourceFragment<ResponseType, SimpleUser> {
-
-    @Override
-    protected ApiRequest<ResponseType> onCreateRequest(boolean more, int count) {
-        Integer start = more ? (has() ? get().size() : 0) : null;
-        return onCreateRequest(start, count);
-    }
-
-    protected abstract ApiRequest<ResponseType> onCreateRequest(Integer start, Integer count);
 
     @Override
     protected void onLoadStarted() {

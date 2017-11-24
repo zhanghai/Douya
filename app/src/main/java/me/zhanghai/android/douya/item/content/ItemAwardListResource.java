@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import java.util.Collections;
 import java.util.List;
 
-import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
+import me.zhanghai.android.douya.content.MoreBaseListResourceFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
@@ -22,7 +22,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ItemAwardListResource
-        extends MoreRawListResourceFragment<ItemAwardList, ItemAwardItem> {
+        extends MoreBaseListResourceFragment<ItemAwardList, ItemAwardItem> {
 
     private static final String KEY_PREFIX = ItemAwardListResource.class.getName() + '.';
 
@@ -77,8 +77,7 @@ public class ItemAwardListResource
     }
 
     @Override
-    protected ApiRequest<ItemAwardList> onCreateRequest(boolean more, int count) {
-        Integer start = more ? (has() ? get().size() : 0) : null;
+    protected ApiRequest<ItemAwardList> onCreateRequest(Integer start, Integer count) {
         return ApiService.getInstance().getItemAwardList(mItemType, mItemId, start, count);
     }
 
@@ -89,12 +88,7 @@ public class ItemAwardListResource
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
-                                  ItemAwardList response, ApiError error) {
-        onLoadFinished(more, count, successful, response != null ? response.awards : null, error);
-    }
-
-    private void onLoadFinished(boolean more, int count, boolean successful,
-                                List<ItemAwardItem> response, ApiError error) {
+                                  List<ItemAwardItem> response, ApiError error) {
         getListener().onLoadAwardListFinished(getRequestCode());
         if (successful) {
             if (more) {

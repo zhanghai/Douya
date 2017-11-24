@@ -97,6 +97,11 @@ public class BroadcastListResource extends MoreRawListResourceFragment<List<Broa
     }
 
     @Override
+    protected ApiRequest<List<Broadcast>> onCreateRequest(Integer start, Integer count) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     protected void onLoadStarted() {
         getListener().onLoadBroadcastListStarted(getRequestCode());
     }

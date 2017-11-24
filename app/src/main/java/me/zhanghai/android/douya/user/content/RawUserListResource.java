@@ -13,8 +13,6 @@ import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 
 public abstract class RawUserListResource extends BaseUserListResource<List<SimpleUser>> {
 
-    protected abstract ApiRequest<List<SimpleUser>> onCreateRequest(Integer start, Integer count);
-
     @Override
     protected void onCallRawLoadFinished(boolean more, int count, boolean successful,
                                          List<SimpleUser> response, ApiError error) {

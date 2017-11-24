@@ -8,13 +8,18 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public abstract class BaseList implements Parcelable {
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class BaseList<T> implements Parcelable {
 
     public int count;
 
     public int start;
 
     public int total;
+
+    public abstract ArrayList<T> getList();
 
 
     public BaseList() {}

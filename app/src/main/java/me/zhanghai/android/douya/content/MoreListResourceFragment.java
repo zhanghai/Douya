@@ -71,7 +71,11 @@ public abstract class MoreListResourceFragment<ResponseType, ResourceListType>
         return onCreateRequest(mLoadingMore, mLoadCount);
     }
 
-    protected abstract ApiRequest<ResponseType> onCreateRequest(boolean more, int count);
+    protected ApiRequest<ResponseType> onCreateRequest(boolean more, int count) {
+        return onCreateRequest(more && has() ? getSize(get()) : null, count);
+    }
+
+    protected abstract ApiRequest<ResponseType> onCreateRequest(Integer start, Integer count);
 
     @Override
     protected final void onLoadFinished(boolean successful, ResponseType response,

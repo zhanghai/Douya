@@ -9,10 +9,14 @@ import android.os.Parcel;
 
 import java.util.ArrayList;
 
-public class ItemAwardList extends BaseList {
+public class ItemAwardList extends BaseList<ItemAwardItem> {
 
     public ArrayList<ItemAwardItem> awards = new ArrayList<>();
 
+    @Override
+    public ArrayList<ItemAwardItem> getList() {
+        return awards;
+    }
 
     public static final Creator<ItemAwardList> CREATOR = new Creator<ItemAwardList>() {
         @Override

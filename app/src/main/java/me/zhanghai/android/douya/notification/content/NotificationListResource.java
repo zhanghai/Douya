@@ -147,9 +147,8 @@ public class NotificationListResource
     }
 
     @Override
-    protected ApiRequest<NotificationList> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<NotificationList> onCreateRequest(Integer start, Integer count) {
         mAccount = AccountUtils.getActiveAccount();
-        Integer start = more ? (has() ? get().size() : 0) : null;
         return ApiService.getInstance().getNotificationList(start, count);
     }
 

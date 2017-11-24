@@ -10,10 +10,14 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class PhotoList extends BaseList implements Parcelable {
+public class PhotoList extends BaseList<Photo> implements Parcelable {
 
     public ArrayList<Photo> photos = new ArrayList<>();
 
+    @Override
+    public ArrayList<Photo> getList() {
+        return photos;
+    }
 
     public static final Creator<PhotoList> CREATOR =
             new Creator<PhotoList>() {

@@ -11,8 +11,6 @@ import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 
 public abstract class UserListResource extends BaseUserListResource<UserList> {
 
-    protected abstract ApiRequest<UserList> onCreateRequest(Integer start, Integer count);
-
     @Override
     protected void onCallRawLoadFinished(boolean more, int count, boolean successful,
                                          UserList response, ApiError error) {
