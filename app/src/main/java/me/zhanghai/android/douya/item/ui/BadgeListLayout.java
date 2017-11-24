@@ -28,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleRating;
@@ -124,11 +125,8 @@ public class BadgeListLayout extends HorizontalScrollView {
         followingsRatingBadgeDrawable = DrawableCompat.wrap(followingsRatingBadgeDrawable);
         DrawableCompat.setTint(followingsRatingBadgeDrawable, colorAccent);
         ViewCompat.setBackground(mFollowingsRatingBadgeLayout, followingsRatingBadgeDrawable);
-        mSimilarItemsLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
-            }
+        mSimilarItemsLayout.setOnClickListener(view -> {
+            // TODO
         });
     }
 
@@ -151,42 +149,34 @@ public class BadgeListLayout extends HorizontalScrollView {
         }
         final Context context = getContext();
         mTop250RankText.setText(context.getString(R.string.item_top_250_rank_format, honor.rank));
-        mTop250Layout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //UriHandler.open(honor.uri, context);
-                // HACK
-                UriHandler.open("https://movie.douban.com/top250", context);
-            }
+        mTop250Layout.setOnClickListener(view -> {
+            //UriHandler.open(honor.uri, context);
+            // HACK
+            // TODO
+            UriHandler.open("https://movie.douban.com/top250", context);
         });
     }
 
-    public void setRating(Rating rating) {
+    public void setRating(Rating rating, CollectableItem item) {
         if (TextUtils.isEmpty(rating.ratingUnavailableReason)) {
             setRating(rating.rating, mRatingText, mRatingBar, mRatingCountText,
                     mRatingCountIconImage);
         } else {
             setRatingUnavailable(rating.ratingUnavailableReason);
         }
-        mRatingLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
-            }
+        mRatingLayout.setOnClickListener(view -> {
+            // TODO
+            UriHandler.open(item.url + "/collections", view.getContext());
         });
         boolean hasFollowingsRating = rating.followingsRating != null;
         ViewUtils.setVisibleOrGone(mFollowingsRatingLayout, hasFollowingsRating);
         if (hasFollowingsRating) {
             setRating(rating.followingsRating, mFollowingsRatingText, mFollowingsRatingBar,
                     mFollowingsRatingCountText, mFollowingsRatingCountIconImage);
-            mFollowingsRatingLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // TODO
-                }
+            mFollowingsRatingLayout.setOnClickListener(view -> {
+                // TODO
+                UriHandler.open(item.url + "/follows_comments", view.getContext());
             });
-        } else {
-            ViewUtils.setVisibleOrGone(mFollowingsRatingLayout, false);
         }
     }
 
@@ -216,11 +206,8 @@ public class BadgeListLayout extends HorizontalScrollView {
     public void setGenre(int genreBadgeResId, CharSequence genre) {
         mGenreBadgeImage.setImageResource(genreBadgeResId);
         mGenreText.setText(genre);
-        mGenreLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
-            }
+        mGenreLayout.setOnClickListener(view -> {
+            // TODO
         });
     }
 

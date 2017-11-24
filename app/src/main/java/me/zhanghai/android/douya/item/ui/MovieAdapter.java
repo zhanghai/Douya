@@ -181,7 +181,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
                 }
                 badgeListHolder.badgeListLayout.setTop250(top250Honor);
-                badgeListHolder.badgeListLayout.setRating(mData.rating);
+                badgeListHolder.badgeListLayout.setRating(mData.rating, mData.movie);
                 badgeListHolder.badgeListLayout.setGenre(R.drawable.movie_badge_white_40dp,
                         mData.movie.genres.get(0));
                 break;
