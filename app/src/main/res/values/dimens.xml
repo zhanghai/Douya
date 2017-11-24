@@ -103,6 +103,8 @@
 
     <dimen name="item_celebrity_avatar_height">120dp</dimen>
     <dimen name="item_gallery_height">240dp</dimen>
+    <dimen name="item_rating_distribution_bar_min_width">1dp</dimen>
+    <dimen name="item_rating_distribution_bar_max_width">160dp</dimen>
 
     <dimen name="image_min_width">240dp</dimen>
     <dimen name="image_max_height">640dp</dimen>

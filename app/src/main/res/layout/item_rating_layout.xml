@@ -42,9 +42,7 @@
             android:minHeight="14dp"
             android:maxHeight="14dp"
             app:mrb_progressTint="?android:textColorSecondary"
-            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small"
-
-            android:rating="3.5" />
+            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
 
         <include layout="@layout/item_rating_count_layout"/>
     </LinearLayout>

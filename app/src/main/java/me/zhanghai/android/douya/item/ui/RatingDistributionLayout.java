@@ -13,9 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import java.util.Collections;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.api.info.frodo.Rating;
+import me.zhanghai.android.douya.ui.PercentageWidthView;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class RatingDistributionLayout extends TableLayout {
@@ -58,14 +62,6 @@ public class RatingDistributionLayout extends TableLayout {
             mRowHolders[i] = rowHolder;
             addView(rowView);
         }
-
-        // FIXME: Only for debugging.
-        setCompact(true);
-        for (int i = 0; i < mRowHolders.length; i++) {
-            RowHolder rowHolder = mRowHolders[i];
-            ((LinearLayout) rowHolder.mBarView.getParent()).setWeightSum(5);
-            ((LinearLayout.LayoutParams) rowHolder.mBarView.getLayoutParams()).weight = 5 - i;
-        }
     }
 
     private static String makeStars(int count) {
@@ -86,7 +82,17 @@ public class RatingDistributionLayout extends TableLayout {
         setShowDividers(compact ? SHOW_DIVIDER_NONE : SHOW_DIVIDER_MIDDLE);
         setColumnCollapsed(0, compact);
         for (RowHolder row : mRowHolders) {
+            row.mBarView.setMaxWidthEnabled(!compact);
             ViewUtils.setVisibleOrGone(row.mCountText, !compact);
+        }
+    }
+
+    public void setRating(Rating rating) {
+        float maxPercentage = Collections.max(rating.distribution);
+        for (int i = 0; i < mRowHolders.length; ++i) {
+            RowHolder rowHolder = mRowHolders[i];
+            float percentage = rating.distribution.get(mRowHolders.length - 1 - i);
+            rowHolder.mBarView.setWidthPercentage(percentage / maxPercentage);
         }
     }
 
@@ -95,7 +101,7 @@ public class RatingDistributionLayout extends TableLayout {
         @BindView(R.id.rating_distribution_stars)
         public TextView mStarsText;
         @BindView(R.id.rating_distribution_bar)
-        public View mBarView;
+        public PercentageWidthView mBarView;
         @BindView(R.id.rating_distribution_count)
         public TextView mCountText;
 

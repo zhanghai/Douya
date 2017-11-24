@@ -26,21 +26,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <View
+        <me.zhanghai.android.douya.ui.PercentageWidthView
             android:id="@+id/rating_distribution_bar"
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:minHeight="8dp"
-
-            android:layout_weight="1" />
+            android:minWidth="@dimen/item_rating_distribution_bar_min_width"
+            android:maxWidth="@dimen/item_rating_distribution_bar_max_width"
+            android:minHeight="8dp" />
 
         <TextView
             android:id="@+id/rating_distribution_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-
-            android:text="1,274" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
     </LinearLayout>
 </TableRow>

@@ -115,6 +115,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_AWARD_LIST: {
                 AwardListHolder holder = new AwardListHolder(ViewUtils.inflate(
                         R.layout.item_award_list_item, parent));
+                ViewUtils.setVisibleOrGone(holder.awardList, !mData.awardList.isEmpty());
                 holder.awardList.setHasFixedSize(true);
                 holder.awardList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
                         LinearLayoutManager.HORIZONTAL, false));
@@ -125,8 +126,12 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 holder.awardList.setAdapter(new AwardListAdapter());
                 return holder;
             }
-            case ITEM_RATING:
-                return new RatingHolder(ViewUtils.inflate(R.layout.item_rating_item, parent));
+            case ITEM_RATING: {
+                RatingHolder holder = new RatingHolder(ViewUtils.inflate(R.layout.item_rating_item,
+                        parent));
+                holder.ratingDistributionLayout.setCompact(true);
+                return holder;
+            }
             default:
                 return null;
         }
@@ -215,7 +220,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_RATING: {
                 RatingHolder ratingHolder = (RatingHolder) holder;
-                ratingHolder.ratingLayout.setRating(mData.movie.rating);
+                ratingHolder.ratingLayout.setRating(mData.rating.rating);
+                ratingHolder.ratingDistributionLayout.setRating(mData.rating);
                 break;
             }
         }
@@ -341,6 +347,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @BindView(R.id.rating_layout)
         public RatingLayout ratingLayout;
+        @BindView(R.id.rating_distribution_layout)
+        public RatingDistributionLayout ratingDistributionLayout;
 
         public RatingHolder(View itemView) {
             super(itemView);
