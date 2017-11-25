@@ -91,6 +91,7 @@
     <dimen name="toolbar_button_size">48dp</dimen>
     <dimen name="avatar_size">40dp</dimen>
     <dimen name="avatar_padding">4dp</dimen>
+    <dimen name="avatar_padding_negative">-4dp</dimen>
     <dimen name="avatar_small_padding">12dp</dimen>
     <dimen name="icon_button_padding">12dp</dimen>
     <!-- Fab internally sets a 14dp margin on pre-Lollipop devices. -->
@@ -102,7 +103,7 @@
     <dimen name="profile_small_avatar_size">32dp</dimen>
 
     <dimen name="item_celebrity_avatar_height">120dp</dimen>
-    <dimen name="item_gallery_height">240dp</dimen>
+    <dimen name="item_photo_list_height">240dp</dimen>
     <dimen name="item_rating_distribution_bar_min_width">1dp</dimen>
     <dimen name="item_rating_distribution_bar_max_width">160dp</dimen>
 

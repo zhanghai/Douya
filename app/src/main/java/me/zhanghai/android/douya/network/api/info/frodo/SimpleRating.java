@@ -5,8 +5,11 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import me.zhanghai.android.douya.R;
 
 public class SimpleRating implements Parcelable {
 
@@ -15,6 +18,20 @@ public class SimpleRating implements Parcelable {
     public int max;
 
     public float value;
+
+    public String getRatingString(Context context) {
+        float rating = (float) Math.round(value / max * 10 * 10) / 10;
+        return context.getString(rating == 10 ? R.string.item_rating_format_ten
+                : R.string.item_rating_format, rating);
+    }
+
+    public float getRatingBarValue() {
+        return (float) Math.round(value / max * 10) / 2;
+    }
+
+    public String getRatingCountString(Context context) {
+        return context.getString(R.string.item_rating_count_format, count);
+    }
 
 
     public static final Parcelable.Creator<SimpleRating> CREATOR =

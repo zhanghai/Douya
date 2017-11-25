@@ -12,6 +12,7 @@ import me.zhanghai.android.douya.R;
 
 public enum ItemCollectionState {
 
+    // FIXME: Frodo API change, see Interest.
     TODO(new String[] { "mark", "wish" }, R.string.item_todo_format),
     DOING(new String[] { "doing", "do" }, R.string.item_doing_format),
     DONE(new String[] { "done", "collect"}, R.string.item_done_format);

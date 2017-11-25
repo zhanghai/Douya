@@ -17,10 +17,10 @@ import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class AwardListAdapter
-        extends SimpleAdapter<ItemAwardItem, AwardListAdapter.ViewHolder> {
+public class ItemAwardListAdapter
+        extends SimpleAdapter<ItemAwardItem, ItemAwardListAdapter.ViewHolder> {
 
-    public AwardListAdapter() {
+    public ItemAwardListAdapter() {
         setHasStableIds(true);
     }
 

@@ -15,16 +15,16 @@
     <me.zhanghai.android.douya.ui.NestedRecyclerView
         android:id="@+id/photo_list"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_gallery_height" />
+        android:layout_height="@dimen/item_photo_list_height" />
 
     <Button
-        android:id="@+id/view_all"
+        android:id="@+id/view_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:paddingTop="@dimen/card_vertical_space"
         android:paddingBottom="@dimen/card_vertical_space"
         android:includeFontPadding="false"
-        android:text="@string/item_gallery_view_all"
+        android:text="@string/item_photo_list_view_more"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
 </LinearLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:paddingTop="@dimen/content_vertical_space"
+        android:paddingBottom="@dimen/content_vertical_space"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_collection_list_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <me.zhanghai.android.douya.ui.ColoredBorderButton
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginRight="-4dp"
+            android:layout_marginTop="-6dp"
+            android:layout_marginBottom="-6dp"
+            android:padding="6dp"
+            android:text="@string/item_collection_list_create"
+            android:textSize="@dimen/abc_text_size_caption_material"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+    </LinearLayout>
+
+    <me.zhanghai.android.douya.ui.AdapterLinearLayout
+        android:id="@+id/item_collection_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/transparent_divider_horizontal_16dp"
+        android:orientation="vertical"
+        android:showDividers="middle" />
+
+    <Button
+        android:id="@+id/view_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:paddingTop="@dimen/card_vertical_space"
+        android:paddingBottom="@dimen/card_vertical_space"
+        android:includeFontPadding="false"
+        android:text="@string/item_collection_list_view_more"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
+</LinearLayout>

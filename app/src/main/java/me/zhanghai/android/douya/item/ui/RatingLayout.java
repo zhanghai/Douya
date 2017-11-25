@@ -60,13 +60,9 @@ public class RatingLayout extends LinearLayout {
     }
 
     public void setRating(SimpleRating rating) {
-        float ratingOutOfTen = (float) Math.round(rating.value / rating.max * 10 * 10) / 10;
-        String ratingString = getContext().getString(R.string.item_rating_format, ratingOutOfTen);
-        mRatingText.setText(ratingString);
-        float ratingValue = (float) Math.round(rating.value / rating.max * 10) / 2;
-        mRatingBar.setRating(ratingValue);
-        String ratingCount = getContext().getString(R.string.item_rating_count_format,
-                rating.count);
-        mRatingCountText.setText(ratingCount);
+        Context context = getContext();
+        mRatingText.setText(rating.getRatingString(context));
+        mRatingBar.setRating(rating.getRatingBarValue());
+        mRatingCountText.setText(rating.getRatingCountString(context));
     }
 }

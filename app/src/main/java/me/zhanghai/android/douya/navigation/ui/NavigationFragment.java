@@ -27,6 +27,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.content.AccountUserResource;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.link.NotImplementedManager;
+import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
@@ -116,6 +117,10 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.navigation_home:
+                                break;
+                            case R.id.navigation_movie:
+                                // TODO
+                                UriHandler.open("https://movie.douban.com/", getActivity());
                                 break;
                             case R.id.navigation_settings:
                                 openSettings();

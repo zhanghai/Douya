@@ -13,6 +13,7 @@ import java.util.List;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.MovieFragmentResource;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
@@ -64,13 +65,15 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     @Override
     public void onChanged(int requestCode, Movie newMovie, Rating newRating,
                           List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
-                          List<ItemAwardItem> newAwardList, List<Review> newReviewList) {
-        update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList, newReviewList);
+                          List<ItemAwardItem> newAwardList,
+                          List<ItemCollection> newItemCollectionList, List<Review> newReviewList) {
+        update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
+                newItemCollectionList, newReviewList);
     }
 
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                        List<Review> reviewList) {
+                        List<ItemCollection> itemCollectionList, List<Review> reviewList) {
 
         super.updateWithSimpleItem(movie);
 
@@ -89,6 +92,6 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
 
         mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
-                celebrityList, awardList, reviewList));
+                celebrityList, awardList, itemCollectionList, reviewList));
     }
 }

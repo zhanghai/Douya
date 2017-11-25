@@ -25,12 +25,14 @@ import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
+import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.RatioImageView;
@@ -47,8 +49,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_CELEBRITY_LIST = 4;
     private static final int ITEM_AWARD_LIST = 5;
     private static final int ITEM_RATING = 6;
+    private static final int ITEM_COLLECTION_LIST = 7;
 
-    private static final int ITEM_COUNT = 7;
+    private static final int ITEM_COUNT = 8;
+
+    private static final int ITEM_COLLECTION_MAX_SIZE = 5;
 
     private Data mData;
 
@@ -124,13 +129,21 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         DividerItemDecoration.HORIZONTAL,
                         R.drawable.transparent_divider_vertical_16dp,
                         holder.awardList.getContext()));
-                holder.awardList.setAdapter(new AwardListAdapter());
+                holder.awardList.setAdapter(new ItemAwardListAdapter());
                 return holder;
             }
             case ITEM_RATING: {
                 RatingHolder holder = new RatingHolder(ViewUtils.inflate(R.layout.item_rating_item,
                         parent));
                 holder.ratingDistributionLayout.setCompact(true);
+                return holder;
+            }
+            case ITEM_COLLECTION_LIST: {
+                ItemCollectionListHolder holder = new ItemCollectionListHolder(ViewUtils.inflate(
+                        R.layout.item_collection_list_item, parent));
+                ViewUtils.setVisibleOrGone(holder.itemCollectionList,
+                        !mData.itemCollectionList.isEmpty());
+                holder.itemCollectionList.setAdapter(new ItemCollectionListAdapter());
                 return holder;
             }
             default:
@@ -212,7 +225,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     context.startActivity(GalleryActivity.makeImageListIntent(mData.photoList,
                             photoPosition, photoListHolder.photoList.getContext()));
                 });
-                photoListHolder.viewAllButton.setOnClickListener(view -> {
+                photoListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
                     UriHandler.open(mData.movie.url + "/photos", context);
                 });
@@ -227,7 +240,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_AWARD_LIST: {
                 AwardListHolder awardListHolder = (AwardListHolder) holder;
-                AwardListAdapter adapter = (AwardListAdapter)
+                ItemAwardListAdapter adapter = (ItemAwardListAdapter)
                         awardListHolder.awardList.getAdapter();
                 adapter.replace(mData.awardList);
                 awardListHolder.itemView.setOnClickListener(view -> {
@@ -242,6 +255,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ratingHolder.ratingDistributionLayout.setRating(mData.rating);
                 ratingHolder.itemView.setOnClickListener(view -> {
                     // TODO
+                });
+                break;
+            }
+            case ITEM_COLLECTION_LIST: {
+                ItemCollectionListHolder itemCollectionListHolder =
+                        (ItemCollectionListHolder) holder;
+                ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
+                        itemCollectionListHolder.itemCollectionList.getAdapter();
+                List<ItemCollection> itemCollectionList = mData.itemCollectionList.subList(0,
+                        Math.min(ITEM_COLLECTION_MAX_SIZE, mData.itemCollectionList.size()));
+                adapter.replace(itemCollectionList);
+                itemCollectionListHolder.viewMoreButton.setOnClickListener(view -> {
+                    // TODO
+                    UriHandler.open(mData.movie.url + "/collections", view.getContext());
                 });
                 break;
             }
@@ -261,17 +288,19 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public boolean excludeFirstPhoto;
         public List<SimpleCelebrity> celebrityList;
         public List<ItemAwardItem> awardList;
+        public List<ItemCollection> itemCollectionList;
         public List<Review> reviewList;
 
         public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                    List<Review> reviewList) {
+                    List<ItemCollection> itemCollectionList, List<Review> reviewList) {
             this.movie = movie;
             this.rating = rating;
             this.photoList = photoList;
             this.excludeFirstPhoto = excludeFirstPhoto;
             this.celebrityList = celebrityList;
             this.awardList = awardList;
+            this.itemCollectionList = itemCollectionList;
             this.reviewList = reviewList;
         }
     }
@@ -344,8 +373,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @BindView(R.id.photo_list)
         public RecyclerView photoList;
-        @BindView(R.id.view_all)
-        public Button viewAllButton;
+        @BindView(R.id.view_more)
+        public Button viewMoreButton;
 
         public PhotoListHolder(View itemView) {
             super(itemView);
@@ -374,6 +403,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public RatingDistributionLayout ratingDistributionLayout;
 
         public RatingHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class ItemCollectionListHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.item_collection_list)
+        public AdapterLinearLayout itemCollectionList;
+        @BindView(R.id.view_more)
+        public Button viewMoreButton;
+
+        public ItemCollectionListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

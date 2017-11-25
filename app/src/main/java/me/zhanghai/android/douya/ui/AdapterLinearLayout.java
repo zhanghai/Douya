@@ -43,6 +43,10 @@ public class AdapterLinearLayout extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    public RecyclerView.Adapter getAdapter() {
+        return mAdapter;
+    }
+
     public void setAdapter(RecyclerView.Adapter adapter) {
         if (mAdapter != null) {
             mAdapter.unregisterAdapterDataObserver(mObserver);

@@ -13,6 +13,7 @@ import com.google.gson.annotations.SerializedName;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
 
+// FIXME: Frodo API change.
 public class SimpleUser implements Parcelable {
 
     @SerializedName("abstract")

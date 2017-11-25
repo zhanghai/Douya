@@ -28,25 +28,27 @@ public class ItemCollectionListResource
 
     private static final String EXTRA_ITEM_TYPE = KEY_PREFIX + "item_type";
     private static final String EXTRA_ITEM_ID = KEY_PREFIX + "item_id";
+    private static final String EXTRA_FOLLOWINGS_FIRST = KEY_PREFIX + "followings_first";
 
     private CollectableItem.Type mItemType;
     private long mItemId;
+    private boolean mFollowingsFirst;
 
     private static final String FRAGMENT_TAG_DEFAULT = ItemCollectionListResource.class.getName();
 
     private static ItemCollectionListResource newInstance(CollectableItem.Type itemType,
-                                                          long itemId) {
+                                                          long itemId, boolean followingsFirst) {
         //noinspection deprecation
-        return new ItemCollectionListResource().setArguments(itemType, itemId);
+        return new ItemCollectionListResource().setArguments(itemType, itemId, followingsFirst);
     }
 
     public static ItemCollectionListResource attachTo(CollectableItem.Type itemType, long itemId,
-                                                      Fragment fragment, String tag,
-                                                      int requestCode) {
+                                                      boolean followingsFirst, Fragment fragment,
+                                                      String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
         ItemCollectionListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
-            instance = newInstance(itemType, itemId);
+            instance = newInstance(itemType, itemId, followingsFirst);
             instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
@@ -54,8 +56,9 @@ public class ItemCollectionListResource
     }
 
     public static ItemCollectionListResource attachTo(CollectableItem.Type itemType, long itemId,
-                                                      Fragment fragment) {
-        return attachTo(itemType, itemId, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
+                                                      boolean followingsFirst, Fragment fragment) {
+        return attachTo(itemType, itemId, followingsFirst, fragment, FRAGMENT_TAG_DEFAULT,
+                REQUEST_CODE_INVALID);
     }
 
     /**
@@ -63,10 +66,12 @@ public class ItemCollectionListResource
      */
     public ItemCollectionListResource() {}
 
-    protected ItemCollectionListResource setArguments(CollectableItem.Type itemType, long itemId) {
+    protected ItemCollectionListResource setArguments(CollectableItem.Type itemType, long itemId,
+                                                      boolean followingsFirst) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putSerializable(EXTRA_ITEM_TYPE, itemType);
         arguments.putLong(EXTRA_ITEM_ID, itemId);
+        arguments.putBoolean(EXTRA_FOLLOWINGS_FIRST, followingsFirst);
         return this;
     }
 
@@ -76,11 +81,13 @@ public class ItemCollectionListResource
 
         mItemType = (CollectableItem.Type) getArguments().getSerializable(EXTRA_ITEM_TYPE);
         mItemId = getArguments().getLong(EXTRA_ITEM_ID);
+        mFollowingsFirst = getArguments().getBoolean(EXTRA_FOLLOWINGS_FIRST);
     }
 
     @Override
     protected ApiRequest<ItemCollectionList> onCreateRequest(Integer start, Integer count) {
-        return ApiService.getInstance().getItemCollectionList(mItemType, mItemId, start, count);
+        return ApiService.getInstance().getItemCollectionList(mItemType, mItemId, mFollowingsFirst,
+                start, count);
     }
 
     @Override
