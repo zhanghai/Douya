@@ -10,6 +10,8 @@
     android:id="@+id/badge_list_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/item_content_horizontal_margin"
+    android:layout_marginRight="@dimen/item_content_horizontal_margin"
     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
     android:paddingRight="@dimen/screen_edge_horizontal_margin"
     android:paddingTop="@dimen/content_horizontal_space"

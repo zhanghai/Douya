@@ -14,4 +14,6 @@
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">16dp</dimen>
 
     <dimen name="item_backdrop_layout_height">240dp</dimen>
+    <dimen name="item_content_horizontal_margin">@dimen/screen_edge_horizontal_margin</dimen>
+    <dimen name="item_cover_width">214dp</dimen>
 </resources>

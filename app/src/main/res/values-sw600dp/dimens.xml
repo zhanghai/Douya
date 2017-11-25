@@ -36,6 +36,7 @@
     <dimen name="card_header_bottom_margin">-8dp</dimen>
     <dimen name="card_corner_radius">2dp</dimen>
     <dimen name="toolbar_button_size">56dp</dimen>
+    <dimen name="button_bar_horizontal_divider_width">8dp</dimen>
     <!-- Fab internally sets a 14dp margin on pre-Lollipop devices. -->
     <dimen name="fab_margin">10dp</dimen>
 
@@ -44,5 +45,9 @@
     <dimen name="profile_small_avatar_size">40dp</dimen>
 
     <dimen name="item_backdrop_layout_height">@dimen/wrap_content</dimen>
-    <dimen name="item_cover_width">214dp</dimen>
+    <dimen name="item_content_horizontal_margin">0dp</dimen>
+    <dimen name="item_cover_width">160dp</dimen>
+    <dimen name="item_badge_list_space">24dp</dimen>
+    <dimen name="item_badge_size">72dp</dimen>
+    <dimen name="item_badge_padding">12dp</dimen>
 </resources>

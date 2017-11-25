@@ -24,14 +24,14 @@
             android:id="@+id/top_250_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="@dimen/item_badge_list_space"
             android:background="?selectableItemBackgroundBorderless"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <FrameLayout
-                android:layout_width="60dp"
-                android:layout_height="60dp">
+                android:layout_width="@dimen/item_badge_size"
+                android:layout_height="@dimen/item_badge_size">
 
                 <TextView
                     android:id="@+id/top_250_rank"
@@ -81,8 +81,8 @@
 
             <LinearLayout
                 android:id="@+id/rating_badge"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/item_badge_size"
+                android:layout_height="@dimen/item_badge_size"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:theme="?darkTheme">
@@ -124,15 +124,15 @@
             android:id="@+id/followings_rating_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/item_badge_list_space"
             android:background="?selectableItemBackgroundBorderless"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/followings_rating_badge"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/item_badge_size"
+                android:layout_height="@dimen/item_badge_size"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:theme="?darkTheme">
@@ -174,16 +174,16 @@
             android:id="@+id/genre_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/item_badge_list_space"
             android:background="?selectableItemBackgroundBorderless"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/genre_badge"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:padding="10dp"
+                android:layout_width="@dimen/item_badge_size"
+                android:layout_height="@dimen/item_badge_size"
+                android:padding="@dimen/item_badge_padding"
                 android:background="@drawable/item_badge_circle_filled_white"
                 app:backgroundTint="?colorAccent" />
 
@@ -199,15 +199,15 @@
             android:id="@+id/similar_items_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/item_badge_list_space"
             android:background="?selectableItemBackgroundBorderless"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:padding="10dp"
+                android:layout_width="@dimen/item_badge_size"
+                android:layout_height="@dimen/item_badge_size"
+                android:padding="@dimen/item_badge_padding"
                 android:background="@drawable/item_badge_circle_filled_white"
                 android:src="@drawable/similar_items_badge_white_40dp"
                 app:backgroundTint="?colorAccent" />
