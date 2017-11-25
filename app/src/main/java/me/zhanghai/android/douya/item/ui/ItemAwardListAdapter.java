@@ -36,7 +36,7 @@ public class ItemAwardListAdapter
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         ItemAwardItem awardItem = getItem(position);
         holder.titleText.setText(awardItem.award.title);
         String category = awardItem.categories.get(0).category.title;

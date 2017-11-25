@@ -8,22 +8,20 @@ package me.zhanghai.android.douya.item.ui;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
-import me.zhanghai.android.douya.ui.RatioImageView;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
-import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class CelebrityListAdapter
-        extends SimpleAdapter<SimpleCelebrity, CelebrityListAdapter.ViewHolder> {
+public class ReviewListAdapter extends SimpleAdapter<SimpleReview, ReviewListAdapter.ViewHolder> {
 
-    public CelebrityListAdapter() {
+    public ReviewListAdapter() {
         setHasStableIds(true);
     }
 
@@ -34,35 +32,39 @@ public class CelebrityListAdapter
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.item_celebrity_item, parent));
-        holder.avatarImage.setRatio(2, 3);
-        return holder;
+        return new ViewHolder(ViewUtils.inflate(R.layout.item_review_item, parent));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        SimpleCelebrity celebrity = getItem(position);
-        ImageUtils.loadImage(holder.avatarImage, celebrity.avatar);
-        holder.nameText.setText(celebrity.name);
-        if (celebrity.isDirector) {
-            holder.descriptionText.setText(R.string.item_celebrity_director);
-        } else {
-            holder.descriptionText.setText(celebrity.character);
+        SimpleReview review = getItem(position);
+        holder.titleText.setText(review.title);
+        holder.nameText.setText(review.author.name);
+        boolean hasRating = review.rating != null;
+        ViewUtils.setVisibleOrGone(holder.ratingBar, hasRating);
+        if (hasRating) {
+            holder.ratingBar.setRating(review.rating.getRatingBarValue());
         }
+        holder.usefulnessText.setText(review.usefulCount + "");
+        holder.abstractText.setText(review.abstract_);
         holder.itemView.setOnClickListener(view -> {
             // TODO
-            UriHandler.open(celebrity.url, view.getContext());
+            UriHandler.open(review.url, view.getContext());
         });
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.avatar)
-        public RatioImageView avatarImage;
+        @BindView(R.id.title)
+        public TextView titleText;
         @BindView(R.id.name)
         public TextView nameText;
-        @BindView(R.id.description)
-        public TextView descriptionText;
+        @BindView(R.id.rating)
+        public RatingBar ratingBar;
+        @BindView(R.id.usefulness)
+        public TextView usefulnessText;
+        @BindView(R.id.abstract_)
+        public TextView abstractText;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -49,9 +49,6 @@ public class SimpleReview extends BaseItem {
     @SerializedName("rtype")
     public String rType;
 
-    @SerializedName("sharing_url")
-    public String shareUrl;
-
     @SerializedName("spoiler")
     public boolean isSpoiler;
 
@@ -105,7 +102,6 @@ public class SimpleReview extends BaseItem {
         likerCount = in.readInt();
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
         rType = in.readString();
-        shareUrl = in.readString();
         isSpoiler = in.readByte() != 0;
         item = in.readParcelable(CollectableItem.class.getClassLoader());
         shareCount = in.readInt();
@@ -129,7 +125,6 @@ public class SimpleReview extends BaseItem {
         dest.writeInt(likerCount);
         dest.writeParcelable(rating, flags);
         dest.writeString(rType);
-        dest.writeString(shareUrl);
         dest.writeByte(isSpoiler ? (byte) 1 : (byte) 0);
         dest.writeParcelable(item, flags);
         dest.writeInt(shareCount);

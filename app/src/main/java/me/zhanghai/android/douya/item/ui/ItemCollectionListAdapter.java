@@ -19,7 +19,6 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
-import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -42,7 +41,7 @@ public class ItemCollectionListAdapter
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         ItemCollection itemCollection = getItem(position);
         ImageUtils.loadAvatar(holder.avatarImage, itemCollection.user.avatar);
         holder.avatarImage.setOnClickListener(view -> {

@@ -49,10 +49,12 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_AWARD_LIST = 5;
     private static final int ITEM_RATING = 6;
     private static final int ITEM_COLLECTION_LIST = 7;
+    private static final int ITEM_REVIEW_LIST = 8;
 
-    private static final int ITEM_COUNT = 8;
+    private static final int ITEM_COUNT = 9;
 
-    private static final int ITEM_COLLECTION_MAX_SIZE = 5;
+    private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
+    private static final int ITEM_REVIEW_LIST_MAX_SIZE = 5;
 
     private Data mData;
 
@@ -143,6 +145,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ViewUtils.setVisibleOrGone(holder.itemCollectionList,
                         !mData.itemCollectionList.isEmpty());
                 holder.itemCollectionList.setAdapter(new ItemCollectionListAdapter());
+                return holder;
+            }
+            case ITEM_REVIEW_LIST: {
+                ReviewListHolder holder = new ReviewListHolder(ViewUtils.inflate(
+                        R.layout.item_review_list_item, parent));
+                ViewUtils.setVisibleOrGone(holder.reviewList, !mData.reviewList.isEmpty());
+                holder.reviewList.setAdapter(new ReviewListAdapter());
                 return holder;
             }
             default:
@@ -262,11 +271,24 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
                         itemCollectionListHolder.itemCollectionList.getAdapter();
                 List<ItemCollection> itemCollectionList = mData.itemCollectionList.subList(0,
-                        Math.min(ITEM_COLLECTION_MAX_SIZE, mData.itemCollectionList.size()));
+                        Math.min(ITEM_COLLECTION_LIST_MAX_SIZE, mData.itemCollectionList.size()));
                 adapter.replace(itemCollectionList);
                 itemCollectionListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
                     UriHandler.open(mData.movie.url + "/collections", view.getContext());
+                });
+                break;
+            }
+            case ITEM_REVIEW_LIST: {
+                ReviewListHolder reviewListHolder = (ReviewListHolder) holder;
+                ReviewListAdapter adapter = (ReviewListAdapter)
+                        reviewListHolder.reviewList.getAdapter();
+                List<SimpleReview> reviewList = mData.reviewList.subList(0, Math.min(
+                        ITEM_REVIEW_LIST_MAX_SIZE, mData.reviewList.size()));
+                adapter.replace(reviewList);
+                reviewListHolder.viewMoreButton.setOnClickListener(view -> {
+                    // TODO
+                    UriHandler.open(mData.movie.url + "/reviews", view.getContext());
                 });
                 break;
             }
@@ -415,6 +437,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public Button viewMoreButton;
 
         public ItemCollectionListHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class ReviewListHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.item_review_list)
+        public AdapterLinearLayout reviewList;
+        @BindView(R.id.view_more)
+        public Button viewMoreButton;
+
+        public ReviewListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

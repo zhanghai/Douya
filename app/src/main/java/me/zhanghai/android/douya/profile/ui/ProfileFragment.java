@@ -34,7 +34,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.profile.util.ProfileUtils;
@@ -268,7 +268,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     @Override
     public void onChanged(int requestCode, User newUser, List<Broadcast> newBroadcastList,
                           List<SimpleUser> newFollowingList, List<Diary> newDiaryList,
-                          List<UserItems> newUserItemList, List<Review> newReviewList) {
+                          List<UserItems> newUserItemList, List<SimpleReview> newReviewList) {
         mAdapter.setData(new ProfileAdapter.Data(newUser, newBroadcastList,
                 newFollowingList, newDiaryList, newUserItemList, newReviewList));
         mContentStateLayout.setLoaded(true);

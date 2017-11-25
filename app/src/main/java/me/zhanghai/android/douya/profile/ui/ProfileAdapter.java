@@ -16,7 +16,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -138,10 +138,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         public List<SimpleUser> followingList;
         public List<Diary> diaryList;
         public List<UserItems> userItemList;
-        public List<Review> reviewList;
+        public List<SimpleReview> reviewList;
 
         public Data(User user, List<Broadcast> broadcastList, List<SimpleUser> followingList,
-                    List<Diary> diaryList, List<UserItems> userItemList, List<Review> reviewList) {
+                    List<Diary> diaryList, List<UserItems> userItemList,
+                    List<SimpleReview> reviewList) {
             this.mUser = user;
             this.broadcastList = broadcastList;
             this.followingList = followingList;

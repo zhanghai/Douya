@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.review.content.UserReviewListResource;
 import me.zhanghai.android.douya.user.content.UserResource;
@@ -339,17 +339,17 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     }
 
     @Override
-    public void onReviewListChanged(int requestCode, List<Review> newReviewList) {
+    public void onReviewListChanged(int requestCode, List<SimpleReview> newReviewList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onReviewListAppended(int requestCode, List<Review> appendedReviewList) {
+    public void onReviewListAppended(int requestCode, List<SimpleReview> appendedReviewList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onReviewChanged(int requestCode, int position, Review newReview) {
+    public void onReviewChanged(int requestCode, int position, SimpleReview newReview) {
         notifyChangedIfLoaded();
     }
 
@@ -392,6 +392,6 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         void onUserWriteFinished(int requestCode);
         void onChanged(int requestCode, User newUser, List<Broadcast> newBroadcastList,
                        List<SimpleUser> newFollowingList, List<Diary> newDiaryList,
-                       List<UserItems> newUserItemList, List<Review> newReviewList);
+                       List<UserItems> newUserItemList, List<SimpleReview> newReviewList);
     }
 }

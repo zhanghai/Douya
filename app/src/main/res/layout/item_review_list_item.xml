@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/item_collection_list_title"
+            android:text="@string/item_review_list_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <Space
@@ -44,13 +44,13 @@
             android:layout_marginTop="-6dp"
             android:layout_marginBottom="-6dp"
             android:padding="6dp"
-            android:text="@string/item_collection_list_create"
+            android:text="@string/item_review_list_create"
             android:textSize="@dimen/abc_text_size_caption_material"
             style="@style/Widget.AppCompat.Button.Borderless.Colored" />
     </LinearLayout>
 
     <me.zhanghai.android.douya.ui.AdapterLinearLayout
-        android:id="@+id/item_collection_list"
+        android:id="@+id/item_review_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
@@ -63,6 +63,6 @@
         android:paddingTop="@dimen/card_vertical_space"
         android:paddingBottom="@dimen/card_vertical_space"
         android:includeFontPadding="false"
-        android:text="@string/item_collection_list_view_more"
+        android:text="@string/item_review_list_view_more"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
 </LinearLayout>

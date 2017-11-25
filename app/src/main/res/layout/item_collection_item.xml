@@ -8,11 +8,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/avatar_padding_negative"
     android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
-    android:paddingRight="@dimen/screen_edge_horizontal_margin">
+    android:paddingRight="@dimen/screen_edge_horizontal_margin"
+    android:paddingTop="@dimen/content_vertical_space"
+    android:paddingBottom="@dimen/content_vertical_space">
 
     <me.zhanghai.android.douya.ui.SimpleCircleImageView
         android:id="@+id/avatar"
@@ -85,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/name"
         android:layout_below="@id/rating_and_date"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:lineSpacingMultiplier="1.2"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </RelativeLayout>

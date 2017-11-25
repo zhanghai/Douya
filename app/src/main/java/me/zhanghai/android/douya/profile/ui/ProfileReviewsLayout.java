@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -63,7 +63,7 @@ public class ProfileReviewsLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(final User user, List<Review> reviewList) {
+    public void bind(final User user, List<SimpleReview> reviewList) {
 
         final Context context = getContext();
         OnClickListener viewMoreListener = new OnClickListener() {
@@ -79,7 +79,7 @@ public class ProfileReviewsLayout extends FriendlyCardView {
         mViewMoreText.setOnClickListener(viewMoreListener);
 
         int i = 0;
-        for (final Review review : reviewList) {
+        for (final SimpleReview review : reviewList) {
 
             if (i >= REVIEW_COUNT_MAX) {
                 break;
@@ -97,7 +97,7 @@ public class ProfileReviewsLayout extends FriendlyCardView {
                 ViewUtils.setTextViewLinkClickable(holder.titleText);
             }
 
-            String coverUrl = review.cover;
+            String coverUrl = review.coverUrl;
             if (TextUtils.isEmpty(coverUrl) && review.item != null && review.item.cover != null) {
                 coverUrl = review.item.cover.getMediumUrl();
             }
