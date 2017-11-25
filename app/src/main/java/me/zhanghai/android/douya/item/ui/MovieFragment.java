@@ -19,8 +19,6 @@ import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
-import me.zhanghai.android.douya.util.ImageUtils;
-import me.zhanghai.android.douya.util.ViewUtils;
 
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         implements MovieFragmentResource.Listener {
@@ -53,19 +51,11 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     }
 
     @Override
-    public void updateWithSimpleItem(SimpleMovie simpleMovie) {
-        super.updateWithSimpleItem(simpleMovie);
-
-        // FIXME: Remove, this is only for testing.
-        ImageUtils.loadImage(mBackdropImage, simpleMovie.cover);
-        ViewUtils.setVisibleOrGone(mBackdropPlayImage, false);
-    }
-
-    @Override
     public void onChanged(int requestCode, Movie newMovie, Rating newRating,
                           List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
                           List<ItemAwardItem> newAwardList,
-                          List<ItemCollection> newItemCollectionList, List<SimpleReview> newReviewList) {
+                          List<ItemCollection> newItemCollectionList,
+                          List<SimpleReview> newReviewList) {
         update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
                 newItemCollectionList, newReviewList);
     }
@@ -73,24 +63,9 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                         List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList) {
-
         super.updateWithSimpleItem(movie);
 
-        boolean hasTrailer = movie.trailer != null;
-        boolean excludeFirstPhoto = false;
-        if (hasTrailer) {
-            ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
-        } else if (!photoList.isEmpty()) {
-            ImageUtils.loadLargeImage(mBackdropImage, photoList.get(0));
-            excludeFirstPhoto = true;
-        } else if (movie.poster != null) {
-            ImageUtils.loadLargeImage(mBackdropImage, movie.poster);
-        } else {
-            ImageUtils.loadLargeImage(mBackdropImage, movie.cover);
-        }
-        ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
-
-        mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
-                celebrityList, awardList, itemCollectionList, reviewList));
+        mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, celebrityList, awardList,
+                itemCollectionList, reviewList));
     }
 }

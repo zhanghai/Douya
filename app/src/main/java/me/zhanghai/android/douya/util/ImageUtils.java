@@ -22,8 +22,6 @@ import java.io.File;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.glide.GlideApp;
-import me.zhanghai.android.douya.network.api.info.frodo.Image;
-import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.ui.ImageItem;
 import me.zhanghai.android.douya.ui.ImageItemWithSize;

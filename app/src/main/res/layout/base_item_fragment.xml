@@ -11,41 +11,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/backdrop_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        android:theme="?actionBarTheme">
-
-        <me.zhanghai.android.douya.ui.RatioImageView
-            android:id="@+id/backdrop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <View
-            android:id="@+id/backdrop_scrim"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/scrim_height" />
-
-        <ImageView
-            android:id="@+id/backdrop_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:alpha="@dimen/hint_pressed_alpha_material_dark"
-            android:src="@drawable/play_circle_outline_icon_white_48dp" />
-    </FrameLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/card_list_horizontal_padding"
-        android:paddingRight="@dimen/card_list_horizontal_padding"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay" />
+        android:scrollbars="vertical" />
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
         android:id="@+id/appBarWrapper"
