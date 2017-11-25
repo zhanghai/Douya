@@ -21,7 +21,7 @@
             </item>
             <item android:state_activated="true">
                 <shape android:shape="oval">
-                    <solid android:color="@color/green_500" />
+                    <solid android:color="@color/douya_accent" />
                 </shape>
             </item>
             <item>
