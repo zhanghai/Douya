@@ -64,6 +64,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private Data mData;
 
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            MovieAdapter.this.onScrolled(recyclerView);
+        }
+    };
+
     public MovieAdapter() {
         setHasStableIds(true);
     }
@@ -324,6 +331,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setClipChildren(false);
+        recyclerView.addOnScrollListener(mOnScrollListener);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        recyclerView.removeOnScrollListener(mOnScrollListener);
+    }
+
     private void loadBackdropImage(ImageView backdropImage) {
         if (mData.movie.trailer != null) {
             ImageUtils.loadImage(backdropImage, mData.movie.trailer.coverUrl);
@@ -340,9 +358,21 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return mData.movie.trailer == null && !mData.photoList.isEmpty();
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setClipChildren(false);
+    private void onScrolled(RecyclerView recyclerView) {
+        BackdropHolder backdropHolder = null;
+        for (int i = 0, count = recyclerView.getChildCount(); i < count; ++i) {
+            View child = recyclerView.getChildAt(i);
+            RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(child);
+            if (holder instanceof BackdropHolder) {
+                backdropHolder = (BackdropHolder) holder;
+                break;
+            }
+        }
+        if (backdropHolder == null) {
+            return;
+        }
+        float translationY = (float) -backdropHolder.itemView.getTop() / 2;
+        backdropHolder.itemView.setTranslationY(translationY);
     }
 
     public static class Data {
