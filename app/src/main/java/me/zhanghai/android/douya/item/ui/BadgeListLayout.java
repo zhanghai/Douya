@@ -208,34 +208,27 @@ public class BadgeListLayout extends HorizontalScrollView {
         public BaseRatingBadgeDrawable(Shape shape, Context context) {
             super(new Drawable[] {
                     DrawableCompat.wrap(new ShapeDrawable(shape)),
-                    DrawableCompat.wrap(new ShapeDrawable(cloneShape(shape))),
                     DrawableCompat.wrap(new ShapeDrawable(cloneShape(shape)))
             });
 
-            Drawable backgroundDrawable = getDrawable(0);
-            int textColorPrimary = ViewUtils.getColorFromAttrRes(android.R.attr.textColorPrimary, 0,
-                    context);
-            DrawableCompat.setTint(backgroundDrawable, textColorPrimary);
+            // If the outer accent color stroke is not drawn by a stroke paint, it becomes too
+            // narrow.
+            Drawable strokeDrawable = getDrawable(0);
+            int colorAccent = ViewUtils.getColorFromAttrRes(R.attr.colorAccent, 0, context);
+            DrawableCompat.setTint(strokeDrawable, colorAccent);
             // Not using ViewUtils.dpToPxOffset() because it causes truncation.
             int strokeInset = ViewUtils.dpToPxSize(STROKE_WIDTH_DP / 2, context);
             setLayerInset(0, strokeInset, strokeInset, strokeInset, strokeInset);
-
-            // If the outer accent color stroke is not drawn by a stroke paint, it becomes too
-            // narrow.
-            Drawable strokeDrawable = getDrawable(1);
-            int colorAccent = ViewUtils.getColorFromAttrRes(R.attr.colorAccent, 0, context);
-            DrawableCompat.setTint(strokeDrawable, colorAccent);
-            setLayerInset(1, strokeInset, strokeInset, strokeInset, strokeInset);
             Paint strokePaint = ((ShapeDrawable) DrawableCompat.unwrap(strokeDrawable)).getPaint();
             strokePaint.setStyle(Paint.Style.STROKE);
             int strokeWidth = ViewUtils.dpToPxSize(STROKE_WIDTH_DP, context);
             strokePaint.setStrokeWidth(strokeWidth);
 
-            Drawable fillDrawable = getDrawable(2);
+            Drawable fillDrawable = getDrawable(1);
             DrawableCompat.setTint(fillDrawable, colorAccent);
             // Not using ViewUtils.dpToPxOffset() for better visual effect.
             int fillInset = ViewUtils.dpToPxSize(FILL_INSET_DP, context);
-            setLayerInset(2, fillInset, fillInset, fillInset, fillInset);
+            setLayerInset(1, fillInset, fillInset, fillInset, fillInset);
         }
 
         private static Shape cloneShape(Shape shape) {
