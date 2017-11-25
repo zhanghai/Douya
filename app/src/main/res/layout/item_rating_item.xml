@@ -14,14 +14,14 @@
     android:foreground="?selectableItemBackground"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-    android:paddingRight="@dimen/screen_edge_horizontal_margin">
+    android:paddingRight="@dimen/screen_edge_horizontal_margin"
+    android:paddingTop="@dimen/content_vertical_space"
+    android:paddingBottom="@dimen/content_vertical_space">
 
     <me.zhanghai.android.douya.item.ui.RatingLayout
         android:id="@+id/rating_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp" />
+        android:layout_height="wrap_content" />
 
     <me.zhanghai.android.douya.item.ui.RatingDistributionLayout
         android:id="@+id/rating_distribution_layout"

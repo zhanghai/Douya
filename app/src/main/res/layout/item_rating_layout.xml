@@ -18,6 +18,9 @@
         android:id="@+id/rating_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="-2.5dp"
+        android:layout_marginTop="-13dp"
+        android:layout_marginBottom="-13dp"
         android:paddingTop="2dp"
         android:fontFamily="sans-serif-light"
         android:includeFontPadding="false"
@@ -28,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="-13dp"
         android:baselineAlignedChildIndex="1"
         android:orientation="vertical">
 
