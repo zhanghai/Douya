@@ -308,7 +308,7 @@ public class ApiService {
                                                                 boolean followingsFirst,
                                                                 Integer start, Integer count) {
         return mFrodoService.getItemCollectionList(itemType.getApiString(), itemId,
-                followingsFirst ? "1" : null, start, count);
+                followingsFirst ? 1 : null, start, count);
     }
 
     public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
@@ -459,7 +459,7 @@ public class ApiService {
         @GET("{itemType}/{itemId}/interests")
         ApiRequest<ItemCollectionList> getItemCollectionList(
                 @Path("itemType") String itemType, @Path("itemId") long itemId,
-                @Query("following") String followingsFirst, @Query("start") Integer start,
+                @Query("following") Integer followingsFirst, @Query("start") Integer start,
                 @Query("count") Integer count);
 
         @GET("{itemType}/{itemId}/reviews")
