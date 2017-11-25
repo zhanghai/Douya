@@ -14,4 +14,4 @@
     android:paddingRight="@dimen/screen_edge_horizontal_margin"
     android:paddingTop="@dimen/content_horizontal_space"
     android:paddingBottom="@dimen/content_horizontal_space"
-    android:background="@color/cardview_light_background" />
+    android:background="?colorBackgroundFloating" />

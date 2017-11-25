@@ -9,7 +9,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/cardview_light_background"
+    android:background="?colorBackgroundFloating"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical">

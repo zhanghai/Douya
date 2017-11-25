@@ -11,7 +11,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/content_vertical_space"
     android:paddingBottom="@dimen/content_vertical_space"
-    android:background="@color/cardview_light_background"
+    android:background="?colorBackgroundFloating"
     android:orientation="vertical">
 
     <me.zhanghai.android.douya.ui.NestedRecyclerView
