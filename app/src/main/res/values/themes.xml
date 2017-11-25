@@ -24,7 +24,7 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
     <style name="ThemeOverlay.Douya.Dark" parent="ThemeOverlay.Design.Dark">
-        <item name="colorAccent">@color/douya_accent_dark</item>
+        <item name="colorAccent">@color/douya_accent</item>
     </style>
     <style name="ThemeOverlay.Douya.Dark.ActionBar" parent="ThemeOverlay.Design.Dark.ActionBar">
         <item name="colorAccent">@android:color/white</item>
@@ -68,7 +68,7 @@
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
 
-        <item name="colorAccent">@color/douya_accent_dark</item>
+        <item name="colorAccent">@color/douya_accent</item>
 
         <item name="darkTheme">@style/DarkTheme</item>
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">@android:color/black</item>
@@ -152,10 +152,10 @@
     <style name="Theme.Douya.BroadcastActivity" parent="Base.Theme.Douya.BroadcastActivity" />
 
     <style name="ThemeOverlay.Douya.Gallery.Dialog" parent="ThemeOverlay.AppCompat.Dialog">
-        <item name="colorAccent">@color/douya_accent_dark</item>
+        <item name="colorAccent">@color/douya_accent</item>
     </style>
     <style name="ThemeOverlay.Douya.Gallery.Dialog.Alert" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="colorAccent">@color/douya_accent_dark</item>
+        <item name="colorAccent">@color/douya_accent</item>
     </style>
     <style name="Base.Theme.Douya.Gallery" parent="Theme.Douya.Dark">
         <item name="colorAccent">@android:color/white</item>
