@@ -16,11 +16,11 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.ReviewDeletedEvent;
 import me.zhanghai.android.douya.eventbus.ReviewUpdatedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 
 public abstract class BaseReviewListResource
-        extends MoreBaseListResourceFragment<ReviewList, Review> {
+        extends MoreBaseListResourceFragment<ReviewList, SimpleReview> {
 
     @Override
     protected void onLoadStarted() {
@@ -29,7 +29,7 @@ public abstract class BaseReviewListResource
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
-                                  List<Review> response, ApiError error) {
+                                  List<SimpleReview> response, ApiError error) {
         getListener().onLoadReviewListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -41,7 +41,7 @@ public abstract class BaseReviewListResource
                 getListener().onReviewListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
-            for (Review review : response) {
+            for (SimpleReview review : response) {
                 EventBusUtils.postAsync(new ReviewUpdatedEvent(review, this));
             }
         } else {
@@ -56,9 +56,9 @@ public abstract class BaseReviewListResource
             return;
         }
 
-        List<Review> reviewList = get();
+        List<SimpleReview> reviewList = get();
         for (int i = 0, size = reviewList.size(); i < size; ++i) {
-            Review review = reviewList.get(i);
+            SimpleReview review = reviewList.get(i);
             if (review.id == event.review.id) {
                 reviewList.set(i, event.review);
                 getListener().onReviewChanged(getRequestCode(), i, reviewList.get(i));
@@ -73,9 +73,9 @@ public abstract class BaseReviewListResource
             return;
         }
 
-        List<Review> reviewList = get();
+        List<SimpleReview> reviewList = get();
         for (int i = 0, size = reviewList.size(); i < size; ) {
-            Review review = reviewList.get(i);
+            SimpleReview review = reviewList.get(i);
             if (review.id == event.reviewId) {
                 reviewList.remove(i);
                 getListener().onReviewRemoved(getRequestCode(), i);
@@ -97,12 +97,12 @@ public abstract class BaseReviewListResource
         /**
          * @param newReviewList Unmodifiable.
          */
-        void onReviewListChanged(int requestCode, List<Review> newReviewList);
+        void onReviewListChanged(int requestCode, List<SimpleReview> newReviewList);
         /**
          * @param appendedReviewList Unmodifiable.
          */
-        void onReviewListAppended(int requestCode, List<Review> appendedReviewList);
-        void onReviewChanged(int requestCode, int position, Review newReview);
+        void onReviewListAppended(int requestCode, List<SimpleReview> appendedReviewList);
+        void onReviewChanged(int requestCode, int position, SimpleReview newReview);
         void onReviewRemoved(int requestCode, int position);
     }
 }

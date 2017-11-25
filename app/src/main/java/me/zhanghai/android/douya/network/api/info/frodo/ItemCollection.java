@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class ItemCollection implements Parcelable {
 
     @SerializedName("attend_time")
-    public String attendedAt;
+    public String attendAt;
 
     public String comment;
 
@@ -86,7 +86,7 @@ public class ItemCollection implements Parcelable {
     public ItemCollection() {}
 
     protected ItemCollection(Parcel in) {
-        attendedAt = in.readString();
+        attendAt = in.readString();
         comment = in.readString();
         createdAt = in.readString();
         id = in.readLong();
@@ -114,7 +114,7 @@ public class ItemCollection implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(attendedAt);
+        dest.writeString(attendAt);
         dest.writeString(comment);
         dest.writeString(createdAt);
         dest.writeLong(id);

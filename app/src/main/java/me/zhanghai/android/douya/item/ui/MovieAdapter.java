@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,8 +29,8 @@ import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
@@ -288,11 +287,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public List<SimpleCelebrity> celebrityList;
         public List<ItemAwardItem> awardList;
         public List<ItemCollection> itemCollectionList;
-        public List<Review> reviewList;
+        public List<SimpleReview> reviewList;
 
         public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                    List<ItemCollection> itemCollectionList, List<Review> reviewList) {
+                    List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList) {
             this.movie = movie;
             this.rating = rating;
             this.photoList = photoList;

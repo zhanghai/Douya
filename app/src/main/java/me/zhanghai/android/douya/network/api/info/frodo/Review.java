@@ -6,115 +6,57 @@
 package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Extend from BaseItem.
-public class Review implements Parcelable {
+public class Review extends SimpleReview {
 
-    public enum VoteState {
-
-        NONE,
-        USEFUL,
-        USELESS;
-
-        public static VoteState ofApiInt(int apiInt, VoteState defaultValue) {
-            if (apiInt >= 0 && apiInt < values().length) {
-                return values()[apiInt];
-            } else {
-                return defaultValue;
-            }
-        }
-
-        public static VoteState ofApiInt(int apiInt) {
-            return ofApiInt(apiInt, NONE);
-        }
-    }
-
-
-    @SerializedName("abstract")
-    public String abstract_;
 
     @SerializedName("allow_donate")
     public boolean allowDonate;
 
-    @SerializedName("comments_count")
-    public int commentCount;
+    @SerializedName("censor_info")
+    public CensorshipInfo censorshipInfo;
 
     public String content;
 
-    @SerializedName("cover_url")
-    public String cover;
-
-    @SerializedName("create_time")
-    public String creationTime;
+    public Copyright copyright;
 
     @SerializedName("donate_count")
     public int donationCount;
 
-    public long id;
+    @SerializedName("donate_money")
+    public float donatedMoney;
+
+    @SerializedName("donate_user_count")
+    public int donatedUserCont;
 
     @SerializedName("is_donated")
     public boolean isDonated;
 
+    @SerializedName("is_in_user_hot_module")
+    public boolean isInHotModule;
+
     @SerializedName("is_original")
     public boolean isOriginal;
+
+    @SerializedName("is_recommended")
+    public boolean isRecommended;
+
+    @SerializedName("liked")
+    public boolean isLiked;
 
     public ArrayList<SizedPhoto> photos = new ArrayList<>();
 
     public List<GamePlatform> platforms = new ArrayList<>();
 
-    public SimpleRating rating;
-
-    @SerializedName("rtype")
-    public String rType;
-
-    @SerializedName("sharing_url")
-    public String shareUrl;
-
-    @SerializedName("spoiler")
-    public boolean isSpoiler;
-
-    @SerializedName("subject")
-    public CollectableItem item;
-
-    public String title;
-
-    public String type;
-
-    @SerializedName("type_name")
-    public String typeName;
-
-    public String uri;
-
-    public String url;
-
-    @SerializedName("useful_count")
-    public int usefulCount;
-
-    @SerializedName("useless_count")
-    public int uselessCount;
-
-    @SerializedName("user")
-    public SimpleUser author;
-
-    /**
-     * @deprecated Use {@link #getVoteState()} instead.
-     */
-    @SerializedName("vote_status")
-    public int voteState;
-
-    public VoteState getVoteState() {
-        //noinspection deprecation
-        return VoteState.ofApiInt(voteState);
-    }
+    public ArrayList<Video> videos = new ArrayList<>();
 
 
-    public static final Parcelable.Creator<Review> CREATOR = new Parcelable.Creator<Review>() {
+    public static final Creator<Review> CREATOR = new Creator<Review>() {
         @Override
         public Review createFromParcel(Parcel source) {
             return new Review(source);
@@ -128,33 +70,23 @@ public class Review implements Parcelable {
     public Review() {}
 
     protected Review(Parcel in) {
-        abstract_ = in.readString();
+        super(in);
+
         allowDonate = in.readByte() != 0;
-        commentCount = in.readInt();
+        censorshipInfo = in.readParcelable(CensorshipInfo.class.getClassLoader());
         content = in.readString();
-        cover = in.readString();
-        creationTime = in.readString();
+        copyright = in.readParcelable(Copyright.class.getClassLoader());
         donationCount = in.readInt();
-        id = in.readLong();
+        donatedMoney = in.readFloat();
+        donatedUserCont = in.readInt();
         isDonated = in.readByte() != 0;
+        isInHotModule = in.readByte() != 0;
         isOriginal = in.readByte() != 0;
+        isRecommended = in.readByte() != 0;
+        isLiked = in.readByte() != 0;
         photos = in.createTypedArrayList(SizedPhoto.CREATOR);
         platforms = in.createTypedArrayList(GamePlatform.CREATOR);
-        rating = in.readParcelable(SimpleRating.class.getClassLoader());
-        rType = in.readString();
-        shareUrl = in.readString();
-        isSpoiler = in.readByte() != 0;
-        item = in.readParcelable(CollectableItem.class.getClassLoader());
-        title = in.readString();
-        type = in.readString();
-        typeName = in.readString();
-        uri = in.readString();
-        url = in.readString();
-        usefulCount = in.readInt();
-        uselessCount = in.readInt();
-        author = in.readParcelable(SimpleUser.class.getClassLoader());
-        //noinspection deprecation
-        voteState = in.readInt();
+        videos = in.createTypedArrayList(Video.CREATOR);
     }
 
     @Override
@@ -164,32 +96,22 @@ public class Review implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(abstract_);
+        super.writeToParcel(dest, flags);
+
         dest.writeByte(allowDonate ? (byte) 1 : (byte) 0);
-        dest.writeInt(commentCount);
+        dest.writeParcelable(censorshipInfo, flags);
         dest.writeString(content);
-        dest.writeString(cover);
-        dest.writeString(creationTime);
+        dest.writeParcelable(copyright, flags);
         dest.writeInt(donationCount);
-        dest.writeLong(id);
+        dest.writeFloat(donatedMoney);
+        dest.writeInt(donatedUserCont);
         dest.writeByte(isDonated ? (byte) 1 : (byte) 0);
+        dest.writeByte(isInHotModule ? (byte) 1 : (byte) 0);
         dest.writeByte(isOriginal ? (byte) 1 : (byte) 0);
+        dest.writeByte(isRecommended ? (byte) 1 : (byte) 0);
+        dest.writeByte(isLiked ? (byte) 1 : (byte) 0);
         dest.writeTypedList(photos);
         dest.writeTypedList(platforms);
-        dest.writeParcelable(rating, flags);
-        dest.writeString(rType);
-        dest.writeString(shareUrl);
-        dest.writeByte(isSpoiler ? (byte) 1 : (byte) 0);
-        dest.writeParcelable(item, flags);
-        dest.writeString(title);
-        dest.writeString(type);
-        dest.writeString(typeName);
-        dest.writeString(uri);
-        dest.writeString(url);
-        dest.writeInt(usefulCount);
-        dest.writeInt(uselessCount);
-        dest.writeParcelable(author, flags);
-        //noinspection deprecation
-        dest.writeInt(voteState);
+        dest.writeTypedList(videos);
     }
 }

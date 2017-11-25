@@ -16,8 +16,8 @@ import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.photo.content.ItemPhotoListResource;
 import me.zhanghai.android.douya.review.content.ItemReviewListResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -319,17 +319,17 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
-    public void onReviewListChanged(int requestCode, List<Review> newReviewList) {
+    public void onReviewListChanged(int requestCode, List<SimpleReview> newReviewList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onReviewListAppended(int requestCode, List<Review> appendedReviewList) {
+    public void onReviewListAppended(int requestCode, List<SimpleReview> appendedReviewList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onReviewChanged(int requestCode, int position, Review newReview) {
+    public void onReviewChanged(int requestCode, int position, SimpleReview newReview) {
         notifyChangedIfLoaded();
     }
 
@@ -369,7 +369,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                                           List<SimpleCelebrity> newCelebrityList,
                                           List<ItemAwardItem> newAwardList,
                                           List<ItemCollection> newItemCollectionList,
-                                          List<Review> newReviewList);
+                                          List<SimpleReview> newReviewList);
 
     private void notifyError(ApiError error) {
         if (!mHasError) {

@@ -5,13 +5,13 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 
 public class ReviewUpdatedEvent extends Event {
 
-    public Review review;
+    public SimpleReview review;
 
-    public ReviewUpdatedEvent(Review review, Object source) {
+    public ReviewUpdatedEvent(SimpleReview review, Object source) {
         super(source);
 
         this.review = review;

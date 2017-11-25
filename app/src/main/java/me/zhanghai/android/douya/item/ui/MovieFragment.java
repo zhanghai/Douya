@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.support.v7.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
@@ -17,9 +16,9 @@ import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
-import me.zhanghai.android.douya.network.api.info.frodo.Review;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -66,14 +65,14 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     public void onChanged(int requestCode, Movie newMovie, Rating newRating,
                           List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
                           List<ItemAwardItem> newAwardList,
-                          List<ItemCollection> newItemCollectionList, List<Review> newReviewList) {
+                          List<ItemCollection> newItemCollectionList, List<SimpleReview> newReviewList) {
         update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
                 newItemCollectionList, newReviewList);
     }
 
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                        List<ItemCollection> itemCollectionList, List<Review> reviewList) {
+                        List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList) {
 
         super.updateWithSimpleItem(movie);
 

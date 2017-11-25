@@ -9,12 +9,12 @@ import android.os.Parcel;
 
 import java.util.ArrayList;
 
-public class ReviewList extends BaseList<Review> {
+public class ReviewList extends BaseList<SimpleReview> {
 
-    public ArrayList<Review> reviews = new ArrayList<>();
+    public ArrayList<SimpleReview> reviews = new ArrayList<>();
 
     @Override
-    public ArrayList<Review> getList() {
+    public ArrayList<SimpleReview> getList() {
         return reviews;
     }
 
@@ -34,7 +34,7 @@ public class ReviewList extends BaseList<Review> {
     protected ReviewList(Parcel in) {
         super(in);
 
-        reviews = in.createTypedArrayList(Review.CREATOR);
+        reviews = in.createTypedArrayList(SimpleReview.CREATOR);
     }
 
     @Override
