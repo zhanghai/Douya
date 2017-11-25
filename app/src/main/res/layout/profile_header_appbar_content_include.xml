@@ -34,6 +34,7 @@
         android:layout_marginTop="@dimen/profile_large_avatar_bottom_from_toolbar_bottom" />
 
     <LinearLayout
+        android:id="@+id/profile_header_animate_changes_layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-4dp"
@@ -82,6 +83,7 @@
         android:layout_weight="1" />
 
     <FrameLayout
+        android:id="@+id/profile_header_animate_changes_layout_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-16dp"

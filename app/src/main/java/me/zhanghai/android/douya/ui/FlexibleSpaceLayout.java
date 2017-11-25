@@ -180,6 +180,10 @@ public class FlexibleSpaceLayout extends LinearLayout {
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
+    public boolean isHeaderOpen() {
+        return mScroll == 0;
+    }
+
     public boolean isHeaderCollapsed() {
         return mHeaderCollapsed;
     }

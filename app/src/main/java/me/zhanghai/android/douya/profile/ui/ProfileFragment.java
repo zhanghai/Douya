@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
@@ -63,6 +64,11 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     View mDismissView;
     @BindView(R.id.toolbar)
     DoubleClickToolBar mToolbar;
+    @BindViews({
+            R.id.profile_header_animate_changes_layout_1,
+            R.id.profile_header_animate_changes_layout_2
+    })
+    ViewGroup[] mAnimateChangesLayouts;
     @BindView(R.id.contentState)
     ContentStateLayout mContentStateLayout;
     @BindView(R.id.content)
@@ -240,6 +246,12 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
 
     @Override
     public void onUserChanged(int requestCode, User newUser) {
+        // WORKAROUND: Fix for LayoutTransition visual glitch when view is scrolling.
+        if (!mScrollLayout.isHeaderOpen()) {
+            for (ViewGroup animateChangesLayout : mAnimateChangesLayouts) {
+                animateChangesLayout.setLayoutTransition(null);
+            }
+        }
         mHeaderLayout.bindUser(newUser);
     }
 
