@@ -42,4 +42,7 @@
     <dimen name="profile_large_avatar_size">192dp</dimen>
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">32dp</dimen>
     <dimen name="profile_small_avatar_size">40dp</dimen>
+
+    <dimen name="item_backdrop_layout_height">@dimen/wrap_content</dimen>
+    <dimen name="item_cover_width">214dp</dimen>
 </resources>

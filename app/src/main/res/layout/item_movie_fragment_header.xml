@@ -17,7 +17,7 @@
 
     <me.zhanghai.android.douya.ui.RatioImageView
         android:id="@+id/poster"
-        android:layout_width="104dp"
+        android:layout_width="@dimen/item_cover_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="-16dp"
         android:layout_marginRight="@dimen/content_horizontal_space" />

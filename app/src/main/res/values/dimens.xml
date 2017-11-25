@@ -102,6 +102,8 @@
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">8dp</dimen>
     <dimen name="profile_small_avatar_size">32dp</dimen>
 
+    <dimen name="item_backdrop_layout_height">@dimen/wrap_content</dimen>
+    <dimen name="item_cover_width">104dp</dimen>
     <dimen name="item_celebrity_avatar_height">120dp</dimen>
     <dimen name="item_photo_list_height">240dp</dimen>
     <dimen name="item_rating_distribution_bar_min_width">1dp</dimen>

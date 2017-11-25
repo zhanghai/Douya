@@ -60,8 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
-        android:paddingTop="@dimen/card_vertical_space"
-        android:paddingBottom="@dimen/card_vertical_space"
+        android:paddingTop="@dimen/content_vertical_space"
+        android:paddingBottom="@dimen/content_vertical_space"
         android:includeFontPadding="false"
         android:text="@string/item_collection_list_view_more"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />

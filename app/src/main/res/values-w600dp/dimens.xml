@@ -14,4 +14,6 @@
 
     <dimen name="profile_large_avatar_size">112dp</dimen>
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">8dp</dimen>
+
+    <dimen name="item_backdrop_layout_height">180dp</dimen>
 </resources>
