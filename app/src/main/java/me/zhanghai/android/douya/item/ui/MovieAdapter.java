@@ -86,16 +86,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case ITEM_HEADER:
-                return new HeaderHolder(ViewUtils.inflate(R.layout.movie_header_item, parent));
+                return new HeaderHolder(ViewUtils.inflate(R.layout.item_movie_fragment_header,
+                        parent));
             case ITEM_BADGE_LIST:
-                return new BadgeListHolder(ViewUtils.inflate(R.layout.item_badge_list_item,
+                return new BadgeListHolder(ViewUtils.inflate(R.layout.item_fragment_badge_list,
                         parent));
             case ITEM_INTRODUCTION:
-                return new IntroductionHolder(ViewUtils.inflate(R.layout.item_introduction_item,
+                return new IntroductionHolder(ViewUtils.inflate(R.layout.item_fragment_introduction,
                         parent));
             case ITEM_PHOTO_LIST: {
                 PhotoListHolder holder = new PhotoListHolder(ViewUtils.inflate(
-                        R.layout.item_photo_list_item, parent));
+                        R.layout.item_fragment_photo_list, parent));
                 holder.photoList.setHasFixedSize(true);
                 holder.photoList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
                         LinearLayoutManager.HORIZONTAL, false));
@@ -108,7 +109,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_CELEBRITY_LIST: {
                 CelebrityListHolder holder = new CelebrityListHolder(ViewUtils.inflate(
-                        R.layout.item_celebrity_list_item, parent));
+                        R.layout.item_fragment_celebrity_list, parent));
                 holder.celebrityList.setHasFixedSize(true);
                 holder.celebrityList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
                         LinearLayoutManager.HORIZONTAL, false));
@@ -121,7 +122,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_AWARD_LIST: {
                 AwardListHolder holder = new AwardListHolder(ViewUtils.inflate(
-                        R.layout.item_award_list_item, parent));
+                        R.layout.item_fragment_award_list, parent));
                 ViewUtils.setVisibleOrGone(holder.awardList, !mData.awardList.isEmpty());
                 holder.awardList.setHasFixedSize(true);
                 holder.awardList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
@@ -134,14 +135,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 return holder;
             }
             case ITEM_RATING: {
-                RatingHolder holder = new RatingHolder(ViewUtils.inflate(R.layout.item_rating_item,
-                        parent));
+                RatingHolder holder = new RatingHolder(ViewUtils.inflate(
+                        R.layout.item_fragment_rating, parent));
                 holder.ratingDistributionLayout.setCompact(true);
                 return holder;
             }
             case ITEM_COLLECTION_LIST: {
                 ItemCollectionListHolder holder = new ItemCollectionListHolder(ViewUtils.inflate(
-                        R.layout.item_collection_list_item, parent));
+                        R.layout.item_fragment_collection_list, parent));
                 ViewUtils.setVisibleOrGone(holder.itemCollectionList,
                         !mData.itemCollectionList.isEmpty());
                 holder.itemCollectionList.setAdapter(new ItemCollectionListAdapter());
@@ -149,7 +150,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_REVIEW_LIST: {
                 ReviewListHolder holder = new ReviewListHolder(ViewUtils.inflate(
-                        R.layout.item_review_list_item, parent));
+                        R.layout.item_fragment_review_list, parent));
                 ViewUtils.setVisibleOrGone(holder.reviewList, !mData.reviewList.isEmpty());
                 holder.reviewList.setAdapter(new ReviewListAdapter());
                 return holder;
