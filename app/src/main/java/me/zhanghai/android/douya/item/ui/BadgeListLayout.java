@@ -10,14 +10,13 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -114,17 +113,11 @@ public class BadgeListLayout extends HorizontalScrollView {
         ViewUtils.inflateInto(R.layout.item_badge_list_layout, this);
         ButterKnife.bind(this);
 
-        Context context = getContext();
         ViewCompat.setBackground(mTop250Badge, new ShapeDrawable(new CircleRectShape()));
-        Drawable ratingBadgeDrawable = new RatingBadgeDrawable(context);
-        ratingBadgeDrawable = DrawableCompat.wrap(ratingBadgeDrawable);
-        int colorAccent = ViewUtils.getColorFromAttrRes(R.attr.colorAccent, 0, context);
-        DrawableCompat.setTint(ratingBadgeDrawable, colorAccent);
-        ViewCompat.setBackground(mRatingBadgeLayout, ratingBadgeDrawable);
-        Drawable followingsRatingBadgeDrawable = new FollowingsRatingBadgeDrawable(context);
-        followingsRatingBadgeDrawable = DrawableCompat.wrap(followingsRatingBadgeDrawable);
-        DrawableCompat.setTint(followingsRatingBadgeDrawable, colorAccent);
-        ViewCompat.setBackground(mFollowingsRatingBadgeLayout, followingsRatingBadgeDrawable);
+        ViewCompat.setBackground(mRatingBadgeLayout, new RatingBadgeDrawable(
+                mRatingBadgeLayout.getContext()));
+        ViewCompat.setBackground(mFollowingsRatingBadgeLayout, new FollowingsRatingBadgeDrawable(
+                mFollowingsRatingBadgeLayout.getContext()));
         mSimilarItemsLayout.setOnClickListener(view -> {
             // TODO
         });
@@ -210,41 +203,61 @@ public class BadgeListLayout extends HorizontalScrollView {
     private static abstract class BaseRatingBadgeDrawable extends LayerDrawable {
 
         private static final float STROKE_WIDTH_DP = 1.5f;
-        private static final float STROKE_FILL_GAP_DP = 2;
+        private static final float FILL_INSET_DP = 3.5f;
 
-        public BaseRatingBadgeDrawable(Drawable[] drawables, Context context) {
-            super(drawables);
+        public BaseRatingBadgeDrawable(Shape shape, Context context) {
+            super(new Drawable[] {
+                    DrawableCompat.wrap(new ShapeDrawable(shape)),
+                    DrawableCompat.wrap(new ShapeDrawable(cloneShape(shape))),
+                    DrawableCompat.wrap(new ShapeDrawable(cloneShape(shape)))
+            });
 
-            // Not using ViewUtils.dpToPxSize() because it causes truncation.
+            Drawable backgroundDrawable = getDrawable(0);
+            int textColorPrimary = ViewUtils.getColorFromAttrRes(android.R.attr.textColorPrimary, 0,
+                    context);
+            DrawableCompat.setTint(backgroundDrawable, textColorPrimary);
+            // Not using ViewUtils.dpToPxOffset() because it causes truncation.
             int strokeInset = ViewUtils.dpToPxSize(STROKE_WIDTH_DP / 2, context);
             setLayerInset(0, strokeInset, strokeInset, strokeInset, strokeInset);
-            Paint strokePaint = ((ShapeDrawable) getDrawable(0)).getPaint();
+
+            // If the outer accent color stroke is not drawn by a stroke paint, it becomes too
+            // narrow.
+            Drawable strokeDrawable = getDrawable(1);
+            int colorAccent = ViewUtils.getColorFromAttrRes(R.attr.colorAccent, 0, context);
+            DrawableCompat.setTint(strokeDrawable, colorAccent);
+            setLayerInset(1, strokeInset, strokeInset, strokeInset, strokeInset);
+            Paint strokePaint = ((ShapeDrawable) DrawableCompat.unwrap(strokeDrawable)).getPaint();
             strokePaint.setStyle(Paint.Style.STROKE);
             int strokeWidth = ViewUtils.dpToPxSize(STROKE_WIDTH_DP, context);
             strokePaint.setStrokeWidth(strokeWidth);
 
-            int fillInset = ViewUtils.dpToPxOffset(STROKE_WIDTH_DP + STROKE_FILL_GAP_DP, context);
-            setLayerInset(1, fillInset, fillInset, fillInset, fillInset);
+            Drawable fillDrawable = getDrawable(2);
+            DrawableCompat.setTint(fillDrawable, colorAccent);
+            // Not using ViewUtils.dpToPxOffset() for better visual effect.
+            int fillInset = ViewUtils.dpToPxSize(FILL_INSET_DP, context);
+            setLayerInset(2, fillInset, fillInset, fillInset, fillInset);
+        }
+
+        private static Shape cloneShape(Shape shape) {
+            try {
+                return shape.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new IllegalArgumentException(e);
+            }
         }
     }
 
     private static class RatingBadgeDrawable extends BaseRatingBadgeDrawable {
 
         public RatingBadgeDrawable(Context context) {
-            super(new Drawable[] {
-                    new ShapeDrawable(new PolygonShape(8)),
-                    new ShapeDrawable(new PolygonShape(8))
-            }, context);
+            super(new PolygonShape(8), context);
         }
     }
 
     private static class FollowingsRatingBadgeDrawable extends BaseRatingBadgeDrawable {
 
         public FollowingsRatingBadgeDrawable(Context context) {
-            super(new Drawable[] {
-                    new ShapeDrawable(new StarShape(10, 0.85f)),
-                    new ShapeDrawable(new StarShape(10, 0.85f))
-            }, context);
+            super(new StarShape(10, 0.85f), context);
         }
     }
 }
