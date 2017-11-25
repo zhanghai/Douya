@@ -180,6 +180,10 @@ public class FlexibleSpaceLayout extends LinearLayout {
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
+    public boolean isHeaderCollapsed() {
+        return mHeaderCollapsed;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
 
@@ -402,8 +406,12 @@ public class FlexibleSpaceLayout extends LinearLayout {
     }
 
     private void snapHeaderView() {
+        animateHeaderViewScroll(!mHeaderCollapsed);
+    }
+
+    public void animateHeaderViewScroll(boolean toCollapsed) {
         ObjectAnimator animator = ObjectAnimator.ofInt(this, SCROLL, mScroll,
-                mHeaderCollapsed ? 0 : mHeaderView.getScrollExtent());
+                toCollapsed ? mHeaderView.getScrollExtent() : 0);
         animator.setDuration(mMediumAnimationTime);
         animator.setInterpolator(new FastOutSlowInInterpolator());
         animator.start();

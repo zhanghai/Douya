@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +39,7 @@ import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
+import me.zhanghai.android.douya.ui.DoubleClickToolBar;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     @BindView(R.id.dismiss)
     View mDismissView;
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    DoubleClickToolBar mToolbar;
     @BindView(R.id.contentState)
     ContentStateLayout mContentStateLayout;
     @BindView(R.id.content)
@@ -156,6 +156,13 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
             mHeaderLayout.bindSimpleUser(mResource.getSimpleUser());
         }
         mHeaderLayout.setListener(this);
+        mToolbar.setOnDoubleClickListener(view -> {
+            if (!mScrollLayout.isHeaderCollapsed()) {
+                return false;
+            }
+            mScrollLayout.animateHeaderViewScroll(false);
+            return true;
+        });
 
         if (ViewUtils.hasSw600Dp(activity)) {
             mContentList.setLayoutManager(new StaggeredGridLayoutManager(2,
