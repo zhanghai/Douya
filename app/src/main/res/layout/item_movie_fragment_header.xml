@@ -9,115 +9,57 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+    android:paddingRight="@dimen/screen_edge_horizontal_margin"
     android:background="?colorBackgroundFloating"
-    android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+    <me.zhanghai.android.douya.ui.RatioImageView
+        android:id="@+id/poster"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-16dp"
+        android:layout_marginRight="@dimen/content_horizontal_space" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-        android:paddingRight="@dimen/screen_edge_horizontal_margin"
-        android:clipToPadding="false"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:paddingTop="@dimen/content_vertical_space"
+        android:orientation="vertical">
 
-        <me.zhanghai.android.douya.ui.RatioImageView
-            android:id="@+id/poster"
-            android:layout_width="104dp"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-16dp"
-            android:layout_marginRight="@dimen/content_horizontal_space" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <me.zhanghai.android.douya.ui.AutoGoneTextView
+            android:id="@+id/original_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="@dimen/content_vertical_space"
-            android:orientation="vertical">
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
 
-            <me.zhanghai.android.douya.ui.AutoGoneTextView
-                android:id="@+id/original_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?android:textColorSecondary" />
-
-            <TextView
-                android:id="@+id/detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?android:textColorSecondary" />
-
-            <TextView
-                android:id="@+id/genres"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?android:textColorSecondary" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_vertical_space_with_6dp_padding"
-        android:layout_marginBottom="@dimen/content_vertical_space_with_6dp_padding"
-        android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
-        android:paddingRight="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
-        android:orientation="horizontal">
-
-        <me.zhanghai.android.douya.ui.ColoredBorderButton
-            android:id="@+id/todo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
-
-        <me.zhanghai.android.douya.ui.ColoredBorderButton
-            android:id="@+id/doing"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
-
-        <!--
-        <Button
-            android:id="@+id/done"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:stateListAnimator="@null"
-            android:textAppearance="?android:textAppearanceButton"
-            android:theme="?darkTheme"
-            style="@style/Widget.AppCompat.Button.Colored" />
-        -->
-
-        <me.zhanghai.android.douya.ui.ColoredBorderButton
-            android:id="@+id/done"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
-        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
-        android:background="?dividerHorizontal" />
 </LinearLayout>

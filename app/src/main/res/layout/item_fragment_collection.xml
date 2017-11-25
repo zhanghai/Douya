@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorBackgroundFloating"
+    android:orientation="vertical">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
+        android:paddingTop="@dimen/content_vertical_space_with_6dp_padding"
+        android:paddingBottom="@dimen/content_vertical_space_with_6dp_padding"
+        android:orientation="horizontal">
+
+        <me.zhanghai.android.douya.ui.ColoredBorderButton
+            android:id="@+id/todo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+
+        <me.zhanghai.android.douya.ui.ColoredBorderButton
+            android:id="@+id/doing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+
+        <!--
+        <Button
+            android:id="@+id/done"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:textAppearance="?android:textAppearanceButton"
+            android:theme="?darkTheme"
+            style="@style/Widget.AppCompat.Button.Colored" />
+        -->
+
+        <me.zhanghai.android.douya.ui.ColoredBorderButton
+            android:id="@+id/done"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+        android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?dividerHorizontal" />
+</LinearLayout>

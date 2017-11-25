@@ -42,16 +42,17 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM_HEADER = 0;
-    private static final int ITEM_BADGE_LIST = 1;
-    private static final int ITEM_INTRODUCTION = 2;
-    private static final int ITEM_PHOTO_LIST = 3;
-    private static final int ITEM_CELEBRITY_LIST = 4;
-    private static final int ITEM_AWARD_LIST = 5;
-    private static final int ITEM_RATING = 6;
-    private static final int ITEM_COLLECTION_LIST = 7;
-    private static final int ITEM_REVIEW_LIST = 8;
+    private static final int ITEM_COLLECTION = 1;
+    private static final int ITEM_BADGE_LIST = 2;
+    private static final int ITEM_INTRODUCTION = 3;
+    private static final int ITEM_PHOTO_LIST = 4;
+    private static final int ITEM_CELEBRITY_LIST = 5;
+    private static final int ITEM_AWARD_LIST = 6;
+    private static final int ITEM_RATING = 7;
+    private static final int ITEM_COLLECTION_LIST = 8;
+    private static final int ITEM_REVIEW_LIST = 9;
 
-    private static final int ITEM_COUNT = 9;
+    private static final int ITEM_COUNT = 10;
 
     private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
     private static final int ITEM_REVIEW_LIST_MAX_SIZE = 5;
@@ -87,6 +88,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (viewType) {
             case ITEM_HEADER:
                 return new HeaderHolder(ViewUtils.inflate(R.layout.item_movie_fragment_header,
+                        parent));
+            case ITEM_COLLECTION:
+                return new ItemCollectionHolder(ViewUtils.inflate(R.layout.item_fragment_collection,
                         parent));
             case ITEM_BADGE_LIST:
                 return new BadgeListHolder(ViewUtils.inflate(R.layout.item_fragment_badge_list,
@@ -185,11 +189,15 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 headerHolder.detailText.setText(detail);
                 headerHolder.genresText.setText(CollectableItem.getListAsString(
                         mData.movie.genres));
-                headerHolder.todoButton.setText(ItemCollectionState.TODO.getString(
+                break;
+            }
+            case ITEM_COLLECTION: {
+                ItemCollectionHolder itemCollectionHolder = (ItemCollectionHolder) holder;
+                itemCollectionHolder.todoButton.setText(ItemCollectionState.TODO.getString(
                         CollectableItem.Type.MOVIE, context));
-                headerHolder.doingButton.setText(ItemCollectionState.DOING.getString(
+                itemCollectionHolder.doingButton.setText(ItemCollectionState.DOING.getString(
                         CollectableItem.Type.MOVIE, context));
-                headerHolder.doneButton.setText(ItemCollectionState.DONE.getString(
+                itemCollectionHolder.doneButton.setText(ItemCollectionState.DONE.getString(
                         CollectableItem.Type.MOVIE, context));
                 break;
             }
@@ -338,6 +346,16 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public TextView detailText;
         @BindView(R.id.genres)
         public TextView genresText;
+
+        public HeaderHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class ItemCollectionHolder extends RecyclerView.ViewHolder {
+
         @BindView(R.id.todo)
         public Button todoButton;
         @BindView(R.id.doing)
@@ -345,7 +363,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @BindView(R.id.done)
         public Button doneButton;
 
-        public HeaderHolder(View itemView) {
+        public ItemCollectionHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
