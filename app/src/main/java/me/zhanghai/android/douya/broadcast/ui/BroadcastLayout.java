@@ -22,7 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -252,8 +251,8 @@ public class BroadcastLayout extends LinearLayout {
                         new HorizontalImageAdapter.OnImageClickListener() {
                             @Override
                             public void onImageClick(int position) {
-                                context.startActivity(GalleryActivity.makeImageListIntent(images,
-                                        position, context));
+                                context.startActivity(GalleryActivity.makeIntent(images, position,
+                                        context));
                             }
                         });
             } else {

@@ -23,25 +23,26 @@ public class GalleryActivity extends AppCompatActivity {
     private static final String EXTRA_IMAGE_LIST = KEY_PREFIX + "image_list";
     private static final String EXTRA_POSITION = KEY_PREFIX + "position";
 
-    public static Intent makeIntent(ArrayList<String> imageList, int position, Context context) {
+    public static Intent makeUrlListIntent(ArrayList<String> imageUrlList, int position,
+                                           Context context) {
         return new Intent(context, GalleryActivity.class)
-                .putStringArrayListExtra(EXTRA_IMAGE_LIST, imageList)
+                .putStringArrayListExtra(EXTRA_IMAGE_LIST, imageUrlList)
                 .putExtra(EXTRA_POSITION, position);
     }
 
-    public static Intent makeImageListIntent(List<? extends ImageItem> imageList, int position,
-                                             Context context) {
+    public static Intent makeIntent(List<? extends ImageItem> imageList, int position,
+                                    Context context) {
         ArrayList<String> imageUrlList = new ArrayList<>();
         for (ImageItem image : imageList) {
             imageUrlList.add(image.getLargeUrl());
         }
-        return makeIntent(imageUrlList, position, context);
+        return makeUrlListIntent(imageUrlList, position, context);
     }
 
-    public static Intent makeIntent(String image, Context context) {
+    public static Intent makeIntent(String imageUrl, Context context) {
         ArrayList<String> imageList = new ArrayList<>();
-        imageList.add(image);
-        return makeIntent(imageList, 0, context);
+        imageList.add(imageUrl);
+        return makeUrlListIntent(imageList, 0, context);
     }
 
     public static Intent makeIntent(ImageItem image, Context context) {

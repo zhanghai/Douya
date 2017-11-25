@@ -190,8 +190,37 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (position) {
             case ITEM_BACKDROP: {
                 BackdropHolder backdropHolder = (BackdropHolder) holder;
-                loadBackdropImage(backdropHolder.backdropImage);
-                ViewUtils.setVisibleOrGone(backdropHolder.playImage, mData.movie.trailer != null);
+                boolean hasTrailer = mData.movie.trailer != null;
+                if (hasTrailer) {
+                    ImageUtils.loadImage(backdropHolder.backdropImage,
+                            mData.movie.trailer.coverUrl);
+                    backdropHolder.itemView.setOnClickListener(view -> {
+                        // TODO
+                        UriHandler.open(mData.movie.trailer.videoUrl, context);
+                    });
+                } else if (!mData.photoList.isEmpty()) {
+                    ImageUtils.loadLargeImage(backdropHolder.backdropImage, mData.photoList.get(0));
+                    backdropHolder.itemView.setOnClickListener(view -> {
+                        // TODO
+                        context.startActivity(GalleryActivity.makeIntent(mData.photoList, 0,
+                                context));
+                    });
+                } else if (mData.movie.poster != null) {
+                    ImageUtils.loadLargeImage(backdropHolder.backdropImage, mData.movie.poster);
+                    backdropHolder.itemView.setOnClickListener(view -> {
+                        // TODO
+                        context.startActivity(GalleryActivity.makeIntent(mData.movie.poster,
+                                context));
+                    });
+                } else {
+                    ImageUtils.loadLargeImage(backdropHolder.backdropImage, mData.movie.cover);
+                    backdropHolder.itemView.setOnClickListener(view -> {
+                        // TODO
+                        context.startActivity(GalleryActivity.makeIntent(mData.movie.cover,
+                                context));
+                    });
+                }
+                ViewUtils.setVisibleOrGone(backdropHolder.playImage, hasTrailer);
                 break;
             }
             case ITEM_HEADER: {
@@ -265,8 +294,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if (excludeFirstPhoto) {
                         ++photoPosition;
                     }
-                    context.startActivity(GalleryActivity.makeImageListIntent(mData.photoList,
-                            photoPosition, photoListHolder.photoList.getContext()));
+                    context.startActivity(GalleryActivity.makeIntent(mData.photoList, photoPosition,
+                            photoListHolder.photoList.getContext()));
                 });
                 photoListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
@@ -340,18 +369,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         recyclerView.removeOnScrollListener(mOnScrollListener);
-    }
-
-    private void loadBackdropImage(ImageView backdropImage) {
-        if (mData.movie.trailer != null) {
-            ImageUtils.loadImage(backdropImage, mData.movie.trailer.coverUrl);
-        } else if (!mData.photoList.isEmpty()) {
-            ImageUtils.loadLargeImage(backdropImage, mData.photoList.get(0));
-        } else if (mData.movie.poster != null) {
-            ImageUtils.loadLargeImage(backdropImage, mData.movie.poster);
-        } else {
-            ImageUtils.loadLargeImage(backdropImage, mData.movie.cover);
-        }
     }
 
     private boolean shouldExcludeFirstPhoto() {
