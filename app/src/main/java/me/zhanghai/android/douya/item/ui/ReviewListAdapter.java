@@ -45,7 +45,10 @@ public class ReviewListAdapter extends SimpleAdapter<SimpleReview, ReviewListAda
         if (hasRating) {
             holder.ratingBar.setRating(review.rating.getRatingBarValue());
         }
-        holder.usefulnessText.setText(review.usefulCount + "");
+        String usefulness = holder.usefulnessText.getContext().getString(
+                R.string.item_review_usefulness_format, review.usefulCount,
+                review.usefulCount + review.uselessCount);
+        holder.usefulnessText.setText(usefulness);
         holder.abstractText.setText(review.abstract_);
         holder.itemView.setOnClickListener(view -> {
             // TODO

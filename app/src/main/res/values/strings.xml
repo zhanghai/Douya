@@ -290,6 +290,7 @@
     <string name="item_review_list_title">评论</string>
     <string name="item_review_list_create">写评论</string>
     <string name="item_review_list_view_more">全部评论</string>
+    <string name="item_review_usefulness_format">%1$d/%2$d 有用</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>
