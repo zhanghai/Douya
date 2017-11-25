@@ -213,8 +213,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         photoListHolder.photoList.getAdapter();
                 List<Photo> photoList = mData.photoList;
                 if (mData.excludeFirstPhoto) {
-                    photoList = new ArrayList<>(photoList);
-                    photoList.remove(0);
+                    photoList = photoList.subList(1, photoList.size());
                 }
                 adapter.replace(photoList);
                 adapter.setOnImageClickListener(photoPosition -> {
