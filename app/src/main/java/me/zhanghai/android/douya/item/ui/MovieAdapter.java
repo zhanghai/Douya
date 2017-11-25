@@ -261,7 +261,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ratingHolder.ratingLayout.setRating(mData.rating.rating);
                 ratingHolder.ratingDistributionLayout.setRating(mData.rating);
                 ratingHolder.itemView.setOnClickListener(view -> {
-                    // TODO
+                    UriHandler.open(mData.movie.url + "/collections", view.getContext());
                 });
                 break;
             }
