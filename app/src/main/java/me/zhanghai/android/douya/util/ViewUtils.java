@@ -17,6 +17,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -282,6 +283,32 @@ public class ViewUtils {
         return getLongAnimTime(context.getResources());
     }
 
+    public static int getMarginStart(View view) {
+        return MarginLayoutParamsCompat.getMarginStart(
+                (ViewGroup.MarginLayoutParams) view.getLayoutParams());
+    }
+
+    public static int getMarginEnd(View view) {
+        return MarginLayoutParamsCompat.getMarginEnd(
+                (ViewGroup.MarginLayoutParams) view.getLayoutParams());
+    }
+
+    public static int getMarginLeft(View view) {
+        return ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).leftMargin;
+    }
+
+    public static int getMarginRight(View view) {
+        return ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).rightMargin;
+    }
+
+    public static int getMarginTop(View view) {
+        return ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).topMargin;
+    }
+
+    public static int getMarginBottom(View view) {
+        return ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).bottomMargin;
+    }
+
     public static int getWidthExcludingPadding(View view) {
         return Math.max(0, view.getWidth() - view.getPaddingLeft() - view.getPaddingRight());
     }
@@ -392,6 +419,41 @@ public class ViewUtils {
                 savedPaddingBottom);
     }
 
+    public static void setMarginStart(View view, int marginStart) {
+        MarginLayoutParamsCompat.setMarginStart(
+                (ViewGroup.MarginLayoutParams) view.getLayoutParams(), marginStart);
+    }
+
+    public static void setMarginEnd(View view, int marginEnd) {
+        MarginLayoutParamsCompat.setMarginEnd((ViewGroup.MarginLayoutParams) view.getLayoutParams(),
+                marginEnd);
+    }
+
+    public static void setMarginLeft(View view, int marginLeft) {
+        ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).leftMargin = marginLeft;
+    }
+
+    public static void setMarginRight(View view, int marginRight) {
+        ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).rightMargin = marginRight;
+    }
+
+    public static void setMarginTop(View view, int marginTop) {
+        ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).topMargin = marginTop;
+    }
+
+    public static void setMarginBottom(View view, int marginBottom) {
+        ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).bottomMargin = marginBottom;
+    }
+
+    public static void setWidth(View view, int width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams.width == width) {
+            return;
+        }
+        layoutParams.width = width;
+        view.setLayoutParams(layoutParams);
+    }
+
     public static void setHeight(View view, int height) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams.height == height) {
@@ -478,14 +540,5 @@ public class ViewUtils {
 
     public static void setVisibleOrInvisible(View view, boolean visible) {
         view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-    }
-
-    public static void setWidth(View view, int width) {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        if (layoutParams.width == width) {
-            return;
-        }
-        layoutParams.width = width;
-        view.setLayoutParams(layoutParams);
     }
 }

@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,7 +68,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            MovieAdapter.this.onScrolled(recyclerView);
+            MovieAdapter.this.onScrolled(recyclerView, dx, dy);
         }
     };
 
@@ -375,7 +376,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return mData.movie.trailer == null && !mData.photoList.isEmpty();
     }
 
-    private void onScrolled(RecyclerView recyclerView) {
+    private void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         BackdropHolder backdropHolder = null;
         for (int i = 0, count = recyclerView.getChildCount(); i < count; ++i) {
             View child = recyclerView.getChildAt(i);

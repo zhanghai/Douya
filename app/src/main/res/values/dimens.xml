@@ -103,7 +103,7 @@
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">8dp</dimen>
     <dimen name="profile_small_avatar_size">32dp</dimen>
 
-    <dimen name="item_backdrop_layout_height">@dimen/wrap_content</dimen>
+    <dimen name="item_backdrop_play_layout_height">@dimen/match_parent</dimen>
     <dimen name="item_content_horizontal_margin">0dp</dimen>
     <dimen name="item_cover_width">104dp</dimen>
     <dimen name="item_badge_list_space">20dp</dimen>
