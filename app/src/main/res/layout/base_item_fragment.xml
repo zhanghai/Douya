@@ -34,14 +34,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/scrim_height" />
 
-            <ImageView
-                android:id="@+id/backdrop_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:alpha="@dimen/hint_pressed_alpha_material_dark"
-                android:src="@drawable/play_circle_outline_icon_white_48dp"
-                android:visibility="gone" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_backdrop_play_layout_height">
+
+                <ImageView
+                    android:id="@+id/backdrop_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:alpha="@dimen/hint_pressed_alpha_material_dark"
+                    android:src="@drawable/play_circle_outline_icon_white_48dp"
+                    android:visibility="gone" />
+            </FrameLayout>
         </FrameLayout>
     </FrameLayout>
 
