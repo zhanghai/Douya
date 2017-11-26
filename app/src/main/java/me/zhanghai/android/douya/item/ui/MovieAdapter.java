@@ -58,6 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_COLLECTION_LIST = 9;
     private static final int ITEM_REVIEW_LIST = 10;
 
+    private static final int ITEM_COUNT_EMPTY = 1;
     private static final int ITEM_COUNT = 11;
 
     private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
@@ -93,7 +94,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mData != null ? ITEM_COUNT : 0;
+        return mData != null ? ITEM_COUNT : ITEM_COUNT_EMPTY;
     }
 
     @Override
@@ -190,6 +191,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         final Context context = holder.itemView.getContext();
         switch (position) {
             case ITEM_BACKDROP: {
+                if (mData == null) {
+                    break;
+                }
                 BackdropHolder backdropHolder = (BackdropHolder) holder;
                 boolean hasTrailer = mData.movie.trailer != null;
                 if (hasTrailer) {

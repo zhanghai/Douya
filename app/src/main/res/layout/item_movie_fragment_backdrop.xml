@@ -15,7 +15,8 @@
     <me.zhanghai.android.douya.ui.RatioImageView
         android:id="@+id/backdrop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="?colorAccent" />
 
     <View
         android:id="@+id/scrim"
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:alpha="@dimen/hint_pressed_alpha_material_dark"
-            android:src="@drawable/play_circle_outline_icon_white_48dp" />
+            android:src="@drawable/play_circle_outline_icon_white_48dp"
+            android:visibility="gone" />
     </FrameLayout>
 </me.zhanghai.android.douya.item.ui.BackdropLayout>
