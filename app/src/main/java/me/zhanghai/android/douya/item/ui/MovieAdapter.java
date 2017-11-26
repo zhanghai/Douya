@@ -7,15 +7,11 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -39,39 +35,29 @@ import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.RatioImageView;
-import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int ITEM_BACKDROP = 0;
-    private static final int ITEM_HEADER = 1;
-    private static final int ITEM_COLLECTION = 2;
-    private static final int ITEM_BADGE_LIST = 3;
-    private static final int ITEM_INTRODUCTION = 4;
-    private static final int ITEM_PHOTO_LIST = 5;
-    private static final int ITEM_CELEBRITY_LIST = 6;
-    private static final int ITEM_AWARD_LIST = 7;
-    private static final int ITEM_RATING = 8;
-    private static final int ITEM_COLLECTION_LIST = 9;
-    private static final int ITEM_REVIEW_LIST = 10;
+    private static final int ITEM_HEADER = 0;
+    private static final int ITEM_COLLECTION = 1;
+    private static final int ITEM_BADGE_LIST = 2;
+    private static final int ITEM_INTRODUCTION = 3;
+    private static final int ITEM_PHOTO_LIST = 4;
+    private static final int ITEM_CELEBRITY_LIST = 5;
+    private static final int ITEM_AWARD_LIST = 6;
+    private static final int ITEM_RATING = 7;
+    private static final int ITEM_COLLECTION_LIST = 8;
+    private static final int ITEM_REVIEW_LIST = 9;
 
-    private static final int ITEM_COUNT_EMPTY = 1;
-    private static final int ITEM_COUNT = 11;
+    private static final int ITEM_COUNT = 10;
 
     private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
     private static final int ITEM_REVIEW_LIST_MAX_SIZE = 5;
 
     private Data mData;
-
-    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            MovieAdapter.this.onScrolled(recyclerView, dx, dy);
-        }
-    };
 
     public MovieAdapter() {
         setHasStableIds(true);
@@ -94,20 +80,12 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mData != null ? ITEM_COUNT : ITEM_COUNT_EMPTY;
+        return mData != null ? ITEM_COUNT : 0;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case ITEM_BACKDROP: {
-                BackdropHolder holder = new BackdropHolder(ViewUtils.inflate(
-                        R.layout.item_movie_fragment_backdrop, parent));
-                holder.backdropImage.setRatio(16, 9);
-                ViewCompat.setBackground(holder.scrimView, DrawableUtils.makeScrimDrawable(
-                        Gravity.TOP));
-                return holder;
-            }
             case ITEM_HEADER:
                 return new HeaderHolder(ViewUtils.inflate(R.layout.item_movie_fragment_header,
                         parent));
@@ -190,44 +168,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Context context = holder.itemView.getContext();
         switch (position) {
-            case ITEM_BACKDROP: {
-                if (mData == null) {
-                    break;
-                }
-                BackdropHolder backdropHolder = (BackdropHolder) holder;
-                boolean hasTrailer = mData.movie.trailer != null;
-                if (hasTrailer) {
-                    ImageUtils.loadImage(backdropHolder.backdropImage,
-                            mData.movie.trailer.coverUrl);
-                    backdropHolder.itemView.setOnClickListener(view -> {
-                        // TODO
-                        UriHandler.open(mData.movie.trailer.videoUrl, context);
-                    });
-                } else if (!mData.photoList.isEmpty()) {
-                    ImageUtils.loadLargeImage(backdropHolder.backdropImage, mData.photoList.get(0));
-                    backdropHolder.itemView.setOnClickListener(view -> {
-                        // TODO
-                        context.startActivity(GalleryActivity.makeIntent(mData.photoList, 0,
-                                context));
-                    });
-                } else if (mData.movie.poster != null) {
-                    ImageUtils.loadLargeImage(backdropHolder.backdropImage, mData.movie.poster);
-                    backdropHolder.itemView.setOnClickListener(view -> {
-                        // TODO
-                        context.startActivity(GalleryActivity.makeIntent(mData.movie.poster,
-                                context));
-                    });
-                } else {
-                    ImageUtils.loadLargeImage(backdropHolder.backdropImage, mData.movie.cover);
-                    backdropHolder.itemView.setOnClickListener(view -> {
-                        // TODO
-                        context.startActivity(GalleryActivity.makeIntent(mData.movie.cover,
-                                context));
-                    });
-                }
-                ViewUtils.setVisibleOrGone(backdropHolder.playImage, hasTrailer);
-                break;
-            }
             case ITEM_HEADER: {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 headerHolder.posterImage.setRatio(27, 40);
@@ -289,14 +229,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 HorizontalImageAdapter adapter = (HorizontalImageAdapter)
                         photoListHolder.photoList.getAdapter();
                 List<Photo> photoList = mData.photoList;
-                boolean excludeFirstPhoto = shouldExcludeFirstPhoto();
-                if (excludeFirstPhoto) {
+                if (mData.excludeFirstPhoto) {
                     photoList = photoList.subList(1, photoList.size());
                 }
                 adapter.replace(photoList);
                 adapter.setOnImageClickListener(photoPosition -> {
                     // TODO: Use PhotoAlbumGalleryActivity instead.
-                    if (excludeFirstPhoto) {
+                    if (mData.excludeFirstPhoto) {
                         ++photoPosition;
                     }
                     context.startActivity(GalleryActivity.makeIntent(mData.photoList, photoPosition,
@@ -368,33 +307,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         recyclerView.setClipChildren(false);
-        recyclerView.addOnScrollListener(mOnScrollListener);
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        recyclerView.removeOnScrollListener(mOnScrollListener);
-    }
-
-    private boolean shouldExcludeFirstPhoto() {
-        return mData.movie.trailer == null && !mData.photoList.isEmpty();
-    }
-
-    private void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        BackdropHolder backdropHolder = null;
-        for (int i = 0, count = recyclerView.getChildCount(); i < count; ++i) {
-            View child = recyclerView.getChildAt(i);
-            RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(child);
-            if (holder instanceof BackdropHolder) {
-                backdropHolder = (BackdropHolder) holder;
-                break;
-            }
-        }
-        if (backdropHolder == null) {
-            return;
-        }
-        float translationY = (float) -backdropHolder.itemView.getTop() / 2;
-        backdropHolder.itemView.setTranslationY(translationY);
     }
 
     public static class Data {
@@ -402,37 +314,23 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public Movie movie;
         public Rating rating;
         public List<Photo> photoList;
+        public boolean excludeFirstPhoto;
         public List<SimpleCelebrity> celebrityList;
         public List<ItemAwardItem> awardList;
         public List<ItemCollection> itemCollectionList;
         public List<SimpleReview> reviewList;
 
-        public Data(Movie movie, Rating rating, List<Photo> photoList,
+        public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                     List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList) {
             this.movie = movie;
             this.rating = rating;
             this.photoList = photoList;
+            this.excludeFirstPhoto = excludeFirstPhoto;
             this.celebrityList = celebrityList;
             this.awardList = awardList;
             this.itemCollectionList = itemCollectionList;
             this.reviewList = reviewList;
-        }
-    }
-
-    static class BackdropHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.backdrop)
-        public RatioImageView backdropImage;
-        @BindView(R.id.scrim)
-        public View scrimView;
-        @BindView(R.id.play)
-        public ImageView playImage;
-
-        public BackdropHolder(View itemView) {
-            super(itemView);
-
-            ButterKnife.bind(this, itemView);
         }
     }
 
