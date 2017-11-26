@@ -10,6 +10,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -53,6 +54,7 @@ public class TransparentDoubleClickToolbar extends DoubleClickToolbar {
         ButterKnife.bind(this);
         mTitleTextColor = ViewUtils.getColorFromAttrRes(android.R.attr.textColorPrimary, 0,
                 getContext());
+        ViewCompat.setBackground(this, getBackground().mutate());
     }
 
     public void setTransparent(boolean transparent) {

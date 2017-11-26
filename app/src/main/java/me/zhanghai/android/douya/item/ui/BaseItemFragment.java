@@ -194,6 +194,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
                         mToolbar.getBottom());
             }
         });
+        mToolbar.getBackground().setAlpha(0);
         mToolbar.setOnDoubleClickListener(view -> {
             mContentList.smoothScrollToPosition(0);
             return true;
