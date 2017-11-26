@@ -9,24 +9,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/item_content_horizontal_margin"
-    android:layout_marginRight="@dimen/item_content_horizontal_margin"
-    android:background="?colorBackgroundFloating"
     android:orientation="vertical">
 
-    <me.zhanghai.android.douya.ui.NestedRecyclerView
-        android:id="@+id/photo_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_photo_list_height" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/view_more"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/item_content_horizontal_margin"
+            android:layout_marginRight="@dimen/item_content_horizontal_margin"
+            android:background="?colorBackgroundFloating" />
+
+        <me.zhanghai.android.douya.ui.NestedRecyclerView
+            android:id="@+id/photo_list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_photo_list_height"
+            android:paddingLeft="@dimen/item_content_horizontal_margin"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay" />
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:paddingTop="@dimen/content_vertical_space"
-        android:paddingBottom="@dimen/content_vertical_space"
-        android:includeFontPadding="false"
-        android:text="@string/item_photo_list_view_more"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
+        android:layout_marginLeft="@dimen/item_content_horizontal_margin"
+        android:layout_marginRight="@dimen/item_content_horizontal_margin"
+        android:background="?colorBackgroundFloating">
+
+        <Button
+            android:id="@+id/view_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_vertical_space"
+            android:paddingBottom="@dimen/content_vertical_space"
+            android:background="?selectableItemBackground"
+            android:includeFontPadding="false"
+            android:text="@string/item_photo_list_view_more"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
+    </FrameLayout>
 </LinearLayout>
