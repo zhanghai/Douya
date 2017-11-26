@@ -23,8 +23,8 @@ public class ItemContentRecyclerView extends RecyclerView {
 
     @BindDimen(R.dimen.item_content_padding_top_max)
     int mPaddingTopMax;
-    @BindDimen(R.dimen.screen_edge_horizontal_margin)
-    int mPaddingTopMargin;
+    @BindDimen(R.dimen.screen_edge_horizontal_margin_negative)
+    int mPaddingTopNegativeMargin;
 
     public ItemContentRecyclerView(Context context) {
         super(context);
@@ -70,10 +70,10 @@ public class ItemContentRecyclerView extends RecyclerView {
         if (mBackdropRatio > 0) {
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int paddingTop = Math.round(width / mBackdropRatio);
-            paddingTop -= mPaddingTopMargin;
             if (mPaddingTopMax > 0) {
                 paddingTop = Math.min(paddingTop, mPaddingTopMax);
             }
+            paddingTop += mPaddingTopNegativeMargin;
             setPadding(getPaddingLeft(), paddingTop, getPaddingRight(), getPaddingBottom());
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
