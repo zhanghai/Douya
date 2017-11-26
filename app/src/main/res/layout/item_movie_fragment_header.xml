@@ -5,63 +5,70 @@
   ~ All Rights Reserved.
   -->
 
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/item_content_horizontal_margin"
-    android:layout_marginRight="@dimen/item_content_horizontal_margin"
-    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-    android:paddingRight="@dimen/screen_edge_horizontal_margin"
-    android:background="?colorBackgroundFloating"
-    android:clipToPadding="false"
-    android:orientation="horizontal">
-
-    <me.zhanghai.android.douya.ui.RatioImageView
-        android:id="@+id/poster"
-        android:layout_width="@dimen/item_cover_width"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-16dp"
-        android:layout_marginRight="@dimen/content_horizontal_space" />
+    android:clipChildren="false">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingTop="@dimen/content_vertical_space"
-        android:orientation="vertical">
+        android:layout_marginLeft="@dimen/item_content_horizontal_margin"
+        android:layout_marginRight="@dimen/item_content_horizontal_margin"
+        android:layout_marginTop="@dimen/screen_edge_horizontal_margin"
+        android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+        android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:background="?colorBackgroundFloating"
+        android:clipToPadding="false"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
+        <me.zhanghai.android.douya.ui.RatioImageView
+            android:id="@+id/poster"
+            android:layout_width="@dimen/item_cover_width"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:layout_marginTop="@dimen/screen_edge_horizontal_margin_negative"
+            android:layout_marginRight="@dimen/screen_edge_horizontal_margin" />
 
-        <me.zhanghai.android.douya.ui.AutoGoneTextView
-            android:id="@+id/original_title"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
+            android:layout_weight="1"
+            android:paddingTop="@dimen/screen_edge_horizontal_margin"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-        <TextView
-            android:id="@+id/genres"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
+            <me.zhanghai.android.douya.ui.AutoGoneTextView
+                android:id="@+id/original_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>
