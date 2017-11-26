@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <me.zhanghai.android.douya.ui.DoubleClickToolBar
+        <me.zhanghai.android.douya.ui.TransparentDoubleClickToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"

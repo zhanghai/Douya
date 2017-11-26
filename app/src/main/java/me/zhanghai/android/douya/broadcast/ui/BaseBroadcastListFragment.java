@@ -33,7 +33,7 @@ import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.ui.AppBarHost;
-import me.zhanghai.android.douya.ui.DoubleClickToolBar;
+import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.ui.FastSmoothScrollStaggeredGridLayoutManager;
 import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
@@ -133,7 +133,7 @@ public abstract class BaseBroadcastListFragment extends Fragment
                         mBroadcastListResource.load(true);
                     }
                 });
-        appBarHost.setToolBarOnDoubleClickListener(new DoubleClickToolBar.OnDoubleClickListener() {
+        appBarHost.setToolBarOnDoubleClickListener(new DoubleClickToolbar.OnDoubleClickListener() {
             @Override
             public boolean onDoubleClick(View view) {
                 mBroadcastList.smoothScrollToPosition(0);

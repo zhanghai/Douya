@@ -21,7 +21,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.ui.HomeBroadcastListFragment;
 import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
-import me.zhanghai.android.douya.ui.DoubleClickToolBar;
+import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.ui.NotYetImplementedFragment;
 import me.zhanghai.android.douya.ui.TabFragmentPagerAdapter;
 
@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment implements AppBarHost {
     @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppBarWrapperLayout;
     @BindView(R.id.toolbar)
-    DoubleClickToolBar mToolbar;
+    DoubleClickToolbar mToolbar;
     @BindView(R.id.tab)
     TabLayout mTabLayout;
     @BindView(R.id.viewPager)
@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment implements AppBarHost {
     }
 
     @Override
-    public void setToolBarOnDoubleClickListener(DoubleClickToolBar.OnDoubleClickListener listener) {
+    public void setToolBarOnDoubleClickListener(DoubleClickToolbar.OnDoubleClickListener listener) {
         mToolbar.setOnDoubleClickListener(listener);
     }
 }

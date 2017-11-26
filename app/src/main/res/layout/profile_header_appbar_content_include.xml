@@ -9,7 +9,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <me.zhanghai.android.douya.ui.DoubleClickToolBar
+    <me.zhanghai.android.douya.ui.DoubleClickToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -25,7 +25,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
-    </me.zhanghai.android.douya.ui.DoubleClickToolBar>
+    </me.zhanghai.android.douya.ui.DoubleClickToolbar>
 
     <Space
         android:layout_width="0dp"

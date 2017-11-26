@@ -14,24 +14,24 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class DoubleClickToolBar extends Toolbar {
+public class DoubleClickToolbar extends Toolbar {
 
     private GestureDetectorCompat mGestureDetectorCompat;
     private OnDoubleClickListener mOnDoubleClickListener;
 
-    public DoubleClickToolBar(Context context) {
+    public DoubleClickToolbar(Context context) {
         super(context);
 
         init();
     }
 
-    public DoubleClickToolBar(Context context, @Nullable AttributeSet attrs) {
+    public DoubleClickToolbar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         init();
     }
 
-    public DoubleClickToolBar(Context context, @Nullable AttributeSet attrs,
+    public DoubleClickToolbar(Context context, @Nullable AttributeSet attrs,
                               int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
@@ -44,7 +44,7 @@ public class DoubleClickToolBar extends Toolbar {
                     @Override
                     public boolean onDoubleTap(MotionEvent event) {
                         if (mOnDoubleClickListener != null) {
-                            return mOnDoubleClickListener.onDoubleClick(DoubleClickToolBar.this);
+                            return mOnDoubleClickListener.onDoubleClick(DoubleClickToolbar.this);
                         }
                         return false;
                     }

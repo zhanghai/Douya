@@ -56,15 +56,6 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     }
 
     @Override
-    public void updateWithSimpleItem(SimpleMovie simpleMovie) {
-        super.updateWithSimpleItem(simpleMovie);
-
-        // FIXME: Remove, this is only for testing.
-        ImageUtils.loadImage(mBackdropImage, simpleMovie.cover);
-        ViewUtils.setVisibleOrGone(mBackdropPlayImage, false);
-    }
-
-    @Override
     public void onChanged(int requestCode, Movie newMovie, Rating newRating,
                           List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
                           List<ItemAwardItem> newAwardList,

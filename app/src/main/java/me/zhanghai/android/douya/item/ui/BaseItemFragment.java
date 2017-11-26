@@ -5,11 +5,8 @@
 
 package me.zhanghai.android.douya.item.ui;
 
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,9 +29,9 @@ import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
-import me.zhanghai.android.douya.ui.DoubleClickToolBar;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingTouchSlopListener;
 import me.zhanghai.android.douya.ui.RatioImageView;
+import me.zhanghai.android.douya.ui.TransparentDoubleClickToolbar;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -56,7 +53,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppBarWrapperLayout;
     @BindView(R.id.toolbar)
-    DoubleClickToolBar mToolbar;
+    TransparentDoubleClickToolbar mToolbar;
     @BindView(R.id.backdrop_wrapper)
     ViewGroup mBackdropWrapperLayout;
     @BindView(R.id.backdrop_layout)
@@ -151,18 +148,17 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
                 } else {
                     mScrollY += dy;
                 }
+                // FIXME: Animate out backdrop layout later.
                 mBackdropLayout.setTranslationY((float) -mScrollY / 2);
             }
         });
         int colorPrimaryDark = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0, activity);
         mContentList.addOnScrollListener(new OnVerticalScrollWithPagingTouchSlopListener(activity) {
             private int mStatusBarColor = Color.TRANSPARENT;
-            private int mToolbarAlpha = 255;
             @Override
             public void onScrolledUp() {
                 if (mAppBarWrapperLayout.isHidden()) {
-                    mStatusBarColor = hasFirstChildReachedTop() ? 255 : 0;
-                    mToolbar.getBackground().setAlpha(mStatusBarColor);
+                    mToolbar.setTransparent(!hasFirstChildReachedTop());
                 }
                 mAppBarWrapperLayout.show();
             }
@@ -174,29 +170,22 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
             }
             @Override
             public void onScrolled(int dy) {
-                boolean fromRestoration = dy == 0;
+                boolean initialize = dy == 0;
                 boolean hasFirstChildReachedTop = hasFirstChildReachedTop();
                 int statusBarColor = hasFirstChildReachedTop ? colorPrimaryDark : Color.TRANSPARENT;
                 if (mStatusBarColor != statusBarColor) {
                     mStatusBarColor = statusBarColor;
-                    if (fromRestoration) {
+                    if (initialize) {
                         StatusBarColorUtils.set(mStatusBarColor, activity);
                     } else {
                         StatusBarColorUtils.animateTo(mStatusBarColor, activity);
                     }
                 }
-                int toolbarAlpha = hasFirstChildReachedTop ? 255 : 0;
-                if (mToolbarAlpha != toolbarAlpha && mAppBarWrapperLayout.isShowing()) {
-                    mToolbarAlpha = toolbarAlpha;
-                    ColorDrawable toolbarBackground = (ColorDrawable) mToolbar.getBackground();
-                    if (fromRestoration) {
-                        toolbarBackground.setAlpha(toolbarAlpha);
+                if (mAppBarWrapperLayout.isShowing()) {
+                    if (initialize) {
+                        mToolbar.setTransparent(!hasFirstChildReachedTop);
                     } else {
-                        ObjectAnimator animator = ObjectAnimator.ofInt(toolbarBackground, "alpha",
-                                toolbarBackground.getAlpha(), mToolbarAlpha);
-                        animator.setDuration(ViewUtils.getShortAnimTime(activity));
-                        animator.setAutoCancel(true);
-                        animator.start();
+                        mToolbar.animateToTransparent(!hasFirstChildReachedTop);
                     }
                 }
             }
@@ -257,6 +246,5 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
     protected void updateWithSimpleItem(SimpleItemType simpleItem) {
         getActivity().setTitle(simpleItem.title);
-        mToolbar.setTitle(null);
     }
 }

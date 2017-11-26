@@ -21,7 +21,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
-import me.zhanghai.android.douya.ui.DoubleClickToolBar;
+import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
@@ -36,7 +36,7 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     @BindView(R.id.appBarWrapper)
     AppBarWrapperLayout mAppBarWrapperLayout;
     @BindView(R.id.toolbar)
-    DoubleClickToolBar mToolbar;
+    DoubleClickToolbar mToolbar;
 
     private String mUserIdOrUid;
     private SimpleUser mUser;
@@ -137,7 +137,7 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     }
 
     @Override
-    public void setToolBarOnDoubleClickListener(DoubleClickToolBar.OnDoubleClickListener listener) {
+    public void setToolBarOnDoubleClickListener(DoubleClickToolbar.OnDoubleClickListener listener) {
         mToolbar.setOnDoubleClickListener(listener);
     }
 }

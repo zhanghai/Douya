@@ -40,7 +40,7 @@ import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
-import me.zhanghai.android.douya.ui.DoubleClickToolBar;
+import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     @BindView(R.id.dismiss)
     View mDismissView;
     @BindView(R.id.toolbar)
-    DoubleClickToolBar mToolbar;
+    DoubleClickToolbar mToolbar;
     @BindViews({
             R.id.profile_header_animate_changes_layout_1,
             R.id.profile_header_animate_changes_layout_2

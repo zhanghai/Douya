@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <me.zhanghai.android.douya.ui.DoubleClickToolBar
+        <me.zhanghai.android.douya.ui.DoubleClickToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
