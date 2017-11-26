@@ -166,6 +166,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        // HACK: Make sure we don't click through any view to our backdrop.
+        holder.itemView.setClickable(true);
         final Context context = holder.itemView.getContext();
         switch (position) {
             case ITEM_HEADER: {
