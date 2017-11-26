@@ -120,9 +120,27 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         mContentList.setBackdropRatio(mBackdropImage.getRatio());
         mContentList.setBackdropWrapper(mBackdropWrapperLayout);
         mContentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            private int scrollY;
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                // TODO
+                if (recyclerView.getChildCount() == 0) {
+                    return;
+                }
+                View firstChild = recyclerView.getChildAt(0);
+                int firstPosition = recyclerView.getChildAdapterPosition(firstChild);
+                boolean firstItemInLayout = firstPosition == 0;
+                if (scrollY == 0) {
+                    if (!firstItemInLayout) {
+                        return;
+                    } else {
+                        scrollY = recyclerView.getPaddingTop() - firstChild.getTop();
+                    }
+                } else {
+                    scrollY += dy;
+                }
+                mBackdropLayout.setTranslationY((float) -scrollY / 2);
             }
         });
         mContentList.setLayoutManager(new LinearLayoutManager(activity));
