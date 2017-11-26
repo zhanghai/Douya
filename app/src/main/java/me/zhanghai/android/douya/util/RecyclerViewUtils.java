@@ -17,13 +17,17 @@ public class RecyclerViewUtils {
         return holder.itemView.getContext();
     }
 
-    public static boolean hasFirstChildReachedTop(RecyclerView recyclerView) {
+    public static boolean hasFirstChildReachedTop(RecyclerView recyclerView, int top) {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         View firstChild = layoutManager.findViewByPosition(0);
         if (firstChild != null) {
-            return firstChild.getTop() <= 0;
+            return firstChild.getTop() <= top;
         } else {
             return layoutManager.getChildCount() > 0;
         }
+    }
+
+    public static boolean hasFirstChildReachedTop(RecyclerView recyclerView) {
+        return hasFirstChildReachedTop(recyclerView, 0);
     }
 }

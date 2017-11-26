@@ -59,12 +59,13 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <android.support.v7.widget.Toolbar
+        <me.zhanghai.android.douya.ui.DoubleClickToolBar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
             android:paddingRight="@dimen/toolbar_overflow_button_right_margin"
+            android:background="?colorPrimary"
             android:elevation="@dimen/appbar_elevation"
             android:theme="?actionBarTheme"
             app:navigationIcon="@drawable/back_icon_white_24dp"

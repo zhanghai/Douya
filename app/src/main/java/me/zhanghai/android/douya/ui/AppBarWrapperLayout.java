@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
@@ -103,6 +105,22 @@ public class AppBarWrapperLayout extends LinearLayout {
         }
     }
 
+    public boolean isShown() {
+        return getTranslationY() == 0;
+    }
+
+    public boolean isHidden() {
+        return getTranslationY() == getHideTranslationY();
+    }
+
+    public boolean isShowing() {
+        return mShowing;
+    }
+
+    public boolean isHiding() {
+        return !mShowing;
+    }
+
     public void hide() {
 
         if (!mShowing) {
@@ -124,8 +142,7 @@ public class AppBarWrapperLayout extends LinearLayout {
             builder.before(ObjectAnimator.ofFloat(mAppbarView, TRANSLATION_Z,
                     mAppbarView.getTranslationZ(), -mAppbarView.getElevation()));
         }
-
-        mAnimator.start();
+        startAnimator();
     }
 
     public void hideImmediately() {
@@ -178,7 +195,7 @@ public class AppBarWrapperLayout extends LinearLayout {
             builder.with(ObjectAnimator.ofFloat(mAppbarView, TRANSLATION_Z,
                     mAppbarView.getTranslationZ(), 0));
         }
-        mAnimator.start();
+        startAnimator();
     }
 
     public void showImmediately() {
@@ -194,6 +211,20 @@ public class AppBarWrapperLayout extends LinearLayout {
         } else {
             mAppbarView.setTranslationZ(0);
         }
+    }
+
+    private void startAnimator() {
+        mAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mAnimator = null;
+            }
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mAnimator = null;
+            }
+        });
+        mAnimator.start();
     }
 
     private void cancelAnimator() {

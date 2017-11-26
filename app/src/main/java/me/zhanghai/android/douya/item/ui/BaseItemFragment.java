@@ -5,8 +5,11 @@
 
 package me.zhanghai.android.douya.item.ui;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +18,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,10 +31,14 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
+import me.zhanghai.android.douya.ui.DoubleClickToolBar;
+import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingTouchSlopListener;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -47,8 +53,10 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     private static final String EXTRA_SIMPLE_ITEM = KEY_PREFIX + "simple_item";
     private static final String EXTRA_ITEM = KEY_PREFIX + "item";
 
+    @BindView(R.id.appBarWrapper)
+    AppBarWrapperLayout mAppBarWrapperLayout;
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    DoubleClickToolBar mToolbar;
     @BindView(R.id.backdrop_wrapper)
     ViewGroup mBackdropWrapperLayout;
     @BindView(R.id.backdrop_layout)
@@ -117,12 +125,13 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
         mBackdropImage.setRatio(16, 9);
         ViewCompat.setBackground(mBackdropScrim, DrawableUtils.makeScrimDrawable(Gravity.TOP));
+
+        mContentList.setLayoutManager(new LinearLayoutManager(activity));
+        mContentList.setAdapter(onCreateAdapter());
         mContentList.setBackdropRatio(mBackdropImage.getRatio());
         mContentList.setBackdropWrapper(mBackdropWrapperLayout);
         mContentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            private int scrollY;
-
+            private int mScrollY;
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (recyclerView.getChildCount() == 0) {
@@ -131,20 +140,75 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
                 View firstChild = recyclerView.getChildAt(0);
                 int firstPosition = recyclerView.getChildAdapterPosition(firstChild);
                 boolean firstItemInLayout = firstPosition == 0;
-                if (scrollY == 0) {
+                if (mScrollY == 0) {
                     if (!firstItemInLayout) {
+                        // We are restored from previous scroll position and we don't have a
+                        // scrollY.
                         return;
                     } else {
-                        scrollY = recyclerView.getPaddingTop() - firstChild.getTop();
+                        mScrollY = recyclerView.getPaddingTop() - firstChild.getTop();
                     }
                 } else {
-                    scrollY += dy;
+                    mScrollY += dy;
                 }
-                mBackdropLayout.setTranslationY((float) -scrollY / 2);
+                mBackdropLayout.setTranslationY((float) -mScrollY / 2);
             }
         });
-        mContentList.setLayoutManager(new LinearLayoutManager(activity));
-        mContentList.setAdapter(onCreateAdapter());
+        int colorPrimaryDark = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0, activity);
+        mContentList.addOnScrollListener(new OnVerticalScrollWithPagingTouchSlopListener(activity) {
+            private int mStatusBarColor = Color.TRANSPARENT;
+            private int mToolbarAlpha = 255;
+            @Override
+            public void onScrolledUp() {
+                if (mAppBarWrapperLayout.isHidden()) {
+                    mStatusBarColor = hasFirstChildReachedTop() ? 255 : 0;
+                    mToolbar.getBackground().setAlpha(mStatusBarColor);
+                }
+                mAppBarWrapperLayout.show();
+            }
+            @Override
+            public void onScrolledDown() {
+                if (hasFirstChildReachedTop()) {
+                    mAppBarWrapperLayout.hide();
+                }
+            }
+            @Override
+            public void onScrolled(int dy) {
+                boolean fromRestoration = dy == 0;
+                boolean hasFirstChildReachedTop = hasFirstChildReachedTop();
+                int statusBarColor = hasFirstChildReachedTop ? colorPrimaryDark : Color.TRANSPARENT;
+                if (mStatusBarColor != statusBarColor) {
+                    mStatusBarColor = statusBarColor;
+                    if (fromRestoration) {
+                        StatusBarColorUtils.set(mStatusBarColor, activity);
+                    } else {
+                        StatusBarColorUtils.animateTo(mStatusBarColor, activity);
+                    }
+                }
+                int toolbarAlpha = hasFirstChildReachedTop ? 255 : 0;
+                if (mToolbarAlpha != toolbarAlpha && mAppBarWrapperLayout.isShowing()) {
+                    mToolbarAlpha = toolbarAlpha;
+                    ColorDrawable toolbarBackground = (ColorDrawable) mToolbar.getBackground();
+                    if (fromRestoration) {
+                        toolbarBackground.setAlpha(toolbarAlpha);
+                    } else {
+                        ObjectAnimator animator = ObjectAnimator.ofInt(toolbarBackground, "alpha",
+                                toolbarBackground.getAlpha(), mToolbarAlpha);
+                        animator.setDuration(ViewUtils.getShortAnimTime(activity));
+                        animator.setAutoCancel(true);
+                        animator.start();
+                    }
+                }
+            }
+            private boolean hasFirstChildReachedTop() {
+                return RecyclerViewUtils.hasFirstChildReachedTop(mContentList,
+                        mToolbar.getBottom());
+            }
+        });
+        mToolbar.setOnDoubleClickListener(view -> {
+            mContentList.smoothScrollToPosition(0);
+            return true;
+        });
 
         if (mResource.isLoaded()) {
             mResource.notifyChangedIfLoaded();
