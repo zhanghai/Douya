@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -270,11 +271,15 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_RATING: {
                 RatingHolder ratingHolder = (RatingHolder) holder;
-                ratingHolder.ratingLayout.setRating(mData.rating.rating);
-                ratingHolder.ratingDistributionLayout.setRating(mData.rating);
-                ratingHolder.itemView.setOnClickListener(view -> {
-                    UriHandler.open(mData.movie.url + "/collections", view.getContext());
-                });
+                boolean hasRating = TextUtils.isEmpty(mData.rating.ratingUnavailableReason);
+                ViewUtils.setVisibleOrGone(ratingHolder.ratingWrapperLayout, hasRating);
+                if (hasRating) {
+                    ratingHolder.ratingLayout.setRating(mData.rating.rating);
+                    ratingHolder.ratingDistributionLayout.setRating(mData.rating);
+                    ratingHolder.itemView.setOnClickListener(view -> {
+                        UriHandler.open(mData.movie.url + "/collections", view.getContext());
+                    });
+                }
                 break;
             }
             case ITEM_COLLECTION_LIST: {
@@ -439,6 +444,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     static class RatingHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.rating_wrapper)
+        public ViewGroup ratingWrapperLayout;
         @BindView(R.id.rating_layout)
         public RatingLayout ratingLayout;
         @BindView(R.id.rating_distribution_layout)
