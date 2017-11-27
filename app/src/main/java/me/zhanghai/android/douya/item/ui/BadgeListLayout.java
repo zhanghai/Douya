@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -192,12 +193,17 @@ public class BadgeListLayout extends HorizontalScrollView {
         ViewUtils.setVisibleOrGone(mRatingCountIconImage, false);
     }
 
-    public void setGenre(int genreBadgeResId, CharSequence genre) {
-        mGenreBadgeImage.setImageResource(genreBadgeResId);
-        mGenreText.setText(genre);
-        mGenreLayout.setOnClickListener(view -> {
-            // TODO
-        });
+    public void setGenre(int genreBadgeResId, String genre) {
+        boolean hasGenre = !TextUtils.isEmpty(genre);
+        ViewUtils.setVisibleOrGone(mGenreLayout, hasGenre);
+        if (hasGenre) {
+            mGenreBadgeImage.setImageResource(genreBadgeResId);
+            mGenreText.setText(genre);
+            mGenreLayout.setOnClickListener(view -> {
+                UriHandler.open("https://movie.douban.com/tag/#/?tags=" + Uri.encode(genre),
+                        view.getContext());
+            });
+        }
     }
 
     private static abstract class BaseRatingBadgeDrawable extends LayerDrawable {

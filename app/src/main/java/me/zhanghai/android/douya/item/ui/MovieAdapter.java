@@ -35,6 +35,7 @@ import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.RatioImageView;
+import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -215,7 +216,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 badgeListHolder.badgeListLayout.setTop250(top250Honor);
                 badgeListHolder.badgeListLayout.setRating(mData.rating, mData.movie);
                 badgeListHolder.badgeListLayout.setGenre(R.drawable.movie_badge_white_40dp,
-                        mData.movie.genres.get(0));
+                        CollectionUtils.firstOrNull(mData.movie.genres));
                 break;
             }
             case ITEM_INTRODUCTION: {
