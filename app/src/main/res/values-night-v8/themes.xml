@@ -12,4 +12,6 @@
     <style name="Base.Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar" />
 
     <style name="Base.Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />
+
+    <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie.Dark" />
 </resources>
