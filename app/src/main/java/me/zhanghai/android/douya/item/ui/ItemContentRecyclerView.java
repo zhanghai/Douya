@@ -74,6 +74,8 @@ public class ItemContentRecyclerView extends RecyclerView {
                 paddingTop = Math.min(paddingTop, mPaddingTopMax);
             }
             paddingTop += mPaddingTopNegativeMargin;
+            // HACK: Fix off-by-one-pixel visual glitch.
+            --paddingTop;
             setPadding(getPaddingLeft(), paddingTop, getPaddingRight(), getPaddingBottom());
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
