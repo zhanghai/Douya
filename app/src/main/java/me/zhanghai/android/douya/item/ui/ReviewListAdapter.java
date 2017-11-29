@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.item.ui;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
+import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ReviewListAdapter extends SimpleAdapter<SimpleReview, ReviewListAdapter.ViewHolder> {
@@ -38,6 +40,7 @@ public class ReviewListAdapter extends SimpleAdapter<SimpleReview, ReviewListAda
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SimpleReview review = getItem(position);
+        ImageUtils.loadAvatar(holder.avatarImage, review.author.avatar);
         holder.titleText.setText(review.title);
         holder.nameText.setText(review.author.name);
         boolean hasRating = review.rating != null;
@@ -58,6 +61,8 @@ public class ReviewListAdapter extends SimpleAdapter<SimpleReview, ReviewListAda
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.avatar)
+        public ImageView avatarImage;
         @BindView(R.id.title)
         public TextView titleText;
         @BindView(R.id.name)
