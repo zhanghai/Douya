@@ -29,13 +29,15 @@
         android:layout_height="wrap_content"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <me.zhanghai.android.douya.ui.SimpleCircleImageView
             android:id="@+id/avatar"
             android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_height="16dp"
+            android:layout_marginBottom="-0.5dp" />
 
         <TextView
             android:id="@+id/name"
