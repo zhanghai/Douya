@@ -126,15 +126,6 @@ public class Broadcast implements Parcelable {
                 : null;
     }
 
-    /**
-     * Use {@link me.zhanghai.android.douya.ui.TimeActionTextView} instead if the text is to be set
-     * on a {@code TextView}.
-     */
-    public String getActionWithTime(Context context) {
-        return context.getString(R.string.broadcast_time_action_format,
-                TimeUtils.formatDoubanDateTime(createdAt, context), action);
-    }
-
     public String getLikeCountString() {
         return likeCount == 0 ? null : String.valueOf(likeCount);
     }

@@ -17,12 +17,12 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopicList;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ItemForumTopicListResource
-        extends MoreBaseListResourceFragment<ItemForumTopicList, ItemForumTopic> {
+        extends MoreBaseListResourceFragment<ItemForumTopicList, SimpleItemForumTopic> {
 
     private static final String KEY_PREFIX = ItemForumTopicListResource.class.getName() + '.';
 
@@ -97,7 +97,7 @@ public class ItemForumTopicListResource
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
-                                  List<ItemForumTopic> response, ApiError error) {
+                                  List<SimpleItemForumTopic> response, ApiError error) {
         getListener().onLoadItemForumTopicListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -126,11 +126,11 @@ public class ItemForumTopicListResource
          * @param newItemForumTopicList Unmodifiable.
          */
         void onItemForumTopicListChanged(int requestCode,
-                                         List<ItemForumTopic> newItemForumTopicList);
+                                         List<SimpleItemForumTopic> newItemForumTopicList);
         /**
          * @param appendedItemForumTopicList Unmodifiable.
          */
         void onItemForumTopicListAppended(int requestCode,
-                                          List<ItemForumTopic> appendedItemForumTopicList);
+                                          List<SimpleItemForumTopic> appendedItemForumTopicList);
     }
 }

@@ -16,11 +16,11 @@ import me.zhanghai.android.douya.item.content.MovieFragmentResource;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -62,7 +62,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
                           List<ItemAwardItem> newAwardList,
                           List<ItemCollection> newItemCollectionList,
                           List<SimpleReview> newReviewList,
-                          List<ItemForumTopic> newItemForumTopicList) {
+                          List<SimpleItemForumTopic> newItemForumTopicList) {
         update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
                 newItemCollectionList, newReviewList, newItemForumTopicList);
     }
@@ -70,7 +70,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                         List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                        List<ItemForumTopic> itemForumTopicList) {
+                        List<SimpleItemForumTopic> itemForumTopicList) {
 
         super.updateWithSimpleItem(movie);
 

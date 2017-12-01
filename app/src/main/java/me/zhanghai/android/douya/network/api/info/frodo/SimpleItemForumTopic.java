@@ -33,7 +33,7 @@ public class SimpleItemForumTopic extends BaseItem {
     public boolean isSticky;
 
     @SerializedName("likers_count")
-    public int likerCount;
+    public int likeCount;
 
     @SerializedName("publisher_type")
     public int publisherType;
@@ -72,7 +72,7 @@ public class SimpleItemForumTopic extends BaseItem {
         dest.writeByte(isElite ? (byte) 1 : (byte) 0);
         dest.writeByte(isMute ? (byte) 1 : (byte) 0);
         dest.writeByte(isSticky ? (byte) 1 : (byte) 0);
-        dest.writeInt(likerCount);
+        dest.writeInt(likeCount);
         dest.writeInt(publisherType);
         dest.writeTypedList(tags);
         dest.writeString(updatedAt);
@@ -90,7 +90,7 @@ public class SimpleItemForumTopic extends BaseItem {
         isElite = in.readByte() != 0;
         isMute = in.readByte() != 0;
         isSticky = in.readByte() != 0;
-        likerCount = in.readInt();
+        likeCount = in.readInt();
         publisherType = in.readInt();
         tags = in.createTypedArrayList(Tag.CREATOR);
         updatedAt = in.readString();

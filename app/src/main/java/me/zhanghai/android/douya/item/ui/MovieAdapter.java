@@ -27,11 +27,11 @@ import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
@@ -54,11 +54,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_RATING = 7;
     private static final int ITEM_COLLECTION_LIST = 8;
     private static final int ITEM_REVIEW_LIST = 9;
+    private static final int ITEM_FORUM_TOPIC_LIST = 10;
 
-    private static final int ITEM_COUNT = 10;
+    private static final int ITEM_COUNT = 11;
 
     private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
     private static final int ITEM_REVIEW_LIST_MAX_SIZE = 5;
+    private static final int ITEM_FORUM_TOPIC_LIST_MAX_SIZE = 5;
 
     private Data mData;
 
@@ -160,6 +162,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         R.layout.item_fragment_review_list, parent));
                 ViewUtils.setVisibleOrGone(holder.reviewList, !mData.reviewList.isEmpty());
                 holder.reviewList.setAdapter(new ReviewListAdapter());
+                return holder;
+            }
+            case ITEM_FORUM_TOPIC_LIST: {
+                ItemForumTopicListHolder holder = new ItemForumTopicListHolder(ViewUtils.inflate(
+                        R.layout.item_fragment_forum_topic_list, parent));
+                ViewUtils.setVisibleOrGone(holder.itemForumTopicList,
+                        !mData.itemForumTopicList.isEmpty());
+                holder.itemForumTopicList.setAdapter(new ItemForumTopicListAdapter());
                 return holder;
             }
             default:
@@ -310,6 +320,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 });
                 break;
             }
+            case ITEM_FORUM_TOPIC_LIST: {
+                ItemForumTopicListHolder itemForumTopicListHolder =
+                        (ItemForumTopicListHolder) holder;
+                ItemForumTopicListAdapter adapter = (ItemForumTopicListAdapter)
+                        itemForumTopicListHolder.itemForumTopicList.getAdapter();
+                List<SimpleItemForumTopic> itemForumTopicList = mData.itemForumTopicList.subList(0,
+                        Math.min(ITEM_FORUM_TOPIC_LIST_MAX_SIZE, mData.itemForumTopicList.size()));
+                adapter.replace(itemForumTopicList);
+                itemForumTopicListHolder.viewMoreButton.setOnClickListener(view -> {
+                    // TODO
+                    UriHandler.open(mData.movie.url + "/discussion", view.getContext());
+                });
+                break;
+            }
         }
     }
 
@@ -328,12 +352,12 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public List<ItemAwardItem> awardList;
         public List<ItemCollection> itemCollectionList;
         public List<SimpleReview> reviewList;
-        public List<ItemForumTopic> itemForumTopicList;
+        public List<SimpleItemForumTopic> itemForumTopicList;
 
         public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                     List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                    List<ItemForumTopic> itemForumTopicList) {
+                    List<SimpleItemForumTopic> itemForumTopicList) {
             this.movie = movie;
             this.rating = rating;
             this.photoList = photoList;
@@ -484,6 +508,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public Button viewMoreButton;
 
         public ReviewListHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class ItemForumTopicListHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.item_forum_topic_list)
+        public AdapterLinearLayout itemForumTopicList;
+        @BindView(R.id.view_more)
+        public Button viewMoreButton;
+
+        public ItemForumTopicListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

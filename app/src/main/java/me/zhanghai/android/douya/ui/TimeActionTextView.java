@@ -11,12 +11,12 @@ import android.util.AttributeSet;
 import org.threeten.bp.format.DateTimeParseException;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.TimeUtils;
 
 public class TimeActionTextView extends TimeTextView {
 
+    private boolean mCompact;
     private String mAction;
 
     public TimeActionTextView(Context context) {
@@ -36,9 +36,6 @@ public class TimeActionTextView extends TimeTextView {
         throw new UnsupportedOperationException("Use setDoubanTimeAndAction() instead.");
     }
 
-    /**
-     * Should behave the same as {@link Broadcast#getActionWithTime(Context)}.
-     */
     public void setDoubanTimeAndAction(String doubanTime, String action) {
         mAction = action;
         try {
@@ -50,8 +47,25 @@ public class TimeActionTextView extends TimeTextView {
         }
     }
 
+    public void setDoubanTimeAndAction(String doubanTime, int actionRes) {
+        setDoubanTimeAndAction(doubanTime, getContext().getString(actionRes));
+    }
+
+    public boolean isCompact() {
+        return mCompact;
+    }
+
+    public void setCompact(boolean compact) {
+        if (mCompact == compact) {
+            return;
+        }
+        mCompact = compact;
+        updateTimeText();
+    }
+
     @Override
     protected void setTimeText(String timeText) {
-        setText(getContext().getString(R.string.broadcast_time_action_format, timeText, mAction));
+        setText(getContext().getString(mCompact ? R.string.time_action_format_compat
+                : R.string.time_action_format, timeText, mAction));
     }
 }

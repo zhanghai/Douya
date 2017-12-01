@@ -62,7 +62,7 @@ public class TimeTextView extends AppCompatTextView {
         }
     }
 
-    private void updateTimeText() {
+    protected void updateTimeText() {
         removeCallbacks(mUpdateTimeTextRunnable);
         if (mTime != null) {
             setTimeText(formatTime(mTime));

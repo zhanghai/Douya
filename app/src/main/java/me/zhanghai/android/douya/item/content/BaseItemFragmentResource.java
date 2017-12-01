@@ -14,10 +14,10 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.photo.content.ItemPhotoListResource;
 import me.zhanghai.android.douya.review.content.ItemReviewListResource;
@@ -351,13 +351,13 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onItemForumTopicListChanged(int requestCode,
-                                            List<ItemForumTopic> newItemForumTopicList) {
+                                            List<SimpleItemForumTopic> newItemForumTopicList) {
         notifyChangedIfLoaded();
     }
 
     @Override
     public void onItemForumTopicListAppended(int requestCode,
-                                             List<ItemForumTopic> appendedItemForumTopicList) {
+                                             List<SimpleItemForumTopic> appendedItemForumTopicList) {
         notifyChangedIfLoaded();
     }
 
@@ -397,7 +397,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                                           List<ItemAwardItem> newAwardList,
                                           List<ItemCollection> newItemCollectionList,
                                           List<SimpleReview> newReviewList,
-                                          List<ItemForumTopic> newItemForumTopicList);
+                                          List<SimpleItemForumTopic> newItemForumTopicList);
 
     private void notifyError(ApiError error) {
         if (!mHasError) {
