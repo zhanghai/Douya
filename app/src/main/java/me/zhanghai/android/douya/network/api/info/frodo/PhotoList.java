@@ -19,6 +19,7 @@ public class PhotoList extends BaseList<Photo> implements Parcelable {
         return photos;
     }
 
+
     public static final Creator<PhotoList> CREATOR =
             new Creator<PhotoList>() {
                 public PhotoList createFromParcel(Parcel source) {

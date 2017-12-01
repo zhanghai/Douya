@@ -18,6 +18,7 @@ public class ReviewList extends BaseList<SimpleReview> {
         return reviews;
     }
 
+
     public static final Creator<ReviewList> CREATOR = new Creator<ReviewList>() {
         @Override
         public ReviewList createFromParcel(Parcel source) {

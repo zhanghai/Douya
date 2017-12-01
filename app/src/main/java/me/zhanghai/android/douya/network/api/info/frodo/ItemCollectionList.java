@@ -21,6 +21,7 @@ public class ItemCollectionList extends BaseList<ItemCollection> {
         return collections;
     }
 
+
     public static final Creator<ItemCollectionList> CREATOR = new Creator<ItemCollectionList>() {
         @Override
         public ItemCollectionList createFromParcel(Parcel source) {

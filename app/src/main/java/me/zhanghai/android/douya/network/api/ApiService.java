@@ -28,6 +28,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopicList;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
@@ -311,6 +312,13 @@ public class ApiService {
                 followingsFirst ? 1 : null, start, count);
     }
 
+    public ApiRequest<ItemForumTopicList> getItemForumTopicList(CollectableItem.Type itemType,
+                                                                long itemId, Integer episode,
+                                                                Integer start, Integer count) {
+        return mFrodoService.getItemForumTopicList(itemType.getApiString(), itemId, episode, start,
+                count);
+    }
+
     public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
                                                     Integer start, Integer count) {
         return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, start, count);
@@ -461,6 +469,13 @@ public class ApiService {
                 @Path("itemType") String itemType, @Path("itemId") long itemId,
                 @Query("following") Integer followingsFirst, @Query("start") Integer start,
                 @Query("count") Integer count);
+
+        @GET("{itemType}/{itemId}/forum_topics")
+        ApiRequest<ItemForumTopicList> getItemForumTopicList(@Path("itemType") String itemType,
+                                                             @Path("itemId") long itemId,
+                                                             @Query("episode") Integer episode,
+                                                             @Query("start") Integer start,
+                                                             @Query("count") Integer count);
 
         @GET("{itemType}/{itemId}/reviews")
         ApiRequest<ReviewList> getItemReviewList(@Path("itemType") String itemType,

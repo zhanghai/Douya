@@ -18,6 +18,7 @@ public class ItemAwardList extends BaseList<ItemAwardItem> {
         return awards;
     }
 
+
     public static final Creator<ItemAwardList> CREATOR = new Creator<ItemAwardList>() {
         @Override
         public ItemAwardList createFromParcel(Parcel source) {
