@@ -87,14 +87,7 @@ public class CelebrityListResource extends RawListResourceFragment<CelebrityList
 
     @Override
     protected void onLoadFinished(boolean successful, CelebrityList response, ApiError error) {
-        getListener().onLoadCelebrityListFinished(getRequestCode());
-        if (successful) {
-            List<SimpleCelebrity> celebrityList = transformResponse(response);
-            set(celebrityList);
-            getListener().onCelebrityListChanged(getRequestCode(), celebrityList);
-        } else {
-            getListener().onLoadCelebrityListError(getRequestCode(), error);
-        }
+        onLoadFinished(successful, successful ? transformResponse(response) : null, error);
     }
 
     private List<SimpleCelebrity> transformResponse(CelebrityList response) {
@@ -105,6 +98,17 @@ public class CelebrityListResource extends RawListResourceFragment<CelebrityList
         }
         celebrityList.addAll(response.actors);
         return celebrityList;
+    }
+
+    private void onLoadFinished(boolean successful, List<SimpleCelebrity> response,
+                                ApiError error) {
+        getListener().onLoadCelebrityListFinished(getRequestCode());
+        if (successful) {
+            set(response);
+            getListener().onCelebrityListChanged(getRequestCode(), response);
+        } else {
+            getListener().onLoadCelebrityListError(getRequestCode(), error);
+        }
     }
 
     private Listener getListener() {

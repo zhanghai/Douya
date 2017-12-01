@@ -14,6 +14,7 @@ import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.MovieFragmentResource;
 import me.zhanghai.android.douya.link.UriHandler;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
@@ -62,15 +63,17 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
                           List<ItemAwardItem> newAwardList,
                           List<ItemCollection> newItemCollectionList,
                           List<SimpleReview> newReviewList,
-                          List<SimpleItemForumTopic> newItemForumTopicList) {
+                          List<SimpleItemForumTopic> newItemForumTopicList,
+                          List<CollectableItem> newRecommendationList) {
         update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
-                newItemCollectionList, newReviewList, newItemForumTopicList);
+                newItemCollectionList, newReviewList, newItemForumTopicList, newRecommendationList);
     }
 
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                         List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                        List<SimpleItemForumTopic> itemForumTopicList) {
+                        List<SimpleItemForumTopic> itemForumTopicList,
+                        List<CollectableItem> recommendationList) {
 
         super.updateWithSimpleItem(movie);
 
@@ -108,6 +111,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
 
         mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
-                celebrityList, awardList, itemCollectionList, reviewList, itemForumTopicList));
+                celebrityList, awardList, itemCollectionList, reviewList, itemForumTopicList,
+                recommendationList));
     }
 }

@@ -319,6 +319,11 @@ public class ApiService {
                 count);
     }
 
+    public ApiRequest<List<CollectableItem>> getItemRecommendationList(
+            CollectableItem.Type itemType, long itemId, Integer count) {
+        return mFrodoService.getItemRecommendationList(itemType.getApiString(), itemId, count);
+    }
+
     public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
                                                     Integer start, Integer count) {
         return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, start, count);
@@ -476,6 +481,11 @@ public class ApiService {
                                                              @Query("episode") Integer episode,
                                                              @Query("start") Integer start,
                                                              @Query("count") Integer count);
+
+        @GET("{itemType}/{itemId}/recommendations")
+        ApiRequest<List<CollectableItem>> getItemRecommendationList(
+                @Path("itemType") String itemType, @Path("itemId") long itemId,
+                @Query("count") Integer count);
 
         @GET("{itemType}/{itemId}/reviews")
         ApiRequest<ReviewList> getItemReviewList(@Path("itemType") String itemType,

@@ -353,11 +353,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public List<ItemCollection> itemCollectionList;
         public List<SimpleReview> reviewList;
         public List<SimpleItemForumTopic> itemForumTopicList;
+        public List<CollectableItem> recommendationList;
 
         public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                     List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                    List<SimpleItemForumTopic> itemForumTopicList) {
+                    List<SimpleItemForumTopic> itemForumTopicList,
+                    List<CollectableItem> recommendationList) {
             this.movie = movie;
             this.rating = rating;
             this.photoList = photoList;
@@ -367,6 +369,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.itemCollectionList = itemCollectionList;
             this.reviewList = reviewList;
             this.itemForumTopicList = itemForumTopicList;
+            this.recommendationList = recommendationList;
         }
     }
 

@@ -28,7 +28,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         implements BaseItemResource.Listener<ItemType>, RatingResource.Listener,
         ItemPhotoListResource.Listener, CelebrityListResource.Listener,
         ItemAwardListResource.Listener, ItemCollectionListResource.Listener,
-        ItemReviewListResource.Listener, ItemForumTopicListResource.Listener {
+        ItemReviewListResource.Listener, ItemForumTopicListResource.Listener,
+        ItemRecommendationListResource.Listener {
 
     private final String KEY_PREFIX = getClass().getName() + '.';
 
@@ -50,7 +51,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     private ItemAwardListResource mAwardListResource;
     private ItemCollectionListResource mItemCollectionListResource;
     private ItemReviewListResource mReviewListResource;
-    private ItemForumTopicListResource mForumTopicListResource;
+    private ItemForumTopicListResource mItemForumTopicListResource;
+    private ItemRecommendationListResource mRecommendationListResource;
 
     private boolean mHasError;
 
@@ -114,7 +116,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         mItemCollectionListResource = ItemCollectionListResource.attachTo(itemType, mItemId, true,
                 this);
         mReviewListResource = ItemReviewListResource.attachTo(itemType, mItemId, this);
-        mForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
+        mItemForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
+                this);
+        mRecommendationListResource = ItemRecommendationListResource.attachTo(itemType, mItemId,
                 this);
     }
 
@@ -164,9 +168,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
             mAwardListResource.detach();
         }
         mItemCollectionListResource.detach();
-        if (mReviewListResource != null) {
-            mReviewListResource.detach();
-        }
+        mReviewListResource.detach();
+        mItemForumTopicListResource.detach();
+        mRecommendationListResource.detach();
 
         Bundle arguments = getArguments();
         arguments.putLong(EXTRA_ITEM_ID, mItemId);
@@ -361,6 +365,23 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         notifyChangedIfLoaded();
     }
 
+    @Override
+    public void onLoadRecommendationListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadRecommendationListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadRecommendationListError(int requestCode, ApiError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onRecommendationListChanged(int requestCode,
+                                            List<CollectableItem> newRecommendationList) {
+        notifyChangedIfLoaded();
+    }
+
     public boolean isLoaded() {
         return hasItem()
                 && mRatingResource.has()
@@ -370,7 +391,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                 && (!hasAwardList() || (mAwardListResource != null && mAwardListResource.has()))
                 && mItemCollectionListResource.has()
                 && mReviewListResource.has()
-                && mForumTopicListResource.has();
+                && mItemForumTopicListResource.has()
+                && mRecommendationListResource.has();
     }
 
     public void notifyChangedIfLoaded() {
@@ -387,7 +409,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                     hasAwardList() ? mAwardListResource.get() : null,
                     mItemCollectionListResource.get(),
                     mReviewListResource.get(),
-                    mForumTopicListResource.get());
+                    mItemForumTopicListResource.get(),
+                    mRecommendationListResource.get());
         }
     }
 
@@ -397,7 +420,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                                           List<ItemAwardItem> newAwardList,
                                           List<ItemCollection> newItemCollectionList,
                                           List<SimpleReview> newReviewList,
-                                          List<SimpleItemForumTopic> newItemForumTopicList);
+                                          List<SimpleItemForumTopic> newItemForumTopicList,
+                                          List<CollectableItem> newRecommendationList);
 
     private void notifyError(ApiError error) {
         if (!mHasError) {
