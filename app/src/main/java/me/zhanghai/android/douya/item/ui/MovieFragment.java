@@ -16,6 +16,7 @@ import me.zhanghai.android.douya.item.content.MovieFragmentResource;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
@@ -59,14 +60,17 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     public void onChanged(int requestCode, Movie newMovie, Rating newRating,
                           List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
                           List<ItemAwardItem> newAwardList,
-                          List<ItemCollection> newItemCollectionList, List<SimpleReview> newReviewList) {
+                          List<ItemCollection> newItemCollectionList,
+                          List<SimpleReview> newReviewList,
+                          List<ItemForumTopic> newItemForumTopicList) {
         update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
-                newItemCollectionList, newReviewList);
+                newItemCollectionList, newReviewList, newItemForumTopicList);
     }
 
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                        List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList) {
+                        List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
+                        List<ItemForumTopic> itemForumTopicList) {
 
         super.updateWithSimpleItem(movie);
 
@@ -104,6 +108,6 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
 
         mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
-                celebrityList, awardList, itemCollectionList, reviewList));
+                celebrityList, awardList, itemCollectionList, reviewList, itemForumTopicList));
     }
 }
