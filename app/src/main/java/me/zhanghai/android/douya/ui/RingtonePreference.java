@@ -5,6 +5,22 @@
 
 package me.zhanghai.android.douya.ui;
 
+/*
+ * Copyright (C) 2007 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -14,11 +30,10 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.util.ObjectsCompat;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import me.zhanghai.android.douya.util.FragmentUtils;
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 /**
  * A {@link Preference} that allows the user to choose a ringtone from those on the device.
@@ -45,18 +60,17 @@ public class RingtonePreference extends Preference {
     private static final int COM_ANDROID_INTERNAL_R_STYLEABLE_RINGTONE_PREFERENCE_SHOW_DEFAULT = 1;
     private static final int COM_ANDROID_INTERNAL_R_STYLEABLE_RINGTONE_PREFERENCE_SHOW_SILENT = 2;
 
-    /**
-     * @see PreferenceFragmentCompat#DIALOG_FRAGMENT_TAG
-     */
-    private static final String DIALOG_FRAGMENT_TAG =
-            "android.support.v7.preference.PreferenceFragment.DIALOG";
-
     private int mRingtoneType = RingtoneManager.TYPE_RINGTONE;
     private boolean mShowDefault = true;
     private boolean mShowSilent = true;
 
     private Uri mRingtoneUri;
     private boolean mRingtoneSet;
+
+    static {
+        PreferenceFragmentCompat.registerPreferenceFragment(RingtonePreference.class,
+                RingtonePreferenceActivityFragmentCompat.class);
+    }
 
     public RingtonePreference(Context context, AttributeSet attrs, int defStyleAttr,
                               int defStyleRes) {
@@ -179,26 +193,6 @@ public class RingtonePreference extends Preference {
         getPreferenceManager().showDialog(this);
     }
 
-    public static boolean onDisplayPreferenceDialog(Preference preference,
-                                                    PreferenceFragmentCompat preferenceFragment) {
-        if (!(preference instanceof RingtonePreference)) {
-            return false;
-        }
-        if (preferenceFragment.getFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG)
-                == null) {
-            RingtonePreference ringtonePreference = (RingtonePreference) preference;
-            RingtonePreferenceActivityFragmentCompat activityFragment =
-                    RingtonePreferenceActivityFragmentCompat.newInstance(
-                            ringtonePreference.getKey(),
-                            ringtonePreference.makeRingtonePickerIntent());
-            activityFragment.setTargetFragment(preferenceFragment, 0);
-            //noinspection deprecation
-            FragmentUtils.add(activityFragment, preferenceFragment.getFragmentManager(),
-                    DIALOG_FRAGMENT_TAG);
-        }
-        return true;
-    }
-
     public Intent makeRingtonePickerIntent() {
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         onPrepareRingtonePickerIntent(intent);
@@ -234,7 +228,7 @@ public class RingtonePreference extends Preference {
      */
     public void setRingtoneUri(Uri ringtoneUri) {
         // Always persist/notify the first time.
-        final boolean changed = !ObjectsCompat.equals(mRingtoneUri, ringtoneUri);
+        boolean changed = !ObjectsCompat.equals(mRingtoneUri, ringtoneUri);
         if (changed || !mRingtoneSet) {
             mRingtoneUri = ringtoneUri;
             mRingtoneSet = true;

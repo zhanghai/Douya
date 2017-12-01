@@ -17,36 +17,31 @@ import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class RingtonePreferenceActivityFragmentCompat extends Fragment {
 
-    private static final String KEY_PREFIX =
-            RingtonePreferenceActivityFragmentCompat.class.getName() + '.';
-
-    private static final String KEY_PREFERENCE_KEY = KEY_PREFIX + "PREFERENCE_KEY";
-    private static final String KEY_PICKER_INTENT = KEY_PREFIX + "PICKER_INTENT";
+    // @see PreferenceDialogFragmentCompat#ARG_KEY
+    private static final String ARGUMENT_KEY = "key";
 
     private static final int REQUEST_CODE_PICKER = 1;
 
-    private String mPreferenceKey;
-    private Intent mPickerIntent;
+    private RingtonePreference mPreference;
 
     private boolean mShouldStartPicker;
-
-    public static RingtonePreferenceActivityFragmentCompat newInstance(String preferenceKey,
-                                                                       Intent pickerIntent) {
-        RingtonePreferenceActivityFragmentCompat fragment =
-                new RingtonePreferenceActivityFragmentCompat();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putString(KEY_PREFERENCE_KEY, preferenceKey);
-        arguments.putParcelable(KEY_PICKER_INTENT, pickerIntent);
-        return fragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        mPreferenceKey = arguments.getString(KEY_PREFERENCE_KEY);
-        mPickerIntent = arguments.getParcelable(KEY_PICKER_INTENT);
+        String preferenceKey = arguments.getString(ARGUMENT_KEY);
+
+        Fragment fragment = getTargetFragment();
+        if (!(fragment instanceof DialogPreference.TargetFragment)) {
+            throw new IllegalStateException("Target fragment must implement TargetFragment" +
+                    " interface");
+        }
+        DialogPreference.TargetFragment targetFragment = (DialogPreference.TargetFragment) fragment;
+        if (savedInstanceState == null) {
+            mPreference = (RingtonePreference) targetFragment.findPreference(preferenceKey);
+        }
     }
 
     @Override
@@ -63,7 +58,7 @@ public class RingtonePreferenceActivityFragmentCompat extends Fragment {
         super.onStart();
 
         if (mShouldStartPicker) {
-            startActivityForResult(mPickerIntent, REQUEST_CODE_PICKER);
+            startActivityForResult(mPreference.makeRingtonePickerIntent(), REQUEST_CODE_PICKER);
             mShouldStartPicker = false;
         }
     }
@@ -74,15 +69,9 @@ public class RingtonePreferenceActivityFragmentCompat extends Fragment {
 
         if (requestCode == REQUEST_CODE_PICKER) {
             if (data != null) {
-                DialogPreference.TargetFragment targetFragment = (DialogPreference.TargetFragment)
-                        getTargetFragment();
-                RingtonePreference preference = (RingtonePreference) targetFragment.findPreference(
-                        mPreferenceKey);
-                if (preference != null) {
-                    Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                    if (preference.callChangeListener(uri)) {
-                        preference.setRingtoneUri(uri);
-                    }
+                Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+                if (mPreference.callChangeListener(uri)) {
+                    mPreference.setRingtoneUri(uri);
                 }
             }
             FragmentUtils.remove(this);
