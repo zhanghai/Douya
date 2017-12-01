@@ -92,25 +92,25 @@ public class ItemForumTopicListResource
 
     @Override
     protected void onLoadStarted() {
-        getListener().onLoadItemForumTopicListStarted(getRequestCode());
+        getListener().onLoadForumTopicListStarted(getRequestCode());
     }
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
                                   List<SimpleItemForumTopic> response, ApiError error) {
-        getListener().onLoadItemForumTopicListFinished(getRequestCode());
+        getListener().onLoadForumTopicListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
-                getListener().onItemForumTopicListAppended(getRequestCode(),
+                getListener().onForumTopicListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
                 set(response);
-                getListener().onItemForumTopicListChanged(getRequestCode(),
+                getListener().onForumTopicListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
         } else {
-            getListener().onLoadItemForumTopicListError(getRequestCode(), error);
+            getListener().onLoadForumTopicListError(getRequestCode(), error);
         }
     }
 
@@ -119,18 +119,17 @@ public class ItemForumTopicListResource
     }
 
     public interface Listener {
-        void onLoadItemForumTopicListStarted(int requestCode);
-        void onLoadItemForumTopicListFinished(int requestCode);
-        void onLoadItemForumTopicListError(int requestCode, ApiError error);
+        void onLoadForumTopicListStarted(int requestCode);
+        void onLoadForumTopicListFinished(int requestCode);
+        void onLoadForumTopicListError(int requestCode, ApiError error);
         /**
-         * @param newItemForumTopicList Unmodifiable.
+         * @param newForumTopicList Unmodifiable.
          */
-        void onItemForumTopicListChanged(int requestCode,
-                                         List<SimpleItemForumTopic> newItemForumTopicList);
+        void onForumTopicListChanged(int requestCode, List<SimpleItemForumTopic> newForumTopicList);
         /**
-         * @param appendedItemForumTopicList Unmodifiable.
+         * @param appendedForumTopicList Unmodifiable.
          */
-        void onItemForumTopicListAppended(int requestCode,
-                                          List<SimpleItemForumTopic> appendedItemForumTopicList);
+        void onForumTopicListAppended(int requestCode,
+                                      List<SimpleItemForumTopic> appendedForumTopicList);
     }
 }

@@ -165,11 +165,10 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 return holder;
             }
             case ITEM_FORUM_TOPIC_LIST: {
-                ItemForumTopicListHolder holder = new ItemForumTopicListHolder(ViewUtils.inflate(
+                ForumTopicListHolder holder = new ForumTopicListHolder(ViewUtils.inflate(
                         R.layout.item_fragment_forum_topic_list, parent));
-                ViewUtils.setVisibleOrGone(holder.itemForumTopicList,
-                        !mData.itemForumTopicList.isEmpty());
-                holder.itemForumTopicList.setAdapter(new ItemForumTopicListAdapter());
+                ViewUtils.setVisibleOrGone(holder.forumTopicList, !mData.forumTopicList.isEmpty());
+                holder.forumTopicList.setAdapter(new ItemForumTopicListAdapter());
                 return holder;
             }
             default:
@@ -321,14 +320,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 break;
             }
             case ITEM_FORUM_TOPIC_LIST: {
-                ItemForumTopicListHolder itemForumTopicListHolder =
-                        (ItemForumTopicListHolder) holder;
+                ForumTopicListHolder forumTopicListHolder = (ForumTopicListHolder) holder;
                 ItemForumTopicListAdapter adapter = (ItemForumTopicListAdapter)
-                        itemForumTopicListHolder.itemForumTopicList.getAdapter();
-                List<SimpleItemForumTopic> itemForumTopicList = mData.itemForumTopicList.subList(0,
-                        Math.min(ITEM_FORUM_TOPIC_LIST_MAX_SIZE, mData.itemForumTopicList.size()));
+                        forumTopicListHolder.forumTopicList.getAdapter();
+                List<SimpleItemForumTopic> itemForumTopicList = mData.forumTopicList.subList(0,
+                        Math.min(ITEM_FORUM_TOPIC_LIST_MAX_SIZE, mData.forumTopicList.size()));
                 adapter.replace(itemForumTopicList);
-                itemForumTopicListHolder.viewMoreButton.setOnClickListener(view -> {
+                forumTopicListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
                     UriHandler.open(mData.movie.url + "/discussion", view.getContext());
                 });
@@ -352,13 +350,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public List<ItemAwardItem> awardList;
         public List<ItemCollection> itemCollectionList;
         public List<SimpleReview> reviewList;
-        public List<SimpleItemForumTopic> itemForumTopicList;
+        public List<SimpleItemForumTopic> forumTopicList;
         public List<CollectableItem> recommendationList;
 
         public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                     List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                    List<SimpleItemForumTopic> itemForumTopicList,
+                    List<SimpleItemForumTopic> forumTopicList,
                     List<CollectableItem> recommendationList) {
             this.movie = movie;
             this.rating = rating;
@@ -368,7 +366,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.awardList = awardList;
             this.itemCollectionList = itemCollectionList;
             this.reviewList = reviewList;
-            this.itemForumTopicList = itemForumTopicList;
+            this.forumTopicList = forumTopicList;
             this.recommendationList = recommendationList;
         }
     }
@@ -505,7 +503,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     static class ReviewListHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.item_review_list)
+        @BindView(R.id.review_list)
         public AdapterLinearLayout reviewList;
         @BindView(R.id.view_more)
         public Button viewMoreButton;
@@ -517,14 +515,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    static class ItemForumTopicListHolder extends RecyclerView.ViewHolder {
+    static class ForumTopicListHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.item_forum_topic_list)
-        public AdapterLinearLayout itemForumTopicList;
+        @BindView(R.id.forum_topic_list)
+        public AdapterLinearLayout forumTopicList;
         @BindView(R.id.view_more)
         public Button viewMoreButton;
 
-        public ItemForumTopicListHolder(View itemView) {
+        public ForumTopicListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

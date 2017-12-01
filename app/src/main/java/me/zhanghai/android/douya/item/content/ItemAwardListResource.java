@@ -93,11 +93,11 @@ public class ItemAwardListResource
         if (successful) {
             if (more) {
                 append(response);
-                getListener().onItemAwardListAppended(getRequestCode(),
+                getListener().onAwardListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
                 set(response);
-                getListener().onItemAwardListChanged(getRequestCode(),
+                getListener().onAwardListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
         } else {
@@ -116,10 +116,10 @@ public class ItemAwardListResource
         /**
          * @param newAwardList Unmodifiable.
          */
-        void onItemAwardListChanged(int requestCode, List<ItemAwardItem> newAwardList);
+        void onAwardListChanged(int requestCode, List<ItemAwardItem> newAwardList);
         /**
          * @param appendedAwardList Unmodifiable.
          */
-        void onItemAwardListAppended(int requestCode, List<ItemAwardItem> appendedAwardList);
+        void onAwardListAppended(int requestCode, List<ItemAwardItem> appendedAwardList);
     }
 }

@@ -95,10 +95,10 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
                                  List<ItemAwardItem> newAwardList,
                                  List<ItemCollection> newItemCollectionList,
                                  List<SimpleReview> newReviewList,
-                                 List<SimpleItemForumTopic> newItemForumTopicList,
+                                 List<SimpleItemForumTopic> newForumTopicList,
                                  List<CollectableItem> newRecommendationList) {
         getListener().onChanged(requestCode, newItem, newRating, newPhotoList, newCelebrityList,
-                newAwardList, newItemCollectionList, newReviewList, newItemForumTopicList,
+                newAwardList, newItemCollectionList, newReviewList, newForumTopicList,
                 newRecommendationList);
     }
 
@@ -111,7 +111,7 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
         void onChanged(int requestCode, Movie newMovie, Rating newRating, List<Photo> newPhotoList,
                        List<SimpleCelebrity> newCelebrityList, List<ItemAwardItem> newAwardList,
                        List<ItemCollection> newItemCollectionList, List<SimpleReview> newReviewList,
-                       List<SimpleItemForumTopic> newItemForumTopicList,
+                       List<SimpleItemForumTopic> newForumTopicList,
                        List<CollectableItem> newRecommendationList);
     }
 }

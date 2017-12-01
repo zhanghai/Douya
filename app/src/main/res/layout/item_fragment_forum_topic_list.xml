@@ -52,7 +52,7 @@
     </LinearLayout>
 
     <me.zhanghai.android.douya.ui.AdapterLinearLayout
-        android:id="@+id/item_forum_topic_list"
+        android:id="@+id/forum_topic_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />

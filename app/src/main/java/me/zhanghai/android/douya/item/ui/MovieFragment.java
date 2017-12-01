@@ -63,16 +63,16 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
                           List<ItemAwardItem> newAwardList,
                           List<ItemCollection> newItemCollectionList,
                           List<SimpleReview> newReviewList,
-                          List<SimpleItemForumTopic> newItemForumTopicList,
+                          List<SimpleItemForumTopic> newForumTopicList,
                           List<CollectableItem> newRecommendationList) {
         update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
-                newItemCollectionList, newReviewList, newItemForumTopicList, newRecommendationList);
+                newItemCollectionList, newReviewList, newForumTopicList, newRecommendationList);
     }
 
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                         List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                        List<SimpleItemForumTopic> itemForumTopicList,
+                        List<SimpleItemForumTopic> forumTopicList,
                         List<CollectableItem> recommendationList) {
 
         super.updateWithSimpleItem(movie);
@@ -111,7 +111,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
 
         mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
-                celebrityList, awardList, itemCollectionList, reviewList, itemForumTopicList,
+                celebrityList, awardList, itemCollectionList, reviewList, forumTopicList,
                 recommendationList));
     }
 }

@@ -51,7 +51,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     private ItemAwardListResource mAwardListResource;
     private ItemCollectionListResource mItemCollectionListResource;
     private ItemReviewListResource mReviewListResource;
-    private ItemForumTopicListResource mItemForumTopicListResource;
+    private ItemForumTopicListResource mForumTopicListResource;
     private ItemRecommendationListResource mRecommendationListResource;
 
     private boolean mHasError;
@@ -116,7 +116,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         mItemCollectionListResource = ItemCollectionListResource.attachTo(itemType, mItemId, true,
                 this);
         mReviewListResource = ItemReviewListResource.attachTo(itemType, mItemId, this);
-        mItemForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
+        mForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
                 this);
         mRecommendationListResource = ItemRecommendationListResource.attachTo(itemType, mItemId,
                 this);
@@ -169,7 +169,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         }
         mItemCollectionListResource.detach();
         mReviewListResource.detach();
-        mItemForumTopicListResource.detach();
+        mForumTopicListResource.detach();
         mRecommendationListResource.detach();
 
         Bundle arguments = getArguments();
@@ -279,12 +279,12 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
-    public void onItemAwardListChanged(int requestCode, List<ItemAwardItem> newAwardList) {
+    public void onAwardListChanged(int requestCode, List<ItemAwardItem> newAwardList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onItemAwardListAppended(int requestCode, List<ItemAwardItem> appendedAwardList) {
+    public void onAwardListAppended(int requestCode, List<ItemAwardItem> appendedAwardList) {
         notifyChangedIfLoaded();
     }
 
@@ -343,25 +343,25 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
-    public void onLoadItemForumTopicListStarted(int requestCode) {}
+    public void onLoadForumTopicListStarted(int requestCode) {}
 
     @Override
-    public void onLoadItemForumTopicListFinished(int requestCode) {}
+    public void onLoadForumTopicListFinished(int requestCode) {}
 
     @Override
-    public void onLoadItemForumTopicListError(int requestCode, ApiError error) {
+    public void onLoadForumTopicListError(int requestCode, ApiError error) {
         notifyError(error);
     }
 
     @Override
-    public void onItemForumTopicListChanged(int requestCode,
-                                            List<SimpleItemForumTopic> newItemForumTopicList) {
+    public void onForumTopicListChanged(int requestCode,
+                                        List<SimpleItemForumTopic> newForumTopicList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onItemForumTopicListAppended(int requestCode,
-                                             List<SimpleItemForumTopic> appendedItemForumTopicList) {
+    public void onForumTopicListAppended(int requestCode,
+                                         List<SimpleItemForumTopic> appendedForumTopicList) {
         notifyChangedIfLoaded();
     }
 
@@ -391,7 +391,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                 && (!hasAwardList() || (mAwardListResource != null && mAwardListResource.has()))
                 && mItemCollectionListResource.has()
                 && mReviewListResource.has()
-                && mItemForumTopicListResource.has()
+                && mForumTopicListResource.has()
                 && mRecommendationListResource.has();
     }
 
@@ -409,7 +409,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                     hasAwardList() ? mAwardListResource.get() : null,
                     mItemCollectionListResource.get(),
                     mReviewListResource.get(),
-                    mItemForumTopicListResource.get(),
+                    mForumTopicListResource.get(),
                     mRecommendationListResource.get());
         }
     }
@@ -420,7 +420,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                                           List<ItemAwardItem> newAwardList,
                                           List<ItemCollection> newItemCollectionList,
                                           List<SimpleReview> newReviewList,
-                                          List<SimpleItemForumTopic> newItemForumTopicList,
+                                          List<SimpleItemForumTopic> newForumTopicList,
                                           List<CollectableItem> newRecommendationList);
 
     private void notifyError(ApiError error) {

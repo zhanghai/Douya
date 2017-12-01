@@ -52,7 +52,7 @@
     </LinearLayout>
 
     <me.zhanghai.android.douya.ui.AdapterLinearLayout
-        android:id="@+id/item_review_list"
+        android:id="@+id/review_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
