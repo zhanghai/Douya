@@ -85,6 +85,7 @@
     <dimen name="card_content_vertical_margin_small">8dp</dimen>
     <dimen name="card_content_vertical_space">16dp</dimen>
     <dimen name="card_content_vertical_space_with_4dp_padding">12dp</dimen>
+    <dimen name="card_content_vertical_space_half">8dp</dimen>
     <dimen name="card_action_margin">8dp</dimen>
     <dimen name="card_action_margin_with_4dp_padding">4dp</dimen>
     <dimen name="card_action_margin_with_8dp_padding">0dp</dimen>

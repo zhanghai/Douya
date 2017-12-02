@@ -11,8 +11,8 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/card_content_horizontal_margin"
     android:paddingRight="@dimen/card_content_horizontal_margin"
-    android:paddingTop="@dimen/card_content_vertical_space"
-    android:paddingBottom="@dimen/card_content_vertical_space"
+    android:paddingTop="@dimen/card_content_vertical_space_half"
+    android:paddingBottom="@dimen/card_content_vertical_space_half"
     android:background="?selectableItemBackground"
     android:orientation="vertical">
 

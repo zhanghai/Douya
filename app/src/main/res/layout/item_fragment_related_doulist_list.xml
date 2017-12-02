@@ -25,9 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="?dividerHorizontal"
-            android:orientation="vertical"
-            android:showDividers="middle">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/title_layout"
@@ -63,9 +61,8 @@
                 android:id="@+id/related_doulist_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="?dividerHorizontal"
-                android:orientation="vertical"
-                android:showDividers="middle" />
+                android:paddingBottom="@dimen/card_content_vertical_space_half"
+                android:orientation="vertical" />
         </LinearLayout>
     </me.zhanghai.android.douya.ui.FriendlyCardView>
 </FrameLayout>
