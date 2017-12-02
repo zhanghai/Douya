@@ -8,13 +8,15 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/avatar_padding_negative"
     android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
     android:paddingRight="@dimen/screen_edge_horizontal_margin"
     android:paddingTop="@dimen/content_vertical_space"
-    android:paddingBottom="@dimen/content_vertical_space">
+    android:paddingBottom="@dimen/content_vertical_space"
+    android:clipToPadding="false">
 
     <me.zhanghai.android.douya.ui.SimpleCircleImageView
         android:id="@+id/avatar"
@@ -76,9 +78,44 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="-8dp"
         android:orientation="horizontal">
 
-        <!-- TODO -->
+        <LinearLayout
+            android:id="@+id/vote_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="7dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:duplicateParentState="true"
+                android:src="@drawable/like_icon_white_18dp"
+                app:tint="@drawable/item_collection_vote_tint"
+                tools:ignore="MissingPrefix" />
+
+            <me.zhanghai.android.douya.ui.AutoGoneTextView
+                android:id="@+id/vote_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginTop="1dp"
+                android:includeFontPadding="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@drawable/item_collection_vote_tint" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/more_vertical_icon_white_18dp"
+            android:tint="?colorControlNormal" />
     </LinearLayout>
 
     <TextView

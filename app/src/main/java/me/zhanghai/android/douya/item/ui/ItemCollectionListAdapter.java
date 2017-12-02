@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -57,6 +58,15 @@ public class ItemCollectionListAdapter
         }
         holder.dateText.setText(TimeUtils.formatDate(TimeUtils.parseDoubanDateTime(
                 itemCollection.createdAt), holder.dateText.getContext()));
+        String voteCount = itemCollection.voteCount > 0 ?
+                holder.voteCountText.getContext().getString(
+                        R.string.item_collection_vote_count_format, itemCollection.voteCount)
+                : null;
+        holder.voteCountText.setText(voteCount);
+        holder.voteLayout.setActivated(itemCollection.isVoted);
+        holder.voteLayout.setOnClickListener(view -> {
+            // TODO
+        });
         holder.commentText.setText(itemCollection.comment);
     }
 
@@ -70,6 +80,12 @@ public class ItemCollectionListAdapter
         public RatingBar ratingBar;
         @BindView(R.id.date)
         public TextView dateText;
+        @BindView(R.id.vote_layout)
+        public ViewGroup voteLayout;
+        @BindView(R.id.vote_count)
+        public TextView voteCountText;
+        @BindView(R.id.menu)
+        public ImageButton menuButton;
         @BindView(R.id.comment)
         public TextView commentText;
 

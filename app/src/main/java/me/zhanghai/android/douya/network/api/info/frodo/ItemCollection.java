@@ -33,6 +33,7 @@ public class ItemCollection implements Parcelable {
     @SerializedName("index")
     public int indexAll;
 
+    @SerializedName("is_voted")
     public boolean isVoted;
 
     public ArrayList<GamePlatform> platforms = new ArrayList<>();

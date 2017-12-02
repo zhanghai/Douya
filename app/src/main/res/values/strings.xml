@@ -289,6 +289,7 @@
     <string name="item_award_category_multiple_format">%1$s 等 %2$d 项</string>
     <string name="item_collection_list_title">短评</string>
     <string name="item_collection_list_create">写短评</string>
+    <string name="item_collection_vote_count_format">%1$d</string>
     <string name="item_collection_list_view_more">全部短评</string>
     <string name="item_review_list_title">评论</string>
     <string name="item_review_list_create">写评论</string>

@@ -42,4 +42,5 @@
 
     <color name="movie_primary">@color/blue_500</color>
     <color name="movie_primary_dark">@color/blue_700</color>
+    <color name="movie_accent">@color/blue_500</color>
 </resources>

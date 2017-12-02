@@ -167,17 +167,17 @@
     <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />
 
     <style name="DarkTheme.Light.Movie" parent="DarkTheme.Light">
-        <item name="colorAccent">@color/movie_primary</item>
+        <item name="colorAccent">@color/movie_accent</item>
     </style>
     <style name="Base.Theme.Douya.Movie" parent="Theme.Douya">
         <item name="colorPrimary">@color/movie_primary</item>
         <item name="colorPrimaryDark">@color/movie_primary_dark</item>
-        <item name="colorAccent">@color/movie_primary</item>
+        <item name="colorAccent">@color/movie_accent</item>
         <item name="android:windowBackground">@color/grey_200</item>
         <item name="darkTheme">@style/DarkTheme.Light.Movie</item>
     </style>
     <style name="Base.Theme.Douya.Movie.Dark" parent="Theme.Douya">
-        <item name="colorAccent">@color/movie_primary</item>
+        <item name="colorAccent">@color/movie_accent</item>
         <item name="darkTheme">@style/DarkTheme</item>
     </style>
     <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie" />
