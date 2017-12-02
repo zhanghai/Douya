@@ -160,7 +160,7 @@ public class BadgeListLayout extends HorizontalScrollView {
         }
         mRatingLayout.setOnClickListener(view -> {
             // TODO
-            UriHandler.open(item.url + "/collections", view.getContext());
+            UriHandler.open(item.url + "collections", view.getContext());
         });
         boolean hasFollowingsRating = rating.followingsRating != null;
         ViewUtils.setVisibleOrGone(mFollowingsRatingLayout, hasFollowingsRating);
@@ -169,7 +169,7 @@ public class BadgeListLayout extends HorizontalScrollView {
                     mFollowingsRatingCountText, mFollowingsRatingCountIconImage);
             mFollowingsRatingLayout.setOnClickListener(view -> {
                 // TODO
-                UriHandler.open(item.url + "/collections?show_followings=on", view.getContext());
+                UriHandler.open(item.url + "collections?show_followings=on", view.getContext());
             });
         }
     }

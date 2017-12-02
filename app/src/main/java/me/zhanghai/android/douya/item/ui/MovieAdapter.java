@@ -275,7 +275,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 });
                 photoListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
-                    UriHandler.open(mData.movie.url + "/photos", context);
+                    UriHandler.open(mData.movie.url + "photos", context);
                 });
                 break;
             }
@@ -294,7 +294,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 adapter.replace(mData.awardList);
                 awardListHolder.itemView.setOnClickListener(view -> {
                     // TODO
-                    UriHandler.open(mData.movie.url + "/awards/", view.getContext());
+                    UriHandler.open(mData.movie.url + "awards/", view.getContext());
                 });
                 break;
             }
@@ -306,7 +306,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ratingHolder.ratingLayout.setRating(mData.rating.rating);
                     ratingHolder.ratingDistributionLayout.setRating(mData.rating);
                     ratingHolder.itemView.setOnClickListener(view -> {
-                        UriHandler.open(mData.movie.url + "/collections", view.getContext());
+                        UriHandler.open(mData.movie.url + "collections", view.getContext());
                     });
                 }
                 break;
@@ -323,7 +323,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 adapter.replace(itemCollectionList);
                 itemCollectionListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
-                    UriHandler.open(mData.movie.url + "/collections", view.getContext());
+                    UriHandler.open(mData.movie.url + "collections", view.getContext());
                 });
                 break;
             }
@@ -337,7 +337,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 adapter.replace(reviewList);
                 reviewListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
-                    UriHandler.open(mData.movie.url + "/reviews", view.getContext());
+                    UriHandler.open(mData.movie.url + "reviews", view.getContext());
                 });
                 break;
             }
@@ -352,7 +352,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 adapter.replace(forumTopicList);
                 forumTopicListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
-                    UriHandler.open(mData.movie.url + "/discussion", view.getContext());
+                    UriHandler.open(mData.movie.url + "discussion", view.getContext());
                 });
                 break;
             }
@@ -372,7 +372,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         (RelatedDoulistListHolder) holder;
                 relatedDoulistListHolder.titleLayout.setOnClickListener(view -> {
                     // TODO
-                    UriHandler.open(mData.movie.url + "/doulists", view.getContext());
+                    UriHandler.open(mData.movie.url + "doulists", view.getContext());
                 });
                 ViewUtils.setVisibleOrGone(relatedDoulistListHolder.relatedDoulistList,
                         !mData.relatedDoulistList.isEmpty());
