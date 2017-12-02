@@ -12,6 +12,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
@@ -96,10 +97,11 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
                                  List<ItemCollection> newItemCollectionList,
                                  List<SimpleReview> newReviewList,
                                  List<SimpleItemForumTopic> newForumTopicList,
-                                 List<CollectableItem> newRecommendationList) {
+                                 List<CollectableItem> newRecommendationList,
+                                 List<Doulist> newRelatedDoulistList) {
         getListener().onChanged(requestCode, newItem, newRating, newPhotoList, newCelebrityList,
                 newAwardList, newItemCollectionList, newReviewList, newForumTopicList,
-                newRecommendationList);
+                newRecommendationList, newRelatedDoulistList);
     }
 
     private Listener getListener() {
@@ -112,6 +114,7 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
                        List<SimpleCelebrity> newCelebrityList, List<ItemAwardItem> newAwardList,
                        List<ItemCollection> newItemCollectionList, List<SimpleReview> newReviewList,
                        List<SimpleItemForumTopic> newForumTopicList,
-                       List<CollectableItem> newRecommendationList);
+                       List<CollectableItem> newRecommendationList,
+                       List<Doulist> newRelatedDoulistList);
     }
 }

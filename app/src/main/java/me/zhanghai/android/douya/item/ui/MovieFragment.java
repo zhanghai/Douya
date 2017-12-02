@@ -15,6 +15,7 @@ import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.MovieFragmentResource;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
@@ -64,16 +65,19 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
                           List<ItemCollection> newItemCollectionList,
                           List<SimpleReview> newReviewList,
                           List<SimpleItemForumTopic> newForumTopicList,
-                          List<CollectableItem> newRecommendationList) {
+                          List<CollectableItem> newRecommendationList,
+                          List<Doulist> newRelatedDoulistList) {
         update(newMovie, newRating, newPhotoList, newCelebrityList, newAwardList,
-                newItemCollectionList, newReviewList, newForumTopicList, newRecommendationList);
+                newItemCollectionList, newReviewList, newForumTopicList, newRecommendationList,
+                newRelatedDoulistList);
     }
 
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                         List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
                         List<SimpleItemForumTopic> forumTopicList,
-                        List<CollectableItem> recommendationList) {
+                        List<CollectableItem> recommendationList,
+                        List<Doulist> relatedDoulistList) {
 
         super.updateWithSimpleItem(movie);
 
@@ -112,6 +116,6 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
 
         mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
                 celebrityList, awardList, itemCollectionList, reviewList, forumTopicList,
-                recommendationList));
+                recommendationList, relatedDoulistList));
     }
 }

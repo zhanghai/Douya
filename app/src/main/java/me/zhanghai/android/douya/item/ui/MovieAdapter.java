@@ -23,6 +23,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
@@ -377,12 +378,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public List<SimpleReview> reviewList;
         public List<SimpleItemForumTopic> forumTopicList;
         public List<CollectableItem> recommendationList;
+        public List<Doulist> relatedDoulistList;
 
         public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
                     List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
                     List<SimpleItemForumTopic> forumTopicList,
-                    List<CollectableItem> recommendationList) {
+                    List<CollectableItem> recommendationList, List<Doulist> relatedDoulistList) {
             this.movie = movie;
             this.rating = rating;
             this.photoList = photoList;
@@ -393,6 +395,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.reviewList = reviewList;
             this.forumTopicList = forumTopicList;
             this.recommendationList = recommendationList;
+            this.relatedDoulistList = relatedDoulistList;
         }
     }
 

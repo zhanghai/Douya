@@ -10,8 +10,10 @@ import android.os.Bundle;
 import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.doulist.content.ItemRelatedDoulistListResource;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
@@ -29,7 +31,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         ItemPhotoListResource.Listener, CelebrityListResource.Listener,
         ItemAwardListResource.Listener, ItemCollectionListResource.Listener,
         ItemReviewListResource.Listener, ItemForumTopicListResource.Listener,
-        ItemRecommendationListResource.Listener {
+        ItemRecommendationListResource.Listener, ItemRelatedDoulistListResource.Listener {
 
     private final String KEY_PREFIX = getClass().getName() + '.';
 
@@ -53,6 +55,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     private ItemReviewListResource mReviewListResource;
     private ItemForumTopicListResource mForumTopicListResource;
     private ItemRecommendationListResource mRecommendationListResource;
+    private ItemRelatedDoulistListResource mRelatedDoulistListResource;
 
     private boolean mHasError;
 
@@ -120,6 +123,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                 this);
         mRecommendationListResource = ItemRecommendationListResource.attachTo(itemType, mItemId,
                 this);
+        mRelatedDoulistListResource = ItemRelatedDoulistListResource.attachTo(itemType, mItemId,
+                this);
     }
 
     private void ensureArguments() {
@@ -171,6 +176,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         mReviewListResource.detach();
         mForumTopicListResource.detach();
         mRecommendationListResource.detach();
+        mRelatedDoulistListResource.detach();
 
         Bundle arguments = getArguments();
         arguments.putLong(EXTRA_ITEM_ID, mItemId);
@@ -382,6 +388,37 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         notifyChangedIfLoaded();
     }
 
+    @Override
+    public void onLoadDoulistListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadDoulistListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadDoulistListError(int requestCode, ApiError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onDoulistListChanged(int requestCode, List<Doulist> newDoulistList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onDoulistListAppended(int requestCode, List<Doulist> appendedDoulistList) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onDoulistChanged(int requestCode, int position, Doulist newDoulist) {
+        notifyChangedIfLoaded();
+    }
+
+    @Override
+    public void onDoulistRemoved(int requestCode, int position) {
+        notifyChangedIfLoaded();
+    }
+
     public boolean isLoaded() {
         return hasItem()
                 && mRatingResource.has()
@@ -392,7 +429,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                 && mItemCollectionListResource.has()
                 && mReviewListResource.has()
                 && mForumTopicListResource.has()
-                && mRecommendationListResource.has();
+                && mRecommendationListResource.has()
+                && mRelatedDoulistListResource.has();
     }
 
     public void notifyChangedIfLoaded() {
@@ -411,7 +449,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                     mItemCollectionListResource.get(),
                     mReviewListResource.get(),
                     mForumTopicListResource.get(),
-                    mRecommendationListResource.get());
+                    mRecommendationListResource.get(),
+                    mRelatedDoulistListResource.get());
         }
     }
 
@@ -422,7 +461,8 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                                           List<ItemCollection> newItemCollectionList,
                                           List<SimpleReview> newReviewList,
                                           List<SimpleItemForumTopic> newForumTopicList,
-                                          List<CollectableItem> newRecommendationList);
+                                          List<CollectableItem> newRecommendationList,
+                                          List<Doulist> newRelatedDoulistList);
 
     private void notifyError(ApiError error) {
         if (!mHasError) {
