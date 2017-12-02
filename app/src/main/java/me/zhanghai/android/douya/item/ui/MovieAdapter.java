@@ -372,6 +372,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         (RelatedDoulistListHolder) holder;
                 relatedDoulistListHolder.titleLayout.setOnClickListener(view -> {
                     // TODO
+                    UriHandler.open(mData.movie.url + "/doulists", view.getContext());
                 });
                 ViewUtils.setVisibleOrGone(relatedDoulistListHolder.relatedDoulistList,
                         !mData.relatedDoulistList.isEmpty());
