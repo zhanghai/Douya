@@ -25,7 +25,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.Honor;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
@@ -314,7 +314,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_COLLECTION_LIST: {
                 ItemCollectionListHolder itemCollectionListHolder =
                         (ItemCollectionListHolder) holder;
-                List<ItemCollection> itemCollectionList = mData.itemCollectionList.subList(0,
+                List<SimpleItemCollection> itemCollectionList = mData.itemCollectionList.subList(0,
                         Math.min(ITEM_COLLECTION_LIST_MAX_SIZE, mData.itemCollectionList.size()));
                 ViewUtils.setVisibleOrGone(itemCollectionListHolder.itemCollectionList,
                         !itemCollectionList.isEmpty());
@@ -399,7 +399,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public boolean excludeFirstPhoto;
         public List<SimpleCelebrity> celebrityList;
         public List<ItemAwardItem> awardList;
-        public List<ItemCollection> itemCollectionList;
+        public List<SimpleItemCollection> itemCollectionList;
         public List<SimpleReview> reviewList;
         public List<SimpleItemForumTopic> forumTopicList;
         public List<CollectableItem> recommendationList;
@@ -407,7 +407,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
                     List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                    List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
+                    List<SimpleItemCollection> itemCollectionList, List<SimpleReview> reviewList,
                     List<SimpleItemForumTopic> forumTopicList,
                     List<CollectableItem> recommendationList, List<Doulist> relatedDoulistList) {
             this.movie = movie;

@@ -11,13 +11,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class ItemCollectionList extends BaseList<ItemCollection> {
+public class ItemCollectionList extends BaseList<SimpleItemCollection> {
 
     @SerializedName("interests")
-    public ArrayList<ItemCollection> collections = new ArrayList<>();
+    public ArrayList<SimpleItemCollection> collections = new ArrayList<>();
 
     @Override
-    public ArrayList<ItemCollection> getList() {
+    public ArrayList<SimpleItemCollection> getList() {
         return collections;
     }
 
@@ -38,7 +38,7 @@ public class ItemCollectionList extends BaseList<ItemCollection> {
     protected ItemCollectionList(Parcel in) {
         super(in);
 
-        collections = in.createTypedArrayList(ItemCollection.CREATOR);
+        collections = in.createTypedArrayList(SimpleItemCollection.CREATOR);
     }
 
     @Override

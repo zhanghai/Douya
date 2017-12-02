@@ -13,8 +13,6 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
@@ -89,7 +87,7 @@ public abstract class CollectableItem extends BaseItem {
     public String themeColor;
 
     @SerializedName("interest")
-    public ItemCollection collection;
+    public SimpleItemCollection collection;
 
     @SerializedName("intro")
     public String introduction;
@@ -171,7 +169,7 @@ public abstract class CollectableItem extends BaseItem {
         backgroundColor = in.readString();
         commentCount = in.readInt();
         themeColor = in.readString();
-        collection = in.readParcelable(ItemCollection.class.getClassLoader());
+        collection = in.readParcelable(SimpleItemCollection.class.getClassLoader());
         introduction = in.readString();
         isInBlackList = in.readByte() != 0;
         isIntroductionByDouban = in.readByte() != 0;

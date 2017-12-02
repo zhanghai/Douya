@@ -15,7 +15,7 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
@@ -307,13 +307,13 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onItemCollectionListChanged(int requestCode,
-                                            List<ItemCollection> newItemCollectionList) {
+                                            List<SimpleItemCollection> newItemCollectionList) {
         notifyChangedIfLoaded();
     }
 
     @Override
-    public void onItemCollectionListAppended(int requestCode,
-                                             List<ItemCollection> appendedItemCollectionList) {
+    public void onItemCollectionListAppended(
+            int requestCode, List<SimpleItemCollection> appendedItemCollectionList) {
         notifyChangedIfLoaded();
     }
 
@@ -458,7 +458,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                                           List<Photo> newPhotoList,
                                           List<SimpleCelebrity> newCelebrityList,
                                           List<ItemAwardItem> newAwardList,
-                                          List<ItemCollection> newItemCollectionList,
+                                          List<SimpleItemCollection> newItemCollectionList,
                                           List<SimpleReview> newReviewList,
                                           List<SimpleItemForumTopic> newForumTopicList,
                                           List<CollectableItem> newRecommendationList,

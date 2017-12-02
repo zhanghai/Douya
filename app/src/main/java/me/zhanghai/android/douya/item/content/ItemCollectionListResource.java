@@ -17,12 +17,12 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ItemCollectionListResource
-        extends MoreBaseListResourceFragment<ItemCollectionList, ItemCollection> {
+        extends MoreBaseListResourceFragment<ItemCollectionList, SimpleItemCollection> {
 
     private static final String KEY_PREFIX = ItemCollectionListResource.class.getName() + '.';
 
@@ -97,7 +97,7 @@ public class ItemCollectionListResource
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
-                                  List<ItemCollection> response, ApiError error) {
+                                  List<SimpleItemCollection> response, ApiError error) {
         getListener().onLoadItemCollectionListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -126,11 +126,11 @@ public class ItemCollectionListResource
          * @param newItemCollectionList Unmodifiable.
          */
         void onItemCollectionListChanged(int requestCode,
-                                         List<ItemCollection> newItemCollectionList);
+                                         List<SimpleItemCollection> newItemCollectionList);
         /**
          * @param appendedItemCollectionList Unmodifiable.
          */
         void onItemCollectionListAppended(int requestCode,
-                                          List<ItemCollection> appendedItemCollectionList);
+                                          List<SimpleItemCollection> appendedItemCollectionList);
     }
 }

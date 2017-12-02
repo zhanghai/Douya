@@ -17,7 +17,7 @@ import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
@@ -62,7 +62,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     public void onChanged(int requestCode, Movie newMovie, Rating newRating,
                           List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
                           List<ItemAwardItem> newAwardList,
-                          List<ItemCollection> newItemCollectionList,
+                          List<SimpleItemCollection> newItemCollectionList,
                           List<SimpleReview> newReviewList,
                           List<SimpleItemForumTopic> newForumTopicList,
                           List<CollectableItem> newRecommendationList,
@@ -74,8 +74,8 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
 
     private void update(Movie movie, Rating rating, List<Photo> photoList,
                         List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                        List<ItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                        List<SimpleItemForumTopic> forumTopicList,
+                        List<SimpleItemCollection> itemCollectionList,
+                        List<SimpleReview> reviewList, List<SimpleItemForumTopic> forumTopicList,
                         List<CollectableItem> recommendationList,
                         List<Doulist> relatedDoulistList) {
 

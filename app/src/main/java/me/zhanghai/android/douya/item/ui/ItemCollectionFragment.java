@@ -22,7 +22,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -56,16 +56,16 @@ public class ItemCollectionFragment extends Fragment {
     @BindView(R.id.comment)
     EditText mCommentEdit;
 
-    private ItemCollection mCollection;
+    private SimpleItemCollection mCollection;
 
     private ItemCollectionState mCollectionState;
 
     /**
-     * @deprecated Use {@link #newInstance(ItemCollection)} instead.
+     * @deprecated Use {@link #newInstance(SimpleItemCollection)} instead.
      */
     public ItemCollectionFragment() {}
 
-    public static ItemCollectionFragment newInstance(ItemCollection collection) {
+    public static ItemCollectionFragment newInstance(SimpleItemCollection collection) {
         //noinspection deprecation
         ItemCollectionFragment fragment = new ItemCollectionFragment();
         FragmentUtils.ensureArguments(fragment)

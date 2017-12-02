@@ -313,6 +313,11 @@ public class ApiService {
                 followingsFirst ? 1 : null, start, count);
     }
 
+    public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
+                                                    Integer start, Integer count) {
+        return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, start, count);
+    }
+
     public ApiRequest<ItemForumTopicList> getItemForumTopicList(CollectableItem.Type itemType,
                                                                 long itemId, Integer episode,
                                                                 Integer start, Integer count) {
@@ -330,11 +335,6 @@ public class ApiService {
                                                              Integer count) {
         return mFrodoService.getItemRelatedDoulistList(itemType.getApiString(), itemId, start,
                 count);
-    }
-
-    public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
-                                                    Integer start, Integer count) {
-        return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, start, count);
     }
 
     public void cancelApiRequests() {
@@ -490,6 +490,12 @@ public class ApiService {
                                                              @Query("start") Integer start,
                                                              @Query("count") Integer count);
 
+        @GET("{itemType}/{itemId}/reviews")
+        ApiRequest<ReviewList> getItemReviewList(@Path("itemType") String itemType,
+                                                 @Path("itemId") long itemId,
+                                                 @Query("start") Integer start,
+                                                 @Query("count") Integer count);
+
         @GET("{itemType}/{itemId}/recommendations")
         ApiRequest<List<CollectableItem>> getItemRecommendationList(
                 @Path("itemType") String itemType, @Path("itemId") long itemId,
@@ -500,11 +506,5 @@ public class ApiService {
                                                           @Path("itemId") long itemId,
                                                           @Query("start") Integer start,
                                                           @Query("count") Integer count);
-
-        @GET("{itemType}/{itemId}/reviews")
-        ApiRequest<ReviewList> getItemReviewList(@Path("itemType") String itemType,
-                                                 @Path("itemId") long itemId,
-                                                 @Query("start") Integer start,
-                                                 @Query("count") Integer count);
     }
 }
