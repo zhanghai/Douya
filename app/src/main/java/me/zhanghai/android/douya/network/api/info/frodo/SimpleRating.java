@@ -19,7 +19,14 @@ public class SimpleRating implements Parcelable {
 
     public float value;
 
+    public boolean hasRating() {
+        return count > 0;
+    }
+
     public String getRatingString(Context context) {
+        if (!hasRating()) {
+            throw new IllegalStateException("getRatingString() called when no rating is available");
+        }
         float rating = (float) Math.round(value / max * 10 * 10) / 10;
         return context.getString(rating == 10 ? R.string.item_rating_format_ten
                 : R.string.item_rating_format, rating);

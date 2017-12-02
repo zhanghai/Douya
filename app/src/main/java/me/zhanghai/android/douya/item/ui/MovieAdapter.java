@@ -55,8 +55,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_COLLECTION_LIST = 8;
     private static final int ITEM_REVIEW_LIST = 9;
     private static final int ITEM_FORUM_TOPIC_LIST = 10;
+    private static final int ITEM_RECOMMENDATION_LIST = 11;
 
-    private static final int ITEM_COUNT = 11;
+    private static final int ITEM_COUNT = 12;
 
     private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
     private static final int ITEM_REVIEW_LIST_MAX_SIZE = 5;
@@ -171,6 +172,19 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 holder.forumTopicList.setAdapter(new ItemForumTopicListAdapter());
                 return holder;
             }
+            case ITEM_RECOMMENDATION_LIST: {
+                RecommendationListHolder holder = new RecommendationListHolder(ViewUtils.inflate(
+                        R.layout.item_fragment_recommendation_list, parent));
+                holder.recommendationList.setHasFixedSize(true);
+                holder.recommendationList.setLayoutManager(new LinearLayoutManager(
+                        parent.getContext(), LinearLayoutManager.HORIZONTAL, false));
+                holder.recommendationList.addItemDecoration(new DividerItemDecoration(
+                        DividerItemDecoration.HORIZONTAL,
+                        R.drawable.transparent_divider_vertical_16dp,
+                        holder.recommendationList.getContext()));
+                holder.recommendationList.setAdapter(new RecommendationListAdapter());
+                return holder;
+            }
             default:
                 return null;
         }
@@ -281,7 +295,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_RATING: {
                 RatingHolder ratingHolder = (RatingHolder) holder;
-                boolean hasRating = TextUtils.isEmpty(mData.rating.ratingUnavailableReason);
+                boolean hasRating = mData.rating.hasRating();
                 ViewUtils.setVisibleOrGone(ratingHolder.ratingWrapperLayout, hasRating);
                 if (hasRating) {
                     ratingHolder.ratingLayout.setRating(mData.rating.rating);
@@ -330,6 +344,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     // TODO
                     UriHandler.open(mData.movie.url + "/discussion", view.getContext());
                 });
+                break;
+            }
+            case ITEM_RECOMMENDATION_LIST: {
+                RecommendationListHolder recommendationListHolder =
+                        (RecommendationListHolder) holder;
+                recommendationListHolder.titleLayout.setOnClickListener(view -> {
+                    // TODO
+                });
+                RecommendationListAdapter adapter = (RecommendationListAdapter)
+                        recommendationListHolder.recommendationList.getAdapter();
+                adapter.replace(mData.recommendationList);
                 break;
             }
         }
@@ -523,6 +548,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public Button viewMoreButton;
 
         public ForumTopicListHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class RecommendationListHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.title_layout)
+        public ViewGroup titleLayout;
+        @BindView(R.id.recommendation_list)
+        public RecyclerView recommendationList;
+
+        public RecommendationListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

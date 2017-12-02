@@ -152,11 +152,11 @@ public class BadgeListLayout extends HorizontalScrollView {
     }
 
     public void setRating(Rating rating, CollectableItem item) {
-        if (TextUtils.isEmpty(rating.ratingUnavailableReason)) {
+        if (rating.hasRating()) {
             setRating(rating.rating, mRatingText, mRatingBar, mRatingCountText,
                     mRatingCountIconImage);
         } else {
-            setRatingUnavailable(rating.ratingUnavailableReason);
+            setRatingUnavailable(rating.getRatingUnavailableReason(getContext()));
         }
         mRatingLayout.setOnClickListener(view -> {
             // TODO

@@ -100,6 +100,9 @@ public abstract class CollectableItem extends BaseItem {
     @SerializedName("is_douban_intro")
     public boolean isIntroductionByDouban;
 
+    /**
+     * @deprecated Use {@link #getRatingUnavailableReason(Context)} instead.
+     */
     @SerializedName("null_rating_reason")
     public String ratingUnavailableReason;
 
@@ -116,6 +119,15 @@ public abstract class CollectableItem extends BaseItem {
 
     public Type getType() {
         return Type.ofApiString(type);
+    }
+
+    /**
+     * @see Rating#getRatingUnavailableReason(Context)
+     */
+    public String getRatingUnavailableReason(Context context) {
+        //noinspection deprecation
+        return !TextUtils.isEmpty(ratingUnavailableReason) ? ratingUnavailableReason
+                : context.getString(R.string.item_rating_unavailable_reason_fallback);
     }
 
     public static class Deserializer implements JsonDeserializer<CollectableItem> {
@@ -164,6 +176,7 @@ public abstract class CollectableItem extends BaseItem {
         isInBlackList = in.readByte() != 0;
         isIntroductionByDouban = in.readByte() != 0;
         cover = in.readParcelable(Image.class.getClassLoader());
+        //noinspection deprecation
         ratingUnavailableReason = in.readString();
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
         reviewCount = in.readInt();
@@ -187,6 +200,7 @@ public abstract class CollectableItem extends BaseItem {
         dest.writeByte(isInBlackList ? (byte) 1 : (byte) 0);
         dest.writeByte(isIntroductionByDouban ? (byte) 1 : (byte) 0);
         dest.writeParcelable(cover, flags);
+        //noinspection deprecation
         dest.writeString(ratingUnavailableReason);
         dest.writeParcelable(rating, flags);
         dest.writeInt(reviewCount);

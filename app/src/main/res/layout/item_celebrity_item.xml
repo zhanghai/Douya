@@ -10,7 +10,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground"
-    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <me.zhanghai.android.douya.ui.RatioImageView

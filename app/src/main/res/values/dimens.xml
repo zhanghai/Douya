@@ -108,6 +108,7 @@
     <dimen name="item_content_padding_top_max">0dp</dimen>
     <dimen name="item_backdrop_play_layout_height">@dimen/match_parent</dimen>
     <dimen name="item_content_horizontal_margin">0dp</dimen>
+    <dimen name="item_content_card_margin">8dp</dimen>
     <dimen name="item_cover_width">104dp</dimen>
     <dimen name="item_badge_list_space">20dp</dimen>
     <dimen name="item_badge_size">60dp</dimen>
@@ -116,6 +117,7 @@
     <dimen name="item_photo_list_height">240dp</dimen>
     <dimen name="item_rating_distribution_bar_min_width">1dp</dimen>
     <dimen name="item_rating_distribution_bar_max_width">160dp</dimen>
+    <dimen name="item_recommendation_cover_height">144dp</dimen>
 
     <dimen name="image_min_width">240dp</dimen>
     <dimen name="image_max_height">640dp</dimen>

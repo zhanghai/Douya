@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/item_content_card_margin"
+    android:layout_marginRight="@dimen/item_content_card_margin"
+    android:layout_marginTop="@dimen/item_content_card_margin">
+
+    <me.zhanghai.android.douya.ui.FriendlyCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/card_shadow_horizontal_margin"
+        android:layout_marginRight="@dimen/card_shadow_horizontal_margin"
+        android:layout_marginTop="@dimen/card_shadow_vertical_margin"
+        android:layout_marginBottom="@dimen/card_shadow_vertical_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/content_vertical_space"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:paddingTop="@dimen/content_vertical_space"
+                android:paddingBottom="@dimen/content_vertical_space"
+                android:background="?selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_recommendation_list_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="?colorControlActivated" />
+            </LinearLayout>
+
+            <me.zhanghai.android.douya.ui.NestedRecyclerView
+                android:id="@+id/recommendation_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:clipToPadding="false"
+                android:scrollbarStyle="outsideOverlay" />
+        </LinearLayout>
+    </me.zhanghai.android.douya.ui.FriendlyCardView>
+</FrameLayout>

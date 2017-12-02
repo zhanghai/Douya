@@ -13,6 +13,7 @@
     <string name="activity_not_found">未找到可处理此操作的应用</string>
     <string name="copied_to_clipboard_format">已复制到剪贴板：\n%1$s</string>
     <string name="load_error">加载失败</string>
+    <string name="more">更多</string>
     <string name="not_yet_implemented">尚未实现，敬请期待</string>
     <string name="report_abuse">举报不良信息</string>
     <string name="share_activity_chooser_title">分享方式</string>
@@ -267,6 +268,7 @@
     <string name="item_state">状态</string>
     <string name="item_rating">评价</string>
     <string name="item_rating_unavailable">\?</string>
+    <string name="item_rating_unavailable_reason_fallback">暂无评分</string>
     <string name="item_rating_format">%1$.1f</string>
     <string name="item_rating_format_ten">%1$.0f</string>
     <string-array name="item_rating_hints">
@@ -298,6 +300,7 @@
     <string name="item_forum_topic_comment_count_format">%1$d回应</string>
     <string name="item_forum_topic_update">更新</string>
     <string name="item_forum_topic_list_view_more">全部话题</string>
+    <string name="item_recommendation_list_title">类似条目</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>

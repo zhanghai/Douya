@@ -5,13 +5,17 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+
+import me.zhanghai.android.douya.R;
 
 public class Rating implements Parcelable {
 
@@ -31,8 +35,20 @@ public class Rating implements Parcelable {
 
     /**
      * Frodo API doesn't have this field, so this needs to be set manually.
+     *
+     * @deprecated Use {@link #getRatingUnavailableReason(Context)} instead.
      */
     public transient String ratingUnavailableReason;
+
+    public boolean hasRating() {
+        return rating.hasRating();
+    }
+
+    public String getRatingUnavailableReason(Context context) {
+        //noinspection deprecation
+        return !TextUtils.isEmpty(ratingUnavailableReason) ? ratingUnavailableReason
+                : context.getString(R.string.item_rating_unavailable_reason_fallback);
+    }
 
 
     public static final Parcelable.Creator<Rating> CREATOR = new Parcelable.Creator<Rating>() {
@@ -53,6 +69,7 @@ public class Rating implements Parcelable {
         in.readList(distribution, Float.class.getClassLoader());
         genreRankings = in.createTypedArrayList(GenreRanking.CREATOR);
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
+        //noinspection deprecation
         ratingUnavailableReason = in.readString();
     }
 
@@ -67,6 +84,7 @@ public class Rating implements Parcelable {
         dest.writeList(distribution);
         dest.writeTypedList(genreRankings);
         dest.writeParcelable(rating, flags);
+        //noinspection deprecation
         dest.writeString(ratingUnavailableReason);
     }
 
