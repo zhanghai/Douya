@@ -11,7 +11,8 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/item_content_card_margin"
     android:layout_marginRight="@dimen/item_content_card_margin"
-    android:layout_marginTop="@dimen/item_content_card_margin">
+    android:layout_marginTop="@dimen/item_content_card_margin"
+    android:layout_marginBottom="@dimen/item_content_card_margin">
 
     <me.zhanghai.android.douya.ui.FriendlyCardView
         android:layout_width="match_parent"
@@ -24,8 +25,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/content_vertical_space"
-            android:orientation="vertical">
+            android:divider="?dividerHorizontal"
+            android:orientation="vertical"
+            android:showDividers="middle">
 
             <LinearLayout
                 android:id="@+id/title_layout"
@@ -33,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/card_content_horizontal_margin"
                 android:paddingRight="@dimen/card_content_horizontal_margin"
-                android:paddingTop="@dimen/card_content_vertical_space"
+                android:paddingTop="@dimen/card_content_vertical_margin"
                 android:paddingBottom="@dimen/card_content_vertical_space"
                 android:background="?selectableItemBackground"
                 android:gravity="center_vertical">
@@ -41,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_recommendation_list_title"
+                    android:text="@string/item_related_doulist_list_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <Space
@@ -57,14 +59,13 @@
                     android:textColor="?colorControlActivated" />
             </LinearLayout>
 
-            <me.zhanghai.android.douya.ui.NestedRecyclerView
-                android:id="@+id/recommendation_list"
+            <me.zhanghai.android.douya.ui.AdapterLinearLayout
+                android:id="@+id/related_doulist_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/card_content_horizontal_margin"
-                android:paddingRight="@dimen/card_content_horizontal_margin"
-                android:clipToPadding="false"
-                android:scrollbarStyle="outsideOverlay" />
+                android:divider="?dividerHorizontal"
+                android:orientation="vertical"
+                android:showDividers="middle" />
         </LinearLayout>
     </me.zhanghai.android.douya.ui.FriendlyCardView>
 </FrameLayout>

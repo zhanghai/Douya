@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -57,12 +56,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_REVIEW_LIST = 9;
     private static final int ITEM_FORUM_TOPIC_LIST = 10;
     private static final int ITEM_RECOMMENDATION_LIST = 11;
+    private static final int ITEM_RELATED_DOULIST_LIST = 12;
 
-    private static final int ITEM_COUNT = 12;
+    private static final int ITEM_COUNT = 13;
 
     private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
     private static final int ITEM_REVIEW_LIST_MAX_SIZE = 5;
     private static final int ITEM_FORUM_TOPIC_LIST_MAX_SIZE = 5;
+    private static final int ITEM_RELATED_DOULIST_LIST_MAX_SIZE = 5;
 
     private Data mData;
 
@@ -134,7 +135,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_AWARD_LIST: {
                 AwardListHolder holder = new AwardListHolder(ViewUtils.inflate(
                         R.layout.item_fragment_award_list, parent));
-                ViewUtils.setVisibleOrGone(holder.awardList, !mData.awardList.isEmpty());
                 holder.awardList.setHasFixedSize(true);
                 holder.awardList.setLayoutManager(new LinearLayoutManager(parent.getContext(),
                         LinearLayoutManager.HORIZONTAL, false));
@@ -154,22 +154,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_COLLECTION_LIST: {
                 ItemCollectionListHolder holder = new ItemCollectionListHolder(ViewUtils.inflate(
                         R.layout.item_fragment_collection_list, parent));
-                ViewUtils.setVisibleOrGone(holder.itemCollectionList,
-                        !mData.itemCollectionList.isEmpty());
                 holder.itemCollectionList.setAdapter(new ItemCollectionListAdapter());
                 return holder;
             }
             case ITEM_REVIEW_LIST: {
                 ReviewListHolder holder = new ReviewListHolder(ViewUtils.inflate(
                         R.layout.item_fragment_review_list, parent));
-                ViewUtils.setVisibleOrGone(holder.reviewList, !mData.reviewList.isEmpty());
                 holder.reviewList.setAdapter(new ReviewListAdapter());
                 return holder;
             }
             case ITEM_FORUM_TOPIC_LIST: {
                 ForumTopicListHolder holder = new ForumTopicListHolder(ViewUtils.inflate(
                         R.layout.item_fragment_forum_topic_list, parent));
-                ViewUtils.setVisibleOrGone(holder.forumTopicList, !mData.forumTopicList.isEmpty());
                 holder.forumTopicList.setAdapter(new ItemForumTopicListAdapter());
                 return holder;
             }
@@ -184,6 +180,12 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         R.drawable.transparent_divider_vertical_16dp,
                         holder.recommendationList.getContext()));
                 holder.recommendationList.setAdapter(new RecommendationListAdapter());
+                return holder;
+            }
+            case ITEM_RELATED_DOULIST_LIST: {
+                RelatedDoulistListHolder holder = new RelatedDoulistListHolder(ViewUtils.inflate(
+                        R.layout.item_fragment_related_doulist_list, parent));
+                holder.relatedDoulistList.setAdapter(new ItemRelatedDoulistListAdapter());
                 return holder;
             }
             default:
@@ -255,12 +257,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_PHOTO_LIST: {
                 PhotoListHolder photoListHolder = (PhotoListHolder) holder;
-                HorizontalImageAdapter adapter = (HorizontalImageAdapter)
-                        photoListHolder.photoList.getAdapter();
                 List<Photo> photoList = mData.photoList;
                 if (mData.excludeFirstPhoto) {
                     photoList = photoList.subList(1, photoList.size());
                 }
+                ViewUtils.setVisibleOrGone(photoListHolder.photoList, !photoList.isEmpty());
+                HorizontalImageAdapter adapter = (HorizontalImageAdapter)
+                        photoListHolder.photoList.getAdapter();
                 adapter.replace(photoList);
                 adapter.setOnImageClickListener(photoPosition -> {
                     // TODO: Use PhotoAlbumGalleryActivity instead.
@@ -285,6 +288,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_AWARD_LIST: {
                 AwardListHolder awardListHolder = (AwardListHolder) holder;
+                ViewUtils.setVisibleOrGone(awardListHolder.awardList, !mData.awardList.isEmpty());
                 ItemAwardListAdapter adapter = (ItemAwardListAdapter)
                         awardListHolder.awardList.getAdapter();
                 adapter.replace(mData.awardList);
@@ -310,10 +314,12 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_COLLECTION_LIST: {
                 ItemCollectionListHolder itemCollectionListHolder =
                         (ItemCollectionListHolder) holder;
-                ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
-                        itemCollectionListHolder.itemCollectionList.getAdapter();
                 List<ItemCollection> itemCollectionList = mData.itemCollectionList.subList(0,
                         Math.min(ITEM_COLLECTION_LIST_MAX_SIZE, mData.itemCollectionList.size()));
+                ViewUtils.setVisibleOrGone(itemCollectionListHolder.itemCollectionList,
+                        !itemCollectionList.isEmpty());
+                ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
+                        itemCollectionListHolder.itemCollectionList.getAdapter();
                 adapter.replace(itemCollectionList);
                 itemCollectionListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
@@ -323,10 +329,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_REVIEW_LIST: {
                 ReviewListHolder reviewListHolder = (ReviewListHolder) holder;
-                ReviewListAdapter adapter = (ReviewListAdapter)
-                        reviewListHolder.reviewList.getAdapter();
                 List<SimpleReview> reviewList = mData.reviewList.subList(0, Math.min(
                         ITEM_REVIEW_LIST_MAX_SIZE, mData.reviewList.size()));
+                ViewUtils.setVisibleOrGone(reviewListHolder.reviewList, !reviewList.isEmpty());
+                ReviewListAdapter adapter = (ReviewListAdapter)
+                        reviewListHolder.reviewList.getAdapter();
                 adapter.replace(reviewList);
                 reviewListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
@@ -336,11 +343,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_FORUM_TOPIC_LIST: {
                 ForumTopicListHolder forumTopicListHolder = (ForumTopicListHolder) holder;
+                List<SimpleItemForumTopic> forumTopicList = mData.forumTopicList.subList(0,
+                        Math.min(ITEM_FORUM_TOPIC_LIST_MAX_SIZE, mData.forumTopicList.size()));
+                ViewUtils.setVisibleOrGone(forumTopicListHolder.forumTopicList,
+                        !forumTopicList.isEmpty());
                 ItemForumTopicListAdapter adapter = (ItemForumTopicListAdapter)
                         forumTopicListHolder.forumTopicList.getAdapter();
-                List<SimpleItemForumTopic> itemForumTopicList = mData.forumTopicList.subList(0,
-                        Math.min(ITEM_FORUM_TOPIC_LIST_MAX_SIZE, mData.forumTopicList.size()));
-                adapter.replace(itemForumTopicList);
+                adapter.replace(forumTopicList);
                 forumTopicListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO
                     UriHandler.open(mData.movie.url + "/discussion", view.getContext());
@@ -356,6 +365,21 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 RecommendationListAdapter adapter = (RecommendationListAdapter)
                         recommendationListHolder.recommendationList.getAdapter();
                 adapter.replace(mData.recommendationList);
+                break;
+            }
+            case ITEM_RELATED_DOULIST_LIST: {
+                RelatedDoulistListHolder relatedDoulistListHolder =
+                        (RelatedDoulistListHolder) holder;
+                relatedDoulistListHolder.titleLayout.setOnClickListener(view -> {
+                    // TODO
+                });
+                ViewUtils.setVisibleOrGone(relatedDoulistListHolder.relatedDoulistList,
+                        !mData.relatedDoulistList.isEmpty());
+                ItemRelatedDoulistListAdapter adapter = (ItemRelatedDoulistListAdapter)
+                        relatedDoulistListHolder.relatedDoulistList.getAdapter();
+                List<Doulist> itemRelatedDoulistList = mData.relatedDoulistList.subList(0, Math.min(
+                        ITEM_RELATED_DOULIST_LIST_MAX_SIZE, mData.relatedDoulistList.size()));
+                adapter.replace(itemRelatedDoulistList);
                 break;
             }
         }
@@ -565,6 +589,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public RecyclerView recommendationList;
 
         public RecommendationListHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class RelatedDoulistListHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.title_layout)
+        public ViewGroup titleLayout;
+        @BindView(R.id.related_doulist_list)
+        public AdapterLinearLayout relatedDoulistList;
+
+        public RelatedDoulistListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

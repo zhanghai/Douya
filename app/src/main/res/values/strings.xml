@@ -301,6 +301,8 @@
     <string name="item_forum_topic_update">更新</string>
     <string name="item_forum_topic_list_view_more">全部话题</string>
     <string name="item_recommendation_list_title">类似条目</string>
+    <string name="item_related_doulist_list_title">相关豆列</string>
+    <string name="item_related_doulist_follower_count_format">%1$d 人收藏</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>
