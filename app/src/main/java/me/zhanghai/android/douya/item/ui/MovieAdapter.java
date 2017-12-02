@@ -63,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_COLLECTION_LIST_MAX_SIZE = 5;
     private static final int ITEM_REVIEW_LIST_MAX_SIZE = 5;
     private static final int ITEM_FORUM_TOPIC_LIST_MAX_SIZE = 5;
-    private static final int ITEM_RELATED_DOULIST_LIST_MAX_SIZE = 5;
+    private static final int ITEM_RELATED_DOULIST_LIST_MAX_SIZE = 3;
 
     private Data mData;
 
