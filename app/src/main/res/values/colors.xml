@@ -7,6 +7,7 @@
 
 <resources>
 
+    <color name="blue_50">#e3f2fD</color>
     <color name="blue_500">#2196f3</color>
     <color name="blue_700">#1976d2</color>
 
@@ -23,6 +24,7 @@
     <color name="grey_600">#757575</color>
     <color name="grey_700">#616161</color>
     <color name="grey_800">#424242</color>
+    <color name="grey_850">#303030</color>
 
     <color name="dark_30_percent">#4d000000</color>
     <color name="dark_50_percent">#80000000</color>
@@ -42,5 +44,6 @@
 
     <color name="movie_primary">@color/blue_500</color>
     <color name="movie_primary_dark">@color/blue_700</color>
+    <color name="movie_primary_light">@color/blue_50</color>
     <color name="movie_accent">@color/blue_500</color>
 </resources>

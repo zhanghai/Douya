@@ -172,12 +172,16 @@
     <style name="Base.Theme.Douya.Movie" parent="Theme.Douya">
         <item name="colorPrimary">@color/movie_primary</item>
         <item name="colorPrimaryDark">@color/movie_primary_dark</item>
+        <item name="colorPrimaryLight">@color/movie_primary_light</item>
         <item name="colorAccent">@color/movie_accent</item>
+        <item name="textColorPrimaryDark">@color/movie_primary_dark</item>
         <item name="android:windowBackground">@color/grey_200</item>
         <item name="darkTheme">@style/DarkTheme.Light.Movie</item>
     </style>
     <style name="Base.Theme.Douya.Movie.Dark" parent="Theme.Douya">
+        <item name="colorPrimaryLight">@color/grey_850</item>
         <item name="colorAccent">@color/movie_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
         <item name="darkTheme">@style/DarkTheme</item>
     </style>
     <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie" />

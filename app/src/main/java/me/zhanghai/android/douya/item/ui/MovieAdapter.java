@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.Space;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,6 +43,7 @@ import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.StringUtils;
+import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -224,12 +228,48 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             case ITEM_COLLECTION: {
                 ItemCollectionHolder itemCollectionHolder = (ItemCollectionHolder) holder;
-                itemCollectionHolder.todoButton.setText(ItemCollectionState.TODO.getString(
-                        CollectableItem.Type.MOVIE, context));
-                itemCollectionHolder.doingButton.setText(ItemCollectionState.DOING.getString(
-                        CollectableItem.Type.MOVIE, context));
-                itemCollectionHolder.doneButton.setText(ItemCollectionState.DONE.getString(
-                        CollectableItem.Type.MOVIE, context));
+                CollectableItem.Type type = mData.movie.getType();
+                itemCollectionHolder.todoButton.setText(ItemCollectionState.TODO.getString(type,
+                        itemCollectionHolder.todoButton.getContext()));
+                itemCollectionHolder.doingButton.setText(ItemCollectionState.DOING.getString(type,
+                        itemCollectionHolder.doingButton.getContext()));
+                itemCollectionHolder.doneButton.setText(ItemCollectionState.DONE.getString(type,
+                        itemCollectionHolder.doneButton.getContext()));
+                SimpleItemCollection itemCollection = mData.movie.collection;
+                ItemCollectionState state = itemCollection != null ? itemCollection.getState()
+                        : null;
+                boolean todoVisible = itemCollection == null;
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.todoButton, todoVisible);
+                boolean doingVisible = itemCollection == null || state == ItemCollectionState.TODO;
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.doingButton, doingVisible);
+                boolean doneVisible = itemCollection == null || state == ItemCollectionState.TODO
+                        || state == ItemCollectionState.DOING;
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.doneButton, doneVisible);
+                boolean buttonBarVisible = todoVisible || doingVisible || doneVisible;
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBar, buttonBarVisible);
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBarSpace, !buttonBarVisible);
+                boolean hasItemCollection = itemCollection != null;
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.itemCollectionLayout,
+                        hasItemCollection);
+                if (hasItemCollection) {
+                    // TODO
+                    itemCollectionHolder.dateText.setText(TimeUtils.formatDate(
+                            TimeUtils.parseDoubanDateTime(itemCollection.createdAt),
+                            itemCollectionHolder.dateText.getContext()));
+                    itemCollectionHolder.stateText.setText(state.getString(mData.movie.getType(),
+                            itemCollectionHolder.stateText.getContext()));
+                    boolean hasRating = itemCollection.rating.hasRating();
+                    ViewUtils.setVisibleOrGone(itemCollectionHolder.ratingBar, hasRating);
+                    if (hasRating) {
+                        itemCollectionHolder.ratingBar.setRating(
+                                itemCollection.rating.getRatingBarValue());
+                    }
+                    itemCollectionHolder.commentText.setText(itemCollection.comment);
+                    itemCollectionHolder.itemCollectionLayout.setOnClickListener(view -> {
+                        // TODO
+                    });
+                }
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.dividerView, !hasItemCollection);
                 break;
             }
             case ITEM_BADGE_LIST: {
@@ -446,12 +486,28 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     static class ItemCollectionHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.button_bar)
+        public ViewGroup buttonBar;
         @BindView(R.id.todo)
         public Button todoButton;
         @BindView(R.id.doing)
         public Button doingButton;
         @BindView(R.id.done)
         public Button doneButton;
+        @BindView(R.id.button_bar_space)
+        public Space buttonBarSpace;
+        @BindView(R.id.item_collection_layout)
+        public ViewGroup itemCollectionLayout;
+        @BindView(R.id.state)
+        public TextView stateText;
+        @BindView(R.id.date)
+        public TextView dateText;
+        @BindView(R.id.rating)
+        public RatingBar ratingBar;
+        @BindView(R.id.comment)
+        public TextView commentText;
+        @BindView(R.id.divider)
+        public View dividerView;
 
         public ItemCollectionHolder(View itemView) {
             super(itemView);

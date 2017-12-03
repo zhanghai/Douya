@@ -9,6 +9,8 @@
 
     <attr name="darkTheme" format="reference" />
     <attr name="colorPrimaryDarkWithoutSystemWindowScrim" format="color" />
+    <attr name="colorPrimaryLight" format="color" />
+    <attr name="textColorPrimaryDark" format="color" />
 
     <declare-styleable name="CardIconButton">
         <attr name="android:src" />
