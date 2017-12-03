@@ -245,6 +245,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 boolean doneVisible = itemCollection == null || state == ItemCollectionState.TODO
                         || state == ItemCollectionState.DOING;
                 ViewUtils.setVisibleOrGone(itemCollectionHolder.doneButton, doneVisible);
+                boolean doneSpaceVisible = !todoVisible && !doingVisible && doneVisible;
+                ViewUtils.setVisibleOrGone(itemCollectionHolder.doneButtonSpace, doneSpaceVisible);
                 boolean buttonBarVisible = todoVisible || doingVisible || doneVisible;
                 ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBar, buttonBarVisible);
                 ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBarSpace, !buttonBarVisible);
@@ -492,6 +494,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public Button todoButton;
         @BindView(R.id.doing)
         public Button doingButton;
+        @BindView(R.id.done_button_space)
+        public Space doneButtonSpace;
         @BindView(R.id.done)
         public Button doneButton;
         @BindView(R.id.button_bar_space)
