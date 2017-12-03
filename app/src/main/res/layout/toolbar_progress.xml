@@ -7,11 +7,12 @@
 
 <me.zhanghai.android.materialprogressbar.MaterialProgressBar
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_progress"
     android:layout_width="@dimen/icon_size"
     android:layout_height="@dimen/icon_size"
     android:layout_gravity="right|center_vertical"
     android:layout_margin="@dimen/icon_button_padding"
     android:indeterminate="true"
-    android:tint="@android:color/white"
-    style="@style/Widget.MaterialProgressBar.ProgressBar" />
+    app:mrb_progressTint="@android:color/white"
+    style="@style/Widget.MaterialProgressBar.ProgressBar"/>

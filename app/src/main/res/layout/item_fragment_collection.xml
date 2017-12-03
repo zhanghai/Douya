@@ -84,7 +84,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/bookmark_icon_white_24dp"
-            android:tint="?textColorPrimaryDark" />
+            app:tint="?textColorPrimaryDark" />
 
         <TextView
             android:id="@+id/state"
@@ -138,7 +138,7 @@
             android:padding="6dp"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/more_vertical_icon_white_24dp"
-            android:tint="?textColorPrimaryDark" />
+            app:tint="?textColorPrimaryDark" />
 
         <me.zhanghai.android.douya.ui.AutoGoneTextView
             android:id="@+id/comment"

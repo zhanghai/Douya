@@ -116,7 +116,8 @@
             android:padding="7dp"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/more_vertical_icon_white_18dp"
-            android:tint="?colorControlNormal" />
+            app:tint="?colorControlNormal"
+            tools:ignore="MissingPrefix" />
     </LinearLayout>
 
     <TextView

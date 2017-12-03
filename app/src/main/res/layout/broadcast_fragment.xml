@@ -8,6 +8,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -93,7 +94,8 @@
             android:contentDescription="@string/broadcast_send_comment"
             android:padding="@dimen/icon_button_padding"
             android:src="@drawable/send_icon_white_24dp"
-            android:tint="?colorAccent" />
+            app:tint="?colorControlActivated"
+            tools:ignore="MissingPrefix" />
     </LinearLayout>
 
     <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->

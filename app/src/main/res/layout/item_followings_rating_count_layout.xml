@@ -7,6 +7,8 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -25,5 +27,6 @@
         android:layout_marginLeft="2dp"
         android:baselineAlignBottom="true"
         android:src="@drawable/favorite_icon_white_8dp"
-        android:tint="?android:textColorSecondary"/>
+        app:tint="?android:textColorSecondary"
+        tools:ignore="MissingPrefix" />
 </RelativeLayout>
