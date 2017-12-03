@@ -87,25 +87,13 @@
             android:tint="?textColorPrimaryDark" />
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/bookmark"
             android:layout_alignTop="@id/bookmark"
             android:layout_marginLeft="@dimen/content_horizontal_space"
             android:layout_marginTop="2dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?textColorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/date"
-            android:layout_alignBottom="@id/date"
-            android:layout_marginLeft="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -127,6 +115,18 @@
             app:mrb_progressTint="?textColorPrimaryDark"
             style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
 
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/rating"
+            android:layout_alignBottom="@id/state"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?textColorPrimaryDark" />
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,8 +144,8 @@
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/date"
-            android:layout_below="@id/date"
+            android:layout_alignLeft="@id/state"
+            android:layout_below="@id/state"
             android:layout_marginRight="@dimen/content_horizontal_space"
             android:layout_marginTop="8dp"
             android:lineSpacingMultiplier="1.2"

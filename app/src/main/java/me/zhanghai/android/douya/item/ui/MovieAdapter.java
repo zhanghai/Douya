@@ -252,18 +252,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ViewUtils.setVisibleOrGone(itemCollectionHolder.itemCollectionLayout,
                         hasItemCollection);
                 if (hasItemCollection) {
-                    // TODO
-                    itemCollectionHolder.dateText.setText(TimeUtils.formatDate(
-                            TimeUtils.parseDoubanDateTime(itemCollection.createdAt),
-                            itemCollectionHolder.dateText.getContext()));
                     itemCollectionHolder.stateText.setText(state.getString(mData.movie.getType(),
                             itemCollectionHolder.stateText.getContext()));
-                    boolean hasRating = itemCollection.rating.hasRating();
+                    boolean hasRating = itemCollection.rating != null;
                     ViewUtils.setVisibleOrGone(itemCollectionHolder.ratingBar, hasRating);
                     if (hasRating) {
                         itemCollectionHolder.ratingBar.setRating(
                                 itemCollection.rating.getRatingBarValue());
                     }
+                    itemCollectionHolder.dateText.setText(TimeUtils.formatDate(
+                            TimeUtils.parseDoubanDateTime(itemCollection.createdAt),
+                            itemCollectionHolder.dateText.getContext()));
                     itemCollectionHolder.commentText.setText(itemCollection.comment);
                     itemCollectionHolder.itemCollectionLayout.setOnClickListener(view -> {
                         // TODO
