@@ -53,13 +53,6 @@
             style="@style/Widget.AppCompat.Button.Colored" />
         -->
 
-        <Space
-            android:id="@+id/done_button_space"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:visibility="gone" />
-
         <me.zhanghai.android.douya.ui.ColoredBorderButton
             android:id="@+id/done"
             android:layout_width="0dp"
@@ -166,6 +159,5 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
         android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
-        android:background="?dividerHorizontal"
-        android:visibility="gone" />
+        android:background="?dividerHorizontal" />
 </LinearLayout>
