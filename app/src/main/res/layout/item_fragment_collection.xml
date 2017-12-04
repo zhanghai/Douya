@@ -148,7 +148,8 @@
             android:layout_below="@id/state"
             android:layout_marginRight="@dimen/content_horizontal_space"
             android:layout_marginTop="8dp"
-            android:lineSpacingMultiplier="1.2"
+            android:layout_marginBottom="2dp"
+            android:lineSpacingMultiplier="1.3"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="?textColorPrimaryDark" />
     </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
