@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.util;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.DataSource;
@@ -38,6 +39,36 @@ public class ImageUtils {
                 .load(url)
                 .apply(REQUEST_OPTIONS_LOAD_AVATAR)
                 .into(view);
+    }
+
+    private static final RequestOptions REQUEST_OPTIONS_LOAD_ITEM_BACKDROP =
+            new RequestOptions()
+                    .dontTransform();
+
+    public static void loadItemBackdropAndFadeIn(ImageView backdropView, String url,
+                                                 View playView) {
+        GlideApp.with(backdropView.getContext())
+                .load(url)
+                .apply(REQUEST_OPTIONS_LOAD_ITEM_BACKDROP)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<Drawable> target, boolean isFirstResource) {
+                        (e != null ? e : new NullPointerException()).printStackTrace();
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model,
+                                                   Target<Drawable> target, DataSource dataSource,
+                                                   boolean isFirstResource) {
+                        ViewUtils.fadeIn(backdropView);
+                        if (playView != null) {
+                            ViewUtils.fadeIn(playView);
+                        }
+                        return false;
+                    }
+                })
+                .into(backdropView);
     }
 
     private static final RequestOptions REQUEST_OPTIONS_LOAD_NAVIGATION_HEADER_AVATAR =
@@ -135,10 +166,6 @@ public class ImageUtils {
 
     public static void loadImage(ImageView view, ImageItem image) {
         loadImage(view, image.getMediumUrl());
-    }
-
-    public static void loadLargeImage(ImageView view, ImageItem image) {
-        loadImage(view, image.getLargeUrl());
     }
 
     public static void loadImageFile(ImageView view, File file,

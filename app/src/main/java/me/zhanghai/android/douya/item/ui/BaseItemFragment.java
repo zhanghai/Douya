@@ -99,7 +99,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.base_item_fragment, container, false);
+        return inflater.inflate(R.layout.item_fragment, container, false);
     }
 
     @Override

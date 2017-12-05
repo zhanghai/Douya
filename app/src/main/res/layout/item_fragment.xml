@@ -27,7 +27,8 @@
             <me.zhanghai.android.douya.ui.RatioImageView
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
 
             <View
                 android:id="@+id/backdrop_scrim"

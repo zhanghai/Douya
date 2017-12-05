@@ -83,14 +83,15 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
 
         boolean hasTrailer = movie.trailer != null;
         boolean excludeFirstPhoto = false;
+        String backdropUrl = null;
         if (hasTrailer) {
-            ImageUtils.loadImage(mBackdropImage, movie.trailer.coverUrl);
+            backdropUrl = movie.trailer.coverUrl;
             mBackdropLayout.setOnClickListener(view -> {
                 // TODO
                 UriHandler.open(movie.trailer.videoUrl, view.getContext());
             });
         } else if (!photoList.isEmpty()) {
-            ImageUtils.loadLargeImage(mBackdropImage, photoList.get(0));
+            backdropUrl = photoList.get(0).getLargeUrl();
             excludeFirstPhoto = true;
             mBackdropLayout.setOnClickListener(view -> {
                 // TODO
@@ -98,21 +99,24 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
                 context.startActivity(GalleryActivity.makeIntent(photoList, 0, context));
             });
         } else if (movie.poster != null) {
-            ImageUtils.loadLargeImage(mBackdropImage, movie.poster);
+            backdropUrl = movie.poster.getLargeUrl();
             mBackdropLayout.setOnClickListener(view -> {
                 // TODO
                 Context context = view.getContext();
                 context.startActivity(GalleryActivity.makeIntent(movie.poster, context));
             });
-        } else {
-            ImageUtils.loadLargeImage(mBackdropImage, movie.cover);
+        } else if (movie.cover != null) {
+            backdropUrl = movie.cover.getLargeUrl();
             mBackdropLayout.setOnClickListener(view -> {
                 // TODO
                 Context context = view.getContext();
                 context.startActivity(GalleryActivity.makeIntent(movie.cover, context));
             });
         }
-        ViewUtils.setVisibleOrGone(mBackdropPlayImage, hasTrailer);
+        if (backdropUrl != null) {
+            ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, backdropUrl,
+                    hasTrailer ? mBackdropPlayImage : null);
+        }
 
         mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
                 celebrityList, awardList, itemCollectionList, reviewList, forumTopicList,
