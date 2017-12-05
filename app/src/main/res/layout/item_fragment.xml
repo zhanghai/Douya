@@ -41,11 +41,12 @@
 
                 <ImageView
                     android:id="@+id/backdrop_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:layout_gravity="center"
-                    android:alpha="@dimen/hint_pressed_alpha_material_dark"
-                    android:src="@drawable/play_circle_outline_icon_white_48dp"
+                    android:background="@drawable/item_backdrop_play_background"
+                    android:scaleType="center"
+                    android:src="@drawable/play_icon_white_24dp"
                     android:visibility="gone" />
             </FrameLayout>
         </FrameLayout>
