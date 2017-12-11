@@ -93,10 +93,10 @@
             android:layout_toRightOf="@id/bookmark"
             android:layout_alignTop="@id/bookmark"
             android:layout_marginLeft="@dimen/content_horizontal_space"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="0.75dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="?textColorPrimaryDark" />
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
@@ -110,8 +110,8 @@
             android:layout_marginRight="-1dp"
             android:layout_marginTop="-2dp"
             android:layout_marginBottom="-2dp"
-            android:minHeight="14dp"
-            android:maxHeight="14dp"
+            android:minHeight="16dp"
+            android:maxHeight="16dp"
             app:mrb_progressTint="?textColorPrimaryDark"
             style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
 
@@ -121,10 +121,10 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/rating"
             android:layout_alignBottom="@id/state"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="?textColorPrimaryDark" />
 
         <ImageButton
@@ -147,7 +147,7 @@
             android:layout_alignLeft="@id/state"
             android:layout_below="@id/state"
             android:layout_marginRight="@dimen/content_horizontal_space"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="2dp"
             android:lineSpacingMultiplier="1.3"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
