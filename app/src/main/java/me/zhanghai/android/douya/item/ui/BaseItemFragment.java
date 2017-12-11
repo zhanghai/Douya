@@ -141,8 +141,12 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
                     if (!firstItemInLayout) {
                         // We are restored from previous scroll position and we don't have a
                         // scrollY.
+                        ViewUtils.setVisibleOrInvisible(mBackdropLayout, false);
                         return;
                     } else {
+                        // We scrolled towards top so the first item became visible now.
+                        // Won't do anything if it is not hidden.
+                        ViewUtils.fadeIn(mBackdropLayout);
                         mScrollY = recyclerView.getPaddingTop() - firstChild.getTop();
                     }
                 } else {
