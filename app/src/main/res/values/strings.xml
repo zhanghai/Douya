@@ -286,7 +286,7 @@
     <string name="item_comment_hint">我的评论…</string>
     <string name="item_photo_list_view_more">全部剧照</string>
     <string name="item_celebrity_director">导演</string>
-    <string name="item_award_category_multiple_format">%1$s 等 %2$d 项</string>
+    <string name="item_award_category_multiple_format">%1$s 等%2$d项</string>
     <string name="item_collection_list_title">短评</string>
     <string name="item_collection_list_create">写短评</string>
     <string name="item_collection_vote_count_format">%1$d</string>
