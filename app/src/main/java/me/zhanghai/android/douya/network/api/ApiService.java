@@ -16,26 +16,28 @@ import me.zhanghai.android.douya.network.GsonResponseBodyConverterFactory;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.network.api.info.AuthenticationResponse;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
-import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.BroadcastLikerList;
+import me.zhanghai.android.douya.network.api.info.frodo.BroadcastList;
 import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
+import me.zhanghai.android.douya.network.api.info.frodo.CommentList;
 import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.DoulistList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopicList;
-import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.network.api.info.frodo.PhotoList;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
+import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.util.StringUtils;
 import okhttp3.Interceptor;
@@ -204,8 +206,8 @@ public class ApiService {
         };
     }
 
-    public ApiRequest<List<Broadcast>> getBroadcastList(String userIdOrUid, String topic,
-                                                        Long untilId, Integer count) {
+    public ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>>
+            getBroadcastList(String userIdOrUid, String topic, Long untilId, Integer count) {
         String url;
         if (TextUtils.isEmpty(userIdOrUid) && TextUtils.isEmpty(topic)) {
             url = "lifestream/home_timeline";
@@ -217,16 +219,18 @@ public class ApiService {
         return mLifeStreamService.getBroadcastList(url, untilId, count, topic);
     }
 
-    public ApiRequest<Broadcast> getBroadcast(long broadcastId) {
+    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> getBroadcast(
+            long broadcastId) {
         return mLifeStreamService.getBroadcast(broadcastId);
     }
 
-    public ApiRequest<CommentList> getBroadcastCommentList(long broadcastId, Integer start,
-                                                           Integer count) {
+    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.CommentList>
+            getBroadcastCommentList(long broadcastId, Integer start, Integer count) {
         return mLifeStreamService.getBroadcastCommentList(broadcastId, start, count);
     }
 
-    public ApiRequest<Broadcast> likeBroadcast(long broadcastId, boolean like) {
+    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> likeBroadcast(
+            long broadcastId, boolean like) {
         if (like) {
             return mLifeStreamService.likeBroadcast(broadcastId);
         } else {
@@ -234,7 +238,8 @@ public class ApiService {
         }
     }
 
-    public ApiRequest<Broadcast> rebroadcastBroadcast(long broadcastId, boolean rebroadcast) {
+    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>
+            rebroadcastBroadcast(long broadcastId, boolean rebroadcast) {
         if (rebroadcast) {
             return mLifeStreamService.rebroadcastBroadcast(broadcastId);
         } else {
@@ -257,11 +262,13 @@ public class ApiService {
         return mLifeStreamService.deleteBroadcastComment(broadcastId, commentId);
     }
 
-    public ApiRequest<Comment> sendBroadcastComment(long broadcastId, String comment) {
+    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Comment>
+            sendBroadcastComment(long broadcastId, String comment) {
         return mLifeStreamService.sendBroadcastComment(broadcastId, comment);
     }
 
-    public ApiRequest<Broadcast> deleteBroadcast(long broadcastId) {
+    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> deleteBroadcast(
+            long broadcastId) {
         return mLifeStreamService.deleteBroadcast(broadcastId);
     }
 
@@ -386,30 +393,35 @@ public class ApiService {
                                              @Query("count") Integer count);
 
         @GET
-        ApiRequest<List<Broadcast>> getBroadcastList(@Url String url,
-                                                     @Query("until_id") Long untilId,
-                                                     @Query("count") Integer count,
-                                                     @Query("q") String topic);
+        ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>>
+                getBroadcastList(@Url String url, @Query("until_id") Long untilId,
+                                 @Query("count") Integer count, @Query("q") String topic);
 
         @GET("lifestream/status/{broadcastId}")
-        ApiRequest<Broadcast> getBroadcast(@Path("broadcastId") long broadcastId);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> getBroadcast(
+                @Path("broadcastId") long broadcastId);
 
         @GET("lifestream/status/{broadcastId}/comments")
-        ApiRequest<CommentList> getBroadcastCommentList(@Path("broadcastId") long broadcastId,
-                                                        @Query("start") Integer start,
-                                                        @Query("count") Integer count);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.CommentList>
+                getBroadcastCommentList(@Path("broadcastId") long broadcastId,
+                                        @Query("start") Integer start,
+                                        @Query("count") Integer count);
 
         @POST("lifestream/status/{broadcastId}/like")
-        ApiRequest<Broadcast> likeBroadcast(@Path("broadcastId") long broadcastId);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> likeBroadcast(
+                @Path("broadcastId") long broadcastId);
 
         @DELETE("lifestream/status/{broadcastId}/like")
-        ApiRequest<Broadcast> unlikeBroadcast(@Path("broadcastId") long broadcastId);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> unlikeBroadcast(
+                @Path("broadcastId") long broadcastId);
 
         @POST("lifestream/status/{broadcastId}/reshare")
-        ApiRequest<Broadcast> rebroadcastBroadcast(@Path("broadcastId") long broadcastId);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> rebroadcastBroadcast(
+                @Path("broadcastId") long broadcastId);
 
         @DELETE("lifestream/status/{broadcastId}/reshare")
-        ApiRequest<Broadcast> unrebroadcastBroadcast(@Path("broadcastId") long broadcastId);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>
+                unrebroadcastBroadcast(@Path("broadcastId") long broadcastId);
 
         @GET("lifestream/status/{broadcastId}/likers")
         ApiRequest<List<SimpleUser>> getBroadcastLikerList(@Path("broadcastId") long broadcastId,
@@ -427,11 +439,12 @@ public class ApiService {
 
         @POST("lifestream/status/{broadcastId}/comments")
         @FormUrlEncoded
-        ApiRequest<Comment> sendBroadcastComment(@Path("broadcastId") long broadcastId,
-                                                 @Field("text") String comment);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Comment> sendBroadcastComment(
+                @Path("broadcastId") long broadcastId, @Field("text") String comment);
 
         @DELETE("lifestream/status/{broadcastId}")
-        ApiRequest<Broadcast> deleteBroadcast(@Path("broadcastId") long broadcastId);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> deleteBroadcast(
+                @Path("broadcastId") long broadcastId);
     }
 
     public interface FrodoService {
@@ -439,6 +452,73 @@ public class ApiService {
         @GET("mine/notifications")
         ApiRequest<NotificationList> getNotificationList(@Query("start") Integer start,
                                                          @Query("count") Integer count);
+
+        @GET
+        ApiRequest<TimelineList> getTimelineList(@Url String url,
+                                                 @Query("max_id") Long maxId,
+                                                 @Query("count") Integer count,
+                                                 @Query("last_visit_id") Long lastVisitedId,
+                                                 @Query("name") String topic,
+                                                 @Query("guest_only") Integer guestOnly);
+
+        @POST("status/create_status")
+        @FormUrlEncoded
+        ApiRequest<Broadcast> sendBroadcast(@Field("text") String text,
+                                            @Field("image_urls") String imageUrls,
+                                            @Field("rec_title") String recommendationTitle,
+                                            @Field("rec_url") String recommendationUrl);
+
+        @GET("status/{broadcastId}")
+        ApiRequest<Broadcast> getBroadcast(@Path("broadcastId") long broadcastId);
+
+        @GET("status/{broadcastId}/likers")
+        ApiRequest<BroadcastLikerList> getBroadcastLikerList(@Path("broadcastId") long broadcastId,
+                                                             @Query("start") Integer start,
+                                                             @Query("count") Integer count);
+
+        @GET("status/{broadcastId}/resharers_statuses")
+        ApiRequest<BroadcastList> getBroadcastRebroadcastedBroadcastList(
+                @Path("broadcastId") long broadcastId, @Query("start") Integer start,
+                @Query("count") Integer count);
+
+        @POST("status/{broadcastId}/like")
+        ApiRequest<Broadcast> likeBroadcast(@Path("broadcastId") long broadcastId);
+
+        @POST("status/{broadcastId}/unlike")
+        ApiRequest<Broadcast> unlikeBroadcast(@Path("broadcastId") long broadcastId);
+
+        @POST("status/{broadcastId}/reshare")
+        @FormUrlEncoded
+        ApiRequest<Broadcast> rebroadcastBroadcast(@Path("broadcastId") long broadcastId,
+                                                   @Field("text") String text);
+
+        @POST("status/{broadcastId}/reshare")
+        @FormUrlEncoded
+        ApiRequest<Void> reportBroadcast(@Path("broadcastId") long broadcastId,
+                                         @Field("reason") int reason);
+
+        @POST("status/{broadcastId}/delete")
+        ApiRequest<Void> deleteBroadcast(@Path("broadcastId") long broadcastId);
+
+        @GET("status/{broadcastId}/comments")
+        ApiRequest<CommentList> getBroadcastCommentList(@Path("broadcastId") long broadcastId,
+                                                        @Query("start") Integer start,
+                                                        @Query("count") Integer count);
+
+        @POST("status/{broadcastId}/create_comment")
+        @FormUrlEncoded
+        ApiRequest<Comment> sendBroadcastComment(@Path("broadcastId") long broadcastId,
+                                                 @Field("text") String text);
+
+        @POST("status/{broadcastId}/report_unfriendly_comment")
+        @FormUrlEncoded
+        ApiRequest<Comment> reportBroadcastComment(@Path("broadcastId") long broadcastId,
+                                                   @Field("comment_id") long commentId);
+
+        @POST("status/{broadcastId}/delete_comment")
+        @FormUrlEncoded
+        ApiRequest<Void> deleteBroadcastComment(@Path("broadcastId") long broadcastId,
+                                                @Field("comment_id") long commentId);
 
         @GET("user/{userIdOrUid}/notes")
         ApiRequest<DiaryList> getDiaryList(@Path("userIdOrUid") String userIdOrUid,

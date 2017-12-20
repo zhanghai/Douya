@@ -35,7 +35,7 @@ public class Broadcast implements Parcelable {
     @SerializedName("forbid_reshare_and_comment")
     public boolean isRebroadcastAndCommentForbidden;
 
-    public String id;
+    public long id;
 
     public ArrayList<SizedImage> images = new ArrayList<>();
 
@@ -102,7 +102,7 @@ public class Broadcast implements Parcelable {
         createdAt = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         isRebroadcastAndCommentForbidden = in.readByte() != 0;
-        id = in.readString();
+        id = in.readLong();
         images = in.createTypedArrayList(SizedImage.CREATOR);
         isStatusAd = in.readByte() != 0;
         isSubscription = in.readByte() != 0;
@@ -135,7 +135,7 @@ public class Broadcast implements Parcelable {
         dest.writeString(createdAt);
         dest.writeTypedList(entities);
         dest.writeByte(isRebroadcastAndCommentForbidden ? (byte) 1 : (byte) 0);
-        dest.writeString(id);
+        dest.writeLong(id);
         dest.writeTypedList(images);
         dest.writeByte(isStatusAd ? (byte) 1 : (byte) 0);
         dest.writeByte(isSubscription ? (byte) 1 : (byte) 0);
