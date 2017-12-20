@@ -9,9 +9,9 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-import me.zhanghai.android.douya.ui.ImageItemWithSize;
+import me.zhanghai.android.douya.ui.SizedImageItem;
 
-public class Photo extends BaseItem implements ImageItemWithSize {
+public class Photo extends BaseItem implements SizedImageItem {
 
     @SerializedName("allow_comment")
     public boolean isCommentAllowed;
@@ -26,7 +26,7 @@ public class Photo extends BaseItem implements ImageItemWithSize {
 
     public String description;
 
-    public ImageWithSize image;
+    public SizedImage image;
 
     @SerializedName("liked")
     public boolean isLiked;
@@ -112,7 +112,7 @@ public class Photo extends BaseItem implements ImageItemWithSize {
         creationTime = in.readString();
         commentCount = in.readInt();
         description = in.readString();
-        image = in.readParcelable(ImageWithSize.class.getClassLoader());
+        image = in.readParcelable(SizedImage.class.getClassLoader());
         isLiked = in.readByte() != 0;
         likerCount = in.readInt();
         ownerUri = in.readString();

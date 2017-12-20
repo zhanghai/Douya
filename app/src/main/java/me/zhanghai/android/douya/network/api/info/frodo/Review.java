@@ -10,7 +10,6 @@ import android.os.Parcel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Review extends SimpleReview {
 
@@ -51,7 +50,7 @@ public class Review extends SimpleReview {
 
     public ArrayList<SizedPhoto> photos = new ArrayList<>();
 
-    public List<GamePlatform> platforms = new ArrayList<>();
+    public ArrayList<GamePlatform> platforms = new ArrayList<>();
 
     public ArrayList<Video> videos = new ArrayList<>();
 

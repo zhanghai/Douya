@@ -23,7 +23,7 @@ import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
-import me.zhanghai.android.douya.ui.ImageItemWithSize;
+import me.zhanghai.android.douya.ui.SizedImageItem;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -106,7 +106,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                     imageUrl = broadcast.attachment.image;
                 }
                 if (TextUtils.isEmpty(imageUrl)) {
-                    List<? extends ImageItemWithSize> images = broadcast.images.size() > 0 ?
+                    List<? extends SizedImageItem> images = broadcast.images.size() > 0 ?
                             broadcast.images : broadcast.photos;
                     if (images.size() > 0){
                         imageUrl = images.get(0).getMediumUrl();

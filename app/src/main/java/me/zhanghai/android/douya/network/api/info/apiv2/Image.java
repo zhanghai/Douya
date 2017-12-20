@@ -10,9 +10,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import me.zhanghai.android.douya.ui.ImageItemWithSize;
+import me.zhanghai.android.douya.ui.SizedImageItem;
 
-public class Image implements ImageItemWithSize, Parcelable {
+public class Image implements SizedImageItem, Parcelable {
 
     public int height;
 

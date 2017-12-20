@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -29,6 +30,9 @@ public class User extends SimpleUser {
             return ofApiInt(apiInt, NONE);
         }
     }
+
+    @SerializedName("abstract")
+    public String introduction;
 
     @SerializedName("ark_published_count")
     public int arkPublicationCount;
@@ -59,6 +63,8 @@ public class User extends SimpleUser {
     @SerializedName("following_doulist_count")
     public int followingDoulistCount;
 
+    public String gender;
+
     @SerializedName("group_chat_count")
     public int groupChatCount;
 
@@ -79,6 +85,12 @@ public class User extends SimpleUser {
 
     @SerializedName("joined_group_count")
     public int joinedGroupCount;
+
+    /**
+     * @deprecated Use {@link #getLargeAvatar()} instead.
+     */
+    @SerializedName("large_avatar")
+    public String largeAvatar;
 
     @SerializedName("notes_count")
     public int diaryCount;
@@ -116,6 +128,11 @@ public class User extends SimpleUser {
     @SerializedName("verify_reason")
     public String verificationReason;
 
+    public String getLargeAvatar() {
+        //noinspection deprecation
+        return !TextUtils.isEmpty(largeAvatar) ? largeAvatar : avatar;
+    }
+
     public VerificationType getVerificationType() {
         //noinspection deprecation
         return VerificationType.ofApiInt(verificationType);
@@ -138,6 +155,7 @@ public class User extends SimpleUser {
     protected User(Parcel in) {
         super(in);
 
+        introduction = in.readString();
         arkPublicationCount = in.readInt();
         birthday = in.readString();
         canAcceptDonation = in.readByte() != 0;
@@ -148,12 +166,15 @@ public class User extends SimpleUser {
         followerCount = in.readInt();
         followingCount = in.readInt();
         followingDoulistCount = in.readInt();
+        gender = in.readString();
         groupChatCount = in.readInt();
         hasUserHotModule = in.readByte() != 0;
         isInBlacklist = in.readByte() != 0;
         isPhoneBound = in.readByte() != 0;
         hasEmailOrPhone = in.readByte() != 0;
         joinedGroupCount = in.readInt();
+        //noinspection deprecation
+        largeAvatar = in.readString();
         diaryCount = in.readInt();
         doulistCount = in.readInt();
         albumCount = in.readInt();
@@ -177,6 +198,7 @@ public class User extends SimpleUser {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
+        dest.writeString(introduction);
         dest.writeInt(arkPublicationCount);
         dest.writeString(birthday);
         dest.writeByte(canAcceptDonation ? (byte) 1 : (byte) 0);
@@ -187,12 +209,15 @@ public class User extends SimpleUser {
         dest.writeInt(followerCount);
         dest.writeInt(followingCount);
         dest.writeInt(followingDoulistCount);
+        dest.writeString(gender);
         dest.writeInt(groupChatCount);
         dest.writeByte(hasUserHotModule ? (byte) 1 : (byte) 0);
         dest.writeByte(isInBlacklist ? (byte) 1 : (byte) 0);
         dest.writeByte(isPhoneBound ? (byte) 1 : (byte) 0);
         dest.writeByte(hasEmailOrPhone ? (byte) 1 : (byte) 0);
         dest.writeInt(joinedGroupCount);
+        //noinspection deprecation
+        dest.writeString(largeAvatar);
         dest.writeInt(diaryCount);
         dest.writeInt(doulistCount);
         dest.writeInt(albumCount);

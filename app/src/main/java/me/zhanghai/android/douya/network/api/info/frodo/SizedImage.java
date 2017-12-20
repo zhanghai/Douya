@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
@@ -10,7 +10,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SizedImage implements Parcelable {
+import me.zhanghai.android.douya.ui.SizedImageItem;
+
+public class SizedImage implements SizedImageItem, Parcelable {
 
     @SerializedName("is_animated")
     public boolean isAnimated;
@@ -18,37 +20,97 @@ public class SizedImage implements Parcelable {
     /**
      * @deprecated Use {@link #getLarge()} instead.
      */
-    public SizedImageItem large;
+    public Item large;
 
     /**
-     * @deprecated Use {@link #getNormal()} instead.
+     * @deprecated Use {@link #getMedium()} ()} instead.
      */
-    public SizedImageItem normal;
+    @SerializedName("normal")
+    public Item medium;
 
     /**
-     * @deprecated Use {@link #getSmall()} instead.
+     * @deprecated Use {@link #getLarge()} ()} instead.
      */
-    public SizedImageItem small;
+    public Item raw;
 
-    public SizedImageItem getLarge() {
-        //noinspection deprecation
-        return large != null ? large
-                : normal != null ? normal
-                : small;
-    }
+    /**
+     * @deprecated Use {@link #getSmall()} ()} instead.
+     */
+    public Item small;
 
-    public SizedImageItem getNormal() {
+    public Item getLarge() {
         //noinspection deprecation
-        return normal != null ? normal
+        return raw != null ? raw
                 : large != null ? large
+                : medium != null ? medium
                 : small;
     }
 
-    private SizedImageItem getSmall() {
+    public Item getMedium() {
+        //noinspection deprecation
+        return medium != null ? medium
+                : large != null ? large
+                : raw != null ? raw
+                : small;
+    }
+
+    public Item getSmall() {
         //noinspection deprecation
         return small != null ? small
-                : normal != null ? normal
-                : large;
+                : medium != null ? medium
+                : large != null ? large
+                : raw;
+    }
+
+
+    @Override
+    public String getLargeUrl() {
+        return getLarge().url;
+    }
+
+    @Override
+    public int getLargeWidth() {
+        return getLarge().width;
+    }
+
+    @Override
+    public int getLargeHeight() {
+        return getLarge().height;
+    }
+
+    @Override
+    public String getMediumUrl() {
+        return getMedium().url;
+    }
+
+    @Override
+    public int getMediumWidth() {
+        return getMedium().width;
+    }
+
+    @Override
+    public int getMediumHeight() {
+        return getMedium().height;
+    }
+
+    @Override
+    public String getSmallUrl() {
+        return getSmall().url;
+    }
+
+    @Override
+    public int getSmallWidth() {
+        return getSmall().width;
+    }
+
+    @Override
+    public int getSmallHeight() {
+        return getSmall().height;
+    }
+
+    @Override
+    public boolean isAnimated() {
+        return isAnimated;
     }
 
 
@@ -69,11 +131,11 @@ public class SizedImage implements Parcelable {
     protected SizedImage(Parcel in) {
         isAnimated = in.readByte() != 0;
         //noinspection deprecation
-        large = in.readParcelable(SizedImageItem.class.getClassLoader());
+        large = in.readParcelable(Item.class.getClassLoader());
         //noinspection deprecation
-        normal = in.readParcelable(SizedImageItem.class.getClassLoader());
+        medium = in.readParcelable(Item.class.getClassLoader());
         //noinspection deprecation
-        small = in.readParcelable(SizedImageItem.class.getClassLoader());
+        small = in.readParcelable(Item.class.getClassLoader());
     }
 
     @Override
@@ -87,8 +149,50 @@ public class SizedImage implements Parcelable {
         //noinspection deprecation
         dest.writeParcelable(large, flags);
         //noinspection deprecation
-        dest.writeParcelable(normal, flags);
+        dest.writeParcelable(medium, flags);
         //noinspection deprecation
         dest.writeParcelable(small, flags);
+    }
+
+
+    public static class Item implements Parcelable {
+
+        public int height;
+
+        public String url;
+
+        public int width;
+
+
+        public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+            @Override
+            public Item createFromParcel(Parcel source) {
+                return new Item(source);
+            }
+            @Override
+            public Item[] newArray(int size) {
+                return new Item[size];
+            }
+        };
+
+        public Item() {}
+
+        protected Item(Parcel in) {
+            height = in.readInt();
+            url = in.readString();
+            width = in.readInt();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(height);
+            dest.writeString(url);
+            dest.writeInt(width);
+        }
     }
 }

@@ -10,27 +10,26 @@ import android.os.Parcel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.zhanghai.android.douya.util.CollectionUtils;
 
 public class Movie extends SimpleMovie {
 
     @SerializedName("aka")
-    public List<String> alternativeNames = new ArrayList<>();
+    public ArrayList<String> alternativeNames = new ArrayList<>();
 
-    public List<String> countries = new ArrayList<>();
+    public ArrayList<String> countries = new ArrayList<>();
 
     @SerializedName("cover")
     public Photo poster;
 
-    public List<String> durations = new ArrayList<>();
+    public ArrayList<String> durations = new ArrayList<>();
 
     @SerializedName("episodes_count")
     public int episodeCount;
 
     @SerializedName("honor_infos")
-    public List<Honor> honors = new ArrayList<>();
+    public ArrayList<Honor> honors = new ArrayList<>();
 
     @SerializedName("info_url")
     public String informationUrl;
@@ -41,7 +40,7 @@ public class Movie extends SimpleMovie {
     @SerializedName("is_tv")
     public boolean isTv;
 
-    public List<String> languages = new ArrayList<>();
+    public ArrayList<String> languages = new ArrayList<>();
 
     @SerializedName("lineticket_url")
     public String ticketUrl;

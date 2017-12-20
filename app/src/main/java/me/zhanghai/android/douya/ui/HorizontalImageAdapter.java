@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.ui;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Space;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,7 +15,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class HorizontalImageAdapter
-        extends SimpleAdapter<ImageItemWithSize, HorizontalImageAdapter.ViewHolder> {
+        extends SimpleAdapter<SizedImageItem, HorizontalImageAdapter.ViewHolder> {
 
     private OnImageClickListener mOnImageClickListener;
 

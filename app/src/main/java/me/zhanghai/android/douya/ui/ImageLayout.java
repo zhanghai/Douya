@@ -77,7 +77,7 @@ public class ImageLayout extends FrameLayout {
         mImageView.setLayoutParams(layoutParams);
     }
 
-    public void loadImage(ImageItemWithSize image) {
+    public void loadImage(SizedImageItem image) {
         ImageUtils.loadImageWithRatio(mImageView, image);
         ViewUtils.setVisibleOrGone(mGifImage, image.isAnimated());
     }

@@ -12,10 +12,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import me.zhanghai.android.douya.network.api.info.frodo.ImageWithSize;
-import me.zhanghai.android.douya.ui.ImageItemWithSize;
+import me.zhanghai.android.douya.ui.SizedImageItem;
 
-public class Photo implements ImageItemWithSize, Parcelable {
+public class Photo implements SizedImageItem, Parcelable {
 
     @SerializedName("album_id")
     public String albumId;

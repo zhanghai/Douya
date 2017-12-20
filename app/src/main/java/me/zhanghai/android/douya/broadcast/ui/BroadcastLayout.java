@@ -37,7 +37,7 @@ import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.CardIconButton;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
-import me.zhanghai.android.douya.ui.ImageItemWithSize;
+import me.zhanghai.android.douya.ui.SizedImageItem;
 import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
@@ -226,11 +226,11 @@ public class BroadcastLayout extends LinearLayout {
                 mAttachmentLayout.setVisibility(GONE);
             }
 
-            final List<? extends ImageItemWithSize> images = broadcast.images.size() > 0 ?
+            final List<? extends SizedImageItem> images = broadcast.images.size() > 0 ?
                     broadcast.images : broadcast.photos;
             int numImages = images.size();
             if (numImages == 1) {
-                final ImageItemWithSize image = images.get(0);
+                final SizedImageItem image = images.get(0);
                 mSingleImageLayout.setVisibility(VISIBLE);
                 mSingleImageLayout.loadImage(image);
                 mSingleImageLayout.setOnClickListener(new OnClickListener() {

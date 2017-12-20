@@ -9,7 +9,6 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Only for use with Gson deserialization.
@@ -39,13 +38,14 @@ public class CompleteCollectableItem {
 //
                     case MOVIE:
                     case TV:
-                        type = new TypeToken<Movie>() {}.getType();
+                        type = Movie.class;
+                        break;
 //                case MUSIC:
-//                    return context.deserialize(json, new TypeToken<Music>() {}.getClass());
+//
                 }
             }
             if (type == null) {
-                type = new TypeToken<UnknownCollectableItem>() {}.getType();
+                type = UnknownCollectableItem.class;
             }
             return context.deserialize(json, type);
         }

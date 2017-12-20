@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import me.zhanghai.android.douya.network.api.info.frodo.BaseTimelineItem;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 
@@ -16,9 +17,9 @@ public class GsonHelper {
 
     private static final Gson GSON = new GsonBuilder()
             .serializeNulls()
-            .registerTypeAdapter(new TypeToken<CollectableItem>() {}.getType(),
-                    new CollectableItem.Deserializer())
-            .registerTypeAdapter(new TypeToken<CompleteCollectableItem>() {}.getType(),
+            .registerTypeAdapter(BaseTimelineItem.class, new BaseTimelineItem.Deserializer())
+            .registerTypeAdapter(CollectableItem.class, new CollectableItem.Deserializer())
+            .registerTypeAdapter(CompleteCollectableItem.class,
                     new CompleteCollectableItem.Deserializer())
             // TODO
             .create();

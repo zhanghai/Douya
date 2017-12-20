@@ -16,7 +16,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeParseException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.CollectionUtils;
@@ -24,11 +23,11 @@ import me.zhanghai.android.douya.util.TimeUtils;
 
 public class SimpleMovie extends CollectableItem {
 
-    public List<Celebrity> actors = new ArrayList<>();
+    public ArrayList<Celebrity> actors = new ArrayList<>();
 
-    public List<Celebrity> directors = new ArrayList<>();
+    public ArrayList<Celebrity> directors = new ArrayList<>();
 
-    public List<String> genres = new ArrayList<>();
+    public ArrayList<String> genres = new ArrayList<>();
 
     @SerializedName("has_linewatch")
     public boolean hasOnlineSource;
@@ -37,7 +36,7 @@ public class SimpleMovie extends CollectableItem {
     public String releaseDate;
 
     @SerializedName("pubdate")
-    public List<String> releaseDates = new ArrayList<>();
+    public ArrayList<String> releaseDates = new ArrayList<>();
 
     public String year;
 

@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
-public interface ImageItemWithSize extends ImageItem {
+public interface SizedImageItem extends ImageItem {
 
     int getLargeWidth();
 

@@ -44,10 +44,15 @@ public class Rating implements Parcelable {
         return rating.hasRating();
     }
 
-    public String getRatingUnavailableReason(Context context) {
+    static String getRatingUnavailableReason(String ratingUnavailableReason, Context context) {
         //noinspection deprecation
         return !TextUtils.isEmpty(ratingUnavailableReason) ? ratingUnavailableReason
                 : context.getString(R.string.item_rating_unavailable_reason_fallback);
+    }
+
+    public String getRatingUnavailableReason(Context context) {
+        //noinspection deprecation
+        return getRatingUnavailableReason(ratingUnavailableReason, context);
     }
 
 

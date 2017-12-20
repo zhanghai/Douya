@@ -16,23 +16,12 @@ import me.zhanghai.android.douya.account.util.AccountUtils;
 // FIXME: Frodo API change.
 public class SimpleUser implements Parcelable {
 
-    @SerializedName("abstract")
-    public String introduction;
-
     public String avatar;
-
-    public String gender;
 
     public long id;
 
     @SerializedName("kind")
     public String type;
-
-    /**
-     * @deprecated Use {@link #getLargeAvatar()} instead.
-     */
-    @SerializedName("large_avatar")
-    public String largeAvatar;
 
     @SerializedName("loc")
     public Location location;
@@ -47,11 +36,6 @@ public class SimpleUser implements Parcelable {
     public String uri;
 
     public String url;
-
-    public String getLargeAvatar() {
-        //noinspection deprecation
-        return !TextUtils.isEmpty(largeAvatar) ? largeAvatar : avatar;
-    }
 
     public boolean hasIdOrUid(String idOrUid) {
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
@@ -76,13 +60,9 @@ public class SimpleUser implements Parcelable {
     public SimpleUser() {}
 
     protected SimpleUser(Parcel in) {
-        introduction = in.readString();
         avatar = in.readString();
-        gender = in.readString();
         id = in.readLong();
         type = in.readString();
-        //noinspection deprecation
-        largeAvatar = in.readString();
         location = in.readParcelable(Location.class.getClassLoader());
         name = in.readString();
         uid = in.readString();
@@ -97,13 +77,9 @@ public class SimpleUser implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(introduction);
         dest.writeString(avatar);
-        dest.writeString(gender);
         dest.writeLong(id);
         dest.writeString(type);
-        //noinspection deprecation
-        dest.writeString(largeAvatar);
         dest.writeParcelable(location, flags);
         dest.writeString(name);
         dest.writeString(uid);

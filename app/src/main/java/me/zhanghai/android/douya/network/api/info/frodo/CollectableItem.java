@@ -14,7 +14,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
 
 import me.zhanghai.android.douya.R;
 
@@ -33,19 +32,19 @@ public abstract class CollectableItem extends BaseItem {
         MUSIC("music", R.string.item_music_name, R.string.item_music_action),
         TV("tv", R.string.item_tv_name, R.string.item_tv_action);
 
-        private String apiString;
-        private int nameRes;
-        private int actionRes;
+        private String mApiString;
+        private int mNameRes;
+        private int mActionRes;
 
         Type(String apiString, int nameRes, int actionRes) {
-            this.apiString = apiString;
-            this.nameRes = nameRes;
-            this.actionRes = actionRes;
+            mApiString = apiString;
+            mNameRes = nameRes;
+            mActionRes = actionRes;
         }
 
         public static Type ofApiString(String apiString, Type defaultValue) {
             for (Type type : Type.values()) {
-                if (TextUtils.equals(type.apiString, apiString)) {
+                if (TextUtils.equals(type.mApiString, apiString)) {
                     return type;
                 }
             }
@@ -57,23 +56,23 @@ public abstract class CollectableItem extends BaseItem {
         }
 
         public String getApiString() {
-            return apiString;
+            return mApiString;
         }
 
         public int getNameRes() {
-            return nameRes;
+            return mNameRes;
         }
 
         public String getName(Context context) {
-            return context.getString(nameRes);
+            return context.getString(mNameRes);
         }
 
         public int getActionRes() {
-            return actionRes;
+            return mActionRes;
         }
 
         public String getAction(Context context) {
-            return context.getString(actionRes);
+            return context.getString(mActionRes);
         }
     }
 
@@ -119,14 +118,11 @@ public abstract class CollectableItem extends BaseItem {
         return Type.ofApiString(type);
     }
 
-    /**
-     * @see Rating#getRatingUnavailableReason(Context)
-     */
     public String getRatingUnavailableReason(Context context) {
         //noinspection deprecation
-        return !TextUtils.isEmpty(ratingUnavailableReason) ? ratingUnavailableReason
-                : context.getString(R.string.item_rating_unavailable_reason_fallback);
+        return Rating.getRatingUnavailableReason(ratingUnavailableReason, context);
     }
+
 
     public static class Deserializer implements JsonDeserializer<CollectableItem> {
 
@@ -148,13 +144,14 @@ public abstract class CollectableItem extends BaseItem {
 //
                     case MOVIE:
                     case TV:
-                        type = new TypeToken<SimpleMovie>() {}.getType();
+                        type = SimpleMovie.class;
+                        break;
 //                case MUSIC:
-//                    return context.deserialize(json, new TypeToken<Music>() {}.getClass());
+//
                 }
             }
             if (type == null) {
-                type = new TypeToken<UnknownCollectableItem>() {}.getType();
+                type = UnknownCollectableItem.class;
             }
             return context.deserialize(json, type);
         }

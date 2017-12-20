@@ -25,7 +25,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.ui.ImageItem;
-import me.zhanghai.android.douya.ui.ImageItemWithSize;
+import me.zhanghai.android.douya.ui.SizedImageItem;
 import me.zhanghai.android.douya.ui.RatioImageView;
 
 public class ImageUtils {
@@ -185,7 +185,7 @@ public class ImageUtils {
             .placeholder(android.R.color.transparent);
 
     public static void loadImageWithRatio(RatioImageView view,
-                                          ImageItemWithSize image) {
+                                          SizedImageItem image) {
         view.setRatio(image.getMediumWidth(), image.getMediumHeight());
         GlideApp.with(view.getContext())
                 .load(image.getMediumUrl())
