@@ -492,7 +492,7 @@ public class ApiService {
         ApiRequest<Broadcast> rebroadcastBroadcast(@Path("broadcastId") long broadcastId,
                                                    @Field("text") String text);
 
-        @POST("status/{broadcastId}/reshare")
+        @POST("status/{broadcastId}/report")
         @FormUrlEncoded
         ApiRequest<Void> reportBroadcast(@Path("broadcastId") long broadcastId,
                                          @Field("reason") int reason);
