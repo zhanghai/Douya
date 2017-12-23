@@ -8,8 +8,8 @@ package me.zhanghai.android.douya.broadcast.ui;
 import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastLikerListResource;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 import me.zhanghai.android.douya.user.content.BaseUserListResource;
 
 public class BroadcastLikerListFragment extends BroadcastUserListFragment {

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -46,13 +46,15 @@ public abstract class BaseUserAdapter extends SimpleAdapter<SimpleUser, BaseUser
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(ProfileActivity.makeIntent(user, context));
+                // FIXME: Pass Frodo SimpleUser
+                //context.startActivity(ProfileActivity.makeIntent(user, context));
+                context.startActivity(ProfileActivity.makeIntent(user.getIdOrUid(), context));
             }
         });
         ImageUtils.loadAvatar(holder.avatarImage, user.avatar);
         holder.nameText.setText(user.name);
         //noinspection deprecation
-        holder.descriptionText.setText(user.uid);
+        holder.descriptionText.setText(user.getIdOrUid());
     }
 
     abstract protected int getLayoutResource();

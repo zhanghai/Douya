@@ -5,19 +5,29 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.List;
 
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.BroadcastLikerList;
+import me.zhanghai.android.douya.user.content.BaseUserListResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class BroadcastLikerListResource extends BroadcastUserListResource {
+public class BroadcastLikerListResource extends BaseUserListResource<BroadcastLikerList> {
 
     private static final String FRAGMENT_TAG_DEFAULT = BroadcastLikerListResource.class.getName();
+
+    private final String KEY_PREFIX = BroadcastLikerListResource.class.getName() + '.';
+
+    private final String EXTRA_BROADCAST_ID = KEY_PREFIX + "broadcast_id";
+
+    private long mBroadcastId;
 
     private static BroadcastLikerListResource newInstance(long broadcastId) {
         //noinspection deprecation
@@ -45,14 +55,31 @@ public class BroadcastLikerListResource extends BroadcastUserListResource {
      */
     public BroadcastLikerListResource() {}
 
-    @Override
     protected BroadcastLikerListResource setArguments(long broadcastId) {
-        super.setArguments(broadcastId);
+        FragmentUtils.ensureArguments(this)
+                .putLong(EXTRA_BROADCAST_ID, broadcastId);
         return this;
     }
 
+    protected long getBroadcastId() {
+        return mBroadcastId;
+    }
+
     @Override
-    protected ApiRequest<List<SimpleUser>> onCreateRequest(Integer start, Integer count) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mBroadcastId = getArguments().getLong(EXTRA_BROADCAST_ID);
+    }
+
+    @Override
+    protected ApiRequest<BroadcastLikerList> onCreateRequest(Integer start, Integer count) {
         return ApiService.getInstance().getBroadcastLikerList(getBroadcastId(), start, count);
+    }
+
+    @Override
+    protected void onCallRawLoadFinished(boolean more, int count, boolean successful,
+                                         BroadcastLikerList response, ApiError error) {
+        onRawLoadFinished(more, count, successful, response.likers, error);
     }
 }

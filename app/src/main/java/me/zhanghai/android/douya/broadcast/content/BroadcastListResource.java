@@ -24,10 +24,11 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class BroadcastListResource extends MoreRawListResourceFragment<List<Broadcast>, Broadcast> {
+public class BroadcastListResource extends MoreRawListResourceFragment<TimelineList, Broadcast> {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
@@ -84,7 +85,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<List<Broa
     }
 
     @Override
-    protected ApiRequest<List<Broadcast>> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<TimelineList> onCreateRequest(boolean more, int count) {
         Long untilId = null;
         if (more && has()) {
             List<Broadcast> broadcastList = get();
@@ -93,11 +94,11 @@ public class BroadcastListResource extends MoreRawListResourceFragment<List<Broa
                 untilId = broadcastList.get(size - 1).id;
             }
         }
-        return ApiService.getInstance().getBroadcastList(mUserIdOrUid, mTopic, untilId, count);
+        return ApiService.getInstance().getTimelineList(mUserIdOrUid, mTopic, untilId, count);
     }
 
     @Override
-    protected ApiRequest<List<Broadcast>> onCreateRequest(Integer start, Integer count) {
+    protected ApiRequest<TimelineList> onCreateRequest(Integer start, Integer count) {
         throw new UnsupportedOperationException();
     }
 
@@ -108,7 +109,13 @@ public class BroadcastListResource extends MoreRawListResourceFragment<List<Broa
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
-                                  List<Broadcast> response, ApiError error) {
+                                  TimelineList response, ApiError error) {
+        onLoadFinished(more, count, successful, successful ? response.toBroadcastList() : null,
+                error);
+    }
+
+    private void onLoadFinished(boolean more, int count, boolean successful,
+                                List<Broadcast> response, ApiError error) {
         getListener().onLoadBroadcastListFinished(getRequestCode());
         if (successful) {
             if (more) {
@@ -128,8 +135,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<List<Broa
 
     protected void setAndNotifyListener(List<Broadcast> broadcastList) {
         set(broadcastList);
-        getListener().onBroadcastListChanged(getRequestCode(),
-                Collections.unmodifiableList(get()));
+        getListener().onBroadcastListChanged(getRequestCode(), Collections.unmodifiableList(get()));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -15,8 +15,8 @@ import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastAndCommentListResource extends TargetedRetainedFragment

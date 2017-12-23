@@ -62,11 +62,11 @@ public abstract class BaseTimelineItem implements Parcelable {
     }
 
 
-    public static class Deserializer implements JsonDeserializer<CollectableItem> {
+    public static class Deserializer implements JsonDeserializer<BaseTimelineItem> {
 
         @Override
-        public CollectableItem deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
-                                           JsonDeserializationContext context)
+        public BaseTimelineItem deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
+                                            JsonDeserializationContext context)
                 throws JsonParseException {
             java.lang.reflect.Type type = null;
             Type itemType = Type.ofApiString(json.getAsJsonObject().get("type").getAsString());

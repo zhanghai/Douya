@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
 
 public class ClipboardUtils {
 
@@ -43,6 +44,10 @@ public class ClipboardUtils {
         ClipData clipData = ClipData.newUri(context.getContentResolver(), label, uri);
         getClipboardManager(context).setPrimaryClip(clipData);
         showToast(uri.toString(), context);
+    }
+
+    public static void copy(ClipboardCopyable copyable, Context context) {
+        copyText(copyable.getClipboardLabel(), copyable.getClipboardText(), context);
     }
 
     private static void showToast(CharSequence copiedText, Context context) {

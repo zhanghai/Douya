@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.ClickableSimpleAdapter;
 import me.zhanghai.android.douya.ui.TimeTextView;
@@ -52,15 +52,14 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
         final Comment comment = getItem(position);
         ImageUtils.loadAvatar(holder.avatarImage, comment.author.avatar);
         final Context context = RecyclerViewUtils.getContext(holder);
-        holder.avatarImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(ProfileActivity.makeIntent(comment.author, context));
-            }
+        holder.avatarImage.setOnClickListener(view -> {
+            // TODO: Use frodo SimpleUser
+            //context.startActivity(ProfileActivity.makeIntent(comment.author, context));
+            context.startActivity(ProfileActivity.makeIntent(comment.author.getIdOrUid(), context));
         });
         holder.nameText.setText(comment.author.name);
         holder.timeText.setDoubanTime(comment.createdAt);
-        holder.textText.setText(comment.getContentWithEntities(context));
+        holder.textText.setText(comment.getTextWithEntities());
     }
 
     @Override

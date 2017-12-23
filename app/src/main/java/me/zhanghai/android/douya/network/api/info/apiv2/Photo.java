@@ -12,6 +12,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.ui.SizedImageItem;
 
 public class Photo implements SizedImageItem, Parcelable {

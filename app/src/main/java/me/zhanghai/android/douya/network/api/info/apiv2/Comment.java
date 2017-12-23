@@ -13,8 +13,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import me.zhanghai.android.douya.util.TimeUtils;
-
 public class Comment implements Parcelable {
 
     public SimpleUser author;
@@ -34,16 +32,16 @@ public class Comment implements Parcelable {
         return author.isOneself();
     }
 
-    public CharSequence getContentWithEntities(Context context) {
-        return Entity.applyEntities(content, entities, context);
+    public CharSequence getContentWithEntities() {
+        return Entity.applyEntities(content, entities);
     }
 
     public String getClipboardLabel() {
         return author.name;
     }
 
-    public String getClipboardText(Context context) {
-        return getContentWithEntities(context).toString();
+    public String getClipboardText() {
+        return getContentWithEntities().toString();
     }
 
 

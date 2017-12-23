@@ -85,7 +85,7 @@ public class SimpleUser implements Parcelable {
         return String.valueOf(id);
     }
 
-    public boolean hasIdOrUid(String idOrUid) {
+    public boolean isIdOrUid(String idOrUid) {
         //noinspection deprecation
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
     }

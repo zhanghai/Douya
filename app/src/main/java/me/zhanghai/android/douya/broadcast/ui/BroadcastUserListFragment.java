@@ -14,8 +14,8 @@ import java.util.List;
 
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 import me.zhanghai.android.douya.user.ui.BaseUserAdapter;
 import me.zhanghai.android.douya.user.ui.DialogUserAdapter;
 import me.zhanghai.android.douya.user.ui.UserListFragment;

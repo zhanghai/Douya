@@ -49,8 +49,8 @@ import me.zhanghai.android.douya.eventbus.BroadcastCommentSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.ui.ClickableSimpleAdapter;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
@@ -284,7 +284,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         Broadcast broadcast = mBroadcastAndCommentListResource.getBroadcast();
         boolean hasBroadcast = broadcast != null;
         mCopyTextMenuItem.setVisible(hasBroadcast);
-        boolean canDelete = hasBroadcast && broadcast.isAuthorOneself(getActivity());
+        boolean canDelete = hasBroadcast && broadcast.isAuthorOneself();
         mDeleteMenuItem.setVisible(canDelete);
     }
 
@@ -408,8 +408,9 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Override
-    public void onRebroadcast(Broadcast broadcast, boolean rebroadcast) {
-        RebroadcastBroadcastManager.getInstance().write(broadcast, rebroadcast, getActivity());
+    public void onRebroadcast(Broadcast broadcast, boolean quick) {
+        // TODO: Rebroadcast with text
+        RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
     }
 
     @Override
@@ -426,8 +427,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         boolean canReplyTo = canSendComment();
         Activity activity = getActivity();
         boolean canDelete = (mBroadcastAdapter.hasBroadcast()
-                && mBroadcastAdapter.getBroadcast().isAuthorOneself(activity))
-                || comment.isAuthorOneself(activity);
+                && mBroadcastAdapter.getBroadcast().isAuthorOneself())
+                || comment.isAuthorOneself();
         CommentActionDialogFragment.show(comment, canReplyTo, canDelete, this);
     }
 
@@ -440,9 +441,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     @Override
     public void onCopyCommentText(Comment comment) {
-        Activity activity = getActivity();
-        ClipboardUtils.copyText(comment.getClipboardLabel(), comment.getClipboardText(activity),
-                activity);
+        ClipboardUtils.copy(comment, getActivity());
     }
 
     @Override
@@ -539,8 +538,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             return;
         }
 
-        ClipboardUtils.copyText(broadcast.getClipboradLabel(), broadcast.getClipboardText(activity),
-                activity);
+        ClipboardUtils.copy(broadcast, activity);
     }
 
     private void onDeleteBroadcast() {

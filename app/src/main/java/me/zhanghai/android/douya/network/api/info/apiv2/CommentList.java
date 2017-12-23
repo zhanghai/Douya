@@ -10,6 +10,8 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
+
 public class CommentList extends BaseList implements Parcelable {
 
     public ArrayList<Comment> comments = new ArrayList<>();

@@ -17,7 +17,7 @@ import java.util.Collections;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
-import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
+import me.zhanghai.android.douya.network.api.info.frodo.CommentList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastCommentListResource extends CommentListResource {

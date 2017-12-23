@@ -8,13 +8,11 @@ package me.zhanghai.android.douya.broadcast.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,20 +29,20 @@ import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.network.api.info.apiv2.Attachment;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.CardIconButton;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
-import me.zhanghai.android.douya.ui.SizedImageItem;
 import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
+import me.zhanghai.android.douya.ui.SizedImageItem;
 import me.zhanghai.android.douya.ui.TimeActionTextView;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
-import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
@@ -172,53 +170,42 @@ public class BroadcastLayout extends LinearLayout {
 
         final Context context = getContext();
 
-        if (broadcast.isInterest) {
-            mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
-                    R.drawable.recommendation_avatar_icon_40dp));
-            mAvatarImage.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    UriHandler.open(DoubanUtils.getInterestTypeUrl(broadcast.interestType),
-                            context);
-                }
-            });
-        } else {
+//        if (broadcast.isInterest) {
+//            mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
+//                    R.drawable.recommendation_avatar_icon_40dp));
+//            mAvatarImage.setOnClickListener(view -> UriHandler.open(DoubanUtils.getInterestTypeUrl(
+//                    broadcast.interestType), context));
+//        } else {
             ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar);
-            mAvatarImage.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(ProfileActivity.makeIntent(broadcast.author, context));
-                }
-            });
-        }
-        mNameText.setText(broadcast.getAuthorName());
+            mAvatarImage.setOnClickListener(view -> context.startActivity(
+                    // TODO: ProfileActivity.makeIntent(broadcast.author, context)));
+                    ProfileActivity.makeIntent(broadcast.author.getIdOrUid(), context)));
+//        }
+        //mNameText.setText(broadcast.getAuthorName());
+        mNameText.setText(broadcast.author.name);
         mTimeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
 
         boolean isRebind = mBoundBroadcastId != null && mBoundBroadcastId == broadcast.id;
         // HACK: Attachment and text should not change on rebind.
         if (!isRebind) {
 
-            mTextText.setText(broadcast.getTextWithEntities(context));
+            mTextText.setText(broadcast.getTextWithEntities());
 
-            Attachment attachment = broadcast.attachment;
+            BroadcastAttachment attachment = broadcast.attachment;
             if (attachment != null) {
                 mAttachmentLayout.setVisibility(VISIBLE);
                 mAttachmentTitleText.setText(attachment.title);
-                mAttachmentDescriptionText.setText(attachment.description);
-                if (!TextUtils.isEmpty(attachment.image)) {
+                mAttachmentDescriptionText.setText(attachment.text);
+                if (attachment.image != null) {
                     mAttachmentImage.setVisibility(VISIBLE);
                     ImageUtils.loadImage(mAttachmentImage, attachment.image);
                 } else {
                     mAttachmentImage.setVisibility(GONE);
                 }
-                final String attachmentUrl = attachment.href;
+                String attachmentUrl = attachment.url;
                 if (!TextUtils.isEmpty(attachmentUrl)) {
-                    mAttachmentLayout.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            UriHandler.open(attachmentUrl, context);
-                        }
-                    });
+                    mAttachmentLayout.setOnClickListener(view -> UriHandler.open(attachmentUrl,
+                            context));
                 } else {
                     mAttachmentLayout.setOnClickListener(null);
                 }
@@ -226,19 +213,16 @@ public class BroadcastLayout extends LinearLayout {
                 mAttachmentLayout.setVisibility(GONE);
             }
 
-            final List<? extends SizedImageItem> images = broadcast.images.size() > 0 ?
-                    broadcast.images : broadcast.photos;
+            List<? extends SizedImageItem> images = broadcast.attachment != null
+                    && broadcast.attachment.imageBlock != null ?
+                    broadcast.attachment.imageBlock.images : broadcast.images;
             int numImages = images.size();
             if (numImages == 1) {
-                final SizedImageItem image = images.get(0);
+                SizedImageItem image = images.get(0);
                 mSingleImageLayout.setVisibility(VISIBLE);
                 mSingleImageLayout.loadImage(image);
-                mSingleImageLayout.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        context.startActivity(GalleryActivity.makeIntent(image, context));
-                    }
-                });
+                mSingleImageLayout.setOnClickListener(view -> context.startActivity(
+                        GalleryActivity.makeIntent(image, context)));
             } else {
                 mSingleImageLayout.setVisibility(GONE);
             }
@@ -247,14 +231,8 @@ public class BroadcastLayout extends LinearLayout {
                 mImageListDescriptionText.setText(context.getString(
                         R.string.broadcast_image_list_count_format, numImages));
                 mImageListAdapter.replace(images);
-                mImageListAdapter.setOnImageClickListener(
-                        new HorizontalImageAdapter.OnImageClickListener() {
-                            @Override
-                            public void onImageClick(int position) {
-                                context.startActivity(GalleryActivity.makeIntent(images, position,
-                                        context));
-                            }
-                        });
+                mImageListAdapter.setOnImageClickListener(position -> context.startActivity(
+                        GalleryActivity.makeIntent(images, position, context)));
             } else {
                 mImageListLayout.setVisibility(GONE);
             }
@@ -273,14 +251,13 @@ public class BroadcastLayout extends LinearLayout {
             mLikeButton.setActivated(broadcast.isLiked);
             mLikeButton.setEnabled(true);
         }
-        mLikeButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mListener != null) {
-                    mListener.onLikeClicked();
-                }
+        mLikeButton.setOnClickListener(view -> {
+            if (mListener == null) {
+                return;
             }
+            mListener.onLikeClicked();
         });
+        mRebroadcastButton.setText(broadcast.getRebroadcastCountString());
         RebroadcastBroadcastManager rebroadcastBroadcastManager =
                 RebroadcastBroadcastManager.getInstance();
         if (rebroadcastBroadcastManager.isWriting(broadcast.id)) {
@@ -288,24 +265,26 @@ public class BroadcastLayout extends LinearLayout {
                     broadcast.id));
             mRebroadcastButton.setEnabled(false);
         } else {
-            mRebroadcastButton.setActivated(broadcast.isRebroadcasted());
+            //mRebroadcastButton.setActivated(broadcast.isRebroadcasted());
             mRebroadcastButton.setEnabled(true);
         }
-        mRebroadcastButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mListener != null) {
-                    mListener.onRebroadcastClicked();
-                }
+        mRebroadcastButton.setOnClickListener(view -> {
+            if (mListener == null) {
+                return;
             }
+            mListener.onRebroadcastClicked(false);
+        });
+        mRebroadcastButton.setOnLongClickListener(view -> {
+            if (mListener == null) {
+                return false;
+            }
+            mListener.onRebroadcastClicked(true);
+            return true;
         });
         mCommentButton.setText(broadcast.getCommentCountString());
-        mCommentButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mListener != null) {
-                    mListener.onCommentClicked();
-                }
+        mCommentButton.setOnClickListener(view -> {
+            if (mListener != null) {
+                mListener.onCommentClicked();
             }
         });
 
@@ -322,7 +301,7 @@ public class BroadcastLayout extends LinearLayout {
 
     public interface Listener {
         void onLikeClicked();
-        void onRebroadcastClicked();
+        void onRebroadcastClicked(boolean isLongClick);
         void onCommentClicked();
     }
 }

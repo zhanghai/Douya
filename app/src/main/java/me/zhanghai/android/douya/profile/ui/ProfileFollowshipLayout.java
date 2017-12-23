@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -95,11 +95,10 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
 
             ImageUtils.loadAvatar(holder.avatarImage, user.avatar);
             holder.nameText.setText(user.name);
-            userLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(ProfileActivity.makeIntent(user, context));
-                }
+            userLayout.setOnClickListener(view -> {
+                // TODO: Use Frodo SimpleUser.
+                //context.startActivity(ProfileActivity.makeIntent(user, context));
+                context.startActivity(ProfileActivity.makeIntent(user.getIdOrUid(), context));
             });
 
             ++i;

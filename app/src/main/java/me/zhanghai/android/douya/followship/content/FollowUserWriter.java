@@ -55,7 +55,7 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, User> {
     }
 
     public boolean hasUserIdOrUid(String userIdOrUid) {
-        return mUser != null ? mUser.hasIdOrUid(userIdOrUid)
+        return mUser != null ? mUser.isIdOrUid(userIdOrUid)
                 : TextUtils.equals(mUserIdOrUid, userIdOrUid);
     }
 
@@ -134,7 +134,7 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, User> {
         }
 
         //noinspection deprecation
-        if (event.mUser.hasIdOrUid(mUserIdOrUid)) {
+        if (event.mUser.isIdOrUid(mUserIdOrUid)) {
             mUserIdOrUid = event.mUser.getIdOrUid();
             mUser = event.mUser;
         }

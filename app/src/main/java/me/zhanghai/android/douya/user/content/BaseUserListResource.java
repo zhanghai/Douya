@@ -10,7 +10,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 
 public abstract class BaseUserListResource<ResponseType>
         extends MoreRawListResourceFragment<ResponseType, SimpleUser> {

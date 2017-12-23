@@ -14,8 +14,8 @@ import java.util.List;
 import me.zhanghai.android.douya.content.MoreRawListResourceFragment;
 import me.zhanghai.android.douya.eventbus.CommentDeletedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
-import me.zhanghai.android.douya.network.api.info.apiv2.CommentList;
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
+import me.zhanghai.android.douya.network.api.info.frodo.CommentList;
 
 public abstract class CommentListResource
         extends MoreRawListResourceFragment<CommentList, Comment> {

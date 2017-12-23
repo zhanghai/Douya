@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 
 public class BroadcastCommentSentEvent extends Event {
 

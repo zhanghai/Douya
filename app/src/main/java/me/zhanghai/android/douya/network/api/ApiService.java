@@ -16,9 +16,7 @@ import me.zhanghai.android.douya.network.GsonResponseBodyConverterFactory;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.network.api.info.AuthenticationResponse;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.BroadcastLikerList;
 import me.zhanghai.android.douya.network.api.info.frodo.BroadcastList;
@@ -39,6 +37,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
+import me.zhanghai.android.douya.network.api.info.frodo.UserList;
 import me.zhanghai.android.douya.util.StringUtils;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -181,16 +180,17 @@ public class ApiService {
     }
 
     public ApiRequest<UserList> getFollowingList(String userIdOrUid, Integer start, Integer count,
-                                                 String tag) {
-        return mLifeStreamService.getFollowingList(userIdOrUid, start, count, tag);
+                                                 boolean followersFirst) {
+        return mFrodoService.getFollowingList(userIdOrUid, start, count, followersFirst ? "true"
+                : null);
     }
 
     public ApiRequest<UserList> getFollowingList(String userIdOrUid, Integer start, Integer count) {
-        return getFollowingList(userIdOrUid, start, count, null);
+        return getFollowingList(userIdOrUid, start, count, false);
     }
 
     public ApiRequest<UserList> getFollowerList(String userIdOrUid, Integer start, Integer count) {
-        return mLifeStreamService.getFollowerList(userIdOrUid, start, count);
+        return mFrodoService.getFollowerList(userIdOrUid, start, count);
     }
 
     public ApiRequest<NotificationList> getNotificationList(Integer start, Integer count) {
@@ -206,70 +206,67 @@ public class ApiService {
         };
     }
 
-    public ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>>
-            getBroadcastList(String userIdOrUid, String topic, Long untilId, Integer count) {
+    public ApiRequest<TimelineList> getTimelineList(String userIdOrUid, String topic, Long untilId,
+                                                    Integer count) {
+        return getTimelineList(userIdOrUid, topic, untilId, count, null, false);
+    }
+
+    public ApiRequest<TimelineList> getTimelineList(String userIdOrUid, String topic, Long untilId,
+                                                    Integer count, Long lastVisitedId,
+                                                    boolean guestOnly) {
         String url;
         if (TextUtils.isEmpty(userIdOrUid) && TextUtils.isEmpty(topic)) {
-            url = "lifestream/home_timeline";
+            url = "status/home_timeline";
         } else if (TextUtils.isEmpty(topic)) {
-            url = StringUtils.formatUs("lifestream/user_timeline/%s", userIdOrUid);
+            url = StringUtils.formatUs("status/user_timeline/%s", userIdOrUid);
         } else {
-            url = "lifestream/topics";
+            url = "status/topic/timeline";
         }
-        return mLifeStreamService.getBroadcastList(url, untilId, count, topic);
+        return mFrodoService.getTimelineList(url, untilId, count, lastVisitedId, topic, guestOnly ?
+                1 : null);
     }
 
-    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> getBroadcast(
-            long broadcastId) {
-        return mLifeStreamService.getBroadcast(broadcastId);
+    public ApiRequest<Broadcast> getBroadcast(long broadcastId) {
+        return mFrodoService.getBroadcast(broadcastId);
     }
 
-    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.CommentList>
-            getBroadcastCommentList(long broadcastId, Integer start, Integer count) {
-        return mLifeStreamService.getBroadcastCommentList(broadcastId, start, count);
+    public ApiRequest<CommentList> getBroadcastCommentList(long broadcastId, Integer start,
+                                                           Integer count) {
+        return mFrodoService.getBroadcastCommentList(broadcastId, start, count);
     }
 
-    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> likeBroadcast(
-            long broadcastId, boolean like) {
+    public ApiRequest<Broadcast> likeBroadcast(long broadcastId, boolean like) {
         if (like) {
-            return mLifeStreamService.likeBroadcast(broadcastId);
+            return mFrodoService.likeBroadcast(broadcastId);
         } else {
-            return mLifeStreamService.unlikeBroadcast(broadcastId);
+            return mFrodoService.unlikeBroadcast(broadcastId);
         }
     }
 
-    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>
-            rebroadcastBroadcast(long broadcastId, boolean rebroadcast) {
-        if (rebroadcast) {
-            return mLifeStreamService.rebroadcastBroadcast(broadcastId);
-        } else {
-            return mLifeStreamService.unrebroadcastBroadcast(broadcastId);
-        }
+    public ApiRequest<Broadcast> rebroadcastBroadcast(long broadcastId, String text) {
+        return mFrodoService.rebroadcastBroadcast(broadcastId, text);
     }
 
-    public ApiRequest<List<SimpleUser>> getBroadcastLikerList(long broadcastId, Integer start,
-                                                              Integer count) {
-        return mLifeStreamService.getBroadcastLikerList(broadcastId, start, count);
+    public ApiRequest<BroadcastLikerList> getBroadcastLikerList(long broadcastId, Integer start,
+                                                                Integer count) {
+        return mFrodoService.getBroadcastLikerList(broadcastId, start, count);
     }
 
-    public ApiRequest<List<SimpleUser>> getBroadcastRebroadcasterList(long broadcastId,
-                                                                      Integer start,
-                                                                      Integer count) {
-        return mLifeStreamService.getBroadcastRebroadcasterList(broadcastId, start, count);
+    public ApiRequest<BroadcastList> getBroadcastRebroadcasterList(long broadcastId, Integer start,
+                                                                   Integer count) {
+        return mFrodoService.getBroadcastRebroadcastedBroadcastList(broadcastId, start, count);
     }
 
-    public ApiRequest<Boolean> deleteBroadcastComment(long broadcastId, long commentId) {
-        return mLifeStreamService.deleteBroadcastComment(broadcastId, commentId);
+    public ApiRequest<Void> deleteBroadcastComment(long broadcastId, long commentId) {
+        return mFrodoService.deleteBroadcastComment(broadcastId, commentId);
     }
 
-    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Comment>
-            sendBroadcastComment(long broadcastId, String comment) {
-        return mLifeStreamService.sendBroadcastComment(broadcastId, comment);
+    public ApiRequest<Comment> sendBroadcastComment(long broadcastId, String comment) {
+        return mFrodoService.sendBroadcastComment(broadcastId, comment);
     }
 
-    public ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> deleteBroadcast(
-            long broadcastId) {
-        return mLifeStreamService.deleteBroadcast(broadcastId);
+    public ApiRequest<Void> deleteBroadcast(long broadcastId) {
+        return mFrodoService.deleteBroadcast(broadcastId);
     }
 
     public ApiRequest<DiaryList> getDiaryList(String userIdOrUid, Integer start, Integer count) {
@@ -382,15 +379,14 @@ public class ApiService {
         ApiRequest<User> unfollow(@Path("userIdOrUid") String userIdOrUid);
 
         @GET("lifestream/user/{userIdOrUid}/followings")
-        ApiRequest<UserList> getFollowingList(@Path("userIdOrUid") String userIdOrUid,
-                                              @Query("start") Integer start,
-                                              @Query("count") Integer count,
-                                              @Query("tag") String tag);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.UserList> getFollowingList(
+                @Path("userIdOrUid") String userIdOrUid, @Query("start") Integer start,
+                @Query("count") Integer count, @Query("tag") String tag);
 
         @GET("lifestream/user/{userIdOrUid}/followers")
-        ApiRequest<UserList> getFollowerList(@Path("userIdOrUid") String userIdOrUid,
-                                             @Query("start") Integer start,
-                                             @Query("count") Integer count);
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.UserList> getFollowerList(
+                @Path("userIdOrUid") String userIdOrUid, @Query("start") Integer start,
+                @Query("count") Integer count);
 
         @GET
         ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>>
@@ -424,14 +420,15 @@ public class ApiService {
                 unrebroadcastBroadcast(@Path("broadcastId") long broadcastId);
 
         @GET("lifestream/status/{broadcastId}/likers")
-        ApiRequest<List<SimpleUser>> getBroadcastLikerList(@Path("broadcastId") long broadcastId,
-                                                           @Query("start") Integer start,
-                                                           @Query("count") Integer count);
+        ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser>>
+                getBroadcastLikerList(@Path("broadcastId") long broadcastId,
+                                      @Query("start") Integer start, @Query("count") Integer count);
 
         @GET("lifestream/status/{broadcastId}/resharers")
-        ApiRequest<List<SimpleUser>> getBroadcastRebroadcasterList(
-                @Path("broadcastId") long broadcastId, @Query("start") Integer start,
-                @Query("count") Integer count);
+        ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser>>
+                getBroadcastRebroadcasterList(@Path("broadcastId") long broadcastId,
+                                              @Query("start") Integer start,
+                                              @Query("count") Integer count);
 
         @DELETE("lifestream/status/{broadcastId}/comment/{commentId}")
         ApiRequest<Boolean> deleteBroadcastComment(@Path("broadcastId") long broadcastId,
@@ -453,9 +450,20 @@ public class ApiService {
         ApiRequest<NotificationList> getNotificationList(@Query("start") Integer start,
                                                          @Query("count") Integer count);
 
+        @GET("user/{userIdOrUid}/following")
+        ApiRequest<UserList> getFollowingList(@Path("userIdOrUid") String userIdOrUid,
+                                              @Query("start") Integer start,
+                                              @Query("count") Integer count,
+                                              @Query("contact_prior") String followersFirst);
+
+        @GET("user/{userIdOrUid}/followers")
+        ApiRequest<UserList> getFollowerList(@Path("userIdOrUid") String userIdOrUid,
+                                             @Query("start") Integer start,
+                                             @Query("count") Integer count);
+
         @GET
         ApiRequest<TimelineList> getTimelineList(@Url String url,
-                                                 @Query("max_id") Long maxId,
+                                                 @Query("max_id") Long untilId,
                                                  @Query("count") Integer count,
                                                  @Query("last_visit_id") Long lastVisitedId,
                                                  @Query("name") String topic,

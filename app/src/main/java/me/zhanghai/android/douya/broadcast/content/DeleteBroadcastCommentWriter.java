@@ -17,7 +17,7 @@ import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastCommentWriter, Boolean> {
+class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastCommentWriter, Void> {
 
     private long mBroadcastId;
     private long mCommentId;
@@ -39,12 +39,12 @@ class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastComment
     }
 
     @Override
-    protected ApiRequest<Boolean> onCreateRequest() {
+    protected ApiRequest<Void> onCreateRequest() {
         return ApiService.getInstance().deleteBroadcastComment(mBroadcastId, mCommentId);
     }
 
     @Override
-    public void onResponse(Boolean response) {
+    public void onResponse(Void response) {
 
         ToastUtils.show(R.string.broadcast_comment_delete_successful, getContext());
 

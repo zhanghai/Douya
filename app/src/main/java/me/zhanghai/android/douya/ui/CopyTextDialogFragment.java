@@ -53,12 +53,7 @@ public class CopyTextDialogFragment extends AppCompatDialogFragment {
         return new AlertDialog.Builder(getActivity(), getTheme())
                 .setMessage(mText)
                 .setPositiveButton(R.string.copy_to_clipboard,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ClipboardUtils.copyText(null, mText, getActivity());
-                            }
-                        })
+                        (dialog, which) -> ClipboardUtils.copyText(null, mText, getActivity()))
                 .create();
     }
 

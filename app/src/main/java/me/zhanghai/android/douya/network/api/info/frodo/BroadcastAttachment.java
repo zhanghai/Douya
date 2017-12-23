@@ -16,7 +16,10 @@ import java.util.ArrayList;
 
 import me.zhanghai.android.douya.ui.SizedImageItem;
 
-public class BroadcastCard implements Parcelable {
+/**
+ * {@code BroadcastCard} in Frodo.
+ */
+public class BroadcastAttachment implements Parcelable {
 
     public enum Type {
 
@@ -90,21 +93,21 @@ public class BroadcastCard implements Parcelable {
     }
 
 
-    public static final Parcelable.Creator<BroadcastCard> CREATOR =
-            new Parcelable.Creator<BroadcastCard>() {
+    public static final Parcelable.Creator<BroadcastAttachment> CREATOR =
+            new Parcelable.Creator<BroadcastAttachment>() {
                 @Override
-                public BroadcastCard createFromParcel(Parcel source) {
-                    return new BroadcastCard(source);
+                public BroadcastAttachment createFromParcel(Parcel source) {
+                    return new BroadcastAttachment(source);
                 }
                 @Override
-                public BroadcastCard[] newArray(int size) {
-                    return new BroadcastCard[size];
+                public BroadcastAttachment[] newArray(int size) {
+                    return new BroadcastAttachment[size];
                 }
             };
 
-    public BroadcastCard() {}
+    public BroadcastAttachment() {}
 
-    protected BroadcastCard(Parcel in) {
+    protected BroadcastAttachment(Parcel in) {
         type = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         imageBlock = in.readParcelable(ImageBlock.class.getClassLoader());

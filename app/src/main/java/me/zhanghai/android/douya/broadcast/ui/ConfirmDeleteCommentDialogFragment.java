@@ -14,7 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.Comment;
+import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment {

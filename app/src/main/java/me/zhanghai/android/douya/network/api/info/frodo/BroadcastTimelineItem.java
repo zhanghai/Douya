@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class BroadcastTimelineItem implements Parcelable {
+public class BroadcastTimelineItem extends BaseTimelineItem implements Parcelable {
 
     public ArrayList<Comment> comments = new ArrayList<>();
 
@@ -35,6 +35,8 @@ public class BroadcastTimelineItem implements Parcelable {
     public BroadcastTimelineItem() {}
 
     protected BroadcastTimelineItem(Parcel in) {
+        super(in);
+
         comments = in.createTypedArrayList(Comment.CREATOR);
         broadcast = in.readParcelable(Broadcast.class.getClassLoader());
     }
@@ -46,6 +48,8 @@ public class BroadcastTimelineItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+
         dest.writeTypedList(comments);
         dest.writeParcelable(broadcast, flags);
     }

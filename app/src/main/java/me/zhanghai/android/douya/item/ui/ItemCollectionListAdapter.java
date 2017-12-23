@@ -48,7 +48,9 @@ public class ItemCollectionListAdapter
         holder.avatarImage.setOnClickListener(view -> {
             Context context = view.getContext();
             // TODO: Pass frodo.SimpleUser once ProfileActivity migrated to Frodo API.
-            context.startActivity(ProfileActivity.makeIntent(itemCollection.user.uid, context));
+            //context.startActivity(ProfileActivity.makeIntent(itemCollection.user, context));
+            context.startActivity(ProfileActivity.makeIntent(itemCollection.user.getIdOrUid(),
+                    context));
         });
         holder.nameText.setText(itemCollection.user.name);
         boolean hasRating = itemCollection.rating != null;

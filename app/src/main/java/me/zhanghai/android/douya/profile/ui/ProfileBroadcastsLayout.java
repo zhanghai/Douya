@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.ui.SizedImageItem;
@@ -101,35 +101,32 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
 
             // HACK: Should not change on rebind.
             if (holder.boundBroadcastId != broadcast.id) {
-                String imageUrl = null;
+                SizedImageItem image = null;
                 if (broadcast.attachment != null) {
-                    imageUrl = broadcast.attachment.image;
+                    image = broadcast.attachment.image;
                 }
-                if (TextUtils.isEmpty(imageUrl)) {
-                    List<? extends SizedImageItem> images = broadcast.images.size() > 0 ?
-                            broadcast.images : broadcast.photos;
+                if (image == null) {
+                    List<? extends SizedImageItem> images = broadcast.attachment != null
+                            && broadcast.attachment.imageBlock != null ?
+                            broadcast.attachment.imageBlock.images : broadcast.images;
                     if (images.size() > 0){
-                        imageUrl = images.get(0).getMediumUrl();
+                        image = images.get(0);
                     }
                 }
-                if (!TextUtils.isEmpty(imageUrl)) {
+                if (image != null) {
                     holder.image.setVisibility(VISIBLE);
-                    ImageUtils.loadImage(holder.image, imageUrl);
+                    ImageUtils.loadImage(holder.image, image);
                 } else {
                     holder.image.setVisibility(GONE);
                 }
-                CharSequence text = broadcast.getTextWithEntities(context);
+                CharSequence text = broadcast.getTextWithEntities();
                 if (TextUtils.isEmpty(text) && broadcast.attachment != null) {
                     text = broadcast.attachment.title;
                 }
                 holder.textText.setText(text);
                 holder.timeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
-                broadcastLayout.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        context.startActivity(BroadcastActivity.makeIntent(broadcast, context));
-                    }
-                });
+                broadcastLayout.setOnClickListener(view -> context.startActivity(
+                        BroadcastActivity.makeIntent(broadcast, context)));
                 holder.boundBroadcastId = broadcast.id;
             }
 

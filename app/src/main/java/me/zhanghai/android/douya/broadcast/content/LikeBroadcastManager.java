@@ -9,7 +9,7 @@ import android.content.Context;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.ToastUtils;
 
 public class LikeBroadcastManager extends ResourceWriterManager<LikeBroadcastWriter> {
@@ -39,7 +39,7 @@ public class LikeBroadcastManager extends ResourceWriterManager<LikeBroadcastWri
     }
 
     private boolean shouldWrite(Broadcast broadcast, Context context) {
-        if (broadcast.isAuthorOneself(context)) {
+        if (broadcast.isAuthorOneself()) {
             ToastUtils.show(R.string.broadcast_like_error_cannot_like_oneself, context);
             return false;
         } else {

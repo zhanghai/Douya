@@ -15,7 +15,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.util.TimeUtils;
 
 public class Broadcast implements Parcelable {
 
@@ -85,7 +84,7 @@ public class Broadcast implements Parcelable {
     }
 
     public CharSequence getTextWithEntities(Context context) {
-        return Entity.applyEntities(text, entities, context);
+        return Entity.applyEntities(text, entities);
     }
 
     public void fixLiked(boolean liked) {

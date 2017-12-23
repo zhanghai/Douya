@@ -6,8 +6,7 @@
 package me.zhanghai.android.douya.user.content;
 
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.apiv2.UserList;
+import me.zhanghai.android.douya.network.api.info.frodo.UserList;
 
 public abstract class UserListResource extends BaseUserListResource<UserList> {
 

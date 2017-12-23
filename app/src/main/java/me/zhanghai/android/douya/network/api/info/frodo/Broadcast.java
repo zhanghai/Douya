@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,7 +13,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Broadcast implements Parcelable {
+import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
+
+public class Broadcast implements ClipboardCopyable, Parcelable {
 
     @SerializedName("activity")
     public String action;
@@ -22,10 +26,11 @@ public class Broadcast implements Parcelable {
 
     public SimpleUser author;
 
-    public BroadcastCard card;
+    @SerializedName("card")
+    public BroadcastAttachment attachment;
 
     @SerializedName("comments_count")
-    public int commentsCount;
+    public int commentCount;
 
     @SerializedName("create_time")
     public String createdAt;
@@ -63,9 +68,6 @@ public class Broadcast implements Parcelable {
     @SerializedName("reshared_status")
     public Broadcast rebroadcastedBroadcast;
 
-    @SerializedName("resharers_count")
-    public int rebroadcasterCount;
-
     @SerializedName("reshares_count")
     public int rebroadcastCount;
 
@@ -78,6 +80,69 @@ public class Broadcast implements Parcelable {
     public String text;
 
     public String uri;
+
+    public boolean isAuthorOneself() {
+        return author != null && author.isOneself();
+    }
+
+    public String getRebroadcastedBy(Context context) {
+        return rebroadcastedBroadcast != null ? context.getString(
+                R.string.broadcast_rebroadcasted_by_format, author.name) : null;
+    }
+
+    public CharSequence getTextWithEntities() {
+        return TextEntity.applyEntities(text, entities);
+    }
+
+    public String getLikeCountString() {
+        return likeCount == 0 ? null : String.valueOf(likeCount);
+    }
+
+    public void fixLiked(boolean liked) {
+        if (isLiked != liked) {
+            isLiked = liked;
+            if (isLiked) {
+                ++likeCount;
+            } else {
+                --likeCount;
+            }
+        }
+    }
+
+    public String getRebroadcastCountString() {
+        return rebroadcastCount == 0 ? null : String.valueOf(rebroadcastCount);
+    }
+
+    public void incrementRebroadcastCount() {
+        ++rebroadcastCount;
+    }
+
+    public String getCommentCountString() {
+        return commentCount == 0 ? null : String.valueOf(commentCount);
+    }
+
+    public boolean canComment() {
+        // TODO: Frodo
+        return isRebroadcastAndCommentForbidden;
+    }
+
+    public static String makeTransitionName(long id) {
+        return "broadcast-" + id;
+    }
+
+    public String makeTransitionName() {
+        return makeTransitionName(id);
+    }
+
+    @Override
+    public String getClipboardLabel() {
+        return author.name;
+    }
+
+    @Override
+    public String getClipboardText() {
+        return getTextWithEntities().toString();
+    }
 
 
     public static final Creator<Broadcast> CREATOR = new Creator<Broadcast>() {
@@ -97,8 +162,8 @@ public class Broadcast implements Parcelable {
         action = in.readString();
         adInfo = in.readParcelable(BroadcastAdInfo.class.getClassLoader());
         author = in.readParcelable(SimpleUser.class.getClassLoader());
-        card = in.readParcelable(BroadcastCard.class.getClassLoader());
-        commentsCount = in.readInt();
+        attachment = in.readParcelable(BroadcastAttachment.class.getClassLoader());
+        commentCount = in.readInt();
         createdAt = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         isRebroadcastAndCommentForbidden = in.readByte() != 0;
@@ -112,7 +177,6 @@ public class Broadcast implements Parcelable {
         parentBroadcast = in.readParcelable(Broadcast.class.getClassLoader());
         rebroadcastId = in.readString();
         rebroadcastedBroadcast = in.readParcelable(Broadcast.class.getClassLoader());
-        rebroadcasterCount = in.readInt();
         rebroadcastCount = in.readInt();
         shareUrl = in.readString();
         subscriptionText = in.readString();
@@ -130,8 +194,8 @@ public class Broadcast implements Parcelable {
         dest.writeString(action);
         dest.writeParcelable(adInfo, flags);
         dest.writeParcelable(author, flags);
-        dest.writeParcelable(card, flags);
-        dest.writeInt(commentsCount);
+        dest.writeParcelable(attachment, flags);
+        dest.writeInt(commentCount);
         dest.writeString(createdAt);
         dest.writeTypedList(entities);
         dest.writeByte(isRebroadcastAndCommentForbidden ? (byte) 1 : (byte) 0);
@@ -145,7 +209,6 @@ public class Broadcast implements Parcelable {
         dest.writeParcelable(parentBroadcast, flags);
         dest.writeString(rebroadcastId);
         dest.writeParcelable(rebroadcastedBroadcast, flags);
-        dest.writeInt(rebroadcasterCount);
         dest.writeInt(rebroadcastCount);
         dest.writeString(shareUrl);
         dest.writeString(subscriptionText);

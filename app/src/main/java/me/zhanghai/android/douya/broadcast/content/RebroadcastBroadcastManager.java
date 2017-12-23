@@ -7,10 +7,8 @@ package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
 
-import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.util.ToastUtils;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 
 public class RebroadcastBroadcastManager extends ResourceWriterManager<RebroadcastBroadcastWriter> {
 
@@ -23,29 +21,14 @@ public class RebroadcastBroadcastManager extends ResourceWriterManager<Rebroadca
     }
 
     /**
-     * @deprecated Use {@link #write(Broadcast, boolean, Context)} instead.
+     * @deprecated Use {@link #write(Broadcast, String, Context)} instead.
      */
-    public void write(long broadcastId, boolean rebroadcast, Context context) {
-        add(new RebroadcastBroadcastWriter(broadcastId, rebroadcast, this), context);
+    public void write(long broadcastId, String text, Context context) {
+        add(new RebroadcastBroadcastWriter(broadcastId, text, this), context);
     }
 
-    public boolean write(Broadcast broadcast, boolean rebroadcast, Context context) {
-        if (shouldWrite(broadcast, context)) {
-            add(new RebroadcastBroadcastWriter(broadcast, rebroadcast, this), context);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean shouldWrite(Broadcast broadcast, Context context) {
-        if (broadcast.isAuthorOneself(context)) {
-            ToastUtils.show(R.string.broadcast_rebroadcast_error_cannot_rebroadcast_oneself,
-                    context);
-            return false;
-        } else {
-            return true;
-        }
+    public void write(Broadcast broadcast, String text, Context context) {
+        add(new RebroadcastBroadcastWriter(broadcast, text, this), context);
     }
 
     public boolean isWriting(long broadcastId) {
@@ -54,7 +37,7 @@ public class RebroadcastBroadcastManager extends ResourceWriterManager<Rebroadca
 
     public boolean isWritingRebroadcast(long broadcastId) {
         RebroadcastBroadcastWriter writer = findWriter(broadcastId);
-        return writer != null && writer.isRebroadcast();
+        return writer != null && writer.getText() == null;
     }
 
     private RebroadcastBroadcastWriter findWriter(long broadcastId) {

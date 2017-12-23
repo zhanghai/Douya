@@ -31,13 +31,23 @@ public class SimpleUser implements Parcelable {
     // The value of this field is always "user", so we are using "kind" as "type" instead.
     //public String type;
 
+    /**
+     * @deprecated Use {@link #getIdOrUid()} instead.
+     */
     public String uid;
 
     public String uri;
 
     public String url;
 
-    public boolean hasIdOrUid(String idOrUid) {
+    public String getIdOrUid() {
+        // Some Frodo API does not recognize uid, e.g. 'user/*/notes'.
+        //noinspection deprecation
+        return String.valueOf(id);
+    }
+
+    public boolean isIdOrUid(String idOrUid) {
+        //noinspection deprecation
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
     }
 
@@ -65,6 +75,7 @@ public class SimpleUser implements Parcelable {
         type = in.readString();
         location = in.readParcelable(Location.class.getClassLoader());
         name = in.readString();
+        //noinspection deprecation
         uid = in.readString();
         uri = in.readString();
         url = in.readString();
@@ -82,6 +93,7 @@ public class SimpleUser implements Parcelable {
         dest.writeString(type);
         dest.writeParcelable(location, flags);
         dest.writeString(name);
+        //noinspection deprecation
         dest.writeString(uid);
         dest.writeString(uri);
         dest.writeString(url);

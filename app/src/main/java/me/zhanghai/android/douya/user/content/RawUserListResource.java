@@ -8,8 +8,7 @@ package me.zhanghai.android.douya.user.content;
 import java.util.List;
 
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 
 public abstract class RawUserListResource extends BaseUserListResource<List<SimpleUser>> {
 

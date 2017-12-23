@@ -33,6 +33,10 @@ public abstract class MoreListResourceFragment<ResponseType, ResourceListType>
         mCanLoadMore = getSize(more) == mLoadCount;
     }
 
+    protected void setCanLoadMore(boolean canLoadMore) {
+        mCanLoadMore = canLoadMore;
+    }
+
     public boolean isLoadingMore() {
         return mLoadingMore;
     }

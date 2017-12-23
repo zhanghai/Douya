@@ -24,6 +24,16 @@ public class TimelineList implements Parcelable {
     @SerializedName("new_status_count_str")
     public String newBroadcastCountString;
 
+    public ArrayList<Broadcast> toBroadcastList() {
+        ArrayList<Broadcast> broadcastList = new ArrayList<>();
+        for (BaseTimelineItem item : items) {
+            if (item instanceof BroadcastTimelineItem) {
+                broadcastList.add(((BroadcastTimelineItem) item).broadcast);
+            }
+        }
+        return broadcastList;
+    }
+
 
     public static final Parcelable.Creator<TimelineList> CREATOR =
             new Parcelable.Creator<TimelineList>() {

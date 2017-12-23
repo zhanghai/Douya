@@ -14,11 +14,10 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Broadcast> {
+class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Void> {
 
     private long mBroadcastId;
 
@@ -33,16 +32,16 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Broadc
     }
 
     @Override
-    protected ApiRequest<Broadcast> onCreateRequest() {
+    protected ApiRequest<Void> onCreateRequest() {
         return ApiService.getInstance().deleteBroadcast(mBroadcastId);
     }
 
     @Override
-    public void onResponse(Broadcast response) {
+    public void onResponse(Void response) {
 
         ToastUtils.show(R.string.broadcast_delete_successful, getContext());
 
-        EventBusUtils.postAsync(new BroadcastDeletedEvent(response.id, this));
+        EventBusUtils.postAsync(new BroadcastDeletedEvent(mBroadcastId, this));
 
         stopSelf();
     }

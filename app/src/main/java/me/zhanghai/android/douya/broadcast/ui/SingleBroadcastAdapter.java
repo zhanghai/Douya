@@ -13,7 +13,7 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class SingleBroadcastAdapter
@@ -81,8 +81,8 @@ public class SingleBroadcastAdapter
                 mListener.onLike(broadcast, !broadcast.isLiked);
             }
             @Override
-            public void onRebroadcastClicked() {
-                mListener.onRebroadcast(broadcast, !broadcast.isRebroadcasted());
+            public void onRebroadcastClicked(boolean isLongClick) {
+                mListener.onRebroadcast(broadcast, isLongClick);
             }
             @Override
             public void onCommentClicked() {
@@ -104,7 +104,7 @@ public class SingleBroadcastAdapter
 
     public interface Listener {
         void onLike(Broadcast broadcast, boolean like);
-        void onRebroadcast(Broadcast broadcast, boolean rebroadcast);
+        void onRebroadcast(Broadcast broadcast, boolean quick);
         void onComment(Broadcast broadcast);
         void onViewActivity(Broadcast broadcast);
     }

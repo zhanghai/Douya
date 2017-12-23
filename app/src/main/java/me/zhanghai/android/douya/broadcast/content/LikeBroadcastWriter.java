@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
@@ -97,13 +97,12 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
                 ApiError.getErrorString(error, context)), context);
 
         boolean notified = false;
-        if (mBroadcast != null && error instanceof ApiError) {
+        if (mBroadcast != null) {
             // Correct our local state if needed.
-            ApiError apiError = (ApiError) error;
             Boolean shouldBeLiked = null;
-            if (apiError.code == Codes.LikeBroadcast.ALREADY_LIKED) {
+            if (error.code == Codes.LikeBroadcast.ALREADY_LIKED) {
                 shouldBeLiked = true;
-            } else if (apiError.code == Codes.LikeBroadcast.NOT_LIKED_YET) {
+            } else if (error.code == Codes.LikeBroadcast.NOT_LIKED_YET) {
                 shouldBeLiked = false;
             }
             if (shouldBeLiked != null) {

@@ -10,11 +10,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import java.util.Collections;
 import java.util.List;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.network.api.ApiRequest;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -99,18 +101,14 @@ public class HomeBroadcastListResource extends BroadcastListResource {
         mLoadingFromCache = true;
 
         mAccount = AccountUtils.getActiveAccount();
-        HomeBroadcastListCache.get(mAccount, mHandler, new Callback<List<Broadcast>>() {
-            @Override
-            public void onValue(List<Broadcast> broadcastList) {
-                onLoadFromCacheFinished(broadcastList);
-            }
-        }, getActivity());
+        HomeBroadcastListCache.get(mAccount, mHandler, this::onLoadFromCacheFinished,
+                getActivity());
 
         onLoadStarted();
     }
 
     @Override
-    protected ApiRequest<List<Broadcast>> onCreateRequest(boolean more, int count) {
+    protected ApiRequest<TimelineList> onCreateRequest(boolean more, int count) {
         mAccount = AccountUtils.getActiveAccount();
         return super.onCreateRequest(more, count);
     }
@@ -129,14 +127,11 @@ public class HomeBroadcastListResource extends BroadcastListResource {
         }
 
         if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mStopped) {
-                        return;
-                    }
-                    HomeBroadcastListResource.super.onLoadOnStart();
+            mHandler.post(() -> {
+                if (mStopped) {
+                    return;
                 }
+                HomeBroadcastListResource.super.onLoadOnStart();
             });
         }
     }

@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.SpannableStringBuilder;
@@ -29,8 +28,7 @@ public class TextEntity implements Parcelable {
 
     public String uri;
 
-    public static CharSequence applyEntities(String text, List<TextEntity> entityList,
-                                             Context context) {
+    public static CharSequence applyEntities(String text, List<TextEntity> entityList) {
 
         if (TextUtils.isEmpty(text) || entityList.isEmpty()) {
             return text;

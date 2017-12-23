@@ -30,11 +30,11 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.followship.content.FollowUserManager;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Diary;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItems;
 import me.zhanghai.android.douya.profile.content.ProfileResource;
 import me.zhanghai.android.douya.profile.util.ProfileUtils;
@@ -75,14 +75,14 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     RecyclerView mContentList;
 
     private String mUserIdOrUid;
-    private SimpleUser mSimpleUser;
+    private me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser mSimpleUser;
     private User mUser;
 
     private ProfileResource mResource;
 
     private ProfileAdapter mAdapter;
 
-    public static ProfileFragment newInstance(String userIdOrUid, SimpleUser simpleUser,
+    public static ProfileFragment newInstance(String userIdOrUid, me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser,
                                               User user) {
         //noinspection deprecation
         ProfileFragment fragment = new ProfileFragment();
@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     }
 
     /**
-     * @deprecated Use {@link #newInstance(String, SimpleUser, User)} instead.
+     * @deprecated Use {@link #newInstance(String, me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser, User)} instead.
      */
     public ProfileFragment() {}
 

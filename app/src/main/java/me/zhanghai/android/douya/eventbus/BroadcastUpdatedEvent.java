@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.eventbus;
 
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 
 public class BroadcastUpdatedEvent extends Event {
 

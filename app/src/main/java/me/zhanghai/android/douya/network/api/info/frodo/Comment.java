@@ -12,10 +12,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
+
 /**
  * {@code RefAtComment} in Frodo.
  */
-public class Comment implements Parcelable {
+public class Comment implements ClipboardCopyable, Parcelable {
 
     public SimpleUser author;
 
@@ -27,7 +29,7 @@ public class Comment implements Parcelable {
     @SerializedName("has_ref")
     public boolean hasReference;
 
-    public String id;
+    public long id;
 
     @SerializedName("is_voted")
     public boolean isVoted;
@@ -44,6 +46,23 @@ public class Comment implements Parcelable {
     @SerializedName("vote_count")
     public int voteCount;
 
+    public boolean isAuthorOneself() {
+        return author.isOneself();
+    }
+
+    public CharSequence getTextWithEntities() {
+        return TextEntity.applyEntities(text, entities);
+    }
+
+    @Override
+    public String getClipboardLabel() {
+        return author.name;
+    }
+
+    @Override
+    public String getClipboardText() {
+        return getTextWithEntities().toString();
+    }
 
     public static final Parcelable.Creator<Comment> CREATOR = new Parcelable.Creator<Comment>() {
         @Override
@@ -63,7 +82,7 @@ public class Comment implements Parcelable {
         createdAt = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         hasReference = in.readByte() != 0;
-        id = in.readString();
+        id = in.readLong();
         isVoted = in.readByte() != 0;
         photos = in.createTypedArrayList(SizedPhoto.CREATOR);
         referencedComment = in.readParcelable(Comment.class.getClassLoader());
@@ -83,7 +102,7 @@ public class Comment implements Parcelable {
         dest.writeString(createdAt);
         dest.writeTypedList(entities);
         dest.writeByte(hasReference ? (byte) 1 : (byte) 0);
-        dest.writeString(id);
+        dest.writeLong(id);
         dest.writeByte(isVoted ? (byte) 1 : (byte) 0);
         dest.writeTypedList(photos);
         dest.writeParcelable(referencedComment, flags);

@@ -180,7 +180,7 @@ public class UserResource extends ResourceFragment<User, User> {
             return;
         }
 
-        if (event.mUser.hasIdOrUid(mUserIdOrUid)) {
+        if (event.mUser.isIdOrUid(mUserIdOrUid)) {
             set(event.mUser);
             getListener().onUserChanged(getRequestCode(), get());
         }
@@ -194,7 +194,7 @@ public class UserResource extends ResourceFragment<User, User> {
         }
 
         // Only call listener when we have the data.
-        if (mExtraUser != null && mExtraUser.hasIdOrUid(event.userIdOrUid)) {
+        if (mExtraUser != null && mExtraUser.isIdOrUid(event.userIdOrUid)) {
             getListener().onUserWriteStarted(getRequestCode());
         }
     }
@@ -207,7 +207,7 @@ public class UserResource extends ResourceFragment<User, User> {
         }
 
         // Only call listener when we have the data.
-        if (mExtraUser != null && mExtraUser.hasIdOrUid(event.userIdOrUid)) {
+        if (mExtraUser != null && mExtraUser.isIdOrUid(event.userIdOrUid)) {
             getListener().onUserWriteFinished(getRequestCode());
         }
     }

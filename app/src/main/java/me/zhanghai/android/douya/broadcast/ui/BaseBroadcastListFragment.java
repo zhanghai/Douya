@@ -31,7 +31,7 @@ import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.network.api.ApiError;
-import me.zhanghai.android.douya.network.api.info.apiv2.Broadcast;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.ui.FastSmoothScrollStaggeredGridLayoutManager;
@@ -222,8 +222,9 @@ public abstract class BaseBroadcastListFragment extends Fragment
     }
 
     @Override
-    public void onRebroadcastBroadcast(Broadcast broadcast, boolean rebroadcast) {
-        RebroadcastBroadcastManager.getInstance().write(broadcast, rebroadcast, getActivity());
+    public void onRebroadcastBroadcast(Broadcast broadcast, boolean quick) {
+        // TODO: Rebroadcast with text
+        RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
     }
 
     @Override

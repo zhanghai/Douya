@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 
 public class DoubanUtils {
 
