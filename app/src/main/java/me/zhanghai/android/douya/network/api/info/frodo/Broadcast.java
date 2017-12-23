@@ -123,7 +123,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
     public boolean canComment() {
         // TODO: Frodo
-        return isRebroadcastAndCommentForbidden;
+        return !isRebroadcastAndCommentForbidden;
     }
 
     public static String makeTransitionName(long id) {
