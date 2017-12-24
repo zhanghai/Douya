@@ -83,146 +83,146 @@
         android:layout_marginBottom="@dimen/card_content_vertical_space"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
+    <android.support.design.internal.ForegroundLinearLayout
         android:id="@+id/rebroadcasted_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/card_content_horizontal_margin"
-        android:paddingRight="@dimen/card_content_horizontal_margin"
-        android:paddingBottom="@dimen/card_content_vertical_space"
+        android:layout_marginBottom="@dimen/card_content_vertical_space"
+        android:orientation="vertical"
         android:foreground="?selectableItemBackground">
 
-        <View
-            android:id="@+id/rebroadcasted_divider"
+        <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
+            android:id="@+id/rebroadcasted_text_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/horizontal_divider_height"
-            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_content_vertical_space"
-            android:background="?dividerHorizontal" />
+            android:paddingLeft="@dimen/card_content_horizontal_margin"
+            android:paddingRight="@dimen/card_content_horizontal_margin">
 
-        <TextView
-            android:id="@+id/rebroadcasted_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/rebroadcasted_divider"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/rebroadcasted_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/rebroadcasted_name"
-            android:layout_alignTop="@id/rebroadcasted_name"
-            android:layout_marginLeft="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
-
-        <me.zhanghai.android.douya.ui.AutoGoneTextView
-            android:id="@+id/rebroadcasted_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/rebroadcasted_name"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-    </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
-
-    <Space
-        android:id="@+id/rebroadcasted_space"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/content_vertical_space" />
-
-    <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
-        android:id="@+id/attachment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/card_content_vertical_space"
-        android:paddingLeft="@dimen/card_content_horizontal_margin"
-        android:paddingRight="@dimen/card_content_horizontal_margin"
-        android:paddingBottom="@dimen/card_content_vertical_space"
-        android:foreground="?selectableItemBackground">
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/horizontal_divider_height"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/card_content_vertical_space"
-            android:background="?dividerHorizontal" />
-
-        <ImageView
-            android:id="@+id/attachment_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/divider"
-            android:layout_marginRight="16dp"
-            android:scaleType="centerCrop" />
-
-        <TextView
-            android:id="@+id/attachment_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/attachment_image"
-            android:layout_below="@id/divider"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-        <me.zhanghai.android.douya.ui.AutoGoneTextView
-            android:id="@+id/attachment_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/attachment_title"
-            android:layout_below="@id/attachment_title"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-    </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
-
-    <me.zhanghai.android.douya.ui.ImageLayout
-        android:id="@+id/single_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/card_content_vertical_space"
-        android:foreground="?selectableItemBackground"
-        android:theme="?darkTheme"
-        app:fillOrientation="horizontal" />
-
-    <FrameLayout
-        android:id="@+id/image_list_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/card_content_vertical_space"
-        android:theme="?darkTheme">
-
-        <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
-            android:id="@+id/image_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ratio="6:5" />
-
-        <FrameLayout
-            android:id="@+id/image_list_description_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/scrim_height"
-            android:layout_gravity="bottom">
+            <View
+                android:id="@+id/rebroadcasted_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/horizontal_divider_height"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="@dimen/card_content_vertical_space"
+                android:background="?dividerHorizontal" />
 
             <TextView
-                android:id="@+id/image_list_description"
+                android:id="@+id/rebroadcasted_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-                android:layout_marginRight="@dimen/card_content_horizontal_margin"
-                android:layout_marginTop="@dimen/card_content_vertical_margin"
-                android:layout_marginBottom="@dimen/card_content_vertical_margin"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/rebroadcasted_divider"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rebroadcasted_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/rebroadcasted_name"
+                android:layout_alignTop="@id/rebroadcasted_name"
+                android:layout_marginLeft="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
+
+            <me.zhanghai.android.douya.ui.AutoGoneTextView
+                android:id="@+id/rebroadcasted_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/rebroadcasted_name"
+                android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
+
+        <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
+            android:id="@+id/attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/card_content_horizontal_margin"
+            android:paddingRight="@dimen/card_content_horizontal_margin"
+            android:paddingBottom="@dimen/card_content_vertical_space"
+            android:foreground="?selectableItemBackground">
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/horizontal_divider_height"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="@dimen/card_content_vertical_space"
+                android:background="?dividerHorizontal" />
+
+            <ImageView
+                android:id="@+id/attachment_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/divider"
+                android:layout_marginRight="16dp"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/attachment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/attachment_image"
+                android:layout_below="@id/divider"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <me.zhanghai.android.douya.ui.AutoGoneTextView
+                android:id="@+id/attachment_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/attachment_title"
+                android:layout_below="@id/attachment_title"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
+
+        <me.zhanghai.android.douya.ui.ImageLayout
+            android:id="@+id/single_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?selectableItemBackground"
+            android:theme="?darkTheme"
+            app:fillOrientation="horizontal" />
+
+        <FrameLayout
+            android:id="@+id/image_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="?darkTheme">
+
+            <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
+                android:id="@+id/image_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ratio="6:5" />
+
+            <FrameLayout
+                android:id="@+id/image_list_description_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/scrim_height"
+                android:layout_gravity="bottom">
+
+                <TextView
+                    android:id="@+id/image_list_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+                    android:layout_marginRight="@dimen/card_content_horizontal_margin"
+                    android:layout_marginTop="@dimen/card_content_vertical_margin"
+                    android:layout_marginBottom="@dimen/card_content_vertical_margin"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </FrameLayout>
         </FrameLayout>
-    </FrameLayout>
+    </android.support.design.internal.ForegroundLinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

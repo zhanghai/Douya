@@ -65,14 +65,14 @@ public class BroadcastLayout extends LinearLayout {
     TextView mTextText;
     @BindView(R.id.rebroadcasted_layout)
     ViewGroup mRebroadcastedLayout;
+    @BindView(R.id.rebroadcasted_text_layout)
+    ViewGroup mRebroadcastedTextLayout;
     @BindView(R.id.rebroadcasted_name)
     TextView mRebroadcastedNameText;
     @BindView(R.id.rebroadcasted_action)
     TextView mRebroadcastedActionText;
     @BindView(R.id.rebroadcasted_text)
     TextView mRebroadcastedTextText;
-    @BindView(R.id.rebroadcasted_space)
-    Space mRebroadcastedSpace;
     @BindView(R.id.attachment)
     RelativeLayout mAttachmentLayout;
     @BindView(R.id.attachment_image)
@@ -201,7 +201,7 @@ public class BroadcastLayout extends LinearLayout {
             mTextText.setText(broadcast.getTextWithEntities());
 
             boolean hasRebroadcastedBroadcast = broadcast.rebroadcastedBroadcast != null;
-            ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
+            ViewUtils.setVisibleOrGone(mRebroadcastedTextLayout, hasRebroadcastedBroadcast);
             if (hasRebroadcastedBroadcast) {
                 Broadcast rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
                 mRebroadcastedLayout.setOnClickListener(view -> context.startActivity(
@@ -209,6 +209,8 @@ public class BroadcastLayout extends LinearLayout {
                 mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
                 mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
                 mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities());
+            } else {
+                mRebroadcastedLayout.setOnClickListener(null);
             }
 
             Broadcast contentBroadcast = hasRebroadcastedBroadcast ?
@@ -260,9 +262,8 @@ public class BroadcastLayout extends LinearLayout {
                 mImageListLayout.setVisibility(GONE);
             }
 
-            boolean rebroadcastedSpaceVisible = hasRebroadcastedBroadcast && attachment == null
-                    && images.isEmpty();
-            ViewUtils.setVisibleOrGone(mRebroadcastedSpace, rebroadcastedSpaceVisible);
+            ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast
+                    || attachment != null || !images.isEmpty());
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());
