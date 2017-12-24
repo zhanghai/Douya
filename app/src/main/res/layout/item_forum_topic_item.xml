@@ -65,13 +65,21 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
-        <me.zhanghai.android.douya.ui.TimeActionTextView
+        <me.zhanghai.android.douya.ui.TimeTextView
             android:id="@+id/updated_at"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/item_forum_topic_update"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
     </LinearLayout>
 </LinearLayout>

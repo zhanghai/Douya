@@ -24,7 +24,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.ui.FriendlyCardView;
 import me.zhanghai.android.douya.ui.SizedImageItem;
-import me.zhanghai.android.douya.ui.TimeActionTextView;
+import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -124,7 +124,8 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                     text = broadcast.attachment.title;
                 }
                 holder.textText.setText(text);
-                holder.timeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
+                holder.timeText.setDoubanTime(broadcast.createdAt);
+                holder.actionText.setText(broadcast.action);
                 broadcastLayout.setOnClickListener(view -> context.startActivity(
                         BroadcastActivity.makeIntent(broadcast, context)));
                 holder.boundBroadcastId = broadcast.id;
@@ -154,8 +155,11 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         public ImageView image;
         @BindView(R.id.text)
         public TextView textText;
-        @BindView(R.id.time_action)
-        public TimeActionTextView timeActionText;
+        @BindView(R.id.time)
+        public TimeTextView timeText;
+        @BindView(R.id.action)
+        public TextView actionText;
+
         public long boundBroadcastId;
 
         public BroadcastLayoutHolder(View broadcastLayout) {

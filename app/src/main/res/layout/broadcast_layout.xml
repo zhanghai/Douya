@@ -38,13 +38,36 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textStyle="bold" />
 
-        <me.zhanghai.android.douya.ui.TimeActionTextView
-            android:id="@+id/time_action"
+        <me.zhanghai.android.douya.ui.TimeTextView
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/name"
             android:layout_alignBottom="@id/avatar"
             android:layout_marginBottom="@dimen/avatar_padding"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
+
+        <TextView
+            android:id="@+id/space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/time"
+            android:layout_alignTop="@id/time"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/space"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
+
+        <TextView
+            android:id="@+id/action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/space"
+            android:layout_alignTop="@id/time"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"

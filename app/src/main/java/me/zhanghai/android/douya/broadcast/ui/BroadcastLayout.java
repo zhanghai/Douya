@@ -38,7 +38,7 @@ import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
 import me.zhanghai.android.douya.ui.SizedImageItem;
-import me.zhanghai.android.douya.ui.TimeActionTextView;
+import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -56,8 +56,10 @@ public class BroadcastLayout extends LinearLayout {
     ImageView mAvatarImage;
     @BindView(R.id.name)
     TextView mNameText;
-    @BindView(R.id.time_action)
-    TimeActionTextView mTimeActionText;
+    @BindView(R.id.time)
+    TimeTextView mTimeText;
+    @BindView(R.id.action)
+    TextView mActionText;
     @BindView(R.id.text_space)
     Space mTextSpace;
     @BindView(R.id.text)
@@ -182,7 +184,8 @@ public class BroadcastLayout extends LinearLayout {
 //        }
         //mNameText.setText(broadcast.getAuthorName());
         mNameText.setText(broadcast.author.name);
-        mTimeActionText.setDoubanTimeAndAction(broadcast.createdAt, broadcast.action);
+        mTimeText.setDoubanTime(broadcast.createdAt);
+        mActionText.setText(broadcast.action);
 
         boolean isRebind = mBoundBroadcastId != null && mBoundBroadcastId == broadcast.id;
         // HACK: Attachment and text should not change on rebind.

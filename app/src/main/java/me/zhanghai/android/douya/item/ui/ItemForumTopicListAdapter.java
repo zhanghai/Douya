@@ -17,7 +17,7 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
-import me.zhanghai.android.douya.ui.TimeActionTextView;
+import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -35,10 +35,7 @@ public class ItemForumTopicListAdapter
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.item_forum_topic_item,
-                parent));
-        holder.updatedAtText.setCompact(true);
-        return holder;
+        return new ViewHolder(ViewUtils.inflate(R.layout.item_forum_topic_item, parent));
     }
 
     @Override
@@ -51,8 +48,7 @@ public class ItemForumTopicListAdapter
                 R.string.item_forum_topic_like_count_format, itemForumTopic.likeCount));
         holder.commentCountText.setText(holder.commentCountText.getContext().getString(
                 R.string.item_forum_topic_comment_count_format, itemForumTopic.commentCount));
-        holder.updatedAtText.setDoubanTimeAndAction(itemForumTopic.updatedAt,
-                R.string.item_forum_topic_update);
+        holder.updatedAtText.setDoubanTime(itemForumTopic.updatedAt);
         holder.itemView.setOnClickListener(view -> {
             // TODO
             UriHandler.open(itemForumTopic.url, view.getContext());
@@ -72,7 +68,7 @@ public class ItemForumTopicListAdapter
         @BindView(R.id.comment_count)
         public TextView commentCountText;
         @BindView(R.id.updated_at)
-        public TimeActionTextView updatedAtText;
+        public TimeTextView updatedAtText;
 
         public ViewHolder(View itemView) {
             super(itemView);
