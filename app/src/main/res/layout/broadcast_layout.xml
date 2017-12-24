@@ -84,7 +84,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <android.support.design.internal.ForegroundLinearLayout
-        android:id="@+id/rebroadcasted_layout"
+        android:id="@+id/rebroadcasted_attachment_images_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/card_content_vertical_space"
@@ -92,7 +92,7 @@
         android:foreground="?selectableItemBackground">
 
         <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
-            android:id="@+id/rebroadcasted_text_layout"
+            android:id="@+id/rebroadcasted_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_content_vertical_space"

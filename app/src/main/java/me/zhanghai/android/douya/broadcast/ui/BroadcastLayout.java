@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Space;
 import android.widget.TextView;
 
 import java.util.List;
@@ -63,10 +62,10 @@ public class BroadcastLayout extends LinearLayout {
     TextView mActionText;
     @BindView(R.id.text)
     TextView mTextText;
+    @BindView(R.id.rebroadcasted_attachment_images_layout)
+    ViewGroup mRebroadcastedAttachmentImagesLayout;
     @BindView(R.id.rebroadcasted_layout)
     ViewGroup mRebroadcastedLayout;
-    @BindView(R.id.rebroadcasted_text_layout)
-    ViewGroup mRebroadcastedTextLayout;
     @BindView(R.id.rebroadcasted_name)
     TextView mRebroadcastedNameText;
     @BindView(R.id.rebroadcasted_action)
@@ -201,16 +200,17 @@ public class BroadcastLayout extends LinearLayout {
             mTextText.setText(broadcast.getTextWithEntities());
 
             boolean hasRebroadcastedBroadcast = broadcast.rebroadcastedBroadcast != null;
-            ViewUtils.setVisibleOrGone(mRebroadcastedTextLayout, hasRebroadcastedBroadcast);
+            ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
             if (hasRebroadcastedBroadcast) {
                 Broadcast rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
-                mRebroadcastedLayout.setOnClickListener(view -> context.startActivity(
-                        BroadcastActivity.makeIntent(rebroadcastedBroadcast, context)));
+                mRebroadcastedAttachmentImagesLayout.setOnClickListener(view ->
+                        context.startActivity(BroadcastActivity.makeIntent(rebroadcastedBroadcast,
+                                context)));
                 mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
                 mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
                 mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities());
             } else {
-                mRebroadcastedLayout.setOnClickListener(null);
+                mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
             }
 
             Broadcast contentBroadcast = hasRebroadcastedBroadcast ?
@@ -262,8 +262,8 @@ public class BroadcastLayout extends LinearLayout {
                 mImageListLayout.setVisibility(GONE);
             }
 
-            ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast
-                    || attachment != null || !images.isEmpty());
+            ViewUtils.setVisibleOrGone(mRebroadcastedAttachmentImagesLayout,
+                    hasRebroadcastedBroadcast || attachment != null || !images.isEmpty());
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());
