@@ -51,10 +51,8 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         Broadcast originalBroadcast = getItem(position);
         boolean isSimpleRebroadcast = originalBroadcast.rebroadcastedBroadcast != null
                 && TextUtils.isEmpty(originalBroadcast.text);
-        if (isSimpleRebroadcast) {
-            holder.rebroadcastedByText.setText(originalBroadcast.getRebroadcastedBy(
-                    RecyclerViewUtils.getContext(holder)));
-        }
+        holder.rebroadcastedByText.setText(isSimpleRebroadcast ?
+                originalBroadcast.getRebroadcastedBy(RecyclerViewUtils.getContext(holder)) : null);
         Broadcast broadcast = isSimpleRebroadcast ? originalBroadcast.rebroadcastedBroadcast
                 : originalBroadcast;
         holder.cardView.setOnClickListener(view -> mListener.onOpenBroadcast(broadcast,
