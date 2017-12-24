@@ -42,7 +42,6 @@ import me.zhanghai.android.douya.ui.TimeActionTextView;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
-import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
@@ -166,9 +165,9 @@ public class BroadcastLayout extends LinearLayout {
         mListener = listener;
     }
 
-    public void bindBroadcast(final Broadcast broadcast) {
+    public void bindBroadcast(Broadcast broadcast) {
 
-        final Context context = getContext();
+        Context context = getContext();
 
 //        if (broadcast.isInterest) {
 //            mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
