@@ -50,7 +50,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Broadcast originalBroadcast = getItem(position);
         boolean isSimpleRebroadcast = originalBroadcast.rebroadcastedBroadcast != null
-                && TextUtils.isEmpty(originalBroadcast.rebroadcastedBroadcast.text);
+                && TextUtils.isEmpty(originalBroadcast.text);
         if (isSimpleRebroadcast) {
             holder.rebroadcastedByText.setText(originalBroadcast.getRebroadcastedBy(
                     RecyclerViewUtils.getContext(holder)));

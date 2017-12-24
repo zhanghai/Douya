@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,6 +63,16 @@ public class BroadcastLayout extends LinearLayout {
     TextView mActionText;
     @BindView(R.id.text)
     TextView mTextText;
+    @BindView(R.id.rebroadcasted_layout)
+    ViewGroup mRebroadcastedLayout;
+    @BindView(R.id.rebroadcasted_name)
+    TextView mRebroadcastedNameText;
+    @BindView(R.id.rebroadcasted_action)
+    TextView mRebroadcastedActionText;
+    @BindView(R.id.rebroadcasted_text)
+    TextView mRebroadcastedTextText;
+    @BindView(R.id.rebroadcasted_space)
+    Space mRebroadcastedSpace;
     @BindView(R.id.attachment)
     RelativeLayout mAttachmentLayout;
     @BindView(R.id.attachment_image)
@@ -152,6 +163,7 @@ public class BroadcastLayout extends LinearLayout {
         });
 
         ViewUtils.setTextViewLinkClickable(mTextText);
+        ViewUtils.setTextViewLinkClickable(mRebroadcastedTextText);
 
         CheatSheetUtils.setup(mLikeButton);
         CheatSheetUtils.setup(mCommentButton);
@@ -188,7 +200,21 @@ public class BroadcastLayout extends LinearLayout {
 
             mTextText.setText(broadcast.getTextWithEntities());
 
-            BroadcastAttachment attachment = broadcast.attachment;
+            boolean hasRebroadcastedBroadcast = broadcast.rebroadcastedBroadcast != null;
+            ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
+            if (hasRebroadcastedBroadcast) {
+                Broadcast rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
+                mRebroadcastedLayout.setOnClickListener(view -> context.startActivity(
+                        BroadcastActivity.makeIntent(rebroadcastedBroadcast, context)));
+                mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
+                mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
+                mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities());
+            }
+
+            Broadcast contentBroadcast = hasRebroadcastedBroadcast ?
+                    broadcast.rebroadcastedBroadcast : broadcast;
+
+            BroadcastAttachment attachment = contentBroadcast.attachment;
             if (attachment != null) {
                 mAttachmentLayout.setVisibility(VISIBLE);
                 mAttachmentTitleText.setText(attachment.title);
@@ -210,9 +236,9 @@ public class BroadcastLayout extends LinearLayout {
                 mAttachmentLayout.setVisibility(GONE);
             }
 
-            List<? extends SizedImageItem> images = broadcast.attachment != null
-                    && broadcast.attachment.imageBlock != null ?
-                    broadcast.attachment.imageBlock.images : broadcast.images;
+            List<? extends SizedImageItem> images = contentBroadcast.attachment != null
+                    && contentBroadcast.attachment.imageBlock != null ?
+                    contentBroadcast.attachment.imageBlock.images : contentBroadcast.images;
             int numImages = images.size();
             if (numImages == 1) {
                 SizedImageItem image = images.get(0);
@@ -233,6 +259,10 @@ public class BroadcastLayout extends LinearLayout {
             } else {
                 mImageListLayout.setVisibility(GONE);
             }
+
+            boolean rebroadcastedSpaceVisible = hasRebroadcastedBroadcast && attachment == null
+                    && images.isEmpty();
+            ViewUtils.setVisibleOrGone(mRebroadcastedSpace, rebroadcastedSpaceVisible);
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());
