@@ -87,13 +87,13 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
     public String uri;
 
-    public boolean isAuthorOneself() {
-        return author != null && author.isOneself();
+    public String getRebroadcastedBy(Context context) {
+        return context.getString(
+                R.string.broadcast_rebroadcasted_by_format, author.name);
     }
 
-    public String getRebroadcastedBy(Context context) {
-        return rebroadcastedBroadcast != null ? context.getString(
-                R.string.broadcast_rebroadcasted_by_format, author.name) : null;
+    public boolean isAuthorOneself() {
+        return author != null && author.isOneself();
     }
 
     public CharSequence getTextWithEntities() {

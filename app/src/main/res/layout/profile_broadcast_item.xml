@@ -49,7 +49,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
     <TextView
-        android:id="@+id/space"
+        android:id="@+id/time_action_space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/time"
@@ -64,8 +64,8 @@
         android:id="@+id/action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/space"
-        android:layout_alignTop="@id/space"
+        android:layout_toRightOf="@id/time_action_space"
+        android:layout_alignTop="@id/time_action_space"
         android:ellipsize="end"
         android:gravity="bottom"
         android:maxLines="1"

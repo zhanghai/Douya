@@ -104,7 +104,7 @@ public class SingleBroadcastAdapter
 
     public interface Listener {
         void onLike(Broadcast broadcast, boolean like);
-        void onRebroadcast(Broadcast broadcast, boolean quick);
+        void onRebroadcast(Broadcast broadcast, boolean simple);
         void onComment(Broadcast broadcast);
         void onViewActivity(Broadcast broadcast);
     }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -48,10 +49,14 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Broadcast originalBroadcast = getItem(position);
-        holder.rebroadcastedByText.setText(originalBroadcast.getRebroadcastedBy(
-                RecyclerViewUtils.getContext(holder)));
-        Broadcast broadcast = originalBroadcast.rebroadcastedBroadcast != null ?
-                originalBroadcast.rebroadcastedBroadcast : originalBroadcast;
+        boolean isSimpleRebroadcast = originalBroadcast.rebroadcastedBroadcast != null
+                && TextUtils.isEmpty(originalBroadcast.rebroadcastedBroadcast.text);
+        if (isSimpleRebroadcast) {
+            holder.rebroadcastedByText.setText(originalBroadcast.getRebroadcastedBy(
+                    RecyclerViewUtils.getContext(holder)));
+        }
+        Broadcast broadcast = isSimpleRebroadcast ? originalBroadcast.rebroadcastedBroadcast
+                : originalBroadcast;
         holder.cardView.setOnClickListener(view -> mListener.onOpenBroadcast(broadcast,
                 getSharedView(holder)));
         holder.broadcastLayout.bindBroadcast(broadcast);
@@ -88,7 +93,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     public interface Listener {
         void onLikeBroadcast(Broadcast broadcast, boolean like);
-        void onRebroadcastBroadcast(Broadcast broadcast, boolean quick);
+        void onRebroadcastBroadcast(Broadcast broadcast, boolean simple);
         void onCommentBroadcast(Broadcast broadcast, View sharedView);
         void onOpenBroadcast(Broadcast broadcast, View sharedView);
     }

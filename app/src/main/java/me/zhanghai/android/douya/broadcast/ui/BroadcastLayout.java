@@ -60,8 +60,6 @@ public class BroadcastLayout extends LinearLayout {
     TimeTextView mTimeText;
     @BindView(R.id.action)
     TextView mActionText;
-    @BindView(R.id.text_space)
-    Space mTextSpace;
     @BindView(R.id.text)
     TextView mTextText;
     @BindView(R.id.attachment)
@@ -136,9 +134,7 @@ public class BroadcastLayout extends LinearLayout {
         mImageListAdapter = new HorizontalImageAdapter();
         mImageList.setAdapter(mImageListAdapter);
         mImageList.addOnScrollListener(new OnHorizontalScrollListener() {
-
             private boolean mShowingDescription = true;
-
             @Override
             public void onScrolledLeft() {
                 if (!mShowingDescription) {
@@ -146,7 +142,6 @@ public class BroadcastLayout extends LinearLayout {
                     ViewUtils.fadeIn(mImageListDescriptionLayout);
                 }
             }
-
             @Override
             public void onScrolledRight() {
                 if (mShowingDescription) {
@@ -177,10 +172,10 @@ public class BroadcastLayout extends LinearLayout {
 //            mAvatarImage.setOnClickListener(view -> UriHandler.open(DoubanUtils.getInterestTypeUrl(
 //                    broadcast.interestType), context));
 //        } else {
-            ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar);
-            mAvatarImage.setOnClickListener(view -> context.startActivity(
-                    // TODO: ProfileActivity.makeIntent(broadcast.author, context)));
-                    ProfileActivity.makeIntent(broadcast.author.getIdOrUid(), context)));
+        ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar);
+        mAvatarImage.setOnClickListener(view -> context.startActivity(
+                // TODO: ProfileActivity.makeIntent(broadcast.author, context)));
+                ProfileActivity.makeIntent(broadcast.author.getIdOrUid(), context)));
 //        }
         //mNameText.setText(broadcast.getAuthorName());
         mNameText.setText(broadcast.author.name);
@@ -238,10 +233,6 @@ public class BroadcastLayout extends LinearLayout {
             } else {
                 mImageListLayout.setVisibility(GONE);
             }
-
-            boolean textSpaceVisible = (attachment != null || numImages > 0)
-                    && !TextUtils.isEmpty(broadcast.text);
-            ViewUtils.setVisibleOrGone(mTextSpace, textSpaceVisible);
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());

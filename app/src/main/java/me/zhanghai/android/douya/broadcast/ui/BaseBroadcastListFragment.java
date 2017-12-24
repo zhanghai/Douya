@@ -222,7 +222,7 @@ public abstract class BaseBroadcastListFragment extends Fragment
     }
 
     @Override
-    public void onRebroadcastBroadcast(Broadcast broadcast, boolean quick) {
+    public void onRebroadcastBroadcast(Broadcast broadcast, boolean simple) {
         // TODO: Rebroadcast with text
         RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
     }

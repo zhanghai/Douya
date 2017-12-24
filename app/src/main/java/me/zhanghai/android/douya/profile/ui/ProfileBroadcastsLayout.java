@@ -64,20 +64,16 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         ButterKnife.bind(this);
     }
 
-    public void bind(final User user, List<Broadcast> broadcastList) {
+    public void bind(User user, List<Broadcast> broadcastList) {
 
-        final Context context = getContext();
-        View.OnClickListener viewMoreListener = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(BroadcastListActivity.makeIntent(user, context));
-            }
-        };
+        Context context = getContext();
+        View.OnClickListener viewMoreListener = view -> context.startActivity(
+                BroadcastListActivity.makeIntent(user, context));
         mTitleText.setOnClickListener(viewMoreListener);
         mViewMoreText.setOnClickListener(viewMoreListener);
 
         int i = 0;
-        for (final Broadcast broadcast : broadcastList) {
+        for (Broadcast broadcast : broadcastList) {
 
             if (i >= BROADCAST_COUNT_MAX) {
                 break;

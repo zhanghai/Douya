@@ -51,7 +51,7 @@
             android:textColor="?android:textColorSecondary" />
 
         <TextView
-            android:id="@+id/space"
+            android:id="@+id/time_action_space"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/time"
@@ -66,8 +66,8 @@
             android:id="@+id/action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/space"
-            android:layout_alignTop="@id/time"
+            android:layout_toRightOf="@id/time_action_space"
+            android:layout_alignTop="@id/time_action_space"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -80,17 +80,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_content_horizontal_margin"
         android:layout_marginRight="@dimen/card_content_horizontal_margin"
+        android:layout_marginBottom="@dimen/card_content_vertical_space"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <Space
-        android:id="@+id/text_space"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/card_content_vertical_space" />
 
     <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
         android:id="@+id/attachment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_content_vertical_space"
         android:paddingLeft="@dimen/card_content_horizontal_margin"
         android:paddingRight="@dimen/card_content_horizontal_margin"
         android:paddingBottom="@dimen/card_content_vertical_space"
@@ -137,6 +134,7 @@
         android:id="@+id/single_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_content_vertical_space"
         android:foreground="?selectableItemBackground"
         android:theme="?darkTheme"
         app:fillOrientation="horizontal" />
@@ -145,6 +143,7 @@
         android:id="@+id/image_list_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_content_vertical_space"
         android:theme="?darkTheme">
 
         <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
@@ -177,7 +176,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_content_vertical_space"
         android:layout_marginBottom="@dimen/card_content_vertical_margin_small"
         android:paddingLeft="@dimen/card_content_horizontal_margin"
         android:paddingRight="@dimen/card_content_horizontal_margin"
