@@ -215,13 +215,16 @@ public class BroadcastLayout extends LinearLayout {
 
             Broadcast contentBroadcast = hasRebroadcastedBroadcast ?
                     broadcast.rebroadcastedBroadcast : broadcast;
-
             BroadcastAttachment attachment = contentBroadcast.attachment;
+            List<? extends SizedImageItem> images = contentBroadcast.attachment != null
+                    && contentBroadcast.attachment.imageBlock != null ?
+                    contentBroadcast.attachment.imageBlock.images : contentBroadcast.images;
+
             if (attachment != null) {
                 mAttachmentLayout.setVisibility(VISIBLE);
                 mAttachmentTitleText.setText(attachment.title);
                 mAttachmentDescriptionText.setText(attachment.text);
-                if (attachment.image != null) {
+                if (attachment.image != null && images.isEmpty()) {
                     mAttachmentImage.setVisibility(VISIBLE);
                     ImageUtils.loadImage(mAttachmentImage, attachment.image);
                 } else {
@@ -238,9 +241,6 @@ public class BroadcastLayout extends LinearLayout {
                 mAttachmentLayout.setVisibility(GONE);
             }
 
-            List<? extends SizedImageItem> images = contentBroadcast.attachment != null
-                    && contentBroadcast.attachment.imageBlock != null ?
-                    contentBroadcast.attachment.imageBlock.images : contentBroadcast.images;
             int numImages = images.size();
             if (numImages == 1) {
                 SizedImageItem image = images.get(0);
