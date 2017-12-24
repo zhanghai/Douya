@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -42,7 +43,7 @@ public class TintDrawablesTextView extends AppCompatTextView {
         init(attrs, defStyleAttr, 0);
     }
 
-    @SuppressWarnings("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         Context context = getContext();

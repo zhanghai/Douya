@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -53,7 +54,7 @@ public class CardIconButton extends LinearLayout {
         init(attrs, defStyleAttr, defStyleRes);
     }
 
-    @SuppressWarnings("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         setClickable(true);

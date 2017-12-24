@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -51,7 +52,7 @@ public class ForegroundHelper {
         mDelegate = delegate;
     }
 
-    @SuppressWarnings("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         // @see View#View(android.content.Context, android.util.AttributeSet, int, int)

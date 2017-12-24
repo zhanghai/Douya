@@ -42,7 +42,7 @@
                     android:textColor="?android:textColorSecondary"
                     android:textSize="24dp"
                     app:backgroundTint="?colorAccent"
-                    tools:ignore="SpUsage" />
+                    tools:ignore="MissingPrefix,SpUsage" />
 
                 <TextView
                     android:id="@+id/top_250_badge"
@@ -60,7 +60,7 @@
                     android:textSize="9dp"
                     android:theme="?darkTheme"
                     app:backgroundTint="?colorAccent"
-                    tools:ignore="SpUsage" />
+                    tools:ignore="MissingPrefix,SpUsage" />
             </FrameLayout>
 
             <TextView
@@ -185,7 +185,8 @@
                 android:layout_height="@dimen/item_badge_size"
                 android:padding="@dimen/item_badge_padding"
                 android:background="@drawable/item_badge_circle_filled_white"
-                app:backgroundTint="?colorAccent" />
+                app:backgroundTint="?colorAccent"
+                tools:ignore="MissingPrefix" />
 
             <TextView
                 android:id="@+id/genre_text"
@@ -210,7 +211,8 @@
                 android:padding="@dimen/item_badge_padding"
                 android:background="@drawable/item_badge_circle_filled_white"
                 android:src="@drawable/similar_items_badge_white_40dp"
-                app:backgroundTint="?colorAccent" />
+                app:backgroundTint="?colorAccent"
+                tools:ignore="MissingPrefix" />
 
             <TextView
                 android:layout_width="wrap_content"

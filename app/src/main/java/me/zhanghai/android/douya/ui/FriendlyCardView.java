@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.TintTypedArray;
@@ -35,7 +36,7 @@ public class FriendlyCardView extends CardView {
         init(attrs, defStyleAttr);
     }
 
-    @SuppressWarnings("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr) {
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,

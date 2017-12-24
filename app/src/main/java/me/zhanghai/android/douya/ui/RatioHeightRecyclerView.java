@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +39,7 @@ public class RatioHeightRecyclerView extends RecyclerView {
         init(attrs, defStyle);
     }
 
-    @SuppressWarnings("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     private void init(AttributeSet attrs, int defStyle) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                 R.styleable.RatioHeightRecyclerView, defStyle, 0);

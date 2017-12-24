@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -47,9 +48,10 @@ public class PercentageWidthView extends View {
         init(attrs, defStyleAttr, defStyleRes);
     }
 
+    @SuppressLint("RestrictedApi")
     private void init(@Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
-                STYLEABLE, defStyleAttr, defStyleRes);
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs, STYLEABLE,
+                defStyleAttr, defStyleRes);
         mMaxWidth = a.getDimensionPixelSize(STYLEABLE_ANDROID_MAX_WIDTH, mMaxWidth);
         a.recycle();
     }

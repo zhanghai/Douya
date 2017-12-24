@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -54,7 +55,7 @@ public class InsetBackgroundFrameLayout extends FrameLayout {
         init(attrs, defStyleAttr, defStyleRes);
     }
 
-    @SuppressWarnings("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,

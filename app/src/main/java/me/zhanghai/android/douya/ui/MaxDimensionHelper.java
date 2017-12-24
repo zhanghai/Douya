@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
@@ -28,7 +29,7 @@ public class MaxDimensionHelper {
         mDelegate = delegate;
     }
 
-    @SuppressWarnings("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs, STYLEABLE,
                 defStyleAttr, defStyleRes);
