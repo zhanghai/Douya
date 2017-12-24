@@ -20,8 +20,8 @@
 
     <string name="pref_key_recent_two_account_name">key_recent_two_account_name</string>
 
-    <string name="pref_key_show_title_for_link_entity">key_show_title_for_link_entity</string>
-    <bool name="pref_default_value_show_title_for_link_entity">true</bool>
+    <string name="pref_key_show_long_url_for_link_entity">key_show_long_url_for_link_entity</string>
+    <bool name="pref_default_value_show_long_url_for_link_entity">true</bool>
 
     <string name="pref_key_night_mode">key_night_mode</string>
     <string-array name="pref_entry_values_night_mode">

@@ -48,22 +48,22 @@ public class TextEntity implements Parcelable {
             }
             int entityStart = text.offsetByCodePoints(lastTextIndex, entity.start - lastTextIndex);
             int entityEnd = text.offsetByCodePoints(entityStart, entity.end - entity.start);
-            builder.append(text.subSequence(lastTextIndex, entityStart));
-            CharSequence entityTitle = entity.title;
-            if (!Settings.SHOW_TITLE_FOR_LINK_ENTITY.getValue()
-                    && Patterns.WEB_URL.matcher(entityTitle).matches()) {
-                entityTitle = text.subSequence(entityStart, entityEnd);
+            builder.append(text.substring(lastTextIndex, entityStart));
+            String entityText = entity.title;
+            if (Settings.SHOW_LONG_URL_FOR_LINK_ENTITY.getValue()
+                    && Patterns.WEB_URL.matcher(entityText).matches()) {
+                entityText = entity.uri;
             }
             int entityStartInAppliedText = builder.length();
             builder
-                    .append(entityTitle)
+                    .append(entityText)
                     .setSpan(new UriSpan(entity.uri), entityStartInAppliedText,
-                            entityStartInAppliedText + entityTitle.length(),
+                            entityStartInAppliedText + entityText.length(),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             lastTextIndex = entityEnd;
         }
         if (lastTextIndex != text.length()) {
-            builder.append(text.subSequence(lastTextIndex, text.length()));
+            builder.append(text.substring(lastTextIndex, text.length()));
         }
         return builder;
     }

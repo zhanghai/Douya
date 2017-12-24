@@ -33,9 +33,9 @@ public interface Settings {
     StringSettingsEntry RECENT_TWO_ACCOUNT_NAME = new StringSettingsEntry(
             R.string.pref_key_recent_two_account_name, R.string.pref_default_value_empty_string);
 
-    BooleanSettingsEntry SHOW_TITLE_FOR_LINK_ENTITY = new BooleanSettingsEntry(
-            R.string.pref_key_show_title_for_link_entity,
-            R.bool.pref_default_value_show_title_for_link_entity);
+    BooleanSettingsEntry SHOW_LONG_URL_FOR_LINK_ENTITY = new BooleanSettingsEntry(
+            R.string.pref_key_show_long_url_for_link_entity,
+            R.bool.pref_default_value_show_long_url_for_link_entity);
 
     enum NightMode {
 

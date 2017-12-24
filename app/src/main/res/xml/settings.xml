@@ -10,10 +10,10 @@
     <PreferenceCategory android:title="@string/settings_appearance_title">
 
         <SwitchPreferenceCompat
-            android:key="@string/pref_key_show_title_for_link_entity"
-            android:title="@string/settings_show_title_for_link_entity_title"
-            android:defaultValue="@bool/pref_default_value_show_title_for_link_entity"
-            android:summary="@string/settings_show_title_for_link_entity_summary" />
+            android:key="@string/pref_key_show_long_url_for_link_entity"
+            android:title="@string/settings_show_long_url_for_link_entity_title"
+            android:defaultValue="@bool/pref_default_value_show_long_url_for_link_entity"
+            android:summary="@string/settings_show_long_url_for_link_entity_summary" />
 
         <me.zhanghai.android.douya.ui.DropDownPreference
             android:key="@string/pref_key_night_mode"
