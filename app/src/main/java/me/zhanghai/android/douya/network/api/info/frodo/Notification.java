@@ -8,7 +8,13 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
+
+import me.zhanghai.android.douya.util.GsonHelper;
 
 public class Notification implements Parcelable {
 
@@ -37,9 +43,21 @@ public class Notification implements Parcelable {
         }
     }
 
-    public void fix() {
+    private void fix() {
         fixText();
         fixTime();
+    }
+
+
+    public static class Deserializer implements JsonDeserializer<Notification> {
+
+        @Override
+        public Notification deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
+                                     JsonDeserializationContext context) throws JsonParseException {
+            Notification notification = GsonHelper.GSON.fromJson(json, typeOfT);
+            notification.fix();
+            return notification;
+        }
     }
 
 

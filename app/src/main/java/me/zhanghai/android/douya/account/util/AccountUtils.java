@@ -19,7 +19,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
@@ -60,17 +59,17 @@ public class AccountUtils {
 
     public static AccountManagerFuture<Bundle> updatePassword(Activity activity, Account account,
                                    AccountManagerCallback<Bundle> callback, Handler handler) {
-        return getAccountManager().updateCredentials(account, AccountContract.AUTH_TOKEN_TYPE_FRODO, null,
-                activity, callback, handler);
+        return getAccountManager().updateCredentials(account, AccountContract.AUTH_TOKEN_TYPE_FRODO,
+                null, activity, callback, handler);
     }
 
     public static AccountManagerFuture<Bundle> updatePassword(Activity activity, Account account) {
         return updatePassword(activity, account, null, null);
     }
 
-    public static AccountManagerFuture<Bundle> confirmPassword(Activity activity, Account account,
-                                                               AccountManagerCallback<Bundle> callback,
-                                                               Handler handler) {
+    public static AccountManagerFuture<Bundle> confirmPassword(
+            Activity activity, Account account, AccountManagerCallback<Bundle> callback,
+            Handler handler) {
         return getAccountManager().confirmCredentials(account, null, activity, callback, handler);
     }
 
@@ -80,39 +79,36 @@ public class AccountUtils {
     }
 
     private static AccountManagerCallback<Bundle> makeConfirmPasswordCallback(
-            final ConfirmPasswordListener listener) {
-        return new AccountManagerCallback<Bundle>() {
-            @Override
-            public void run(AccountManagerFuture<Bundle> future) {
-                try {
-                    boolean confirmed = future.getResult()
-                            .getBoolean(AccountManager.KEY_BOOLEAN_RESULT);
-                    if (confirmed) {
-                        listener.onConfirmed();
-                    } else {
-                        listener.onFailed();
-                    }
-                } catch (AuthenticatorException | IOException | OperationCanceledException e) {
-                    e.printStackTrace();
+            ConfirmPasswordListener listener) {
+        return future -> {
+            try {
+                boolean confirmed = future.getResult()
+                        .getBoolean(AccountManager.KEY_BOOLEAN_RESULT);
+                if (confirmed) {
+                    listener.onConfirmed();
+                } else {
                     listener.onFailed();
                 }
+            } catch (AuthenticatorException | IOException | OperationCanceledException e) {
+                e.printStackTrace();
+                listener.onFailed();
             }
         };
     }
 
     public static void confirmPassword(Activity activity, Account account,
-                                       final ConfirmPasswordListener listener, Handler handler) {
+                                       ConfirmPasswordListener listener, Handler handler) {
         confirmPassword(activity, account, makeConfirmPasswordCallback(listener), handler);
     }
 
-    public static void confirmPassword(Activity activity, final ConfirmPasswordListener listener) {
+    public static void confirmPassword(Activity activity, ConfirmPasswordListener listener) {
         confirmPassword(activity, getActiveAccount(), listener, null);
     }
 
     // REMOVEME: This seems infeasible. And we should check against local password instead of using
     // network
     public static Intent makeConfirmPasswordIntent(Account account,
-                                                   final ConfirmPasswordListener listener) {
+                                                   ConfirmPasswordListener listener) {
         try {
             return confirmPassword(null, account, makeConfirmPasswordCallback(listener), null)
                     .getResult().getParcelable(AccountManager.KEY_INTENT);
@@ -122,7 +118,7 @@ public class AccountUtils {
         }
     }
 
-    public static Intent makeConfirmPasswordIntent(final ConfirmPasswordListener listener) {
+    public static Intent makeConfirmPasswordIntent(ConfirmPasswordListener listener) {
         return makeConfirmPasswordIntent(getActiveAccount(), listener);
     }
 
@@ -360,22 +356,19 @@ public class AccountUtils {
     }
 
     private static AccountManagerCallback<Bundle> makeGetAuthTokenCallback(
-            final GetAuthTokenListener listener) {
-        return new AccountManagerCallback<Bundle>() {
-            @Override
-            public void run(AccountManagerFuture<Bundle> future) {
-                try {
-                    String authToken = future.getResult()
-                            .getString(AccountManager.KEY_AUTHTOKEN);
-                    if (!TextUtils.isEmpty(authToken)) {
-                        listener.onResult(authToken);
-                    } else {
-                        listener.onFailed();
-                    }
-                } catch (AuthenticatorException | IOException | OperationCanceledException e) {
-                    e.printStackTrace();
+            GetAuthTokenListener listener) {
+        return future -> {
+            try {
+                String authToken = future.getResult()
+                        .getString(AccountManager.KEY_AUTHTOKEN);
+                if (!TextUtils.isEmpty(authToken)) {
+                    listener.onResult(authToken);
+                } else {
                     listener.onFailed();
                 }
+            } catch (AuthenticatorException | IOException | OperationCanceledException e) {
+                e.printStackTrace();
+                listener.onFailed();
             }
         };
     }
@@ -451,8 +444,7 @@ public class AccountUtils {
                 AccountContract.KEY_USER_INFO, null);
         if (!TextUtils.isEmpty(userInfoJson)) {
             try {
-                return GsonHelper.get().fromJson(userInfoJson,
-                        new TypeToken<User>() {}.getType());
+                return GsonHelper.GSON.fromJson(userInfoJson, User.class);
             } catch (JsonParseException e) {
                 e.printStackTrace();
             }
@@ -461,8 +453,7 @@ public class AccountUtils {
     }
 
     public static void setUser(Account account, User user) {
-        String userInfoJson = GsonHelper.get().toJson(user,
-                new TypeToken<User>() {}.getType());
+        String userInfoJson = GsonHelper.GSON.toJson(user, User.class);
         AccountPreferences.forAccount(account).putString(AccountContract.KEY_USER_INFO,
                 userInfoJson);
     }

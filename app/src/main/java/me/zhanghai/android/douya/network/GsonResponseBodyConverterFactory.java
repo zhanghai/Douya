@@ -5,8 +5,6 @@
 
 package me.zhanghai.android.douya.network;
 
-import android.support.annotation.NonNull;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -24,7 +22,8 @@ public class GsonResponseBodyConverterFactory extends Converter.Factory {
     private GsonConverterFactory mGsonConverterFactory;
 
     public static GsonResponseBodyConverterFactory create() {
-        return new GsonResponseBodyConverterFactory(GsonConverterFactory.create(GsonHelper.get()));
+        return new GsonResponseBodyConverterFactory(GsonConverterFactory.create(
+                GsonHelper.GSON_NETWORK));
     }
 
     private GsonResponseBodyConverterFactory(GsonConverterFactory gsonConverterFactory) {
@@ -35,16 +34,13 @@ public class GsonResponseBodyConverterFactory extends Converter.Factory {
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations,
                                                             Retrofit retrofit) {
-        final Converter<ResponseBody, ?> converter = mGsonConverterFactory.responseBodyConverter(
-                type, annotations, retrofit);
-        return new Converter<ResponseBody, Object>() {
-            @Override
-            public Object convert(@NonNull ResponseBody value) throws ResponseConversionException {
-                try {
-                    return converter.convert(value);
-                } catch (IOException e) {
-                    throw new ResponseConversionException(e);
-                }
+        Converter<ResponseBody, ?> converter = mGsonConverterFactory.responseBodyConverter(type,
+                annotations, retrofit);
+        return value -> {
+            try {
+                return converter.convert(value);
+            } catch (IOException e) {
+                throw new ResponseConversionException(e);
             }
         };
     }

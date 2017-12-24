@@ -30,7 +30,6 @@ import me.zhanghai.android.douya.network.api.info.frodo.DoulistList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopicList;
-import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.network.api.info.frodo.PhotoList;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
@@ -194,16 +193,7 @@ public class ApiService {
     }
 
     public ApiRequest<NotificationList> getNotificationList(Integer start, Integer count) {
-        return new TransformResponseBodyApiRequest<NotificationList>(
-                mFrodoService.getNotificationList(start, count)) {
-            @Override
-            protected void onTransformResponseBody(NotificationList notificationList) {
-                // Fix for Frodo API.
-                for (Notification notification : notificationList.notifications) {
-                    notification.fix();
-                }
-            }
-        };
+        return mFrodoService.getNotificationList(start, count);
     }
 
     public ApiRequest<TimelineList> getTimelineList(String userIdOrUid, String topic, Long untilId,

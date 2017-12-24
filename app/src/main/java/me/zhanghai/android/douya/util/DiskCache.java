@@ -84,7 +84,7 @@ public class DiskCache {
         // Gson.fromJson() creates a JsonReader which does its own buffering.
         Reader reader = new InputStreamReader(getInputStreamOrThrow(key));
         try {
-            return GsonHelper.get().fromJson(reader, type);
+            return GsonHelper.GSON.fromJson(reader, type);
         } finally {
             reader.close();
         }
@@ -148,7 +148,7 @@ public class DiskCache {
         try {
             Writer writer = new BufferedWriter(new OutputStreamWriter(editor.newOutputStream(0)));
             try {
-                GsonHelper.get().toJson(value, type, writer);
+                GsonHelper.GSON.toJson(value, type, writer);
             } finally {
                 writer.close();
             }

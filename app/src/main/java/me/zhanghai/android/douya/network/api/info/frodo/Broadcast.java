@@ -9,12 +9,17 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
+import me.zhanghai.android.douya.util.GsonHelper;
 
 public class Broadcast implements ClipboardCopyable, Parcelable {
 
@@ -126,14 +131,6 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         return !isRebroadcastAndCommentForbidden;
     }
 
-    public static String makeTransitionName(long id) {
-        return "broadcast-" + id;
-    }
-
-    public String makeTransitionName() {
-        return makeTransitionName(id);
-    }
-
     @Override
     public String getClipboardLabel() {
         return author.name;
@@ -142,6 +139,34 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     @Override
     public String getClipboardText() {
         return getTextWithEntities().toString();
+    }
+
+    public static String makeTransitionName(long id) {
+        return "broadcast-" + id;
+    }
+
+    public String makeTransitionName() {
+        return makeTransitionName(id);
+    }
+
+    private void fixAction() {
+        action = action.replaceAll("分享", "推荐");
+    }
+
+    private void fix() {
+        fixAction();
+    }
+
+
+    public static class Deserializer implements JsonDeserializer<Broadcast> {
+
+        @Override
+        public Broadcast deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
+                                     JsonDeserializationContext context) throws JsonParseException {
+            Broadcast broadcast = GsonHelper.GSON.fromJson(json, typeOfT);
+            broadcast.fix();
+            return broadcast;
+        }
     }
 
 
