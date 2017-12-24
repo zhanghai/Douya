@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -150,7 +151,11 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     }
 
     private void fixAction() {
-        action = action.replaceAll("分享", "推荐");
+        if (TextUtils.isEmpty(action)) {
+            action = "说";
+        } else {
+            action = action.replaceAll("分享", "推荐");
+        }
     }
 
     private void fix() {
@@ -165,6 +170,12 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
                                      JsonDeserializationContext context) throws JsonParseException {
             Broadcast broadcast = GsonHelper.GSON.fromJson(json, typeOfT);
             broadcast.fix();
+            if (broadcast.parentBroadcast != null) {
+                broadcast.parentBroadcast.fix();
+            }
+            if (broadcast.rebroadcastedBroadcast != null) {
+                broadcast.rebroadcastedBroadcast.fix();
+            }
             return broadcast;
         }
     }
