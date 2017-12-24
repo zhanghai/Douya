@@ -50,7 +50,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         Broadcast originalBroadcast = getItem(position);
         holder.rebroadcastedByText.setText(originalBroadcast.getRebroadcastedBy(
                 RecyclerViewUtils.getContext(holder)));
-        final Broadcast broadcast = originalBroadcast.rebroadcastedBroadcast != null ?
+        Broadcast broadcast = originalBroadcast.rebroadcastedBroadcast != null ?
                 originalBroadcast.rebroadcastedBroadcast : originalBroadcast;
         holder.cardView.setOnClickListener(view -> mListener.onOpenBroadcast(broadcast,
                 getSharedView(holder)));
@@ -89,7 +89,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
     public interface Listener {
         void onLikeBroadcast(Broadcast broadcast, boolean like);
         void onRebroadcastBroadcast(Broadcast broadcast, boolean quick);
-/**/        void onCommentBroadcast(Broadcast broadcast, View sharedView);
+        void onCommentBroadcast(Broadcast broadcast, View sharedView);
         void onOpenBroadcast(Broadcast broadcast, View sharedView);
     }
 
