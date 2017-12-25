@@ -227,13 +227,17 @@ public abstract class BaseBroadcastListFragment extends Fragment
         if (quick) {
             RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
         } else {
-            // TODO
+            // TODO: Dialog
         }
     }
 
     @Override
-    public void onUnrebroadcastBroadcast(Broadcast broadcast) {
-        DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
+    public void onUnrebroadcastBroadcast(Broadcast broadcast, boolean quick) {
+        if (quick) {
+            DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
+        } else {
+            // TODO: Dialog
+        }
     }
 
     @Override
