@@ -6,17 +6,18 @@
 package me.zhanghai.android.douya.broadcast.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
+import me.zhanghai.android.douya.broadcast.content.TimelineBroadcastListResource;
 import me.zhanghai.android.douya.broadcast.content.HomeBroadcastListResource;
 import me.zhanghai.android.douya.main.ui.MainActivity;
 
-public class HomeBroadcastListFragment extends BaseBroadcastListFragment {
+public class HomeBroadcastListFragment extends BaseTimelineBroadcastListFragment {
 
     @BindDimen(R.dimen.toolbar_and_tab_height)
     int mToolbarAndTabHeight;
@@ -32,7 +33,7 @@ public class HomeBroadcastListFragment extends BaseBroadcastListFragment {
     public HomeBroadcastListFragment() {}
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
@@ -41,7 +42,7 @@ public class HomeBroadcastListFragment extends BaseBroadcastListFragment {
     }
 
     @Override
-    protected BroadcastListResource onAttachBroadcastListResource() {
+    protected TimelineBroadcastListResource onAttachResource() {
         return HomeBroadcastListResource.attachTo(this);
     }
 

@@ -101,30 +101,17 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         mTabAdapter = new TabFragmentPagerAdapter(this);
-        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
-            @Override
-            public Fragment createFragment() {
-                return BroadcastLikerListFragment.newInstance(mBroadcast);
-            }
-        }, null);
-        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
-            @Override
-            public Fragment createFragment() {
-                return BroadcastRebroadcasterListFragment.newInstance(mBroadcast);
-            }
-        }, null);
+        mTabAdapter.addTab(() -> BroadcastLikerListFragment.newInstance(mBroadcast), null);
+        //mTabAdapter.addTab(() -> BroadcastRebroadcasterListFragment.newInstance(mBroadcast), null);
+        // FIXME
+        mTabAdapter.addTab(() -> BroadcastLikerListFragment.newInstance(mBroadcast), null);
         updateTabTitle();
         mViewPager.setOffscreenPageLimit(mTabAdapter.getCount() - 1);
         mViewPager.setAdapter(mTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mPositiveButton.setText(R.string.ok);
         mPositiveButton.setVisibility(View.VISIBLE);
-        mPositiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+        mPositiveButton.setOnClickListener(view -> dismiss());
         mNegativeButton.setVisibility(View.GONE);
         mNeutralButton.setVisibility(View.GONE);
     }

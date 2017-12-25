@@ -16,12 +16,12 @@ import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
-import me.zhanghai.android.douya.user.ui.BaseUserAdapter;
+import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.user.ui.DialogUserAdapter;
-import me.zhanghai.android.douya.user.ui.UserListFragment;
+import me.zhanghai.android.douya.user.ui.BaseUserListFragment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public abstract class BroadcastUserListFragment extends UserListFragment {
+public abstract class BroadcastUserListFragment extends BaseUserListFragment {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
@@ -58,15 +58,15 @@ public abstract class BroadcastUserListFragment extends UserListFragment {
     }
 
     @Override
-    protected void onUserListUpdated(List<SimpleUser> userList) {
-        if (onUpdateBroadcast(mBroadcast, userList)) {
-            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
-        }
+    protected SimpleAdapter<SimpleUser, ?> onCreateAdapter() {
+        return new DialogUserAdapter();
     }
 
     @Override
-    protected BaseUserAdapter onCreateAdapter() {
-        return new DialogUserAdapter();
+    protected void onListUpdated(List<SimpleUser> userList) {
+        if (onUpdateBroadcast(mBroadcast, userList)) {
+            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
+        }
     }
 
     protected abstract boolean onUpdateBroadcast(Broadcast broadcast, List<SimpleUser> userList);

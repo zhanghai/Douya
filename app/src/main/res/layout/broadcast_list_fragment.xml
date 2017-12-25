@@ -18,7 +18,7 @@
         app:progressOffset="@dimen/toolbar_and_tab_height">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/broadcast_list"
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/card_list_horizontal_padding"

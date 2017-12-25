@@ -28,7 +28,8 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class BroadcastListResource extends MoreRawListResourceFragment<TimelineList, Broadcast> {
+public class TimelineBroadcastListResource
+        extends MoreRawListResourceFragment<TimelineList, Broadcast> {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
@@ -39,17 +40,19 @@ public class BroadcastListResource extends MoreRawListResourceFragment<TimelineL
     private String mUserIdOrUid;
     private String mTopic;
 
-    private static final String FRAGMENT_TAG_DEFAULT = BroadcastListResource.class.getName();
+    private static final String FRAGMENT_TAG_DEFAULT =
+            TimelineBroadcastListResource.class.getName();
 
-    private static BroadcastListResource newInstance(String userIdOrUid, String topic) {
+    private static TimelineBroadcastListResource newInstance(String userIdOrUid, String topic) {
         //noinspection deprecation
-        return new BroadcastListResource().setArguments(userIdOrUid, topic);
+        return new TimelineBroadcastListResource().setArguments(userIdOrUid, topic);
     }
 
-    public static BroadcastListResource attachTo(String userIdOrUid, String topic,
-                                                 Fragment fragment, String tag, int requestCode) {
+    public static TimelineBroadcastListResource attachTo(String userIdOrUid, String topic,
+                                                         Fragment fragment, String tag,
+                                                         int requestCode) {
         FragmentActivity activity = fragment.getActivity();
-        BroadcastListResource instance = FragmentUtils.findByTag(activity, tag);
+        TimelineBroadcastListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(userIdOrUid, topic);
             instance.targetAt(fragment, requestCode);
@@ -58,17 +61,17 @@ public class BroadcastListResource extends MoreRawListResourceFragment<TimelineL
         return instance;
     }
 
-    public static BroadcastListResource attachTo(String userIdOrUid, String topic,
-                                                 Fragment fragment) {
+    public static TimelineBroadcastListResource attachTo(String userIdOrUid, String topic,
+                                                         Fragment fragment) {
         return attachTo(userIdOrUid, topic, fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
     }
 
     /**
      * @deprecated Use {@code attachTo()} instead.
      */
-    public BroadcastListResource() {}
+    public TimelineBroadcastListResource() {}
 
-    protected BroadcastListResource setArguments(String userIdOrUid, String topic) {
+    protected TimelineBroadcastListResource setArguments(String userIdOrUid, String topic) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         arguments.putString(EXTRA_TOPIC, topic);
@@ -225,20 +228,7 @@ public class BroadcastListResource extends MoreRawListResourceFragment<TimelineL
         return (Listener) getTarget();
     }
 
-    public interface Listener {
-        void onLoadBroadcastListStarted(int requestCode);
-        void onLoadBroadcastListFinished(int requestCode);
-        void onLoadBroadcastListError(int requestCode, ApiError error);
-        /**
-         * @param newBroadcastList Unmodifiable.
-         */
-        void onBroadcastListChanged(int requestCode, List<Broadcast> newBroadcastList);
-        /**
-         * @param appendedBroadcastList Unmodifiable.
-         */
-        void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList);
-        void onBroadcastChanged(int requestCode, int position, Broadcast newBroadcast);
-        void onBroadcastRemoved(int requestCode, int position);
+    public interface Listener extends BaseBroadcastListResource.Listener {
         void onBroadcastWriteStarted(int requestCode, int position);
         void onBroadcastWriteFinished(int requestCode, int position);
     }

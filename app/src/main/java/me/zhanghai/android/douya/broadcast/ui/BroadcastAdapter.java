@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
@@ -26,11 +24,8 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     private Listener mListener;
 
-    public BroadcastAdapter(List<Broadcast> broadcastList, Listener listener) {
-        super(broadcastList);
-
+    public BroadcastAdapter(Listener listener) {
         mListener = listener;
-
         setHasStableIds(true);
     }
 

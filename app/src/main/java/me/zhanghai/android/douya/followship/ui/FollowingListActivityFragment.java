@@ -24,7 +24,7 @@ public class FollowingListActivityFragment extends FollowshipListActivityFragmen
     }
 
     @Override
-    protected FollowshipListFragment onCreateListFragment() {
+    protected FollowshipUserListFragment onCreateListFragment() {
         return FollowingListFragment.newInstance(getUserIdOrUid());
     }
 }

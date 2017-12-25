@@ -7,12 +7,13 @@ package me.zhanghai.android.douya.followship.ui;
 
 import android.os.Bundle;
 
-import me.zhanghai.android.douya.user.ui.BaseUserAdapter;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
+import me.zhanghai.android.douya.ui.SimpleAdapter;
+import me.zhanghai.android.douya.user.ui.BaseUserListFragment;
 import me.zhanghai.android.douya.user.ui.UserAdapter;
-import me.zhanghai.android.douya.user.ui.UserListFragment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public abstract class FollowshipListFragment extends UserListFragment {
+public abstract class FollowshipUserListFragment extends BaseUserListFragment {
 
     // Not static because we are to be subclassed.
     private final String KEY_PREFIX = getClass().getName() + '.';
@@ -21,7 +22,7 @@ public abstract class FollowshipListFragment extends UserListFragment {
 
     private String mUserIdOrUid;
 
-    protected FollowshipListFragment setArguments(String userIdOrUid) {
+    protected FollowshipUserListFragment setArguments(String userIdOrUid) {
         FragmentUtils.ensureArguments(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         return this;
@@ -35,7 +36,7 @@ public abstract class FollowshipListFragment extends UserListFragment {
     }
 
     @Override
-    protected BaseUserAdapter onCreateAdapter() {
+    protected SimpleAdapter<SimpleUser, ?> onCreateAdapter() {
         return new UserAdapter();
     }
 

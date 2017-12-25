@@ -242,8 +242,9 @@ public class ApiService {
         return mFrodoService.getBroadcastLikerList(broadcastId, start, count);
     }
 
-    public ApiRequest<BroadcastList> getBroadcastRebroadcasterList(long broadcastId, Integer start,
-                                                                   Integer count) {
+    public ApiRequest<BroadcastList> getBroadcastRebroadcastedBroadcastList(long broadcastId,
+                                                                            Integer start,
+                                                                            Integer count) {
         return mFrodoService.getBroadcastRebroadcastedBroadcastList(broadcastId, start, count);
     }
 

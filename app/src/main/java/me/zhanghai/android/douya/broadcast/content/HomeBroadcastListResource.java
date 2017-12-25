@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import java.util.Collections;
 import java.util.List;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
@@ -18,10 +17,9 @@ import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.settings.info.Settings;
-import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class HomeBroadcastListResource extends BroadcastListResource {
+public class HomeBroadcastListResource extends TimelineBroadcastListResource {
 
     private static final String FRAGMENT_TAG_DEFAULT = HomeBroadcastListResource.class.getName();
 

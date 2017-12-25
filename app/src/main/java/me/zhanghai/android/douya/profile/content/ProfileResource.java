@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
-import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
+import me.zhanghai.android.douya.broadcast.content.TimelineBroadcastListResource;
 import me.zhanghai.android.douya.diary.content.UserDiaryListResource;
 import me.zhanghai.android.douya.followship.content.FollowingListResource;
 import me.zhanghai.android.douya.network.api.ApiError;
@@ -27,7 +27,7 @@ import me.zhanghai.android.douya.user.content.UserResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ProfileResource extends TargetedRetainedFragment implements UserResource.Listener,
-        BroadcastListResource.Listener, FollowingListResource.Listener,
+        TimelineBroadcastListResource.Listener, FollowingListResource.Listener,
         UserDiaryListResource.Listener, UserItemListResource.Listener,
         UserReviewListResource.Listener {
 
@@ -43,7 +43,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
     private User mUser;
 
     private UserResource mUserResource;
-    private BroadcastListResource mBroadcastListResource;
+    private TimelineBroadcastListResource mBroadcastListResource;
     private FollowingListResource mFollowingListResource;
     private UserDiaryListResource mDiaryListResource;
     private UserItemListResource mUserItemListResource;
@@ -215,7 +215,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         if (mSimpleUser == null) {
             return;
         }
-        mBroadcastListResource = BroadcastListResource.attachTo(mSimpleUser.getIdOrUid(), null, this);
+        mBroadcastListResource = TimelineBroadcastListResource.attachTo(mSimpleUser.getIdOrUid(), null, this);
         mFollowingListResource = FollowingListResource.attachTo(mSimpleUser.getIdOrUid(), this);
         mDiaryListResource = UserDiaryListResource.attachTo(mSimpleUser.getIdOrUid(), this);
         mUserItemListResource = UserItemListResource.attachTo(mSimpleUser.getIdOrUid(), this);

@@ -92,5 +92,5 @@ public abstract class FollowshipListActivityFragment extends Fragment {
         return mUserIdOrUid;
     }
 
-    abstract protected FollowshipListFragment onCreateListFragment();
+    abstract protected FollowshipUserListFragment onCreateListFragment();
 }

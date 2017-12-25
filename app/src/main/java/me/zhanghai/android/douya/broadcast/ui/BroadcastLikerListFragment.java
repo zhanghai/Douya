@@ -8,9 +8,9 @@ package me.zhanghai.android.douya.broadcast.ui;
 import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastLikerListResource;
+import me.zhanghai.android.douya.content.MoreListResourceFragment;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
-import me.zhanghai.android.douya.user.content.BaseUserListResource;
 
 public class BroadcastLikerListFragment extends BroadcastUserListFragment {
 
@@ -27,11 +27,12 @@ public class BroadcastLikerListFragment extends BroadcastUserListFragment {
     @Override
     protected BroadcastLikerListFragment setArguments(Broadcast broadcast) {
         super.setArguments(broadcast);
+
         return this;
     }
 
     @Override
-    protected BaseUserListResource<?> onAttachUserListResource() {
+    protected MoreListResourceFragment<?, List<SimpleUser>> onAttachResource() {
         return BroadcastLikerListResource.attachTo(getBroadcast().id, this);
     }
 
