@@ -66,7 +66,9 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Void> 
     @Override
     public void onResponse(Void response) {
 
-        ToastUtils.show(R.string.broadcast_delete_successful, getContext());
+        ToastUtils.show(mBroadcast != null && mBroadcast.isSimpleRebroadcast() ?
+                R.string.broadcast_unrebroadcast_successful : R.string.broadcast_delete_successful,
+                getContext());
 
         if (mBroadcast != null && mBroadcast.rebroadcastedBroadcast != null) {
             Broadcast rebroadcastedBroadcast = mBroadcast.rebroadcastedBroadcast;
@@ -83,7 +85,9 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Void> 
 
         LogUtils.e(error.toString());
         Context context = getContext();
-        ToastUtils.show(context.getString(R.string.broadcast_delete_failed_format,
+        ToastUtils.show(context.getString(mBroadcast != null && mBroadcast.isSimpleRebroadcast() ?
+                        R.string.broadcast_unrebroadcast_failed_format
+                        : R.string.broadcast_delete_failed_format,
                 ApiError.getErrorString(error, context)), context);
 
         stopSelf();

@@ -178,6 +178,8 @@
     <string name="broadcast_unlike_failed_format">取消赞失败，%1$s</string>
     <string name="broadcast_rebroadcast_successful">已转播</string>
     <string name="broadcast_rebroadcast_failed_format">转播失败，%1$s</string>
+    <string name="broadcast_unrebroadcast_successful">已取消转播</string>
+    <string name="broadcast_unrebroadcast_failed_format">取消转播失败，%1$s</string>
     <string name="broadcast_send">发送广播</string>
     <string name="broadcast_view_activity">查看赞和转播的人</string>
     <string name="broadcast_comment_action_title">回应选项</string>
