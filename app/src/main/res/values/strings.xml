@@ -182,7 +182,7 @@
     <string name="broadcast_unrebroadcast_successful">已取消转播</string>
     <string name="broadcast_unrebroadcast_failed_format">取消转播失败，%1$s</string>
     <string name="broadcast_send">发送广播</string>
-    <string name="broadcast_view_activity">查看赞和转播的人</string>
+    <string name="broadcast_view_activity">查看赞和转播</string>
     <string name="broadcast_comment_action_title">回应选项</string>
     <string name="broadcast_comment_action_reply_to">回应此人</string>
     <string name="broadcast_comment_action_copy_text">复制回应</string>
