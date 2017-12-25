@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.broadcast.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -45,7 +47,9 @@ public class SimpleBroadcastAdapter
         Context context = RecyclerViewUtils.getContext(holder);
         Broadcast broadcast = getItem(position);
         holder.itemView.setOnClickListener(view -> {
-            if (broadcast.isSimpleRebroadcast()) {
+            // rebroadcastedBroadcast can always be empty.
+            //if (TextUtils.isEmpty(broadcast.isSimpleRebroadcast()) {
+            if (TextUtils.isEmpty(broadcast.text)) {
                 return;
             }
             // TODO: Can we pass the broadcast? But rebroadcastedBroadcast and parentBroadcast will
@@ -53,6 +57,12 @@ public class SimpleBroadcastAdapter
             context.startActivity(BroadcastActivity.makeIntent(broadcast.id, context));
         });
         ImageUtils.loadAvatar(holder.avatarImage, broadcast.author.avatar);
+        holder.avatarImage.setOnClickListener(view -> {
+            // TODO: Pass Frodo SimpleUser.
+            //context.startActivity(ProfileActivity.makeIntent(broadcast.author, context));
+            context.startActivity(ProfileActivity.makeIntent(broadcast.author.getIdOrUid(),
+                    context));
+        });
         holder.nameText.setText(broadcast.author.name);
         holder.timeText.setDoubanTime(broadcast.createdAt);
         holder.textText.setText(broadcast.getRebroadcastText(context));

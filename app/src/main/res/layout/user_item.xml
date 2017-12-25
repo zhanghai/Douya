@@ -15,9 +15,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/two_line_list_item_height"
         android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_4dp_padding"
         android:paddingRight="@dimen/screen_edge_horizontal_margin"
+        android:paddingTop="@dimen/card_content_vertical_margin_with_4dp_padding"
+        android:paddingBottom="@dimen/card_content_vertical_margin_with_4dp_padding"
         android:gravity="center_vertical">
 
         <me.zhanghai.android.douya.ui.SimpleCircleImageView
@@ -25,6 +26,7 @@
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:padding="@dimen/avatar_padding" />
 
         <TextView

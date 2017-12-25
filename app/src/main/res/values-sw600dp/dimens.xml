@@ -13,6 +13,7 @@
     <dimen name="screen_edge_horizontal_margin">24dp</dimen>
     <dimen name="screen_edge_horizontal_margin_with_4dp_padding">20dp</dimen>
     <dimen name="screen_edge_horizontal_margin_with_8dp_padding">16dp</dimen>
+    <dimen name="screen_edge_horizontal_margin_with_12dp_padding">12dp</dimen>
     <dimen name="screen_edge_horizontal_margin_negative">-24dp</dimen>
     <dimen name="screen_edge_horizontal_margin_negative_half">-12dp</dimen>
     <dimen name="content_horizontal_margin">80dp</dimen>
