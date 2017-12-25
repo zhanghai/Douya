@@ -25,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
@@ -173,7 +174,8 @@ public class BroadcastLayout extends LinearLayout {
         mListener = listener;
     }
 
-    public void bindBroadcast(Broadcast broadcast) {
+    private void bindBroadcast(Broadcast broadcast, boolean isSimpleRebroadcastByOneself,
+                               boolean isUnrebroadcasting) {
 
         Context context = getContext();
 
@@ -282,15 +284,14 @@ public class BroadcastLayout extends LinearLayout {
             mListener.onLikeClicked();
         });
         mRebroadcastButton.setText(broadcast.getRebroadcastCountString());
-        RebroadcastBroadcastManager rebroadcastBroadcastManager =
-                RebroadcastBroadcastManager.getInstance();
-        if (rebroadcastBroadcastManager.isWriting(broadcast.id)) {
-            mRebroadcastButton.setActivated(rebroadcastBroadcastManager.isWritingRebroadcast(
-                    broadcast.id));
-            mRebroadcastButton.setEnabled(false);
+        if (isSimpleRebroadcastByOneself) {
+            mRebroadcastButton.setActivated(!isUnrebroadcasting);
+            mRebroadcastButton.setEnabled(!isUnrebroadcasting);
         } else {
-            //mRebroadcastButton.setActivated(broadcast.isRebroadcasted());
-            mRebroadcastButton.setEnabled(true);
+            boolean isWritingQuickRebroadcast = RebroadcastBroadcastManager.getInstance()
+                    .isWritingQuickRebroadcast(broadcast.id);
+            mRebroadcastButton.setActivated(isWritingQuickRebroadcast);
+            mRebroadcastButton.setEnabled(!isWritingQuickRebroadcast);
         }
         mRebroadcastButton.setOnClickListener(view -> {
             if (mListener == null) {
@@ -313,6 +314,18 @@ public class BroadcastLayout extends LinearLayout {
         });
 
         mBoundBroadcastId = broadcast.id;
+    }
+
+    public void bindBroadcast(Broadcast broadcast) {
+        if (broadcast.isSimpleRebroadcast()) {
+            boolean isSimpleRebroadcastByOneself = broadcast.isSimpleRebroadcastByOneself();
+            boolean isUnrebroadcasting = isSimpleRebroadcastByOneself &&
+                    DeleteBroadcastManager.getInstance().isWriting(broadcast.id);
+            bindBroadcast(broadcast.rebroadcastedBroadcast, isSimpleRebroadcastByOneself,
+                    isUnrebroadcasting);
+        } else {
+            bindBroadcast(broadcast, false, false);
+        }
     }
 
     public void releaseBroadcast() {

@@ -167,12 +167,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         activity.setTitle(getTitle());
         activity.setSupportActionBar(mToolbar);
 
-        mContainerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityCompat.finishAfterTransition(getActivity());
-            }
-        });
+        mContainerLayout.setOnClickListener(view -> ActivityCompat.finishAfterTransition(
+                getActivity()));
         ViewCompat.setTransitionName(mSharedView, Broadcast.makeTransitionName(mBroadcastId));
         // This magically gives better visual effect when the broadcast is partially visible. Using
         // setEnterSharedElementCallback() disables this hack when no transition is used to start
@@ -186,28 +182,20 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             }
         });
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mBroadcastAndCommentListResource.loadBroadcast();
-                mBroadcastAndCommentListResource.loadCommentList(false);
-            }
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mBroadcastAndCommentListResource.loadBroadcast();
+            mBroadcastAndCommentListResource.loadCommentList(false);
         });
 
         mBroadcastCommentList.setHasFixedSize(true);
         mBroadcastCommentList.setItemAnimator(new NoChangeAnimationItemAnimator());
         mBroadcastCommentList.setLayoutManager(new LinearLayoutManager(activity));
         mBroadcastAdapter = new SingleBroadcastAdapter(null, this);
+        // BroadcastLayout will take care of showing the effective broadcast.
+        //noinspection deprecation
         setBroadcast(mBroadcastAndCommentListResource.getBroadcast());
         mCommentAdapter = new CommentAdapter(mBroadcastAndCommentListResource.getCommentList(),
-                new ClickableSimpleAdapter.OnItemClickListener<Comment,
-                        CommentAdapter.ViewHolder>() {
-                    @Override
-                    public void onItemClick(RecyclerView parent, Comment item,
-                                            CommentAdapter.ViewHolder holder) {
-                        onShowCommentAction(item);
-                    }
-                });
+                (parent, item, holder) -> onShowCommentAction(item));
         mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mBroadcastAdapter, mCommentAdapter);
         mBroadcastCommentList.setAdapter(mAdapter);
         mBroadcastCommentList.addOnScrollListener(new OnVerticalScrollListener() {
@@ -217,22 +205,12 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         });
 
         CheatSheetUtils.setup(mSendButton);
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSendComment();
-            }
-        });
+        mSendButton.setOnClickListener(view -> onSendComment());
         updateSendCommentStatus();
 
         if (savedInstanceState == null) {
             if (mShowSendComment) {
-                TransitionUtils.postAfterTransition(this, new Runnable() {
-                    @Override
-                    public void run() {
-                        onShowSendComment();
-                    }
-                });
+                TransitionUtils.postAfterTransition(this, this::onShowSendComment);
             }
         }
 
@@ -281,7 +259,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         if (mCopyTextMenuItem == null && mDeleteMenuItem == null) {
             return;
         }
-        Broadcast broadcast = mBroadcastAndCommentListResource.getBroadcast();
+        Broadcast broadcast = mBroadcastAndCommentListResource.getEffectiveBroadcast();
         boolean hasBroadcast = broadcast != null;
         mCopyTextMenuItem.setVisible(hasBroadcast);
         boolean canDelete = hasBroadcast && broadcast.isAuthorOneself();
@@ -373,7 +351,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public void onCommentListChanged(int requestCode, List<Comment> newCommentList) {
         mCommentAdapter.replace(newCommentList);
         BroadcastCommentCountFixer.onCommentListChanged(
-                mBroadcastAndCommentListResource.getBroadcast(),
+                mBroadcastAndCommentListResource.getEffectiveBroadcast(),
                 mBroadcastAndCommentListResource.getCommentList(), this);
     }
 
@@ -381,7 +359,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public void onCommentListAppended(int requestCode, List<Comment> appendedCommentList) {
         mCommentAdapter.addAll(appendedCommentList);
         BroadcastCommentCountFixer.onCommentListChanged(
-                mBroadcastAndCommentListResource.getBroadcast(),
+                mBroadcastAndCommentListResource.getEffectiveBroadcast(),
                 mBroadcastAndCommentListResource.getCommentList(), this);
     }
 
@@ -389,12 +367,12 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public void onCommentRemoved(int requestCode, int position) {
         mCommentAdapter.remove(position);
         BroadcastCommentCountFixer.onCommentRemoved(
-                mBroadcastAndCommentListResource.getBroadcast(), this);
+                mBroadcastAndCommentListResource.getEffectiveBroadcast(), this);
     }
 
     private void updateRefreshing() {
         boolean loadingBroadcast = mBroadcastAndCommentListResource.isLoadingBroadcast();
-        boolean hasBroadcast = mBroadcastAndCommentListResource.hasBroadcast();
+        boolean hasBroadcast = mBroadcastAndCommentListResource.hasEffectiveBroadcast();
         boolean loadingCommentList = mBroadcastAndCommentListResource.isLoadingCommentList();
         mSwipeRefreshLayout.setRefreshing(loadingBroadcast
                 && (mSwipeRefreshLayout.isRefreshing() || hasBroadcast));
@@ -408,7 +386,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Override
-    public void onRebroadcast(Broadcast broadcast, boolean simple) {
+    public void onRebroadcast(Broadcast broadcast, boolean quick) {
         // TODO: Rebroadcast with text
         RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
     }
@@ -425,7 +403,6 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     private void onShowCommentAction(Comment comment) {
         boolean canReplyTo = canSendComment();
-        Activity activity = getActivity();
         boolean canDelete = (mBroadcastAdapter.hasBroadcast()
                 && mBroadcastAdapter.getBroadcast().isAuthorOneself())
                 || comment.isAuthorOneself();
@@ -452,7 +429,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @Override
     public void deleteComment(Comment comment) {
         DeleteBroadcastCommentManager.getInstance().write(
-                mBroadcastAndCommentListResource.getBroadcastId(), comment.id, getActivity());
+                mBroadcastAndCommentListResource.getEffectiveBroadcastId(), comment.id,
+                getActivity());
     }
 
     private void onShowSendComment() {
@@ -477,7 +455,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     private void sendComment(String comment) {
 
         SendBroadcastCommentManager.getInstance().write(
-                mBroadcastAndCommentListResource.getBroadcastId(), comment, getActivity());
+                mBroadcastAndCommentListResource.getEffectiveBroadcastId(), comment, getActivity());
 
         updateSendCommentStatus();
     }
@@ -489,7 +467,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             return;
         }
 
-        if (event.broadcastId == mBroadcastAndCommentListResource.getBroadcastId()) {
+        if (mBroadcastAndCommentListResource.isEffectiveBroadcastId(event.broadcastId)) {
             mBroadcastCommentList.scrollToPosition(mAdapter.getItemCount() - 1);
             mCommentEdit.setText(null);
             updateSendCommentStatus();
@@ -503,29 +481,30 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             return;
         }
 
-        if (event.broadcastId == mBroadcastAndCommentListResource.getBroadcastId()) {
+        if (mBroadcastAndCommentListResource.isEffectiveBroadcastId(event.broadcastId)) {
             updateSendCommentStatus();
         }
     }
 
     private boolean canSendComment() {
-        Broadcast broadcast = mBroadcastAndCommentListResource.getBroadcast();
+        Broadcast broadcast = mBroadcastAndCommentListResource.getEffectiveBroadcast();
         return broadcast != null && broadcast.canComment();
     }
 
     private void updateSendCommentStatus() {
         boolean canSendComment = canSendComment();
         SendBroadcastCommentManager manager = SendBroadcastCommentManager.getInstance();
-        long broadcastId = mBroadcastAndCommentListResource.getBroadcastId();
-        boolean sendingComment = manager.isWriting(broadcastId);
+        boolean sendingComment = mBroadcastAndCommentListResource.hasEffectiveBroadcast()
+                && manager.isWriting(mBroadcastAndCommentListResource.getEffectiveBroadcastId());
         boolean enabled = canSendComment && !sendingComment;
         mCommentEdit.setEnabled(enabled);
         mSendButton.setEnabled(enabled);
-        boolean hasBroadcast = mBroadcastAndCommentListResource.hasBroadcast();
+        boolean hasBroadcast = mBroadcastAndCommentListResource.hasEffectiveBroadcast();
         mCommentEdit.setHint(!hasBroadcast || canSendComment ? R.string.broadcast_send_comment_hint
                 : R.string.broadcast_send_comment_hint_disabled);
         if (sendingComment) {
-            mCommentEdit.setText(manager.getComment(broadcastId));
+            mCommentEdit.setText(manager.getComment(
+                    mBroadcastAndCommentListResource.getEffectiveBroadcastId()));
         }
     }
 
@@ -548,6 +527,6 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @Override
     public void deleteBroadcast() {
         DeleteBroadcastManager.getInstance().write(
-                mBroadcastAndCommentListResource.getBroadcastId(), getActivity());
+                mBroadcastAndCommentListResource.getEffectiveBroadcastId(), getActivity());
     }
 }

@@ -87,6 +87,10 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
     public String uri;
 
+    public boolean isSimpleRebroadcast() {
+        return rebroadcastedBroadcast != null && TextUtils.isEmpty(text);
+    }
+
     public String getRebroadcastedBy(Context context) {
         return context.getString(
                 R.string.broadcast_rebroadcasted_by_format, author.name);
@@ -94,6 +98,18 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
     public boolean isAuthorOneself() {
         return author != null && author.isOneself();
+    }
+
+    public boolean isSimpleRebroadcastByOneself() {
+        return isSimpleRebroadcast() && isAuthorOneself();
+    }
+
+    public Broadcast getEffectiveBroadcast() {
+        return isSimpleRebroadcast() ? rebroadcastedBroadcast : this;
+    }
+
+    public long getEffectiveBroadcastId() {
+        return getEffectiveBroadcast().id;
     }
 
     public CharSequence getTextWithEntities() {

@@ -89,12 +89,7 @@ public class SingleBroadcastAdapter
                 mListener.onComment(broadcast);
             }
         });
-        holder.viewActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onViewActivity(broadcast);
-            }
-        });
+        holder.viewActivityButton.setOnClickListener(view -> mListener.onViewActivity(broadcast));
     }
 
     @Override
@@ -104,7 +99,7 @@ public class SingleBroadcastAdapter
 
     public interface Listener {
         void onLike(Broadcast broadcast, boolean like);
-        void onRebroadcast(Broadcast broadcast, boolean simple);
+        void onRebroadcast(Broadcast broadcast, boolean quick);
         void onComment(Broadcast broadcast);
         void onViewActivity(Broadcast broadcast);
     }

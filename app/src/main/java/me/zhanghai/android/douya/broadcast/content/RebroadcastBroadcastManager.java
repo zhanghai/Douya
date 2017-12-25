@@ -35,7 +35,7 @@ public class RebroadcastBroadcastManager extends ResourceWriterManager<Rebroadca
         return findWriter(broadcastId) != null;
     }
 
-    public boolean isWritingRebroadcast(long broadcastId) {
+    public boolean isWritingQuickRebroadcast(long broadcastId) {
         RebroadcastBroadcastWriter writer = findWriter(broadcastId);
         return writer != null && writer.getText() == null;
     }

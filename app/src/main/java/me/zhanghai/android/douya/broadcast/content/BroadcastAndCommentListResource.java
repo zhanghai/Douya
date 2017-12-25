@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
@@ -33,9 +31,7 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
     private Broadcast mBroadcast;
 
     private BroadcastResource mBroadcastResource;
-    private CommentListResource mCommentListResource;
-
-    private List<Runnable> mPendingCallbacks = new ArrayList<>();
+    private BroadcastCommentListResource mCommentListResource;
 
     private static final String FRAGMENT_TAG_DEFAULT =
             BroadcastAndCommentListResource.class.getName();
@@ -84,7 +80,7 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
         ensureBroadcastAndIdFromArguments();
 
         mBroadcastResource = BroadcastResource.attachTo(mBroadcastId, mBroadcast, this);
-        mCommentListResource = BroadcastCommentListResource.attachTo(mBroadcastId, this);
+        ensureCommentListResourceIfHasBroadcast();
     }
 
     @Override
@@ -94,28 +90,56 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
         getArguments().putParcelable(EXTRA_BROADCAST, mBroadcast);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        mPendingCallbacks.clear();
-    }
-
+    /**
+     * @deprecated In most cases you may want to use {@link #getEffectiveBroadcastId()}.
+     */
     public long getBroadcastId() {
         ensureBroadcastAndIdFromArguments();
         return mBroadcastId;
     }
 
+    /**
+     * @deprecated In most cases you may want to use {@link #getEffectiveBroadcast()}.
+     */
     public Broadcast getBroadcast() {
         // Can be called before onCreate() is called.
         ensureBroadcastAndIdFromArguments();
         return mBroadcast;
     }
 
+    /**
+     * @deprecated In most cases you may want to use {@link #hasEffectiveBroadcast()}.
+     */
     public boolean hasBroadcast() {
         // Can be called before onCreate() is called.
         ensureBroadcastAndIdFromArguments();
         return mBroadcast != null;
+    }
+
+    public boolean isEffectiveBroadcastId(long broadcastId) {
+        // Can be called before onCreate() is called.
+        ensureBroadcastAndIdFromArguments();
+        return hasEffectiveBroadcast() && getEffectiveBroadcastId() == broadcastId;
+    }
+
+    public long getEffectiveBroadcastId() {
+        // Can be called before onCreate() is called.
+        ensureBroadcastAndIdFromArguments();
+        if (mBroadcast == null) {
+            throw new IllegalStateException("getEffectiveBroadcastId() called when broadcast is" +
+                    " not yet loaded");
+        }
+        return getEffectiveBroadcast().id;
+    }
+
+    public Broadcast getEffectiveBroadcast() {
+        // Can be called before onCreate() is called.
+        ensureBroadcastAndIdFromArguments();
+        return mBroadcast != null ? mBroadcast.getEffectiveBroadcast() : null;
+    }
+
+    public boolean hasEffectiveBroadcast() {
+        return getEffectiveBroadcast() != null;
     }
 
     public boolean isLoadingBroadcast() {
@@ -181,11 +205,7 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
     public void onBroadcastChanged(int requestCode, Broadcast newBroadcast) {
         mBroadcast = newBroadcast;
         getListener().onBroadcastChanged(getRequestCode(), newBroadcast);
-        Iterator<Runnable> iterator = mPendingCallbacks.iterator();
-        while (iterator.hasNext()) {
-            iterator.next().run();
-            iterator.remove();
-        }
+        ensureCommentListResourceIfHasBroadcast();
     }
 
     @Override
@@ -204,91 +224,45 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
         getListener().onBroadcastWriteFinished(getRequestCode());
     }
 
+    private void ensureCommentListResourceIfHasBroadcast() {
+        if (mCommentListResource != null) {
+            return;
+        }
+        if (mBroadcast == null) {
+            return;
+        }
+        mCommentListResource = BroadcastCommentListResource.attachTo(
+                mBroadcast.getEffectiveBroadcastId(), this);
+    }
+
     @Override
     public void onLoadCommentListStarted(int requestCode) {
-        if (hasBroadcast()) {
-            getListener().onLoadCommentListStarted(getRequestCode());
-        } else {
-            mPendingCallbacks.add(new Runnable() {
-                @Override
-                public void run() {
-                    getListener().onLoadCommentListStarted(getRequestCode());
-                }
-            });
-        }
+        getListener().onLoadCommentListStarted(getRequestCode());
     }
 
     @Override
     public void onLoadCommentListFinished(int requestCode) {
-        if (hasBroadcast()) {
-            getListener().onLoadCommentListFinished(getRequestCode());
-        } else {
-            mPendingCallbacks.add(new Runnable() {
-                @Override
-                public void run() {
-                    getListener().onLoadCommentListFinished(getRequestCode());
-                }
-            });
-        }
+        getListener().onLoadCommentListFinished(getRequestCode());
     }
 
     @Override
     public void onLoadCommentListError(int requestCode, final ApiError error) {
-        if (hasBroadcast()) {
-            getListener().onLoadCommentListError(getRequestCode(), error);
-        } else {
-            mPendingCallbacks.add(new Runnable() {
-                @Override
-                public void run() {
-                    getListener().onLoadCommentListError(getRequestCode(), error);
-                }
-            });
-        }
+        getListener().onLoadCommentListError(getRequestCode(), error);
     }
 
     @Override
     public void onCommentListChanged(int requestCode, List<Comment> newCommentList) {
-        if (hasBroadcast()) {
-            getListener().onCommentListChanged(getRequestCode(), newCommentList);
-        } else {
-            mPendingCallbacks.add(new Runnable() {
-                @Override
-                public void run() {
-                    getListener().onCommentListChanged(getRequestCode(),
-                            mCommentListResource.get());
-                }
-            });
-        }
+        getListener().onCommentListChanged(getRequestCode(), newCommentList);
     }
 
     @Override
     public void onCommentListAppended(int requestCode, List<Comment> appendedCommentList) {
-        if (hasBroadcast()) {
-            getListener().onCommentListAppended(getRequestCode(), appendedCommentList);
-        } else {
-            mPendingCallbacks.add(new Runnable() {
-                @Override
-                public void run() {
-                    getListener().onCommentListChanged(getRequestCode(),
-                            mCommentListResource.get());
-                }
-            });
-        }
+        getListener().onCommentListAppended(getRequestCode(), appendedCommentList);
     }
 
     @Override
     public void onCommentRemoved(int requestCode, int position) {
-        if (hasBroadcast()) {
-            getListener().onCommentRemoved(getRequestCode(), position);
-        } else {
-            mPendingCallbacks.add(new Runnable() {
-                @Override
-                public void run() {
-                    getListener().onCommentListChanged(getRequestCode(),
-                            mCommentListResource.get());
-                }
-            });
-        }
+        getListener().onCommentRemoved(getRequestCode(), position);
     }
 
     private Listener getListener() {

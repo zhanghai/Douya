@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.BroadcastListResource;
+import me.zhanghai.android.douya.broadcast.content.DeleteBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.LikeBroadcastManager;
 import me.zhanghai.android.douya.broadcast.content.RebroadcastBroadcastManager;
 import me.zhanghai.android.douya.link.NotImplementedManager;
@@ -222,9 +223,17 @@ public abstract class BaseBroadcastListFragment extends Fragment
     }
 
     @Override
-    public void onRebroadcastBroadcast(Broadcast broadcast, boolean simple) {
-        // TODO: Rebroadcast with text
-        RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
+    public void onRebroadcastBroadcast(Broadcast broadcast, boolean quick) {
+        if (quick) {
+            RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
+        } else {
+            // TODO
+        }
+    }
+
+    @Override
+    public void onUnrebroadcastBroadcast(Broadcast broadcast) {
+        DeleteBroadcastManager.getInstance().write(broadcast.id, getActivity());
     }
 
     @Override

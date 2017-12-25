@@ -9,7 +9,6 @@ import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,7 +20,6 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
-import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.ViewHolder> {
@@ -48,31 +46,32 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Broadcast originalBroadcast = getItem(position);
-        boolean isSimpleRebroadcast = originalBroadcast.rebroadcastedBroadcast != null
-                && TextUtils.isEmpty(originalBroadcast.text);
-        holder.rebroadcastedByText.setText(isSimpleRebroadcast ?
-                originalBroadcast.getRebroadcastedBy(RecyclerViewUtils.getContext(holder)) : null);
-        Broadcast broadcast = isSimpleRebroadcast ? originalBroadcast.rebroadcastedBroadcast
-                : originalBroadcast;
+        Broadcast broadcast = getItem(position);
+        holder.rebroadcastedByText.setText(broadcast.isSimpleRebroadcast() ?
+                broadcast.getRebroadcastedBy(holder.rebroadcastedByText.getContext()) : null);
+        Broadcast effectiveBroadcast = broadcast.getEffectiveBroadcast();
         holder.cardView.setOnClickListener(view -> mListener.onOpenBroadcast(broadcast,
                 getSharedView(holder)));
         holder.broadcastLayout.bindBroadcast(broadcast);
         holder.broadcastLayout.setListener(new BroadcastLayout.Listener() {
             @Override
             public void onLikeClicked() {
-                mListener.onLikeBroadcast(broadcast, !broadcast.isLiked);
+                mListener.onLikeBroadcast(effectiveBroadcast, !effectiveBroadcast.isLiked);
             }
             @Override
             public void onRebroadcastClicked(boolean isLongClick) {
-                mListener.onRebroadcastBroadcast(broadcast, isLongClick);
+                if (broadcast.isSimpleRebroadcastByOneself()) {
+                    mListener.onUnrebroadcastBroadcast(broadcast);
+                } else {
+                    mListener.onRebroadcastBroadcast(effectiveBroadcast, isLongClick);
+                }
             }
             @Override
             public void onCommentClicked() {
                 // Not setting button disabled because we are using enabled state for indeterminate
                 // state due to network, and we want the click to always open the broadcast for our
                 // user.
-                mListener.onCommentBroadcast(broadcast, getSharedView(holder));
+                mListener.onCommentBroadcast(effectiveBroadcast, getSharedView(holder));
             }
         });
         ViewCompat.setTransitionName(getSharedView(holder), broadcast.makeTransitionName());
@@ -91,7 +90,8 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     public interface Listener {
         void onLikeBroadcast(Broadcast broadcast, boolean like);
-        void onRebroadcastBroadcast(Broadcast broadcast, boolean simple);
+        void onRebroadcastBroadcast(Broadcast broadcast, boolean quick);
+        void onUnrebroadcastBroadcast(Broadcast broadcast);
         void onCommentBroadcast(Broadcast broadcast, View sharedView);
         void onOpenBroadcast(Broadcast broadcast, View sharedView);
     }
