@@ -12,9 +12,11 @@
     android:background="?selectableItemBackground"
     android:orientation="vertical">
 
+    <!-- HACK: Use android:layout_marginBottom="1dp" to align with user_item. -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
         android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_12dp_padding"
         android:paddingRight="@dimen/screen_edge_horizontal_margin"
         android:paddingTop="@dimen/card_content_vertical_margin_with_12dp_padding"
