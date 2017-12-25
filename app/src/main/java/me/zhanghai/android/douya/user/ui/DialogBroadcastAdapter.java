@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
@@ -15,16 +15,19 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
+import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
+import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public abstract class BaseUserAdapter extends SimpleAdapter<SimpleUser, BaseUserAdapter.ViewHolder> {
+public class DialogBroadcastAdapter
+        extends SimpleAdapter<Broadcast, DialogBroadcastAdapter.ViewHolder> {
 
-    public BaseUserAdapter() {
+    public DialogBroadcastAdapter() {
         setHasStableIds(true);
     }
 
@@ -36,24 +39,26 @@ public abstract class BaseUserAdapter extends SimpleAdapter<SimpleUser, BaseUser
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(ViewUtils.inflate(getLayoutResource(), parent));
+        return new ViewHolder(ViewUtils.inflate(R.layout.dialog_broadcast_item, parent));
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Context context = RecyclerViewUtils.getContext(holder);
-        SimpleUser user = getItem(position);
+        Broadcast broadcast = getItem(position);
         holder.itemView.setOnClickListener(view -> {
-            // FIXME: Pass Frodo SimpleUser
-            //context.startActivity(ProfileActivity.makeIntent(user, context));
-            context.startActivity(ProfileActivity.makeIntent(user.getIdOrUid(), context));
+            if (broadcast.isSimpleRebroadcast()) {
+                return;
+            }
+            // TODO: Can we pass the broadcast? But rebroadcastedBroadcast and parentBroadcast will
+            // be missing.
+            context.startActivity(BroadcastActivity.makeIntent(broadcast.id, context));
         });
-        ImageUtils.loadAvatar(holder.avatarImage, user.avatar);
-        holder.nameText.setText(user.name);
-        holder.descriptionText.setText(user.getIdOrUid());
+        ImageUtils.loadAvatar(holder.avatarImage, broadcast.author.avatar);
+        holder.nameText.setText(broadcast.author.name);
+        holder.timeText.setDoubanTime(broadcast.createdAt);
+        holder.textText.setText(broadcast.getRebroadcastText(context));
     }
-
-    abstract protected int getLayoutResource();
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -61,8 +66,10 @@ public abstract class BaseUserAdapter extends SimpleAdapter<SimpleUser, BaseUser
         public ImageView avatarImage;
         @BindView(R.id.name)
         public TextView nameText;
-        @BindView(R.id.description)
-        public TextView descriptionText;
+        @BindView(R.id.time)
+        public TimeTextView timeText;
+        @BindView(R.id.text)
+        public TextView textText;
 
         public ViewHolder(View itemView) {
             super(itemView);

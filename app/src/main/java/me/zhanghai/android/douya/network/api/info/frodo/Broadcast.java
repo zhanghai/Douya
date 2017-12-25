@@ -96,6 +96,11 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
                 R.string.broadcast_rebroadcasted_by_format, author.name);
     }
 
+    public String getRebroadcastText(Context context) {
+        return !TextUtils.isEmpty(text) ? text : context.getString(
+                R.string.broadcast_simple_rebroadcast_text);
+    }
+
     public boolean isAuthorOneself() {
         return author != null && author.isOneself();
     }

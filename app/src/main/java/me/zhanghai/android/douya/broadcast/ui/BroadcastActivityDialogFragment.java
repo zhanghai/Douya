@@ -102,9 +102,8 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
 
         mTabAdapter = new TabFragmentPagerAdapter(this);
         mTabAdapter.addTab(() -> BroadcastLikerListFragment.newInstance(mBroadcast), null);
-        //mTabAdapter.addTab(() -> BroadcastRebroadcasterListFragment.newInstance(mBroadcast), null);
-        // FIXME
-        mTabAdapter.addTab(() -> BroadcastLikerListFragment.newInstance(mBroadcast), null);
+        mTabAdapter.addTab(() -> BroadcastRebroadcastedBroadcastListFragment.newInstance(
+                mBroadcast), null);
         updateTabTitle();
         mViewPager.setOffscreenPageLimit(mTabAdapter.getCount() - 1);
         mViewPager.setAdapter(mTabAdapter);
@@ -147,8 +146,8 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
         mTabAdapter.setPageTitle(mTabLayout, 0, getTabTitle(mBroadcast.likeCount,
                 R.string.broadcast_likers_title_format, R.string.broadcast_likers_title_empty));
         mTabAdapter.setPageTitle(mTabLayout, 1, getTabTitle(mBroadcast.rebroadcastCount,
-                R.string.broadcast_rebroadcasters_title_format,
-                R.string.broadcast_rebroadcasters_title_empty));
+                R.string.broadcast_rebroadcasted_broadcasts_title_format,
+                R.string.broadcast_rebroadcasted_broadcasts_title_empty));
     }
 
     private CharSequence getTabTitle(int count, int formatResId, int emptyResId) {

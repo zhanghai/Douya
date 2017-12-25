@@ -13,7 +13,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.BaseListFragment;
 
 public abstract class BaseBroadcastListFragment extends BaseListFragment<Broadcast>
-        implements BaseBroadcastListResource.Listener, BroadcastAdapter.Listener {
+        implements BaseBroadcastListResource.Listener {
 
     @Override
     public void onLoadBroadcastListStarted(int requestCode) {

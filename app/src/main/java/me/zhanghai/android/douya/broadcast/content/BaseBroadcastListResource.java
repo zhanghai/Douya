@@ -41,12 +41,18 @@ public abstract class BaseBroadcastListResource
                 getListener().onBroadcastListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
-            for (Broadcast Broadcast : response) {
-                EventBusUtils.postAsync(new BroadcastUpdatedEvent(Broadcast, this));
+            if (shouldPostBroadcastUpdatedEvent()) {
+                for (Broadcast Broadcast : response) {
+                    EventBusUtils.postAsync(new BroadcastUpdatedEvent(Broadcast, this));
+                }
             }
         } else {
             getListener().onLoadBroadcastListError(getRequestCode(), error);
         }
+    }
+
+    protected boolean shouldPostBroadcastUpdatedEvent() {
+        return true;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

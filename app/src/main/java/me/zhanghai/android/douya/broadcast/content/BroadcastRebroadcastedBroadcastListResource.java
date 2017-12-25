@@ -78,4 +78,10 @@ public class BroadcastRebroadcastedBroadcastListResource extends BaseBroadcastLi
         return ApiService.getInstance().getBroadcastRebroadcastedBroadcastList(mBroadcastId, start,
                 count);
     }
+
+    @Override
+    protected boolean shouldPostBroadcastUpdatedEvent() {
+        // Our broadcast is incomplete.
+        return false;
+    }
 }
