@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.UriMatcher;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
@@ -29,8 +30,12 @@ public class DoubanUriHandler {
 
         USER_BROADCAST_LIST("people/*/statuses"),
         TOPIC_BROADCAST_LIST("update/topic/*"),
+        // Handled below.
+        //TOPIC_BROADCAST_LIST_FRODO(AUTHORITY_FRODO, "status/topic?name=*"),
         BROADCAST("people/*/status/#"),
         BROADCAST_FRODO(AUTHORITY_FRODO, "status/#"),
+        // Reordered for correct behavior
+        TOPIC_BROADCAST_LIST_FRODO(AUTHORITY_FRODO, "status/*"),
         USER("people/*"),
         USER_FOLLOWER_LIST("people/*/rev_contacts"),
         USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/follower"),
@@ -86,6 +91,14 @@ public class DoubanUriHandler {
             case TOPIC_BROADCAST_LIST:
                 intent = BroadcastListActivity.makeTopicIntent(uri.getLastPathSegment(), context);
                 break;
+            case TOPIC_BROADCAST_LIST_FRODO: {
+                if (!TextUtils.equals(uri.getLastPathSegment(), "topic")) {
+                    return false;
+                }
+                intent = BroadcastListActivity.makeTopicIntent(uri.getQueryParameter("name"),
+                        context);
+                break;
+            }
             case BROADCAST:
             case BROADCAST_FRODO:
                 intent = BroadcastActivity.makeIntent(UriUtils.parseId(uri), context);
