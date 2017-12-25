@@ -31,6 +31,9 @@ public class RebroadcastBroadcastManager extends ResourceWriterManager<Rebroadca
         add(new RebroadcastBroadcastWriter(broadcast, text, this), context);
     }
 
+    /**
+     * @deprecated In most cases you may want to use {@link #isWritingQuickRebroadcast(long)}.
+     */
     public boolean isWriting(long broadcastId) {
         return findWriter(broadcastId) != null;
     }

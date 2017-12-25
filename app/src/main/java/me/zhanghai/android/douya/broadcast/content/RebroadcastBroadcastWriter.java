@@ -83,7 +83,7 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
 
         ToastUtils.show(R.string.broadcast_rebroadcast_successful, getContext());
 
-        EventBusUtils.postAsync(new BroadcastUpdatedEvent(response, this));
+        EventBusUtils.postAsync(new BroadcastUpdatedEvent(response.rebroadcastedBroadcast, this));
 
         stopSelf();
     }
