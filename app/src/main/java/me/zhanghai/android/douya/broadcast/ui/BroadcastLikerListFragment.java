@@ -5,14 +5,31 @@
 
 package me.zhanghai.android.douya.broadcast.ui;
 
+import android.os.Bundle;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastLikerListResource;
 import me.zhanghai.android.douya.content.MoreListResourceFragment;
+import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
+import me.zhanghai.android.douya.ui.SimpleAdapter;
+import me.zhanghai.android.douya.user.ui.DialogUserAdapter;
+import me.zhanghai.android.douya.user.ui.BaseUserListFragment;
+import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class BroadcastLikerListFragment extends BroadcastUserListFragment {
+public class BroadcastLikerListFragment extends BaseUserListFragment {
+
+    private final String KEY_PREFIX = BroadcastLikerListFragment.class.getName() + '.';
+
+    private final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
+
+    private Broadcast mBroadcast;
 
     public static BroadcastLikerListFragment newInstance(Broadcast broadcast) {
         //noinspection deprecation
@@ -24,24 +41,60 @@ public class BroadcastLikerListFragment extends BroadcastUserListFragment {
      */
     public BroadcastLikerListFragment() {}
 
-    @Override
     protected BroadcastLikerListFragment setArguments(Broadcast broadcast) {
-        super.setArguments(broadcast);
-
+        FragmentUtils.ensureArguments(this)
+                .putParcelable(EXTRA_BROADCAST, broadcast);
         return this;
     }
 
     @Override
-    protected MoreListResourceFragment<?, List<SimpleUser>> onAttachResource() {
-        return BroadcastLikerListResource.attachTo(getBroadcast().id, this);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mBroadcast = getArguments().getParcelable(EXTRA_BROADCAST);
     }
 
     @Override
-    protected boolean onUpdateBroadcast(Broadcast broadcast, List<SimpleUser> userList) {
-        if (broadcast.likeCount < userList.size()) {
-            broadcast.likeCount = userList.size();
-            return true;
+    public void onStart(){
+        super.onStart();
+
+        EventBusUtils.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        EventBusUtils.unregister(this);
+    }
+
+    @Override
+    protected MoreListResourceFragment<?, List<SimpleUser>> onAttachResource() {
+        return BroadcastLikerListResource.attachTo(mBroadcast.id, this);
+    }
+
+    @Override
+    protected SimpleAdapter<SimpleUser, ?> onCreateAdapter() {
+        return new DialogUserAdapter();
+    }
+
+    @Override
+    protected void onListUpdated(List<SimpleUser> userList) {
+        if (mBroadcast.likeCount < userList.size()) {
+            mBroadcast.likeCount = userList.size();
+            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
         }
-        return false;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        if (event.broadcast.id == mBroadcast.id) {
+            mBroadcast = event.broadcast;
+        }
     }
 }
