@@ -72,7 +72,7 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Void> 
 
         if (mBroadcast != null && mBroadcast.rebroadcastedBroadcast != null) {
             Broadcast rebroadcastedBroadcast = mBroadcast.rebroadcastedBroadcast;
-            rebroadcastedBroadcast.decrementRebroadcastCount();
+            --rebroadcastedBroadcast.rebroadcastCount;
             EventBusUtils.postAsync(new BroadcastUpdatedEvent(rebroadcastedBroadcast, this));
         }
         EventBusUtils.postAsync(new BroadcastDeletedEvent(mBroadcastId, this));
