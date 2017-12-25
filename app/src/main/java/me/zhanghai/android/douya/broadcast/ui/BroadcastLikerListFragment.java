@@ -19,8 +19,8 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
-import me.zhanghai.android.douya.user.ui.DialogUserAdapter;
 import me.zhanghai.android.douya.user.ui.BaseUserListFragment;
+import me.zhanghai.android.douya.user.ui.UserAdapter;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastLikerListFragment extends BaseUserListFragment {
@@ -75,7 +75,7 @@ public class BroadcastLikerListFragment extends BaseUserListFragment {
 
     @Override
     protected SimpleAdapter<SimpleUser, ?> onCreateAdapter() {
-        return new DialogUserAdapter();
+        return new UserAdapter();
     }
 
     @Override

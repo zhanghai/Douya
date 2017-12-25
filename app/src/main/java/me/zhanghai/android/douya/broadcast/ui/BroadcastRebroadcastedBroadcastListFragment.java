@@ -18,7 +18,6 @@ import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
-import me.zhanghai.android.douya.user.ui.DialogBroadcastAdapter;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastRebroadcastedBroadcastListFragment extends BaseBroadcastListFragment {
@@ -74,7 +73,7 @@ public class BroadcastRebroadcastedBroadcastListFragment extends BaseBroadcastLi
 
     @Override
     protected SimpleAdapter<Broadcast, ?> onCreateAdapter() {
-        return new DialogBroadcastAdapter();
+        return new SimpleBroadcastAdapter();
     }
 
     @Override
