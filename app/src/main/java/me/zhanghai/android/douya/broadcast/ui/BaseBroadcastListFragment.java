@@ -233,7 +233,7 @@ public abstract class BaseBroadcastListFragment extends Fragment
 
     @Override
     public void onUnrebroadcastBroadcast(Broadcast broadcast) {
-        DeleteBroadcastManager.getInstance().write(broadcast.id, getActivity());
+        DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
     }
 
     @Override

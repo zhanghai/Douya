@@ -527,6 +527,6 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @Override
     public void deleteBroadcast() {
         DeleteBroadcastManager.getInstance().write(
-                mBroadcastAndCommentListResource.getEffectiveBroadcastId(), getActivity());
+                mBroadcastAndCommentListResource.getEffectiveBroadcast(), getActivity());
     }
 }

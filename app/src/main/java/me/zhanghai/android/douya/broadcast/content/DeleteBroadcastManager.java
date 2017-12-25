@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.broadcast.content;
 import android.content.Context;
 
 import me.zhanghai.android.douya.content.ResourceWriterManager;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 
 public class DeleteBroadcastManager extends ResourceWriterManager<DeleteBroadcastWriter> {
 
@@ -19,8 +20,15 @@ public class DeleteBroadcastManager extends ResourceWriterManager<DeleteBroadcas
         return InstanceHolder.VALUE;
     }
 
+    /**
+     * @deprecated Use {@link #write(Broadcast, Context)} instead.
+     */
     public void write(long broadcastId, Context context) {
         add(new DeleteBroadcastWriter(broadcastId, this), context);
+    }
+
+    public void write(Broadcast broadcast, Context context) {
+        add(new DeleteBroadcastWriter(broadcast, this), context);
     }
 
     public boolean isWriting(long broadcastId) {

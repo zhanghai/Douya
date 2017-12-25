@@ -96,17 +96,8 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
         ToastUtils.show(context.getString(R.string.broadcast_rebroadcast_failed_format,
                 ApiError.getErrorString(error, context)), context);
 
-        boolean notified = false;
-        if (mBroadcast != null) {
-            // Correct our local state if needed.
-            mBroadcast.incrementRebroadcastCount();
-            EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
-            notified = true;
-        }
-        if (!notified) {
-            // Must notify to reset pending status. Off-screen items also needs to be invalidated.
-            EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
-        }
+        // Must notify to reset pending status. Off-screen items also needs to be invalidated.
+        EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
 
         stopSelf();
     }

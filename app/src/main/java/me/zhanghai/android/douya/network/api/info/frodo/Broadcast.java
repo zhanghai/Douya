@@ -135,8 +135,8 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         return rebroadcastCount == 0 ? null : String.valueOf(rebroadcastCount);
     }
 
-    public void incrementRebroadcastCount() {
-        ++rebroadcastCount;
+    public void decrementRebroadcastCount() {
+        --rebroadcastCount;
     }
 
     public String getCommentCountString() {
