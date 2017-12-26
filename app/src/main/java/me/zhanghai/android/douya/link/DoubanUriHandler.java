@@ -37,6 +37,7 @@ public class DoubanUriHandler {
         // Reordered for correct behavior
         TOPIC_BROADCAST_LIST_FRODO(AUTHORITY_FRODO, "status/*"),
         USER("people/*"),
+        USER_FRODO(AUTHORITY_FRODO, "user/*"),
         USER_FOLLOWER_LIST("people/*/rev_contacts"),
         USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/follower"),
         USER_FOLLOWING_LIST("people/*/contacts"),
@@ -104,6 +105,7 @@ public class DoubanUriHandler {
                 intent = BroadcastActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
             case USER:
+            case USER_FRODO:
                 intent = ProfileActivity.makeIntent(uri.getLastPathSegment(), context);
                 break;
             case USER_FOLLOWER_LIST:
