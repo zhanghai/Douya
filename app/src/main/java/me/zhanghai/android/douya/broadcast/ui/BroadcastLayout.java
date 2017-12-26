@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.broadcast.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.util.ObjectsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -103,6 +104,8 @@ public class BroadcastLayout extends LinearLayout {
     private Listener mListener;
 
     private Long mBoundBroadcastId;
+    private Boolean mBoundBroadcastHadParentBroadcast;
+    private Boolean mBoundBroadcastRebroadcastedBroadcastWasDeleted;
 
     private HorizontalImageAdapter mImageListAdapter;
 
@@ -197,13 +200,26 @@ public class BroadcastLayout extends LinearLayout {
         mTimeText.setDoubanTime(broadcast.createdAt);
         mActionText.setText(broadcast.action);
 
-        boolean isRebind = mBoundBroadcastId != null && mBoundBroadcastId == broadcast.id;
+        boolean isRebind = ObjectsCompat.equals(mBoundBroadcastId, broadcast.id);
         // HACK: Attachment and text should not change on rebind.
-        if (!isRebind) {
+        boolean hasParentBroadcast = broadcast.parentBroadcast != null;
+        if (!(isRebind && ObjectsCompat.equals(mBoundBroadcastHadParentBroadcast,
+                hasParentBroadcast))) {
+
+            mBoundBroadcastHadParentBroadcast = hasParentBroadcast;
 
             mTextText.setText(broadcast.getTextWithEntities());
+        }
+        boolean hasRebroadcastedBroadcast = broadcast.rebroadcastedBroadcast != null;
+        if (!(isRebind && (!hasRebroadcastedBroadcast || ObjectsCompat.equals(
+                mBoundBroadcastRebroadcastedBroadcastWasDeleted,
+                broadcast.rebroadcastedBroadcast.isDeleted)))) {
 
-            boolean hasRebroadcastedBroadcast = broadcast.rebroadcastedBroadcast != null;
+            if (hasRebroadcastedBroadcast) {
+                mBoundBroadcastRebroadcastedBroadcastWasDeleted =
+                        broadcast.rebroadcastedBroadcast.isDeleted;
+            }
+
             ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
             if (hasRebroadcastedBroadcast) {
                 Broadcast rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
