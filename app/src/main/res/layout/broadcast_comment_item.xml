@@ -5,66 +5,69 @@
   ~ All Rights Reserved.
   -->
 
-<me.zhanghai.android.douya.ui.ForegroundRelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/card_content_horizontal_margin_with_12dp_padding"
-    android:paddingRight="@dimen/card_content_horizontal_margin"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?selectableItemBackground">
+    android:background="?selectableItemBackground"
+    android:orientation="vertical">
 
-    <me.zhanghai.android.douya.ui.SimpleCircleImageView
-        android:id="@+id/avatar"
-        android:layout_width="@dimen/touch_target_size"
-        android:layout_height="@dimen/touch_target_size"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/card_content_vertical_margin_with_12dp_padding"
-        android:padding="@dimen/avatar_small_padding" />
-
-    <TextView
-        android:id="@+id/name"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/avatar"
-        android:layout_toLeftOf="@+id/time"
-        android:layout_alignTop="@id/avatar"
-        android:layout_marginLeft="@dimen/card_content_horizontal_space_with_12dp_padding"
-        android:layout_marginTop="@dimen/avatar_small_padding"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold" />
+        android:paddingLeft="@dimen/card_content_horizontal_margin_with_12dp_padding"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:paddingTop="@dimen/card_content_vertical_margin_with_12dp_padding"
+        android:paddingBottom="@dimen/card_content_vertical_margin">
 
-    <me.zhanghai.android.douya.ui.TimeTextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/name"
-        android:layout_marginLeft="@dimen/card_content_horizontal_space"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="?android:textColorSecondary" />
+        <me.zhanghai.android.douya.ui.SimpleCircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/touch_target_size"
+            android:layout_height="@dimen/touch_target_size"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/avatar_small_padding" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/name"
-        android:layout_toLeftOf="@id/time"
-        android:layout_below="@id/name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_toLeftOf="@+id/time"
+            android:layout_alignTop="@id/avatar"
+            android:layout_marginLeft="@dimen/card_content_horizontal_space_with_12dp_padding"
+            android:layout_marginTop="@dimen/avatar_small_padding"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold" />
+
+        <me.zhanghai.android.douya.ui.TimeTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@id/name"
+            android:layout_marginLeft="@dimen/card_content_horizontal_space"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="?android:textColorSecondary" />
+
+        <!-- HACK: Use android:layout_marginTop="1dp" to align with user_item. -->
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/name"
+            android:layout_toLeftOf="@id/time"
+            android:layout_below="@id/name"
+            android:layout_marginTop="1dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_alignLeft="@id/name"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/text"
-        android:layout_marginTop="@dimen/card_content_vertical_margin"
         android:background="?android:dividerHorizontal" />
-</me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
+</LinearLayout>
