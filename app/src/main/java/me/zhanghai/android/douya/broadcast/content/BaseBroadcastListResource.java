@@ -42,8 +42,8 @@ public abstract class BaseBroadcastListResource
                         Collections.unmodifiableList(get()));
             }
             if (shouldPostBroadcastUpdatedEvent()) {
-                for (Broadcast Broadcast : response) {
-                    EventBusUtils.postAsync(new BroadcastUpdatedEvent(Broadcast, this));
+                for (Broadcast broadcast : response) {
+                    EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, this));
                 }
             }
         } else {
@@ -62,12 +62,24 @@ public abstract class BaseBroadcastListResource
             return;
         }
 
-        List<Broadcast> BroadcastList = get();
-        for (int i = 0, size = BroadcastList.size(); i < size; ++i) {
-            Broadcast Broadcast = BroadcastList.get(i);
-            if (Broadcast.id == event.broadcast.id) {
-                BroadcastList.set(i, event.broadcast);
-                getListener().onBroadcastChanged(getRequestCode(), i, BroadcastList.get(i));
+        List<Broadcast> broadcastList = get();
+        for (int i = 0, size = broadcastList.size(); i < size; ++i) {
+            Broadcast broadcast = broadcastList.get(i);
+            boolean changed = false;
+            if (broadcast.id == event.broadcast.id) {
+                broadcastList.set(i, event.broadcast);
+                changed = true;
+            } else if (broadcast.parentBroadcast != null
+                    && broadcast.parentBroadcast.id == event.broadcast.id) {
+                broadcast.parentBroadcast = event.broadcast;
+                changed = true;
+            } else if (broadcast.rebroadcastedBroadcast != null
+                    && broadcast.rebroadcastedBroadcast.id == event.broadcast.id) {
+                broadcast.rebroadcastedBroadcast = event.broadcast;
+                changed = true;
+            }
+            if (changed) {
+                getListener().onBroadcastChanged(getRequestCode(), i, broadcastList.get(i));
             }
         }
     }
@@ -79,13 +91,22 @@ public abstract class BaseBroadcastListResource
             return;
         }
 
-        List<Broadcast> BroadcastList = get();
-        for (int i = 0, size = BroadcastList.size(); i < size; ) {
-            Broadcast Broadcast = BroadcastList.get(i);
-            if (Broadcast.id == event.broadcastId) {
-                BroadcastList.remove(i);
+        List<Broadcast> broadcastList = get();
+        for (int i = 0, size = broadcastList.size(); i < size; ) {
+            Broadcast broadcast = broadcastList.get(i);
+            if (broadcast.id == event.broadcastId) {
+                broadcastList.remove(i);
                 getListener().onBroadcastRemoved(getRequestCode(), i);
                 --size;
+            } else if (broadcast.parentBroadcast != null
+                    && broadcast.parentBroadcast.id == event.broadcastId) {
+                // Same behavior as Frodo API.
+                broadcast.parentBroadcast = null;
+                getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
+            } else if (broadcast.rebroadcastedBroadcast != null
+                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId) {
+                broadcast.rebroadcastedBroadcast.isDeleted = true;
+                getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
             } else {
                 ++i;
             }

@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
 import com.google.gson.JsonDeserializationContext;
@@ -99,8 +100,8 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
                 R.string.broadcast_rebroadcasted_by_format, author.name);
     }
 
-    public String getRebroadcastText(Context context) {
-        return !TextUtils.isEmpty(text) ? text : context.getString(
+    public CharSequence getRebroadcastText(Context context) {
+        return !TextUtils.isEmpty(text) ? getTextWithEntities() : context.getString(
                 R.string.broadcast_rebroadcasted_broadcasts_simple_rebroadcast_text);
     }
 
@@ -121,7 +122,15 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     }
 
     public CharSequence getTextWithEntities() {
-        return TextEntity.applyEntities(text, entities);
+        CharSequence textWithEntities = TextEntity.applyEntities(text, entities);
+        if (parentBroadcast != null && !TextUtils.isEmpty(parentBroadcast.text)) {
+            SpannableStringBuilder builder = textWithEntities instanceof SpannableStringBuilder ?
+                    (SpannableStringBuilder) textWithEntities
+                    : new SpannableStringBuilder(textWithEntities);
+            builder.append(parentBroadcast.getTextWithEntities());
+            textWithEntities = builder;
+        }
+        return textWithEntities;
     }
 
     public String getLikeCountString() {

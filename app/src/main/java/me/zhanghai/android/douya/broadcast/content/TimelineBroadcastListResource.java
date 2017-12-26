@@ -155,6 +155,10 @@ public class TimelineBroadcastListResource
             if (broadcast.id == event.broadcast.id) {
                 broadcastList.set(i, event.broadcast);
                 changed = true;
+            } else if (broadcast.parentBroadcast != null
+                    && broadcast.parentBroadcast.id == event.broadcast.id) {
+                broadcast.parentBroadcast = event.broadcast;
+                changed = true;
             } else if (broadcast.rebroadcastedBroadcast != null
                     && broadcast.rebroadcastedBroadcast.id == event.broadcast.id) {
                 broadcast.rebroadcastedBroadcast = event.broadcast;
@@ -176,12 +180,19 @@ public class TimelineBroadcastListResource
         List<Broadcast> broadcastList = get();
         for (int i = 0, size = broadcastList.size(); i < size; ) {
             Broadcast broadcast = broadcastList.get(i);
-            if (broadcast.id == event.broadcastId
-                    || (broadcast.rebroadcastedBroadcast != null
-                        && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
+            if (broadcast.id == event.broadcastId) {
                 broadcastList.remove(i);
                 getListener().onBroadcastRemoved(getRequestCode(), i);
                 --size;
+            } else if (broadcast.parentBroadcast != null
+                    && broadcast.parentBroadcast.id == event.broadcastId) {
+                // Same behavior as Frodo API.
+                broadcast.parentBroadcast = null;
+                getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
+            } else if (broadcast.rebroadcastedBroadcast != null
+                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId) {
+                broadcast.rebroadcastedBroadcast.isDeleted = true;
+                getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
             } else {
                 ++i;
             }
@@ -198,9 +209,7 @@ public class TimelineBroadcastListResource
         List<Broadcast> broadcastList = get();
         for (int i = 0, size = broadcastList.size(); i < size; ++i) {
             Broadcast broadcast = broadcastList.get(i);
-            if (broadcast.id == event.broadcastId
-                    || (broadcast.rebroadcastedBroadcast != null
-                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
+            if (broadcast.getEffectiveBroadcastId() == event.broadcastId) {
                 getListener().onBroadcastWriteStarted(getRequestCode(), i);
             }
         }
@@ -216,9 +225,7 @@ public class TimelineBroadcastListResource
         List<Broadcast> broadcastList = get();
         for (int i = 0, size = broadcastList.size(); i < size; ++i) {
             Broadcast broadcast = broadcastList.get(i);
-            if (broadcast.id == event.broadcastId
-                    || (broadcast.rebroadcastedBroadcast != null
-                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId)) {
+            if (broadcast.getEffectiveBroadcastId() == event.broadcastId) {
                 getListener().onBroadcastWriteFinished(getRequestCode(), i);
             }
         }

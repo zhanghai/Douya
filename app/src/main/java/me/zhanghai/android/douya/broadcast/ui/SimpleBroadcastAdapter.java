@@ -39,7 +39,10 @@ public class SimpleBroadcastAdapter
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(ViewUtils.inflate(R.layout.simple_broadcast_item, parent));
+        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.simple_broadcast_item,
+                parent));
+        ViewUtils.setTextViewLinkClickable(holder.textText);
+        return holder;
     }
 
     @Override
