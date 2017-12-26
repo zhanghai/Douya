@@ -136,16 +136,10 @@ public interface ApiContract {
                     int NOT_FOLLOWED_YET = 10005;
                 }
                 interface Broadcast {
-                    int NOT_FOUND = 11110;
-                    int AUTHOR_BANNED = 11111;
-                }
-                interface LikeBroadcast {
-                    int ALREADY_LIKED = 11107;
-                    int NOT_LIKED_YET = 11108;
+                    int NOT_FOUND = 1212;
                 }
                 interface RebroadcastBroadcast {
-                    int ALREADY_REBROADCASTED = 11104;
-                    int NOT_REBROADCASTED_YET = 11105;
+                    int REBROADCASTED_BROADCAST_DELETED = 1265;
                 }
             }
             String MSG = "msg";

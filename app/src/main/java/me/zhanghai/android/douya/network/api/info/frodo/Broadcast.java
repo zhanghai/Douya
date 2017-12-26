@@ -41,6 +41,9 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     @SerializedName("create_time")
     public String createdAt;
 
+    @SerializedName("deleted")
+    public boolean isDeleted;
+
     public ArrayList<TextEntity> entities = new ArrayList<>();
 
     @SerializedName("forbid_reshare_and_comment")
@@ -98,7 +101,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
     public String getRebroadcastText(Context context) {
         return !TextUtils.isEmpty(text) ? text : context.getString(
-                R.string.broadcast_simple_rebroadcast_text);
+                R.string.broadcast_rebroadcasted_broadcasts_simple_rebroadcast_text);
     }
 
     public boolean isAuthorOneself() {
@@ -123,17 +126,6 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
     public String getLikeCountString() {
         return likeCount == 0 ? null : String.valueOf(likeCount);
-    }
-
-    public void fixLiked(boolean liked) {
-        if (isLiked != liked) {
-            isLiked = liked;
-            if (isLiked) {
-                ++likeCount;
-            } else {
-                --likeCount;
-            }
-        }
     }
 
     public String getRebroadcastCountString() {
@@ -218,6 +210,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         attachment = in.readParcelable(BroadcastAttachment.class.getClassLoader());
         commentCount = in.readInt();
         createdAt = in.readString();
+        isDeleted = in.readByte() != 0;
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         isRebroadcastAndCommentForbidden = in.readByte() != 0;
         id = in.readLong();
@@ -250,6 +243,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         dest.writeParcelable(attachment, flags);
         dest.writeInt(commentCount);
         dest.writeString(createdAt);
+        dest.writeByte(isDeleted ? (byte) 1 : (byte) 0);
         dest.writeTypedList(entities);
         dest.writeByte(isRebroadcastAndCommentForbidden ? (byte) 1 : (byte) 0);
         dest.writeLong(id);

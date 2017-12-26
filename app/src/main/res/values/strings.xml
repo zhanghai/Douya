@@ -97,16 +97,11 @@
     <string name="api_error_token_user_locked">用户已被锁定</string>
 
     <string name="api_error_followship_already_followed">你已经关注过这个用户了</string>
-    <string name="api_error_followship_not_followed_yet">你还没有关注过这个用户</string>
+    <string name="api_error_followship_not_followed_yet">你还没有关注这个用户</string>
 
     <string name="api_error_broadcast_not_found">广播不存在</string>
-    <string name="api_error_broadcast_author_banned">广播作者已被封禁</string>
 
-    <string name="api_error_like_broadcast_already_liked">你已经赞过这条广播了</string>
-    <string name="api_error_like_broadcast_not_liked_yet">你还没有赞过这条广播</string>
-
-    <string name="api_error_rebroadcast_broadcast_already_rebroadcasted">你已经转播过这条广播了</string>
-    <string name="api_error_rebroadcast_broadcast_not_rebroadcasted_yet">你还没有转播过这条广播</string>
+    <string name="api_error_rebroadcast_broadcast_deleted">被转播广播已被删除</string>
 
     <string name="auth_title_new">登录豆芽</string>
     <string name="auth_title_add">添加账户</string>
@@ -167,7 +162,7 @@
 
     <string name="broadcast_title">查看广播</string>
     <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
-    <string name="broadcast_simple_rebroadcast_text">转播了这条广播</string>
+    <string name="broadcast_rebroadcasted_broadcast_deleted">（广播已被删除）</string>
     <string name="broadcast_image_list_count_format">%1$d 张照片</string>
     <string name="broadcast_like">赞</string>
     <string name="broadcast_comment">回应</string>
@@ -207,6 +202,7 @@
     <string name="broadcast_likers_title_empty">暂无赞</string>
     <string name="broadcast_rebroadcasted_broadcasts_title_format">%1$d 条转播</string>
     <string name="broadcast_rebroadcasted_broadcasts_title_empty">暂无转播</string>
+    <string name="broadcast_rebroadcasted_broadcasts_simple_rebroadcast_text">转播了这条广播</string>
 
     <string name="user_follow_error_cannot_follow_oneself">不能关注自己</string>
     <string name="user_following">正在关注</string>

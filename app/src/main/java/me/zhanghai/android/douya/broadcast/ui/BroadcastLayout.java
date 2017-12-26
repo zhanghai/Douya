@@ -73,6 +73,8 @@ public class BroadcastLayout extends LinearLayout {
     TextView mRebroadcastedActionText;
     @BindView(R.id.rebroadcasted_text)
     TextView mRebroadcastedTextText;
+    @BindView(R.id.rebroadcasted_broadcast_deleted)
+    TextView mRebroadcastedBroadcastDeletedText;
     @BindView(R.id.attachment)
     RelativeLayout mAttachmentLayout;
     @BindView(R.id.attachment_image)
@@ -205,12 +207,21 @@ public class BroadcastLayout extends LinearLayout {
             ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
             if (hasRebroadcastedBroadcast) {
                 Broadcast rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
-                mRebroadcastedAttachmentImagesLayout.setOnClickListener(view ->
-                        context.startActivity(BroadcastActivity.makeIntent(rebroadcastedBroadcast,
-                                context)));
-                mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
-                mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
-                mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities());
+                ViewUtils.setVisibleOrGone(mRebroadcastedBroadcastDeletedText,
+                        rebroadcastedBroadcast.isDeleted);
+                if (rebroadcastedBroadcast.isDeleted) {
+                    mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
+                    mRebroadcastedNameText.setText(null);
+                    mRebroadcastedActionText.setText(null);
+                    mRebroadcastedTextText.setText(null);
+                } else {
+                    mRebroadcastedAttachmentImagesLayout.setOnClickListener(view ->
+                            context.startActivity(BroadcastActivity.makeIntent(
+                                    rebroadcastedBroadcast, context)));
+                    mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
+                    mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
+                    mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities());
+                }
             } else {
                 mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
             }

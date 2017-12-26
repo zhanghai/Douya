@@ -96,25 +96,8 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
                         : R.string.broadcast_unlike_failed_format,
                 ApiError.getErrorString(error, context)), context);
 
-        boolean notified = false;
-        if (mBroadcast != null) {
-            // Correct our local state if needed.
-            Boolean shouldBeLiked = null;
-            if (error.code == Codes.LikeBroadcast.ALREADY_LIKED) {
-                shouldBeLiked = true;
-            } else if (error.code == Codes.LikeBroadcast.NOT_LIKED_YET) {
-                shouldBeLiked = false;
-            }
-            if (shouldBeLiked != null) {
-                mBroadcast.fixLiked(shouldBeLiked);
-                EventBusUtils.postAsync(new BroadcastUpdatedEvent(mBroadcast, this));
-                notified = true;
-            }
-        }
-        if (!notified) {
-            // Must notify to reset pending status. Off-screen items also needs to be invalidated.
-            EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
-        }
+        // Must notify to reset pending status. Off-screen items also needs to be invalidated.
+        EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
 
         stopSelf();
     }

@@ -113,18 +113,9 @@ public class ApiError extends Throwable {
                 R.string.api_error_followship_not_followed_yet);
 
         ERROR_CODE_STRING_RES_MAP.put(Broadcast.NOT_FOUND, R.string.api_error_broadcast_not_found);
-        ERROR_CODE_STRING_RES_MAP.put(Broadcast.AUTHOR_BANNED,
-                R.string.api_error_broadcast_author_banned);
 
-        ERROR_CODE_STRING_RES_MAP.put(LikeBroadcast.ALREADY_LIKED,
-                R.string.api_error_like_broadcast_already_liked);
-        ERROR_CODE_STRING_RES_MAP.put(LikeBroadcast.NOT_LIKED_YET,
-                R.string.api_error_like_broadcast_not_liked_yet);
-
-        ERROR_CODE_STRING_RES_MAP.put(RebroadcastBroadcast.ALREADY_REBROADCASTED,
-                R.string.api_error_rebroadcast_broadcast_already_rebroadcasted);
-        ERROR_CODE_STRING_RES_MAP.put(RebroadcastBroadcast.NOT_REBROADCASTED_YET,
-                R.string.api_error_rebroadcast_broadcast_not_rebroadcasted_yet);
+        ERROR_CODE_STRING_RES_MAP.put(RebroadcastBroadcast.REBROADCASTED_BROADCAST_DELETED,
+                R.string.api_error_rebroadcast_broadcast_deleted);
     }
 
     public Object response;

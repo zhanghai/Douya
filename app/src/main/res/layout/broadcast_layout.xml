@@ -107,7 +107,7 @@
                 android:layout_marginBottom="@dimen/card_content_vertical_space"
                 android:background="?dividerHorizontal" />
 
-            <TextView
+            <me.zhanghai.android.douya.ui.AutoGoneTextView
                 android:id="@+id/rebroadcasted_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textStyle="bold" />
 
-            <TextView
+            <me.zhanghai.android.douya.ui.AutoGoneTextView
                 android:id="@+id/rebroadcasted_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,6 +136,16 @@
                 android:layout_below="@id/rebroadcasted_name"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/rebroadcasted_broadcast_deleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/rebroadcasted_divider"
+                android:text="@string/broadcast_rebroadcasted_broadcast_deleted"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
         </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
 
         <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
