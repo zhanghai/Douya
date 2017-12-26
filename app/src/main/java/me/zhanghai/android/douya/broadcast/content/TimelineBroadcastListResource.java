@@ -184,16 +184,18 @@ public class TimelineBroadcastListResource
                 broadcastList.remove(i);
                 getListener().onBroadcastRemoved(getRequestCode(), i);
                 --size;
-            } else if (broadcast.parentBroadcast != null
-                    && broadcast.parentBroadcast.id == event.broadcastId) {
-                // Same behavior as Frodo API.
-                broadcast.parentBroadcast = null;
-                getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
-            } else if (broadcast.rebroadcastedBroadcast != null
-                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId) {
-                broadcast.rebroadcastedBroadcast.isDeleted = true;
-                getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
             } else {
+                if (broadcast.parentBroadcast != null
+                        && broadcast.parentBroadcast.id == event.broadcastId) {
+                    // Same behavior as Frodo API.
+                    // FIXME: Won't reach here if another list shares this broadcast instance.
+                    broadcast.parentBroadcast = null;
+                    getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
+                } else if (broadcast.rebroadcastedBroadcast != null
+                        && broadcast.rebroadcastedBroadcast.id == event.broadcastId) {
+                    broadcast.rebroadcastedBroadcast.isDeleted = true;
+                    getListener().onBroadcastChanged(getRequestCode(), i, broadcast);
+                }
                 ++i;
             }
         }
