@@ -208,7 +208,7 @@ public class BroadcastLayout extends LinearLayout {
 
             mBoundBroadcastHadParentBroadcast = hasParentBroadcast;
 
-            mTextText.setText(broadcast.getTextWithEntities());
+            mTextText.setText(broadcast.getTextWithEntities(context));
         }
         boolean hasRebroadcastedBroadcast = broadcast.rebroadcastedBroadcast != null;
         if (!(isRebind && (!hasRebroadcastedBroadcast || ObjectsCompat.equals(
@@ -236,7 +236,8 @@ public class BroadcastLayout extends LinearLayout {
                                     rebroadcastedBroadcast, context)));
                     mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
                     mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
-                    mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities());
+                    mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities(
+                            context));
                 }
             } else {
                 mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);

@@ -6,9 +6,13 @@
 package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.google.gson.JsonDeserializationContext;
@@ -21,7 +25,11 @@ import java.util.ArrayList;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
+import me.zhanghai.android.douya.ui.SpaceSpan;
+import me.zhanghai.android.douya.ui.IconSpan;
+import me.zhanghai.android.douya.ui.UriSpan;
 import me.zhanghai.android.douya.util.GsonHelper;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class Broadcast implements ClipboardCopyable, Parcelable {
 
@@ -101,7 +109,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     }
 
     public CharSequence getRebroadcastText(Context context) {
-        return !TextUtils.isEmpty(text) ? getTextWithEntities() : context.getString(
+        return !TextUtils.isEmpty(text) ? getTextWithEntities(context) : context.getString(
                 R.string.broadcast_rebroadcasted_broadcasts_simple_rebroadcast_text);
     }
 
@@ -121,16 +129,52 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         return getEffectiveBroadcast().id;
     }
 
-    public CharSequence getTextWithEntities() {
+    public CharSequence getTextWithEntities(boolean appendParent, Context context) {
         CharSequence textWithEntities = TextEntity.applyEntities(text, entities);
-        if (parentBroadcast != null && !TextUtils.isEmpty(parentBroadcast.text)) {
-            SpannableStringBuilder builder = textWithEntities instanceof SpannableStringBuilder ?
-                    (SpannableStringBuilder) textWithEntities
-                    : new SpannableStringBuilder(textWithEntities);
-            builder.append(parentBroadcast.getTextWithEntities());
-            textWithEntities = builder;
+        if (appendParent) {
+            textWithEntities = appendParentText(textWithEntities, parentBroadcast, context);
         }
         return textWithEntities;
+    }
+
+    public CharSequence getTextWithEntities(Context context) {
+        return getTextWithEntities(true, context);
+    }
+
+    private static CharSequence appendParentText(CharSequence text, Broadcast parentBroadcast,
+                                                 Context context) {
+
+        if (parentBroadcast == null || TextUtils.isEmpty(parentBroadcast.text)) {
+            return text;
+        }
+
+        SpannableStringBuilder builder = SpannableStringBuilder.valueOf(text);
+
+        int parentSpaceStartIndex = builder.length();
+        builder.append(" ");
+        int parentSpaceEndIndex = builder.length();
+        builder.setSpan(new SpaceSpan(0.5f), parentSpaceStartIndex, parentSpaceEndIndex,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder.append(" ");
+        int parentIconEndIndex = builder.length();
+        Drawable icon = ContextCompat.getDrawable(context, R.drawable.rebroadcast_icon_white_18dp);
+        icon = DrawableCompat.wrap(icon);
+        DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(android.R.attr.textColorLink, 0,
+                context));
+        builder.setSpan(new IconSpan(icon), parentSpaceEndIndex, parentIconEndIndex,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder.append(context.getString(
+                R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
+                parentBroadcast.author.name));
+        int parentNameEndIndex = builder.length();
+        builder.setSpan(new UriSpan(parentBroadcast.uri), parentSpaceStartIndex, parentNameEndIndex,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder.append(parentBroadcast.getTextWithEntities(false, context));
+
+        return builder;
     }
 
     public String getLikeCountString() {
@@ -151,13 +195,13 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     }
 
     @Override
-    public String getClipboardLabel() {
+    public String getClipboardLabel(Context context) {
         return author.name;
     }
 
     @Override
-    public String getClipboardText() {
-        return getTextWithEntities().toString();
+    public String getClipboardText(Context context) {
+        return getTextWithEntities(context).toString();
     }
 
     public static String makeTransitionName(long id) {

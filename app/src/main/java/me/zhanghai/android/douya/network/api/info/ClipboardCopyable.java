@@ -5,9 +5,11 @@
 
 package me.zhanghai.android.douya.network.api.info;
 
+import android.content.Context;
+
 public interface ClipboardCopyable {
 
-    String getClipboardLabel();
+    String getClipboardLabel(Context context);
 
-    String getClipboardText();
+    String getClipboardText(Context context);
 }

@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -55,12 +56,12 @@ public class Comment implements ClipboardCopyable, Parcelable {
     }
 
     @Override
-    public String getClipboardLabel() {
+    public String getClipboardLabel(Context context) {
         return author.name;
     }
 
     @Override
-    public String getClipboardText() {
+    public String getClipboardText(Context context) {
         return getTextWithEntities().toString();
     }
 

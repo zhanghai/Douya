@@ -47,7 +47,7 @@ public class ClipboardUtils {
     }
 
     public static void copy(ClipboardCopyable copyable, Context context) {
-        copyText(copyable.getClipboardLabel(), copyable.getClipboardText(), context);
+        copyText(copyable.getClipboardLabel(context), copyable.getClipboardText(context), context);
     }
 
     private static void showToast(CharSequence copiedText, Context context) {

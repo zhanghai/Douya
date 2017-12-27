@@ -115,7 +115,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                 } else {
                     holder.image.setVisibility(GONE);
                 }
-                CharSequence text = broadcast.getTextWithEntities();
+                CharSequence text = broadcast.getTextWithEntities(context);
                 if (TextUtils.isEmpty(text) && broadcast.attachment != null) {
                     text = broadcast.attachment.title;
                 }
