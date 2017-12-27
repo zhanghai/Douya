@@ -150,32 +150,27 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
         SpannableStringBuilder builder = SpannableStringBuilder.valueOf(text);
 
-        int parentStartSpaceStartIndex = builder.length();
+        int parentSpaceStartIndex = builder.length();
         builder.append(" ");
-        int parentStartSpaceEndIndex = builder.length();
-        builder.setSpan(new SpaceSpan(0.5f), parentStartSpaceStartIndex, parentStartSpaceEndIndex,
+        int parentSpaceEndIndex = builder.length();
+        builder.setSpan(new SpaceSpan(0.5f), parentSpaceStartIndex, parentSpaceEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        int parentIconStartIndex = builder.length();
         builder.append(" ");
         int parentIconEndIndex = builder.length();
         Drawable icon = ContextCompat.getDrawable(context, R.drawable.rebroadcast_icon_white_18dp);
         icon = DrawableCompat.wrap(icon);
         DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(android.R.attr.textColorLink, 0,
                 context));
-        builder.setSpan(new IconSpan(icon), parentIconStartIndex, parentIconEndIndex,
+        builder.setSpan(new IconSpan(icon), parentSpaceEndIndex, parentIconEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        builder.append(parentBroadcast.author.name);
-
-        int parentEndSpaceStartIndex = builder.length();
-        builder.append(" ");
-        int parentEndSpaceEndIndex = builder.length();
-        builder.setSpan(new SpaceSpan(0.5f), parentEndSpaceStartIndex, parentEndSpaceEndIndex,
+        builder.append(context.getString(
+                R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
+                parentBroadcast.author.name));
+        int parentNameEndIndex = builder.length();
+        builder.setSpan(new UriSpan(parentBroadcast.uri), parentSpaceStartIndex, parentNameEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        builder.setSpan(new UriSpan(parentBroadcast.uri), parentStartSpaceStartIndex,
-                parentEndSpaceEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         builder.append(parentBroadcast.getTextWithEntities(false, context));
 
