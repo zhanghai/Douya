@@ -34,7 +34,7 @@ public class IconSpan extends ReplacementSpan {
                 width = mDrawable.getIntrinsicWidth();
             }
             mDrawable.setBounds(0, 0, width, height);
-            // fm.ascent and fm.descent define top and boom in draw().
+            // fm.ascent and fm.descent determine top and boom in draw().
             fm.ascent = fm.top;
             fm.descent = fm.bottom;
         }
