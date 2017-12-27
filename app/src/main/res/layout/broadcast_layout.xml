@@ -107,12 +107,21 @@
                 android:layout_marginBottom="@dimen/card_content_vertical_space"
                 android:background="?dividerHorizontal" />
 
+            <me.zhanghai.android.douya.ui.SimpleCircleImageView
+                android:id="@+id/rebroadcasted_avatar"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/rebroadcasted_divider"
+                android:layout_marginTop="2dp" />
+
             <me.zhanghai.android.douya.ui.AutoGoneTextView
                 android:id="@+id/rebroadcasted_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_toRightOf="@id/rebroadcasted_avatar"
                 android:layout_below="@id/rebroadcasted_divider"
+                android:layout_marginLeft="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

@@ -68,6 +68,8 @@ public class BroadcastLayout extends LinearLayout {
     ViewGroup mRebroadcastedAttachmentImagesLayout;
     @BindView(R.id.rebroadcasted_layout)
     ViewGroup mRebroadcastedLayout;
+    @BindView(R.id.rebroadcasted_avatar)
+    ImageView mRebroadcastedAvatarImage;
     @BindView(R.id.rebroadcasted_name)
     TextView mRebroadcastedNameText;
     @BindView(R.id.rebroadcasted_action)
@@ -227,6 +229,7 @@ public class BroadcastLayout extends LinearLayout {
                         rebroadcastedBroadcast.isDeleted);
                 if (rebroadcastedBroadcast.isDeleted) {
                     mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
+                    ViewUtils.setVisibleOrGone(mRebroadcastedAvatarImage, false);
                     mRebroadcastedNameText.setText(null);
                     mRebroadcastedActionText.setText(null);
                     mRebroadcastedTextText.setText(null);
@@ -234,6 +237,9 @@ public class BroadcastLayout extends LinearLayout {
                     mRebroadcastedAttachmentImagesLayout.setOnClickListener(view ->
                             context.startActivity(BroadcastActivity.makeIntent(
                                     rebroadcastedBroadcast, context)));
+                    ViewUtils.setVisibleOrGone(mRebroadcastedAvatarImage, true);
+                    ImageUtils.loadAvatar(mRebroadcastedAvatarImage,
+                            rebroadcastedBroadcast.author.avatar);
                     mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
                     mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
                     mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities(
