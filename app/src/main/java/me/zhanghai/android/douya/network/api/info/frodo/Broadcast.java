@@ -156,13 +156,14 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         builder.setSpan(new SpaceSpan(0.5f), parentSpaceStartIndex, parentSpaceEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        int parentIconStartIndex = builder.length();
         builder.append(" ");
         int parentIconEndIndex = builder.length();
         Drawable icon = ContextCompat.getDrawable(context, R.drawable.rebroadcast_icon_white_18dp);
         icon = DrawableCompat.wrap(icon);
         DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(android.R.attr.textColorLink, 0,
                 context));
-        builder.setSpan(new IconSpan(icon), parentSpaceEndIndex, parentIconEndIndex,
+        builder.setSpan(new IconSpan(icon), parentIconStartIndex, parentIconEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         builder.append(context.getString(
