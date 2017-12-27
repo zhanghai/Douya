@@ -527,11 +527,13 @@ public class ViewUtils {
     }
 
     public static void setTextViewLinkClickable(TextView textView) {
+        boolean wasClickable = textView.isClickable();
+        boolean wasLongClickable = textView.isLongClickable();
         textView.setMovementMethod(ClickableMovementMethod.getInstance());
         // Reset for TextView.fixFocusableAndClickableSettings(). We don't want View.onTouchEvent()
         // to consume touch events.
-        textView.setClickable(false);
-        textView.setLongClickable(false);
+        textView.setClickable(wasClickable);
+        textView.setLongClickable(wasLongClickable);
     }
 
     public static void setVisibleOrGone(View view, boolean visible) {
