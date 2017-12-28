@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.webkit.URLUtil;
 
 import java.util.List;
 
@@ -49,16 +50,17 @@ public class Entity implements Parcelable {
             int entityStart = text.offsetByCodePoints(lastTextIndex, entity.start - lastTextIndex);
             int entityEnd = text.offsetByCodePoints(entityStart, entity.end - entity.start);
             builder.append(text.substring(lastTextIndex, entityStart));
-            String entityTitle = entity.title;
+            String entityText = entity.title;
             if (!Settings.SHOW_LONG_URL_FOR_LINK_ENTITY.getValue()
-                    && Patterns.WEB_URL.matcher(entityTitle).matches()) {
-                entityTitle = text.substring(entityStart, entityEnd);
+                    && URLUtil.isNetworkUrl(entityText)
+                    && Patterns.WEB_URL.matcher(entityText).matches()) {
+                entityText = text.substring(entityStart, entityEnd);
             }
             int entityStartInAppliedText = builder.length();
             builder
-                    .append(entityTitle)
+                    .append(entityText)
                     .setSpan(new UriSpan(entity.href), entityStartInAppliedText,
-                            entityStartInAppliedText + entityTitle.length(),
+                            entityStartInAppliedText + entityText.length(),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             lastTextIndex = entityEnd;
         }

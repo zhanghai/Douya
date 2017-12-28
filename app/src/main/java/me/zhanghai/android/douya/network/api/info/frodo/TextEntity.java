@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.webkit.URLUtil;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class TextEntity implements Parcelable {
             builder.append(text.substring(lastTextIndex, entityStart));
             String entityText = entity.title;
             if (Settings.SHOW_LONG_URL_FOR_LINK_ENTITY.getValue()
+                    && URLUtil.isNetworkUrl(entityText)
                     && Patterns.WEB_URL.matcher(entityText).matches()) {
                 entityText = entity.uri;
             }
