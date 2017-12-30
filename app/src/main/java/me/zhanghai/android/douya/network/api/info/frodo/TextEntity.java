@@ -38,7 +38,7 @@ public class TextEntity implements Parcelable {
         SpannableStringBuilder builder = new SpannableStringBuilder();
         int lastTextIndex = 0;
         for (TextEntity entity : entityList) {
-            if (entity.start < 0 || entity.end < entity.start) {
+            if (entity.start < 0 || entity.start >= text.length() || entity.end < entity.start) {
                 LogUtils.w("Ignoring malformed entity " + entity);
                 continue;
             }
@@ -47,9 +47,7 @@ public class TextEntity implements Parcelable {
                         + lastTextIndex);
                 continue;
             }
-            int entityStart = text.offsetByCodePoints(lastTextIndex, entity.start - lastTextIndex);
-            int entityEnd = text.offsetByCodePoints(entityStart, entity.end - entity.start);
-            builder.append(text.substring(lastTextIndex, entityStart));
+            builder.append(text.substring(lastTextIndex, entity.start));
             String entityText = entity.title;
             if (Settings.SHOW_LONG_URL_FOR_LINK_ENTITY.getValue()
                     && URLUtil.isNetworkUrl(entityText)
@@ -62,7 +60,7 @@ public class TextEntity implements Parcelable {
                     .setSpan(new UriSpan(entity.uri), entityStartInAppliedText,
                             entityStartInAppliedText + entityText.length(),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            lastTextIndex = entityEnd;
+            lastTextIndex = entity.end;
         }
         if (lastTextIndex != text.length()) {
             builder.append(text.substring(lastTextIndex, text.length()));
