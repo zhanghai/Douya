@@ -28,7 +28,7 @@ public class GsonHelper {
     static {
         GsonBuilder builder = new GsonBuilder()
                 .serializeNulls()
-                .registerTypeAdapter(Integer.class, new IntegerDeserializer())
+                .registerTypeAdapter(Long.class, new LongDeserializer())
                 .registerTypeAdapter(BaseTimelineItem.class, new BaseTimelineItem.Deserializer())
                 .registerTypeAdapter(CollectableItem.class, new CollectableItem.Deserializer())
                 .registerTypeAdapter(CompleteCollectableItem.class,
@@ -42,11 +42,11 @@ public class GsonHelper {
 
     private GsonHelper() {}
 
-    // Allows empty string to be Integer as null, such as the case of Broadcast.parentBroadcastId.
-    private static class IntegerDeserializer implements JsonDeserializer<Integer> {
+    // Allows empty string to be Long as null, such as the case of Broadcast.parentBroadcastId.
+    private static class LongDeserializer implements JsonDeserializer<Long> {
 
         @Override
-        public Integer deserialize(JsonElement json, Type typeOfT,
+        public Long deserialize(JsonElement json, Type typeOfT,
                                    JsonDeserializationContext context) throws JsonParseException {
             if (json.isJsonNull()) {
                 return null;
@@ -56,7 +56,7 @@ public class GsonHelper {
                     return null;
                 }
             }
-            return json.getAsInt();
+            return json.getAsLong();
         }
     }
 }
