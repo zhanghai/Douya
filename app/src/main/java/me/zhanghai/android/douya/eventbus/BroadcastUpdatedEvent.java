@@ -45,7 +45,7 @@ public class BroadcastUpdatedEvent extends Event {
     @SuppressWarnings("deprecation")
     public Broadcast update(Broadcast oldBroadcast, Object source) {
         if (oldBroadcast.id == broadcast.id) {
-            mergeAndRepost(broadcast, source);
+            mergeAndRepost(oldBroadcast, source);
             return broadcast;
         } else if (oldBroadcast.parentBroadcast != null
                 && oldBroadcast.parentBroadcast.id == broadcast.id) {
