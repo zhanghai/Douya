@@ -7,6 +7,13 @@ package me.zhanghai.android.douya.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+
+import java.lang.reflect.Type;
 
 import me.zhanghai.android.douya.network.api.info.frodo.BaseTimelineItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
@@ -21,6 +28,7 @@ public class GsonHelper {
     static {
         GsonBuilder builder = new GsonBuilder()
                 .serializeNulls()
+                .registerTypeAdapter(Integer.class, new IntegerDeserializer())
                 .registerTypeAdapter(BaseTimelineItem.class, new BaseTimelineItem.Deserializer())
                 .registerTypeAdapter(CollectableItem.class, new CollectableItem.Deserializer())
                 .registerTypeAdapter(CompleteCollectableItem.class,
@@ -33,4 +41,22 @@ public class GsonHelper {
     }
 
     private GsonHelper() {}
+
+    // Allows empty string to be Integer as null, such as the case of Broadcast.parentBroadcastId.
+    private static class IntegerDeserializer implements JsonDeserializer<Integer> {
+
+        @Override
+        public Integer deserialize(JsonElement json, Type typeOfT,
+                                   JsonDeserializationContext context) throws JsonParseException {
+            if (json.isJsonNull()) {
+                return null;
+            } else if (json.isJsonPrimitive()) {
+                JsonPrimitive jsonPrimitive = (JsonPrimitive) json;
+                if (jsonPrimitive.isString() && jsonPrimitive.getAsString().isEmpty()) {
+                    return null;
+                }
+            }
+            return json.getAsInt();
+        }
+    }
 }
