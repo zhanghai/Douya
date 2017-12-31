@@ -17,6 +17,9 @@ public class IconSpan extends ReplacementSpan {
 
     private Drawable mDrawable;
 
+    private int topFix;
+    private int bottomFix;
+
     public IconSpan(Drawable drawable) {
         mDrawable = drawable;
     }
@@ -25,8 +28,12 @@ public class IconSpan extends ReplacementSpan {
     public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
                        @Nullable Paint.FontMetricsInt fm) {
         if (fm != null) {
-            // Guard against the case when icon is the first character.
+            // Important in the case when icon is the first character.
+            int oldTop = fm.top;
+            int oldBottom = fm.bottom;
             paint.getFontMetricsInt(fm);
+            topFix = fm.top - oldTop;
+            bottomFix = fm.bottom - oldBottom;
             int height = fm.descent - fm.ascent;
             int width;
             if (mDrawable.getIntrinsicHeight() > 0) {
@@ -37,7 +44,7 @@ public class IconSpan extends ReplacementSpan {
                 width = height;
             }
             mDrawable.setBounds(0, 0, width, height);
-            // fm.ascent and fm.descent determine top and bottom in draw().
+            // fm.ascent and fm.descent can affect top and bottom in draw().
             fm.ascent = fm.top;
             fm.descent = fm.bottom;
         }
@@ -49,6 +56,8 @@ public class IconSpan extends ReplacementSpan {
                      int top, int y, int bottom, @NonNull Paint paint) {
         canvas.save();
         Rect bounds = mDrawable.getBounds();
+        top += topFix;
+        bottom += bottomFix;
         // Center between top and bottom.
         canvas.translate(x, (top + bottom - bounds.top - bounds.bottom) / 2);
         mDrawable.draw(canvas);
