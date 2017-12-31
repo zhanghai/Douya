@@ -121,8 +121,18 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         return isSimpleRebroadcast() && isAuthorOneself();
     }
 
+    // The broadcast for user actions.
     public Broadcast getEffectiveBroadcast() {
-        return isSimpleRebroadcast() ? rebroadcastedBroadcast : this;
+        if (isSimpleRebroadcast()) {
+            if (parentBroadcast != null) {
+                // parentBroadcast can't be a simple rebroadcast.
+                return parentBroadcast;
+            } else {
+                return rebroadcastedBroadcast;
+            }
+        } else {
+            return this;
+        }
     }
 
     public long getEffectiveBroadcastId() {

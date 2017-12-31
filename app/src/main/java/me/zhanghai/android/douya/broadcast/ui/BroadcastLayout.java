@@ -179,8 +179,8 @@ public class BroadcastLayout extends LinearLayout {
         mListener = listener;
     }
 
-    private void bind(Broadcast broadcast, boolean isSimpleRebroadcastByOneself,
-                      boolean isUnrebroadcasting) {
+    private void bind(Broadcast broadcast, Broadcast rebroadcastedBroadcast,
+                      boolean isSimpleRebroadcastByOneself, boolean isUnrebroadcasting) {
 
         Context context = getContext();
 
@@ -211,19 +211,17 @@ public class BroadcastLayout extends LinearLayout {
 
             mTextText.setText(broadcast.getTextWithEntities(context));
         }
-        boolean hasRebroadcastedBroadcast = broadcast.rebroadcastedBroadcast != null;
+        boolean hasRebroadcastedBroadcast = rebroadcastedBroadcast != null;
         if (!(isRebind && (!hasRebroadcastedBroadcast || ObjectsCompat.equals(
                 mBoundBroadcastRebroadcastedBroadcastWasDeleted,
-                broadcast.rebroadcastedBroadcast.isDeleted)))) {
+                rebroadcastedBroadcast.isDeleted)))) {
 
             if (hasRebroadcastedBroadcast) {
-                mBoundBroadcastRebroadcastedBroadcastWasDeleted =
-                        broadcast.rebroadcastedBroadcast.isDeleted;
+                mBoundBroadcastRebroadcastedBroadcastWasDeleted = rebroadcastedBroadcast.isDeleted;
             }
 
             ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
             if (hasRebroadcastedBroadcast) {
-                Broadcast rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
                 ViewUtils.setVisibleOrGone(mRebroadcastedBroadcastDeletedText,
                         rebroadcastedBroadcast.isDeleted);
                 if (rebroadcastedBroadcast.isDeleted) {
@@ -244,8 +242,8 @@ public class BroadcastLayout extends LinearLayout {
                 mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
             }
 
-            Broadcast contentBroadcast = hasRebroadcastedBroadcast ?
-                    broadcast.rebroadcastedBroadcast : broadcast;
+            Broadcast contentBroadcast = hasRebroadcastedBroadcast ? rebroadcastedBroadcast
+                    : broadcast;
             BroadcastAttachment attachment = contentBroadcast.attachment;
             List<? extends SizedImageItem> images = contentBroadcast.attachment != null
                     && contentBroadcast.attachment.imageBlock != null ?
@@ -350,10 +348,16 @@ public class BroadcastLayout extends LinearLayout {
             boolean isSimpleRebroadcastByOneself = broadcast.isSimpleRebroadcastByOneself();
             boolean isUnrebroadcasting = isSimpleRebroadcastByOneself &&
                     DeleteBroadcastManager.getInstance().isWriting(broadcast.id);
-            bind(broadcast.rebroadcastedBroadcast, isSimpleRebroadcastByOneself,
-                    isUnrebroadcasting);
+            if (broadcast.parentBroadcast != null) {
+                bind(broadcast.parentBroadcast, broadcast.rebroadcastedBroadcast,
+                        isSimpleRebroadcastByOneself, isUnrebroadcasting);
+            } else {
+                bind(broadcast.rebroadcastedBroadcast,
+                        broadcast.rebroadcastedBroadcast.rebroadcastedBroadcast,
+                        isSimpleRebroadcastByOneself, isUnrebroadcasting);
+            }
         } else {
-            bind(broadcast, false, false);
+            bind(broadcast, broadcast.rebroadcastedBroadcast, false, false);
         }
     }
 
