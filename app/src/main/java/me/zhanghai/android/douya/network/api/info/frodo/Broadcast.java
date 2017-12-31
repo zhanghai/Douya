@@ -178,25 +178,26 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
 
         SpannableStringBuilder builder = SpannableStringBuilder.valueOf(text);
 
-        int parentSpaceStartIndex = builder.length();
-        builder.append(" ");
-        int parentSpaceEndIndex = builder.length();
-        // HACK: For the case when rebroadcasting a broadcast.
-        float spaceWidthEm = builder.length() > 1 ? 0.5f : -1f / 12;
-        builder.setSpan(new SpaceSpan(spaceWidthEm), parentSpaceStartIndex, parentSpaceEndIndex,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        int parentIconStartIndex = builder.length();
-        builder.append(" ");
-        int parentIconEndIndex = builder.length();
-        Drawable icon = ContextCompat.getDrawable(context, R.drawable.rebroadcast_icon_white_18dp);
-        icon = DrawableCompat.wrap(icon);
-        DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(android.R.attr.textColorLink, 0,
-                context));
-        builder.setSpan(new IconSpan(icon), parentIconStartIndex, parentIconEndIndex,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         if (parentBroadcast != null) {
+
+            int parentSpaceStartIndex = builder.length();
+            builder.append(" ");
+            int parentSpaceEndIndex = builder.length();
+            // HACK: For the case when rebroadcasting a broadcast.
+            float spaceWidthEm = parentSpaceStartIndex > 0 ? 0.5f : -1f / 12;
+            builder.setSpan(new SpaceSpan(spaceWidthEm), parentSpaceStartIndex, parentSpaceEndIndex,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            int parentIconStartIndex = builder.length();
+            builder.append(" ");
+            int parentIconEndIndex = builder.length();
+            Drawable icon = ContextCompat.getDrawable(context,
+                    R.drawable.rebroadcast_icon_white_18dp);
+            icon = DrawableCompat.wrap(icon);
+            DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(android.R.attr.textColorLink,
+                    0, context));
+            builder.setSpan(new IconSpan(icon), parentIconStartIndex, parentIconEndIndex,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             builder.append(context.getString(
                     R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
@@ -208,16 +209,18 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
             builder.append(parentBroadcast.getTextWithEntities(false, context));
 
             parentBroadcastId = parentBroadcast.getParentBroadcastId();
-            if (parentBroadcastId != null) {
-                parentSpaceStartIndex = builder.length();
-                builder.append(" ");
-                parentSpaceEndIndex = builder.length();
-                builder.setSpan(new SpaceSpan(0.5f), parentSpaceStartIndex, parentSpaceEndIndex,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
         }
 
         if (parentBroadcastId != null) {
+
+            int parentSpaceStartIndex = builder.length();
+            if (parentSpaceStartIndex > 0) {
+                builder.append(" ");
+                int parentSpaceEndIndex = builder.length();
+                builder.setSpan(new SpaceSpan(0.5f), parentSpaceStartIndex, parentSpaceEndIndex,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
             builder.append(context.getString(
                     R.string.broadcast_rebroadcasted_broadcast_text_more_rebroadcast));
             int parentMoreEndIndex = builder.length();
