@@ -66,7 +66,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
                 // Not setting button disabled because we are using enabled state for indeterminate
                 // state due to network, and we want the click to always open the broadcast for our
                 // user.
-                mListener.onCommentBroadcast(effectiveBroadcast, getSharedView(holder));
+                mListener.onCommentBroadcast(broadcast, getSharedView(holder));
             }
         });
         ViewCompat.setTransitionName(getSharedView(holder), broadcast.makeTransitionName());
