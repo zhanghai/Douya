@@ -28,8 +28,8 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapter.ViewHolder> {
 
     public CommentAdapter(List<Comment> commentList,
-                          OnItemClickListener<Comment, CommentAdapter.ViewHolder> onItemClickListener) {
-        super(commentList, onItemClickListener, null);
+                          OnItemClickListener<Comment> onItemClickListener) {
+        super(commentList, onItemClickListener);
 
         setHasStableIds(true);
     }

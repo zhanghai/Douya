@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import java.util.List;
@@ -54,6 +55,8 @@ import me.zhanghai.android.douya.util.ViewUtils;
  */
 public class BroadcastLayout extends LinearLayout {
 
+    @BindView(R.id.author_time_action_layout)
+    ViewGroup mAuthorTimeActionLayout;
     @BindView(R.id.avatar)
     ImageView mAvatarImage;
     @BindView(R.id.name)
@@ -94,6 +97,10 @@ public class BroadcastLayout extends LinearLayout {
     TextView mImageListDescriptionText;
     @BindView(R.id.image_list)
     RecyclerView mImageList;
+    @BindView(R.id.rebroadcasted_attachment_images_space)
+    Space mRebroadcastedAttachmentImagesSpace;
+    @BindView(R.id.actions)
+    ViewGroup mActionsLayout;
     @BindView(R.id.like)
     CardIconButton mLikeButton;
     @BindView(R.id.comment)
@@ -206,93 +213,17 @@ public class BroadcastLayout extends LinearLayout {
         boolean hasParentBroadcast = broadcast.parentBroadcast != null;
         if (!(isRebind && ObjectsCompat.equals(mBoundBroadcastHadParentBroadcast,
                 hasParentBroadcast))) {
-
             mBoundBroadcastHadParentBroadcast = hasParentBroadcast;
-
-            mTextText.setText(broadcast.getTextWithEntities(context));
+            bindText(broadcast);
         }
         boolean hasRebroadcastedBroadcast = rebroadcastedBroadcast != null;
         if (!(isRebind && (!hasRebroadcastedBroadcast || ObjectsCompat.equals(
                 mBoundBroadcastRebroadcastedBroadcastWasDeleted,
                 rebroadcastedBroadcast.isDeleted)))) {
-
             if (hasRebroadcastedBroadcast) {
                 mBoundBroadcastRebroadcastedBroadcastWasDeleted = rebroadcastedBroadcast.isDeleted;
             }
-
-            ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
-            if (hasRebroadcastedBroadcast) {
-                ViewUtils.setVisibleOrGone(mRebroadcastedBroadcastDeletedText,
-                        rebroadcastedBroadcast.isDeleted);
-                if (rebroadcastedBroadcast.isDeleted) {
-                    mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
-                    mRebroadcastedNameText.setText(null);
-                    mRebroadcastedActionText.setText(null);
-                    mRebroadcastedTextText.setText(null);
-                } else {
-                    mRebroadcastedAttachmentImagesLayout.setOnClickListener(view ->
-                            context.startActivity(BroadcastActivity.makeIntent(
-                                    rebroadcastedBroadcast, context)));
-                    mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
-                    mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
-                    mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities(
-                            context));
-                }
-            } else {
-                mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
-            }
-
-            Broadcast contentBroadcast = hasRebroadcastedBroadcast ? rebroadcastedBroadcast
-                    : broadcast;
-            BroadcastAttachment attachment = contentBroadcast.attachment;
-            List<? extends SizedImageItem> images = contentBroadcast.attachment != null
-                    && contentBroadcast.attachment.imageBlock != null ?
-                    contentBroadcast.attachment.imageBlock.images : contentBroadcast.images;
-
-            if (attachment != null) {
-                mAttachmentLayout.setVisibility(VISIBLE);
-                mAttachmentTitleText.setText(attachment.title);
-                mAttachmentDescriptionText.setText(attachment.text);
-                if (attachment.image != null && images.isEmpty()) {
-                    mAttachmentImage.setVisibility(VISIBLE);
-                    ImageUtils.loadImage(mAttachmentImage, attachment.image);
-                } else {
-                    mAttachmentImage.setVisibility(GONE);
-                }
-                String attachmentUrl = attachment.url;
-                if (!TextUtils.isEmpty(attachmentUrl)) {
-                    mAttachmentLayout.setOnClickListener(view -> UriHandler.open(attachmentUrl,
-                            context));
-                } else {
-                    mAttachmentLayout.setOnClickListener(null);
-                }
-            } else {
-                mAttachmentLayout.setVisibility(GONE);
-            }
-
-            int numImages = images.size();
-            if (numImages == 1) {
-                SizedImageItem image = images.get(0);
-                mSingleImageLayout.setVisibility(VISIBLE);
-                mSingleImageLayout.loadImage(image);
-                mSingleImageLayout.setOnClickListener(view -> context.startActivity(
-                        GalleryActivity.makeIntent(image, context)));
-            } else {
-                mSingleImageLayout.setVisibility(GONE);
-            }
-            if (numImages > 1) {
-                mImageListLayout.setVisibility(VISIBLE);
-                mImageListDescriptionText.setText(context.getString(
-                        R.string.broadcast_image_list_count_format, numImages));
-                mImageListAdapter.replace(images);
-                mImageListAdapter.setOnImageClickListener(position -> context.startActivity(
-                        GalleryActivity.makeIntent(images, position, context)));
-            } else {
-                mImageListLayout.setVisibility(GONE);
-            }
-
-            ViewUtils.setVisibleOrGone(mRebroadcastedAttachmentImagesLayout,
-                    hasRebroadcastedBroadcast || attachment != null || !images.isEmpty());
+            bindRebroadcastedAttachmentImages(broadcast, rebroadcastedBroadcast);
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());
@@ -343,6 +274,98 @@ public class BroadcastLayout extends LinearLayout {
         mBoundBroadcastId = broadcast.id;
     }
 
+    private void bindText(Broadcast broadcast) {
+        mTextText.setText(broadcast.getTextWithEntities(mTextText.getContext()));
+    }
+
+    private void bindRebroadcastedAttachmentImages(Broadcast broadcast,
+                                                   Broadcast rebroadcastedBroadcast) {
+        boolean hasRebroadcastedBroadcast = rebroadcastedBroadcast != null;
+        ViewUtils.setVisibleOrGone(mRebroadcastedLayout, hasRebroadcastedBroadcast);
+        if (hasRebroadcastedBroadcast) {
+            ViewUtils.setVisibleOrGone(mRebroadcastedBroadcastDeletedText,
+                    rebroadcastedBroadcast.isDeleted);
+            if (rebroadcastedBroadcast.isDeleted) {
+                mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
+                mRebroadcastedNameText.setText(null);
+                mRebroadcastedActionText.setText(null);
+                mRebroadcastedTextText.setText(null);
+            } else {
+                mRebroadcastedAttachmentImagesLayout.setOnClickListener(view -> {
+                    Context context = view.getContext();
+                    context.startActivity(BroadcastActivity.makeIntent(rebroadcastedBroadcast,
+                            context));
+                });
+                mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
+                mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
+                mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities(
+                        mRebroadcastedTextText.getContext()));
+            }
+        } else {
+            mRebroadcastedAttachmentImagesLayout.setOnClickListener(null);
+        }
+
+        Broadcast contentBroadcast = hasRebroadcastedBroadcast ? rebroadcastedBroadcast
+                : broadcast;
+        BroadcastAttachment attachment = contentBroadcast.attachment;
+        List<? extends SizedImageItem> images = contentBroadcast.attachment != null
+                && contentBroadcast.attachment.imageBlock != null ?
+                contentBroadcast.attachment.imageBlock.images : contentBroadcast.images;
+
+        if (attachment != null) {
+            mAttachmentLayout.setVisibility(VISIBLE);
+            mAttachmentTitleText.setText(attachment.title);
+            mAttachmentDescriptionText.setText(attachment.text);
+            if (attachment.image != null && images.isEmpty()) {
+                mAttachmentImage.setVisibility(VISIBLE);
+                ImageUtils.loadImage(mAttachmentImage, attachment.image);
+            } else {
+                mAttachmentImage.setVisibility(GONE);
+            }
+            String attachmentUrl = attachment.url;
+            if (!TextUtils.isEmpty(attachmentUrl)) {
+                mAttachmentLayout.setOnClickListener(view -> UriHandler.open(attachmentUrl,
+                        view.getContext()));
+            } else {
+                mAttachmentLayout.setOnClickListener(null);
+            }
+        } else {
+            mAttachmentLayout.setVisibility(GONE);
+        }
+
+        int numImages = images.size();
+        if (numImages == 1) {
+            SizedImageItem image = images.get(0);
+            mSingleImageLayout.setVisibility(VISIBLE);
+            mSingleImageLayout.loadImage(image);
+            mSingleImageLayout.setOnClickListener(view -> {
+                Context context = view.getContext();
+                context.startActivity(GalleryActivity.makeIntent(image, context));
+            });
+        } else {
+            mSingleImageLayout.setVisibility(GONE);
+        }
+        if (numImages > 1) {
+            mImageListLayout.setVisibility(VISIBLE);
+            mImageListDescriptionText.setText(mImageListDescriptionText.getContext().getString(
+                    R.string.broadcast_image_list_count_format, numImages));
+            mImageListAdapter.replace(images);
+            mImageListAdapter.setOnItemClickListener((parent, itemView, item, position) -> {
+                Context context = itemView.getContext();
+                context.startActivity(GalleryActivity.makeIntent(images, position, context));
+            });
+        } else {
+            mImageListLayout.setVisibility(GONE);
+        }
+
+        boolean rebroadecastedAttachmentImagesVisible = hasRebroadcastedBroadcast
+                || attachment != null || !images.isEmpty();
+        ViewUtils.setVisibleOrGone(mRebroadcastedAttachmentImagesLayout,
+                rebroadecastedAttachmentImagesVisible);
+        ViewUtils.setVisibleOrGone(mRebroadcastedAttachmentImagesSpace,
+                rebroadecastedAttachmentImagesVisible);
+    }
+
     public void bind(Broadcast broadcast) {
         if (broadcast.isSimpleRebroadcast()) {
             boolean isSimpleRebroadcastByOneself = broadcast.isSimpleRebroadcastByOneself();
@@ -367,6 +390,21 @@ public class BroadcastLayout extends LinearLayout {
         mSingleImageLayout.releaseImage();
         mImageListAdapter.clear();
         mBoundBroadcastId = null;
+    }
+
+    public void bindForRebroadcast(Broadcast broadcast) {
+        ViewUtils.setVisibleOrGone(mAuthorTimeActionLayout, false);
+        Broadcast newBroadcast = new Broadcast();
+        if (broadcast.rebroadcastedBroadcast != null) {
+            newBroadcast.parentBroadcast = broadcast.getEffectiveBroadcast();
+            newBroadcast.rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
+        } else {
+            newBroadcast.rebroadcastedBroadcast = broadcast;
+        }
+        bindText(newBroadcast);
+        bindRebroadcastedAttachmentImages(newBroadcast, newBroadcast.rebroadcastedBroadcast);
+        ViewUtils.setVisibleOrGone(mRebroadcastedAttachmentImagesSpace, false);
+        ViewUtils.setVisibleOrGone(mActionsLayout, false);
     }
 
     public interface Listener {

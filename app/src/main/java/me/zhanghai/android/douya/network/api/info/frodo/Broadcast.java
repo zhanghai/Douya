@@ -143,6 +143,9 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     public CharSequence getTextWithEntities(boolean appendParent, Context context) {
         CharSequence textWithEntities = TextEntity.applyEntities(text, entities);
         if (appendParent) {
+            if (textWithEntities == null) {
+                textWithEntities = "";
+            }
             textWithEntities = appendParentText(textWithEntities, context);
         }
         return textWithEntities;
@@ -163,7 +166,9 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         int parentSpaceStartIndex = builder.length();
         builder.append(" ");
         int parentSpaceEndIndex = builder.length();
-        builder.setSpan(new SpaceSpan(0.5f), parentSpaceStartIndex, parentSpaceEndIndex,
+        // For the case when rebroadcasting a broadcast.
+        float spaceWidthEm = builder.length() > 1 ? 0.5f : -0.1f;
+        builder.setSpan(new SpaceSpan(spaceWidthEm), parentSpaceStartIndex, parentSpaceEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         int parentIconStartIndex = builder.length();

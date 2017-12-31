@@ -85,7 +85,7 @@ public class SingleBroadcastAdapter
                 if (mBroadcast.isSimpleRebroadcastByOneself()) {
                     mListener.onUnrebroadcast(mBroadcast, isLongClick);
                 } else {
-                    mListener.onRebroadcast(effectiveBroadcast, isLongClick);
+                    mListener.onRebroadcast(mBroadcast, isLongClick);
                 }
             }
             @Override

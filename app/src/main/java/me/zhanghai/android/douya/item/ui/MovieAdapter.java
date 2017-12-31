@@ -304,11 +304,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 HorizontalImageAdapter adapter = (HorizontalImageAdapter)
                         photoListHolder.photoList.getAdapter();
                 adapter.replace(photoList);
-                adapter.setOnImageClickListener(photoPosition -> {
-                    // TODO: Use PhotoAlbumGalleryActivity instead.
+                adapter.setOnItemClickListener((parent, itemView, item, photoPosition) -> {
                     if (mData.excludeFirstPhoto) {
                         ++photoPosition;
                     }
+                    // TODO: Use PhotoAlbumGalleryActivity instead.
                     context.startActivity(GalleryActivity.makeIntent(mData.photoList, photoPosition,
                             photoListHolder.photoList.getContext()));
                 });

@@ -194,7 +194,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         //noinspection deprecation
         setBroadcast(mBroadcastAndCommentListResource.getBroadcast());
         mCommentAdapter = new CommentAdapter(mBroadcastAndCommentListResource.getCommentList(),
-                (parent, item, holder) -> onShowCommentAction(item));
+                (parent, itemView, item, position) -> onShowCommentAction(item));
         mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mBroadcastAdapter, mCommentAdapter);
         mBroadcastCommentList.setAdapter(mAdapter);
         mBroadcastCommentList.addOnScrollListener(new OnVerticalScrollListener() {
@@ -371,7 +371,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     private void updateRefreshing() {
         boolean loadingBroadcast = mBroadcastAndCommentListResource.isLoadingBroadcast();
-        boolean hasBroadcast = mBroadcastAndCommentListResource.hasEffectiveBroadcast();
+        //noinspection deprecation
+        boolean hasBroadcast = mBroadcastAndCommentListResource.hasBroadcast();
         boolean loadingCommentList = mBroadcastAndCommentListResource.isLoadingCommentList();
         mSwipeRefreshLayout.setRefreshing(loadingBroadcast
                 && (mSwipeRefreshLayout.isRefreshing() || hasBroadcast));
@@ -387,7 +388,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @Override
     public void onRebroadcast(Broadcast broadcast, boolean quick) {
         if (quick) {
-            RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
+            RebroadcastBroadcastManager.getInstance().write(broadcast.getEffectiveBroadcast(), null,
+                    getActivity());
         } else {
             startActivity(RebroadcastBroadcastActivity.makeIntent(broadcast, getActivity()));
         }

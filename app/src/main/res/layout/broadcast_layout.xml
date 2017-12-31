@@ -10,6 +10,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
+        android:id="@+id/author_time_action_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_content_vertical_margin_with_4dp_padding"
@@ -87,7 +88,6 @@
         android:id="@+id/rebroadcasted_attachment_images_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/card_content_vertical_space"
         android:orientation="vertical"
         android:foreground="?selectableItemBackground">
 
@@ -234,7 +234,13 @@
         </FrameLayout>
     </android.support.design.internal.ForegroundLinearLayout>
 
+    <Space
+        android:id="@+id/rebroadcasted_attachment_images_space"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/card_content_vertical_space" />
+
     <LinearLayout
+        android:id="@+id/actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/card_content_vertical_margin_small"

@@ -74,11 +74,17 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         return this;
     }
 
+    /**
+     * @deprecated In most cases you may want to use {@link #getEffectiveBroadcastId()}.
+     */
     public long getBroadcastId() {
         ensureArguments();
         return mBroadcastId;
     }
 
+    /**
+     * @deprecated In most cases you may want to use {@link #getEffectiveBroadcast()}.
+     */
     @Override
     public Broadcast get() {
         Broadcast broadcast = super.get();
@@ -88,6 +94,37 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
             broadcast = mExtraBroadcast;
         }
         return broadcast;
+    }
+
+    /**
+     * @deprecated In most cases you may want to use {@link #hasEffectiveBroadcast()}.
+     */
+    @Override
+    public boolean has() {
+        return super.has();
+    }
+
+    public boolean isEffectiveBroadcastId(long broadcastId) {
+        return hasEffectiveBroadcast() && getEffectiveBroadcastId() == broadcastId;
+    }
+
+    public long getEffectiveBroadcastId() {
+        // Can be called before onCreate() is called.
+        if (!hasEffectiveBroadcast()) {
+            throw new IllegalStateException("getEffectiveBroadcastId() called when broadcast is" +
+                    " not yet loaded");
+        }
+        return getEffectiveBroadcast().id;
+    }
+
+    public Broadcast getEffectiveBroadcast() {
+        // Can be called before onCreate() is called.
+        //noinspection deprecation
+        return has() ? get().getEffectiveBroadcast() : null;
+    }
+
+    public boolean hasEffectiveBroadcast() {
+        return getEffectiveBroadcast() != null;
     }
 
     @Override

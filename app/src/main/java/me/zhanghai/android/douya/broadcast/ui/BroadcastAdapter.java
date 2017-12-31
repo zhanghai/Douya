@@ -58,7 +58,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
                 if (broadcast.isSimpleRebroadcastByOneself()) {
                     mListener.onUnrebroadcastBroadcast(broadcast, isLongClick);
                 } else {
-                    mListener.onRebroadcastBroadcast(effectiveBroadcast, isLongClick);
+                    mListener.onRebroadcastBroadcast(broadcast, isLongClick);
                 }
             }
             @Override

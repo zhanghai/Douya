@@ -125,7 +125,8 @@ public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastLis
     @Override
     public void onRebroadcastBroadcast(Broadcast broadcast, boolean quick) {
         if (quick) {
-            RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
+            RebroadcastBroadcastManager.getInstance().write(broadcast.getEffectiveBroadcast(), null,
+                    getActivity());
         } else {
             startActivity(RebroadcastBroadcastActivity.makeIntent(broadcast, getActivity()));
         }

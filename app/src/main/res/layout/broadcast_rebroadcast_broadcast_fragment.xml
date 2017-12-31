@@ -11,24 +11,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/text_and_broadcast"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/toolbar_height"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <!-- EditText doesn't support android:clipToPadding="false". -->
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/text_and_broadcast"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                 android:paddingRight="@dimen/screen_edge_horizontal_margin"
                 android:paddingTop="@dimen/screen_edge_vertical_margin"
@@ -38,13 +37,13 @@
                 android:hint="@string/broadcast_rebroadcast_text_hint">
                 <requestFocus />
             </EditText>
-        </ScrollView>
 
-        <me.zhanghai.android.douya.broadcast.ui.BroadcastLayout
-            android:id="@+id/broadcast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <me.zhanghai.android.douya.broadcast.ui.BroadcastLayout
+                android:id="@+id/broadcast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/progress"

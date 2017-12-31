@@ -124,8 +124,9 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
 
+        //noinspection deprecation
         if (mBroadcastResource.has()) {
-            mBroadcastLayout.bind(mBroadcastResource.get());
+            mBroadcastLayout.bindForRebroadcast(mBroadcastResource.get());
         }
     }
 
@@ -169,7 +170,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         if (mRebroadcastMenuItem == null) {
             return;
         }
-        mRebroadcastMenuItem.setEnabled(mBroadcastResource.has());
+        mRebroadcastMenuItem.setEnabled(mBroadcastResource.hasEffectiveBroadcast());
     }
 
     @Override
@@ -208,7 +209,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
 
     @Override
     public void onBroadcastChanged(int requestCode, Broadcast newBroadcast) {
-        mBroadcastLayout.bind(newBroadcast);
+        mBroadcastLayout.bindForRebroadcast(newBroadcast);
     }
 
     @Override
@@ -221,6 +222,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     public void onBroadcastWriteFinished(int requestCode) {}
 
     private void updateRefreshing() {
+        //noinspection deprecation
         boolean hasBroadcast = mBroadcastResource.has();
         ViewUtils.fadeToVisibility(mProgress, !hasBroadcast);
         ViewUtils.fadeToVisibility(mTextAndContentLayout, hasBroadcast);
@@ -232,8 +234,8 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     }
 
     private void rebroadcastBroadcast(String text) {
-        RebroadcastBroadcastManager.getInstance().write(mBroadcastResource.get(), text,
-                getActivity());
+        RebroadcastBroadcastManager.getInstance().write(mBroadcastResource.getEffectiveBroadcast(),
+                text, getActivity());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -243,7 +245,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
             return;
         }
 
-        if (mBroadcastResource.getBroadcastId() == event.broadcastId) {
+        if (mBroadcastResource.isEffectiveBroadcastId(event.broadcastId)) {
             getActivity().finish();
         }
     }
@@ -255,7 +257,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
             return;
         }
 
-        if (mBroadcastResource.getBroadcastId() == event.broadcastId) {
+        if (mBroadcastResource.isEffectiveBroadcastId(event.broadcastId)) {
             // TOOO
             //updateSendCommentStatus();
         }

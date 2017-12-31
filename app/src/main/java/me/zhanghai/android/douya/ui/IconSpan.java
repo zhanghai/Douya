@@ -15,7 +15,7 @@ import android.text.style.ReplacementSpan;
 
 public class IconSpan extends ReplacementSpan {
 
-    protected Drawable mDrawable;
+    private Drawable mDrawable;
 
     public IconSpan(Drawable drawable) {
         mDrawable = drawable;
@@ -25,16 +25,19 @@ public class IconSpan extends ReplacementSpan {
     public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
                        @Nullable Paint.FontMetricsInt fm) {
         if (fm != null) {
+            // Guard against the case when icon is the first character.
+            paint.getFontMetricsInt(fm);
             int height = fm.descent - fm.ascent;
             int width;
             if (mDrawable.getIntrinsicHeight() > 0) {
                 width = Math.round((float) height / mDrawable.getIntrinsicHeight()
                         * mDrawable.getIntrinsicWidth());
             } else {
-                width = mDrawable.getIntrinsicWidth();
+                //noinspection SuspiciousNameCombination
+                width = height;
             }
             mDrawable.setBounds(0, 0, width, height);
-            // fm.ascent and fm.descent determine top and boom in draw().
+            // fm.ascent and fm.descent determine top and bottom in draw().
             fm.ascent = fm.top;
             fm.descent = fm.bottom;
         }
