@@ -28,6 +28,7 @@ import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
 import me.zhanghai.android.douya.ui.SpaceSpan;
 import me.zhanghai.android.douya.ui.IconSpan;
 import me.zhanghai.android.douya.ui.UriSpan;
+import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.GsonHelper;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -187,9 +188,8 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
             builder.append(context.getString(
                     R.string.broadcast_rebroadcasted_broadcast_text_more_rebroadcast));
             int parentMoreEndIndex = builder.length();
-            // TODO
-            builder.setSpan(new UriSpan("douban://douban.com/status/" + parentBroadcastId), parentSpaceStartIndex,
-                    parentMoreEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new UriSpan(DoubanUtils.getBroadcastUri(parentBroadcastId)),
+                    parentSpaceStartIndex, parentMoreEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         return builder;

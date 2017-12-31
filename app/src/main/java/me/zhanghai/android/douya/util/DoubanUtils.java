@@ -75,6 +75,10 @@ public class DoubanUtils {
         return getAtUserString(user.uid);
     }
 
+    public static String getBroadcastUri(long broadcastId) {
+        return "douban://douban.com/status/" + broadcastId;
+    }
+
     public static String getInterestTypeUrl(String type) {
         String url = null;
         if (!TextUtils.isEmpty(type)) {
