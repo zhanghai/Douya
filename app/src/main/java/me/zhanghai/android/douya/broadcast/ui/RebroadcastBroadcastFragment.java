@@ -35,12 +35,14 @@ import me.zhanghai.android.douya.eventbus.BroadcastRebroadcastedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class RebroadcastBroadcastFragment extends Fragment implements BroadcastResource.Listener {
+public class RebroadcastBroadcastFragment extends Fragment implements BroadcastResource.Listener,
+        ConfirmDiscardContentDialogFragment.Listener {
 
     private static final String KEY_PREFIX = RebroadcastBroadcastFragment.class.getName() + '.';
 
@@ -124,6 +126,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
 
+        mTextEdit.setText(mText);
         //noinspection deprecation
         if (mBroadcastResource.has()) {
             mBroadcastLayout.bindForRebroadcast(mBroadcastResource.get());
@@ -177,8 +180,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // TODO: Confirmation
-                getActivity().finish();
+                onFinish();
                 return true;
             case R.id.action_rebroadcast:
                 onRebroadcastBroadcast();
@@ -258,8 +260,21 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         }
 
         if (mBroadcastResource.isEffectiveBroadcastId(event.broadcastId)) {
-            // TOOO
+            // TODO
             //updateSendCommentStatus();
         }
+    }
+
+    public void onFinish() {
+        if (mTextEdit.getText().length() > 0) {
+            ConfirmDiscardContentDialogFragment.show(this);
+        } else {
+            getActivity().finish();
+        }
+    }
+
+    @Override
+    public void discardContent() {
+        getActivity().finish();
     }
 }

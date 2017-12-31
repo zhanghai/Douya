@@ -21,6 +21,8 @@ public class RebroadcastBroadcastActivity extends AppCompatActivity {
     private static final String EXTRA_BROADCAST = KEY_PREFIX + "broadcast";
     private static final String EXTRA_TEXT = KEY_PREFIX + "text";
 
+    private RebroadcastBroadcastFragment mFragment;
+
     public static Intent makeIntent(long broadcastId, Context context) {
         return new Intent(context, RebroadcastBroadcastActivity.class)
                 .putExtra(EXTRA_BROADCAST_ID, broadcastId);
@@ -48,8 +50,15 @@ public class RebroadcastBroadcastActivity extends AppCompatActivity {
             long broadcastId = intent.getLongExtra(EXTRA_BROADCAST_ID, -1);
             Broadcast broadcast = intent.getParcelableExtra(EXTRA_BROADCAST);
             CharSequence text = intent.getCharSequenceExtra(EXTRA_TEXT);
-            FragmentUtils.add(RebroadcastBroadcastFragment.newInstance(broadcastId, broadcast,
-                    text), this, android.R.id.content);
+            mFragment = RebroadcastBroadcastFragment.newInstance(broadcastId, broadcast, text);
+            FragmentUtils.add(mFragment, this, android.R.id.content);
+        } else {
+            mFragment = FragmentUtils.findById(this, android.R.id.content);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mFragment.onFinish();
     }
 }

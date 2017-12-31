@@ -23,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final String EXTRA_SIMPLE_USER = KEY_PREFIX + "simple_user";
     private static final String EXTRA_USER_INFO = KEY_PREFIX + "user_info";
 
-    private ProfileFragment mProfileFragment;
+    private ProfileFragment mFragment;
 
     public static Intent makeIntent(String userIdOrUid, Context context) {
         return new Intent(context, ProfileActivity.class)
@@ -60,16 +60,16 @@ public class ProfileActivity extends AppCompatActivity {
             String userIdOrUid = intent.getStringExtra(EXTRA_USER_ID_OR_UID);
             SimpleUser simpleUser = intent.getParcelableExtra(EXTRA_SIMPLE_USER);
             User user = intent.getParcelableExtra(EXTRA_USER_INFO);
-            mProfileFragment = ProfileFragment.newInstance(userIdOrUid, simpleUser, user);
-            FragmentUtils.add(mProfileFragment, this, android.R.id.content);
+            mFragment = ProfileFragment.newInstance(userIdOrUid, simpleUser, user);
+            FragmentUtils.add(mFragment, this, android.R.id.content);
         } else {
-            mProfileFragment = FragmentUtils.findById(this, android.R.id.content);
+            mFragment = FragmentUtils.findById(this, android.R.id.content);
         }
     }
 
     @Override
     public void onBackPressed() {
-        mProfileFragment.onBackPressed();
+        mFragment.onBackPressed();
     }
 
     @Override
