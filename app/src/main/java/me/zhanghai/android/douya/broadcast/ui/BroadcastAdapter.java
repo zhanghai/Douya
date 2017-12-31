@@ -55,11 +55,8 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
             }
             @Override
             public void onRebroadcastClicked(boolean isLongClick) {
-                if (broadcast.isSimpleRebroadcastByOneself()) {
-                    mListener.onUnrebroadcastBroadcast(broadcast, isLongClick);
-                } else {
-                    mListener.onRebroadcastBroadcast(broadcast, isLongClick);
-                }
+                mListener.onRebroadcastBroadcast(broadcast,
+                        !broadcast.isSimpleRebroadcastByOneself(), isLongClick);
             }
             @Override
             public void onCommentClicked() {
@@ -85,8 +82,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     public interface Listener {
         void onLikeBroadcast(Broadcast broadcast, boolean like);
-        void onRebroadcastBroadcast(Broadcast broadcast, boolean quick);
-        void onUnrebroadcastBroadcast(Broadcast broadcast, boolean quick);
+        void onRebroadcastBroadcast(Broadcast broadcast, boolean rebroadcast, boolean quick);
         void onCommentBroadcast(Broadcast broadcast, View sharedView);
         void onOpenBroadcast(Broadcast broadcast, View sharedView);
     }

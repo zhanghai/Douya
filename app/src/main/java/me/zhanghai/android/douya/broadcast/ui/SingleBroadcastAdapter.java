@@ -82,18 +82,16 @@ public class SingleBroadcastAdapter
             }
             @Override
             public void onRebroadcastClicked(boolean isLongClick) {
-                if (mBroadcast.isSimpleRebroadcastByOneself()) {
-                    mListener.onUnrebroadcast(mBroadcast, isLongClick);
-                } else {
-                    mListener.onRebroadcast(mBroadcast, isLongClick);
-                }
+                mListener.onRebroadcast(mBroadcast, !mBroadcast.isSimpleRebroadcastByOneself(),
+                        isLongClick);
             }
             @Override
             public void onCommentClicked() {
                 mListener.onComment(effectiveBroadcast);
             }
         });
-        holder.viewActivityButton.setOnClickListener(view -> mListener.onViewActivity(effectiveBroadcast));
+        holder.viewActivityButton.setOnClickListener(view -> mListener.onViewActivity(
+                effectiveBroadcast));
     }
 
     @Override
@@ -103,8 +101,7 @@ public class SingleBroadcastAdapter
 
     public interface Listener {
         void onLike(Broadcast broadcast, boolean like);
-        void onRebroadcast(Broadcast broadcast, boolean quick);
-        void onUnrebroadcast(Broadcast broadcast, boolean quick);
+        void onRebroadcast(Broadcast broadcast, boolean rebroadcast, boolean quick);
         void onComment(Broadcast broadcast);
         void onViewActivity(Broadcast broadcast);
     }

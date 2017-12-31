@@ -387,21 +387,20 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Override
-    public void onRebroadcast(Broadcast broadcast, boolean quick) {
-        if (quick) {
-            RebroadcastBroadcastManager.getInstance().write(broadcast.getEffectiveBroadcast(), null,
-                    getActivity());
+    public void onRebroadcast(Broadcast broadcast, boolean rebroadcast, boolean quick) {
+        if (rebroadcast) {
+            if (quick) {
+                RebroadcastBroadcastManager.getInstance().write(broadcast.getEffectiveBroadcast(),
+                        null, getActivity());
+            } else {
+                startActivity(RebroadcastBroadcastActivity.makeIntent(broadcast, getActivity()));
+            }
         } else {
-            startActivity(RebroadcastBroadcastActivity.makeIntent(broadcast, getActivity()));
-        }
-    }
-
-    @Override
-    public void onUnrebroadcast(Broadcast broadcast, boolean quick) {
-        if (quick) {
-            DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
-        } else {
-            // TODO: Dialog
+            if (quick) {
+                DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
+            } else {
+                // TODO: Dialog
+            }
         }
     }
 
