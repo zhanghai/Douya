@@ -256,6 +256,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
                         && broadcast.rebroadcastedBroadcast != null
                         && broadcast.parentBroadcast.parentBroadcastId
                                 == broadcast.rebroadcastedBroadcast.id) {
+                    // Important for rebroadcast text.
                     broadcast.parentBroadcast.parentBroadcastId = null;
                 }
             }
