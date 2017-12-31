@@ -69,6 +69,8 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
 
     private BroadcastResource mBroadcastResource;
 
+    private boolean mRebroadcasted;
+
     public static RebroadcastBroadcastFragment newInstance(long broadcastId, Broadcast broadcast,
                                                            CharSequence text) {
         //noinspection deprecation
@@ -241,6 +243,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         }
 
         if (mBroadcastResource.isEffectiveBroadcastId(event.broadcastId)) {
+            mRebroadcasted = true;
             getActivity().finish();
         }
     }
@@ -258,10 +261,15 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     }
 
     private void updateRebroadcastStatus() {
+        if (mRebroadcasted) {
+            return;
+        }
         RebroadcastBroadcastManager manager = RebroadcastBroadcastManager.getInstance();
         boolean hasBroadcast = mBroadcastResource.hasEffectiveBroadcast();
         boolean rebroadcasting = hasBroadcast && manager.isWriting(
                 mBroadcastResource.getEffectiveBroadcastId());
+        getActivity().setTitle(rebroadcasting ? R.string.broadcast_rebroadcast_title_rebroadcasting
+                : R.string.broadcast_rebroadcast_title);
         boolean enabled = !rebroadcasting;
         mTextEdit.setEnabled(enabled);
         if (mRebroadcastMenuItem != null) {
