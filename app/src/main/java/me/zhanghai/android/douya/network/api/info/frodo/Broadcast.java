@@ -75,7 +75,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     public boolean isLiked;
 
     @SerializedName("parent_id")
-    public String parentBroadcastId;
+    public Integer parentBroadcastId;
 
     @SerializedName("parent_status")
     public Broadcast parentBroadcast;
@@ -142,7 +142,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     public CharSequence getTextWithEntities(boolean appendParent, Context context) {
         CharSequence textWithEntities = TextEntity.applyEntities(text, entities);
         if (appendParent) {
-            textWithEntities = appendParentText(textWithEntities, parentBroadcast, context);
+            textWithEntities = appendParentText(textWithEntities, context);
         }
         return textWithEntities;
     }
@@ -151,10 +151,9 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         return getTextWithEntities(true, context);
     }
 
-    private static CharSequence appendParentText(CharSequence text, Broadcast parentBroadcast,
-                                                 Context context) {
+    private CharSequence appendParentText(CharSequence text, Context context) {
 
-        if (parentBroadcast == null || TextUtils.isEmpty(parentBroadcast.text)) {
+        if (parentBroadcast == null && parentBroadcastId == null) {
             return text;
         }
 
@@ -176,14 +175,22 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         builder.setSpan(new IconSpan(icon), parentIconStartIndex, parentIconEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        builder.append(context.getString(
-                R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
-                parentBroadcast.author.name));
-        int parentNameEndIndex = builder.length();
-        builder.setSpan(new UriSpan(parentBroadcast.uri), parentSpaceStartIndex, parentNameEndIndex,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        builder.append(parentBroadcast.getTextWithEntities(false, context));
+        if (parentBroadcast != null) {
+            builder.append(context.getString(
+                    R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
+                    parentBroadcast.author.name));
+            int parentNameEndIndex = builder.length();
+            builder.setSpan(new UriSpan(parentBroadcast.uri), parentSpaceStartIndex,
+                    parentNameEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.append(parentBroadcast.getTextWithEntities(false, context));
+        } else {
+            builder.append(context.getString(
+                    R.string.broadcast_rebroadcasted_broadcast_text_more_rebroadcast));
+            int parentMoreEndIndex = builder.length();
+            // TODO
+            builder.setSpan(new UriSpan("douban://douban.com/status/" + parentBroadcastId), parentSpaceStartIndex,
+                    parentMoreEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
         return builder;
     }
@@ -245,6 +252,12 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
             broadcast.fix();
             if (broadcast.parentBroadcast != null) {
                 broadcast.parentBroadcast.fix();
+                if (broadcast.parentBroadcast.parentBroadcastId != null
+                        && broadcast.rebroadcastedBroadcast != null
+                        && broadcast.parentBroadcast.parentBroadcastId
+                                == broadcast.rebroadcastedBroadcast.id) {
+                    broadcast.parentBroadcast.parentBroadcastId = null;
+                }
             }
             if (broadcast.rebroadcastedBroadcast != null) {
                 broadcast.rebroadcastedBroadcast.fix();
@@ -283,7 +296,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         isSubscription = in.readByte() != 0;
         likeCount = in.readInt();
         isLiked = in.readByte() != 0;
-        parentBroadcastId = in.readString();
+        parentBroadcastId = (Integer) in.readSerializable();
         parentBroadcast = in.readParcelable(Broadcast.class.getClassLoader());
         rebroadcastId = in.readString();
         rebroadcastedBroadcast = in.readParcelable(Broadcast.class.getClassLoader());
@@ -316,7 +329,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         dest.writeByte(isSubscription ? (byte) 1 : (byte) 0);
         dest.writeInt(likeCount);
         dest.writeByte(isLiked ? (byte) 1 : (byte) 0);
-        dest.writeString(parentBroadcastId);
+        dest.writeSerializable(parentBroadcastId);
         dest.writeParcelable(parentBroadcast, flags);
         dest.writeString(rebroadcastId);
         dest.writeParcelable(rebroadcastedBroadcast, flags);

@@ -163,6 +163,7 @@
     <string name="broadcast_title">查看广播</string>
     <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
     <string name="broadcast_rebroadcasted_broadcast_text_rebroadcaster_format">%1$s：</string>
+    <string name="broadcast_rebroadcasted_broadcast_text_more_rebroadcast">更多转播…</string>
     <string name="broadcast_rebroadcasted_broadcast_deleted">（广播已被删除）</string>
     <string name="broadcast_image_list_count_format">%1$d 张照片</string>
     <string name="broadcast_like">赞</string>
