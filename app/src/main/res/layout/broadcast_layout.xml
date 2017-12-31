@@ -10,7 +10,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:id="@+id/author_time_action_layout"
+        android:id="@+id/broadcastlayout_author_time_action_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_content_vertical_margin_with_4dp_padding"
@@ -19,7 +19,7 @@
         android:paddingRight="@dimen/card_content_horizontal_margin">
 
         <me.zhanghai.android.douya.ui.SimpleCircleImageView
-            android:id="@+id/avatar"
+            android:id="@+id/broadcastlayout_avatar"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
             android:layout_alignParentLeft="true"
@@ -27,11 +27,11 @@
             android:padding="@dimen/avatar_padding" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/broadcastlayout_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/avatar"
-            android:layout_alignTop="@id/avatar"
+            android:layout_toRightOf="@id/broadcastlayout_avatar"
+            android:layout_alignTop="@id/broadcastlayout_avatar"
             android:layout_marginLeft="@dimen/card_content_horizontal_space_with_4dp_padding"
             android:layout_marginTop="@dimen/avatar_padding"
             android:ellipsize="end"
@@ -40,11 +40,11 @@
             android:textStyle="bold" />
 
         <me.zhanghai.android.douya.ui.TimeTextView
-            android:id="@+id/time"
+            android:id="@+id/broadcastlayout_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/name"
-            android:layout_alignBottom="@id/avatar"
+            android:layout_alignLeft="@id/broadcastlayout_name"
+            android:layout_alignBottom="@id/broadcastlayout_avatar"
             android:layout_marginBottom="@dimen/avatar_padding"
             android:ellipsize="end"
             android:maxLines="1"
@@ -52,11 +52,11 @@
             android:textColor="?android:textColorSecondary" />
 
         <TextView
-            android:id="@+id/time_action_space"
+            android:id="@+id/broadcastlayout_time_action_space"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/time"
-            android:layout_alignTop="@id/time"
+            android:layout_toRightOf="@id/broadcastlayout_time"
+            android:layout_alignTop="@id/broadcastlayout_time"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/space"
@@ -64,11 +64,11 @@
             android:textColor="?android:textColorSecondary" />
 
         <TextView
-            android:id="@+id/action"
+            android:id="@+id/broadcastlayout_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/time_action_space"
-            android:layout_alignTop="@id/time_action_space"
+            android:layout_toRightOf="@id/broadcastlayout_time_action_space"
+            android:layout_alignTop="@id/broadcastlayout_time_action_space"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -76,7 +76,7 @@
     </RelativeLayout>
 
     <me.zhanghai.android.douya.ui.AutoGoneTextView
-        android:id="@+id/text"
+        android:id="@+id/broadcastlayout_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_content_horizontal_margin"
@@ -85,14 +85,14 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <android.support.design.internal.ForegroundLinearLayout
-        android:id="@+id/rebroadcasted_attachment_images_layout"
+        android:id="@+id/broadcastlayout_rebroadcasted_attachment_images_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:foreground="?selectableItemBackground">
 
         <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
-            android:id="@+id/rebroadcasted_layout"
+            android:id="@+id/broadcastlayout_rebroadcasted_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_content_vertical_space"
@@ -100,7 +100,7 @@
             android:paddingRight="@dimen/card_content_horizontal_margin">
 
             <View
-                android:id="@+id/rebroadcasted_divider"
+                android:id="@+id/broadcastlayout_rebroadcasted_divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/horizontal_divider_height"
                 android:layout_alignParentTop="true"
@@ -108,48 +108,48 @@
                 android:background="?dividerHorizontal" />
 
             <me.zhanghai.android.douya.ui.AutoGoneTextView
-                android:id="@+id/rebroadcasted_name"
+                android:id="@+id/broadcastlayout_rebroadcasted_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/rebroadcasted_divider"
+                android:layout_below="@id/broadcastlayout_rebroadcasted_divider"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textStyle="bold" />
 
             <me.zhanghai.android.douya.ui.AutoGoneTextView
-                android:id="@+id/rebroadcasted_action"
+                android:id="@+id/broadcastlayout_rebroadcasted_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/rebroadcasted_name"
-                android:layout_alignTop="@id/rebroadcasted_name"
+                android:layout_toRightOf="@id/broadcastlayout_rebroadcasted_name"
+                android:layout_alignTop="@id/broadcastlayout_rebroadcasted_name"
                 android:layout_marginLeft="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?android:textColorSecondary" />
 
             <me.zhanghai.android.douya.ui.AutoGoneTextView
-                android:id="@+id/rebroadcasted_text"
+                android:id="@+id/broadcastlayout_rebroadcasted_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/rebroadcasted_name"
+                android:layout_below="@id/broadcastlayout_rebroadcasted_name"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <TextView
-                android:id="@+id/rebroadcasted_broadcast_deleted"
+                android:id="@+id/broadcastlayout_rebroadcasted_broadcast_deleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/rebroadcasted_divider"
+                android:layout_below="@id/broadcastlayout_rebroadcasted_divider"
                 android:text="@string/broadcast_rebroadcasted_broadcast_deleted"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?android:textColorSecondary" />
         </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
 
         <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
-            android:id="@+id/attachment"
+            android:id="@+id/broadcastlayout_attachment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/card_content_horizontal_margin"
@@ -158,7 +158,7 @@
             android:foreground="?selectableItemBackground">
 
             <View
-                android:id="@+id/divider"
+                android:id="@+id/broadcastlayout_divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/horizontal_divider_height"
                 android:layout_alignParentTop="true"
@@ -166,34 +166,34 @@
                 android:background="?dividerHorizontal" />
 
             <ImageView
-                android:id="@+id/attachment_image"
+                android:id="@+id/broadcastlayout_attachment_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/divider"
+                android:layout_below="@id/broadcastlayout_divider"
                 android:layout_marginRight="16dp"
                 android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/attachment_title"
+                android:id="@+id/broadcastlayout_attachment_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/attachment_image"
-                android:layout_below="@id/divider"
+                android:layout_toRightOf="@id/broadcastlayout_attachment_image"
+                android:layout_below="@id/broadcastlayout_divider"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             <me.zhanghai.android.douya.ui.AutoGoneTextView
-                android:id="@+id/attachment_description"
+                android:id="@+id/broadcastlayout_attachment_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/attachment_title"
-                android:layout_below="@id/attachment_title"
+                android:layout_alignLeft="@id/broadcastlayout_attachment_title"
+                android:layout_below="@id/broadcastlayout_attachment_title"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
         </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
 
         <me.zhanghai.android.douya.ui.ImageLayout
-            android:id="@+id/single_image"
+            android:id="@+id/broadcastlayout_single_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?selectableItemBackground"
@@ -201,25 +201,25 @@
             app:fillOrientation="horizontal" />
 
         <FrameLayout
-            android:id="@+id/image_list_layout"
+            android:id="@+id/broadcastlayout_image_list_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="?darkTheme">
 
             <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
-                android:id="@+id/image_list"
+                android:id="@+id/broadcastlayout_image_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:ratio="6:5" />
 
             <FrameLayout
-                android:id="@+id/image_list_description_layout"
+                android:id="@+id/broadcastlayout_image_list_description_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/scrim_height"
                 android:layout_gravity="bottom">
 
                 <TextView
-                    android:id="@+id/image_list_description"
+                    android:id="@+id/broadcastlayout_image_list_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -235,12 +235,12 @@
     </android.support.design.internal.ForegroundLinearLayout>
 
     <Space
-        android:id="@+id/rebroadcasted_attachment_images_space"
+        android:id="@+id/broadcastlayout_rebroadcasted_attachment_images_space"
         android:layout_width="0dp"
         android:layout_height="@dimen/card_content_vertical_space" />
 
     <LinearLayout
-        android:id="@+id/actions"
+        android:id="@+id/broadcastlayout_actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/card_content_vertical_margin_small"
@@ -249,7 +249,7 @@
         android:orientation="horizontal">
 
         <me.zhanghai.android.douya.ui.CardIconButton
-            android:id="@+id/like"
+            android:id="@+id/broadcastlayout_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/broadcast_like"
@@ -261,7 +261,7 @@
             android:layout_weight="1" />
 
         <me.zhanghai.android.douya.ui.CardIconButton
-            android:id="@+id/comment"
+            android:id="@+id/broadcastlayout_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
@@ -269,7 +269,7 @@
             android:src="@drawable/comment_icon_white_18dp" />
 
         <me.zhanghai.android.douya.ui.CardIconButton
-            android:id="@+id/rebroadcast"
+            android:id="@+id/broadcastlayout_rebroadcast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/broadcast_rebroadcast"
