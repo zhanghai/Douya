@@ -270,7 +270,11 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         if (TextUtils.isEmpty(action)) {
             action = "说";
         } else {
-            action = action.replaceAll("分享", "推荐");
+            action = action
+                    .replaceFirst("^分享", "推荐")
+                    .replaceFirst("^推荐链接$", "推荐网页")
+                    .replaceFirst("^(想.|在.|.过)这.+", "$1")
+                    .replaceFirst("^写了日记$", "写了新日记");
         }
     }
 
