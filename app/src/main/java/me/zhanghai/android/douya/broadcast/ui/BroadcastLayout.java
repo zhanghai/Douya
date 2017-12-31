@@ -214,7 +214,7 @@ public class BroadcastLayout extends LinearLayout {
         if (!(isRebind && ObjectsCompat.equals(mBoundBroadcastHadParentBroadcast,
                 hasParentBroadcast))) {
             mBoundBroadcastHadParentBroadcast = hasParentBroadcast;
-            bindText(broadcast);
+            mTextText.setText(broadcast.getTextWithEntities(mTextText.getContext()));
         }
         boolean hasRebroadcastedBroadcast = rebroadcastedBroadcast != null;
         if (!(isRebind && (!hasRebroadcastedBroadcast || ObjectsCompat.equals(
@@ -272,10 +272,6 @@ public class BroadcastLayout extends LinearLayout {
         });
 
         mBoundBroadcastId = broadcast.id;
-    }
-
-    private void bindText(Broadcast broadcast) {
-        mTextText.setText(broadcast.getTextWithEntities(mTextText.getContext()));
     }
 
     private void bindRebroadcastedAttachmentImages(Broadcast broadcast,
@@ -394,15 +390,16 @@ public class BroadcastLayout extends LinearLayout {
 
     public void bindForRebroadcast(Broadcast broadcast) {
         ViewUtils.setVisibleOrGone(mAuthorTimeActionLayout, false);
-        Broadcast newBroadcast = new Broadcast();
-        if (broadcast.rebroadcastedBroadcast != null) {
-            newBroadcast.parentBroadcast = broadcast.getEffectiveBroadcast();
-            newBroadcast.rebroadcastedBroadcast = broadcast.rebroadcastedBroadcast;
+        if (broadcast.isSimpleRebroadcast()) {
+            mTextText.setText(broadcast.parentBroadcast != null ?
+                    broadcast.parentBroadcast.getTextWithEntitiesAsParent(mTextText.getContext())
+                    : null);
         } else {
-            newBroadcast.rebroadcastedBroadcast = broadcast;
+            mTextText.setText(broadcast.rebroadcastedBroadcast != null ?
+                    broadcast.getTextWithEntitiesAsParent(mTextText.getContext()) : null);
         }
-        bindText(newBroadcast);
-        bindRebroadcastedAttachmentImages(newBroadcast, newBroadcast.rebroadcastedBroadcast);
+        bindRebroadcastedAttachmentImages(null, broadcast.rebroadcastedBroadcast != null ?
+                broadcast.rebroadcastedBroadcast : broadcast);
         ViewUtils.setVisibleOrGone(mRebroadcastedAttachmentImagesSpace, false);
         ViewUtils.setVisibleOrGone(mActionsLayout, false);
     }

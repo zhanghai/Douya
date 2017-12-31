@@ -76,7 +76,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     public boolean isLiked;
 
     @SerializedName("parent_id")
-    public Integer parentBroadcastId;
+    public Long parentBroadcastId;
 
     @SerializedName("parent_status")
     public Broadcast parentBroadcast;
@@ -146,7 +146,8 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
             if (textWithEntities == null) {
                 textWithEntities = "";
             }
-            textWithEntities = appendParentText(textWithEntities, context);
+            textWithEntities = appendParentText(textWithEntities, parentBroadcast,
+                    parentBroadcastId, context);
         }
         return textWithEntities;
     }
@@ -155,7 +156,12 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         return getTextWithEntities(true, context);
     }
 
-    private CharSequence appendParentText(CharSequence text, Context context) {
+    public CharSequence getTextWithEntitiesAsParent(Context context) {
+        return appendParentText(new SpannableStringBuilder(), this, null, context);
+    }
+
+    private static CharSequence appendParentText(CharSequence text, Broadcast parentBroadcast,
+                                                 Long parentBroadcastId, Context context) {
 
         if (parentBroadcast == null && parentBroadcastId == null) {
             return text;
@@ -302,7 +308,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         isSubscription = in.readByte() != 0;
         likeCount = in.readInt();
         isLiked = in.readByte() != 0;
-        parentBroadcastId = (Integer) in.readSerializable();
+        parentBroadcastId = (Long) in.readSerializable();
         parentBroadcast = in.readParcelable(Broadcast.class.getClassLoader());
         rebroadcastId = in.readString();
         rebroadcastedBroadcast = in.readParcelable(Broadcast.class.getClassLoader());
