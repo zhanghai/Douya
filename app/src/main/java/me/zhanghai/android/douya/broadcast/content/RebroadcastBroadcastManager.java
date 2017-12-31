@@ -31,9 +31,6 @@ public class RebroadcastBroadcastManager extends ResourceWriterManager<Rebroadca
         add(new RebroadcastBroadcastWriter(broadcast, text, this), context);
     }
 
-    /**
-     * @deprecated In most cases you may want to use {@link #isWritingQuickRebroadcast(long)}.
-     */
     public boolean isWriting(long broadcastId) {
         return findWriter(broadcastId) != null;
     }
@@ -41,6 +38,11 @@ public class RebroadcastBroadcastManager extends ResourceWriterManager<Rebroadca
     public boolean isWritingQuickRebroadcast(long broadcastId) {
         RebroadcastBroadcastWriter writer = findWriter(broadcastId);
         return writer != null && writer.getText() == null;
+    }
+
+    public String getText(long broadcastId) {
+        RebroadcastBroadcastWriter writer = findWriter(broadcastId);
+        return writer != null ? writer.getText() : null;
     }
 
     private RebroadcastBroadcastWriter findWriter(long broadcastId) {

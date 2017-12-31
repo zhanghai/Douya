@@ -129,8 +129,10 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         mTextEdit.setText(mText);
         //noinspection deprecation
         if (mBroadcastResource.has()) {
-            mBroadcastLayout.bindForRebroadcast(mBroadcastResource.get());
+            //noinspection deprecation
+            setBroadcast(mBroadcastResource.get());
         }
+        updateRebroadcastStatus();
     }
 
     @Override
@@ -160,20 +162,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
 
         inflater.inflate(R.menu.broadcast_rebroadcast_broadcast, menu);
         mRebroadcastMenuItem = menu.findItem(R.id.action_rebroadcast);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        updateOptionsMenu();
-    }
-
-    private void updateOptionsMenu() {
-        if (mRebroadcastMenuItem == null) {
-            return;
-        }
-        mRebroadcastMenuItem.setEnabled(mBroadcastResource.hasEffectiveBroadcast());
+        updateRebroadcastStatus();
     }
 
     @Override
@@ -183,7 +172,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
                 onFinish();
                 return true;
             case R.id.action_rebroadcast:
-                onRebroadcastBroadcast();
+                onRebroadcast();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -198,7 +187,6 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     @Override
     public void onLoadBroadcastFinished(int requestCode) {
         updateRefreshing();
-        updateOptionsMenu();
     }
 
     @Override
@@ -206,12 +194,11 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         LogUtils.e(error.toString());
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);
-        updateOptionsMenu();
     }
 
     @Override
     public void onBroadcastChanged(int requestCode, Broadcast newBroadcast) {
-        mBroadcastLayout.bindForRebroadcast(newBroadcast);
+        setBroadcast(newBroadcast);
     }
 
     @Override
@@ -223,6 +210,11 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     @Override
     public void onBroadcastWriteFinished(int requestCode) {}
 
+    private void setBroadcast(Broadcast broadcast) {
+        mBroadcastLayout.bindForRebroadcast(broadcast);
+        updateRebroadcastStatus();
+    }
+
     private void updateRefreshing() {
         //noinspection deprecation
         boolean hasBroadcast = mBroadcastResource.has();
@@ -230,14 +222,15 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         ViewUtils.fadeToVisibility(mTextAndContentLayout, hasBroadcast);
     }
 
-    private void onRebroadcastBroadcast() {
+    private void onRebroadcast() {
         String text = mTextEdit.getText().toString();
-        rebroadcastBroadcast(text);
+        rebroadcast(text);
     }
 
-    private void rebroadcastBroadcast(String text) {
+    private void rebroadcast(String text) {
         RebroadcastBroadcastManager.getInstance().write(mBroadcastResource.getEffectiveBroadcast(),
                 text, getActivity());
+        updateRebroadcastStatus();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -260,8 +253,22 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         }
 
         if (mBroadcastResource.isEffectiveBroadcastId(event.broadcastId)) {
-            // TODO
-            //updateSendCommentStatus();
+            updateRebroadcastStatus();
+        }
+    }
+
+    private void updateRebroadcastStatus() {
+        RebroadcastBroadcastManager manager = RebroadcastBroadcastManager.getInstance();
+        boolean hasBroadcast = mBroadcastResource.hasEffectiveBroadcast();
+        boolean rebroadcasting = hasBroadcast && manager.isWriting(
+                mBroadcastResource.getEffectiveBroadcastId());
+        boolean enabled = !rebroadcasting;
+        mTextEdit.setEnabled(enabled);
+        if (mRebroadcastMenuItem != null) {
+            mRebroadcastMenuItem.setEnabled(enabled);
+        }
+        if (rebroadcasting) {
+            mTextEdit.setText(manager.getText(mBroadcastResource.getEffectiveBroadcastId()));
         }
     }
 
