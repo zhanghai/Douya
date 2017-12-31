@@ -75,6 +75,9 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     @SerializedName("liked")
     public boolean isLiked;
 
+    /**
+     * @deprecated Use {@link #getParentBroadcastId()} instead.
+     */
     @SerializedName("parent_id")
     public Long parentBroadcastId;
 
@@ -99,6 +102,11 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     public String text;
 
     public String uri;
+
+    public Long getParentBroadcastId() {
+        //noinspection deprecation
+        return parentBroadcast != null ? (Long) parentBroadcast.id : parentBroadcastId;
+    }
 
     public boolean isSimpleRebroadcast() {
         return rebroadcastedBroadcast != null && TextUtils.isEmpty(text);
@@ -146,6 +154,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
             if (textWithEntities == null) {
                 textWithEntities = "";
             }
+            //noinspection deprecation
             textWithEntities = appendParentText(textWithEntities, parentBroadcast,
                     parentBroadcastId, context);
         }
@@ -188,14 +197,27 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         if (parentBroadcast != null) {
+
             builder.append(context.getString(
                     R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
                     parentBroadcast.author.name));
             int parentNameEndIndex = builder.length();
             builder.setSpan(new UriSpan(parentBroadcast.uri), parentSpaceStartIndex,
                     parentNameEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             builder.append(parentBroadcast.getTextWithEntities(false, context));
-        } else {
+
+            parentBroadcastId = parentBroadcast.getParentBroadcastId();
+            if (parentBroadcastId != null) {
+                parentSpaceStartIndex = builder.length();
+                builder.append(" ");
+                parentSpaceEndIndex = builder.length();
+                builder.setSpan(new SpaceSpan(0.5f), parentSpaceStartIndex, parentSpaceEndIndex,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+        if (parentBroadcastId != null) {
             builder.append(context.getString(
                     R.string.broadcast_rebroadcasted_broadcast_text_more_rebroadcast));
             int parentMoreEndIndex = builder.length();
@@ -263,11 +285,13 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
             broadcast.fix();
             if (broadcast.parentBroadcast != null) {
                 broadcast.parentBroadcast.fix();
+                //noinspection deprecation
                 if (broadcast.parentBroadcast.parentBroadcastId != null
                         && broadcast.rebroadcastedBroadcast != null
                         && broadcast.parentBroadcast.parentBroadcastId
                                 == broadcast.rebroadcastedBroadcast.id) {
                     // Important for rebroadcast text.
+                    //noinspection deprecation
                     broadcast.parentBroadcast.parentBroadcastId = null;
                 }
             }
@@ -308,6 +332,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         isSubscription = in.readByte() != 0;
         likeCount = in.readInt();
         isLiked = in.readByte() != 0;
+        //noinspection deprecation
         parentBroadcastId = (Long) in.readSerializable();
         parentBroadcast = in.readParcelable(Broadcast.class.getClassLoader());
         rebroadcastId = in.readString();
@@ -341,6 +366,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         dest.writeByte(isSubscription ? (byte) 1 : (byte) 0);
         dest.writeInt(likeCount);
         dest.writeByte(isLiked ? (byte) 1 : (byte) 0);
+        //noinspection deprecation
         dest.writeSerializable(parentBroadcastId);
         dest.writeParcelable(parentBroadcast, flags);
         dest.writeString(rebroadcastId);
