@@ -23,6 +23,8 @@ public class BroadcastActivity extends AppCompatActivity {
     private static final String EXTRA_SHOW_SEND_COMMENT = KEY_PREFIX + "show_send_comment";
     private static final String EXTRA_TITLE = KEY_PREFIX + "title";
 
+    private BroadcastFragment mFragment;
+
     public static Intent makeIntent(long broadcastId, Context context) {
         return new Intent(context, BroadcastActivity.class)
                 .putExtra(EXTRA_BROADCAST_ID, broadcastId);
@@ -58,9 +60,16 @@ public class BroadcastActivity extends AppCompatActivity {
             Broadcast broadcast = intent.getParcelableExtra(EXTRA_BROADCAST);
             boolean showSendComment = intent.getBooleanExtra(EXTRA_SHOW_SEND_COMMENT, false);
             String title = intent.getStringExtra(EXTRA_TITLE);
-            FragmentUtils.add(
-                    BroadcastFragment.newInstance(broadcastId, broadcast, showSendComment, title),
-                    this, android.R.id.content);
+            mFragment = BroadcastFragment.newInstance(broadcastId, broadcast, showSendComment,
+                    title);
+            FragmentUtils.add(mFragment, this, android.R.id.content);
+        } else {
+            mFragment = FragmentUtils.findById(this, android.R.id.content);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mFragment.onFinish();
     }
 }

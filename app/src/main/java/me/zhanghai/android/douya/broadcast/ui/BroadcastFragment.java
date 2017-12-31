@@ -51,6 +51,7 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.Comment;
+import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
@@ -66,7 +67,8 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class BroadcastFragment extends Fragment implements BroadcastAndCommentListResource.Listener,
         SingleBroadcastAdapter.Listener, CommentActionDialogFragment.Listener,
-        ConfirmDeleteCommentDialogFragment.Listener, ConfirmDeleteBroadcastDialogFragment.Listener {
+        ConfirmDeleteCommentDialogFragment.Listener, ConfirmDeleteBroadcastDialogFragment.Listener,
+        ConfirmDiscardContentDialogFragment.Listener {
 
     private static final String KEY_PREFIX = BroadcastFragment.class.getName() + '.';
 
@@ -166,8 +168,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         activity.setTitle(getTitle());
         activity.setSupportActionBar(mToolbar);
 
-        mContainerLayout.setOnClickListener(view -> ActivityCompat.finishAfterTransition(
-                getActivity()));
+        mContainerLayout.setOnClickListener(view -> onFinish());
         ViewCompat.setTransitionName(mSharedView, Broadcast.makeTransitionName(mBroadcastId));
         // This magically gives better visual effect when the broadcast is partially visible. Using
         // setEnterSharedElementCallback() disables this hack when no transition is used to start
@@ -269,7 +270,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                ActivityCompat.finishAfterTransition(getActivity());
+                onFinish();
                 return true;
             case R.id.action_copy_text:
                 copyText();
@@ -541,5 +542,18 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public void deleteBroadcast() {
         DeleteBroadcastManager.getInstance().write(
                 mBroadcastAndCommentListResource.getEffectiveBroadcast(), getActivity());
+    }
+
+    public void onFinish() {
+        if (mCommentEdit.getText().length() > 0) {
+            ConfirmDiscardContentDialogFragment.show(this);
+        } else {
+            ActivityCompat.finishAfterTransition(getActivity());
+        }
+    }
+
+    @Override
+    public void discardContent() {
+        ActivityCompat.finishAfterTransition(getActivity());
     }
 }
