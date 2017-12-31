@@ -109,7 +109,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     }
 
     public CharSequence getRebroadcastText(Context context) {
-        return !TextUtils.isEmpty(text) ? getTextWithEntities(context) : context.getString(
+        return !TextUtils.isEmpty(text) ? getTextWithEntities(false, context) : context.getString(
                 R.string.broadcast_rebroadcasted_broadcasts_simple_rebroadcast_text);
     }
 
