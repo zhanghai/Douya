@@ -37,7 +37,8 @@ import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastListFragment
-        implements TimelineBroadcastListResource.Listener, BroadcastAdapter.Listener {
+        implements TimelineBroadcastListResource.Listener, BroadcastAdapter.Listener,
+        ConfirmUnrebroadcastBroadcastDialogFragment.Listener {
 
     @BindView(R.id.send)
     FriendlyFloatingActionButton mSendFab;
@@ -135,9 +136,14 @@ public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastLis
             if (quick) {
                 DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
             } else {
-                // TODO: Dialog
+                ConfirmUnrebroadcastBroadcastDialogFragment.show(broadcast, this);
             }
         }
+    }
+
+    @Override
+    public void unrebroadcastBroadcast(Broadcast broadcast) {
+        DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
     }
 
     @Override

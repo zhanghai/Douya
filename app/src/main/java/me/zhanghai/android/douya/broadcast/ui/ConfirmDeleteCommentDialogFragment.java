@@ -22,20 +22,20 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     private static final String KEY_PREFIX = ConfirmDeleteCommentDialogFragment.class.getName()
             + '.';
 
-    private static final String EXTRA_COMMENT = KEY_PREFIX + "comment";
+    private static final String EXTRA_COMMENT_ID = KEY_PREFIX + "comment_id";
 
-    private Comment mComment;
+    private long mCommentId;
 
     /**
-     * @deprecated Use {@link #newInstance(Comment)} instead.
+     * @deprecated Use {@link #newInstance(long)} instead.
      */
     public ConfirmDeleteCommentDialogFragment() {}
 
-    public static ConfirmDeleteCommentDialogFragment newInstance(Comment comment) {
+    public static ConfirmDeleteCommentDialogFragment newInstance(long commentId) {
         //noinspection deprecation
         ConfirmDeleteCommentDialogFragment fragment = new ConfirmDeleteCommentDialogFragment();
         FragmentUtils.ensureArguments(fragment)
-                .putParcelable(EXTRA_COMMENT, comment);
+                .putLong(EXTRA_COMMENT_ID, commentId);
         return fragment;
     }
 
@@ -43,7 +43,7 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mComment = getArguments().getParcelable(EXTRA_COMMENT);
+        mCommentId = getArguments().getLong(EXTRA_COMMENT_ID);
     }
 
     @NonNull
@@ -51,12 +51,8 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity(), getTheme())
                 .setMessage(R.string.broadcast_comment_delete_confirm)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getListener().deleteComment(mComment);
-                    }
-                })
+                .setPositiveButton(R.string.ok, (dialog, which) -> getListener().deleteComment(
+                        mCommentId))
                 .setNegativeButton(R.string.cancel, null)
                 .create();
     }
@@ -65,12 +61,12 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
         return (Listener) getParentFragment();
     }
 
-    public static void show(Comment comment, Fragment fragment) {
-        ConfirmDeleteCommentDialogFragment.newInstance(comment)
+    public static void show(long commentId, Fragment fragment) {
+        ConfirmDeleteCommentDialogFragment.newInstance(commentId)
                 .show(fragment.getChildFragmentManager(), null);
     }
 
     public interface Listener {
-        void deleteComment(Comment comment);
+        void deleteComment(long commentId);
     }
 }

@@ -32,12 +32,7 @@ public class ConfirmDeleteBroadcastDialogFragment extends AppCompatDialogFragmen
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity(), getTheme())
                 .setMessage(R.string.broadcast_delete_confirm)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getListener().deleteBroadcast();
-                    }
-                })
+                .setPositiveButton(R.string.ok, (dialog, which) -> getListener().deleteBroadcast())
                 .setNegativeButton(R.string.cancel, null)
                 .create();
     }

@@ -66,8 +66,9 @@ import me.zhanghai.android.douya.util.TransitionUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class BroadcastFragment extends Fragment implements BroadcastAndCommentListResource.Listener,
-        SingleBroadcastAdapter.Listener, CommentActionDialogFragment.Listener,
-        ConfirmDeleteCommentDialogFragment.Listener, ConfirmDeleteBroadcastDialogFragment.Listener,
+        SingleBroadcastAdapter.Listener, ConfirmUnrebroadcastBroadcastDialogFragment.Listener,
+        CommentActionDialogFragment.Listener, ConfirmDeleteCommentDialogFragment.Listener,
+        ConfirmDeleteBroadcastDialogFragment.Listener,
         ConfirmDiscardContentDialogFragment.Listener {
 
     private static final String KEY_PREFIX = BroadcastFragment.class.getName() + '.';
@@ -399,9 +400,14 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             if (quick) {
                 DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
             } else {
-                // TODO: Dialog
+                ConfirmUnrebroadcastBroadcastDialogFragment.show(broadcast, this);
             }
         }
+    }
+
+    @Override
+    public void unrebroadcastBroadcast(Broadcast broadcast) {
+        DeleteBroadcastManager.getInstance().write(broadcast, getActivity());
     }
 
     @Override
@@ -436,13 +442,13 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     @Override
     public void onDeleteComment(Comment comment) {
-        ConfirmDeleteCommentDialogFragment.show(comment, this);
+        ConfirmDeleteCommentDialogFragment.show(comment.id, this);
     }
 
     @Override
-    public void deleteComment(Comment comment) {
+    public void deleteComment(long commentId) {
         DeleteBroadcastCommentManager.getInstance().write(
-                mBroadcastAndCommentListResource.getEffectiveBroadcastId(), comment.id,
+                mBroadcastAndCommentListResource.getEffectiveBroadcastId(), commentId,
                 getActivity());
     }
 
