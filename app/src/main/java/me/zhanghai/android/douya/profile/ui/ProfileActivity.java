@@ -35,6 +35,12 @@ public class ProfileActivity extends AppCompatActivity {
                 .putExtra(EXTRA_SIMPLE_USER, simpleUser);
     }
 
+    public static Intent makeIntent(
+            me.zhanghai.android.douya.network.api.info.frodo.SimpleUser simpleUser,
+            Context context) {
+        return makeIntent(SimpleUser.fromFrodo(simpleUser), context);
+    }
+
     public static Intent makeIntent(User user, Context context) {
         return new Intent(context, ProfileActivity.class)
                 .putExtra(EXTRA_USER_INFO, user);

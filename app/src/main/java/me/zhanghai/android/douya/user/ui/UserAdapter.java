@@ -43,11 +43,8 @@ public class UserAdapter extends SimpleAdapter<SimpleUser, UserAdapter.ViewHolde
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Context context = RecyclerViewUtils.getContext(holder);
         SimpleUser user = getItem(position);
-        holder.itemView.setOnClickListener(view -> {
-            // FIXME: Pass Frodo SimpleUser
-            //context.startActivity(ProfileActivity.makeIntent(user, context));
-            context.startActivity(ProfileActivity.makeIntent(user.getIdOrUid(), context));
-        });
+        holder.itemView.setOnClickListener(view -> context.startActivity(ProfileActivity.makeIntent(
+                user, context)));
         ImageUtils.loadAvatar(holder.avatarImage, user.avatar);
         holder.nameText.setText(user.name);
         holder.descriptionText.setText(user.getIdOrUid());

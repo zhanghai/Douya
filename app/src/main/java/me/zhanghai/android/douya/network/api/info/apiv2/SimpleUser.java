@@ -101,6 +101,22 @@ public class SimpleUser implements Parcelable {
     }
 
 
+    public static SimpleUser fromFrodo(
+            me.zhanghai.android.douya.network.api.info.frodo.SimpleUser frodoSimpleUser) {
+        SimpleUser simpleUser = new SimpleUser();
+        simpleUser.alt = frodoSimpleUser.url;
+        simpleUser.avatar = frodoSimpleUser.avatar;
+        //noinspection deprecation
+        simpleUser.id = frodoSimpleUser.id;
+        simpleUser.name = frodoSimpleUser.name;
+        //noinspection deprecation
+        simpleUser.type = frodoSimpleUser.type;
+        //noinspection deprecation
+        simpleUser.uid = frodoSimpleUser.uid;
+        return simpleUser;
+    }
+
+
     public static final Creator<SimpleUser> CREATOR = new Creator<SimpleUser>() {
         public SimpleUser createFromParcel(Parcel source) {
             return new SimpleUser(source);

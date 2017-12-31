@@ -95,11 +95,8 @@ public class ProfileFollowshipLayout extends FriendlyCardView {
 
             ImageUtils.loadAvatar(holder.avatarImage, user.avatar);
             holder.nameText.setText(user.name);
-            userLayout.setOnClickListener(view -> {
-                // TODO: Use Frodo SimpleUser.
-                //context.startActivity(ProfileActivity.makeIntent(user, context));
-                context.startActivity(ProfileActivity.makeIntent(user.getIdOrUid(), context));
-            });
+            userLayout.setOnClickListener(view -> context.startActivity(ProfileActivity.makeIntent(
+                    user, context)));
 
             ++i;
         }

@@ -60,12 +60,8 @@ public class SimpleBroadcastAdapter
             context.startActivity(BroadcastActivity.makeIntent(broadcast.id, context));
         });
         ImageUtils.loadAvatar(holder.avatarImage, broadcast.author.avatar);
-        holder.avatarImage.setOnClickListener(view -> {
-            // TODO: Pass Frodo SimpleUser.
-            //context.startActivity(ProfileActivity.makeIntent(broadcast.author, context));
-            context.startActivity(ProfileActivity.makeIntent(broadcast.author.getIdOrUid(),
-                    context));
-        });
+        holder.avatarImage.setOnClickListener(view -> context.startActivity(
+                ProfileActivity.makeIntent(broadcast.author, context)));
         holder.nameText.setText(broadcast.author.name);
         holder.timeText.setDoubanTime(broadcast.createdAt);
         holder.textText.setText(broadcast.getRebroadcastText(context));

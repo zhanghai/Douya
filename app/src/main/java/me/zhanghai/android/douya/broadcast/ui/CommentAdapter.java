@@ -49,14 +49,11 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Comment comment = getItem(position);
+        Comment comment = getItem(position);
         ImageUtils.loadAvatar(holder.avatarImage, comment.author.avatar);
-        final Context context = RecyclerViewUtils.getContext(holder);
-        holder.avatarImage.setOnClickListener(view -> {
-            // TODO: Use frodo SimpleUser
-            //context.startActivity(ProfileActivity.makeIntent(comment.author, context));
-            context.startActivity(ProfileActivity.makeIntent(comment.author.getIdOrUid(), context));
-        });
+        Context context = RecyclerViewUtils.getContext(holder);
+        holder.avatarImage.setOnClickListener(view -> context.startActivity(
+                ProfileActivity.makeIntent(comment.author, context)));
         holder.nameText.setText(comment.author.name);
         holder.timeText.setDoubanTime(comment.createdAt);
         holder.textText.setText(comment.getTextWithEntities());

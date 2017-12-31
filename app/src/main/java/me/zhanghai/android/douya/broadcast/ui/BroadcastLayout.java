@@ -199,10 +199,8 @@ public class BroadcastLayout extends LinearLayout {
 //                    broadcast.interestType), context));
 //        } else {
         ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar);
-        mAvatarImage.setOnClickListener(view -> context.startActivity(
-                // TODO: ProfileActivity.makeIntent(broadcast.author, context)));
-                ProfileActivity.makeIntent(broadcast.author.getIdOrUid(), context)));
-//        }
+        mAvatarImage.setOnClickListener(view -> context.startActivity(ProfileActivity.makeIntent(
+                broadcast.author, context)));
         //mNameText.setText(broadcast.getAuthorName());
         mNameText.setText(broadcast.author.name);
         mTimeText.setDoubanTime(broadcast.createdAt);
