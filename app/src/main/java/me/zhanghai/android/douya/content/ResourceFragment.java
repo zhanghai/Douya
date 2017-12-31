@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.content;
 
+import android.os.Bundle;
+
 import org.greenrobot.eventbus.Subscribe;
 
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
@@ -40,19 +42,24 @@ public abstract class ResourceFragment<ResponseType, ResourceType>
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         EventBusUtils.register(this);
-
-        loadOnStart();
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
 
         EventBusUtils.unregister(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        loadOnStart();
     }
 
     protected void loadOnStart() {
