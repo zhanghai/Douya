@@ -18,21 +18,27 @@
         android:layout_marginTop="@dimen/toolbar_height"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/text"
+        <!-- EditText doesn't support android:clipToPadding="false". -->
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-            android:paddingRight="@dimen/screen_edge_horizontal_margin"
-            android:paddingTop="@dimen/screen_edge_vertical_margin"
-            android:paddingBottom="@dimen/screen_edge_vertical_margin"
-            android:background="@null"
-            android:clipToPadding="false"
-            android:gravity="top"
-            android:hint="@string/broadcast_rebroadcast_text_hint">
-            <requestFocus />
-        </EditText>
+            android:fillViewport="true">
+
+            <EditText
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:paddingTop="@dimen/screen_edge_vertical_margin"
+                android:paddingBottom="@dimen/screen_edge_vertical_margin"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="@string/broadcast_rebroadcast_text_hint">
+                <requestFocus />
+            </EditText>
+        </ScrollView>
 
         <me.zhanghai.android.douya.broadcast.ui.BroadcastLayout
             android:id="@+id/broadcast"
