@@ -222,6 +222,9 @@ public class BroadcastLayout extends LinearLayout {
                 mBoundBroadcastRebroadcastedBroadcastWasDeleted = rebroadcastedBroadcast.isDeleted;
             }
             bindRebroadcastedAttachmentImages(broadcast, rebroadcastedBroadcast);
+        } else if (hasRebroadcastedBroadcast) {
+            // In case the broadcast has changed (e.g. likeCount).
+            setRebroadcastedAttachmentImagesLayoutOnClickListener(rebroadcastedBroadcast);
         }
 
         mLikeButton.setText(broadcast.getLikeCountString());
@@ -285,11 +288,7 @@ public class BroadcastLayout extends LinearLayout {
                 mRebroadcastedActionText.setText(null);
                 mRebroadcastedTextText.setText(null);
             } else {
-                mRebroadcastedAttachmentImagesLayout.setOnClickListener(view -> {
-                    Context context = view.getContext();
-                    context.startActivity(BroadcastActivity.makeIntent(rebroadcastedBroadcast,
-                            context));
-                });
+                setRebroadcastedAttachmentImagesLayoutOnClickListener(rebroadcastedBroadcast);
                 mRebroadcastedNameText.setText(rebroadcastedBroadcast.author.name);
                 mRebroadcastedActionText.setText(rebroadcastedBroadcast.action);
                 mRebroadcastedTextText.setText(rebroadcastedBroadcast.getTextWithEntities(
@@ -358,6 +357,15 @@ public class BroadcastLayout extends LinearLayout {
                 rebroadecastedAttachmentImagesVisible);
         ViewUtils.setVisibleOrGone(mRebroadcastedAttachmentImagesSpace,
                 rebroadecastedAttachmentImagesVisible);
+    }
+
+    private void setRebroadcastedAttachmentImagesLayoutOnClickListener(
+            Broadcast rebroadcastedBroadcast) {
+        mRebroadcastedAttachmentImagesLayout.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(BroadcastActivity.makeIntent(rebroadcastedBroadcast,
+                    context));
+        });
     }
 
     public void bind(Broadcast broadcast) {
