@@ -182,7 +182,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
         builder.append(" ");
         int parentSpaceEndIndex = builder.length();
         // HACK: For the case when rebroadcasting a broadcast.
-        float spaceWidthEm = builder.length() > 1 ? 0.5f : -0.1f;
+        float spaceWidthEm = builder.length() > 1 ? 0.5f : -1f / 12;
         builder.setSpan(new SpaceSpan(spaceWidthEm), parentSpaceStartIndex, parentSpaceEndIndex,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
