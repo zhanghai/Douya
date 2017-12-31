@@ -51,7 +51,6 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.Comment;
-import me.zhanghai.android.douya.ui.ClickableSimpleAdapter;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
@@ -390,7 +389,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         if (quick) {
             RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
         } else {
-            // TODO: Dialog
+            startActivity(RebroadcastBroadcastActivity.makeIntent(broadcast, getActivity()));
         }
     }
 

@@ -47,7 +47,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
         Broadcast effectiveBroadcast = broadcast.getEffectiveBroadcast();
         holder.cardView.setOnClickListener(view -> mListener.onOpenBroadcast(broadcast,
                 getSharedView(holder)));
-        holder.broadcastLayout.bindBroadcast(broadcast);
+        holder.broadcastLayout.bind(broadcast);
         holder.broadcastLayout.setListener(new BroadcastLayout.Listener() {
             @Override
             public void onLikeClicked() {
@@ -80,7 +80,7 @@ public class BroadcastAdapter extends SimpleAdapter<Broadcast, BroadcastAdapter.
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        holder.broadcastLayout.releaseBroadcast();
+        holder.broadcastLayout.unbind();
     }
 
     public interface Listener {

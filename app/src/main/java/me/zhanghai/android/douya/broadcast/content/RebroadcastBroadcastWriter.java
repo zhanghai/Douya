@@ -13,6 +13,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
+import me.zhanghai.android.douya.eventbus.BroadcastRebroadcastErrorEvent;
+import me.zhanghai.android.douya.eventbus.BroadcastRebroadcastedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
@@ -85,6 +87,8 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
 
         EventBusUtils.postAsync(new BroadcastUpdatedEvent(response.rebroadcastedBroadcast, this));
 
+        EventBusUtils.postAsync(new BroadcastRebroadcastedEvent(mBroadcastId, response, this));
+
         stopSelf();
     }
 
@@ -98,6 +102,8 @@ class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWrit
 
         // Must notify to reset pending status. Off-screen items also needs to be invalidated.
         EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
+
+        EventBusUtils.postAsync(new BroadcastRebroadcastErrorEvent(mBroadcastId, this));
 
         stopSelf();
     }

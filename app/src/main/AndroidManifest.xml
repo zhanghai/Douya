@@ -75,29 +75,35 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
+            android:name=".broadcast.ui.RebroadcastBroadcastActivity"
+            android:label="@string/broadcast_rebroadcast_title"
+            android:theme="@style/Theme.Douya.DialogWhenLarge"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
+        <activity
             android:name=".profile.ui.ProfileActivity"
             android:theme="@style/Theme.Douya.TransparentBackground"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".followship.ui.FollowerListActivity"
-            android:theme="@style/Theme.Douya"
-            android:label="@string/profile_follower_list_title" />
+            android:label="@string/profile_follower_list_title"
+            android:theme="@style/Theme.Douya" />
 
         <activity
             android:name=".followship.ui.FollowingListActivity"
-            android:theme="@style/Theme.Douya"
-            android:label="@string/profile_following_list_title" />
+            android:label="@string/profile_following_list_title"
+            android:theme="@style/Theme.Douya" />
 
         <activity
             android:name=".item.ui.MovieActivity"
-            android:theme="@style/Theme.Douya.Movie"
-            android:label="@string/item_movie_title" />
+            android:label="@string/item_movie_title"
+            android:theme="@style/Theme.Douya.Movie" />
 
         <activity
             android:name=".item.ui.ItemCollectionActivity"
-            android:theme="@style/Theme.Douya"
-            android:label="@string/item_collection_title" />
+            android:label="@string/item_collection_title"
+            android:theme="@style/Theme.Douya" />
 
         <activity
             android:name=".settings.ui.SettingsActivity"

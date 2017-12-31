@@ -74,7 +74,7 @@ public class SingleBroadcastAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Broadcast effectiveBroadcast = mBroadcast.getEffectiveBroadcast();
-        holder.broadcastLayout.bindBroadcast(mBroadcast);
+        holder.broadcastLayout.bind(mBroadcast);
         holder.broadcastLayout.setListener(new BroadcastLayout.Listener() {
             @Override
             public void onLikeClicked() {
@@ -98,7 +98,7 @@ public class SingleBroadcastAdapter
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        holder.broadcastLayout.releaseBroadcast();
+        holder.broadcastLayout.unbind();
     }
 
     public interface Listener {

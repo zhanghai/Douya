@@ -179,11 +179,12 @@ public class BroadcastLayout extends LinearLayout {
         mListener = listener;
     }
 
-    private void bindBroadcast(Broadcast broadcast, boolean isSimpleRebroadcastByOneself,
-                               boolean isUnrebroadcasting) {
+    private void bind(Broadcast broadcast, boolean isSimpleRebroadcastByOneself,
+                      boolean isUnrebroadcasting) {
 
         Context context = getContext();
 
+        // TODO: Integrate API V2.
 //        if (broadcast.isInterest) {
 //            mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
 //                    R.drawable.recommendation_avatar_icon_40dp));
@@ -344,19 +345,19 @@ public class BroadcastLayout extends LinearLayout {
         mBoundBroadcastId = broadcast.id;
     }
 
-    public void bindBroadcast(Broadcast broadcast) {
+    public void bind(Broadcast broadcast) {
         if (broadcast.isSimpleRebroadcast()) {
             boolean isSimpleRebroadcastByOneself = broadcast.isSimpleRebroadcastByOneself();
             boolean isUnrebroadcasting = isSimpleRebroadcastByOneself &&
                     DeleteBroadcastManager.getInstance().isWriting(broadcast.id);
-            bindBroadcast(broadcast.rebroadcastedBroadcast, isSimpleRebroadcastByOneself,
+            bind(broadcast.rebroadcastedBroadcast, isSimpleRebroadcastByOneself,
                     isUnrebroadcasting);
         } else {
-            bindBroadcast(broadcast, false, false);
+            bind(broadcast, false, false);
         }
     }
 
-    public void releaseBroadcast() {
+    public void unbind() {
         mAvatarImage.setImageDrawable(null);
         mAttachmentImage.setImageDrawable(null);
         mSingleImageLayout.releaseImage();

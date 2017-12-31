@@ -127,7 +127,7 @@ public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastLis
         if (quick) {
             RebroadcastBroadcastManager.getInstance().write(broadcast, null, getActivity());
         } else {
-            // TODO: Dialog
+            startActivity(RebroadcastBroadcastActivity.makeIntent(broadcast, getActivity()));
         }
     }
 

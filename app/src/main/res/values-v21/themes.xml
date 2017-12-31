@@ -7,6 +7,11 @@
 
 <resources>
 
+    <style name="PreferenceFixTheme.DialogWhenLarge" parent="Theme.AppCompat.DialogWhenLarge">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Fix</item>
+        <item name="preferenceDialog_messageAppearance">@style/PreferenceFixTheme.TextAppearanceDialogMessage</item>
+    </style>
+
     <style name="Theme.Douya.TransparentStatusBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
