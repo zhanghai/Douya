@@ -11,6 +11,8 @@ import android.content.UriMatcher;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.regex.Pattern;
+
 import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
@@ -21,6 +23,11 @@ import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.util.UriUtils;
 
 public class DoubanUriHandler {
+
+    private static final Pattern DISPATCH_URI_PATTERN = Pattern.compile(
+            "https://www.douban.com/doubanapp/dispatch\\?uri=.*");
+    private static final String DISPATCH_URI_QUERY_PARAMETER_URI = "uri";
+    private static final String DISPATCH_URI_QUERY_PARAMETER_URI_PREFIX = "douban://douban.com";
 
     private static final String AUTHORITY = "www.douban.com";
     private static final String AUTHORITY_MOVIE = "movie.douban.com";
@@ -77,6 +84,11 @@ public class DoubanUriHandler {
     private DoubanUriHandler() {}
 
     public static boolean open(Uri uri, Context context) {
+
+        if (DISPATCH_URI_PATTERN.matcher(uri.toString()).matches()) {
+            uri = Uri.parse(DISPATCH_URI_QUERY_PARAMETER_URI_PREFIX + uri.getQueryParameter(
+                    DISPATCH_URI_QUERY_PARAMETER_URI));
+        }
 
         int code = MATCHER.match(uri);
         if (code == UriMatcher.NO_MATCH) {
