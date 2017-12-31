@@ -70,10 +70,10 @@ class DeleteBroadcastWriter extends ResourceWriter<DeleteBroadcastWriter, Void> 
                 R.string.broadcast_unrebroadcast_successful : R.string.broadcast_delete_successful,
                 getContext());
 
-        if (mBroadcast != null && mBroadcast.rebroadcastedBroadcast != null) {
-            Broadcast rebroadcastedBroadcast = mBroadcast.rebroadcastedBroadcast;
-            --rebroadcastedBroadcast.rebroadcastCount;
-            EventBusUtils.postAsync(new BroadcastUpdatedEvent(rebroadcastedBroadcast, this));
+        if (mBroadcast != null) {
+            Broadcast effectiveBroadcast = mBroadcast.getEffectiveBroadcast();
+            --effectiveBroadcast.rebroadcastCount;
+            EventBusUtils.postAsync(new BroadcastUpdatedEvent(effectiveBroadcast, this));
         }
         EventBusUtils.postAsync(new BroadcastDeletedEvent(mBroadcastId, this));
 
