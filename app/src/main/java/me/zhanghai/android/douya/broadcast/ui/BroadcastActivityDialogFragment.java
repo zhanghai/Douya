@@ -71,6 +71,8 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
         super.onCreate(savedInstanceState);
 
         mBroadcast = getArguments().getParcelable(EXTRA_BROADCAST);
+
+        EventBusUtils.register(this);
     }
 
     @NonNull
@@ -116,15 +118,8 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
     }
 
     @Override
-    public void onStart(){
-        super.onStart();
-
-        EventBusUtils.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
 
         EventBusUtils.unregister(this);
     }

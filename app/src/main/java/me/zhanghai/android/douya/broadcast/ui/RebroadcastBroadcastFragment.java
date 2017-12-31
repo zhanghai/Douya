@@ -101,6 +101,8 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         mText = arguments.getCharSequence(EXTRA_TEXT);
 
         setHasOptionsMenu(true);
+
+        EventBusUtils.register(this);
     }
 
     @Nullable
@@ -138,22 +140,10 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        EventBusUtils.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBusUtils.unregister(this);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
+
+        EventBusUtils.unregister(this);
 
         mBroadcastResource.detach();
     }

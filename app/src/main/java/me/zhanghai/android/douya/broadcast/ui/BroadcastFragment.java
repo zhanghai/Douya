@@ -141,6 +141,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         mTitle = arguments.getString(EXTRA_TITLE);
 
         setHasOptionsMenu(true);
+
+        EventBusUtils.register(this);
     }
 
     @Nullable
@@ -220,22 +222,10 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        EventBusUtils.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBusUtils.unregister(this);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
+
+        EventBusUtils.unregister(this);
 
         mBroadcastAndCommentListResource.detach();
     }
