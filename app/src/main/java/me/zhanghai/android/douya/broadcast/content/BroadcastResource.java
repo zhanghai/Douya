@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.broadcast.content;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.util.ObjectsCompat;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -151,7 +152,9 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
     public void onDestroy() {
         super.onDestroy();
 
+        //noinspection deprecation
         if (has()) {
+            //noinspection deprecation
             Broadcast broadcast = get();
             setArguments(broadcast.id, broadcast);
         }
@@ -186,21 +189,11 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
             return;
         }
 
-        boolean changed = false;
-        if (event.broadcast.id == mBroadcastId) {
-            set(event.broadcast);
-            changed = true;
-        } else if (has()) {
-            Broadcast broadcast = get();
-            if (broadcast.rebroadcastedBroadcast != null
-                    && event.broadcast.id == broadcast.rebroadcastedBroadcast.id) {
-                broadcast.rebroadcastedBroadcast = event.broadcast;
-                changed = true;
-            }
-        }
-
-        if (changed) {
-            getListener().onBroadcastChanged(getRequestCode(), get());
+        //noinspection deprecation
+        Broadcast updatedBroadcast = event.update(mBroadcastId, get(), this);
+        if (updatedBroadcast != null) {
+            set(updatedBroadcast);
+            getListener().onBroadcastChanged(getRequestCode(), updatedBroadcast);
         }
     }
 
@@ -214,6 +207,23 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         if (event.broadcastId == mBroadcastId) {
             set(null);
             getListener().onBroadcastRemoved(getRequestCode());
+        } else //noinspection deprecation
+        if (has()) {
+            //noinspection deprecation
+            Broadcast broadcast = get();
+            //noinspection deprecation
+            if (broadcast.isParentBroadcastId(event.broadcastId)) {
+                // Same behavior as Frodo API.
+                // FIXME: Won't reach here if another list shares this broadcast instance.
+                broadcast.parentBroadcast = null;
+                //noinspection deprecation
+                broadcast.parentBroadcastId = null;
+                getListener().onBroadcastChanged(getRequestCode(), broadcast);
+            } else if (broadcast.rebroadcastedBroadcast != null
+                    && broadcast.rebroadcastedBroadcast.id == event.broadcastId) {
+                broadcast.rebroadcastedBroadcast.isDeleted = true;
+                getListener().onBroadcastChanged(getRequestCode(), broadcast);
+            }
         }
     }
 
@@ -224,8 +234,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
             return;
         }
 
-        // Only call listener when we have the data.
-        if (event.broadcastId == mBroadcastId && has()) {
+        if (isEffectiveBroadcastId(event.broadcastId)) {
             getListener().onBroadcastWriteStarted(getRequestCode());
         }
     }
@@ -237,8 +246,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
             return;
         }
 
-        // Only call listener when we have the data.
-        if (event.broadcastId == mBroadcastId && has()) {
+        if (isEffectiveBroadcastId(event.broadcastId)) {
             getListener().onBroadcastWriteFinished(getRequestCode());
         }
     }

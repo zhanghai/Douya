@@ -109,8 +109,9 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
             return;
         }
 
-        if (event.broadcast.id == mBroadcast.id) {
-            mBroadcast = event.broadcast;
+        Broadcast updatedBroadcast = event.update(mBroadcastId, mBroadcast, this);
+        if (updatedBroadcast != null) {
+            mBroadcast = updatedBroadcast;
         }
     }
 }

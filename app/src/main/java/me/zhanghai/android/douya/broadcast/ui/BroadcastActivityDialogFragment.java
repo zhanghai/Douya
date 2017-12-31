@@ -136,8 +136,9 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
             return;
         }
 
-        if (event.broadcast.id == mBroadcast.id) {
-            mBroadcast = event.broadcast;
+        Broadcast updatedBroadcast = event.update(mBroadcast, this);
+        if (updatedBroadcast != null) {
+            mBroadcast = updatedBroadcast;
             updateTabTitle();
         }
     }

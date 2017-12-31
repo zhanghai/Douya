@@ -11,6 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.util.ObjectsCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -106,6 +107,10 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     public Long getParentBroadcastId() {
         //noinspection deprecation
         return parentBroadcast != null ? (Long) parentBroadcast.id : parentBroadcastId;
+    }
+
+    public boolean isParentBroadcastId(Long parentBroadcastId) {
+        return ObjectsCompat.equals(getParentBroadcastId(), parentBroadcastId);
     }
 
     public boolean isSimpleRebroadcast() {

@@ -6,18 +6,18 @@
 package me.zhanghai.android.douya.eventbus;
 
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
-import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 
 public class BroadcastRebroadcastedEvent extends Event {
 
     public long broadcastId;
 
-    public Broadcast broadcast;
+    public Broadcast rebroadcastBroadcast;
 
-    public BroadcastRebroadcastedEvent(long broadcastId, Broadcast broadcast, Object source) {
+    public BroadcastRebroadcastedEvent(long broadcastId, Broadcast rebroadcastBroadcast,
+                                       Object source) {
         super(source);
 
         this.broadcastId = broadcastId;
-        this.broadcast = broadcast;
+        this.rebroadcastBroadcast = rebroadcastBroadcast;
     }
 }

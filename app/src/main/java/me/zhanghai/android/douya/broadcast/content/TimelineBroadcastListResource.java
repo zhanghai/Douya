@@ -150,22 +150,10 @@ public class TimelineBroadcastListResource
 
         List<Broadcast> broadcastList = get();
         for (int i = 0, size = broadcastList.size(); i < size; ++i) {
-            Broadcast broadcast = broadcastList.get(i);
-            boolean changed = false;
-            if (broadcast.id == event.broadcast.id) {
-                broadcastList.set(i, event.broadcast);
-                changed = true;
-            } else if (broadcast.parentBroadcast != null
-                    && broadcast.parentBroadcast.id == event.broadcast.id) {
-                broadcast.parentBroadcast = event.broadcast;
-                changed = true;
-            } else if (broadcast.rebroadcastedBroadcast != null
-                    && broadcast.rebroadcastedBroadcast.id == event.broadcast.id) {
-                broadcast.rebroadcastedBroadcast = event.broadcast;
-                changed = true;
-            }
-            if (changed) {
-                getListener().onBroadcastChanged(getRequestCode(), i, broadcastList.get(i));
+            Broadcast updatedBroadcast = event.update(broadcastList.get(i), this);
+            if (updatedBroadcast != null) {
+                broadcastList.set(i, updatedBroadcast);
+                getListener().onBroadcastChanged(getRequestCode(), i, updatedBroadcast);
             }
         }
     }

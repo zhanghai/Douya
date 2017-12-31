@@ -91,8 +91,9 @@ public class BroadcastRebroadcastedBroadcastListFragment extends BaseBroadcastLi
             return;
         }
 
-        if (event.broadcast.id == mBroadcast.id) {
-            mBroadcast = event.broadcast;
+        Broadcast updatedBroadcast = event.update(mBroadcast, this);
+        if (updatedBroadcast != null) {
+            mBroadcast = updatedBroadcast;
         }
     }
 }

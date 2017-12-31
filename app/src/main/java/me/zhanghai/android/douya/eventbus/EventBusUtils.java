@@ -30,12 +30,11 @@ public class EventBusUtils {
         sEventBus.post(event);
     }
 
-    public static void postAsync(final Object event) {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                sEventBus.post(event);
-            }
-        });
+    public static void postAsync(Object event) {
+        new Handler().post(() -> sEventBus.post(event));
+    }
+
+    public static void cancel(Object event) {
+        sEventBus.cancelEventDelivery(event);
     }
 }
