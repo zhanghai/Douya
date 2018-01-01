@@ -33,7 +33,7 @@ public class TimeUtils {
                     .toFormatter()
                     .withChronology(IsoChronology.INSTANCE);
 
-    private static final ZoneId DOUBAN_ZONED_ID = ZoneId.of("Asia/Shanghai");
+    private static final ZoneId DOUBAN_ZONE_ID = ZoneId.of("Asia/Shanghai");
 
     private static final Duration JUST_NOW_DURATION = Duration.ofMinutes(1);
     private static final Duration MINUTE_PATTERN_DURATION = Duration.ofHours(1);
@@ -51,7 +51,8 @@ public class TimeUtils {
      */
     public static ZonedDateTime parseDoubanDateTime(String doubanDateTime) {
         return ZonedDateTime.of(LocalDateTime.parse(doubanDateTime, DOUBAN_DATE_TIME_FORMATTER),
-                DOUBAN_ZONED_ID);
+                DOUBAN_ZONE_ID)
+                .withZoneSameInstant(ZoneId.systemDefault());
     }
 
     public static String formatDateTime(ZonedDateTime dateTime, Context context) {
