@@ -12,13 +12,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import me.zhanghai.android.douya.network.api.info.frodo.*;
 import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.ui.SizedImageItem;
 
 public class Photo implements SizedImageItem, Parcelable {
 
     @SerializedName("album_id")
-    public String albumId;
+    public long albumId;
 
     @SerializedName("album_title")
     public String albumTitle;
@@ -162,6 +163,30 @@ public class Photo implements SizedImageItem, Parcelable {
     }
 
 
+    @SuppressWarnings("deprecation")
+    public SizedImage toFrodoSizedImage() {
+        SizedImage sizedImage = new SizedImage();
+        sizedImage.raw = new SizedImage.Item();
+        sizedImage.raw.url = getLargeUrl();
+        sizedImage.raw.width = getLargeWidth();
+        sizedImage.raw.height = getLargeHeight();
+        sizedImage.large = new SizedImage.Item();
+        sizedImage.large.url = getLargeUrl();
+        sizedImage.large.width = getLargeWidth();
+        sizedImage.large.height = getLargeHeight();
+        sizedImage.medium = new SizedImage.Item();
+        sizedImage.medium.url = getMediumUrl();
+        sizedImage.medium.width = getMediumWidth();
+        sizedImage.medium.height = getMediumHeight();
+        sizedImage.small = new SizedImage.Item();
+        sizedImage.small.url = getSmallUrl();
+        sizedImage.small.width = getSmallWidth();
+        sizedImage.small.height = getSmallHeight();
+        sizedImage.isAnimated = isAnimated;
+        return sizedImage;
+    }
+
+
     public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
         public Photo createFromParcel(Parcel source) {
             return new Photo(source);
@@ -174,7 +199,7 @@ public class Photo implements SizedImageItem, Parcelable {
     public Photo() {}
 
     protected Photo(Parcel in) {
-        albumId = in.readString();
+        albumId = in.readLong();
         albumTitle = in.readString();
         alt = in.readString();
         author = in.readParcelable(SimpleUser.class.getClassLoader());
@@ -206,7 +231,7 @@ public class Photo implements SizedImageItem, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(albumId);
+        dest.writeLong(albumId);
         dest.writeString(albumTitle);
         dest.writeString(alt);
         dest.writeParcelable(author, 0);

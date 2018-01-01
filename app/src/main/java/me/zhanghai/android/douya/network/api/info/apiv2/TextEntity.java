@@ -13,13 +13,14 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.webkit.URLUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.UriSpan;
 import me.zhanghai.android.douya.util.LogUtils;
 
-public class Entity implements Parcelable {
+public class TextEntity implements Parcelable {
 
     public int end;
 
@@ -29,7 +30,7 @@ public class Entity implements Parcelable {
 
     public String title;
 
-    public static CharSequence applyEntities(String text, List<Entity> entityList) {
+    public static CharSequence applyEntities(String text, List<TextEntity> entityList) {
 
         if (TextUtils.isEmpty(text) || entityList.isEmpty()) {
             return text;
@@ -37,7 +38,7 @@ public class Entity implements Parcelable {
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         int lastTextIndex = 0;
-        for (Entity entity : entityList) {
+        for (TextEntity entity : entityList) {
             if (entity.start < 0 || entity.end < entity.start) {
                 LogUtils.w("Ignoring malformed entity " + entity);
                 continue;
@@ -71,18 +72,39 @@ public class Entity implements Parcelable {
     }
 
 
-    public static final Parcelable.Creator<Entity> CREATOR = new Parcelable.Creator<Entity>() {
-        public Entity createFromParcel(Parcel source) {
-            return new Entity(source);
+    public me.zhanghai.android.douya.network.api.info.frodo.TextEntity toFrodo() {
+        me.zhanghai.android.douya.network.api.info.frodo.TextEntity entity =
+                new me.zhanghai.android.douya.network.api.info.frodo.TextEntity();
+        entity.end = end;
+        entity.start = start;
+        entity.title = title;
+        entity.uri = href;
+        return entity;
+    }
+
+    public static ArrayList<me.zhanghai.android.douya.network.api.info.frodo.TextEntity> toFrodo(
+            ArrayList<TextEntity> entities) {
+        ArrayList<me.zhanghai.android.douya.network.api.info.frodo.TextEntity> frodoEntities =
+                new ArrayList<>();
+        for (TextEntity entity : entities) {
+            frodoEntities.add(entity.toFrodo());
         }
-        public Entity[] newArray(int size) {
-            return new Entity[size];
+        return frodoEntities;
+    }
+
+
+    public static final Parcelable.Creator<TextEntity> CREATOR = new Parcelable.Creator<TextEntity>() {
+        public TextEntity createFromParcel(Parcel source) {
+            return new TextEntity(source);
+        }
+        public TextEntity[] newArray(int size) {
+            return new TextEntity[size];
         }
     };
 
-    public Entity() {}
+    public TextEntity() {}
 
-    protected Entity(Parcel in) {
+    protected TextEntity(Parcel in) {
         end = in.readInt();
         href = in.readString();
         start = in.readInt();

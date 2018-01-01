@@ -22,7 +22,7 @@ public class Comment implements Parcelable {
     @SerializedName("created")
     public String createdAt;
 
-    public ArrayList<Entity> entities = new ArrayList<>();
+    public ArrayList<TextEntity> entities = new ArrayList<>();
 
     public long id;
 
@@ -33,7 +33,7 @@ public class Comment implements Parcelable {
     }
 
     public CharSequence getContentWithEntities() {
-        return Entity.applyEntities(content, entities);
+        return TextEntity.applyEntities(content, entities);
     }
 
     public String getClipboardLabel() {
@@ -60,7 +60,7 @@ public class Comment implements Parcelable {
         author = in.readParcelable(SimpleUser.class.getClassLoader());
         content = in.readString();
         createdAt = in.readString();
-        entities = in.createTypedArrayList(Entity.CREATOR);
+        entities = in.createTypedArrayList(TextEntity.CREATOR);
         id = in.readLong();
         source = in.readString();
     }

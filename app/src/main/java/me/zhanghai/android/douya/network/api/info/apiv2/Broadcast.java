@@ -15,13 +15,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.DoubanUtils;
 
 public class Broadcast implements Parcelable {
 
     @SerializedName("activity")
     public String action;
 
-    public Attachment attachment;
+    public BroadcastAttachment attachment;
 
     public SimpleUser author;
 
@@ -34,7 +35,7 @@ public class Broadcast implements Parcelable {
     @SerializedName("created_at")
     public String createdAt;
 
-    public ArrayList<Entity> entities = new ArrayList<>();
+    public ArrayList<TextEntity> entities = new ArrayList<>();
 
     public long id;
 
@@ -84,7 +85,7 @@ public class Broadcast implements Parcelable {
     }
 
     public CharSequence getTextWithEntities(Context context) {
-        return Entity.applyEntities(text, entities);
+        return TextEntity.applyEntities(text, entities);
     }
 
     public void fixLiked(boolean liked) {
@@ -164,6 +165,31 @@ public class Broadcast implements Parcelable {
         return makeTransitionName(id);
     }
 
+
+    public me.zhanghai.android.douya.network.api.info.frodo.Broadcast toFrodo() {
+        me.zhanghai.android.douya.network.api.info.frodo.Broadcast broadcast =
+                new me.zhanghai.android.douya.network.api.info.frodo.Broadcast();
+        broadcast.action = action;
+        broadcast.author = author.toFrodo();
+        broadcast.attachment = attachment.toFrodo(photos);
+        broadcast.commentCount = commentCount;
+        broadcast.createdAt = createdAt;
+        broadcast.entities = TextEntity.toFrodo(entities);
+        broadcast.isRebroadcastAndCommentForbidden = canComment();
+        broadcast.id = id;
+        for (Image image : images) {
+            broadcast.images.add(image.toFrodoSizedImage());
+        }
+        broadcast.likeCount = likeCount;
+        broadcast.isLiked = isLiked;
+        broadcast.rebroadcastCount = rebroadcastCount;
+        broadcast.shareUrl = "https://www.douban.com/doubanapp/dispatch?uri=/status/" + id + "/";
+        broadcast.text = text;
+        broadcast.uri = DoubanUtils.makeBroadcastUri(id);
+        return broadcast;
+    }
+
+
     public static final Parcelable.Creator<Broadcast> CREATOR =
             new Parcelable.Creator<Broadcast>() {
                 public Broadcast createFromParcel(Parcel source) {
@@ -178,12 +204,12 @@ public class Broadcast implements Parcelable {
 
     protected Broadcast(Parcel in) {
         action = in.readString();
-        attachment = in.readParcelable(Attachment.class.getClassLoader());
+        attachment = in.readParcelable(BroadcastAttachment.class.getClassLoader());
         author = in.readParcelable(SimpleUser.class.getClassLoader());
         canCommentInt = in.readInt();
         commentCount = in.readInt();
         createdAt = in.readString();
-        entities = in.createTypedArrayList(Entity.CREATOR);
+        entities = in.createTypedArrayList(TextEntity.CREATOR);
         id = in.readLong();
         interestType = in.readString();
         isInterest = in.readByte() != 0;

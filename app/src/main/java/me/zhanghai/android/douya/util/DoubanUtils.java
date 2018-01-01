@@ -66,17 +66,25 @@ public class DoubanUtils {
 
     private DoubanUtils() {}
 
-    public static String getAtUserString(String userIdOrUid) {
+    public static String makeAtUserString(String userIdOrUid) {
         return '@' + userIdOrUid + ' ';
     }
 
-    public static String getAtUserString(SimpleUser user) {
+    public static String makeAtUserString(SimpleUser user) {
         //noinspection deprecation
-        return getAtUserString(user.uid);
+        return makeAtUserString(user.uid);
     }
 
-    public static String getBroadcastUri(long broadcastId) {
+    public static String makeBroadcastUri(long broadcastId) {
         return "douban://douban.com/status/" + broadcastId;
+    }
+
+    public static String makePhotoAlbumUri(long photoAlbumId) {
+        return "douban://douban.com/photo_album/" + photoAlbumId;
+    }
+
+    public static String makeUserUri(long userId) {
+        return "douban://douban.com/user/" + userId;
     }
 
     public static String getInterestTypeUrl(String type) {

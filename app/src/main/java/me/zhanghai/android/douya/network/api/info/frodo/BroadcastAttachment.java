@@ -57,8 +57,7 @@ public class BroadcastAttachment implements Parcelable {
     @SerializedName("card_style")
     public String type;
 
-    @SerializedName("subtitle_entities")
-    public ArrayList<TextEntity> entities = new ArrayList<>();
+    public SizedImage image;
 
     @SerializedName("images_block")
     public ImageBlock imageBlock;
@@ -71,10 +70,11 @@ public class BroadcastAttachment implements Parcelable {
 
     public SimpleRating rating;
 
-    public SizedImage image;
-
     @SerializedName("subtitle")
     public String text;
+
+    @SerializedName("subtitle_entities")
+    public ArrayList<TextEntity> entities = new ArrayList<>();
 
     public String title;
 
@@ -114,13 +114,13 @@ public class BroadcastAttachment implements Parcelable {
     protected BroadcastAttachment(Parcel in) {
         //noinspection deprecation
         type = in.readString();
-        entities = in.createTypedArrayList(TextEntity.CREATOR);
+        image = in.readParcelable(SizedImage.class.getClassLoader());
         imageBlock = in.readParcelable(ImageBlock.class.getClassLoader());
         //noinspection deprecation
         ratingUnavailableReason = in.readString();
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
-        image = in.readParcelable(SizedImage.class.getClassLoader());
         text = in.readString();
+        entities = in.createTypedArrayList(TextEntity.CREATOR);
         title = in.readString();
         uri = in.readString();
         url = in.readString();
@@ -135,13 +135,13 @@ public class BroadcastAttachment implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         //noinspection deprecation
         dest.writeString(type);
-        dest.writeTypedList(entities);
+        dest.writeParcelable(image, flags);
         dest.writeParcelable(imageBlock, flags);
         //noinspection deprecation
         dest.writeString(ratingUnavailableReason);
         dest.writeParcelable(rating, flags);
-        dest.writeParcelable(image, flags);
         dest.writeString(text);
+        dest.writeTypedList(entities);
         dest.writeString(title);
         dest.writeString(uri);
         dest.writeString(url);

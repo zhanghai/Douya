@@ -229,7 +229,7 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
             builder.append(context.getString(
                     R.string.broadcast_rebroadcasted_broadcast_text_more_rebroadcast));
             int parentMoreEndIndex = builder.length();
-            builder.setSpan(new UriSpan(DoubanUtils.getBroadcastUri(parentBroadcastId)),
+            builder.setSpan(new UriSpan(DoubanUtils.makeBroadcastUri(parentBroadcastId)),
                     parentSpaceStartIndex, parentMoreEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 

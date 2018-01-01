@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.util.DoubanUtils;
 
 public class SimpleUser implements Parcelable {
 
@@ -101,18 +102,30 @@ public class SimpleUser implements Parcelable {
     }
 
 
+    @SuppressWarnings("deprecation")
     public static SimpleUser fromFrodo(
             me.zhanghai.android.douya.network.api.info.frodo.SimpleUser frodoSimpleUser) {
         SimpleUser simpleUser = new SimpleUser();
         simpleUser.alt = frodoSimpleUser.url;
         simpleUser.avatar = frodoSimpleUser.avatar;
-        //noinspection deprecation
         simpleUser.id = frodoSimpleUser.id;
         simpleUser.name = frodoSimpleUser.name;
-        //noinspection deprecation
         simpleUser.type = frodoSimpleUser.type;
-        //noinspection deprecation
         simpleUser.uid = frodoSimpleUser.uid;
+        return simpleUser;
+    }
+
+    @SuppressWarnings("deprecation")
+    public me.zhanghai.android.douya.network.api.info.frodo.SimpleUser toFrodo() {
+        me.zhanghai.android.douya.network.api.info.frodo.SimpleUser simpleUser =
+                new me.zhanghai.android.douya.network.api.info.frodo.SimpleUser();
+        simpleUser.avatar = avatar;
+        simpleUser.id = id;
+        simpleUser.type = type;
+        simpleUser.name = name;
+        simpleUser.uid = uid;
+        simpleUser.uri = DoubanUtils.makeUserUri(id);
+        simpleUser.url = alt;
         return simpleUser;
     }
 
