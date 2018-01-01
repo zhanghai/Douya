@@ -53,13 +53,17 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
 
     private static final String FRAGMENT_TAG_DEFAULT = ProfileResource.class.getName();
 
-    private static ProfileResource newInstance(String userIdOrUid, me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user) {
+    private static ProfileResource newInstance(
+            String userIdOrUid,
+            me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user) {
         //noinspection deprecation
         return new ProfileResource().setArguments(userIdOrUid, simpleUser, user);
     }
 
-    public static ProfileResource attachTo(String userIdOrUid, me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user,
-                                           Fragment fragment, String tag, int requestCode) {
+    public static ProfileResource attachTo(
+            String userIdOrUid,
+            me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user,
+            Fragment fragment, String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
         ProfileResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
@@ -70,8 +74,10 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         return instance;
     }
 
-    public static ProfileResource attachTo(String userIdOrUid, me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user,
-                                           Fragment fragment) {
+    public static ProfileResource attachTo(
+            String userIdOrUid,
+            me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user,
+            Fragment fragment) {
         return attachTo(userIdOrUid, simpleUser, user, fragment, FRAGMENT_TAG_DEFAULT,
                 REQUEST_CODE_INVALID);
     }
@@ -81,7 +87,9 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
      */
     public ProfileResource() {}
 
-    protected ProfileResource setArguments(String userIdOrUid, me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user) {
+    protected ProfileResource setArguments(
+            String userIdOrUid,
+            me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user) {
         Bundle arguments = FragmentUtils.ensureArguments(this);
         arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         arguments.putParcelable(EXTRA_SIMPLE_USER, simpleUser);
