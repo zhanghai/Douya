@@ -126,7 +126,7 @@ class FollowUserWriter extends ResourceWriter<FollowUserWriter, User> {
         stopSelf();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onUserUpdated(UserUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {

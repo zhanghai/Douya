@@ -49,7 +49,7 @@ public abstract class BaseReviewListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onReviewUpdated(ReviewUpdatedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -66,7 +66,7 @@ public abstract class BaseReviewListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onReviewDeleted(ReviewDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

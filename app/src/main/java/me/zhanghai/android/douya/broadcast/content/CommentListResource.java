@@ -54,7 +54,7 @@ public abstract class CommentListResource
         getListener().onCommentListAppended(getRequestCode(), commentList);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onCommentDeleted(CommentDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

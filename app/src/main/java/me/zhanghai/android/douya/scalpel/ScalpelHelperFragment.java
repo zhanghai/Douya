@@ -98,7 +98,7 @@ public class ScalpelHelperFragment extends RetainedFragment {
         ScalpelUtils.setEnabled(getActivity(), true);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onSetEnabled(SetEnabledEvent event) {
         setEnabledForActivity(event.enabled);
     }

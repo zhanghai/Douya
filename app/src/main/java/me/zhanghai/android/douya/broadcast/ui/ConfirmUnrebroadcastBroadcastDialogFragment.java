@@ -80,7 +80,7 @@ public class ConfirmUnrebroadcastBroadcastDialogFragment extends AppCompatDialog
                 .show(fragment.getChildFragmentManager(), null);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {

@@ -74,7 +74,7 @@ public class BroadcastCommentListResource extends CommentListResource {
         return ApiService.getInstance().getBroadcastCommentList(mBroadcastId, start, count);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastCommentSent(BroadcastCommentSentEvent event) {
 
         if (event.isFromMyself(this)) {

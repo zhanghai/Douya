@@ -107,7 +107,7 @@ public class UserDiaryListResource extends MoreBaseListResourceFragment<DiaryLis
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onDiaryUpdated(DiaryUpdatedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -124,7 +124,7 @@ public class UserDiaryListResource extends MoreBaseListResourceFragment<DiaryLis
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onDiaryDeleted(DiaryDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

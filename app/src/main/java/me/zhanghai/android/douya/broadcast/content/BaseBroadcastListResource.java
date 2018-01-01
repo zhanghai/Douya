@@ -55,7 +55,7 @@ public abstract class BaseBroadcastListResource
         return true;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -72,7 +72,7 @@ public abstract class BaseBroadcastListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastDeleted(BroadcastDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

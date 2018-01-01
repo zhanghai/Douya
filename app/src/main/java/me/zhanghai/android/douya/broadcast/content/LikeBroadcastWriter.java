@@ -102,7 +102,7 @@ class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast>
         stopSelf();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {

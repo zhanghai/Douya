@@ -48,7 +48,7 @@ public abstract class BasePhotoListResource extends MoreBaseListResourceFragment
         getListener().onPhotoListAppended(getRequestCode(), photoList);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onPhotoDeleted(PhotoDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

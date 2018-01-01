@@ -225,7 +225,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         updateRebroadcastStatus();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastRebroadcasted(BroadcastRebroadcastedEvent event) {
 
         if (event.isFromMyself(this)) {
@@ -238,7 +238,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastRebroadcastError(BroadcastRebroadcastErrorEvent event) {
 
         if (event.isFromMyself(this)) {

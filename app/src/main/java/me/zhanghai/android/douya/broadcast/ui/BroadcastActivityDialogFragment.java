@@ -124,7 +124,7 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
         EventBusUtils.unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {

@@ -49,7 +49,7 @@ public abstract class BaseDoulistResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onDoulistUpdated(DoulistUpdatedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -66,7 +66,7 @@ public abstract class BaseDoulistResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onDoulistDeleted(DoulistDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

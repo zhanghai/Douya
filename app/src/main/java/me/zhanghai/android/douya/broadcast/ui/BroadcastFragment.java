@@ -469,7 +469,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         updateSendCommentStatus();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastCommentSent(BroadcastCommentSentEvent event) {
 
         if (event.isFromMyself(this)) {
@@ -483,7 +483,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastCommentSendError(BroadcastCommentSendErrorEvent event) {
 
         if (event.isFromMyself(this)) {

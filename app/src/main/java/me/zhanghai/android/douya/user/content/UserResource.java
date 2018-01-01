@@ -173,7 +173,7 @@ public class UserResource extends ResourceFragment<User, User> {
 
     protected void onLoadSuccess(User user) {}
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onUserUpdated(UserUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {
@@ -186,7 +186,7 @@ public class UserResource extends ResourceFragment<User, User> {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onUserWriteStarted(UserWriteStartedEvent event) {
 
         if (event.isFromMyself(this)) {
@@ -199,7 +199,7 @@ public class UserResource extends ResourceFragment<User, User> {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onUserWriteFinished(UserWriteFinishedEvent event) {
 
         if (event.isFromMyself(this)) {

@@ -181,7 +181,7 @@ public class NotificationListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onNotificationListUpdated(NotificationListUpdatedEvent event) {
 
         if (event.isFromMyself(this) || mAccount == null) {
@@ -193,7 +193,7 @@ public class NotificationListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onNotificationUpdated(NotificationUpdatedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -210,7 +210,7 @@ public class NotificationListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onNotificationDeleted(NotificationDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

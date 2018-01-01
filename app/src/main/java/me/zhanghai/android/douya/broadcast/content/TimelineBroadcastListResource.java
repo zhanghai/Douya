@@ -141,7 +141,7 @@ public class TimelineBroadcastListResource
         getListener().onBroadcastListChanged(getRequestCode(), Collections.unmodifiableList(get()));
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -158,7 +158,7 @@ public class TimelineBroadcastListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastDeleted(BroadcastDeletedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -189,7 +189,7 @@ public class TimelineBroadcastListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastWriteStarted(BroadcastWriteStartedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {
@@ -205,7 +205,7 @@ public class TimelineBroadcastListResource
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastWriteFinished(BroadcastWriteFinishedEvent event) {
 
         if (event.isFromMyself(this) || isEmpty()) {

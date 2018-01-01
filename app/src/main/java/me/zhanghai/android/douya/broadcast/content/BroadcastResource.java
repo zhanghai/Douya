@@ -182,7 +182,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
 
         if (event.isFromMyself(this)) {
@@ -197,7 +197,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastDeleted(BroadcastDeletedEvent event) {
 
         if (event.isFromMyself(this)) {
@@ -227,7 +227,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastWriteStarted(BroadcastWriteStartedEvent event) {
 
         if (event.isFromMyself(this)) {
@@ -239,7 +239,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onBroadcastWriteFinished(BroadcastWriteFinishedEvent event) {
 
         if (event.isFromMyself(this)) {
