@@ -11,6 +11,7 @@ import android.content.UriMatcher;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import me.zhanghai.android.douya.BuildConfig;
@@ -41,6 +42,7 @@ public class DoubanUriHandler {
         //TOPIC_BROADCAST_LIST_FRODO(AUTHORITY_FRODO, "status/topic?name=*"),
         BROADCAST("people/*/status/#"),
         BROADCAST_FRODO(AUTHORITY_FRODO, "status/#"),
+        BROADCAST_CHILD_FRODO(AUTHORITY_FRODO,"status/#/*"),
         // Reordered for correct behavior
         TOPIC_BROADCAST_LIST_FRODO(AUTHORITY_FRODO, "status/*"),
         USER("people/*"),
@@ -116,6 +118,11 @@ public class DoubanUriHandler {
             case BROADCAST_FRODO:
                 intent = BroadcastActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
+            case BROADCAST_CHILD_FRODO: {
+                long broadcastId = Long.parseLong(uri.getPathSegments().get(1));
+                intent = BroadcastActivity.makeIntent(broadcastId, context);
+                break;
+            }
             case USER:
             case USER_FRODO:
                 intent = ProfileActivity.makeIntent(uri.getLastPathSegment(), context);
