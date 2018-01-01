@@ -92,6 +92,10 @@ public class BroadcastAttachment implements Parcelable {
         return Rating.getRatingUnavailableReason(ratingUnavailableReason, context);
     }
 
+    public CharSequence getTextWithEntities() {
+        return TextEntity.applyEntities(text, entities);
+    }
+
 
     public static final Parcelable.Creator<BroadcastAttachment> CREATOR =
             new Parcelable.Creator<BroadcastAttachment>() {
@@ -108,6 +112,7 @@ public class BroadcastAttachment implements Parcelable {
     public BroadcastAttachment() {}
 
     protected BroadcastAttachment(Parcel in) {
+        //noinspection deprecation
         type = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         imageBlock = in.readParcelable(ImageBlock.class.getClassLoader());
@@ -128,6 +133,7 @@ public class BroadcastAttachment implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        //noinspection deprecation
         dest.writeString(type);
         dest.writeTypedList(entities);
         dest.writeParcelable(imageBlock, flags);

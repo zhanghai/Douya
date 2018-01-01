@@ -308,7 +308,7 @@ public class BroadcastLayout extends LinearLayout {
         if (attachment != null) {
             mAttachmentLayout.setVisibility(VISIBLE);
             mAttachmentTitleText.setText(attachment.title);
-            mAttachmentDescriptionText.setText(attachment.text);
+            mAttachmentDescriptionText.setText(attachment.getTextWithEntities());
             if (attachment.image != null && images.isEmpty()) {
                 mAttachmentImage.setVisibility(VISIBLE);
                 ImageUtils.loadImage(mAttachmentImage, attachment.image);
