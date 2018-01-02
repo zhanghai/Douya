@@ -17,6 +17,9 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+before_install:
+  - yes | sdkmanager 'platforms;android-27'
+
 before_script:
   - git fetch --unshallow
   - version="$(git describe --long --tags | sed 's/^v//;s/-\([0-9]\+\)-g\([0-9a-f]\+\)/+\1.\2/')"
