@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.network;
 
 import me.zhanghai.android.douya.app.TargetedRetainedFragment;
+import me.zhanghai.android.douya.broadcast.content.HomeMergedBroadcastListResource;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiError;
 
@@ -17,6 +18,7 @@ import me.zhanghai.android.douya.network.api.ApiError;
 public abstract class RequestFragment<RequestStateType, ResponseType>
         extends TargetedRetainedFragment implements ApiRequest.Callback<ResponseType> {
 
+    private boolean mIgnoreStartRequest;
     private boolean mRequesting;
     private ApiRequest<ResponseType> mRequest;
     private RequestStateType mRequestState;
@@ -30,6 +32,13 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
             mRequesting = false;
             clearRequest();
         }
+    }
+
+    /**
+     * Public access for {@link HomeMergedBroadcastListResource}.
+     */
+    public void setIgnoreStartRequest(boolean ignoreStartRequest) {
+        mIgnoreStartRequest = ignoreStartRequest;
     }
 
     public boolean isRequesting() {
@@ -46,7 +55,7 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
 
     protected void start(RequestStateType requestState) {
 
-        if (mRequesting || shouldIgnoreStartRequest()) {
+        if (mRequesting || mIgnoreStartRequest) {
             return;
         }
         mRequesting = true;
@@ -56,10 +65,6 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
         mRequest.enqueue(this);
 
         onRequestStarted();
-    }
-
-    protected boolean shouldIgnoreStartRequest() {
-        return false;
     }
 
     protected abstract ApiRequest<ResponseType> onCreateRequest(RequestStateType requestState);
@@ -78,13 +83,10 @@ public abstract class RequestFragment<RequestStateType, ResponseType>
 
     private void onCallResponse(final boolean successful, final ResponseType response,
                                 final ApiError error) {
-        postOnResumed(new Runnable() {
-            @Override
-            public void run() {
-                mRequesting = false;
-                onRequestFinished(successful, mRequestState, response, error);
-                clearRequest();
-            }
+        postOnResumed(() -> {
+            mRequesting = false;
+            onRequestFinished(successful, mRequestState, response, error);
+            clearRequest();
         });
     }
 

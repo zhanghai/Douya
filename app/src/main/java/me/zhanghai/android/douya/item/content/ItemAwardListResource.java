@@ -89,18 +89,20 @@ public class ItemAwardListResource
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
                                   List<ItemAwardItem> response, ApiError error) {
-        getListener().onLoadAwardListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
+                getListener().onLoadAwardListFinished(getRequestCode());
                 getListener().onAwardListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
                 set(response);
+                getListener().onLoadAwardListFinished(getRequestCode());
                 getListener().onAwardListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
         } else {
+            getListener().onLoadAwardListFinished(getRequestCode());
             getListener().onLoadAwardListError(getRequestCode(), error);
         }
     }

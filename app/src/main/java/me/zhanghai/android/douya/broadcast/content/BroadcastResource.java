@@ -172,12 +172,13 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
 
     @Override
     protected void onLoadFinished(boolean successful, Broadcast response, ApiError error) {
-        getListener().onLoadBroadcastFinished(getRequestCode());
         if (successful) {
             set(response);
+            getListener().onLoadBroadcastFinished(getRequestCode());
             getListener().onBroadcastChanged(getRequestCode(), response);
             EventBusUtils.postAsync(new BroadcastUpdatedEvent(response, this));
         } else {
+            getListener().onLoadBroadcastFinished(getRequestCode());
             getListener().onLoadBroadcastError(getRequestCode(), error);
         }
     }

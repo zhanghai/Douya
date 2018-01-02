@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
@@ -13,15 +13,14 @@ import android.support.v4.app.FragmentActivity;
 import java.util.List;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
-import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
-import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class HomeBroadcastListResource extends TimelineBroadcastListResource {
+public class HomeMergedBroadcastListResource extends MergedBroadcastListResource {
 
-    private static final String FRAGMENT_TAG_DEFAULT = HomeBroadcastListResource.class.getName();
+    private static final String FRAGMENT_TAG_DEFAULT =
+            HomeMergedBroadcastListResource.class.getName();
 
     private final Handler mHandler = new Handler();
     private boolean mStopped;
@@ -29,15 +28,15 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
     private Account mAccount;
     private boolean mLoadingFromCache;
 
-    private static HomeBroadcastListResource newInstance() {
+    private static HomeMergedBroadcastListResource newInstance() {
         //noinspection deprecation
-        return new HomeBroadcastListResource().setArguments();
+        return new HomeMergedBroadcastListResource().setArguments();
     }
 
-    public static HomeBroadcastListResource attachTo(Fragment fragment, String tag,
-                                                     int requestCode) {
+    public static HomeMergedBroadcastListResource attachTo(Fragment fragment, String tag,
+                                                           int requestCode) {
         FragmentActivity activity = fragment.getActivity();
-        HomeBroadcastListResource instance = FragmentUtils.findByTag(activity, tag);
+        HomeMergedBroadcastListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance();
             instance.targetAt(fragment, requestCode);
@@ -46,7 +45,7 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
         return instance;
     }
 
-    public static HomeBroadcastListResource attachTo(Fragment fragment) {
+    public static HomeMergedBroadcastListResource attachTo(Fragment fragment) {
         return attachTo(fragment, FRAGMENT_TAG_DEFAULT, REQUEST_CODE_INVALID);
     }
 
@@ -54,9 +53,9 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
      * @deprecated Use {@code attachTo()} instead.
      */
     @SuppressWarnings("deprecation")
-    public HomeBroadcastListResource() {}
+    public HomeMergedBroadcastListResource() {}
 
-    protected HomeBroadcastListResource setArguments() {
+    protected HomeMergedBroadcastListResource setArguments() {
         super.setArguments(null, null);
         return this;
     }
@@ -66,6 +65,22 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
         super.onStart();
 
         mStopped = false;
+
+        loadOnStart();
+    }
+
+    private void loadOnStart() {
+        if (!has()) {
+            onLoadOnStart();
+        }
+    }
+
+    private void onLoadOnStart() {
+        loadFromCache();
+    }
+
+    private void superOnLoadOnStart() {
+        load(false);
     }
 
     @Override
@@ -84,11 +99,6 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
         return super.isLoading() || mLoadingFromCache;
     }
 
-    @Override
-    protected void onLoadOnStart() {
-        loadFromCache();
-    }
-
     private void loadFromCache() {
 
         setLoadingFromCache(true);
@@ -101,9 +111,9 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
     }
 
     @Override
-    protected ApiRequest<TimelineList> onCreateRequest(boolean more, int count) {
+    protected void onLoadStarted() {
         mAccount = AccountUtils.getActiveAccount();
-        return super.onCreateRequest(more, count);
+        super.onLoadStarted();
     }
 
     private void onLoadFromCacheFinished(List<Broadcast> broadcastList) {
@@ -116,7 +126,7 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
 
         boolean hasCache = broadcastList != null && !broadcastList.isEmpty();
         if (hasCache) {
-            setAndNotifyListener(broadcastList, true);
+            setAndNotifyListener(broadcastList);
         }
 
         if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {
@@ -124,14 +134,15 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
                 if (mStopped) {
                     return;
                 }
-                HomeBroadcastListResource.super.onLoadOnStart();
+                superOnLoadOnStart();
             });
         }
     }
 
     private void setLoadingFromCache(boolean loadingFromCache) {
         mLoadingFromCache = loadingFromCache;
-        setIgnoreStartRequest(mLoadingFromCache);
+        mFrodoResource.setIgnoreStartRequest(mLoadingFromCache);
+        mApiV2Resource.setIgnoreStartRequest(mLoadingFromCache);
     }
 
     private void saveToCache(List<Broadcast> broadcastList) {

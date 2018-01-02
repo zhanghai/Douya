@@ -9,7 +9,8 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 
 public abstract class MoreListResourceFragment<ResponseType, ResourceListType>
-        extends ListResourceFragment<ResponseType, ResourceListType> {
+        extends ListResourceFragment<ResponseType, ResourceListType>
+        implements MoreListResource<ResourceListType> {
 
     private static final int DEFAULT_LOAD_COUNT = 20;
 
@@ -31,6 +32,10 @@ public abstract class MoreListResourceFragment<ResponseType, ResourceListType>
         super.set(addAll(get(), more));
 
         mCanLoadMore = getSize(more) == mLoadCount;
+    }
+
+    public boolean canLoadMore() {
+        return mCanLoadMore;
     }
 
     protected void setCanLoadMore(boolean canLoadMore) {

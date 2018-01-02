@@ -119,25 +119,29 @@ public class TimelineBroadcastListResource
 
     private void onLoadFinished(boolean more, int count, boolean successful,
                                 List<Broadcast> response, ApiError error) {
-        getListener().onLoadBroadcastListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
+                getListener().onLoadBroadcastListFinished(getRequestCode());
                 getListener().onBroadcastListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
-                setAndNotifyListener(response);
+                setAndNotifyListener(response, true);
             }
             for (Broadcast broadcast : response) {
                 EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, this));
             }
         } else {
+            getListener().onLoadBroadcastListFinished(getRequestCode());
             getListener().onLoadBroadcastListError(getRequestCode(), error);
         }
     }
 
-    protected void setAndNotifyListener(List<Broadcast> broadcastList) {
+    protected void setAndNotifyListener(List<Broadcast> broadcastList, boolean notifyFinished) {
         set(broadcastList);
+        if (notifyFinished) {
+            getListener().onLoadBroadcastListFinished(getRequestCode());
+        }
         getListener().onBroadcastListChanged(getRequestCode(), Collections.unmodifiableList(get()));
     }
 

@@ -96,30 +96,28 @@ public class ApiV2BroadcastListResource
 
     @Override
     protected void onLoadStarted() {
-        getListener().onLoadBroadcastListStarted(getRequestCode());
+        getListener().onLoadApiV2BroadcastListStarted(getRequestCode());
     }
 
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
                                   List<Broadcast> response, ApiError error) {
-        getListener().onLoadBroadcastListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
-                getListener().onBroadcastListAppended(getRequestCode(),
+                getListener().onLoadApiV2BroadcastListFinished(getRequestCode());
+                getListener().onApiV2BroadcastListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
-                setAndNotifyListener(response);
+                set(response);
+                getListener().onLoadApiV2BroadcastListFinished(getRequestCode());
+                getListener().onApiV2BroadcastListChanged(getRequestCode(),
+                        Collections.unmodifiableList(response));
             }
         } else {
-            getListener().onLoadBroadcastListError(getRequestCode(), error);
+            getListener().onLoadApiV2BroadcastListFinished(getRequestCode());
+            getListener().onLoadApiV2BroadcastListError(getRequestCode(), error);
         }
-    }
-
-    protected void setAndNotifyListener(List<Broadcast> broadcastList) {
-        set(broadcastList);
-        getListener().onBroadcastListChanged(getRequestCode(),
-                Collections.unmodifiableList(get()));
     }
 
     private Listener getListener() {
@@ -127,16 +125,16 @@ public class ApiV2BroadcastListResource
     }
 
     public interface Listener {
-        void onLoadBroadcastListStarted(int requestCode);
-        void onLoadBroadcastListFinished(int requestCode);
-        void onLoadBroadcastListError(int requestCode, ApiError error);
+        void onLoadApiV2BroadcastListStarted(int requestCode);
+        void onLoadApiV2BroadcastListFinished(int requestCode);
+        void onLoadApiV2BroadcastListError(int requestCode, ApiError error);
         /**
          * @param newBroadcastList Unmodifiable.
          */
-        void onBroadcastListChanged(int requestCode, List<Broadcast> newBroadcastList);
+        void onApiV2BroadcastListChanged(int requestCode, List<Broadcast> newBroadcastList);
         /**
          * @param appendedBroadcastList Unmodifiable.
          */
-        void onBroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList);
+        void onApiV2BroadcastListAppended(int requestCode, List<Broadcast> appendedBroadcastList);
     }
 }
