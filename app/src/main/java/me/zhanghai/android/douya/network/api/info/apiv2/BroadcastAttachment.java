@@ -39,27 +39,23 @@ public class BroadcastAttachment implements Parcelable {
                         .getApiString()
                 : me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment.Type.NORMAL
                         .getApiString();
-        if (image != null) {
-            attachment.image = new SizedImage();
-            attachment.image.medium = new SizedImage.Item();
-            attachment.image.medium.url = image;
-            attachment.image.medium.width = 1;
-            attachment.image.medium.height = 1;
+        attachment.image = new SizedImage();
+        attachment.image.medium = new SizedImage.Item();
+        attachment.image.medium.url = image;
+        attachment.image.medium.width = 1;
+        attachment.image.medium.height = 1;
+        attachment.imageBlock =
+                new me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment
+                        .ImageBlock();
+        for (Photo photo : photos) {
+            me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment.ImageBlock.Image
+                    image = new me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment
+                    .ImageBlock.Image();
+            image.image = photo.toFrodoSizedImage();
+            image.uri = DoubanUtils.makePhotoAlbumUri(photo.albumId);
+            attachment.imageBlock.images.add(image);
         }
-        if (!photos.isEmpty()) {
-            attachment.imageBlock =
-                    new me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment
-                            .ImageBlock();
-            for (Photo photo : photos) {
-                me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment.ImageBlock
-                        .Image image = new me.zhanghai.android.douya.network.api.info.frodo
-                        .BroadcastAttachment.ImageBlock.Image();
-                image.image = photo.toFrodoSizedImage();
-                image.uri = DoubanUtils.makePhotoAlbumUri(photo.albumId);
-                attachment.imageBlock.images.add(image);
-            }
-            attachment.imageBlock.countString = attachment.imageBlock.images.size() + "张";
-        }
+        attachment.imageBlock.countString = attachment.imageBlock.images.size() + "张";
         attachment.text = description;
         attachment.title = title;
         attachment.uri = href;

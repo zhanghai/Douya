@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.content.MoreListResource;
+import me.zhanghai.android.douya.content.MoreListResourceFragment;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -41,7 +41,7 @@ public abstract class BaseListFragment<T> extends Fragment {
     protected SimpleAdapter<T, ?> mItemAdapter;
     protected LoadMoreAdapter mAdapter;
 
-    protected MoreListResource<List<T>> mResource;
+    protected MoreListResourceFragment<?, List<T>> mResource;
 
     @Nullable
     @Override
@@ -102,7 +102,7 @@ public abstract class BaseListFragment<T> extends Fragment {
         mResource.detach();
     }
 
-    protected abstract MoreListResource<List<T>> onAttachResource();
+    protected abstract MoreListResourceFragment<?, List<T>> onAttachResource();
 
     protected void onLoadListStarted() {
         updateRefreshing();

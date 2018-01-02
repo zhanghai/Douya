@@ -7,7 +7,7 @@ package me.zhanghai.android.douya.followship.ui;
 
 import java.util.List;
 
-import me.zhanghai.android.douya.content.MoreListResource;
+import me.zhanghai.android.douya.content.MoreListResourceFragment;
 import me.zhanghai.android.douya.followship.content.FollowingListResource;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 
@@ -31,7 +31,7 @@ public class FollowingListFragment extends FollowshipUserListFragment {
     }
 
     @Override
-    protected MoreListResource<List<SimpleUser>> onAttachResource() {
+    protected MoreListResourceFragment<?, List<SimpleUser>> onAttachResource() {
         return FollowingListResource.attachTo(getUserIdOrUid(), this);
     }
 }

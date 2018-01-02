@@ -85,13 +85,12 @@ public class UserItemListResource extends RawListResourceFragment<UserItemList, 
     }
 
     private void onLoadFinished(boolean successful, List<UserItems> response, ApiError error) {
+        getListener().onLoadUserItemListFinished(getRequestCode());
         if (successful) {
             set(response);
-            getListener().onLoadUserItemListFinished(getRequestCode());
             getListener().onUserItemListChanged(getRequestCode(),
                     Collections.unmodifiableList(response));
         } else {
-            getListener().onLoadUserItemListFinished(getRequestCode());
             getListener().onLoadUserItemListError(getRequestCode(), error);
         }
     }

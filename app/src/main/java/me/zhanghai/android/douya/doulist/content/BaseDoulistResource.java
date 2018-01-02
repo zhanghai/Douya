@@ -30,15 +30,14 @@ public abstract class BaseDoulistResource
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
                                   List<Doulist> response, ApiError error) {
+        getListener().onLoadDoulistListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
-                getListener().onLoadDoulistListFinished(getRequestCode());
                 getListener().onDoulistListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
                 set(response);
-                getListener().onLoadDoulistListFinished(getRequestCode());
                 getListener().onDoulistListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
@@ -46,7 +45,6 @@ public abstract class BaseDoulistResource
                 EventBusUtils.postAsync(new DoulistUpdatedEvent(doulist, this));
             }
         } else {
-            getListener().onLoadDoulistListFinished(getRequestCode());
             getListener().onLoadDoulistListError(getRequestCode(), error);
         }
     }

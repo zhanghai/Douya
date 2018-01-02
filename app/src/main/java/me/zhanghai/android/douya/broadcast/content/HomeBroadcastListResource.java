@@ -80,6 +80,11 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
     }
 
     @Override
+    protected boolean shouldIgnoreStartRequest() {
+        return mLoadingFromCache;
+    }
+
+    @Override
     public boolean isLoading() {
         return super.isLoading() || mLoadingFromCache;
     }
@@ -91,7 +96,7 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
 
     private void loadFromCache() {
 
-        setLoadingFromCache(true);
+        mLoadingFromCache = true;
 
         mAccount = AccountUtils.getActiveAccount();
         HomeBroadcastListCache.get(mAccount, mHandler, this::onLoadFromCacheFinished,
@@ -108,7 +113,7 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
 
     private void onLoadFromCacheFinished(List<Broadcast> broadcastList) {
 
-        setLoadingFromCache(false);
+        mLoadingFromCache = false;
 
         if (mStopped) {
             return;
@@ -116,7 +121,7 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
 
         boolean hasCache = broadcastList != null && !broadcastList.isEmpty();
         if (hasCache) {
-            setAndNotifyListener(broadcastList, true);
+            setAndNotifyListener(broadcastList);
         }
 
         if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {
@@ -127,11 +132,6 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
                 HomeBroadcastListResource.super.onLoadOnStart();
             });
         }
-    }
-
-    private void setLoadingFromCache(boolean loadingFromCache) {
-        mLoadingFromCache = loadingFromCache;
-        setIgnoreStartRequest(mLoadingFromCache);
     }
 
     private void saveToCache(List<Broadcast> broadcastList) {

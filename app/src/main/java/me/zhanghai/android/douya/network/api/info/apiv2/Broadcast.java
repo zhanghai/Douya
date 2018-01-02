@@ -170,16 +170,8 @@ public class Broadcast implements Parcelable {
         me.zhanghai.android.douya.network.api.info.frodo.Broadcast broadcast =
                 new me.zhanghai.android.douya.network.api.info.frodo.Broadcast();
         broadcast.action = action;
-        if (isInterest) {
-            broadcast.author = new me.zhanghai.android.douya.network.api.info.frodo.SimpleUser();
-            broadcast.author.avatar = "R.drawable.recommendation_avatar_icon_40dp";
-            broadcast.author.name = interestType;
-            broadcast.author.uri = DoubanUtils.getInterestTypeUrl(interestType);
-            broadcast.author.url = DoubanUtils.getInterestTypeUrl(interestType);
-        } else {
-            broadcast.author = author.toFrodo();
-        }
-        broadcast.attachment = attachment != null ? attachment.toFrodo(photos) : null;
+        broadcast.author = author.toFrodo();
+        broadcast.attachment = attachment.toFrodo(photos);
         broadcast.commentCount = commentCount;
         broadcast.createdAt = createdAt;
         broadcast.entities = TextEntity.toFrodo(entities);

@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import me.zhanghai.android.douya.broadcast.content.BroadcastLikerListResource;
-import me.zhanghai.android.douya.content.MoreListResource;
+import me.zhanghai.android.douya.content.MoreListResourceFragment;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
@@ -64,7 +64,7 @@ public class BroadcastLikerListFragment extends BaseUserListFragment {
     }
 
     @Override
-    protected MoreListResource<List<SimpleUser>> onAttachResource() {
+    protected MoreListResourceFragment<?, List<SimpleUser>> onAttachResource() {
         return BroadcastLikerListResource.attachTo(mBroadcast.id, this);
     }
 

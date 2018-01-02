@@ -98,20 +98,18 @@ public class ItemCollectionListResource
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
                                   List<SimpleItemCollection> response, ApiError error) {
+        getListener().onLoadItemCollectionListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
-                getListener().onLoadItemCollectionListFinished(getRequestCode());
                 getListener().onItemCollectionListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
                 set(response);
-                getListener().onLoadItemCollectionListFinished(getRequestCode());
                 getListener().onItemCollectionListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
         } else {
-            getListener().onLoadItemCollectionListFinished(getRequestCode());
             getListener().onLoadItemCollectionListError(getRequestCode(), error);
         }
     }

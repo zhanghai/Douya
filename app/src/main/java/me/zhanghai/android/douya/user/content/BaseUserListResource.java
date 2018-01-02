@@ -31,20 +31,18 @@ public abstract class BaseUserListResource<ResponseType>
 
     protected void onRawLoadFinished(boolean more, int count, boolean successful,
                                      List<SimpleUser> response, ApiError error) {
+        getListener().onLoadUserListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
-                getListener().onLoadUserListFinished(getRequestCode());
                 getListener().onUserListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
                 set(response);
-                getListener().onLoadUserListFinished(getRequestCode());
                 getListener().onUserListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
         } else {
-            getListener().onLoadUserListFinished(getRequestCode());
             getListener().onLoadUserListError(getRequestCode(), error);
         }
     }

@@ -30,15 +30,14 @@ public abstract class BaseBroadcastListResource
     @Override
     protected void onLoadFinished(boolean more, int count, boolean successful,
                                   List<Broadcast> response, ApiError error) {
+        getListener().onLoadBroadcastListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
-                getListener().onLoadBroadcastListFinished(getRequestCode());
                 getListener().onBroadcastListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
                 set(response);
-                getListener().onLoadBroadcastListFinished(getRequestCode());
                 getListener().onBroadcastListChanged(getRequestCode(),
                         Collections.unmodifiableList(get()));
             }
@@ -48,7 +47,6 @@ public abstract class BaseBroadcastListResource
                 }
             }
         } else {
-            getListener().onLoadBroadcastListFinished(getRequestCode());
             getListener().onLoadBroadcastListError(getRequestCode(), error);
         }
     }

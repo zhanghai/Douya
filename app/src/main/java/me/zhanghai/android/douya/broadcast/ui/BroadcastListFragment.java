@@ -10,16 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import java.util.List;
-
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.broadcast.content.MergedBroadcastListResource;
 import me.zhanghai.android.douya.broadcast.content.TimelineBroadcastListResource;
-import me.zhanghai.android.douya.content.MoreListResource;
 import me.zhanghai.android.douya.link.NotImplementedManager;
-import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastListFragment extends BaseTimelineBroadcastListFragment {
@@ -68,8 +63,8 @@ public class BroadcastListFragment extends BaseTimelineBroadcastListFragment {
     }
 
     @Override
-    protected MoreListResource<List<Broadcast>> onAttachResource() {
-        return MergedBroadcastListResource.attachTo(mUserIdOrUid, mTopic, this);
+    protected TimelineBroadcastListResource onAttachResource() {
+        return TimelineBroadcastListResource.attachTo(mUserIdOrUid, mTopic, this);
     }
 
     @Override
