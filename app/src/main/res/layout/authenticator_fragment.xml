@@ -88,7 +88,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/auth_password"
-                        android:imeActionId="@+id/ime_login"
+                        android:imeActionId="@integer/ime_action_done"
                         android:imeActionLabel="@string/auth_sign_in"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword" />

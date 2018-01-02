@@ -7,4 +7,5 @@
 
 <resources>
     <integer name="item_comment_max_length">140</integer>
+    <integer name="ime_action_done">6</integer>
 </resources>
