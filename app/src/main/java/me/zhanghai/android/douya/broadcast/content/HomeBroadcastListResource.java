@@ -121,7 +121,7 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
 
         boolean hasCache = broadcastList != null && !broadcastList.isEmpty();
         if (hasCache) {
-            setAndNotifyListener(broadcastList);
+            setAndNotifyListener(broadcastList, true);
         }
 
         if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {

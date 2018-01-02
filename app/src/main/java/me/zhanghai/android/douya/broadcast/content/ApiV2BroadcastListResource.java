@@ -109,15 +109,18 @@ public class ApiV2BroadcastListResource
                 getListener().onBroadcastListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
-                setAndNotifyListener(response);
+                setAndNotifyListener(response, true);
             }
         } else {
             getListener().onLoadBroadcastListError(getRequestCode(), error);
         }
     }
 
-    protected void setAndNotifyListener(List<Broadcast> broadcastList) {
+    protected void setAndNotifyListener(List<Broadcast> broadcastList, boolean notifyFinished) {
         set(broadcastList);
+        if (notifyFinished) {
+            getListener().onLoadBroadcastListFinished(getRequestCode());
+        }
         getListener().onBroadcastListChanged(getRequestCode(),
                 Collections.unmodifiableList(get()));
     }

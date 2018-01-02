@@ -28,7 +28,6 @@ import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.settings.info.Settings;
-import me.zhanghai.android.douya.util.Callback;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class NotificationListResource
@@ -106,12 +105,7 @@ public class NotificationListResource
         mLoadingFromCache = true;
 
         mAccount = AccountUtils.getActiveAccount();
-        NotificationListCache.get(mAccount, mHandler, new Callback<List<Notification>>() {
-            @Override
-            public void onValue(List<Notification> notificationList) {
-                onLoadFromCacheFinished(notificationList);
-            }
-        }, getActivity());
+        NotificationListCache.get(mAccount, mHandler, this::onLoadFromCacheFinished, getActivity());
 
         onLoadStarted();
     }
@@ -126,18 +120,15 @@ public class NotificationListResource
 
         boolean hasCache = notificationList != null && !notificationList.isEmpty();
         if (hasCache) {
-            setAndNotifyListener(notificationList);
+            setAndNotifyListener(notificationList, true);
         }
 
         if (!hasCache || Settings.AUTO_REFRESH_HOME.getValue()) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mStopped) {
-                        return;
-                    }
-                    NotificationListResource.super.onLoadOnStart();
+            mHandler.post(() -> {
+                if (mStopped) {
+                    return;
                 }
+                NotificationListResource.super.onLoadOnStart();
             });
         }
     }
@@ -173,7 +164,7 @@ public class NotificationListResource
                 getListener().onNotificationListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
-                setAndNotifyListener(response);
+                setAndNotifyListener(response, true);
             }
             EventBusUtils.postAsync(new NotificationListUpdatedEvent(mAccount, get(), this));
         } else {
@@ -189,7 +180,7 @@ public class NotificationListResource
         }
 
         if (event.account.equals(mAccount)) {
-            setAndNotifyListener(event.notificationList);
+            setAndNotifyListener(event.notificationList, false);
         }
     }
 
@@ -230,7 +221,8 @@ public class NotificationListResource
         }
     }
 
-    protected void setAndNotifyListener(List<Notification> notificationList) {
+    protected void setAndNotifyListener(List<Notification> notificationList,
+                                        boolean notifyFinished) {
         // HACK: This cannot handle unread count > 20, or read elsewhere.
         if (has()) {
             for (Notification notification : get()) {
@@ -245,6 +237,9 @@ public class NotificationListResource
             }
         }
         set(notificationList);
+        if (notifyFinished) {
+            getListener().onLoadNotificationListFinished(getRequestCode());
+        }
         getListener().onNotificationListChanged(getRequestCode(),
                 Collections.unmodifiableList(notificationList));
     }
