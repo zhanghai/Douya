@@ -157,10 +157,10 @@ public class NotificationListResource
 
     private void onLoadFinished(boolean more, int count, boolean successful,
                                 List<Notification> response, ApiError error) {
-        getListener().onLoadNotificationListFinished(getRequestCode());
         if (successful) {
             if (more) {
                 append(response);
+                getListener().onLoadNotificationListFinished(getRequestCode());
                 getListener().onNotificationListAppended(getRequestCode(),
                         Collections.unmodifiableList(response));
             } else {
@@ -168,6 +168,7 @@ public class NotificationListResource
             }
             EventBusUtils.postAsync(new NotificationListUpdatedEvent(mAccount, get(), this));
         } else {
+            getListener().onLoadNotificationListFinished(getRequestCode());
             getListener().onLoadNotificationListError(getRequestCode(), error);
         }
     }

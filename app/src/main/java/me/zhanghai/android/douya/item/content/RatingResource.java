@@ -83,11 +83,12 @@ public class RatingResource extends ResourceFragment<Rating, Rating> {
 
     @Override
     protected void onLoadFinished(boolean successful, Rating response, ApiError error) {
-        getListener().onLoadRatingFinished(getRequestCode());
         if (successful) {
             set(response);
+            getListener().onLoadRatingFinished(getRequestCode());
             getListener().onRatingChanged(getRequestCode(), response);
         } else {
+            getListener().onLoadRatingFinished(getRequestCode());
             getListener().onLoadRatingError(getRequestCode(), error);
         }
     }

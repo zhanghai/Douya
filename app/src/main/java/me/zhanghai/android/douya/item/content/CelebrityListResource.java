@@ -102,11 +102,12 @@ public class CelebrityListResource extends RawListResourceFragment<CelebrityList
 
     private void onLoadFinished(boolean successful, List<SimpleCelebrity> response,
                                 ApiError error) {
-        getListener().onLoadCelebrityListFinished(getRequestCode());
         if (successful) {
             set(response);
+            getListener().onLoadCelebrityListFinished(getRequestCode());
             getListener().onCelebrityListChanged(getRequestCode(), response);
         } else {
+            getListener().onLoadCelebrityListFinished(getRequestCode());
             getListener().onLoadCelebrityListError(getRequestCode(), error);
         }
     }
