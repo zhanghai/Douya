@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -61,6 +62,10 @@ public class ConnectivityUtils {
         }
     }
 
+    /**
+     * @deprecated Remove @SuppressLint("MissingPermission") and add permission to use.
+     */
+    @SuppressLint("MissingPermission")
     @Nullable
     private static NetworkInfo getActiveNetworkInfo() {
         return getConnectivityManager().getActiveNetworkInfo();
