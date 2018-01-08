@@ -47,9 +47,8 @@ import me.zhanghai.android.douya.link.FrodoBridge;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.settings.info.Settings;
-import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
-import me.zhanghai.android.douya.util.WebViewFileChooserUtils;
+import me.zhanghai.android.douya.util.WebViewUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.NightModeHelper;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -198,7 +197,7 @@ public class WebViewActivity extends AppCompatActivity {
                     }
                 } else {
                     if (mUploadFile != null) {
-                        Uri value = WebViewFileChooserUtils.parseResult(resultCode, data);
+                        Uri value = WebViewUtils.parseFileChooserResult(resultCode, data);
                         mUploadFile.onReceiveValue(value);
                         mUploadFile = null;
                     }
@@ -299,6 +298,8 @@ public class WebViewActivity extends AppCompatActivity {
         webSettings.setUseWideViewPort(true);
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
+        mWebView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength)
+                -> WebViewUtils.download(url, userAgent, contentDisposition, mimeType, this));
         onLoadUri(mWebView);
     }
 
@@ -465,7 +466,7 @@ public class WebViewActivity extends AppCompatActivity {
                 mUploadFile.onReceiveValue(null);
             }
             mUploadFile = uploadFile;
-            startActivityForResult(WebViewFileChooserUtils.createIntent(acceptType),
+            startActivityForResult(WebViewUtils.createFileChooserIntent(acceptType),
                     REQUEST_CODE_FILE_CHOOSER);
         }
 
@@ -486,7 +487,7 @@ public class WebViewActivity extends AppCompatActivity {
                 mFilePathCallback.onReceiveValue(null);
             }
             mFilePathCallback = filePathCallback;
-            startActivityForResult(IntentUtils.withChooser(WebViewFileChooserUtils.createIntent(
+            startActivityForResult(IntentUtils.withChooser(WebViewUtils.createFileChooserIntent(
                     fileChooserParams)), REQUEST_CODE_FILE_CHOOSER);
             return true;
         }
