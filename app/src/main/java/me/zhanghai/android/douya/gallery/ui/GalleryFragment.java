@@ -254,7 +254,6 @@ public class GalleryFragment extends Fragment {
             return;
         }
         Uri uri = FileUtils.getContentUri(file, getActivity());
-        startActivity(Intent.createChooser(IntentUtils.makeSendImage(uri, null), getText(
-                R.string.share_activity_chooser_title)));
+        startActivity(Intent.createChooser(IntentUtils.makeSendImage(uri, null), null));
     }
 }

@@ -20,7 +20,6 @@
     <string name="more">更多</string>
     <string name="not_yet_implemented">尚未实现，敬请期待</string>
     <string name="report_abuse">举报不良信息</string>
-    <string name="share_activity_chooser_title">分享方式</string>
     <string name="time_action_format">%1$s %2$s</string>
     <string name="time_action_format_compat">%1$s%2$s</string>
     <string name="view_more">查看更多</string>

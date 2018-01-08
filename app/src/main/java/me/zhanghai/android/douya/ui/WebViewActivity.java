@@ -330,8 +330,7 @@ public class WebViewActivity extends AppCompatActivity {
             ToastUtils.show(R.string.webview_error_url_empty, this);
             return;
         }
-        startActivity(Intent.createChooser(IntentUtils.makeSendText(url), getText(
-                R.string.share_activity_chooser_title)));
+        startActivity(Intent.createChooser(IntentUtils.makeSendText(url), null));
     }
 
     private void toggleOpenWithNative() {
