@@ -32,7 +32,8 @@ public class NotImplementedManager {
     }
 
     public static void sendBroadcast(String topic, Context context) {
-        if (FrodoBridge.sendBroadcast(topic, context)) {
+        if (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue()
+                && FrodoBridge.sendBroadcast(topic, context)) {
             return;
         }
         UrlHandler.open("https://www.douban.com/#isay-cont", context);
