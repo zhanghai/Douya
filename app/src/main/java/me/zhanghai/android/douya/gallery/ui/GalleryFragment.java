@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.gallery.ui;
 
 import android.Manifest;
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.app.SaveImageService;
 import me.zhanghai.android.douya.ui.ViewPagerTransformers;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.FileUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
@@ -252,7 +254,8 @@ public class GalleryFragment extends Fragment {
         if (file == null) {
             return;
         }
-        Uri uri = FileUtils.getContentUri(file, getActivity());
-        startActivity(IntentUtils.withChooser(IntentUtils.makeSendImage(uri, null)));
+        Activity activity = getActivity();
+        Uri uri = FileUtils.getContentUri(file, activity);
+        AppUtils.startActivityWithChooser(IntentUtils.makeSendImage(uri, null), activity);
     }
 }

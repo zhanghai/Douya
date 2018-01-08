@@ -47,6 +47,7 @@ import me.zhanghai.android.douya.link.FrodoBridge;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
 import me.zhanghai.android.douya.util.WebViewUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
@@ -331,7 +332,7 @@ public class WebViewActivity extends AppCompatActivity {
             ToastUtils.show(R.string.webview_error_url_empty, this);
             return;
         }
-        startActivity(IntentUtils.withChooser(IntentUtils.makeSendText(url)));
+        AppUtils.startActivityWithChooser(IntentUtils.makeSendText(url), this);
     }
 
     private void toggleOpenWithNative() {
@@ -487,8 +488,8 @@ public class WebViewActivity extends AppCompatActivity {
                 mFilePathCallback.onReceiveValue(null);
             }
             mFilePathCallback = filePathCallback;
-            startActivityForResult(IntentUtils.withChooser(WebViewUtils.createFileChooserIntent(
-                    fileChooserParams)), REQUEST_CODE_FILE_CHOOSER);
+            AppUtils.startActivityForResultWithChooser(WebViewUtils.createFileChooserIntent(
+                    fileChooserParams), REQUEST_CODE_FILE_CHOOSER, WebViewActivity.this);
             return true;
         }
     }

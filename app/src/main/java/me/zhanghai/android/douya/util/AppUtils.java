@@ -99,4 +99,13 @@ public class AppUtils {
             return false;
         }
     }
+
+    public static void startActivityWithChooser(Intent intent, Context context) {
+        context.startActivity(IntentUtils.withChooser(intent));
+    }
+
+    public static void startActivityForResultWithChooser(Intent intent, int requestCode,
+                                                            Activity activity) {
+        activity.startActivityForResult(IntentUtils.withChooser(intent), requestCode);
+    }
 }
