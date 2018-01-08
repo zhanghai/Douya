@@ -24,6 +24,9 @@ public class DouyaGlideModule extends AppGlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
          builder.setDefaultRequestOptions(new RequestOptions()
-                 .format(DecodeFormat.PREFER_ARGB_8888));
+                 .format(DecodeFormat.PREFER_ARGB_8888)
+                 // Work around crash on Anroid O.
+                 // See https://github.com/bumptech/glide/issues/2309
+                 .disallowHardwareConfig());
     }
 }
