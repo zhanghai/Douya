@@ -80,12 +80,14 @@ public class AppUtils {
         }
     }
 
-    public static void startActivity(Intent intent, Context context) {
+    public static boolean startActivity(Intent intent, Context context) {
         try {
             context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
+            return true;
+        } catch (ActivityNotFoundException | IllegalArgumentException e) {
             e.printStackTrace();
             ToastUtils.show(R.string.activity_not_found, context);
+            return false;
         }
     }
 
@@ -93,7 +95,7 @@ public class AppUtils {
         try {
             activity.startActivityForResult(intent, requestCode);
             return true;
-        } catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException | IllegalArgumentException e) {
             e.printStackTrace();
             ToastUtils.show(R.string.activity_not_found, activity);
             return false;

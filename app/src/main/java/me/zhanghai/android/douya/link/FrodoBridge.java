@@ -116,11 +116,12 @@ public class FrodoBridge {
                         FRODO_PACKAGE_NAME + className));
     }
 
+    // Different from AppUtils.startActivity(), this one won't show a toast when failed.
     private static boolean startActivity(Intent intent, Context context) {
         try {
             context.startActivity(intent);
             return true;
-        } catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException | IllegalArgumentException e) {
             return false;
         }
     }
