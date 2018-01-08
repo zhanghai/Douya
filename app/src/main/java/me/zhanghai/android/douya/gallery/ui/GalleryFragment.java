@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.gallery.ui;
 
 import android.Manifest;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -254,6 +253,6 @@ public class GalleryFragment extends Fragment {
             return;
         }
         Uri uri = FileUtils.getContentUri(file, getActivity());
-        startActivity(Intent.createChooser(IntentUtils.makeSendImage(uri, null), null));
+        startActivity(IntentUtils.withChooser(IntentUtils.makeSendImage(uri, null)));
     }
 }

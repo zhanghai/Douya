@@ -23,6 +23,10 @@ public class IntentUtils {
 
     private IntentUtils() {}
 
+    public static Intent withChooser(Intent intent) {
+        return Intent.createChooser(intent, null);
+    }
+
     public static Intent makeInstallShortcut(int iconRes, int nameRes, Class<?> intentClass,
                                              Context context) {
         return new Intent()
@@ -38,15 +42,37 @@ public class IntentUtils {
         return context.getPackageManager().getLaunchIntentForPackage(packageName);
     }
 
-    public static Intent makePickFile(String mimeType) {
-        return new Intent(Intent.ACTION_GET_CONTENT)
+    private static Intent makePickFile(String mimeType, String[] mimeTypes, boolean allowMultiple) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
                 .addCategory(Intent.CATEGORY_OPENABLE)
                 .setType(mimeType);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (mimeTypes != null && mimeTypes.length > 0) {
+                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            if (allowMultiple) {
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            }
+        }
+        return intent;
     }
 
-    public static Intent makePickFile() {
-        return makePickFile(MIME_TYPE_ANY);
+    public static Intent makePickFile(boolean allowMultiple) {
+        return makePickFile(MIME_TYPE_ANY, null, allowMultiple);
     }
+
+    public static Intent makePickFile(String mimeType, boolean allowMultiple) {
+        return makePickFile(mimeType, new String[] { mimeType }, allowMultiple);
+    }
+
+    public static Intent makePickFile(String[] mimeTypes, boolean allowMultiple) {
+        String mimeType = mimeTypes != null && mimeTypes.length == 1 ? mimeTypes[0] : MIME_TYPE_ANY;
+        return makePickFile(mimeType, mimeTypes, allowMultiple);
+    }
+
+    // TODO: Use android.support.v4.app.ShareCompat ?
 
     // NOTE: Before Build.VERSION_CODES.JELLY_BEAN htmlText will be no-op.
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
