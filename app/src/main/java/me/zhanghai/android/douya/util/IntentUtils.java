@@ -38,11 +38,14 @@ public class IntentUtils {
         return context.getPackageManager().getLaunchIntentForPackage(packageName);
     }
 
-    public static Intent makePickFile() {
+    public static Intent makePickFile(String mimeType) {
         return new Intent(Intent.ACTION_GET_CONTENT)
-                .setType(MIME_TYPE_ANY)
-                .addCategory(Intent.CATEGORY_OPENABLE);
-        // TODO: addFlags(Intent.GRANT*) for permission?
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(mimeType);
+    }
+
+    public static Intent makePickFile() {
+        return makePickFile(MIME_TYPE_ANY);
     }
 
     // NOTE: Before Build.VERSION_CODES.JELLY_BEAN htmlText will be no-op.

@@ -89,12 +89,14 @@ public class AppUtils {
         }
     }
 
-    public static void startActivityForResult(Activity activity, Intent intent, int requestCode) {
+    public static boolean startActivityForResult(Intent intent, int requestCode, Activity activity) {
         try {
             activity.startActivityForResult(intent, requestCode);
+            return true;
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             ToastUtils.show(R.string.activity_not_found, activity);
+            return false;
         }
     }
 }

@@ -7,11 +7,13 @@ package me.zhanghai.android.douya.ui;
 
 import android.accounts.Account;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -44,7 +47,9 @@ import me.zhanghai.android.douya.link.FrodoBridge;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.settings.info.Settings;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
+import me.zhanghai.android.douya.util.FileChooserParamsCompat;
 import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.NightModeHelper;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -53,6 +58,8 @@ import me.zhanghai.android.douya.util.UrlUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class WebViewActivity extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_FILE_CHOOSER = 1;
 
     private static final Pattern DOUBAN_HOST_PATTERN = Pattern.compile(".*\\.douban\\.(com|fm)");
 
@@ -74,6 +81,9 @@ public class WebViewActivity extends AppCompatActivity {
     private MenuItem mGoForwardMenuItem;
     private MenuItem mOpenWithNativeMenuItem;
     private MenuItem mRequestDesktopSiteMenuItem;
+
+    private ValueCallback<Uri> mUploadFile;
+    private ValueCallback<Uri[]> mFilePathCallback;
 
     private String mTitleOrError;
     private boolean mProgressVisible;
@@ -172,6 +182,30 @@ public class WebViewActivity extends AppCompatActivity {
             mWebView.goBack();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_FILE_CHOOSER:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (mFilePathCallback != null) {
+                        Uri[] value = WebChromeClient.FileChooserParams.parseResult(resultCode,
+                                data);
+                        mFilePathCallback.onReceiveValue(value);
+                        mFilePathCallback = null;
+                    }
+                } else {
+                    if (mUploadFile != null) {
+                        Uri value = FileChooserParamsCompat.parseResult(resultCode, data);
+                        mUploadFile.onReceiveValue(value);
+                        mUploadFile = null;
+                    }
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -422,6 +456,46 @@ public class WebViewActivity extends AppCompatActivity {
         public void onReceivedTitle(WebView view, String title) {
             mTitleOrError = title;
             updateToolbarTitleAndSubtitle();
+        }
+
+        // For API level <= 15.
+        //@Override
+        @SuppressWarnings("unused")
+        public void openFileChooser(ValueCallback<Uri> uploadFile, String acceptType) {
+            if (mUploadFile != null) {
+                mUploadFile.onReceiveValue(null);
+                mUploadFile = null;
+            }
+            boolean handled = AppUtils.startActivityForResult(FileChooserParamsCompat.createIntent(
+                    acceptType), REQUEST_CODE_FILE_CHOOSER, WebViewActivity.this);
+            if (handled) {
+                mUploadFile = uploadFile;
+            }
+        }
+
+        // For 16 <= API level <= 19.
+        //@Override
+        @SuppressWarnings("unused")
+        public void openFileChooser(ValueCallback<Uri> uploadFile, String acceptType,
+                                    String capture) {
+            openFileChooser(uploadFile, acceptType);
+        }
+
+        // For API level >= 21.
+        @Override
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
+                                         FileChooserParams fileChooserParams) {
+            if (mFilePathCallback != null) {
+                mFilePathCallback.onReceiveValue(null);
+                mFilePathCallback = null;
+            }
+            boolean handled = AppUtils.startActivityForResult(fileChooserParams.createIntent(),
+                    REQUEST_CODE_FILE_CHOOSER, WebViewActivity.this);
+            if (handled) {
+                mFilePathCallback = filePathCallback;
+            }
+            return handled;
         }
     }
 
