@@ -36,7 +36,7 @@ public class NotImplementedManager {
                 && FrodoBridge.sendBroadcast(topic, context)) {
             return;
         }
-        UrlHandler.open("https://www.douban.com/#isay-cont", context);
+        UrlHandler.open("https://www.douban.com/#db-isay", context);
     }
 
     public static void showNotYetImplementedToast(Context context) {
