@@ -52,4 +52,7 @@
 
     <string name="pref_key_request_desktop_site_in_webview">key_request_desktop_site_in_webview</string>
     <bool name="pref_default_value_request_desktop_site_in_webview">true</bool>
+
+    <string name="pref_key_create_new_task_for_webview">key_create_new_task_for_webview</string>
+    <bool name="pref_default_value_create_new_task_for_webview">false</bool>
 </resources>

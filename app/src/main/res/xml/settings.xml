@@ -56,6 +56,12 @@
             android:title="@string/settings_request_desktop_site_in_webview_title"
             android:defaultValue="@bool/pref_default_value_request_desktop_site_in_webview"
             android:summary="@string/settings_request_desktop_site_in_webview_summary" />
+
+        <me.zhanghai.android.douya.settings.ui.CreateNewTaskForWebViewSwitchPreference
+            android:key="@string/pref_key_create_new_task_for_webview"
+            android:title="@string/settings_create_new_task_for_webview_title"
+            android:defaultValue="@bool/pref_default_value_create_new_task_for_webview"
+            android:summary="@string/settings_create_new_task_for_webview_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_about_title">

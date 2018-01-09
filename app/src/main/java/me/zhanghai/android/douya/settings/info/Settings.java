@@ -84,4 +84,8 @@ public interface Settings {
     BooleanSettingsEntry REQUEST_DESKTOP_SITE_IN_WEBVIEW = new BooleanSettingsEntry(
             R.string.pref_key_request_desktop_site_in_webview,
             R.bool.pref_default_value_request_desktop_site_in_webview);
+
+    BooleanSettingsEntry CREATE_NEW_TASK_FOR_WEBVIEW = new BooleanSettingsEntry(
+            R.string.pref_key_create_new_task_for_webview,
+            R.bool.pref_default_value_create_new_task_for_webview);
 }

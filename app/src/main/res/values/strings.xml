@@ -338,6 +338,9 @@
     <string name="settings_open_with_native_in_webview_summary">应用界面美观易用但可能有未覆盖的功能</string>
     <string name="settings_request_desktop_site_in_webview_title">在内置浏览器中请求桌面版网站</string>
     <string name="settings_request_desktop_site_in_webview_summary">豆瓣移动端网站功能有限</string>
+    <string name="settings_create_new_task_for_webview_title">为内置浏览器使用多任务</string>
+    <string name="settings_create_new_task_for_webview_summary">可同时打开多个网页或在回到应用界面时保留网页</string>
+    <string name="settings_create_new_task_for_webview_summary_below_lollipop">此功能需要 Android 5.0 或以上版本</string>
     <string name="settings_about_title">关于</string>
     <string name="settings_open_source_licenses_title">开放源代码许可</string>
     <string name="settings_open_source_licenses_html_style_light" translatable="false">
