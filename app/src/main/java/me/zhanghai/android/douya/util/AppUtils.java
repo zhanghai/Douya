@@ -5,17 +5,23 @@
 
 package me.zhanghai.android.douya.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import me.zhanghai.android.douya.R;
 
@@ -33,6 +39,89 @@ public class AppUtils {
         } else {
             return null;
         }
+    }
+
+    private static Field sActivityTaskDescriptionField;
+
+    public static ActivityManager.TaskDescription getTaskDescription(Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return null;
+        }
+        if (sActivityTaskDescriptionField == null) {
+            try {
+                sActivityTaskDescriptionField = Activity.class.getDeclaredField("mTaskDescription");
+                sActivityTaskDescriptionField.setAccessible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        try {
+            return (ActivityManager.TaskDescription) sActivityTaskDescriptionField.get(activity);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static Method sTaskDescriptionSetLabelMethod;
+
+    @SuppressLint("PrivateApi")
+    public static void setTaskDescriptionLabel(Activity activity, String label) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return;
+        }
+        ActivityManager.TaskDescription taskDescription = getTaskDescription(activity);
+        if (taskDescription == null) {
+            return;
+        }
+        if (sTaskDescriptionSetLabelMethod == null) {
+            try {
+                sTaskDescriptionSetLabelMethod = ActivityManager.TaskDescription.class
+                        .getDeclaredMethod("setLabel", String.class);
+                sTaskDescriptionSetLabelMethod.setAccessible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+        try {
+            sTaskDescriptionSetLabelMethod.invoke(taskDescription, label);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        activity.setTaskDescription(taskDescription);
+    }
+
+    private static Method sTaskDescriptionSetPrimaryColorMethod;
+
+    @SuppressLint("PrivateApi")
+    public static void setTaskDescriptionPrimaryColor(Activity activity, int primaryColor) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return;
+        }
+        ActivityManager.TaskDescription taskDescription = getTaskDescription(activity);
+        if (taskDescription == null) {
+            return;
+        }
+        if (sTaskDescriptionSetPrimaryColorMethod == null) {
+            try {
+                sTaskDescriptionSetPrimaryColorMethod = ActivityManager.TaskDescription.class
+                        .getDeclaredMethod("setPrimaryColor", int.class);
+                sTaskDescriptionSetPrimaryColorMethod.setAccessible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+        try {
+            sTaskDescriptionSetPrimaryColorMethod.invoke(taskDescription, primaryColor);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        activity.setTaskDescription(taskDescription);
     }
 
     public static boolean isIntentHandled(Intent intent, Context context) {

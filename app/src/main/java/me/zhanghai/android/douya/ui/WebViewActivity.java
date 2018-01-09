@@ -49,13 +49,13 @@ import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
-import me.zhanghai.android.douya.util.WebViewUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.NightModeHelper;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
+import me.zhanghai.android.douya.util.WebViewUtils;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -284,6 +284,9 @@ public class WebViewActivity extends AppCompatActivity {
                     R.style.TextAppearance_Widget_Douya_Toolbar_Subtitle_WebView);
         }
         setTitle(mTitleOrError);
+        if (Settings.CREATE_NEW_TASK_FOR_WEBVIEW.getValue()) {
+            AppUtils.setTaskDescriptionLabel(this, mTitleOrError);
+        }
         actionBar.setSubtitle(url);
     }
 
