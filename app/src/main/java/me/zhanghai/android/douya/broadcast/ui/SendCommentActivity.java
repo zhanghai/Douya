@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class SendCommentActivity extends AppCompatActivity {
@@ -29,7 +28,7 @@ public class SendCommentActivity extends AppCompatActivity {
 
     public static Intent makeIntent(long broadcastId, CharSequence text, Context context) {
         return makeIntent(broadcastId, context)
-                .putExtra(Intent.EXTRA_TEXT, text);
+                .putExtra(EXTRA_TEXT, text);
     }
 
     @Override

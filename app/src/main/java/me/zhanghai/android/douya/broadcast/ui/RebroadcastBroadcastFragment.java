@@ -130,7 +130,9 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
 
-        mTextEdit.setText(mText);
+        if (savedInstanceState == null) {
+            mTextEdit.setText(mText);
+        }
         //noinspection deprecation
         if (mBroadcastResource.has()) {
             //noinspection deprecation

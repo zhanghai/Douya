@@ -35,7 +35,7 @@ public class RebroadcastBroadcastActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Broadcast broadcast, CharSequence text, Context context) {
         return makeIntent(broadcast, context)
-                .putExtra(Intent.EXTRA_TEXT, text);
+                .putExtra(EXTRA_TEXT, text);
     }
 
     @Override

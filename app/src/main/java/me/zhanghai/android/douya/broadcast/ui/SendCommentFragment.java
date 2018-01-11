@@ -102,7 +102,9 @@ public class SendCommentFragment extends Fragment
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
 
-        mTextEdit.setText(mText);
+        if (savedInstanceState == null) {
+            mTextEdit.setText(mText);
+        }
         updateSendCommentStatus();
     }
 
@@ -159,7 +161,7 @@ public class SendCommentFragment extends Fragment
 
         if (event.broadcastId == mBroadcastId) {
             mCommentSent = true;
-            updateSendCommentStatus();
+            getActivity().finish();
         }
     }
 
