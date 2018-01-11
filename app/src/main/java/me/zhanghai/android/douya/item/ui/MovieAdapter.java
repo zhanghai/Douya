@@ -40,6 +40,7 @@ import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
 import me.zhanghai.android.douya.ui.RatioImageView;
+import me.zhanghai.android.douya.ui.WebViewActivity;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -289,9 +290,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM_INTRODUCTION: {
                 IntroductionHolder introductionHolder = (IntroductionHolder) holder;
                 introductionHolder.introductionText.setText(mData.movie.introduction);
-                introductionHolder.introductionLayout.setOnClickListener(view -> {
-                    // TODO
-                });
+                introductionHolder.introductionLayout.setOnClickListener(view ->
+                        context.startActivity(WebViewActivity.makeIntent(mData.movie.url, true,
+                                context)));
                 break;
             }
             case ITEM_PHOTO_LIST: {

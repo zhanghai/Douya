@@ -32,8 +32,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import butterknife.BindDimen;
@@ -59,6 +62,11 @@ import me.zhanghai.android.douya.util.WebViewUtils;
 
 public class WebViewActivity extends AppCompatActivity {
 
+    private static final String KEY_PREFIX = WebViewActivity.class.getName() + '.';
+
+    private static final String EXTRA_DISABLE_LOAD_OVERRIDING_URLS = KEY_PREFIX
+            + "disable_load_overriding_urls";
+
     private static final int REQUEST_CODE_FILE_CHOOSER = 1;
 
     private static final Pattern DOUBAN_HOST_PATTERN = Pattern.compile(".*\\.douban\\.(com|fm)");
@@ -82,6 +90,8 @@ public class WebViewActivity extends AppCompatActivity {
     private MenuItem mOpenWithNativeMenuItem;
     private MenuItem mRequestDesktopSiteMenuItem;
 
+    private Set<String> mDisableLoadOverridingUrls;
+
     private ValueCallback<Uri> mUploadFile;
     private ValueCallback<Uri[]> mFilePathCallback;
 
@@ -103,9 +113,37 @@ public class WebViewActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static Intent makeIntent(String uri, Context context) {
+        return makeIntent(Uri.parse(uri), context);
+    }
+
+    public static Intent makeIntent(String uri, String[] disableLoadOverridingUrls,
+                                    Context context) {
+        return makeIntent(uri, context)
+                .putExtra(EXTRA_DISABLE_LOAD_OVERRIDING_URLS, disableLoadOverridingUrls);
+    }
+
+    public static Intent makeIntent(String uri, String disableLoadOverridingUrl, Context context) {
+        return makeIntent(uri, new String[] { disableLoadOverridingUrl }, context);
+    }
+
+    public static Intent makeIntent(String uri, boolean disableLoadOverriding, Context context) {
+        if (!disableLoadOverriding) {
+            throw new IllegalArgumentException("disableLoadOverriding should always be true");
+        }
+        return makeIntent(uri, new String[] { uri }, context);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String[] disableLoadOverridingUrls = getIntent().getStringArrayExtra(
+                EXTRA_DISABLE_LOAD_OVERRIDING_URLS);
+        mDisableLoadOverridingUrls = new HashSet<>();
+        if (disableLoadOverridingUrls != null) {
+            mDisableLoadOverridingUrls.addAll(Arrays.asList(disableLoadOverridingUrls));
+        }
 
         setContentView(R.layout.webview_activity);
         ButterKnife.bind(this);
@@ -252,6 +290,9 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onPageFinished(WebView webView, String url) {}
 
     protected boolean shouldOverrideUrlLoading(WebView webView, String url) {
+        if (mDisableLoadOverridingUrls.contains(url)) {
+            return false;
+        }
         Uri uri = Uri.parse(url);
         return (Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue() && DoubanUriHandler.open(uri, this))
                 || FrodoBridge.openFrodoUri(uri, this)
