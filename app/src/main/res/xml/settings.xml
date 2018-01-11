@@ -32,6 +32,16 @@
             android:defaultValue="@bool/pref_default_value_auto_refresh_home" />
 
         <SwitchPreferenceCompat
+            android:key="@string/pref_key_long_click_to_quick_rebroadcast"
+            android:title="@string/settings_long_click_to_quick_rebroadcast_title"
+            android:defaultValue="@bool/pref_default_value_long_click_to_quick_rebroadcast" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_key_long_click_to_show_send_comment_activity"
+            android:title="@string/settings_long_click_to_show_send_comment_activity_title"
+            android:defaultValue="@bool/pref_default_value_long_click_to_show_send_comment_activity" />
+
+        <SwitchPreferenceCompat
             android:key="@string/pref_key_progressive_third_party_app"
             android:title="@string/settings_progressive_third_party_app_title"
             android:defaultValue="@bool/pref_default_value_progressive_third_party_app"

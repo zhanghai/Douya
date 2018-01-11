@@ -44,7 +44,7 @@ public class CheatSheetUtils {
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                return show(view, view.getContentDescription());
+                return show(view);
             }
         });
     }
@@ -99,10 +99,14 @@ public class CheatSheetUtils {
         view.setOnLongClickListener(null);
     }
 
+    public static boolean show(View view) {
+        return show(view, view.getContentDescription());
+    }
+
     /**
-     * Internal helper method to show the cheat sheet toast.
+     * Show the cheat sheet toast.
      */
-    private static boolean show(View view, CharSequence text) {
+    public static boolean show(View view, CharSequence text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }

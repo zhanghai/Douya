@@ -51,6 +51,7 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.Comment;
+import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
@@ -210,7 +211,10 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         CheatSheetUtils.setup(mSendButton);
         mSendButton.setOnClickListener(view -> onSendComment());
         mSendButton.setOnLongClickListener(view -> {
-            onShowSendComment();
+            if (!Settings.LONG_CLICK_TO_SHOW_SEND_COMMENT_ACTIVITY.getValue()) {
+                return CheatSheetUtils.show(view);
+            }
+            onShowSendCommentActivity();
             return true;
         });
         updateSendCommentStatus();
@@ -473,7 +477,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         updateSendCommentStatus();
     }
 
-    private void onShowSendComment() {
+    private void onShowSendCommentActivity() {
         startActivity(SendCommentActivity.makeIntent(
                 mBroadcastAndCommentListResource.getEffectiveBroadcastId(), mCommentEdit.getText(),
                 getActivity()));

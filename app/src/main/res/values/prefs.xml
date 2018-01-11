@@ -36,6 +36,12 @@
     <string name="pref_key_auto_refresh_home">key_auto_refresh_home</string>
     <bool name="pref_default_value_auto_refresh_home">true</bool>
 
+    <string name="pref_key_long_click_to_quick_rebroadcast">key_long_click_to_quick_rebroadcast</string>
+    <bool name="pref_default_value_long_click_to_quick_rebroadcast">true</bool>
+
+    <string name="pref_key_long_click_to_show_send_comment_activity">key_long_click_to_show_send_comment_activity</string>
+    <bool name="pref_default_value_long_click_to_show_send_comment_activity">true</bool>
+
     <string name="pref_key_progressive_third_party_app">key_enable_progressive_third_party_app</string>
     <bool name="pref_default_value_progressive_third_party_app">true</bool>
 

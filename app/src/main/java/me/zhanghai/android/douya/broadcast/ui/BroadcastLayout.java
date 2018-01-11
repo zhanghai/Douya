@@ -35,6 +35,7 @@ import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
+import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.CardIconButton;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
@@ -179,7 +180,8 @@ public class BroadcastLayout extends LinearLayout {
 
         CheatSheetUtils.setup(mLikeButton);
         CheatSheetUtils.setup(mCommentButton);
-        CheatSheetUtils.setup(mRebroadcastButton);
+        // Handled by the OnLongClickListener set in bind().
+        //CheatSheetUtils.setup(mRebroadcastButton);
     }
 
     public void setListener(Listener listener) {
@@ -191,17 +193,9 @@ public class BroadcastLayout extends LinearLayout {
 
         Context context = getContext();
 
-        // TODO: Integrate API V2.
-//        if (broadcast.isInterest) {
-//            mAvatarImage.setImageDrawable(ContextCompat.getDrawable(context,
-//                    R.drawable.recommendation_avatar_icon_40dp));
-//            mAvatarImage.setOnClickListener(view -> UriHandler.open(DoubanUtils.getInterestTypeUrl(
-//                    broadcast.interestType), context));
-//        } else {
         ImageUtils.loadAvatar(mAvatarImage, broadcast.author.avatar);
         mAvatarImage.setOnClickListener(view -> context.startActivity(ProfileActivity.makeIntent(
                 broadcast.author, context)));
-        //mNameText.setText(broadcast.getAuthorName());
         mNameText.setText(broadcast.author.name);
         mTimeText.setDoubanTime(broadcast.createdAt);
         mActionText.setText(broadcast.action);
@@ -259,8 +253,8 @@ public class BroadcastLayout extends LinearLayout {
             mListener.onRebroadcastClicked(false);
         });
         mRebroadcastButton.setOnLongClickListener(view -> {
-            if (mListener == null) {
-                return false;
+            if (mListener == null || !Settings.LONG_CLICK_TO_QUICK_REBROADCAST.getValue()) {
+                return CheatSheetUtils.show(view);
             }
             mListener.onRebroadcastClicked(true);
             return true;

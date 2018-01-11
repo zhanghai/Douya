@@ -327,6 +327,8 @@
     </string-array>
     <string name="settings_behavior_title">行为</string>
     <string name="settings_auto_refresh_home_title">打开时自动刷新主页</string>
+    <string name="settings_long_click_to_quick_rebroadcast_title">长按快速转播</string>
+    <string name="settings_long_click_to_show_send_comment_activity_title">长按打开新界面回应广播</string>
     <string name="settings_progressive_third_party_app_title">渐进式第三方应用</string>
     <string name="settings_progressive_third_party_app_summary">使用豆瓣官方应用打开尚未实现的页面</string>
     <string name="settings_open_url_with_title">打开链接的方式</string>

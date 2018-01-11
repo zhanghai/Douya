@@ -63,6 +63,14 @@ public interface Settings {
     BooleanSettingsEntry AUTO_REFRESH_HOME = new BooleanSettingsEntry(
             R.string.pref_key_auto_refresh_home, R.bool.pref_default_value_auto_refresh_home);
 
+    BooleanSettingsEntry LONG_CLICK_TO_QUICK_REBROADCAST = new BooleanSettingsEntry(
+            R.string.pref_key_long_click_to_quick_rebroadcast,
+            R.bool.pref_default_value_long_click_to_quick_rebroadcast);
+
+    BooleanSettingsEntry LONG_CLICK_TO_SHOW_SEND_COMMENT_ACTIVITY = new BooleanSettingsEntry(
+            R.string.pref_key_long_click_to_show_send_comment_activity,
+            R.bool.pref_default_value_long_click_to_show_send_comment_activity);
+
     BooleanSettingsEntry PROGRESSIVE_THIRD_PARTY_APP = new BooleanSettingsEntry(
             R.string.pref_key_progressive_third_party_app,
             R.bool.pref_default_value_progressive_third_party_app);
