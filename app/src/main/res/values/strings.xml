@@ -194,6 +194,8 @@
     <string name="broadcast_comment_delete_confirm">确定要删除这条回应吗？</string>
     <string name="broadcast_comment_delete_successful">已删除回应</string>
     <string name="broadcast_comment_delete_failed_format">删除回应失败，%1$s</string>
+    <string name="broadcast_send_comment_title">回应广播</string>
+    <string name="broadcast_send_comment_title_sending">正在发送回应…</string>
     <string name="broadcast_send_comment_hint">我的回应…</string>
     <string name="broadcast_send_comment_hint_disabled">@string/broadcast_send_comment_disabled</string>
     <string name="broadcast_send_comment_disabled">这条广播不支持回应</string>

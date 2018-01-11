@@ -81,6 +81,12 @@
             android:windowSoftInputMode="adjustResize|stateVisible" />
 
         <activity
+            android:name=".broadcast.ui.SendCommentActivity"
+            android:label="@string/broadcast_send_comment_title"
+            android:theme="@style/Theme.Douya.DialogWhenLarge"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
+        <activity
             android:name=".profile.ui.ProfileActivity"
             android:theme="@style/Theme.Douya.TransparentBackground"
             android:windowSoftInputMode="adjustResize|stateHidden" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2017 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
   ~ All Rights Reserved.
   -->
 
@@ -9,12 +9,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".broadcast.ui.RebroadcastBroadcastActivity">
+    tools:context=".broadcast.ui.SendCommentActivity">
 
     <item
-        android:id="@+id/action_rebroadcast"
+        android:id="@+id/action_send_comment"
         android:icon="@drawable/send_icon_white_24dp"
         android:orderInCategory="100"
-        android:title="@string/broadcast_rebroadcast"
+        android:title="@string/broadcast_send_comment"
         app:showAsAction="always" />
 </menu>

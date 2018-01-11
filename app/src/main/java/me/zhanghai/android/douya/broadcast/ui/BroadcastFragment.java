@@ -209,11 +209,15 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
         CheatSheetUtils.setup(mSendButton);
         mSendButton.setOnClickListener(view -> onSendComment());
+        mSendButton.setOnLongClickListener(view -> {
+            onShowSendComment();
+            return true;
+        });
         updateSendCommentStatus();
 
         if (savedInstanceState == null) {
             if (mShowSendComment) {
-                TransitionUtils.postAfterTransition(this, this::onShowSendComment);
+                TransitionUtils.postAfterTransition(this, this::onShowCommentIme);
             }
         }
 
@@ -402,7 +406,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     @Override
     public void onComment(Broadcast broadcast) {
-        onShowSendComment();
+        onShowCommentIme();
     }
 
     @Override
@@ -422,7 +426,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public void onReplyToComment(Comment comment) {
         mCommentEdit.getText().replace(mCommentEdit.getSelectionStart(),
                 mCommentEdit.getSelectionEnd(), DoubanUtils.makeAtUserString(comment.author));
-        onShowSendComment();
+        onShowCommentIme();
     }
 
     @Override
@@ -442,7 +446,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                 getActivity());
     }
 
-    private void onShowSendComment() {
+    private void onShowCommentIme() {
         if (canSendComment()) {
             ImeUtils.showIme(mCommentEdit);
         } else {
@@ -467,6 +471,12 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                 mBroadcastAndCommentListResource.getEffectiveBroadcastId(), comment, getActivity());
 
         updateSendCommentStatus();
+    }
+
+    private void onShowSendComment() {
+        startActivity(SendCommentActivity.makeIntent(
+                mBroadcastAndCommentListResource.getEffectiveBroadcastId(), mCommentEdit.getText(),
+                getActivity()));
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
