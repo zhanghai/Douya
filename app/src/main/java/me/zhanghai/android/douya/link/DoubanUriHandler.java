@@ -36,8 +36,9 @@ public class DoubanUriHandler {
 
     private enum UriType {
 
-        // Not handling "people/*/statuses" because Frodo API cannot handle it.
-        USER_BROADCAST_LIST("people/#/statuses"),
+        // NOTE: * must come before # if they are at the same position, or UriMatcher tree won't
+        // backtrack.
+
         TOPIC_BROADCAST_LIST("update/topic/*"),
         // Handled below.
         //TOPIC_BROADCAST_LIST_FRODO(AUTHORITY_FRODO, "status/topic?name=*"),
@@ -52,6 +53,9 @@ public class DoubanUriHandler {
         USER_FOLLOWER_LIST_FRODO(AUTHORITY_FRODO, "user/*/follower"),
         USER_FOLLOWING_LIST("people/*/contacts"),
         USER_FOLLOWING_LIST_FRODO(AUTHORITY_FRODO, "user/*/following"),
+        // Reordered for correct behavior
+        // Not handling "people/*/statuses" because Frodo API cannot handle it.
+        USER_BROADCAST_LIST("people/#/statuses"),
         MOVIE(AUTHORITY_MOVIE, "subject/#"),
         MOVIE_FRODO(AUTHORITY_FRODO, "movie/#");
 

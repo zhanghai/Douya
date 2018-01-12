@@ -562,8 +562,8 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     private void onViewOnWeb() {
         //noinspection deprecation
-        startActivity(WebViewActivity.makeIntent(mBroadcastAndCommentListResource.getBroadcast(),
-                getActivity()));
+        startActivity(WebViewActivity.makeIntent(
+                mBroadcastAndCommentListResource.getEffectiveBroadcast(), getActivity()));
     }
 
     public void onFinish() {
