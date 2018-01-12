@@ -36,7 +36,8 @@ public class DoubanUriHandler {
 
     private enum UriType {
 
-        USER_BROADCAST_LIST("people/*/statuses"),
+        // Not handling "people/*/statuses" because Frodo API cannot handle it.
+        USER_BROADCAST_LIST("people/#/statuses"),
         TOPIC_BROADCAST_LIST("update/topic/*"),
         // Handled below.
         //TOPIC_BROADCAST_LIST_FRODO(AUTHORITY_FRODO, "status/topic?name=*"),
