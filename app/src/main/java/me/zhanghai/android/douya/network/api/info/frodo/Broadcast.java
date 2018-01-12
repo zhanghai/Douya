@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
+import me.zhanghai.android.douya.network.api.info.UrlGettable;
 import me.zhanghai.android.douya.ui.SpaceSpan;
 import me.zhanghai.android.douya.ui.IconSpan;
 import me.zhanghai.android.douya.ui.UriSpan;
@@ -33,7 +34,7 @@ import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.GsonHelper;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class Broadcast implements ClipboardCopyable, Parcelable {
+public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
 
     @SerializedName("activity")
     public String action;
@@ -261,6 +262,12 @@ public class Broadcast implements ClipboardCopyable, Parcelable {
     @Override
     public String getClipboardText(Context context) {
         return getTextWithEntities(context).toString();
+    }
+
+    @Override
+    public String getUrl() {
+        //noinspection deprecation
+        return DoubanUtils.makeBroadcastUrl(author.getUidOrId(), id);
     }
 
     public static String makeTransitionName(long id) {

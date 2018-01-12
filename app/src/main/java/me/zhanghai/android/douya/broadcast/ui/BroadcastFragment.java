@@ -56,6 +56,7 @@ import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
+import me.zhanghai.android.douya.ui.WebViewActivity;
 import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
 import me.zhanghai.android.douya.util.DoubanUtils;
@@ -98,6 +99,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     private MenuItem mCopyTextMenuItem;
     private MenuItem mDeleteMenuItem;
+    private MenuItem mViewOnWebMenuItem;
 
     private long mBroadcastId;
     private Broadcast mBroadcast;
@@ -245,6 +247,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         inflater.inflate(R.menu.broadcast, menu);
         mCopyTextMenuItem = menu.findItem(R.id.action_copy_text);
         mDeleteMenuItem = menu.findItem(R.id.action_delete);
+        mViewOnWebMenuItem = menu.findItem(R.id.action_view_on_web);
     }
 
     @Override
@@ -260,9 +263,10 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         }
         Broadcast broadcast = mBroadcastAndCommentListResource.getEffectiveBroadcast();
         boolean hasBroadcast = broadcast != null;
-        mCopyTextMenuItem.setVisible(hasBroadcast);
+        mCopyTextMenuItem.setEnabled(hasBroadcast);
         boolean canDelete = hasBroadcast && broadcast.isAuthorOneself();
         mDeleteMenuItem.setVisible(canDelete);
+        mViewOnWebMenuItem.setEnabled(hasBroadcast);
     }
 
     @Override
@@ -276,6 +280,9 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                 return true;
             case R.id.action_delete:
                 onDeleteBroadcast();
+                return true;
+            case R.id.action_view_on_web:
+                onViewOnWeb();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -551,6 +558,12 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     public void deleteBroadcast() {
         DeleteBroadcastManager.getInstance().write(
                 mBroadcastAndCommentListResource.getEffectiveBroadcast(), getActivity());
+    }
+
+    private void onViewOnWeb() {
+        //noinspection deprecation
+        startActivity(WebViewActivity.makeIntent(mBroadcastAndCommentListResource.getBroadcast(),
+                getActivity()));
     }
 
     public void onFinish() {

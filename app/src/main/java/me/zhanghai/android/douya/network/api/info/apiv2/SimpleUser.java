@@ -12,9 +12,10 @@ import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.network.api.info.UrlGettable;
 import me.zhanghai.android.douya.util.DoubanUtils;
 
-public class SimpleUser implements Parcelable {
+public class SimpleUser implements UrlGettable, Parcelable {
 
     private static final String LARGE_AVATAR_DEFAULT =
             "https://img3.doubanio.com/icon/user_large.jpg";
@@ -91,6 +92,14 @@ public class SimpleUser implements Parcelable {
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
     }
 
+    /**
+     * @deprecated Normally you should use {@link #getIdOrUid()} for API.
+     */
+    public String getUidOrId() {
+        //noinspection deprecation
+        return !TextUtils.isEmpty(uid) ? uid : String.valueOf(id);
+    }
+
     public boolean isOneself() {
         //noinspection deprecation
         return id == AccountUtils.getUserId();
@@ -101,6 +110,11 @@ public class SimpleUser implements Parcelable {
         return Type.ofApiString(type);
     }
 
+    @Override
+    public String getUrl() {
+        //noinspection deprecation
+        return DoubanUtils.makeUserUrl(getUidOrId());
+    }
 
     @SuppressWarnings("deprecation")
     public static SimpleUser fromFrodo(
@@ -150,6 +164,7 @@ public class SimpleUser implements Parcelable {
         //noinspection deprecation
         largeAvatar = in.readString();
         name = in.readString();
+        //noinspection deprecation
         type = in.readString();
         //noinspection deprecation
         uid = in.readString();
@@ -170,6 +185,7 @@ public class SimpleUser implements Parcelable {
         //noinspection deprecation
         dest.writeString(largeAvatar);
         dest.writeString(name);
+        //noinspection deprecation
         dest.writeString(type);
         //noinspection deprecation
         dest.writeString(uid);

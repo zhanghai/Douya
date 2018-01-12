@@ -49,6 +49,7 @@ import me.zhanghai.android.douya.link.DoubanUriHandler;
 import me.zhanghai.android.douya.link.FrodoBridge;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
+import me.zhanghai.android.douya.network.api.info.UrlGettable;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
@@ -56,6 +57,7 @@ import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.NightModeHelper;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
+import me.zhanghai.android.douya.util.UriUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.douya.util.WebViewUtils;
@@ -132,6 +134,10 @@ public class WebViewActivity extends AppCompatActivity {
             throw new IllegalArgumentException("disableLoadOverriding should always be true");
         }
         return makeIntent(uri, new String[] { uri }, context);
+    }
+
+    public static Intent makeIntent(UrlGettable urlGettable, Context context) {
+        return makeIntent(urlGettable.getUrl(), true, context);
     }
 
     @Override
@@ -290,10 +296,10 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onPageFinished(WebView webView, String url) {}
 
     protected boolean shouldOverrideUrlLoading(WebView webView, String url) {
-        if (mDisableLoadOverridingUrls.contains(url)) {
+        Uri uri = Uri.parse(url);
+        if (mDisableLoadOverridingUrls.contains(UriUtils.withoutQueryAndFragment(uri).toString())) {
             return false;
         }
-        Uri uri = Uri.parse(url);
         return (Settings.OPEN_WITH_NATIVE_IN_WEBVIEW.getValue() && DoubanUriHandler.open(uri, this))
                 || FrodoBridge.openFrodoUri(uri, this)
                 || (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue()

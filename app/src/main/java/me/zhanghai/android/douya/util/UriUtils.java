@@ -21,4 +21,11 @@ public class UriUtils {
     public static Uri withAppendedId(Uri contentUri, long id) {
         return appendId(contentUri.buildUpon(), id).build();
     }
+
+    public static Uri withoutQueryAndFragment(Uri uri) {
+        return uri.buildUpon()
+                .clearQuery()
+                .fragment(null)
+                .build();
+    }
 }

@@ -12,12 +12,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import me.zhanghai.android.douya.network.api.info.UrlGettable;
 import me.zhanghai.android.douya.util.StringCompat;
 
 /**
  * {@code BaseFeedableitem} in Frodo.
  */
-public abstract class BaseItem implements Parcelable {
+public abstract class BaseItem implements UrlGettable, Parcelable {
 
     @SerializedName("abstract")
     public String abstract_;
@@ -42,6 +43,10 @@ public abstract class BaseItem implements Parcelable {
         return StringCompat.join(" / ", list);
     }
 
+    @Override
+    public String getUrl() {
+        return url;
+    }
 
     public BaseItem() {}
 

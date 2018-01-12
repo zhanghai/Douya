@@ -22,4 +22,10 @@
         android:orderInCategory="100"
         android:title="@string/broadcast_delete"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_view_on_web"
+        android:orderInCategory="100"
+        android:title="@string/view_on_web"
+        app:showAsAction="never" />
 </menu>

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 
 public class DoubanUtils {
@@ -79,12 +80,27 @@ public class DoubanUtils {
         return "douban://douban.com/status/" + broadcastId;
     }
 
+    /**
+     * @deprecated Use {@link #makeBroadcastUrl(String, long)} instead.
+     */
+    public static String makeBroadcastUrl(long broadcastId) {
+        return "https://www.douban.com/people/people/status/" + broadcastId + "/";
+    }
+
+    public static String makeBroadcastUrl(String userIdOrUid, long broadcastId) {
+        return "https://www.douban.com/people/" + userIdOrUid + "/status/" + broadcastId + "/";
+    }
+
     public static String makePhotoAlbumUri(long photoAlbumId) {
         return "douban://douban.com/photo_album/" + photoAlbumId;
     }
 
     public static String makeUserUri(long userId) {
         return "douban://douban.com/user/" + userId;
+    }
+
+    public static String makeUserUrl(String uidOrUserId) {
+        return "https://www.douban.com/people/" + uidOrUserId + "/";
     }
 
     public static String getInterestTypeUrl(String type) {

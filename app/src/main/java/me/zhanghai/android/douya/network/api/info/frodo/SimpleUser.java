@@ -12,9 +12,10 @@ import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.network.api.info.UrlGettable;
 
 // FIXME: Frodo API change.
-public class SimpleUser implements Parcelable {
+public class SimpleUser implements UrlGettable, Parcelable {
 
     public String avatar;
 
@@ -51,10 +52,22 @@ public class SimpleUser implements Parcelable {
         return TextUtils.equals(String.valueOf(id), idOrUid) || TextUtils.equals(uid, idOrUid);
     }
 
+    /**
+     * @deprecated Normally you should use {@link #getIdOrUid()} for API.
+     */
+    public String getUidOrId() {
+        //noinspection deprecation
+        return !TextUtils.isEmpty(uid) ? uid : String.valueOf(id);
+    }
+
     public boolean isOneself() {
         return id == AccountUtils.getUserId();
     }
 
+    @Override
+    public String getUrl() {
+        return url;
+    }
 
     public static final Creator<SimpleUser> CREATOR = new Creator<SimpleUser>() {
         @Override
