@@ -16,7 +16,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -53,6 +52,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
@@ -83,7 +83,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @BindView(R.id.container)
     FrameLayout mContainerLayout;
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    DoubleClickToolbar mToolbar;
     @BindView(R.id.shared)
     View mSharedView;
     @BindView(R.id.swipe_refresh)
@@ -185,6 +185,11 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                                            List<View> sharedElementSnapshots) {
                 mBroadcastCommentList.scrollToPosition(0);
             }
+        });
+
+        mToolbar.setOnDoubleClickListener(view -> {
+            mBroadcastCommentList.smoothScrollToPosition(0);
+            return true;
         });
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
