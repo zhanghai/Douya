@@ -41,6 +41,7 @@ import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
 import me.zhanghai.android.douya.ui.DoubleClickToolbar;
+import me.zhanghai.android.douya.ui.WebViewActivity;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -231,6 +232,9 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
                 // TODO
                 NotImplementedManager.showNotYetImplementedToast(getActivity());
                 return true;
+            case R.id.action_view_on_web:
+                viewOnWeb();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -272,6 +276,14 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         mAdapter.setData(new ProfileAdapter.Data(newUser, newBroadcastList,
                 newFollowingList, newDiaryList, newUserItemList, newReviewList));
         mContentStateLayout.setLoaded(true);
+    }
+
+    private void viewOnWeb() {
+        if (mResource.hasSimpleUser()) {
+            startActivity(WebViewActivity.makeIntent(mResource.getSimpleUser(), getActivity()));
+        } else {
+            startActivity(WebViewActivity.makeIntent(mResource.getUserIdOrUid(), getActivity()));
+        }
     }
 
     @Override

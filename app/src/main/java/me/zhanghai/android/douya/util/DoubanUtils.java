@@ -91,6 +91,10 @@ public class DoubanUtils {
         return "https://www.douban.com/people/" + userIdOrUid + "/status/" + broadcastId + "/";
     }
 
+    public static String makeMovieUrl(long itemId) {
+        return "https://movie.douban.com/subject/" + itemId + "/";
+    }
+
     public static String makePhotoAlbumUri(long photoAlbumId) {
         return "douban://douban.com/photo_album/" + photoAlbumId;
     }

@@ -17,6 +17,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingTouchSlopListener;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.ui.TransparentDoubleClickToolbar;
+import me.zhanghai.android.douya.ui.WebViewActivity;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
@@ -229,10 +232,20 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.item, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().finish();
+                return true;
+            case R.id.action_view_on_web:
+                viewOnWeb();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -254,4 +267,15 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     protected void updateWithSimpleItem(SimpleItemType simpleItem) {
         getActivity().setTitle(simpleItem.title);
     }
+
+    private void viewOnWeb() {
+        if (mResource.hasSimpleItem()) {
+            startActivity(WebViewActivity.makeIntent(mResource.getSimpleItem(), getActivity()));
+        } else {
+            startActivity(WebViewActivity.makeIntent(makeItemUrl(mResource.getItemId()),
+                    getActivity()));
+        }
+    }
+
+    protected abstract String makeItemUrl(long itemId);
 }

@@ -25,6 +25,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
+import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
@@ -120,5 +121,10 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
                 celebrityList, awardList, itemCollectionList, reviewList, forumTopicList,
                 recommendationList, relatedDoulistList));
+    }
+
+    @Override
+    protected String makeItemUrl(long itemId) {
+        return DoubanUtils.makeMovieUrl(itemId);
     }
 }
