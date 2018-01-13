@@ -284,7 +284,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     }
 
     private void share() {
-        ShareUtils.share(makeUrl(), getActivity());
+        ShareUtils.shareText(makeUrl(), getActivity());
     }
 
     private void viewOnWeb() {

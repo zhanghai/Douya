@@ -13,11 +13,11 @@ public class ShareUtils {
 
     private ShareUtils() {}
 
-    public static void share(String url, Context context) {
-        AppUtils.startActivityWithChooser(IntentUtils.makeSendText(url), context);
+    public static void shareText(String text, Context context) {
+        AppUtils.startActivityWithChooser(IntentUtils.makeSendText(text), context);
     }
 
-    public static void share(UrlGettable urlGettable, Context context) {
-        share(urlGettable.getUrl(), context);
+    public static void shareUrl(UrlGettable urlGettable, Context context) {
+        shareText(urlGettable.getUrl(), context);
     }
 }

@@ -160,7 +160,7 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     }
 
     private void share() {
-        ShareUtils.share(makeUrl(), getActivity());
+        ShareUtils.shareText(makeUrl(), getActivity());
     }
 
     private void viewOnWeb() {

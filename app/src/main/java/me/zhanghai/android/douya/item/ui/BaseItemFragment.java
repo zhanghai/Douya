@@ -273,7 +273,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     }
 
     private void share() {
-        ShareUtils.share(makeUrl(), getActivity());
+        ShareUtils.shareText(makeUrl(), getActivity());
     }
 
     private void viewOnWeb() {

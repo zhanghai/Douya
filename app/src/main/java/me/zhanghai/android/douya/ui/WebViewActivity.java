@@ -397,7 +397,7 @@ public class WebViewActivity extends AppCompatActivity {
             ToastUtils.show(R.string.webview_error_url_empty, this);
             return;
         }
-        ShareUtils.share(url, this);
+        ShareUtils.shareText(url, this);
     }
 
     private void toggleOpenWithNative() {
