@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.util;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import java.util.HashMap;
@@ -89,6 +90,14 @@ public class DoubanUtils {
 
     public static String makeBroadcastUrl(String userIdOrUid, long broadcastId) {
         return "https://www.douban.com/people/" + userIdOrUid + "/status/" + broadcastId + "/";
+    }
+
+    public static String makeBroadcastListUrl(String uidOrUserId, String topic) {
+        if (!TextUtils.isEmpty(uidOrUserId)) {
+            return "https://www.douban.com/people/" + uidOrUserId + "/statuses/";
+        } else {
+            return "https://www.douban.com/update/topic/" + Uri.encode(topic) + "/";
+        }
     }
 
     public static String makeMovieUrl(long itemId) {

@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,8 @@ import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.ui.AppBarHost;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
 import me.zhanghai.android.douya.ui.DoubleClickToolbar;
+import me.zhanghai.android.douya.ui.WebViewActivity;
+import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
@@ -105,24 +109,23 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.broadcast_list, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().finish();
                 return true;
+            case R.id.action_view_on_web:
+                viewOnWeb();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private String getTitle() {
-        // TODO: Load user.
-        if (mUser != null) {
-            return getString(R.string.broadcast_list_title_user_format, mUser.name);
-        } else if (!TextUtils.isEmpty(mTopic)) {
-            return getString(R.string.broadcast_list_title_topic_format, mTopic);
-        } else {
-            return getString(R.string.broadcast_list_title_default);
         }
     }
 
@@ -139,5 +142,22 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
     @Override
     public void setToolBarOnDoubleClickListener(DoubleClickToolbar.OnDoubleClickListener listener) {
         mToolbar.setOnDoubleClickListener(listener);
+    }
+
+    private String getTitle() {
+        // TODO: Load user.
+        if (mUser != null) {
+            return getString(R.string.broadcast_list_title_user_format, mUser.name);
+        } else if (!TextUtils.isEmpty(mTopic)) {
+            return getString(R.string.broadcast_list_title_topic_format, mTopic);
+        } else {
+            return getString(R.string.broadcast_list_title_default);
+        }
+    }
+
+    private void viewOnWeb() {
+        //noinspection deprecation
+        startActivity(WebViewActivity.makeIntent(DoubanUtils.makeBroadcastListUrl(mUser != null ?
+                mUser.getUidOrId() : mUserIdOrUid, mTopic), getActivity()));
     }
 }
