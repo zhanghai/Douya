@@ -53,8 +53,8 @@ import me.zhanghai.android.douya.network.api.info.UrlGettable;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
-import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.NightModeHelper;
+import me.zhanghai.android.douya.util.ShareUtils;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.UriUtils;
@@ -115,12 +115,16 @@ public class WebViewActivity extends AppCompatActivity {
         return intent;
     }
 
+    /**
+     * @deprecated You probably want to use {@link #makeIntent(String, boolean, Context)} instead.
+     */
     public static Intent makeIntent(String uri, Context context) {
         return makeIntent(Uri.parse(uri), context);
     }
 
     public static Intent makeIntent(String uri, String[] disableLoadOverridingUrls,
                                     Context context) {
+        //noinspection deprecation
         return makeIntent(uri, context)
                 .putExtra(EXTRA_DISABLE_LOAD_OVERRIDING_URLS, disableLoadOverridingUrls);
     }
@@ -212,7 +216,7 @@ public class WebViewActivity extends AppCompatActivity {
                 copyUrl();
                 return true;
             case R.id.action_share:
-                shareUrl();
+                share();
                 return true;
             case R.id.action_open_with_native:
                 toggleOpenWithNative();
@@ -387,13 +391,13 @@ public class WebViewActivity extends AppCompatActivity {
         ClipboardUtils.copyText(mWebView.getTitle(), url, this);
     }
 
-    private void shareUrl() {
+    private void share() {
         String url = mWebView.getUrl();
         if (TextUtils.isEmpty(url)) {
             ToastUtils.show(R.string.webview_error_url_empty, this);
             return;
         }
-        AppUtils.startActivityWithChooser(IntentUtils.makeSendText(url), this);
+        ShareUtils.share(url, this);
     }
 
     private void toggleOpenWithNative() {

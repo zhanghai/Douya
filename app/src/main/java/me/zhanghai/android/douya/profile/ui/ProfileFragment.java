@@ -42,8 +42,10 @@ import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
 import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.ui.WebViewActivity;
+import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.ShareUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -232,6 +234,9 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
                 // TODO
                 NotImplementedManager.showNotYetImplementedToast(getActivity());
                 return true;
+            case R.id.action_share:
+                share();
+                return true;
             case R.id.action_view_on_web:
                 viewOnWeb();
                 return true;
@@ -278,11 +283,19 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         mContentStateLayout.setLoaded(true);
     }
 
+    private void share() {
+        ShareUtils.share(makeUrl(), getActivity());
+    }
+
     private void viewOnWeb() {
+        startActivity(WebViewActivity.makeIntent(makeUrl(), true, getActivity()));
+    }
+
+    private String makeUrl() {
         if (mResource.hasSimpleUser()) {
-            startActivity(WebViewActivity.makeIntent(mResource.getSimpleUser(), getActivity()));
+            return mResource.getSimpleUser().getUrl();
         } else {
-            startActivity(WebViewActivity.makeIntent(mResource.getUserIdOrUid(), getActivity()));
+            return DoubanUtils.makeUserUrl(mResource.getUserIdOrUid());
         }
     }
 

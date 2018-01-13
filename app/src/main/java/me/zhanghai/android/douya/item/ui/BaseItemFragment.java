@@ -39,6 +39,7 @@ import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
+import me.zhanghai.android.douya.util.ShareUtils;
 import me.zhanghai.android.douya.util.StatusBarColorUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -244,6 +245,9 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
             case android.R.id.home:
                 getActivity().finish();
                 return true;
+            case R.id.action_share:
+                share();
+                return true;
             case R.id.action_view_on_web:
                 viewOnWeb();
                 return true;
@@ -268,12 +272,19 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         getActivity().setTitle(simpleItem.title);
     }
 
+    private void share() {
+        ShareUtils.share(makeUrl(), getActivity());
+    }
+
     private void viewOnWeb() {
+        startActivity(WebViewActivity.makeIntent(makeUrl(), true, getActivity()));
+    }
+
+    private String makeUrl() {
         if (mResource.hasSimpleItem()) {
-            startActivity(WebViewActivity.makeIntent(mResource.getSimpleItem(), getActivity()));
+            return mResource.getSimpleItem().getUrl();
         } else {
-            startActivity(WebViewActivity.makeIntent(makeItemUrl(mResource.getItemId()),
-                    getActivity()));
+            return makeItemUrl(mResource.getItemId());
         }
     }
 

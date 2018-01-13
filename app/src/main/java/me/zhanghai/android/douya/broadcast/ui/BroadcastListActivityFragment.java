@@ -27,6 +27,7 @@ import me.zhanghai.android.douya.ui.DoubleClickToolbar;
 import me.zhanghai.android.douya.ui.WebViewActivity;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.ShareUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public class BroadcastListActivityFragment extends Fragment implements AppBarHost {
@@ -121,6 +122,9 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
             case android.R.id.home:
                 getActivity().finish();
                 return true;
+            case R.id.action_share:
+                share();
+                return true;
             case R.id.action_view_on_web:
                 viewOnWeb();
                 return true;
@@ -155,9 +159,17 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
         }
     }
 
+    private void share() {
+        ShareUtils.share(makeUrl(), getActivity());
+    }
+
     private void viewOnWeb() {
+        startActivity(WebViewActivity.makeIntent(makeUrl(), true, getActivity()));
+    }
+
+    private String makeUrl() {
         //noinspection deprecation
-        startActivity(WebViewActivity.makeIntent(DoubanUtils.makeBroadcastListUrl(mUser != null ?
-                mUser.getUidOrId() : mUserIdOrUid, mTopic), getActivity()));
+        return DoubanUtils.makeBroadcastListUrl(mUser != null ? mUser.getUidOrId() : mUserIdOrUid,
+                mTopic);
     }
 }

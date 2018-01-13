@@ -63,6 +63,7 @@ import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.ImeUtils;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.ShareUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -282,6 +283,9 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                 return true;
             case R.id.action_delete:
                 onDeleteBroadcast();
+                return true;
+            case R.id.action_share:
+                share();
                 return true;
             case R.id.action_view_on_web:
                 viewOnWeb();
@@ -556,14 +560,20 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                 getActivity());
     }
 
+    private void share() {
+        ShareUtils.share(makeUrl(), getActivity());
+    }
+
     private void viewOnWeb() {
+        startActivity(WebViewActivity.makeIntent(makeUrl(), true, getActivity()));
+    }
+
+    private String makeUrl() {
         if (mResource.hasEffectiveBroadcast()) {
-            startActivity(WebViewActivity.makeIntent(mResource.getEffectiveBroadcast(),
-                    getActivity()));
+            return mResource.getEffectiveBroadcast().getUrl();
         } else {
             //noinspection deprecation
-            startActivity(WebViewActivity.makeIntent(DoubanUtils.makeBroadcastUrl(
-                    mResource.getBroadcastId()), getActivity()));
+            return DoubanUtils.makeBroadcastUrl(mResource.getBroadcastId());
         }
     }
 
