@@ -125,6 +125,8 @@
                 android:layout_toRightOf="@id/broadcastlayout_rebroadcasted_name"
                 android:layout_alignTop="@id/broadcastlayout_rebroadcasted_name"
                 android:layout_marginLeft="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?android:textColorSecondary" />
 
