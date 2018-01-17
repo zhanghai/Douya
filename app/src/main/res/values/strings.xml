@@ -16,10 +16,10 @@
     <string name="activity_not_found">未找到可处理此操作的应用</string>
     <string name="copied_to_clipboard_format">已复制到剪贴板：\n%1$s</string>
     <string name="confirm_close_discarding_content">确定要舍弃正在编辑的内容吗？</string>
-    <string name="downloading_file">正在下载文件…</string>
     <string name="load_error">加载失败</string>
     <string name="more">更多</string>
     <string name="not_yet_implemented">尚未实现，敬请期待</string>
+    <string name="open_settings">打开设置</string>
     <string name="report_abuse">举报不良信息</string>
     <string name="time_action_format">%1$s %2$s</string>
     <string name="time_action_format_compat">%1$s%2$s</string>
@@ -127,7 +127,6 @@
     <string name="gallery_load_error">加载错误</string>
     <string name="gallery_save_permission_request_message">豆芽需要权限以保存图片，请您在之后弹出的系统对话框中点击“允许”。</string>
     <string name="gallery_save_permission_permanently_denied_message">豆芽需要权限以保存图片，请您在系统设置界面中授予“存储空间”权限。</string>
-    <string name="gallery_save_permission_permanently_denied_open_settings">打开设置</string>
     <string name="gallery_save_permission_denied">保存图片失败，缺少权限</string>
     <string name="gallery_save_successful">已保存图片至相册</string>
     <string name="gallery_save_failed">保存图片失败</string>
@@ -139,6 +138,10 @@
     <string name="webview_error_url_empty">链接为空</string>
     <string name="webview_request_desktop_site">请求桌面版网站</string>
     <string name="webview_open_in_browser">在浏览器中打开</string>
+    <string name="webview_download_permission_request_message">豆芽需要权限以下载文件，请您在之后弹出的系统对话框中点击“允许”。</string>
+    <string name="webview_download_permission_permanently_denied_message">豆芽需要权限以下载文件，请您在系统设置界面中授予“存储空间”权限。</string>
+    <string name="webview_download_permission_denied">下载文件失败，缺少权限</string>
+    <string name="webview_downloading">正在下载文件…</string>
 
     <string name="navigation_home">首页</string>
     <string name="navigation_book">读书</string>

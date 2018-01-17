@@ -83,6 +83,6 @@ public class WebViewUtils {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(
                 Context.DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);
-        ToastUtils.show(R.string.downloading_file, context);
+        ToastUtils.show(R.string.webview_downloading, context);
     }
 }

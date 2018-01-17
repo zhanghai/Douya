@@ -228,7 +228,7 @@ public class GalleryFragment extends Fragment {
                 PERMISSIONS_SAVE_IMAGE)) {
             OpenAppDetailsDialogFragment.show(
                     R.string.gallery_save_permission_permanently_denied_message,
-                    R.string.gallery_save_permission_permanently_denied_open_settings, this);
+                    R.string.open_settings, this);
         } else  {
             EffortlessPermissions.requestPermissions(this,
                     R.string.gallery_save_permission_request_message,

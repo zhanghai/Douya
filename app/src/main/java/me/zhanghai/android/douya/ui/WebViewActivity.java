@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -15,6 +16,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -61,6 +63,10 @@ import me.zhanghai.android.douya.util.UriUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.douya.util.WebViewUtils;
+import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
+import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
+import me.zhanghai.android.effortlesspermissions.OpenAppDetailsDialogFragment;
+import pub.devrel.easypermissions.AfterPermissionGranted;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -70,6 +76,11 @@ public class WebViewActivity extends AppCompatActivity {
             + "disable_load_overriding_urls";
 
     private static final int REQUEST_CODE_FILE_CHOOSER = 1;
+
+    private static final int REQUEST_CODE_DOWNLOAD_PERMISSION = 2;
+    private static final String[] PERMISSIONS_DOWNLOAD = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     private static final Pattern DOUBAN_HOST_PATTERN = Pattern.compile(".*\\.douban\\.(com|fm)");
 
@@ -96,6 +107,8 @@ public class WebViewActivity extends AppCompatActivity {
 
     private ValueCallback<Uri> mUploadFile;
     private ValueCallback<Uri[]> mFilePathCallback;
+
+    private DownloadInfo mDownloadInfo;
 
     private String mTitleOrError;
     private boolean mProgressVisible;
@@ -365,7 +378,7 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
         mWebView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength)
-                -> WebViewUtils.download(url, userAgent, contentDisposition, mimeType, this));
+                -> onDownload(url, userAgent, contentDisposition, mimeType));
         onLoadUri(mWebView);
     }
 
@@ -484,6 +497,44 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
+    private void onDownload(String url, String userAgent, String contentDisposition,
+                            String mimeType) {
+        mDownloadInfo = new DownloadInfo(url, userAgent, contentDisposition, mimeType);
+        onDownload();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EffortlessPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults,
+                this);
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE_DOWNLOAD_PERMISSION)
+    private void onDownload() {
+        if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_DOWNLOAD)) {
+            WebViewUtils.download(mDownloadInfo.mUrl, mDownloadInfo.mUserAgent,
+                    mDownloadInfo.mContentDisposition, mDownloadInfo.mMimeType, this);
+            mDownloadInfo = null;
+        } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
+                PERMISSIONS_DOWNLOAD)) {
+            OpenAppDetailsDialogFragment.show(
+                    R.string.webview_download_permission_permanently_denied_message,
+                    R.string.open_settings, this);
+        } else  {
+            EffortlessPermissions.requestPermissions(this,
+                    R.string.webview_download_permission_request_message,
+                    REQUEST_CODE_DOWNLOAD_PERMISSION, PERMISSIONS_DOWNLOAD);
+        }
+    }
+
+    @AfterPermissionDenied(REQUEST_CODE_DOWNLOAD_PERMISSION)
+    private void onDownloadPermissionDenied() {
+        ToastUtils.show(R.string.webview_download_permission_denied, this);
+    }
+
     private class ChromeClient extends WebChromeClient {
 
         // NOTE: WebView can be trying to show an AlertDialog after the activity is finished, which
@@ -581,6 +632,22 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             return WebViewActivity.this.shouldOverrideUrlLoading(view, url);
+        }
+    }
+
+    private static class DownloadInfo {
+
+        public String mUrl;
+        public String mUserAgent;
+        public String mContentDisposition;
+        public String mMimeType;
+
+        public DownloadInfo(String url, String userAgent, String contentDisposition,
+                            String mimeType) {
+            mUrl = url;
+            mUserAgent = userAgent;
+            mContentDisposition = contentDisposition;
+            mMimeType = mimeType;
         }
     }
 }
