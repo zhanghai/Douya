@@ -11,6 +11,8 @@
 
     <style name="Base.Theme.Douya.DialogWhenLarge" parent="Base.Theme.Douya.Dark.DialogWhenLarge" />
 
+    <style name="Base.Theme.Douya.Light.DialogWhenLarge" parent="Base.Theme.Douya.Dark.DialogWhenLarge" />
+
     <style name="Base.Theme.Douya.MainActivity" parent="Theme.Douya.ScrimStatusBar" />
 
     <style name="Base.Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />

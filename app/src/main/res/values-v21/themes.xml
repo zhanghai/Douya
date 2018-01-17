@@ -12,6 +12,16 @@
         <item name="preferenceDialog_messageAppearance">@style/PreferenceFixTheme.TextAppearanceDialogMessage</item>
     </style>
 
+    <style name="PreferenceFixTheme.Light.DialogWhenLarge" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Fix</item>
+        <item name="preferenceDialog_messageAppearance">@style/PreferenceFixTheme.TextAppearanceDialogMessage</item>
+    </style>
+
+    <style name="PreferenceFixTheme.Light.DarkActionBar.DialogWhenLarge" parent="Theme.AppCompat.Light.DarkActionBar.DialogWhenLarge">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Fix</item>
+        <item name="preferenceDialog_messageAppearance">@style/PreferenceFixTheme.TextAppearanceDialogMessage</item>
+    </style>
+
     <style name="Theme.Douya.TransparentStatusBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
