@@ -6,12 +6,9 @@
 package me.zhanghai.android.douya.broadcast.ui;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import butterknife.BindDimen;
-import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.TimelineBroadcastListResource;
 import me.zhanghai.android.douya.link.NotImplementedManager;
@@ -54,12 +51,8 @@ public class BroadcastListFragment extends BaseTimelineBroadcastListFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        ButterKnife.bind(this, view);
-
-        setPaddingTop(mToolbarHeight);
+    protected int getExtraPaddingTop() {
+        return mToolbarHeight;
     }
 
     @Override

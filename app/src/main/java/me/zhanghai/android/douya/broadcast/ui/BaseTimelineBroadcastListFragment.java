@@ -51,6 +51,18 @@ public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastLis
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        int extraPaddingTop = getExtraPaddingTop();
+        mSwipeRefreshLayout.setProgressViewOffset(extraPaddingTop);
+        mList.setPadding(mList.getPaddingLeft(), mList.getPaddingTop() + extraPaddingTop,
+                mList.getPaddingRight(), mList.getPaddingBottom());
+    }
+
+    protected abstract int getExtraPaddingTop();
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -164,12 +176,6 @@ public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastLis
                 activity.getTitle().toString(), activity);
         Bundle options = TransitionUtils.makeActivityOptionsBundle(activity, sharedView);
         ActivityCompat.startActivity(activity, intent, options);
-    }
-
-    protected void setPaddingTop(int paddingTop) {
-        mSwipeRefreshLayout.setProgressViewOffset(paddingTop);
-        mList.setPadding(mList.getPaddingLeft(), paddingTop,
-                mList.getPaddingRight(), mList.getPaddingBottom());
     }
 
     protected void onSendBroadcast() {
