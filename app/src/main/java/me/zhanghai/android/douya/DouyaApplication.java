@@ -6,6 +6,8 @@
 package me.zhanghai.android.douya;
 
 import android.app.Application;
+import android.os.Build;
+import android.webkit.WebView;
 
 import com.bumptech.glide.request.target.ViewTarget;
 import com.facebook.stetho.Stetho;
@@ -36,5 +38,9 @@ public class DouyaApplication extends Application {
         FabricUtils.init(this);
         ViewTarget.setTagId(R.id.glide_view_target_tag);
         Stetho.initializeWithDefaults(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        }
     }
 }
