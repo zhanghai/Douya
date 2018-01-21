@@ -18,12 +18,25 @@ import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
 
+import java.io.File;
+
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.Http;
 
 public class WebViewUtils {
 
     private WebViewUtils() {}
+
+    public static String getDatabasePath(Context context) {
+        File webViewDirectory = context.getDir("webview", Context.MODE_PRIVATE);
+        File databasesDirectory = new File(webViewDirectory, "databases");
+        if (!databasesDirectory.exists()) {
+            // Return valued wasn't checked in {@link ContextImpl#getDir(String, int)}.
+            //noinspection ResultOfMethodCallIgnored
+            databasesDirectory.mkdir();
+        }
+        return databasesDirectory.getPath();
+    }
 
     /*
      * @see com.android.webview.chromium.FileChooserParamsAdapter#createFileChooserIntent()
