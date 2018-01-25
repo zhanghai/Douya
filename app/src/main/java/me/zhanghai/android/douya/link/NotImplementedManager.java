@@ -7,7 +7,9 @@ package me.zhanghai.android.douya.link;
 
 import android.content.Context;
 
+import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.broadcast.ui.SendBroadcastActivity;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.ToastUtils;
 
@@ -32,6 +34,11 @@ public class NotImplementedManager {
     }
 
     public static void sendBroadcast(String topic, Context context) {
+        // FIXME: Not finished, disabled for release build.
+        if (BuildConfig.DEBUG) {
+            context.startActivity(SendBroadcastActivity.makeTopicIntent(topic, context));
+            return;
+        }
         if (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue()
                 && FrodoBridge.sendBroadcast(topic, context)) {
             return;

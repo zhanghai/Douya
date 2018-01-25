@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="right|bottom"
-        android:contentDescription="@string/broadcast_send"
+        android:contentDescription="@string/broadcast_send_title"
         android:src="@drawable/create_icon_white_24dp"
         android:theme="?darkTheme"
         app:backgroundTint="?colorAccent" />

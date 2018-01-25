@@ -37,6 +37,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserList;
+import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.StringUtils;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -227,6 +228,13 @@ public class ApiService {
         }
         return mFrodoService.getTimelineList(url, untilId, count, lastVisitedId, topic, guestOnly ?
                 1 : null);
+    }
+
+    public ApiRequest<Broadcast> sendBroadcast(String text, List<String> imageUrls,
+                                               String recommendationTitle,
+                                               String recommendationUrl) {
+        return mFrodoService.sendBroadcast(text, imageUrls != null ? StringCompat.join(",",
+                imageUrls) : null, recommendationTitle, recommendationUrl);
     }
 
     public ApiRequest<Broadcast> getBroadcast(long broadcastId) {

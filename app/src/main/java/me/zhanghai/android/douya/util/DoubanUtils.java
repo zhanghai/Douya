@@ -77,6 +77,10 @@ public class DoubanUtils {
         return makeAtUserString(user.uid);
     }
 
+    public static String makeTopicString(String topic) {
+        return '#' + topic + '#';
+    }
+
     public static String makeBroadcastUri(long broadcastId) {
         return "douban://douban.com/status/" + broadcastId;
     }

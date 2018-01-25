@@ -167,6 +167,11 @@
     <string name="broadcast_list_title_user_format">%s 的广播</string>
     <string name="broadcast_list_title_topic_format">#%s#</string>
 
+    <string name="broadcast_send_title">发送广播</string>
+    <string name="broadcast_send_title_sending">正在发送广播…</string>
+    <string name="broadcast_send">发送</string>
+    <string name="broadcast_send_successful">已发送广播</string>
+    <string name="broadcast_send_failed_format">发送广播失败，%1$s</string>
     <string name="broadcast_title">查看广播</string>
     <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
     <string name="broadcast_rebroadcasted_broadcast_text_rebroadcaster_format">%1$s：</string>
@@ -186,7 +191,6 @@
     <string name="broadcast_unrebroadcast_confirm">确定要取消转播这条广播吗？</string>
     <string name="broadcast_unrebroadcast_successful">已取消转播</string>
     <string name="broadcast_unrebroadcast_failed_format">取消转播失败，%1$s</string>
-    <string name="broadcast_send">发送广播</string>
     <string name="broadcast_rebroadcast_title">转播广播</string>
     <string name="broadcast_rebroadcast_title_rebroadcasting">正在转播…</string>
     <string name="broadcast_rebroadcast_text_hint">说点什么吧…</string>

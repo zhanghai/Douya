@@ -70,6 +70,12 @@
             android:theme="@style/Theme.Douya" />
 
         <activity
+            android:name=".broadcast.ui.SendBroadcastActivity"
+            android:label="@string/broadcast_send_title"
+            android:theme="@style/Theme.Douya.DialogWhenLarge"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
+        <activity
             android:name=".broadcast.ui.BroadcastActivity"
             android:theme="@style/Theme.Douya.BroadcastActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
