@@ -19,13 +19,16 @@ import me.zhanghai.android.douya.app.ImageTypeFileProvider;
 
 public class FileUtils {
 
+    // Should be kept in sync with file_provider_paths.xml .
+    private static final String SUB_DIRECTORY_NAME = "Douya";
+
     private FileUtils() {}
 
     public static File makeCaptureImageOutputFile() {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String fileName = "IMG_" + timestamp + ".jpg";
         File directory = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "Douya");
+                Environment.DIRECTORY_PICTURES), SUB_DIRECTORY_NAME);
         //noinspection ResultOfMethodCallIgnored
         directory.mkdirs();
         return new File(directory, fileName);

@@ -48,7 +48,6 @@ import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
 import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
-import me.zhanghai.android.effortlesspermissions.OpenAppDetailsDialogFragment;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 
 public class SendBroadcastFragment extends Fragment
@@ -152,7 +151,7 @@ public class SendBroadcastFragment extends Fragment
         }
         // TODO
         ViewUtils.setVisibleOrGone(mBroadcastLayout, false);
-        mAddImageButton.setOnClickListener(view -> onPickOrCaptureImage());
+        mAddImageButton.setOnClickListener(view -> pickOrCaptureImage());
         updateSendStatus();
     }
 
@@ -214,17 +213,15 @@ public class SendBroadcastFragment extends Fragment
     }
 
     @AfterPermissionGranted(REQUEST_CODE_CAPTURE_IMAGE_PERMISSION)
-    private void onPickOrCaptureImage() {
+    private void pickOrCaptureImage() {
         if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_CAPTURE_IMAGE)) {
-            mCaptureImageOutputFile = FileUtils.makeCaptureImageOutputFile();
-            startActivityForResult(IntentUtils.makePickOrCaptureImageWithChooser(true,
-                    mCaptureImageOutputFile, getActivity()), REQUEST_CODE_PICK_OR_CAPTURE_IMAGE);
+            pickOrCaptureImageWithPermission();
         } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
                 PERMISSIONS_CAPTURE_IMAGE)) {
             ToastUtils.show(
                     R.string.broadcast_send_capture_image_permission_permanently_denied_message,
                     getActivity());
-            onPickImage();
+            pickImage();
         } else  {
             EffortlessPermissions.requestPermissions(this,
                     R.string.broadcast_send_capture_image_permission_request_message,
@@ -232,13 +229,19 @@ public class SendBroadcastFragment extends Fragment
         }
     }
 
-    @AfterPermissionDenied(REQUEST_CODE_CAPTURE_IMAGE_PERMISSION)
-    private void onSaveImagePermissionDenied() {
-        ToastUtils.show(R.string.broadcast_send_capture_image_permission_denied, getActivity());
-        onPickImage();
+    private void pickOrCaptureImageWithPermission() {
+        mCaptureImageOutputFile = FileUtils.makeCaptureImageOutputFile();
+        startActivityForResult(IntentUtils.makePickOrCaptureImageWithChooser(true,
+                mCaptureImageOutputFile, getActivity()), REQUEST_CODE_PICK_OR_CAPTURE_IMAGE);
     }
 
-    private void onPickImage() {
+    @AfterPermissionDenied(REQUEST_CODE_CAPTURE_IMAGE_PERMISSION)
+    private void onCaptureImagePermissionDenied() {
+        ToastUtils.show(R.string.broadcast_send_capture_image_permission_denied, getActivity());
+        pickImage();
+    }
+
+    private void pickImage() {
         AppUtils.startActivityForResultWithChooser(IntentUtils.makePickImage(true),
                 REQUEST_CODE_PICK_OR_CAPTURE_IMAGE, getActivity());
     }

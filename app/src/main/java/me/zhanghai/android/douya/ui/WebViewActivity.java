@@ -395,7 +395,7 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
         mWebView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength)
-                -> onDownload(url, userAgent, contentDisposition, mimeType));
+                -> download(url, userAgent, contentDisposition, mimeType));
         onLoadUri(mWebView);
     }
 
@@ -514,18 +514,16 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
-    private void onDownload(String url, String userAgent, String contentDisposition,
-                            String mimeType) {
+    private void download(String url, String userAgent, String contentDisposition,
+                          String mimeType) {
         mDownloadInfo = new DownloadInfo(url, userAgent, contentDisposition, mimeType);
-        onDownload();
+        download();
     }
 
     @AfterPermissionGranted(REQUEST_CODE_DOWNLOAD_PERMISSION)
-    private void onDownload() {
+    private void download() {
         if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_DOWNLOAD)) {
-            WebViewUtils.download(mDownloadInfo.mUrl, mDownloadInfo.mUserAgent,
-                    mDownloadInfo.mContentDisposition, mDownloadInfo.mMimeType, this);
-            mDownloadInfo = null;
+            downloadWithPermission();
         } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
                 PERMISSIONS_DOWNLOAD)) {
             OpenAppDetailsDialogFragment.show(
@@ -536,6 +534,12 @@ public class WebViewActivity extends AppCompatActivity {
                     R.string.webview_download_permission_request_message,
                     REQUEST_CODE_DOWNLOAD_PERMISSION, PERMISSIONS_DOWNLOAD);
         }
+    }
+
+    private void downloadWithPermission() {
+        WebViewUtils.download(mDownloadInfo.mUrl, mDownloadInfo.mUserAgent,
+                mDownloadInfo.mContentDisposition, mDownloadInfo.mMimeType, this);
+        mDownloadInfo = null;
     }
 
     @AfterPermissionDenied(REQUEST_CODE_DOWNLOAD_PERMISSION)
