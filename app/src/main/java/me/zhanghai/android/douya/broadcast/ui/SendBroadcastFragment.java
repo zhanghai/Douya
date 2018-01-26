@@ -268,11 +268,10 @@ public class SendBroadcastFragment extends Fragment
                         return uris;
                     }
                 }
-            } else {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    return new Uri[]{ uri };
-                }
+            }
+            Uri uri = data.getData();
+            if (uri != null) {
+                return new Uri[] { uri };
             }
         }
         if (mCaptureImageOutputFile != null) {
