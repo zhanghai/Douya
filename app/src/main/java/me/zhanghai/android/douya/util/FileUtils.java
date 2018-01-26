@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Environment;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -22,10 +21,14 @@ public class FileUtils {
 
     private FileUtils() {}
 
-    public static File createCaptureImageOutputFile(Context context) throws IOException {
+    public static File makeCaptureImageOutputFile() {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        File directory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return File.createTempFile("IMG_" + timestamp + "_", ".jpg", directory);
+        String fileName = "IMG_" + timestamp + ".jpg";
+        File directory = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "Douya");
+        //noinspection ResultOfMethodCallIgnored
+        directory.mkdirs();
+        return new File(directory, fileName);
     }
 
     public static Uri getContentUri(File file, Context context) {

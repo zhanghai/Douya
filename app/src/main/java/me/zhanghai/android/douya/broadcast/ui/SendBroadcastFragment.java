@@ -5,10 +5,12 @@
 
 package me.zhanghai.android.douya.broadcast.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +30,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,10 +40,16 @@ import me.zhanghai.android.douya.eventbus.BroadcastSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.FileUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
+import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
+import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
+import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
+import me.zhanghai.android.effortlesspermissions.OpenAppDetailsDialogFragment;
+import pub.devrel.easypermissions.AfterPermissionGranted;
 
 public class SendBroadcastFragment extends Fragment
         implements ConfirmDiscardContentDialogFragment.Listener {
@@ -51,7 +58,20 @@ public class SendBroadcastFragment extends Fragment
 
     private static final String STATE_WRITER_ID = KEY_PREFIX + "writer_id";
 
-    private static final int REQUEST_CODE_PICK_OR_CAPTURE_IMAGE = 1;
+    private static final int REQUEST_CODE_CAPTURE_IMAGE_PERMISSION = 1;
+    private static final String[] PERMISSIONS_CAPTURE_IMAGE;
+    static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            PERMISSIONS_CAPTURE_IMAGE = new String[] {
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            };
+        } else {
+            // Never used.
+            PERMISSIONS_CAPTURE_IMAGE = null;
+        }
+    }
+
+    private static final int REQUEST_CODE_PICK_OR_CAPTURE_IMAGE = 2;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -132,15 +152,7 @@ public class SendBroadcastFragment extends Fragment
         }
         // TODO
         ViewUtils.setVisibleOrGone(mBroadcastLayout, false);
-        mAddImageButton.setOnClickListener(view -> {
-            try {
-                mCaptureImageOutputFile = FileUtils.createCaptureImageOutputFile(activity);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            startActivityForResult(IntentUtils.makePickOrCaptureImageWithChooser(true,
-                    mCaptureImageOutputFile, activity), REQUEST_CODE_PICK_OR_CAPTURE_IMAGE);
-        });
+        mAddImageButton.setOnClickListener(view -> onPickOrCaptureImage());
         updateSendStatus();
     }
 
@@ -182,6 +194,15 @@ public class SendBroadcastFragment extends Fragment
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EffortlessPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults,
+                this);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CODE_PICK_OR_CAPTURE_IMAGE:
@@ -192,9 +213,38 @@ public class SendBroadcastFragment extends Fragment
         }
     }
 
+    @AfterPermissionGranted(REQUEST_CODE_CAPTURE_IMAGE_PERMISSION)
+    private void onPickOrCaptureImage() {
+        if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_CAPTURE_IMAGE)) {
+            mCaptureImageOutputFile = FileUtils.makeCaptureImageOutputFile();
+            startActivityForResult(IntentUtils.makePickOrCaptureImageWithChooser(true,
+                    mCaptureImageOutputFile, getActivity()), REQUEST_CODE_PICK_OR_CAPTURE_IMAGE);
+        } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
+                PERMISSIONS_CAPTURE_IMAGE)) {
+            ToastUtils.show(
+                    R.string.broadcast_send_capture_image_permission_permanently_denied_message,
+                    getActivity());
+            onPickImage();
+        } else  {
+            EffortlessPermissions.requestPermissions(this,
+                    R.string.broadcast_send_capture_image_permission_request_message,
+                    REQUEST_CODE_CAPTURE_IMAGE_PERMISSION, PERMISSIONS_CAPTURE_IMAGE);
+        }
+    }
+
+    @AfterPermissionDenied(REQUEST_CODE_CAPTURE_IMAGE_PERMISSION)
+    private void onSaveImagePermissionDenied() {
+        ToastUtils.show(R.string.broadcast_send_capture_image_permission_denied, getActivity());
+        onPickImage();
+    }
+
+    private void onPickImage() {
+        AppUtils.startActivityForResultWithChooser(IntentUtils.makePickImage(true),
+                REQUEST_CODE_PICK_OR_CAPTURE_IMAGE, getActivity());
+    }
+
     private void onImagePickedOrCaptured(int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
-            mCaptureImageOutputFile.delete();
             return;
         }
         Uri[] uris = parsePickOrCaptureImageResult(data);
@@ -223,6 +273,7 @@ public class SendBroadcastFragment extends Fragment
             }
         }
         if (mCaptureImageOutputFile != null) {
+            getActivity().sendBroadcast(IntentUtils.makeMediaScan(mCaptureImageOutputFile));
             return new Uri[] { Uri.fromFile(mCaptureImageOutputFile) };
         }
         return new Uri[] {};

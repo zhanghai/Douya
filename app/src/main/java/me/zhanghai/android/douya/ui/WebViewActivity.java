@@ -255,6 +255,15 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EffortlessPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults,
+                this);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CODE_FILE_CHOOSER:
@@ -509,15 +518,6 @@ public class WebViewActivity extends AppCompatActivity {
                             String mimeType) {
         mDownloadInfo = new DownloadInfo(url, userAgent, contentDisposition, mimeType);
         onDownload();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        EffortlessPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults,
-                this);
     }
 
     @AfterPermissionGranted(REQUEST_CODE_DOWNLOAD_PERMISSION)
