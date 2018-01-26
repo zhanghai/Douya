@@ -21,10 +21,10 @@ public class SendBroadcastManager extends ResourceWriterManager<SendBroadcastWri
         return InstanceHolder.VALUE;
     }
 
-    public long write(String text, List<String> imageUrls, String recommendationTitle,
-                      String recommendationUrl, Context context) {
-        SendBroadcastWriter writer = new SendBroadcastWriter(text, imageUrls, recommendationTitle,
-                recommendationUrl, this);
+    public long write(String text, List<String> imageUrls, String linkTitle, String linkUrl,
+                      Context context) {
+        SendBroadcastWriter writer = new SendBroadcastWriter(text, imageUrls, linkTitle,
+                linkUrl, this);
         add(writer, context);
         return writer.getId();
     }
@@ -36,6 +36,21 @@ public class SendBroadcastManager extends ResourceWriterManager<SendBroadcastWri
     public String getText(long writerId) {
         SendBroadcastWriter writer = findWriter(writerId);
         return writer != null ? writer.getText() : null;
+    }
+
+    public List<String> getImageUrls(long writerId) {
+        SendBroadcastWriter writer = findWriter(writerId);
+        return writer != null ? writer.getImageUrls() : null;
+    }
+
+    public String getLinkTitle(long writerId) {
+        SendBroadcastWriter writer = findWriter(writerId);
+        return writer != null ? writer.getLinkTitle() : null;
+    }
+
+    public String getLinkUrl(long writerId) {
+        SendBroadcastWriter writer = findWriter(writerId);
+        return writer != null ? writer.getLinkUrl() : null;
     }
 
     private SendBroadcastWriter findWriter(long writerId) {

@@ -8,6 +8,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/toolbar_height"
+        android:layout_marginBottom="@dimen/toolbar_height"
         android:fillViewport="true">
 
         <LinearLayout
@@ -43,6 +45,42 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
+
+    <!-- TODO: Add a compatible shadow. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_gravity="bottom"
+        android:paddingLeft="@dimen/toolbar_button_left_margin"
+        android:paddingRight="@dimen/toolbar_button_right_margin"
+        android:background="?colorBackgroundFloating"
+        android:elevation="@dimen/appbar_elevation"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/add_image"
+            android:layout_width="@dimen/touch_target_size"
+            android:layout_height="@dimen/touch_target_size"
+            android:layout_gravity="center_vertical"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/broadcast_send_comment"
+            android:padding="@dimen/icon_button_padding"
+            android:src="@drawable/camera_icon_white_24dp"
+            app:tint="?colorControlActivated"
+            tools:ignore="MissingPrefix" />
+
+        <ImageButton
+            android:id="@+id/add_link"
+            android:layout_width="@dimen/touch_target_size"
+            android:layout_height="@dimen/touch_target_size"
+            android:layout_gravity="center_vertical"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/broadcast_send_comment"
+            android:padding="@dimen/icon_button_padding"
+            android:src="@drawable/link_icon_white_24dp"
+            app:tint="?colorControlActivated"
+            tools:ignore="MissingPrefix" />
+    </LinearLayout>
 
     <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout

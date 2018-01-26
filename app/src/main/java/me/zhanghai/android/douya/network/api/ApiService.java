@@ -231,10 +231,9 @@ public class ApiService {
     }
 
     public ApiRequest<Broadcast> sendBroadcast(String text, List<String> imageUrls,
-                                               String recommendationTitle,
-                                               String recommendationUrl) {
+                                               String linkTitle, String linkUrl) {
         return mFrodoService.sendBroadcast(text, imageUrls != null ? StringCompat.join(",",
-                imageUrls) : null, recommendationTitle, recommendationUrl);
+                imageUrls) : null, linkTitle, linkUrl);
     }
 
     public ApiRequest<Broadcast> getBroadcast(long broadcastId) {
@@ -485,8 +484,8 @@ public class ApiService {
         @FormUrlEncoded
         ApiRequest<Broadcast> sendBroadcast(@Field("text") String text,
                                             @Field("image_urls") String imageUrls,
-                                            @Field("rec_title") String recommendationTitle,
-                                            @Field("rec_url") String recommendationUrl);
+                                            @Field("rec_title") String linkTitle,
+                                            @Field("rec_url") String linkUrl);
 
         @GET("status/{broadcastId}")
         ApiRequest<Broadcast> getBroadcast(@Path("broadcastId") long broadcastId);

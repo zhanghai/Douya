@@ -31,11 +31,10 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter, Broadcast>
 
     private String mText;
     private List<String> mImageUrls;
-    private String mRecommendationTitle;
-    private String mRecommendationUrl;
+    private String mLinkTitle;
+    private String mLinkUrl;
 
-    SendBroadcastWriter(String text, List<String> imageUrls, String recommendationTitle,
-                        String recommendationUrl,
+    SendBroadcastWriter(String text, List<String> imageUrls, String linkTitle, String linkUrl,
                         ResourceWriterManager<SendBroadcastWriter> manager) {
         super(manager);
 
@@ -44,8 +43,8 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter, Broadcast>
 
         mText = text;
         mImageUrls = imageUrls;
-        mRecommendationTitle = recommendationTitle;
-        mRecommendationUrl = recommendationUrl;
+        mLinkTitle = linkTitle;
+        mLinkUrl = linkUrl;
     }
 
     public long getId() {
@@ -60,18 +59,18 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter, Broadcast>
         return mImageUrls;
     }
 
-    public String getRecommendationTitle() {
-        return mRecommendationTitle;
+    public String getLinkTitle() {
+        return mLinkTitle;
     }
 
-    public String getRecommendationUrl() {
-        return mRecommendationUrl;
+    public String getLinkUrl() {
+        return mLinkUrl;
     }
 
     @Override
     protected ApiRequest<Broadcast> onCreateRequest() {
-        return ApiService.getInstance().sendBroadcast(mText, mImageUrls, mRecommendationTitle,
-                mRecommendationUrl);
+        return ApiService.getInstance().sendBroadcast(mText, mImageUrls, mLinkTitle,
+                mLinkUrl);
     }
 
     @Override

@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.broadcast.ui;
 
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,9 +22,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +39,9 @@ import me.zhanghai.android.douya.eventbus.BroadcastSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.util.FileUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class SendBroadcastFragment extends Fragment
@@ -43,12 +51,16 @@ public class SendBroadcastFragment extends Fragment
 
     private static final String STATE_WRITER_ID = KEY_PREFIX + "writer_id";
 
+    private static final int REQUEST_CODE_PICK_OR_CAPTURE_IMAGE = 1;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.broadcast)
     BroadcastLayout mBroadcastLayout;
     @BindView(R.id.text)
     EditText mTextEdit;
+    @BindView(R.id.add_image)
+    ImageButton mAddImageButton;
 
     private MenuItem mSendMenuItem;
 
@@ -56,6 +68,8 @@ public class SendBroadcastFragment extends Fragment
     private Uri mStream;
 
     private long mWriterId;
+
+    private File mCaptureImageOutputFile;
 
     private boolean mSent;
 
@@ -118,6 +132,15 @@ public class SendBroadcastFragment extends Fragment
         }
         // TODO
         ViewUtils.setVisibleOrGone(mBroadcastLayout, false);
+        mAddImageButton.setOnClickListener(view -> {
+            try {
+                mCaptureImageOutputFile = FileUtils.createCaptureImageOutputFile(activity);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            startActivityForResult(IntentUtils.makePickOrCaptureImageWithChooser(true,
+                    mCaptureImageOutputFile, activity), REQUEST_CODE_PICK_OR_CAPTURE_IMAGE);
+        });
         updateSendStatus();
     }
 
@@ -156,6 +179,53 @@ public class SendBroadcastFragment extends Fragment
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_PICK_OR_CAPTURE_IMAGE:
+                onImagePickedOrCaptured(resultCode, data);
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void onImagePickedOrCaptured(int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            mCaptureImageOutputFile.delete();
+            return;
+        }
+        Uri[] uris = parsePickOrCaptureImageResult(data);
+        mCaptureImageOutputFile = null;
+    }
+
+    private Uri[] parsePickOrCaptureImageResult(Intent data) {
+        if (data != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                ClipData clipData = data.getClipData();
+                if (clipData != null) {
+                    int itemCount = clipData.getItemCount();
+                    if (itemCount > 0) {
+                        Uri[] uris = new Uri[itemCount];
+                        for (int i = 0; i < itemCount; ++i) {
+                            uris[i] = clipData.getItemAt(i).getUri();
+                        }
+                        return uris;
+                    }
+                }
+            } else {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    return new Uri[]{ uri };
+                }
+            }
+        }
+        if (mCaptureImageOutputFile != null) {
+            return new Uri[] { Uri.fromFile(mCaptureImageOutputFile) };
+        }
+        return new Uri[] {};
     }
 
     private void onSend() {

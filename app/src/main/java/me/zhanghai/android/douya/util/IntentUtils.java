@@ -10,7 +10,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.provider.Settings;
+
+import java.io.File;
 
 public class IntentUtils {
 
@@ -27,6 +31,16 @@ public class IntentUtils {
         return Intent.createChooser(intent, null);
     }
 
+    public static Intent makeCaptureImage(Uri outputUri) {
+        return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                .putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+    }
+
+    public static Intent makeCaptureImage(File outputFile, Context context) {
+        return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                .putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getContentUri(outputFile, context));
+    }
+
     public static Intent makeInstallShortcut(int iconRes, int nameRes, Class<?> intentClass,
                                              Context context) {
         return new Intent()
@@ -40,6 +54,15 @@ public class IntentUtils {
 
     public static Intent makeLaunchApp(String packageName, Context context) {
         return context.getPackageManager().getLaunchIntentForPackage(packageName);
+    }
+
+    public static Intent makeMediaScan(Uri uri) {
+        return new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                .setData(uri);
+    }
+
+    public static Intent makeMediaScan(File file) {
+        return makeMediaScan(Uri.fromFile(file));
     }
 
     private static Intent makePickFile(String mimeType, String[] mimeTypes, boolean allowMultiple) {
@@ -70,6 +93,28 @@ public class IntentUtils {
     public static Intent makePickFile(String[] mimeTypes, boolean allowMultiple) {
         String mimeType = mimeTypes != null && mimeTypes.length == 1 ? mimeTypes[0] : MIME_TYPE_ANY;
         return makePickFile(mimeType, mimeTypes, allowMultiple);
+    }
+
+    public static Intent makePickImage(boolean allowMultiple) {
+        return makePickFile(MIME_TYPE_IMAGE_ANY, allowMultiple);
+    }
+
+    public static Intent makePickOrCaptureImageWithChooser(boolean allowPickMultiple,
+                                                           Uri captureOutputUri) {
+        Intent intent = withChooser(makePickImage(allowPickMultiple));
+        if (captureOutputUri != null) {
+            intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Parcelable[] {
+                    makeCaptureImage(captureOutputUri)
+            });
+        }
+        return intent;
+    }
+
+    public static Intent makePickOrCaptureImageWithChooser(boolean allowPickMultiple,
+                                                           File captureOutputFile,
+                                                           Context context) {
+        return makePickOrCaptureImageWithChooser(allowPickMultiple, FileUtils.getContentUri(
+                captureOutputFile, context));
     }
 
     // TODO: Use android.support.v4.app.ShareCompat ?

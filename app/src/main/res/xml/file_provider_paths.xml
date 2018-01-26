@@ -7,5 +7,7 @@
 
 <paths>
     <!-- See com.bumptech.glide.load.engine.cache.DiskCache.Factory.DEFAULT_DISK_CACHE_DIR . -->
-    <cache-path path="image_manager_disk_cache/" name="glide_cache" />
+    <cache-path name="glide_cache" path="image_manager_disk_cache/" />
+    <!-- See android.os.Environment.DIRECTORY_PICTURES . -->
+    <external-files-path name="pictures" path="Pictures/" />
 </paths>

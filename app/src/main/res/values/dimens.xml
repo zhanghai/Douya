@@ -35,6 +35,7 @@
     <dimen name="content_vertical_space_half">8dp</dimen>
     <dimen name="toolbar_navigation_button_left_margin">-2dp</dimen>
     <dimen name="toolbar_title_left_margin">18dp</dimen>
+    <dimen name="toolbar_button_left_margin">@dimen/toolbar_button_right_margin</dimen>
     <dimen name="toolbar_button_right_margin">2dp</dimen>
     <dimen name="toolbar_overflow_button_right_margin">-6dp</dimen>
     <dimen name="toolbar_edit_left_margin">12dp</dimen>
