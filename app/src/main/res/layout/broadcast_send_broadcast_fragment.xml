@@ -66,7 +66,7 @@
             android:contentDescription="@string/broadcast_send_comment"
             android:padding="@dimen/icon_button_padding"
             android:src="@drawable/camera_icon_white_24dp"
-            app:tint="?colorControlActivated"
+            app:tint="?colorControlNormal"
             tools:ignore="MissingPrefix" />
 
         <ImageButton
@@ -78,7 +78,7 @@
             android:contentDescription="@string/broadcast_send_comment"
             android:padding="@dimen/icon_button_padding"
             android:src="@drawable/link_icon_white_24dp"
-            app:tint="?colorControlActivated"
+            app:tint="?colorControlNormal"
             tools:ignore="MissingPrefix" />
     </LinearLayout>
 
