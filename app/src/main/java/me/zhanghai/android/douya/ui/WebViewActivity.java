@@ -54,6 +54,7 @@ import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.network.api.info.UrlGettable;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.AppUtils;
+import me.zhanghai.android.douya.util.ArrayUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
 import me.zhanghai.android.douya.util.NightModeHelper;
 import me.zhanghai.android.douya.util.ShareUtils;
@@ -269,15 +270,17 @@ public class WebViewActivity extends AppCompatActivity {
             case REQUEST_CODE_FILE_CHOOSER:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (mFilePathCallback != null) {
-                        Uri[] value = WebChromeClient.FileChooserParams.parseResult(resultCode,
-                                data);
+                        // This cannot handle multiple URIs.
+                        //Uri[] value = WebChromeClient.FileChooserParams.parseResult(resultCode,
+                        //        data);
+                        Uri[] value = WebViewUtils.parseFileChooserResult(resultCode, data);
                         mFilePathCallback.onReceiveValue(value);
                         mFilePathCallback = null;
                     }
                 } else {
                     if (mUploadFile != null) {
-                        Uri value = WebViewUtils.parseFileChooserResult(resultCode, data);
-                        mUploadFile.onReceiveValue(value);
+                        Uri[] value = WebViewUtils.parseFileChooserResult(resultCode, data);
+                        mUploadFile.onReceiveValue(!ArrayUtils.isEmpty(value) ? value[0] : null);
                         mUploadFile = null;
                     }
                 }
