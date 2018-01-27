@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<me.zhanghai.android.douya.ui.UploadImageLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/image"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:foreground="?selectableItemBackground"
+    android:theme="?darkTheme"
+    app:fillOrientation="vertical" />

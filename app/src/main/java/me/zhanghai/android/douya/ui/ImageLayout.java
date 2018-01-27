@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
@@ -48,7 +49,7 @@ public class ImageLayout extends FrameLayout {
         init(attrs, defStyleAttr, 0);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public ImageLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
@@ -61,7 +62,7 @@ public class ImageLayout extends FrameLayout {
         setClickable(true);
         setFocusable(true);
 
-        ViewUtils.inflateInto(R.layout.image_layout, this);
+        onInflateChildren();
         ButterKnife.bind(this);
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
@@ -76,6 +77,10 @@ public class ImageLayout extends FrameLayout {
         layoutParams.height = fillOrientation == FILL_ORIENTATION_HORIZONTAL ?
                 LayoutParams.WRAP_CONTENT : LayoutParams.MATCH_PARENT;
         mImageView.setLayoutParams(layoutParams);
+    }
+
+    protected void onInflateChildren() {
+        ViewUtils.inflateInto(R.layout.image_layout, this);
     }
 
     public void loadImage(SizedImageItem image) {

@@ -7,15 +7,12 @@ package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-
-import me.zhanghai.android.douya.util.MathUtils;
 
 /**
  * An ImageView that measures with a ratio. Also sets scaleType to centerCrop.
  */
-public class RatioImageView extends AppCompatImageView {
+public class RatioImageView extends AdjustViewBoundsImageView {
 
     private float mRatio;
 
@@ -64,15 +61,17 @@ public class RatioImageView extends AppCompatImageView {
             if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) {
                 int height = MeasureSpec.getSize(heightMeasureSpec);
                 int width = Math.round(mRatio * height);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-                    width = MathUtils.constrain(width, getMinimumWidth(), getMaxWidth());
+                width = Math.max(width, getSuggestedMinimumWidth());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    width = Math.min(width, getMaxWidth());
                 }
                 widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
             } else {
                 int width = MeasureSpec.getSize(widthMeasureSpec);
                 int height = Math.round(width / mRatio);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-                    height = MathUtils.constrain(height, getMinimumHeight(), getMaxHeight());
+                height = Math.max(height, getSuggestedMinimumHeight());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    height = Math.min(height, getMaxHeight());
                 }
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             }

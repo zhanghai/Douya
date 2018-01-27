@@ -30,6 +30,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,10 +77,10 @@ public class SendBroadcastFragment extends Fragment
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.broadcast)
-    BroadcastLayout mBroadcastLayout;
     @BindView(R.id.text)
     EditText mTextEdit;
+    @BindView(R.id.attachment_layout)
+    SendBroadcastAttachmentLayout mAttachmentLayout;
     @BindView(R.id.add_image)
     ImageButton mAddImageButton;
 
@@ -150,7 +153,7 @@ public class SendBroadcastFragment extends Fragment
             mTextEdit.setText(mText);
         }
         // TODO
-        ViewUtils.setVisibleOrGone(mBroadcastLayout, false);
+        mAttachmentLayout.bind(null, null);
         mAddImageButton.setOnClickListener(view -> pickOrCaptureImage());
         updateSendStatus();
     }
@@ -250,20 +253,21 @@ public class SendBroadcastFragment extends Fragment
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
-        Uri[] uris = parsePickOrCaptureImageResult(data);
+        List<Uri> uris = parsePickOrCaptureImageResult(data);
         mCaptureImageOutputFile = null;
+        mAttachmentLayout.bind(null, uris);
     }
 
-    private Uri[] parsePickOrCaptureImageResult(Intent data) {
+    private List<Uri> parsePickOrCaptureImageResult(Intent data) {
         if (data != null) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 ClipData clipData = data.getClipData();
                 if (clipData != null) {
                     int itemCount = clipData.getItemCount();
                     if (itemCount > 0) {
-                        Uri[] uris = new Uri[itemCount];
+                        List<Uri> uris = new ArrayList<>();
                         for (int i = 0; i < itemCount; ++i) {
-                            uris[i] = clipData.getItemAt(i).getUri();
+                            uris.add(clipData.getItemAt(i).getUri());
                         }
                         return uris;
                     }
@@ -271,14 +275,14 @@ public class SendBroadcastFragment extends Fragment
             }
             Uri uri = data.getData();
             if (uri != null) {
-                return new Uri[] { uri };
+                return Collections.singletonList(uri);
             }
         }
         if (mCaptureImageOutputFile != null) {
             getActivity().sendBroadcast(IntentUtils.makeMediaScan(mCaptureImageOutputFile));
-            return new Uri[] { Uri.fromFile(mCaptureImageOutputFile) };
+            return Collections.singletonList(Uri.fromFile(mCaptureImageOutputFile));
         }
-        return new Uri[] {};
+        return Collections.emptyList();
     }
 
     private void onSend() {

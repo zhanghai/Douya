@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <me.zhanghai.android.douya.ui.ForegroundRelativeLayout
+        android:id="@+id/sendbroadcastattachmentlayout_link_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/card_content_horizontal_margin"
+        android:paddingRight="@dimen/card_content_horizontal_margin"
+        android:paddingBottom="@dimen/card_content_vertical_space"
+        android:foreground="?selectableItemBackground">
+
+        <View
+            android:id="@+id/broadcastlayout_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/horizontal_divider_height"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/card_content_vertical_space"
+            android:background="?dividerHorizontal" />
+
+        <ImageView
+            android:id="@+id/sendbroadcastattachmentlayout_link_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/broadcastlayout_divider"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/sendbroadcastattachmentlayout_link_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/sendbroadcastattachmentlayout_link_image"
+            android:layout_below="@id/broadcastlayout_divider"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <me.zhanghai.android.douya.ui.AutoGoneTextView
+            android:id="@+id/sendbroadcastattachmentlayout_link_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/sendbroadcastattachmentlayout_link_title"
+            android:layout_below="@id/sendbroadcastattachmentlayout_link_title"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+    </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>
+
+    <me.zhanghai.android.douya.ui.UploadImageLayout
+        android:id="@+id/sendbroadcastattachmentlayout_single_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        android:theme="?darkTheme"
+        app:fillOrientation="horizontal" />
+
+    <FrameLayout
+        android:id="@+id/sendbroadcastattachmentlayout_image_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="?darkTheme">
+
+        <me.zhanghai.android.douya.ui.NestedRatioHeightRecyclerView
+            android:id="@+id/sendbroadcastattachmentlayout_image_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ratio="6:5" />
+
+        <FrameLayout
+            android:id="@+id/sendbroadcastattachmentlayout_image_list_description_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scrim_height"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/sendbroadcastattachmentlayout_image_list_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+                android:layout_marginRight="@dimen/card_content_horizontal_margin"
+                android:layout_marginTop="@dimen/card_content_vertical_margin"
+                android:layout_marginBottom="@dimen/card_content_vertical_margin"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </FrameLayout>
+    </FrameLayout>
+</merge>

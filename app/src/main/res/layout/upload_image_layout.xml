@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/uploadimagelayout_remove"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
+        android:layout_marginRight="@dimen/card_content_horizontal_margin"
+        android:layout_marginTop="@dimen/card_content_vertical_space"
+        android:layout_marginBottom="@dimen/card_content_vertical_space"
+        android:layout_gravity="right|top"
+        android:background="@color/dark_30_percent"
+        android:src="@drawable/close_icon_white_36dp" />
+
+    <FrameLayout
+        android:id="@+id/uploadimagelayout_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_30_percent"
+        android:visibility="invisible">
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/uploadimagelayout_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:mpb_setBothDrawables="true"
+            app:mpb_showProgressBackground="true"
+            style="@style/Widget.MaterialProgressBar.ProgressBar" />
+    </FrameLayout>
+</merge>

@@ -39,8 +39,8 @@
                 <requestFocus />
             </EditText>
 
-            <me.zhanghai.android.douya.broadcast.ui.BroadcastLayout
-                android:id="@+id/broadcast"
+            <me.zhanghai.android.douya.broadcast.ui.SendBroadcastAttachmentLayout
+                android:id="@+id/attachment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

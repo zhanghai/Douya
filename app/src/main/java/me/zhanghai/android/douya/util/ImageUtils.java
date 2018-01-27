@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -149,6 +150,15 @@ public class ImageUtils {
     private static final RequestOptions REQUEST_OPTIONS_LOAD_IMAGE = new RequestOptions()
             .dontTransform()
             .placeholder(android.R.color.transparent);
+
+    public static void loadImage(ImageView view, Uri uri) {
+        GlideApp.with(view.getContext())
+                .load(uri)
+                .apply(REQUEST_OPTIONS_LOAD_IMAGE)
+                .transition(DrawableTransitionOptions.withCrossFade(ViewUtils.getShortAnimTime(
+                        view)))
+                .into(view);
+    }
 
     public static void loadImage(ImageView view, String url, RequestListener<Drawable> listener) {
         GlideApp.with(view.getContext())

@@ -5,9 +5,23 @@
 
 package me.zhanghai.android.douya.util;
 
+import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
 public class UriUtils {
+
+    public static String getType(Uri uri, Context context) {
+        String type = context.getContentResolver().getType(uri);
+        if (TextUtils.isEmpty(type)) {
+            String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
+            if (!TextUtils.isEmpty(extension)) {
+                type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+            }
+        }
+        return !TextUtils.isEmpty(type) ? type : null;
+    }
 
     public static long parseId(Uri uri) {
         String last = uri.getLastPathSegment();

@@ -302,11 +302,10 @@ public class BroadcastLayout extends LinearLayout {
             mAttachmentLayout.setVisibility(VISIBLE);
             mAttachmentTitleText.setText(attachment.title);
             mAttachmentDescriptionText.setText(attachment.getTextWithEntities());
-            if (attachment.image != null && images.isEmpty()) {
-                mAttachmentImage.setVisibility(VISIBLE);
+            boolean hasAttachmentImage = attachment.image != null && images.isEmpty();
+            ViewUtils.setVisibleOrGone(mAttachmentImage, hasAttachmentImage);
+            if (hasAttachmentImage) {
                 ImageUtils.loadImage(mAttachmentImage, attachment.image);
-            } else {
-                mAttachmentImage.setVisibility(GONE);
             }
             String attachmentUrl = attachment.url;
             if (!TextUtils.isEmpty(attachmentUrl)) {
@@ -319,29 +318,26 @@ public class BroadcastLayout extends LinearLayout {
             mAttachmentLayout.setVisibility(GONE);
         }
 
-        int numImages = images.size();
-        if (numImages == 1) {
+        boolean hasSingleImage = images.size() == 1;
+        ViewUtils.setVisibleOrGone(mSingleImageLayout, hasSingleImage);
+        if (hasSingleImage) {
             SizedImageItem image = images.get(0);
-            mSingleImageLayout.setVisibility(VISIBLE);
             mSingleImageLayout.loadImage(image);
             mSingleImageLayout.setOnClickListener(view -> {
                 Context context = view.getContext();
                 context.startActivity(GalleryActivity.makeIntent(image, context));
             });
-        } else {
-            mSingleImageLayout.setVisibility(GONE);
         }
-        if (numImages > 1) {
-            mImageListLayout.setVisibility(VISIBLE);
+        boolean hasImageList = images.size() > 1;
+        ViewUtils.setVisibleOrGone(mImageListLayout, hasImageList);
+        if (hasImageList) {
             mImageListDescriptionText.setText(mImageListDescriptionText.getContext().getString(
-                    R.string.broadcast_image_list_count_format, numImages));
+                    R.string.broadcast_image_list_count_format, images.size()));
             mImageListAdapter.replace(images);
             mImageListAdapter.setOnItemClickListener((parent, itemView, item, position) -> {
                 Context context = itemView.getContext();
                 context.startActivity(GalleryActivity.makeIntent(images, position, context));
             });
-        } else {
-            mImageListLayout.setVisibility(GONE);
         }
 
         boolean rebroadecastedAttachmentImagesVisible = hasRebroadcastedBroadcast

@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.util;
 
 import java.util.AbstractList;
+import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 
@@ -15,6 +16,10 @@ public class CollectionUtils {
 
     public static <E> E firstOrNull(List<E> list) {
         return !list.isEmpty() ? list.get(0) : null;
+    }
+
+    public static boolean isEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
     }
 
     public static <E> List<E> union(List<E> list1, List<E> list2) {
