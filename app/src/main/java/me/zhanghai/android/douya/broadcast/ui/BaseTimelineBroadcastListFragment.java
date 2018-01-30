@@ -32,8 +32,8 @@ import me.zhanghai.android.douya.ui.FriendlyFloatingActionButton;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingTouchSlopListener;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.CardUtils;
-import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
+import me.zhanghai.android.douya.util.TooltipUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastListFragment
@@ -68,7 +68,7 @@ public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastLis
 
         CustomTabsHelperFragment.attachTo(this);
 
-        CheatSheetUtils.setup(mSendFab);
+        TooltipUtils.setup(mSendFab);
         mSendFab.setOnClickListener(view -> onSendBroadcast());
     }
 

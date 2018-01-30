@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,9 +44,9 @@ import me.zhanghai.android.douya.ui.ImageLayout;
 import me.zhanghai.android.douya.ui.OnHorizontalScrollListener;
 import me.zhanghai.android.douya.ui.SizedImageItem;
 import me.zhanghai.android.douya.ui.TimeTextView;
-import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.TooltipUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
@@ -178,10 +179,10 @@ public class BroadcastLayout extends LinearLayout {
         ViewUtils.setTextViewLinkClickable(mTextText);
         ViewUtils.setTextViewLinkClickable(mRebroadcastedTextText);
 
-        CheatSheetUtils.setup(mLikeButton);
-        CheatSheetUtils.setup(mCommentButton);
+        TooltipUtils.setup(mLikeButton);
+        TooltipUtils.setup(mCommentButton);
         // Handled by the OnLongClickListener set in bind().
-        //CheatSheetUtils.setup(mRebroadcastButton);
+        //TooltipUtils.setup(mRebroadcastButton);
     }
 
     public void setListener(Listener listener) {
@@ -252,9 +253,12 @@ public class BroadcastLayout extends LinearLayout {
             }
             mListener.onRebroadcastClicked(false);
         });
+        TooltipUtils.setup(mRebroadcastButton);
+        View.OnLongClickListener rebroadcastTooltipListener =
+                mRebroadcastButton.getOnLongClickListener();
         mRebroadcastButton.setOnLongClickListener(view -> {
             if (mListener == null || !Settings.LONG_CLICK_TO_QUICK_REBROADCAST.getValue()) {
-                return CheatSheetUtils.show(view);
+                return rebroadcastTooltipListener.onLongClick(view);
             }
             mListener.onRebroadcastClicked(true);
             return true;

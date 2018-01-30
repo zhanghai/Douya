@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.util.CheatSheetUtils;
+import me.zhanghai.android.douya.util.TooltipUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ActionItemBadge {
@@ -37,7 +37,8 @@ public class ActionItemBadge {
         });
         CharSequence title = menuItem.getTitle();
         if (!TextUtils.isEmpty(title)) {
-            CheatSheetUtils.setup(actionView, title);
+            actionView.setContentDescription(title);
+            TooltipUtils.setup(actionView);
         }
 
         ImageView iconImage = ButterKnife.findById(actionView, R.id.icon);

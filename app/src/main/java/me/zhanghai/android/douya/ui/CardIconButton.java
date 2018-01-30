@@ -14,7 +14,6 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -22,7 +21,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class CardIconButton extends LinearLayout {
+public class CardIconButton extends GetOnLongClickListenerLinearLayout {
 
     @BindView(R.id.cardiconbutton_image)
     ImageView mImage;

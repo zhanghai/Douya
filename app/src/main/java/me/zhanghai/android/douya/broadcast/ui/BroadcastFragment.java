@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -53,11 +52,11 @@ import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.ui.DoubleClickToolbar;
+import me.zhanghai.android.douya.ui.GetOnLongClickListenerImageButton;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
 import me.zhanghai.android.douya.ui.OnVerticalScrollListener;
 import me.zhanghai.android.douya.ui.WebViewActivity;
-import me.zhanghai.android.douya.util.CheatSheetUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -65,6 +64,7 @@ import me.zhanghai.android.douya.util.ImeUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ShareUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
+import me.zhanghai.android.douya.util.TooltipUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -96,7 +96,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @BindView(R.id.comment)
     EditText mCommentEdit;
     @BindView(R.id.send)
-    ImageButton mSendButton;
+    GetOnLongClickListenerImageButton mSendButton;
 
     private MenuItem mCopyTextMenuItem;
     private MenuItem mDeleteMenuItem;
@@ -215,11 +215,12 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
             }
         });
 
-        CheatSheetUtils.setup(mSendButton);
         mSendButton.setOnClickListener(view -> onSendComment());
+        TooltipUtils.setup(mSendButton);
+        View.OnLongClickListener sendTooltipListener = mSendButton.getOnLongClickListener();
         mSendButton.setOnLongClickListener(view -> {
             if (!Settings.LONG_CLICK_TO_SHOW_SEND_COMMENT_ACTIVITY.getValue()) {
-                return CheatSheetUtils.show(view);
+                return sendTooltipListener.onLongClick(view);
             }
             onShowSendCommentActivity();
             return true;

@@ -85,7 +85,7 @@
             <requestFocus />
         </me.zhanghai.android.materialedittext.MaterialEditText>
 
-        <ImageButton
+        <me.zhanghai.android.douya.ui.GetOnLongClickListenerImageButton
             android:id="@+id/send"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
