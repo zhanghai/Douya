@@ -598,8 +598,8 @@ public class WebViewActivity extends AppCompatActivity {
                 mUploadFile.onReceiveValue(null);
             }
             mUploadFile = uploadFile;
-            startActivityForResult(WebViewUtils.createFileChooserIntent(acceptType),
-                    REQUEST_CODE_FILE_CHOOSER);
+            AppUtils.startActivityForResultWithChooser(WebViewUtils.createFileChooserIntent(
+                    acceptType), REQUEST_CODE_FILE_CHOOSER, WebViewActivity.this);
         }
 
         // For 16 <= API level <= 19.
