@@ -56,6 +56,7 @@ import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ArrayUtils;
 import me.zhanghai.android.douya.util.ClipboardUtils;
+import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.NightModeHelper;
 import me.zhanghai.android.douya.util.ShareUtils;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -498,7 +499,8 @@ public class WebViewActivity extends AppCompatActivity {
 
     private String getDoubanDesktopSiteUrl(String url) {
         Uri uri = Uri.parse(url);
-        if (!TextUtils.equals(uri.getHost(), "m.douban.com")) {
+        if (!TextUtils.equals(uri.getHost(), "m.douban.com")
+                || TextUtils.equals(CollectionUtils.firstOrNull(uri.getPathSegments()), "page")) {
             return url;
         }
         return uri.buildUpon()
