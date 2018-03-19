@@ -62,7 +62,7 @@
     <dimen name="card_activity_horizontal_margin">0dp</dimen>
     <dimen name="card_view_width">@dimen/match_parent</dimen>
     <dimen name="card_elevation">2dp</dimen>
-    <!-- See RoundRectDrawableWithShadow.calculate(Vertical)Padding(). -->
+    <!-- See RoundRectDrawableWithShadow.calculate{Horizontal,Vertical}Padding(). -->
     <dimen name="card_shadow_horizontal_margin">-2dp</dimen>
     <dimen name="card_shadow_vertical_margin">-3dp</dimen>
     <dimen name="card_vertical_space">16dp</dimen>
