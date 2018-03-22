@@ -5,14 +5,11 @@
   ~ All Rights Reserved.
   -->
 
-<!-- HACK: Use 1px negative margin to workaround white frame of CardView. -->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="-1dp"
-    android:layout_marginRight="-1dp">
+    android:layout_height="wrap_content">
 
     <me.zhanghai.android.douya.profile.ui.ProfileBroadcastsLayout
         android:layout_width="match_parent"
