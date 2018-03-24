@@ -80,6 +80,6 @@ public class BroadcastLikerListResource extends BaseUserListResource<BroadcastLi
     @Override
     protected void onCallRawLoadFinished(boolean more, int count, boolean successful,
                                          BroadcastLikerList response, ApiError error) {
-        onRawLoadFinished(more, count, successful, response.likers, error);
+        onRawLoadFinished(more, count, successful, successful ? response.likers : null, error);
     }
 }
