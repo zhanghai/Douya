@@ -37,7 +37,10 @@ public class HorizontalUploadImageAdapter
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(ViewUtils.inflate(R.layout.horizontal_upload_image_item, parent));
+        UploadImageLayout itemView = (UploadImageLayout) ViewUtils.inflate(
+                R.layout.horizontal_upload_image_item, parent);
+        itemView.setInImageList(true);
+        return new ViewHolder(itemView);
     }
 
     @Override

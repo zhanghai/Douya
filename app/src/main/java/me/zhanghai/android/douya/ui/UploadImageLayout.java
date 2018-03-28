@@ -14,7 +14,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import butterknife.BindView;
@@ -31,6 +30,8 @@ public class UploadImageLayout extends ImageLayout {
     ViewGroup mProgressLayout;
     @BindView(R.id.uploadimagelayout_progress)
     ProgressBar mProgress;
+
+    private boolean mInImageList;
 
     public UploadImageLayout(Context context) {
         super(context);
@@ -66,9 +67,12 @@ public class UploadImageLayout extends ImageLayout {
     }
 
     private void init() {
-        mImageView.setAdjustViewBounds(true);
-        // Need to reset scale type from ImageView.setAdjustViewBounds(true).
-        mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        setInImageList(mInImageList);
+    }
+
+    public void setInImageList(boolean inImageList) {
+        mImageView.setAdjustViewBounds(!inImageList);
+        mImageView.setRatio(inImageList ? 1 : 0);
     }
 
     /**
