@@ -144,8 +144,7 @@ public class SendBroadcastAttachmentLayout extends FrameLayout {
             mSingleImageLayout.loadImage(imageUri);
             mSingleImageLayout.setOnClickListener(view -> {
                 Context context = view.getContext();
-                // TODO: Make GalleryActivity handle Uri.
-                //context.startActivity(GalleryActivity.makeIntent(image, context));
+                context.startActivity(GalleryActivity.makeIntent(imageUri, context));
             });
         }
         boolean hasImageList = hasImage && imageUris.size() > 1;
@@ -156,8 +155,7 @@ public class SendBroadcastAttachmentLayout extends FrameLayout {
             mImageListAdapter.replace(imageUris);
             mImageListAdapter.setOnItemClickListener((parent, itemView, item, position) -> {
                 Context context = itemView.getContext();
-                // TODO: Make GalleryActivity support Uri.
-                //context.startActivity(GalleryActivity.makeIntent(images, position, context));
+                context.startActivity(GalleryActivity.makeIntent(imageUris, position, context));
             });
             if (scrollImageListToEnd) {
                 mImageList.scrollToPosition(imageUris.size() - 1);
