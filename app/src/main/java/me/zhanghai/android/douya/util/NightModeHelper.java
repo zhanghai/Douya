@@ -10,7 +10,6 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.CheckResult;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.app.NightModeAccessor;
@@ -52,23 +51,18 @@ public class NightModeHelper {
         sActivityHelper.onActivityStarted(activity);
     }
 
-    // Should be called as:
-    // super.onConfigurationChanged(NightModeHelper.onConfigurationChanged(newConfig, this));
     // See also AppCompatDelegateImplV14#updateForNightMode(int) .
-    @CheckResult
-    public static Configuration onConfigurationChanged(Configuration newConfig,
-                                                       AppCompatActivity activity) {
+    public static void onConfigurationChanged(Activity activity) {
         boolean isInNightMode = sActivityHelper.isActivityInNightMode(activity);
-        Configuration newConfigWithNightMode = new Configuration(newConfig);
         int uiModeNight = isInNightMode ? Configuration.UI_MODE_NIGHT_YES
                 : Configuration.UI_MODE_NIGHT_NO;
-        newConfigWithNightMode.uiMode = uiModeNight | (newConfigWithNightMode.uiMode
-                & ~Configuration.UI_MODE_NIGHT_MASK);
         Resources resources = activity.getResources();
+        Configuration newConfigWithNightMode = new Configuration(resources.getConfiguration());
+        newConfigWithNightMode.uiMode = (newConfigWithNightMode.uiMode
+                & ~Configuration.UI_MODE_NIGHT_MASK) | uiModeNight;
         //noinspection deprecation
         resources.updateConfiguration(newConfigWithNightMode, resources.getDisplayMetrics());
         NightModeAccessor.flushResources(resources);
-        return newConfigWithNightMode;
     }
 
     // AppCompatDelegateImplV14.updateForNightMode() won't update when multiple Activities share a

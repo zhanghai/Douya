@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -188,16 +189,23 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(NightModeHelper.onConfigurationChanged(newConfig, this));
 
-        Toolbar newToolbar = (Toolbar) LayoutInflater.from(mToolbar.getContext())
-                .inflate(R.layout.webview_acitivity_toolbar, mAppbarWrapperLayout, false);
+        // Need to do this before calling super to avoid activity recreation by AppCompat.
+        NightModeHelper.onConfigurationChanged(this);
+        onApplyThemeResource(getTheme(), R.style.Theme_Douya, true);
+
+        super.onConfigurationChanged(newConfig);
+
+        Context themedContext = new ContextThemeWrapper(this, ViewUtils.getResIdFromAttrRes(
+                R.attr.actionBarTheme, 0, this));
+        Toolbar newToolbar = (Toolbar) LayoutInflater.from(themedContext).inflate(
+                R.layout.webview_acitivity_toolbar, mAppbarWrapperLayout, false);
         ViewUtils.replaceChild(mAppbarWrapperLayout, mToolbar, newToolbar);
         ButterKnife.bind(this);
 
         setupToolbar();
         ViewUtils.setVisibleOrGone(mProgress, mProgressVisible);
-        ((ViewGroup.MarginLayoutParams) mWebView.getLayoutParams()).topMargin = mToolbarHeight;
+        ViewUtils.setMarginTop(mWebView, mToolbarHeight);
         mWebView.requestLayout();
     }
 
