@@ -318,6 +318,10 @@ public class SendBroadcastFragment extends Fragment
 
     private void onSend() {
         String text = mTextEdit.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            ToastUtils.show(R.string.broadcast_send_error_empty, getActivity());
+            return;
+        }
         send(text);
     }
 
