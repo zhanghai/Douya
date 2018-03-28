@@ -96,7 +96,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
             mBackdropLayout.setOnClickListener(view -> {
                 // TODO
                 Context context = view.getContext();
-                context.startActivity(GalleryActivity.makeIntent(photoList, 0, context));
+                context.startActivity(GalleryActivity.makeImageListIntent(photoList, 0, context));
             });
         } else if (movie.poster != null) {
             backdropUrl = movie.poster.getLargeUrl();

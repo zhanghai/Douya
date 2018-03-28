@@ -9,11 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.util.SparseArrayCompat;
-import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,7 +23,6 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
@@ -45,11 +42,11 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class GalleryAdapter extends ViewStatePagerAdapter {
 
-    private List<String> mImageList;
+    private List<Uri> mImageList;
     private Listener mListener;
     private SparseArrayCompat<File> mFileMap = new SparseArrayCompat<>();
 
-    public GalleryAdapter(List<String> imageList, Listener listener) {
+    public GalleryAdapter(List<Uri> imageList, Listener listener) {
         mImageList = imageList;
         mListener = listener;
     }
@@ -69,20 +66,14 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
         final View layout = ViewUtils.inflate(R.layout.gallery_item, container);
         final ViewHolder holder = new ViewHolder(layout);
         layout.setTag(holder);
-        holder.image.setOnPhotoTapListener(new OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(ImageView view, float x, float y) {
-                if (mListener != null) {
-                    mListener.onTap();
-                }
+        holder.image.setOnPhotoTapListener((view, x, y) -> {
+            if (mListener != null) {
+                mListener.onTap();
             }
         });
-        holder.largeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mListener != null) {
-                    mListener.onTap();
-                }
+        holder.largeImage.setOnClickListener(view -> {
+            if (mListener != null) {
+                mListener.onTap();
             }
         });
         loadImageForPosition(position, holder);
@@ -90,7 +81,7 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
         return layout;
     }
 
-    private void loadImageForPosition(final int position, final ViewHolder holder) {
+    private void loadImageForPosition(int position, ViewHolder holder) {
         ViewUtils.fadeIn(holder.progress);
         GlideApp.with(holder.progress.getContext())
                 .downloadOnlyDefaultPriority()

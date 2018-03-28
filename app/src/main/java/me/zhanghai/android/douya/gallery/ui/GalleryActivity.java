@@ -7,10 +7,12 @@ package me.zhanghai.android.douya.gallery.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import me.zhanghai.android.douya.ui.ImageItem;
@@ -23,26 +25,40 @@ public class GalleryActivity extends AppCompatActivity {
     private static final String EXTRA_IMAGE_LIST = KEY_PREFIX + "image_list";
     private static final String EXTRA_POSITION = KEY_PREFIX + "position";
 
-    public static Intent makeUrlListIntent(ArrayList<String> imageUrlList, int position,
-                                           Context context) {
+    private static Intent makeIntent(ArrayList<Uri> imageList, int position, Context context) {
         return new Intent(context, GalleryActivity.class)
-                .putStringArrayListExtra(EXTRA_IMAGE_LIST, imageUrlList)
+                .putParcelableArrayListExtra(EXTRA_IMAGE_LIST, imageList)
                 .putExtra(EXTRA_POSITION, position);
     }
 
-    public static Intent makeIntent(List<? extends ImageItem> imageList, int position,
-                                    Context context) {
-        ArrayList<String> imageUrlList = new ArrayList<>();
-        for (ImageItem image : imageList) {
-            imageUrlList.add(image.getLargeUrl());
+    public static Intent makeIntent(List<Uri> imageList, int position, Context context) {
+        return makeIntent(new ArrayList<>(imageList), position, context);
+    }
+
+    public static Intent makeUrlListIntent(List<String> imageUrlList, int position,
+                                           Context context) {
+        ArrayList<Uri> imageUriList = new ArrayList<>();
+        for (String imageUrl: imageUrlList) {
+            imageUriList.add(Uri.parse(imageUrl));
         }
-        return makeUrlListIntent(imageUrlList, position, context);
+        return makeIntent(imageUriList, position, context);
+    }
+
+    public static Intent makeImageListIntent(List<? extends ImageItem> imageList, int position,
+                                             Context context) {
+        ArrayList<Uri> imageUriList = new ArrayList<>();
+        for (ImageItem image : imageList) {
+            imageUriList.add(Uri.parse(image.getLargeUrl()));
+        }
+        return makeIntent(imageUriList, position, context);
+    }
+
+    public static Intent makeIntent(Uri imageUri, Context context) {
+        return makeIntent(Collections.singletonList(imageUri), 0, context);
     }
 
     public static Intent makeIntent(String imageUrl, Context context) {
-        ArrayList<String> imageList = new ArrayList<>();
-        imageList.add(imageUrl);
-        return makeUrlListIntent(imageList, 0, context);
+        return makeIntent(Uri.parse(imageUrl), context);
     }
 
     public static Intent makeIntent(ImageItem image, Context context) {
@@ -58,7 +74,7 @@ public class GalleryActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            ArrayList<String> imageList = intent.getStringArrayListExtra(EXTRA_IMAGE_LIST);
+            ArrayList<Uri> imageList = intent.getParcelableArrayListExtra(EXTRA_IMAGE_LIST);
             int position = intent.getIntExtra(EXTRA_POSITION, 0);
             FragmentUtils.add(GalleryFragment.newInstance(imageList, position), this,
                     android.R.id.content);

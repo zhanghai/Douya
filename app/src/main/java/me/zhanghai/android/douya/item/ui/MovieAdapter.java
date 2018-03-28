@@ -308,8 +308,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         ++photoPosition;
                     }
                     // TODO: Use PhotoAlbumGalleryActivity instead.
-                    context.startActivity(GalleryActivity.makeIntent(mData.photoList, photoPosition,
-                            photoListHolder.photoList.getContext()));
+                    context.startActivity(GalleryActivity.makeImageListIntent(mData.photoList,
+                            photoPosition, photoListHolder.photoList.getContext()));
                 });
                 photoListHolder.viewMoreButton.setOnClickListener(view -> {
                     // TODO

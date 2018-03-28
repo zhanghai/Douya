@@ -66,18 +66,18 @@ public class GalleryFragment extends Fragment {
     private MenuItem mSaveMenuItem;
     private MenuItem mShareMenuItem;
 
-    private ArrayList<String> mImageList;
+    private ArrayList<Uri> mImageList;
     private int mInitialPosition;
 
     private SystemUiHelper mSystemUiHelper;
 
     private GalleryAdapter mAdapter;
 
-    public static GalleryFragment newInstance(ArrayList<String> imageList, int position) {
+    public static GalleryFragment newInstance(ArrayList<Uri> imageList, int position) {
         //noinspection deprecation
         GalleryFragment fragment = new GalleryFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putStringArrayList(EXTRA_IMAGE_LIST, imageList);
+        arguments.putParcelableArrayList(EXTRA_IMAGE_LIST, imageList);
         arguments.putInt(EXTRA_POSITION, position);
         return fragment;
     }
@@ -92,7 +92,7 @@ public class GalleryFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        mImageList = arguments.getStringArrayList(EXTRA_IMAGE_LIST);
+        mImageList = arguments.getParcelableArrayList(EXTRA_IMAGE_LIST);
         mInitialPosition = arguments.getInt(EXTRA_POSITION);
 
         setHasOptionsMenu(true);
@@ -100,13 +100,13 @@ public class GalleryFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.gallery_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
@@ -121,24 +121,21 @@ public class GalleryFragment extends Fragment {
 
         mSystemUiHelper = new SystemUiHelper(activity, SystemUiHelper.LEVEL_IMMERSIVE,
                 SystemUiHelper.FLAG_IMMERSIVE_STICKY,
-                new SystemUiHelper.OnVisibilityChangeListener() {
-                    @Override
-                    public void onVisibilityChange(boolean visible) {
-                        if (visible) {
-                            mToolbar.animate()
-                                    .alpha(1)
-                                    .translationY(0)
-                                    .setDuration(mToolbarHideDuration)
-                                    .setInterpolator(new FastOutSlowInInterpolator())
-                                    .start();
-                        } else {
-                            mToolbar.animate()
-                                    .alpha(0)
-                                    .translationY(-mToolbar.getBottom())
-                                    .setDuration(mToolbarHideDuration)
-                                    .setInterpolator(new FastOutSlowInInterpolator())
-                                    .start();
-                        }
+                visible -> {
+                    if (visible) {
+                        mToolbar.animate()
+                                .alpha(1)
+                                .translationY(0)
+                                .setDuration(mToolbarHideDuration)
+                                .setInterpolator(new FastOutSlowInInterpolator())
+                                .start();
+                    } else {
+                        mToolbar.animate()
+                                .alpha(0)
+                                .translationY(-mToolbar.getBottom())
+                                .setDuration(mToolbarHideDuration)
+                                .setInterpolator(new FastOutSlowInInterpolator())
+                                .start();
                     }
                 });
         // This will set up window flags.

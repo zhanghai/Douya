@@ -340,7 +340,8 @@ public class BroadcastLayout extends LinearLayout {
             mImageListAdapter.replace(images);
             mImageListAdapter.setOnItemClickListener((parent, itemView, item, position) -> {
                 Context context = itemView.getContext();
-                context.startActivity(GalleryActivity.makeIntent(images, position, context));
+                context.startActivity(GalleryActivity.makeImageListIntent(images, position,
+                        context));
             });
         }
 
