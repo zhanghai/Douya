@@ -121,7 +121,7 @@ public class SendBroadcastAttachmentLayout extends FrameLayout {
         });
     }
 
-    public void bind(LinkInfo linkInfo, List<Uri> imageUris) {
+    public void bind(LinkInfo linkInfo, List<Uri> imageUris, boolean scrollImageListToEnd) {
         boolean hasLink = linkInfo != null;
         ViewUtils.setVisibleOrGone(mLinkLayout, hasLink);
         if (hasLink) {
@@ -159,7 +159,20 @@ public class SendBroadcastAttachmentLayout extends FrameLayout {
                 // TODO: Make GalleryActivity support Uri.
                 //context.startActivity(GalleryActivity.makeIntent(images, position, context));
             });
+            if (scrollImageListToEnd) {
+                mImageList.scrollToPosition(imageUris.size() - 1);
+            }
         }
+    }
+
+    public void bind(LinkInfo linkInfo, List<Uri> imageUris) {
+        bind(linkInfo, imageUris, false);
+    }
+
+    public void setOnRemoveImageListener(
+            HorizontalUploadImageAdapter.OnRemoveImageListener listener) {
+        mSingleImageLayout.setRemoveButtonOnClickListener(view -> listener.onRemoveImage(0));
+        mImageListAdapter.setOnRemoveImageListener(listener);
     }
 
     public static class LinkInfo {

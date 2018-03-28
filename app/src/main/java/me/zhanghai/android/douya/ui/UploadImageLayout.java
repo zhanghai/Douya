@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -83,5 +84,9 @@ public class UploadImageLayout extends ImageLayout {
         String type = UriUtils.getType(imageUri, getContext());
         boolean isGif = TextUtils.equals(type, "image/gif");
         ViewUtils.setVisibleOrGone(mGifImage, isGif);
+    }
+
+    public void setRemoveButtonOnClickListener(View.OnClickListener listener) {
+        mRemoveButton.setOnClickListener(listener);
     }
 }

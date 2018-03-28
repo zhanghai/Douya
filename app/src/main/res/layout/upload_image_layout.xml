@@ -9,17 +9,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageButton
+    <me.zhanghai.android.douya.ui.ForegroundImageButton
         android:id="@+id/uploadimagelayout_remove"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-        android:layout_marginRight="@dimen/card_content_horizontal_margin"
-        android:layout_marginTop="@dimen/card_content_vertical_space"
-        android:layout_marginBottom="@dimen/card_content_vertical_space"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="right|top"
+        android:padding="8dp"
         android:background="@color/dark_30_percent"
-        android:src="@drawable/close_icon_white_36dp" />
+        android:foreground="?selectableItemBackground"
+        android:src="@drawable/close_icon_white_24dp" />
 
     <FrameLayout
         android:id="@+id/uploadimagelayout_progress_layout"

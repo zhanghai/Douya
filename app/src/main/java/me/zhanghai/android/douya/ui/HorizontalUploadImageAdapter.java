@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.ui;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,24 +19,40 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class HorizontalUploadImageAdapter
         extends ClickableSimpleAdapter<Uri, HorizontalUploadImageAdapter.ViewHolder> {
 
+    private OnRemoveImageListener mOnRemoveImageListener;
+
     public HorizontalUploadImageAdapter() {
         setHasStableIds(true);
     }
 
-    @Override
-    public long getItemId(int position) {
-        // Deliberately using plain hash code to identify only this instance.
-        return getItem(position).hashCode();
+    public void setOnRemoveImageListener(OnRemoveImageListener listener) {
+        mOnRemoveImageListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public long getItemId(int position) {
+        return getItem(position).hashCode();
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(ViewUtils.inflate(R.layout.horizontal_upload_image_item, parent));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.uploadImageLayout.loadImage(getItem(position));
+        holder.uploadImageLayout.setRemoveButtonOnClickListener(view -> {
+            if (mOnRemoveImageListener != null) {
+                mOnRemoveImageListener.onRemoveImage(position);
+            }
+        });
+    }
+
+    public interface OnRemoveImageListener {
+
+        void onRemoveImage(int position);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

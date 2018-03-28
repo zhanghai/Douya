@@ -58,6 +58,7 @@ public class SendBroadcastFragment extends Fragment
 
     private static final String KEY_PREFIX = SendBroadcastFragment.class.getName() + '.';
 
+    private static final String STATE_IMAGE_URIS = KEY_PREFIX + "image_uris";
     private static final String STATE_WRITER_ID = KEY_PREFIX + "writer_id";
 
     private static final int REQUEST_CODE_CAPTURE_IMAGE_PERMISSION = 1;
@@ -89,6 +90,8 @@ public class SendBroadcastFragment extends Fragment
     private CharSequence mText;
     private Uri mStream;
 
+    private ArrayList<Uri> mImageUris;
+
     private long mWriterId;
 
     private File mCaptureImageOutputFile;
@@ -118,7 +121,10 @@ public class SendBroadcastFragment extends Fragment
         mStream = arguments.getParcelable(Intent.EXTRA_STREAM);
 
         if (savedInstanceState != null) {
+            mImageUris = savedInstanceState.getParcelableArrayList(STATE_IMAGE_URIS);
             mWriterId = savedInstanceState.getLong(STATE_WRITER_ID);
+        } else {
+            mImageUris = new ArrayList<>();
         }
 
         setHasOptionsMenu(true);
@@ -153,7 +159,12 @@ public class SendBroadcastFragment extends Fragment
             mTextEdit.setText(mText);
         }
         // TODO
-        mAttachmentLayout.bind(null, null);
+        mAttachmentLayout.setOnRemoveImageListener(position -> {
+            mImageUris.remove(position);
+            boolean removedImageAtEnd = position == mImageUris.size();
+            mAttachmentLayout.bind(null, mImageUris, removedImageAtEnd);
+        });
+        mAttachmentLayout.bind(null, mImageUris);
         mAddImageButton.setOnClickListener(view -> pickOrCaptureImage());
         updateSendStatus();
     }
@@ -162,6 +173,7 @@ public class SendBroadcastFragment extends Fragment
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        outState.putParcelableArrayList(STATE_IMAGE_URIS, mImageUris);
         outState.putLong(STATE_WRITER_ID, mWriterId);
     }
 
@@ -255,7 +267,9 @@ public class SendBroadcastFragment extends Fragment
         }
         List<Uri> uris = parsePickOrCaptureImageResult(data);
         mCaptureImageOutputFile = null;
-        mAttachmentLayout.bind(null, uris);
+        boolean appendingImages = !uris.isEmpty();
+        mImageUris.addAll(uris);
+        mAttachmentLayout.bind(null, mImageUris, appendingImages);
     }
 
     private List<Uri> parsePickOrCaptureImageResult(Intent data) {
