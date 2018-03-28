@@ -267,7 +267,7 @@ public class SendBroadcastFragment extends Fragment
         }
         List<Uri> uris = parsePickOrCaptureImageResult(data);
         mCaptureImageOutputFile = null;
-        boolean appendingImages = !uris.isEmpty();
+        boolean appendingImages = !mImageUris.isEmpty();
         mImageUris.addAll(uris);
         mAttachmentLayout.bind(null, mImageUris, appendingImages);
     }
