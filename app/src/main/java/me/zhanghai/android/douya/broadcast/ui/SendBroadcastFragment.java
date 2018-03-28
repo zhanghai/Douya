@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,6 +85,10 @@ public class SendBroadcastFragment extends Fragment
     SendBroadcastAttachmentLayout mAttachmentLayout;
     @BindView(R.id.add_image)
     ImageButton mAddImageButton;
+    @BindView(R.id.add_more_image)
+    ImageButton mAddMoreImageButton;
+    @BindView(R.id.add_link)
+    ImageButton mAddLinkButton;
 
     private MenuItem mSendMenuItem;
 
@@ -91,6 +96,7 @@ public class SendBroadcastFragment extends Fragment
     private Uri mStream;
 
     private ArrayList<Uri> mImageUris;
+    private String mLinkUrl;
 
     private long mWriterId;
 
@@ -163,9 +169,11 @@ public class SendBroadcastFragment extends Fragment
             mImageUris.remove(position);
             boolean removedImageAtEnd = position == mImageUris.size();
             mAttachmentLayout.bind(null, mImageUris, removedImageAtEnd);
+            updateBottomBar();
         });
         mAttachmentLayout.bind(null, mImageUris);
         mAddImageButton.setOnClickListener(view -> pickOrCaptureImage());
+        mAddMoreImageButton.setOnClickListener(view -> pickOrCaptureImage());
         updateSendStatus();
     }
 
@@ -261,17 +269,6 @@ public class SendBroadcastFragment extends Fragment
                 REQUEST_CODE_PICK_OR_CAPTURE_IMAGE, getActivity());
     }
 
-    private void onImagePickedOrCaptured(int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-        List<Uri> uris = parsePickOrCaptureImageResult(data);
-        mCaptureImageOutputFile = null;
-        boolean appendingImages = !mImageUris.isEmpty();
-        mImageUris.addAll(uris);
-        mAttachmentLayout.bind(null, mImageUris, appendingImages);
-    }
-
     private List<Uri> parsePickOrCaptureImageResult(Intent data) {
         if (data != null) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -297,6 +294,26 @@ public class SendBroadcastFragment extends Fragment
             return Collections.singletonList(Uri.fromFile(mCaptureImageOutputFile));
         }
         return Collections.emptyList();
+    }
+
+    private void onImagePickedOrCaptured(int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        List<Uri> uris = parsePickOrCaptureImageResult(data);
+        mCaptureImageOutputFile = null;
+        boolean appendingImages = !mImageUris.isEmpty();
+        mImageUris.addAll(uris);
+        mAttachmentLayout.bind(null, mImageUris, appendingImages);
+        updateBottomBar();
+    }
+
+    private void updateBottomBar() {
+        boolean hasImage = !mImageUris.isEmpty();
+        boolean isEmpty = !hasImage && TextUtils.isEmpty(mLinkUrl);
+        ViewUtils.setVisibleOrGone(mAddImageButton, isEmpty);
+        ViewUtils.setVisibleOrGone(mAddMoreImageButton, hasImage);
+        ViewUtils.setVisibleOrGone(mAddLinkButton, isEmpty);
     }
 
     private void onSend() {
