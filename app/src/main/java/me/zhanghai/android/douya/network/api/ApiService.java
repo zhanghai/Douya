@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.network.api;
 
+import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -35,19 +37,25 @@ import me.zhanghai.android.douya.network.api.info.frodo.PhotoList;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
 import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
+import me.zhanghai.android.douya.network.api.info.frodo.UploadedImage;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserList;
+import me.zhanghai.android.douya.util.FileNameUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.StringUtils;
 import okhttp3.Interceptor;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -228,6 +236,13 @@ public class ApiService {
         }
         return mFrodoService.getTimelineList(url, untilId, count, lastVisitedId, topic, guestOnly ?
                 1 : null);
+    }
+
+    public ApiRequest<UploadedImage> uploadBroadcastImage(Uri uri, Context context) {
+        String fileName = uri.getLastPathSegment();
+        RequestBody body = new ImageTypeUriRequestBody(context.getContentResolver(), uri);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image", fileName, body);
+        return mFrodoService.uploadBroadcastImage(part);
     }
 
     public ApiRequest<Broadcast> sendBroadcast(String text, List<String> imageUrls,
@@ -479,6 +494,10 @@ public class ApiService {
                                                  @Query("last_visit_id") Long lastVisitedId,
                                                  @Query("name") String topic,
                                                  @Query("guest_only") Integer guestOnly);
+
+        @POST("status/upload")
+        @Multipart
+        ApiRequest<UploadedImage> uploadBroadcastImage(@Part MultipartBody.Part part);
 
         @POST("status/create_status")
         @FormUrlEncoded
