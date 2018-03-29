@@ -16,7 +16,7 @@ public interface Notifications {
         interface SEND_BROADCAST {
             String ID = "send_broadcast";
             int NAME_RES = R.string.notification_channel_send_broadcast_name;
-            int IMPORTANCE = NotificationManagerCompat.IMPORTANCE_LOW;
+            int IMPORTANCE = NotificationManagerCompat.IMPORTANCE_DEFAULT;
         }
     }
 
