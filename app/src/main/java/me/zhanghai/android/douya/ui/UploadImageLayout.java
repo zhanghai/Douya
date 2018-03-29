@@ -26,10 +26,6 @@ public class UploadImageLayout extends ImageLayout {
 
     @BindView(R.id.uploadimagelayout_remove)
     ImageButton mRemoveButton;
-    @BindView(R.id.uploadimagelayout_progress_layout)
-    ViewGroup mProgressLayout;
-    @BindView(R.id.uploadimagelayout_progress)
-    ProgressBar mProgress;
 
     private boolean mInImageList;
 
@@ -67,10 +63,17 @@ public class UploadImageLayout extends ImageLayout {
     }
 
     private void init() {
-        setInImageList(mInImageList);
+        setInImageListInt(false);
     }
 
     public void setInImageList(boolean inImageList) {
+        if (mInImageList != inImageList) {
+            setInImageListInt(inImageList);
+        }
+    }
+
+    private void setInImageListInt(boolean inImageList) {
+        mInImageList = inImageList;
         mImageView.setAdjustViewBounds(!inImageList);
         mImageView.setRatio(inImageList ? 1 : 0);
     }

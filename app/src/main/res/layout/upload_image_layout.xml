@@ -5,9 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <me.zhanghai.android.douya.ui.ForegroundImageButton
         android:id="@+id/uploadimagelayout_remove"
@@ -18,21 +16,4 @@
         android:background="@color/dark_30_percent"
         android:foreground="?selectableItemBackground"
         android:src="@drawable/close_icon_white_24dp" />
-
-    <FrameLayout
-        android:id="@+id/uploadimagelayout_progress_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/dark_30_percent"
-        android:visibility="invisible">
-
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:id="@+id/uploadimagelayout_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:mpb_setBothDrawables="true"
-            app:mpb_showProgressBackground="true"
-            style="@style/Widget.MaterialProgressBar.ProgressBar" />
-    </FrameLayout>
 </merge>
