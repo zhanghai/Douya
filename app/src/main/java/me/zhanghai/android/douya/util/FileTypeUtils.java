@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.util;
 
-import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import com.bumptech.glide.load.ImageHeaderParser;
@@ -19,14 +18,6 @@ public class FileTypeUtils {
     private static final ImageHeaderParser sImageHeaderParser = new DefaultImageHeaderParser();
 
     private FileTypeUtils() {}
-
-    public static String getImageMimeType(String path) {
-        String extension = FileNameUtils.getExtension(path);
-        if (TextUtils.isEmpty(extension)) {
-            return null;
-        }
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-    }
 
     public static String getImageMimeType(InputStream inputStream, String defaultMimeType)
             throws IOException {

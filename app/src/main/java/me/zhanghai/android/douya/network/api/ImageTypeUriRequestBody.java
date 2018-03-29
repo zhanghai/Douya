@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.network.api;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -14,12 +15,17 @@ import java.io.InputStream;
 import javax.annotation.Nullable;
 
 import me.zhanghai.android.douya.util.FileTypeUtils;
+import me.zhanghai.android.douya.util.UriUtils;
 import okhttp3.MediaType;
 
 public class ImageTypeUriRequestBody extends UriRequestBody {
 
-    public ImageTypeUriRequestBody(ContentResolver contentResolver, Uri uri) {
-        super(contentResolver, uri);
+    public ImageTypeUriRequestBody(Uri uri, ContentResolver contentResolver) {
+        super(uri, contentResolver);
+    }
+
+    public ImageTypeUriRequestBody(Uri uri, Context context) {
+        super(uri, context);
     }
 
     @Nullable
@@ -31,7 +37,7 @@ public class ImageTypeUriRequestBody extends UriRequestBody {
             return superType;
         }
 
-        String mimeType = FileTypeUtils.getImageMimeType(mUri.getPath());
+        String mimeType = UriUtils.getType(mUri, mContentResolver);
         if (TextUtils.isEmpty(mimeType)) {
             try (InputStream inputStream = mContentResolver.openInputStream(mUri)) {
                 mimeType = FileTypeUtils.getImageMimeType(inputStream);

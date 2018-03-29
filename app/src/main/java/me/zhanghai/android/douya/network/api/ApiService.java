@@ -40,9 +40,9 @@ import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.network.api.info.frodo.UploadedImage;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserList;
-import me.zhanghai.android.douya.util.FileNameUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.StringUtils;
+import me.zhanghai.android.douya.util.UriUtils;
 import okhttp3.Interceptor;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -239,8 +239,8 @@ public class ApiService {
     }
 
     public ApiRequest<UploadedImage> uploadBroadcastImage(Uri uri, Context context) {
-        String fileName = uri.getLastPathSegment();
-        RequestBody body = new ImageTypeUriRequestBody(context.getContentResolver(), uri);
+        String fileName = UriUtils.getDisplayName(uri, context);
+        RequestBody body = new ImageTypeUriRequestBody(uri, context);
         MultipartBody.Part part = MultipartBody.Part.createFormData("image", fileName, body);
         return mFrodoService.uploadBroadcastImage(part);
     }

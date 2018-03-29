@@ -6,7 +6,10 @@
 package me.zhanghai.android.douya.network.api;
 
 import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -15,6 +18,7 @@ import java.io.InputStream;
 
 import javax.annotation.Nullable;
 
+import me.zhanghai.android.douya.util.UriUtils;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
@@ -22,12 +26,21 @@ import okio.Okio;
 
 public class UriRequestBody extends RequestBody {
 
-    protected ContentResolver mContentResolver;
     protected Uri mUri;
+    protected ContentResolver mContentResolver;
 
-    public UriRequestBody(ContentResolver contentResolver, Uri uri) {
-        mContentResolver = contentResolver;
+    protected long mSize;
+
+    public UriRequestBody(Uri uri, ContentResolver contentResolver) {
+
         mUri = uri;
+        mContentResolver = contentResolver;
+
+        mSize = UriUtils.getSize(mUri, mContentResolver);
+    }
+
+    public UriRequestBody(Uri uri, Context context) {
+        this(uri, context.getContentResolver());
     }
 
     @Nullable
@@ -38,6 +51,11 @@ public class UriRequestBody extends RequestBody {
             return null;
         }
         return MediaType.parse(type);
+    }
+
+    @Override
+    public long contentLength() {
+        return mSize;
     }
 
     @Override
