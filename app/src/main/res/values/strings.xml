@@ -170,7 +170,7 @@
     <string name="broadcast_list_title_user_format">%s 的广播</string>
     <string name="broadcast_list_title_topic_format">#%s#</string>
 
-    <string name="broadcast_send_title">发送广播</string>
+    <string name="broadcast_send_title">发广播</string>
     <string name="broadcast_send_title_sending">正在发送广播…</string>
     <string name="broadcast_send">发送</string>
     <string name="broadcast_send_error_empty">说点什么吧…</string>
