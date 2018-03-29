@@ -50,6 +50,7 @@ import me.zhanghai.android.douya.util.FileUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
+import me.zhanghai.android.douya.util.TooltipUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
 import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
@@ -152,6 +153,9 @@ public class SendBroadcastFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+
+        TooltipUtils.setup(mAddImageButton);
+        TooltipUtils.setup(mAddLinkButton);
     }
 
     @Override
