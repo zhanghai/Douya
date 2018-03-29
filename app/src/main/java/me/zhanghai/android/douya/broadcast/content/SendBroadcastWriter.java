@@ -9,10 +9,13 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.Notifications;
+import me.zhanghai.android.douya.broadcast.ui.SendBroadcastActivity;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
 import me.zhanghai.android.douya.eventbus.BroadcastSendErrorEvent;
@@ -33,6 +37,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.UploadedImage;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.ObjectUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
 class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
@@ -124,6 +129,11 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
     }
 
     private void sendWithImages() {
+        ToastUtils.show(R.string.broadcast_sending, getContext());
+        continueSendingWithImages();
+    }
+
+    private void continueSendingWithImages() {
         if (mUploadedImageUrls.size() < mImageUris.size()) {
             Context context = getContext();
             String notificationText = context.getString(
@@ -162,18 +172,12 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
         }
     }
 
-    private void startForeground(String contentText) {
+    private void startForeground(CharSequence contentText) {
         if (mUploadedImageUrls.isEmpty()) {
             createNotificationChannel();
         }
-        Context context = getContext();
-        Notification notification = new NotificationCompat.Builder(context,
-                Notifications.Channels.SEND_BROADCAST.ID)
-                .setColor(ContextCompat.getColor(context, R.color.douya_primary))
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(context.getString(R.string.broadcast_sending_notification_title))
-                .setContentText(contentText)
-                .setTicker(contentText)
+        String contentTitle = getContext().getString(R.string.broadcast_sending_notification_title);
+        Notification notification = createNotificationBuilder(contentTitle, contentText)
                 .setOngoing(true)
                 .build();
         getService().startForeground(Notifications.Ids.SENDING_BROADCAST, notification);
@@ -196,6 +200,18 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
+    }
+
+    private NotificationCompat.Builder createNotificationBuilder(CharSequence contentTitle,
+                                                                 CharSequence contentText) {
+        Context context = getContext();
+        return new NotificationCompat.Builder(context,
+                Notifications.Channels.SEND_BROADCAST.ID)
+                .setColor(ContextCompat.getColor(context, R.color.douya_primary))
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setTicker(contentText);
     }
 
     @Override
@@ -231,15 +247,47 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
 
     private void onImageUploadSuccess(UploadedImage uploadedImage) {
         mUploadedImageUrls.add(uploadedImage.url);
-        sendWithImages();
+        continueSendingWithImages();
     }
 
     private void onSuccessWithImages(Broadcast broadcast) {
-        onSuccessSimple(broadcast);
+
+        ToastUtils.showLong(R.string.broadcast_send_successful, getContext());
+
+        EventBusUtils.postAsync(new BroadcastSentEvent(mId, broadcast, this));
+
+        stopSelf();
     }
 
     private void onErrorWithImages(ApiError error) {
-        // TODO: Post notification.
-        onErrorSimple(error);
+
+        LogUtils.e(error.toString());
+        Context context = getContext();
+        ToastUtils.showLong(context.getString(R.string.broadcast_send_failed_format,
+                ApiError.getErrorString(error, context)), context);
+        notifyError(error);
+
+        EventBusUtils.postAsync(new BroadcastSendErrorEvent(mId, this));
+
+        stopSelf();
+    }
+
+    private void notifyError(ApiError error) {
+        Context context = getContext();
+        String contentTitle = context.getString(
+                R.string.broadcast_send_failed_notification_title_format, ApiError.getErrorString(
+                        error, context));
+        String contentText = context.getString(R.string.broadcast_send_failed_notification_text);
+        Intent intent = SendBroadcastActivity.makeIntent(mText, mImageUris, context);
+        int requestCode = 1 + ObjectUtils.hashCode(mText) + ObjectUtils.hashCode(mImageUris)
+                + ObjectUtils.hashCode(mLinkTitle) + ObjectUtils.hashCode(mLinkUrl);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, requestCode, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = createNotificationBuilder(contentTitle, contentText)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
+        NotificationManagerCompat.from(context).notify(Notifications.Ids.SEND_BROADCAST_FAILED,
+                notification);
     }
 }

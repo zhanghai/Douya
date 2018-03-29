@@ -22,5 +22,6 @@ public interface Notifications {
 
     interface Ids {
         int SENDING_BROADCAST = 1;
+        int SEND_BROADCAST_FAILED = 2;
     }
 }

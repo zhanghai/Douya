@@ -59,6 +59,9 @@ public class SendBroadcastFragment extends Fragment
 
     private static final String KEY_PREFIX = SendBroadcastFragment.class.getName() + '.';
 
+    private static final String EXTRA_TEXT = KEY_PREFIX + "text";
+    private static final String EXTRA_IMAGE_URIS = KEY_PREFIX + "image_uris";
+
     private static final String STATE_IMAGE_URIS = KEY_PREFIX + "image_uris";
     private static final String STATE_WRITER_ID = KEY_PREFIX + "writer_id";
 
@@ -92,8 +95,7 @@ public class SendBroadcastFragment extends Fragment
 
     private MenuItem mSendMenuItem;
 
-    private CharSequence mText;
-    private Uri mStream;
+    private String mExtraText;
 
     private ArrayList<Uri> mImageUris;
     private String mLinkUrl;
@@ -104,17 +106,17 @@ public class SendBroadcastFragment extends Fragment
 
     private boolean mSent;
 
-    public static SendBroadcastFragment newInstance(CharSequence text, Uri stream) {
+    public static SendBroadcastFragment newInstance(String text, ArrayList<Uri> imageUris) {
         //noinspection deprecation
         SendBroadcastFragment fragment = new SendBroadcastFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putCharSequence(Intent.EXTRA_TEXT, text);
-        arguments.putParcelable(Intent.EXTRA_STREAM, stream);
+        arguments.putString(EXTRA_TEXT, text);
+        arguments.putParcelableArrayList(EXTRA_IMAGE_URIS, imageUris);
         return fragment;
     }
 
     /**
-     * @deprecated Use {@link #newInstance(CharSequence, Uri)} instead.
+     * @deprecated Use {@link #newInstance(String, ArrayList<Uri>)} instead.
      */
     public SendBroadcastFragment() {}
 
@@ -123,14 +125,13 @@ public class SendBroadcastFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        mText = arguments.getCharSequence(Intent.EXTRA_TEXT);
-        mStream = arguments.getParcelable(Intent.EXTRA_STREAM);
+        mExtraText = arguments.getString(EXTRA_TEXT);
 
         if (savedInstanceState != null) {
             mImageUris = savedInstanceState.getParcelableArrayList(STATE_IMAGE_URIS);
             mWriterId = savedInstanceState.getLong(STATE_WRITER_ID);
         } else {
-            mImageUris = new ArrayList<>();
+            mImageUris = arguments.getParcelableArrayList(EXTRA_IMAGE_URIS);
         }
 
         setHasOptionsMenu(true);
@@ -162,7 +163,7 @@ public class SendBroadcastFragment extends Fragment
         activity.setSupportActionBar(mToolbar);
 
         if (savedInstanceState == null) {
-            mTextEdit.setText(mText);
+            mTextEdit.setText(mExtraText);
         }
         // TODO
         mAttachmentLayout.setOnRemoveImageListener(position -> {
@@ -330,9 +331,7 @@ public class SendBroadcastFragment extends Fragment
                 getActivity());
         if (!imageUris.isEmpty()) {
             // If there's any image, we'll upload them and send broadcast in background.
-            Activity activity = getActivity();
-            ToastUtils.show(R.string.broadcast_sending, activity);
-            activity.finish();
+            getActivity().finish();
             return;
         }
         updateSendStatus();
