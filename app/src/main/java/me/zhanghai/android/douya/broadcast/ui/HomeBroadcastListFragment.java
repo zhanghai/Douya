@@ -43,15 +43,9 @@ public class HomeBroadcastListFragment extends BaseTimelineBroadcastListFragment
 
     @Override
     public void onBroadcastInserted(int requestCode, int position, Broadcast insertedBroadcast) {
-
-        RecyclerView.LayoutManager layoutManager = mList.getLayoutManager();
-        View firstChild = layoutManager.findViewByPosition(0);
-        boolean firstChildAtTop = firstChild != null
-                && firstChild.getTop() == mList.getPaddingTop();
-
+        boolean hasFirstItemView = mList.getLayoutManager().findViewByPosition(0) != null;
         onItemInserted(position, insertedBroadcast);
-
-        if (position == 0 && firstChildAtTop) {
+        if (position == 0 && hasFirstItemView) {
             mList.scrollToPosition(0);
         }
     }
