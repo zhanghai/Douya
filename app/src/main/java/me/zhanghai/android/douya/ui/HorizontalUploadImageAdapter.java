@@ -48,7 +48,7 @@ public class HorizontalUploadImageAdapter
         holder.uploadImageLayout.loadImage(getItem(position));
         holder.uploadImageLayout.setRemoveButtonOnClickListener(view -> {
             if (mOnRemoveImageListener != null) {
-                mOnRemoveImageListener.onRemoveImage(position);
+                mOnRemoveImageListener.onRemoveImage(holder.getAdapterPosition());
             }
         });
     }
