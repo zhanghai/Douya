@@ -42,9 +42,13 @@ public abstract class SimpleAdapter<T, VH extends RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
+    public void add(int position, T item) {
+        mList.add(position, item);
+        notifyItemInserted(position);
+    }
+
     public void add(T item) {
-        mList.add(item);
-        notifyItemInserted(mList.size() - 1);
+        add(mList.size(), item);
     }
 
     public void set(int position, T item) {

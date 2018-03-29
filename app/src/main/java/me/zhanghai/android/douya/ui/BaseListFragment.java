@@ -130,15 +130,25 @@ public abstract class BaseListFragment<T> extends Fragment {
         onListUpdated(mResource.get());
     }
 
-    protected void onListUpdated(List<T> list) {}
-
     protected void onItemChanged(int position, T newItem) {
         mItemAdapter.set(position, newItem);
+        //noinspection unchecked
+        onListUpdated(mResource.get());
+    }
+
+    protected void onItemInserted(int position, T insertedItem) {
+        mItemAdapter.add(position, insertedItem);
+        //noinspection unchecked
+        onListUpdated(mResource.get());
     }
 
     protected void onItemRemoved(int position) {
         mItemAdapter.remove(position);
+        //noinspection unchecked
+        onListUpdated(mResource.get());
     }
+
+    protected void onListUpdated(List<T> list) {}
 
     protected void onItemWriteFinished(int position) {
         mItemAdapter.notifyItemChanged(position);

@@ -10,9 +10,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.eventbus.BroadcastSentEvent;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
@@ -136,5 +140,25 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
 
     private void saveToCache(List<Broadcast> broadcastList) {
         HomeBroadcastListCache.put(mAccount, broadcastList, getActivity());
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onBroadcastSent(BroadcastSentEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        List<Broadcast> broadcastList = get();
+        broadcastList.add(0, event.broadcast);
+        getListener().onBroadcastInserted(getRequestCode(), 0, event.broadcast);
+    }
+
+    private Listener getListener() {
+        return (Listener) getTarget();
+    }
+
+    public interface Listener extends TimelineBroadcastListResource.Listener {
+        void onBroadcastInserted(int requestCode, int position, Broadcast insertedBroadcast);
     }
 }
