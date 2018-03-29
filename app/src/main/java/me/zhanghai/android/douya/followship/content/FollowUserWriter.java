@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.content.ResourceWriter;
+import me.zhanghai.android.douya.content.RequestResourceWriter;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.UserUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.UserWriteFinishedEvent;
@@ -25,7 +25,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class FollowUserWriter extends ResourceWriter<FollowUserWriter, User> {
+class FollowUserWriter extends RequestResourceWriter<FollowUserWriter, User> {
 
     private String mUserIdOrUid;
     private User mUser;

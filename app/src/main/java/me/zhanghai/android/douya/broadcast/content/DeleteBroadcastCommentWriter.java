@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.broadcast.content;
 import android.content.Context;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.content.ResourceWriter;
+import me.zhanghai.android.douya.content.RequestResourceWriter;
 import me.zhanghai.android.douya.eventbus.CommentDeletedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
@@ -17,7 +17,7 @@ import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class DeleteBroadcastCommentWriter extends ResourceWriter<DeleteBroadcastCommentWriter, Void> {
+class DeleteBroadcastCommentWriter extends RequestResourceWriter<DeleteBroadcastCommentWriter, Void> {
 
     private long mBroadcastId;
     private long mCommentId;

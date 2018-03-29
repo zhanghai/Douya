@@ -66,7 +66,10 @@ public class IntentUtils {
     }
 
     private static Intent makePickFile(String mimeType, String[] mimeTypes, boolean allowMultiple) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+        // If not using ACTION_OPEN_DOCUMENT, URI permission can be lost after ~10 seconds.
+        String action = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ?
+                Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT;
+        Intent intent = new Intent(action)
                 .addCategory(Intent.CATEGORY_OPENABLE)
                 .setType(mimeType);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

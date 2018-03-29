@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.content;
 
+import android.app.Service;
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -61,6 +62,10 @@ public class ResourceWriterManager<T extends ResourceWriter> {
     }
 
     public Context getContext() {
+        return mService;
+    }
+
+    public Service getService() {
         return mService;
     }
 

@@ -22,6 +22,10 @@ public class CollectionUtils {
         return collection == null || collection.isEmpty();
     }
 
+    public static int size(Collection<?> collection) {
+        return collection != null ? collection.size() : 0;
+    }
+
     public static <E> List<E> union(List<E> list1, List<E> list2) {
         if (list1 instanceof RandomAccess && list2 instanceof RandomAccess) {
             return new RandomAccessUnionList<>(list1, list2);

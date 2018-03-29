@@ -318,15 +318,23 @@ public class SendBroadcastFragment extends Fragment
 
     private void onSend() {
         String text = mTextEdit.getText().toString();
-        if (TextUtils.isEmpty(text)) {
+        if (TextUtils.isEmpty(text) && mImageUris.isEmpty()) {
             ToastUtils.show(R.string.broadcast_send_error_empty, getActivity());
             return;
         }
-        send(text);
+        send(text, mImageUris);
     }
 
-    private void send(String text) {
-        mWriterId = SendBroadcastManager.getInstance().write(text, null, null, null, getActivity());
+    private void send(String text, List<Uri> imageUris) {
+        mWriterId = SendBroadcastManager.getInstance().write(text, imageUris, null, null,
+                getActivity());
+        if (!imageUris.isEmpty()) {
+            // If there's any image, we'll upload them and send broadcast in background.
+            Activity activity = getActivity();
+            ToastUtils.show(R.string.broadcast_sending, activity);
+            activity.finish();
+            return;
+        }
         updateSendStatus();
     }
 

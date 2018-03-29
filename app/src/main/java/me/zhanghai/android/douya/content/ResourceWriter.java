@@ -1,38 +1,31 @@
 /*
- * Copyright (c) 2016 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
 package me.zhanghai.android.douya.content;
 
+import android.app.Service;
 import android.content.Context;
 
-import me.zhanghai.android.douya.network.api.ApiRequest;
+public abstract class ResourceWriter<W extends ResourceWriter> {
 
-public abstract class ResourceWriter<W extends ResourceWriter, T> implements ApiRequest.Callback<T> {
-
-    private ResourceWriterManager<W> mManager;
-
-    private ApiRequest<T> mRequest;
+    protected ResourceWriterManager<W> mManager;
 
     public ResourceWriter(ResourceWriterManager<W> manager) {
         mManager = manager;
     }
 
-    public void onStart() {
-        mRequest = onCreateRequest();
-        mRequest.enqueue(this);
-    }
+    public abstract void onStart();
 
-    protected abstract ApiRequest<T> onCreateRequest();
-
-    public void onDestroy() {
-        mRequest.cancel();
-        mRequest = null;
-    }
+    public abstract void onDestroy();
 
     protected Context getContext() {
         return mManager.getContext();
+    }
+
+    protected Service getService() {
+        return mManager.getService();
     }
 
     protected void stopSelf() {

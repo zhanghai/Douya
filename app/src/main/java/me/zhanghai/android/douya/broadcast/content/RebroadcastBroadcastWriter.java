@@ -11,7 +11,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.content.ResourceWriter;
+import me.zhanghai.android.douya.content.RequestResourceWriter;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
 import me.zhanghai.android.douya.eventbus.BroadcastRebroadcastErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastRebroadcastedEvent;
@@ -26,7 +26,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class RebroadcastBroadcastWriter extends ResourceWriter<RebroadcastBroadcastWriter, Broadcast> {
+class RebroadcastBroadcastWriter extends RequestResourceWriter<RebroadcastBroadcastWriter, Broadcast> {
 
     private long mBroadcastId;
     private Broadcast mBroadcast;

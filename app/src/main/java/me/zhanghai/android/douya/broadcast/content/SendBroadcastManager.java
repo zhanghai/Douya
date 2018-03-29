@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
+import android.net.Uri;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class SendBroadcastManager extends ResourceWriterManager<SendBroadcastWri
         return InstanceHolder.VALUE;
     }
 
-    public long write(String text, List<String> imageUrls, String linkTitle, String linkUrl,
+    public long write(String text, List<Uri> imageUris, String linkTitle, String linkUrl,
                       Context context) {
-        SendBroadcastWriter writer = new SendBroadcastWriter(text, imageUrls, linkTitle,
+        SendBroadcastWriter writer = new SendBroadcastWriter(text, imageUris, linkTitle,
                 linkUrl, this);
         add(writer, context);
         return writer.getId();
@@ -38,9 +39,9 @@ public class SendBroadcastManager extends ResourceWriterManager<SendBroadcastWri
         return writer != null ? writer.getText() : null;
     }
 
-    public List<String> getImageUrls(long writerId) {
+    public List<Uri> getImageUris(long writerId) {
         SendBroadcastWriter writer = findWriter(writerId);
-        return writer != null ? writer.getImageUrls() : null;
+        return writer != null ? writer.getImageUris() : null;
     }
 
     public String getLinkTitle(long writerId) {

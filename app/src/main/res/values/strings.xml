@@ -107,6 +107,9 @@
 
     <string name="api_error_rebroadcast_broadcast_deleted">被转播广播已被删除</string>
 
+    <string name="notification_channel_send_broadcast_name">发送广播</string>
+    <string name="notification_channel_send_broadcast_description">显示发送广播的状态</string>
+
     <string name="auth_title_new">登录豆芽</string>
     <string name="auth_title_add">添加账户</string>
     <string name="auth_title_update">更新密码</string>
@@ -171,6 +174,10 @@
     <string name="broadcast_send_title_sending">正在发送广播…</string>
     <string name="broadcast_send">发送</string>
     <string name="broadcast_send_error_empty">说点什么吧…</string>
+    <string name="broadcast_sending">正在发送广播…</string>
+    <string name="broadcast_sending_notification_title">发送广播</string>
+    <string name="broadcast_sending_notification_text_uploading_images_format">正在上传图片（%1$d/%2$d）…</string>
+    <string name="broadcast_sending_notification_text_sending">正在发送广播…</string>
     <string name="broadcast_send_successful">已发送广播</string>
     <string name="broadcast_send_failed_format">发送广播失败，%1$s</string>
     <string name="broadcast_send_add_image">添加照片</string>

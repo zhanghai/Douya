@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.broadcast.content;
 import android.content.Context;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.content.ResourceWriter;
+import me.zhanghai.android.douya.content.RequestResourceWriter;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
@@ -19,7 +19,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class SendBroadcastCommentWriter extends ResourceWriter<SendBroadcastCommentWriter, Comment> {
+class SendBroadcastCommentWriter extends RequestResourceWriter<SendBroadcastCommentWriter, Comment> {
 
     private long mBroadcastId;
     private String  mComment;

@@ -11,12 +11,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.content.ResourceWriter;
+import me.zhanghai.android.douya.content.RequestResourceWriter;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
@@ -24,7 +23,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class LikeBroadcastWriter extends ResourceWriter<LikeBroadcastWriter, Broadcast> {
+class LikeBroadcastWriter extends RequestResourceWriter<LikeBroadcastWriter, Broadcast> {
 
     private long mBroadcastId;
     private Broadcast mBroadcast;
