@@ -183,6 +183,7 @@
     <string name="broadcast_send_failed_notification_title_format">发送广播失败，%1$s</string>
     <string name="broadcast_send_failed_notification_text">点击以重试</string>
     <string name="broadcast_send_add_image">添加照片</string>
+    <string name="broadcast_send_add_image_too_many">单条广播最多包含 9 张照片</string>
     <string name="broadcast_send_add_link">推荐网页</string>
     <string name="broadcast_send_capture_image_permission_request_message">豆芽需要权限以读取拍摄的照片，请您在之后弹出的系统对话框中点击“允许”。</string>
     <string name="broadcast_send_capture_image_permission_permanently_denied_message">豆芽需要权限以读取拍摄的照片，请您在系统设置界面中授予“存储空间”权限。</string>

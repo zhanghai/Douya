@@ -43,6 +43,7 @@ import me.zhanghai.android.douya.broadcast.content.SendBroadcastManager;
 import me.zhanghai.android.douya.eventbus.BroadcastSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.FileUtils;
@@ -238,6 +239,10 @@ public class SendBroadcastFragment extends Fragment
 
     @AfterPermissionGranted(REQUEST_CODE_CAPTURE_IMAGE_PERMISSION)
     private void pickOrCaptureImage() {
+        if (mImageUris.size() >= Broadcast.MAX_IMAGES_SIZE) {
+            ToastUtils.show(R.string.broadcast_send_add_image_too_many, getActivity());
+            return;
+        }
         if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_CAPTURE_IMAGE)) {
             pickOrCaptureImageWithPermission();
         } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
@@ -303,6 +308,14 @@ public class SendBroadcastFragment extends Fragment
         }
         List<Uri> uris = parsePickOrCaptureImageResult(data);
         mCaptureImageOutputFile = null;
+        int maxUrisSize = Broadcast.MAX_IMAGES_SIZE - mImageUris.size();
+        if (uris.size() > maxUrisSize) {
+            ToastUtils.show(R.string.broadcast_send_add_image_too_many, getActivity());
+            if (maxUrisSize <= 0) {
+                return;
+            }
+            uris = uris.subList(0, maxUrisSize);
+        }
         boolean appendingImages = !mImageUris.isEmpty();
         mImageUris.addAll(uris);
         mAttachmentLayout.bind(null, mImageUris, appendingImages);
