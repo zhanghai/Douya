@@ -20,6 +20,7 @@ import java.util.List;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.ObjectUtils;
+import me.zhanghai.android.douya.util.UrlUtils;
 
 public class SendBroadcastActivity extends AppCompatActivity {
 
@@ -27,6 +28,7 @@ public class SendBroadcastActivity extends AppCompatActivity {
 
     private static final String EXTRA_TEXT = KEY_PREFIX + "text";
     private static final String EXTRA_IMAGE_URIS = KEY_PREFIX + "image_uris";
+    private static final String EXTRA_LINK_INFO = KEY_PREFIX + "link_info";
 
     private SendBroadcastFragment mFragment;
 
@@ -39,9 +41,11 @@ public class SendBroadcastActivity extends AppCompatActivity {
                 .putExtra(EXTRA_TEXT, text);
     }
 
-    public static Intent makeIntent(String text, List<Uri> imageUris, Context context) {
+    public static Intent makeIntent(String text, List<Uri> imageUris,
+                                    SendBroadcastFragment.LinkInfo linkInfo, Context context) {
         return makeIntent(text, context)
-                .putExtra(EXTRA_IMAGE_URIS, new ArrayList<>(imageUris));
+                .putExtra(EXTRA_IMAGE_URIS, new ArrayList<>(imageUris))
+                .putExtra(EXTRA_LINK_INFO, linkInfo);
     }
 
     public static Intent makeTopicIntent(String topic, Context context) {
@@ -49,7 +53,6 @@ public class SendBroadcastActivity extends AppCompatActivity {
         return makeIntent(text, context);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +91,16 @@ public class SendBroadcastActivity extends AppCompatActivity {
             } else {
                 imageUris = new ArrayList<>();
             }
-            mFragment = SendBroadcastFragment.newInstance(text, imageUris);
+            SendBroadcastFragment.LinkInfo linkInfo;
+            if (intent.hasExtra(EXTRA_LINK_INFO)) {
+                linkInfo = intent.getParcelableExtra(EXTRA_LINK_INFO);
+            } else if (UrlUtils.isValidUrl(text)) {
+                linkInfo = new SendBroadcastFragment.LinkInfo(text);
+                text = null;
+            } else {
+                linkInfo = null;
+            }
+            mFragment = SendBroadcastFragment.newInstance(text, imageUris, linkInfo);
             FragmentUtils.add(mFragment, this, android.R.id.content);
         } else {
             mFragment = FragmentUtils.findById(this, android.R.id.content);

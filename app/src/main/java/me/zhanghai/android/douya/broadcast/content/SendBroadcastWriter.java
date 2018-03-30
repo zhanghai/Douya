@@ -17,6 +17,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.Notifications;
 import me.zhanghai.android.douya.broadcast.ui.SendBroadcastActivity;
+import me.zhanghai.android.douya.broadcast.ui.SendBroadcastFragment;
 import me.zhanghai.android.douya.content.ResourceWriter;
 import me.zhanghai.android.douya.content.ResourceWriterManager;
 import me.zhanghai.android.douya.eventbus.BroadcastSendErrorEvent;
@@ -157,7 +159,7 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
             startForeground(getContext().getString(
                     R.string.broadcast_sending_notification_text_sending));
             ApiRequest<Broadcast> request = ApiService.getInstance().sendBroadcast(mText,
-                    mUploadedImageUrls, mLinkTitle, mLinkUrl);
+                    mUploadedImageUrls, null, null);
             request.enqueue(new ApiRequest.Callback<Broadcast>() {
                 @Override
                 public void onResponse(Broadcast response) {
@@ -278,7 +280,13 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
                 R.string.broadcast_send_failed_notification_title_format, ApiError.getErrorString(
                         error, context));
         String contentText = context.getString(R.string.broadcast_send_failed_notification_text);
-        Intent intent = SendBroadcastActivity.makeIntent(mText, mImageUris, context);
+        SendBroadcastFragment.LinkInfo linkInfo;
+        if (!TextUtils.isEmpty(mLinkUrl)) {
+            linkInfo = new SendBroadcastFragment.LinkInfo(mLinkUrl, mLinkTitle, null, null);
+        } else {
+            linkInfo = null;
+        }
+        Intent intent = SendBroadcastActivity.makeIntent(mText, mImageUris, linkInfo, context);
         int requestCode = 1 + ObjectUtils.hashCode(mText) + ObjectUtils.hashCode(mImageUris)
                 + ObjectUtils.hashCode(mLinkTitle) + ObjectUtils.hashCode(mLinkUrl);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, requestCode, intent,

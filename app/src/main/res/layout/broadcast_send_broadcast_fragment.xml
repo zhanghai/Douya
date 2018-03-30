@@ -93,6 +93,32 @@
             android:src="@drawable/link_icon_white_24dp"
             app:tint="?colorControlNormal"
             tools:ignore="MissingPrefix" />
+
+        <ImageButton
+            android:id="@+id/edit_link"
+            android:layout_width="@dimen/touch_target_size"
+            android:layout_height="@dimen/touch_target_size"
+            android:layout_gravity="center_vertical"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/broadcast_send_edit_link"
+            android:padding="@dimen/icon_button_padding"
+            android:src="@drawable/edit_icon_white_24dp"
+            android:visibility="gone"
+            app:tint="?colorControlNormal"
+            tools:ignore="MissingPrefix" />
+
+        <ImageButton
+            android:id="@+id/remove_link"
+            android:layout_width="@dimen/touch_target_size"
+            android:layout_height="@dimen/touch_target_size"
+            android:layout_gravity="center_vertical"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/broadcast_send_remove_link"
+            android:padding="@dimen/icon_button_padding"
+            android:src="@drawable/close_icon_white_24dp"
+            android:visibility="gone"
+            app:tint="?colorControlNormal"
+            tools:ignore="MissingPrefix" />
     </LinearLayout>
 
     <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->

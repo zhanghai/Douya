@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.util.PatternsCompat;
+import android.text.TextUtils;
 
 import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
@@ -20,6 +22,10 @@ import me.zhanghai.android.douya.ui.WebViewActivity;
 public class UrlUtils {
 
     private UrlUtils() {}
+
+    public static boolean isValidUrl(String text) {
+        return !TextUtils.isEmpty(text) && PatternsCompat.WEB_URL.matcher(text).matches();
+    }
 
     public static void openWithWebViewActivity(Uri uri, Context context) {
         context.startActivity(WebViewActivity.makeIntent(uri, context));

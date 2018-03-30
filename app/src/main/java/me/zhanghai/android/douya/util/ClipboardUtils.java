@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.util;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.net.Uri;
 import android.text.TextUtils;
 
 import me.zhanghai.android.douya.R;
@@ -24,26 +23,22 @@ public class ClipboardUtils {
         return (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
+    public static CharSequence readText(Context context) {
+        ClipData clipData = getClipboardManager(context).getPrimaryClip();
+        if (clipData == null || clipData.getItemCount() == 0) {
+            return null;
+        }
+        return clipData.getItemAt(0).coerceToText(context);
+    }
+
     public static void copyText(CharSequence label, CharSequence text, Context context) {
         ClipData clipData = ClipData.newPlainText(label, text);
         getClipboardManager(context).setPrimaryClip(clipData);
         showToast(text, context);
     }
 
-    public static void copyRawUri(CharSequence label, Uri uri, Context context) {
-        ClipData clipData = ClipData.newRawUri(label, uri);
-        getClipboardManager(context).setPrimaryClip(clipData);
-        showToast(uri.toString(), context);
-    }
-
-    public static void copyUrl(CharSequence label, String url, Context context) {
-        copyRawUri(label, Uri.parse(url), context);
-    }
-
-    public static void copyUri(CharSequence label, Uri uri, Context context) {
-        ClipData clipData = ClipData.newUri(context.getContentResolver(), label, uri);
-        getClipboardManager(context).setPrimaryClip(clipData);
-        showToast(uri.toString(), context);
+    public static void copyText(CharSequence text, Context context) {
+        copyText(null, text, context);
     }
 
     public static void copy(ClipboardCopyable copyable, Context context) {

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/toolbar_height"
+    android:layout_marginBottom="@dimen/toolbar_height">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dialog_padding_horizontal_with_4dp_padding"
+        android:paddingRight="@dimen/dialog_padding_horizontal_with_4dp_padding"
+        android:paddingTop="@dimen/dialog_content_padding_top"
+        android:paddingBottom="@dimen/dialog_content_padding_bottom_with_8dp_padding"
+        android:orientation="vertical">
+
+        <me.zhanghai.android.douya.ui.ExpandedHintMaterialTextInputLayout
+            android:id="@+id/url_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/broadcast_send_edit_link_url_caption"
+            android:textColorHint="?android:textColorSecondary"
+            app:errorEnabled="true">
+
+            <me.zhanghai.android.materialedittext.MaterialEditText
+                android:id="@+id/url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/broadcast_send_edit_link_url_hint"
+                android:inputType="textUri"
+                android:maxLines="1"
+                android:text="@string/broadcast_send_edit_link_url_hint">
+                <requestFocus />
+            </me.zhanghai.android.materialedittext.MaterialEditText>
+        </me.zhanghai.android.douya.ui.ExpandedHintMaterialTextInputLayout>
+
+        <me.zhanghai.android.douya.ui.ExpandedHintMaterialTextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/broadcast_send_edit_link_title_caption"
+            android:textColorHint="?android:textColorSecondary">
+
+            <me.zhanghai.android.materialedittext.MaterialEditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/broadcast_send_edit_link_title_hint"
+                android:maxLines="1" />
+        </me.zhanghai.android.douya.ui.ExpandedHintMaterialTextInputLayout>
+    </LinearLayout>
+</ScrollView>

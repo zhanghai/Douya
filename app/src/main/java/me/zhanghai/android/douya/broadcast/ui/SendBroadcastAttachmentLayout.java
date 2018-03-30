@@ -14,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -34,6 +35,7 @@ import me.zhanghai.android.douya.ui.UploadImageLayout;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.DrawableUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.ObjectUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
@@ -121,12 +123,18 @@ public class SendBroadcastAttachmentLayout extends FrameLayout {
         });
     }
 
-    public void bind(LinkInfo linkInfo, List<Uri> imageUris, boolean scrollImageListToEnd) {
+    public void bind(SendBroadcastFragment.LinkInfo linkInfo, List<Uri> imageUris,
+                     boolean scrollImageListToEnd) {
         boolean hasLink = linkInfo != null;
         ViewUtils.setVisibleOrGone(mLinkLayout, hasLink);
         if (hasLink) {
-            mLinkTitleText.setText(linkInfo.title);
-            mLinkDescriptionText.setText(linkInfo.description);
+            String linkTitle = linkInfo.title;
+            if (TextUtils.isEmpty(linkTitle)) {
+                linkTitle = getContext().getString(R.string.broadcast_send_link_default_title);
+            }
+            mLinkTitleText.setText(linkTitle);
+            mLinkDescriptionText.setText(ObjectUtils.firstNonNull(linkInfo.description,
+                    linkInfo.url));
             boolean hasLinkImage = linkInfo.imageUrl != null;
             ViewUtils.setVisibleOrGone(mLinkImage, hasLinkImage);
             if (hasLinkImage) {
@@ -163,7 +171,7 @@ public class SendBroadcastAttachmentLayout extends FrameLayout {
         }
     }
 
-    public void bind(LinkInfo linkInfo, List<Uri> imageUris) {
+    public void bind(SendBroadcastFragment.LinkInfo linkInfo, List<Uri> imageUris) {
         bind(linkInfo, imageUris, false);
     }
 
@@ -171,20 +179,5 @@ public class SendBroadcastAttachmentLayout extends FrameLayout {
             HorizontalUploadImageAdapter.OnRemoveImageListener listener) {
         mSingleImageLayout.setRemoveButtonOnClickListener(view -> listener.onRemoveImage(0));
         mImageListAdapter.setOnRemoveImageListener(listener);
-    }
-
-    public static class LinkInfo {
-
-        public String url;
-        public String title;
-        public String description;
-        public String imageUrl;
-
-        public LinkInfo(String url, String title, String description, String imageUrl) {
-            this.url = url;
-            this.title = title;
-            this.description = description;
-            this.imageUrl = imageUrl;
-        }
     }
 }

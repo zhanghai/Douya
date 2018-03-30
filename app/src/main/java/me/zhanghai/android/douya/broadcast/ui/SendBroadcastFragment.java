@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -56,15 +58,17 @@ import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
 import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 
-public class SendBroadcastFragment extends Fragment
-        implements ConfirmDiscardContentDialogFragment.Listener {
+public class SendBroadcastFragment extends Fragment implements EditLinkDialogFragment.Listener,
+        ConfirmDiscardContentDialogFragment.Listener {
 
     private static final String KEY_PREFIX = SendBroadcastFragment.class.getName() + '.';
 
     private static final String EXTRA_TEXT = KEY_PREFIX + "text";
     private static final String EXTRA_IMAGE_URIS = KEY_PREFIX + "image_uris";
+    private static final String EXTRA_LINK_INFO = KEY_PREFIX + "link_info";
 
     private static final String STATE_IMAGE_URIS = KEY_PREFIX + "image_uris";
+    private static final String STATE_LINK_INFO = KEY_PREFIX + "link_info";
     private static final String STATE_WRITER_ID = KEY_PREFIX + "writer_id";
 
     private static final int REQUEST_CODE_CAPTURE_IMAGE_PERMISSION = 1;
@@ -94,13 +98,17 @@ public class SendBroadcastFragment extends Fragment
     ImageButton mAddMoreImageButton;
     @BindView(R.id.add_link)
     ImageButton mAddLinkButton;
+    @BindView(R.id.edit_link)
+    ImageButton mEditLinkButton;
+    @BindView(R.id.remove_link)
+    ImageButton mRemoveLinkButton;
 
     private MenuItem mSendMenuItem;
 
     private String mExtraText;
 
     private ArrayList<Uri> mImageUris;
-    private String mLinkUrl;
+    private LinkInfo mLinkInfo;
 
     private long mWriterId;
 
@@ -108,17 +116,19 @@ public class SendBroadcastFragment extends Fragment
 
     private boolean mSent;
 
-    public static SendBroadcastFragment newInstance(String text, ArrayList<Uri> imageUris) {
+    public static SendBroadcastFragment newInstance(String text, ArrayList<Uri> imageUris,
+                                                    LinkInfo linkInfo) {
         //noinspection deprecation
         SendBroadcastFragment fragment = new SendBroadcastFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putString(EXTRA_TEXT, text);
         arguments.putParcelableArrayList(EXTRA_IMAGE_URIS, imageUris);
+        arguments.putParcelable(EXTRA_LINK_INFO, linkInfo);
         return fragment;
     }
 
     /**
-     * @deprecated Use {@link #newInstance(String, ArrayList<Uri>)} instead.
+     * @deprecated Use {@link #newInstance(String, ArrayList, LinkInfo)} instead.
      */
     public SendBroadcastFragment() {}
 
@@ -129,11 +139,13 @@ public class SendBroadcastFragment extends Fragment
         Bundle arguments = getArguments();
         mExtraText = arguments.getString(EXTRA_TEXT);
 
-        if (savedInstanceState != null) {
-            mImageUris = savedInstanceState.getParcelableArrayList(STATE_IMAGE_URIS);
-            mWriterId = savedInstanceState.getLong(STATE_WRITER_ID);
-        } else {
+        if (savedInstanceState == null) {
             mImageUris = arguments.getParcelableArrayList(EXTRA_IMAGE_URIS);
+            mLinkInfo = arguments.getParcelable(EXTRA_LINK_INFO);
+        } else {
+            mImageUris = savedInstanceState.getParcelableArrayList(STATE_IMAGE_URIS);
+            mLinkInfo = savedInstanceState.getParcelable(STATE_LINK_INFO);
+            mWriterId = savedInstanceState.getLong(STATE_WRITER_ID);
         }
 
         setHasOptionsMenu(true);
@@ -153,9 +165,6 @@ public class SendBroadcastFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-
-        TooltipUtils.setup(mAddImageButton);
-        TooltipUtils.setup(mAddLinkButton);
     }
 
     @Override
@@ -170,16 +179,18 @@ public class SendBroadcastFragment extends Fragment
         if (savedInstanceState == null) {
             mTextEdit.setText(mExtraText);
         }
-        // TODO
-        mAttachmentLayout.setOnRemoveImageListener(position -> {
-            mImageUris.remove(position);
-            boolean removedImageAtEnd = position == mImageUris.size();
-            mAttachmentLayout.bind(null, mImageUris, removedImageAtEnd);
-            updateBottomBar();
-        });
-        mAttachmentLayout.bind(null, mImageUris);
+        mAttachmentLayout.setOnRemoveImageListener(this::onRemoveImage);
+        bindAttachmentLayout();
+        TooltipUtils.setup(mAddImageButton);
         mAddImageButton.setOnClickListener(view -> pickOrCaptureImage());
+        TooltipUtils.setup(mAddMoreImageButton);
         mAddMoreImageButton.setOnClickListener(view -> pickOrCaptureImage());
+        TooltipUtils.setup(mAddLinkButton);
+        mAddLinkButton.setOnClickListener(view -> editLink());
+        TooltipUtils.setup(mEditLinkButton);
+        mEditLinkButton.setOnClickListener(view -> editLink());
+        TooltipUtils.setup(mRemoveLinkButton);
+        mRemoveLinkButton.setOnClickListener(view -> removeLink());
         updateSendStatus();
     }
 
@@ -188,6 +199,7 @@ public class SendBroadcastFragment extends Fragment
         super.onSaveInstanceState(outState);
 
         outState.putParcelableArrayList(STATE_IMAGE_URIS, mImageUris);
+        outState.putParcelable(STATE_LINK_INFO, mLinkInfo);
         outState.putLong(STATE_WRITER_ID, mWriterId);
     }
 
@@ -322,29 +334,66 @@ public class SendBroadcastFragment extends Fragment
         }
         boolean appendingImages = !mImageUris.isEmpty();
         mImageUris.addAll(uris);
-        mAttachmentLayout.bind(null, mImageUris, appendingImages);
+        bindAttachmentLayout(appendingImages);
         updateBottomBar();
     }
 
+    private void onRemoveImage(int position) {
+        mImageUris.remove(position);
+        boolean removedImageAtEnd = position == mImageUris.size();
+        bindAttachmentLayout(removedImageAtEnd);
+        updateBottomBar();
+    }
+
+    private void editLink() {
+        EditLinkDialogFragment.show(mLinkInfo, this);
+    }
+
+    @Override
+    public void setLink(LinkInfo linkInfo) {
+        mLinkInfo = linkInfo;
+        bindAttachmentLayout();
+        updateBottomBar();
+    }
+
+    private void removeLink() {
+        setLink(null);
+    }
+
+    private void bindAttachmentLayout(boolean scrollImageListToEnd) {
+        mAttachmentLayout.bind(mLinkInfo, mImageUris, scrollImageListToEnd);
+    }
+
+    private void bindAttachmentLayout() {
+        bindAttachmentLayout(false);
+    }
+
     private void updateBottomBar() {
-        boolean hasImage = !mImageUris.isEmpty();
-        boolean isEmpty = !hasImage && TextUtils.isEmpty(mLinkUrl);
+        boolean isImagesEmpty = mImageUris.isEmpty();
+        boolean isLinkEmpty = mLinkInfo == null;
+        boolean isEmpty = isImagesEmpty && isLinkEmpty;
+        boolean hasImage = !isImagesEmpty;
+        boolean hasLink = !isLinkEmpty;
         ViewUtils.setVisibleOrGone(mAddImageButton, isEmpty);
         ViewUtils.setVisibleOrGone(mAddMoreImageButton, hasImage);
         ViewUtils.setVisibleOrGone(mAddLinkButton, isEmpty);
+        ViewUtils.setVisibleOrGone(mEditLinkButton, hasLink);
+        ViewUtils.setVisibleOrGone(mRemoveLinkButton, hasLink);
     }
 
     private void onSend() {
         String text = mTextEdit.getText().toString();
-        if (TextUtils.isEmpty(text) && mImageUris.isEmpty()) {
+        if (TextUtils.isEmpty(text) && mImageUris.isEmpty() && mLinkInfo == null) {
             ToastUtils.show(R.string.broadcast_send_error_empty, getActivity());
             return;
         }
-        send(text, mImageUris);
+        send(text, mImageUris, mLinkInfo);
     }
 
-    private void send(String text, List<Uri> imageUris) {
-        mWriterId = SendBroadcastManager.getInstance().write(text, imageUris, null, null,
+    private void send(String text, List<Uri> imageUris, LinkInfo linkInfo) {
+        String linkTitle = linkInfo != null ? linkInfo.title : null;
+        String linkUrl = linkInfo != null ? linkInfo.url : null;
+        mWriterId = SendBroadcastManager.getInstance().write(text, imageUris, linkTitle, linkUrl,
                 getActivity());
         if (!imageUris.isEmpty()) {
             // If there's any image, we'll upload them and send broadcast in background.
@@ -410,5 +459,56 @@ public class SendBroadcastFragment extends Fragment
     @Override
     public void discardContent() {
         getActivity().finish();
+    }
+
+    public static class LinkInfo implements Parcelable {
+
+        public String url;
+        public String title;
+        public String description;
+        public String imageUrl;
+
+        public LinkInfo(String url, String title, String description, String imageUrl) {
+            if (TextUtils.isEmpty(url)) {
+                throw new IllegalArgumentException("Empty url: " + url);
+            }
+            this.url = url;
+            this.title = title;
+            this.description = description;
+            this.imageUrl = imageUrl;
+        }
+
+        public LinkInfo(String url) {
+            this(url, null, null, null);
+        }
+
+
+        public static final Creator<LinkInfo> CREATOR = new Creator<LinkInfo>() {
+            @Override
+            public LinkInfo createFromParcel(Parcel source) {
+                return new LinkInfo(source);
+            }
+            @Override
+            public LinkInfo[] newArray(int size) {
+                return new LinkInfo[size];
+            }
+        };
+        protected LinkInfo(Parcel in) {
+            url = in.readString();
+            title = in.readString();
+            description = in.readString();
+            imageUrl = in.readString();
+        }
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(url);
+            dest.writeString(title);
+            dest.writeString(description);
+            dest.writeString(imageUrl);
+        }
     }
 }

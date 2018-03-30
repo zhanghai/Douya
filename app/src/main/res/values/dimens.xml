@@ -103,6 +103,9 @@
     <!-- Fab internally sets a 14dp margin on pre-Lollipop devices. -->
     <dimen name="fab_margin">2dp</dimen>
     <dimen name="dialog_padding_horizontal_with_4dp_padding">20dp</dimen>
+    <dimen name="dialog_content_padding_top">14dp</dimen>
+    <dimen name="dialog_content_padding_bottom">24dp</dimen>
+    <dimen name="dialog_content_padding_bottom_with_8dp_padding">16dp</dimen>
 
     <dimen name="profile_large_avatar_size">128dp</dimen>
     <dimen name="profile_large_avatar_bottom_from_toolbar_bottom">8dp</dimen>
