@@ -115,7 +115,7 @@
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_remove_link"
             android:padding="@dimen/icon_button_padding"
-            android:src="@drawable/close_icon_white_24dp"
+            android:src="@drawable/cancel_icon_white_24dp"
             android:visibility="gone"
             app:tint="?colorControlNormal"
             tools:ignore="MissingPrefix" />

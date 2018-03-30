@@ -9,11 +9,11 @@
 
     <me.zhanghai.android.douya.ui.ForegroundImageButton
         android:id="@+id/uploadimagelayout_remove"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="right|top"
-        android:padding="8dp"
-        android:background="@color/dark_30_percent"
-        android:foreground="?selectableItemBackground"
-        android:src="@drawable/close_icon_white_24dp" />
+        android:padding="12dp"
+        android:background="@null"
+        android:foreground="@drawable/selectable_item_background_oval"
+        android:src="@drawable/remove_image_icon_24dp" />
 </merge>
