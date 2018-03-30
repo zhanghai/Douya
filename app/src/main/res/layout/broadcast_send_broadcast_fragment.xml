@@ -51,17 +51,16 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:layout_gravity="bottom"
-        android:paddingLeft="@dimen/toolbar_button_left_margin"
-        android:paddingRight="@dimen/toolbar_button_right_margin"
         android:background="?colorBackgroundFloating"
         android:elevation="@dimen/appbar_elevation"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/add_image"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/toolbar_button_left_margin"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_add_image"
             android:padding="@dimen/icon_button_padding"
@@ -73,7 +72,6 @@
             android:id="@+id/add_more_image"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_add_image"
             android:padding="@dimen/icon_button_padding"
@@ -86,7 +84,6 @@
             android:id="@+id/remove_all_images"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_remove_all_images"
             android:padding="@dimen/icon_button_padding"
@@ -99,7 +96,6 @@
             android:id="@+id/add_link"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_add_link"
             android:padding="@dimen/icon_button_padding"
@@ -111,7 +107,6 @@
             android:id="@+id/edit_link"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_edit_link"
             android:padding="@dimen/icon_button_padding"
@@ -124,7 +119,6 @@
             android:id="@+id/remove_link"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_remove_link"
             android:padding="@dimen/icon_button_padding"
@@ -137,7 +131,6 @@
             android:id="@+id/add_mention"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_add_mention"
             android:padding="@dimen/icon_button_padding"
@@ -149,13 +142,26 @@
             android:id="@+id/add_topic"
             android:layout_width="@dimen/touch_target_size"
             android:layout_height="@dimen/touch_target_size"
-            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/toolbar_button_right_margin"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/broadcast_send_add_topic"
             android:padding="@dimen/icon_button_padding"
             android:src="@drawable/topic_icon_white_24dp"
             app:tint="?colorControlNormal"
             tools:ignore="MissingPrefix" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
     </LinearLayout>
 
     <!-- Appbar layout must be on top of content so that transition can have correct z-order. -->

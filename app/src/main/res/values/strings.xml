@@ -174,6 +174,7 @@
     <string name="broadcast_send_title_sending">正在发送广播…</string>
     <string name="broadcast_send">发送</string>
     <string name="broadcast_send_error_empty">说点什么吧…</string>
+    <string name="broadcast_send_error_text_too_long">这条广播太长了</string>
     <string name="broadcast_sending">正在发送广播…</string>
     <string name="broadcast_sending_notification_title">发送广播</string>
     <string name="broadcast_sending_notification_text_uploading_images_format">正在上传图片（%1$d/%2$d）…</string>
@@ -202,6 +203,7 @@
     <string name="broadcast_send_edit_link_title_hint">留空以自动获取</string>
     <string name="broadcast_send_add_mention">\@某人</string>
     <string name="broadcast_send_add_topic">添加话题</string>
+    <string name="broadcast_send_counter_format">%1$d/%2$d</string>
     <string name="broadcast_title">查看广播</string>
     <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
     <string name="broadcast_rebroadcasted_broadcast_text_rebroadcaster_format">%1$s：</string>

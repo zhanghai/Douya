@@ -19,7 +19,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -110,6 +113,8 @@ public class SendBroadcastFragment extends Fragment
     ImageButton mAddMentionButton;
     @BindView(R.id.add_topic)
     ImageButton mAddTopicButton;
+    @BindView(R.id.counter)
+    TextView mCounterText;
 
     private MenuItem mSendMenuItem;
 
@@ -187,6 +192,17 @@ public class SendBroadcastFragment extends Fragment
         if (savedInstanceState == null) {
             mTextEdit.setText(mExtraText);
         }
+        mTextEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateCounterText();
+            }
+        });
+        updateCounterText();
         mAttachmentLayout.setOnRemoveImageListener(this::removeImage);
         bindAttachmentLayout();
         TooltipUtils.setup(mAddImageButton);
@@ -245,6 +261,20 @@ public class SendBroadcastFragment extends Fragment
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void updateCounterText() {
+        int length = mTextEdit.length();
+        boolean visible = length > Broadcast.MAX_TEXT_LENGTH / 2;
+        ViewUtils.fadeToVisibility(mCounterText, visible, false);
+        if (visible) {
+            mCounterText.setText(getString(R.string.broadcast_send_counter_format, length,
+                    Broadcast.MAX_TEXT_LENGTH));
+            int textColorAttrRes = length <= Broadcast.MAX_TEXT_LENGTH ?
+                    android.R.attr.textColorSecondary : R.attr.textColorError;
+            mCounterText.setTextColor(ViewUtils.getColorStateListFromAttrRes(textColorAttrRes,
+                    getContext()));
         }
     }
 
@@ -425,6 +455,10 @@ public class SendBroadcastFragment extends Fragment
         String text = mTextEdit.getText().toString();
         if (TextUtils.isEmpty(text) && mImageUris.isEmpty() && mLinkInfo == null) {
             ToastUtils.show(R.string.broadcast_send_error_empty, getActivity());
+            return;
+        }
+        if (text.length() > Broadcast.MAX_TEXT_LENGTH) {
+            ToastUtils.show(R.string.broadcast_send_error_text_too_long, getActivity());
             return;
         }
         send(text, mImageUris, mLinkInfo);

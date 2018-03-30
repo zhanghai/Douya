@@ -36,6 +36,8 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
 
+    public static final int MAX_TEXT_LENGTH = 140;
+
     public static final int MAX_IMAGES_SIZE = 9;
 
     @SerializedName("activity")
