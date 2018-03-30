@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.eventbus.BroadcastRebroadcastedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastSentEvent;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
@@ -149,9 +150,23 @@ public class HomeBroadcastListResource extends TimelineBroadcastListResource {
             return;
         }
 
+        prependBroadcast(event.broadcast);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onBroadcastRebroadcasted(BroadcastRebroadcastedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        prependBroadcast(event.rebroadcastBroadcast);
+    }
+
+    private void prependBroadcast(Broadcast broadcast) {
         List<Broadcast> broadcastList = get();
-        broadcastList.add(0, event.broadcast);
-        getListener().onBroadcastInserted(getRequestCode(), 0, event.broadcast);
+        broadcastList.add(0, broadcast);
+        getListener().onBroadcastInserted(getRequestCode(), 0, broadcast);
     }
 
     private Listener getListener() {
