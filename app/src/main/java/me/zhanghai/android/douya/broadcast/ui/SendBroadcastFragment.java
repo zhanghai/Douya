@@ -58,8 +58,9 @@ import me.zhanghai.android.effortlesspermissions.AfterPermissionDenied;
 import me.zhanghai.android.effortlesspermissions.EffortlessPermissions;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 
-public class SendBroadcastFragment extends Fragment implements EditLinkDialogFragment.Listener,
-        ConfirmDiscardContentDialogFragment.Listener {
+public class SendBroadcastFragment extends Fragment
+        implements ConfirmRemoveAllImagesDialogFragment.Listener, EditLinkDialogFragment.Listener,
+        ConfirmRemoveLinkDialogFragment.Listener, ConfirmDiscardContentDialogFragment.Listener {
 
     private static final String KEY_PREFIX = SendBroadcastFragment.class.getName() + '.';
 
@@ -188,13 +189,13 @@ public class SendBroadcastFragment extends Fragment implements EditLinkDialogFra
         TooltipUtils.setup(mAddMoreImageButton);
         mAddMoreImageButton.setOnClickListener(view -> pickOrCaptureImage());
         TooltipUtils.setup(mRemoveAllImagesButton);
-        mRemoveAllImagesButton.setOnClickListener(view -> removeAllImages());
+        mRemoveAllImagesButton.setOnClickListener(view -> onRemoveAllImages());
         TooltipUtils.setup(mAddLinkButton);
         mAddLinkButton.setOnClickListener(view -> editLink());
         TooltipUtils.setup(mEditLinkButton);
         mEditLinkButton.setOnClickListener(view -> editLink());
         TooltipUtils.setup(mRemoveLinkButton);
-        mRemoveLinkButton.setOnClickListener(view -> removeLink());
+        mRemoveLinkButton.setOnClickListener(view -> onRemoveLink());
         updateBottomBar();
         updateSendStatus();
     }
@@ -350,7 +351,12 @@ public class SendBroadcastFragment extends Fragment implements EditLinkDialogFra
         updateBottomBar();
     }
 
-    private void removeAllImages() {
+    private void onRemoveAllImages() {
+        ConfirmRemoveAllImagesDialogFragment.show(this);
+    }
+
+    @Override
+    public void removeAllImages() {
         mImageUris.clear();
         bindAttachmentLayout();
         updateBottomBar();
@@ -367,7 +373,12 @@ public class SendBroadcastFragment extends Fragment implements EditLinkDialogFra
         updateBottomBar();
     }
 
-    private void removeLink() {
+    private void onRemoveLink() {
+        ConfirmRemoveLinkDialogFragment.show(this);
+    }
+
+    @Override
+    public void removeLink() {
         setLink(null);
     }
 

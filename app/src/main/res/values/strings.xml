@@ -185,9 +185,11 @@
     <string name="broadcast_send_add_image">添加照片</string>
     <string name="broadcast_send_add_image_too_many">单条广播最多包含 9 张照片</string>
     <string name="broadcast_send_remove_all_images">移除所有照片</string>
+    <string name="broadcast_send_remove_all_images_confirm">确定要移除所有照片吗？</string>
     <string name="broadcast_send_add_link">推荐网页</string>
     <string name="broadcast_send_edit_link">修改网页</string>
     <string name="broadcast_send_remove_link">移除网页</string>
+    <string name="broadcast_send_remove_link_confirm">确定要移除网页吗？</string>
     <string name="broadcast_send_link_default_title">推荐网页</string>
     <string name="broadcast_send_edit_link_title">推荐网页</string>
     <string name="broadcast_send_edit_link_url_caption">网页地址</string>
