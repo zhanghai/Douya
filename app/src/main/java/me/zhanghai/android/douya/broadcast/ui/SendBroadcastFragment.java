@@ -96,6 +96,8 @@ public class SendBroadcastFragment extends Fragment implements EditLinkDialogFra
     ImageButton mAddImageButton;
     @BindView(R.id.add_more_image)
     ImageButton mAddMoreImageButton;
+    @BindView(R.id.remove_all_images)
+    ImageButton mRemoveAllImagesButton;
     @BindView(R.id.add_link)
     ImageButton mAddLinkButton;
     @BindView(R.id.edit_link)
@@ -179,18 +181,21 @@ public class SendBroadcastFragment extends Fragment implements EditLinkDialogFra
         if (savedInstanceState == null) {
             mTextEdit.setText(mExtraText);
         }
-        mAttachmentLayout.setOnRemoveImageListener(this::onRemoveImage);
+        mAttachmentLayout.setOnRemoveImageListener(this::removeImage);
         bindAttachmentLayout();
         TooltipUtils.setup(mAddImageButton);
         mAddImageButton.setOnClickListener(view -> pickOrCaptureImage());
         TooltipUtils.setup(mAddMoreImageButton);
         mAddMoreImageButton.setOnClickListener(view -> pickOrCaptureImage());
+        TooltipUtils.setup(mRemoveAllImagesButton);
+        mRemoveAllImagesButton.setOnClickListener(view -> removeAllImages());
         TooltipUtils.setup(mAddLinkButton);
         mAddLinkButton.setOnClickListener(view -> editLink());
         TooltipUtils.setup(mEditLinkButton);
         mEditLinkButton.setOnClickListener(view -> editLink());
         TooltipUtils.setup(mRemoveLinkButton);
         mRemoveLinkButton.setOnClickListener(view -> removeLink());
+        updateBottomBar();
         updateSendStatus();
     }
 
@@ -338,10 +343,16 @@ public class SendBroadcastFragment extends Fragment implements EditLinkDialogFra
         updateBottomBar();
     }
 
-    private void onRemoveImage(int position) {
+    private void removeImage(int position) {
         mImageUris.remove(position);
         boolean removedImageAtEnd = position == mImageUris.size();
         bindAttachmentLayout(removedImageAtEnd);
+        updateBottomBar();
+    }
+
+    private void removeAllImages() {
+        mImageUris.clear();
+        bindAttachmentLayout();
         updateBottomBar();
     }
 
@@ -376,6 +387,7 @@ public class SendBroadcastFragment extends Fragment implements EditLinkDialogFra
         boolean hasLink = !isLinkEmpty;
         ViewUtils.setVisibleOrGone(mAddImageButton, isEmpty);
         ViewUtils.setVisibleOrGone(mAddMoreImageButton, hasImage);
+        ViewUtils.setVisibleOrGone(mRemoveAllImagesButton, hasImage);
         ViewUtils.setVisibleOrGone(mAddLinkButton, isEmpty);
         ViewUtils.setVisibleOrGone(mEditLinkButton, hasLink);
         ViewUtils.setVisibleOrGone(mRemoveLinkButton, hasLink);
