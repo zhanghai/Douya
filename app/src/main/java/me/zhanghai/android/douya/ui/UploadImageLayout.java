@@ -12,18 +12,23 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.UriUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class UploadImageLayout extends ImageLayout {
+public class UploadImageLayout extends FrameLayout {
 
+    @BindView(R.id.uploadimagelayout_image)
+    RatioImageView mImageView;
+    @BindView(R.id.uploadimagelayout_gif)
+    ImageView mGifImage;
     @BindView(R.id.uploadimagelayout_remove)
     ImageButton mRemoveButton;
 
@@ -55,14 +60,14 @@ public class UploadImageLayout extends ImageLayout {
         init();
     }
 
-    @Override
-    protected void onInflateChildren() {
-        super.onInflateChildren();
+    private void init() {
+
+        setClickable(true);
+        setFocusable(true);
 
         ViewUtils.inflateInto(R.layout.upload_image_layout, this);
-    }
+        ButterKnife.bind(this);
 
-    private void init() {
         setInImageListInt(false);
     }
 
@@ -74,16 +79,11 @@ public class UploadImageLayout extends ImageLayout {
 
     private void setInImageListInt(boolean inImageList) {
         mInImageList = inImageList;
-        mImageView.setAdjustViewBounds(!inImageList);
-        mImageView.setRatio(inImageList ? 1 : 0);
-    }
-
-    /**
-     * @deprecated Use {@link #loadImage(Uri)} instead.
-     */
-    @Override
-    public void loadImage(SizedImageItem image) {
-        throw new UnsupportedOperationException("Use loadImage(Uri) instead");
+        mImageView.setRatio(mInImageList ? 1 : (6f / 5f));
+        LayoutParams layoutParams = (LayoutParams) mImageView.getLayoutParams();
+        layoutParams.width = mInImageList ? LayoutParams.WRAP_CONTENT : LayoutParams.MATCH_PARENT;
+        layoutParams.height = mInImageList ? LayoutParams.MATCH_PARENT : LayoutParams.WRAP_CONTENT;
+        mImageView.setLayoutParams(layoutParams);
     }
 
     public void loadImage(Uri imageUri) {
@@ -91,6 +91,10 @@ public class UploadImageLayout extends ImageLayout {
         String type = UriUtils.getType(imageUri, getContext());
         boolean isGif = TextUtils.equals(type, "image/gif");
         ViewUtils.setVisibleOrGone(mGifImage, isGif);
+    }
+
+    public void releaseImage() {
+        mImageView.setImageDrawable(null);
     }
 
     public void setRemoveButtonOnClickListener(View.OnClickListener listener) {
