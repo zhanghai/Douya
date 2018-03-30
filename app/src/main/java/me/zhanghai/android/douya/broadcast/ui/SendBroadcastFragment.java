@@ -48,6 +48,7 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.util.AppUtils;
+import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FileUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.IntentUtils;
@@ -105,6 +106,10 @@ public class SendBroadcastFragment extends Fragment
     ImageButton mEditLinkButton;
     @BindView(R.id.remove_link)
     ImageButton mRemoveLinkButton;
+    @BindView(R.id.add_mention)
+    ImageButton mAddMentionButton;
+    @BindView(R.id.add_topic)
+    ImageButton mAddTopicButton;
 
     private MenuItem mSendMenuItem;
 
@@ -197,6 +202,10 @@ public class SendBroadcastFragment extends Fragment
         TooltipUtils.setup(mRemoveLinkButton);
         mRemoveLinkButton.setOnClickListener(view -> onRemoveLink());
         updateBottomBar();
+        TooltipUtils.setup(mAddMentionButton);
+        mAddMentionButton.setOnClickListener(view -> addMention());
+        TooltipUtils.setup(mAddTopicButton);
+        mAddTopicButton.setOnClickListener(view -> addTopic());
         updateSendStatus();
     }
 
@@ -402,6 +411,14 @@ public class SendBroadcastFragment extends Fragment
         ViewUtils.setVisibleOrGone(mAddLinkButton, isEmpty);
         ViewUtils.setVisibleOrGone(mEditLinkButton, hasLink);
         ViewUtils.setVisibleOrGone(mRemoveLinkButton, hasLink);
+    }
+
+    private void addMention() {
+        DoubanUtils.addMentionString(mTextEdit);
+    }
+
+    private void addTopic() {
+        DoubanUtils.addTopicString(mTextEdit);
     }
 
     private void onSend() {

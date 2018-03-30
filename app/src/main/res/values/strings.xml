@@ -183,6 +183,9 @@
     <string name="broadcast_send_failed_notification_title_format">发送广播失败，%1$s</string>
     <string name="broadcast_send_failed_notification_text">点击以重试</string>
     <string name="broadcast_send_add_image">添加照片</string>
+    <string name="broadcast_send_capture_image_permission_request_message">豆芽需要权限以读取拍摄的照片，请您在之后弹出的系统对话框中点击“允许”。</string>
+    <string name="broadcast_send_capture_image_permission_permanently_denied_message">豆芽需要权限以读取拍摄的照片，请您在系统设置界面中授予“存储空间”权限。</string>
+    <string name="broadcast_send_capture_image_permission_denied">无法通过拍摄照片添加图片，缺少权限</string>
     <string name="broadcast_send_add_image_too_many">单条广播最多包含 9 张照片</string>
     <string name="broadcast_send_remove_all_images">移除所有照片</string>
     <string name="broadcast_send_remove_all_images_confirm">确定要移除所有照片吗？</string>
@@ -197,9 +200,8 @@
     <string name="broadcast_send_edit_link_url_error">请输入一个有效的网址</string>
     <string name="broadcast_send_edit_link_title_caption">网页标题</string>
     <string name="broadcast_send_edit_link_title_hint">留空以自动获取</string>
-    <string name="broadcast_send_capture_image_permission_request_message">豆芽需要权限以读取拍摄的照片，请您在之后弹出的系统对话框中点击“允许”。</string>
-    <string name="broadcast_send_capture_image_permission_permanently_denied_message">豆芽需要权限以读取拍摄的照片，请您在系统设置界面中授予“存储空间”权限。</string>
-    <string name="broadcast_send_capture_image_permission_denied">无法通过拍摄照片添加图片，缺少权限</string>
+    <string name="broadcast_send_add_mention">\@某人</string>
+    <string name="broadcast_send_add_topic">添加话题</string>
     <string name="broadcast_title">查看广播</string>
     <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
     <string name="broadcast_rebroadcasted_broadcast_text_rebroadcaster_format">%1$s：</string>

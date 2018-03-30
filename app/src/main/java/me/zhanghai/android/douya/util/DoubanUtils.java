@@ -7,13 +7,14 @@ package me.zhanghai.android.douya.util;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.widget.EditText;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleUser;
 
 public class DoubanUtils {
@@ -68,13 +69,90 @@ public class DoubanUtils {
 
     private DoubanUtils() {}
 
-    public static String makeAtUserString(String userIdOrUid) {
+    public static void addMentionString(EditText editText) {
+        Editable editable = editText.getText();
+        int selectionStart = editText.getSelectionStart();
+        int selectionEnd = editText.getSelectionEnd();
+        int mentionStart;
+        int mentionEnd;
+        if (selectionStart != selectionEnd && selectionStart > 0
+                && editable.charAt(selectionStart - 1) == '@') {
+            mentionStart = selectionStart - 1;
+            mentionEnd = selectionEnd;
+        } else {
+            editable.insert(selectionStart, "@");
+            mentionStart = selectionStart;
+            mentionEnd = selectionEnd + 1;
+        }
+        if (selectionStart != selectionEnd) {
+            int paddedMentionEnd = padSpaceAround(editText, mentionStart, mentionEnd);
+            editText.setSelection(paddedMentionEnd);
+        } else {
+            editText.setSelection(mentionEnd);
+            padSpaceAround(editText, mentionStart, mentionEnd);
+        }
+    }
+
+    public static void addTopicString(EditText editText) {
+        Editable editable = editText.getText();
+        int selectionStart = editText.getSelectionStart();
+        int selectionEnd = editText.getSelectionEnd();
+        int topicStart;
+        int topicEnd;
+        if (selectionStart != selectionEnd) {
+            editable.insert(selectionStart, "#");
+            editable.insert(selectionEnd + 1, "#");
+            topicStart = selectionStart;
+            topicEnd = selectionEnd + 2;
+            int paddedTopicEnd = padSpaceAround(editText, topicStart, topicEnd);
+            editText.setSelection(paddedTopicEnd);
+        } else {
+            int length = editable.length();
+            editable.insert(length, "#话题#");
+            topicStart = length;
+            topicEnd = length + 4;
+            editText.setSelection(topicStart + 1, topicEnd - 1);
+            padSpaceAround(editText, topicStart, topicEnd);
+        }
+    }
+
+    private static int padSpaceAround(EditText editText, int start, int end) {
+        Editable editable = editText.getText();
+        if (start > 0) {
+            if (editable.charAt(start - 1) == ' ') {
+                --start;
+            } else {
+                insertPreservingSelection(editText, start, " ");
+                ++end;
+            }
+        }
+        if (end < editable.length()) {
+            if (editable.charAt(end) != ' ') {
+                insertPreservingSelection(editText, end, " ");
+            }
+            ++end;
+        }
+        return end;
+    }
+
+    private static void insertPreservingSelection(EditText editText, int position,
+                                                  CharSequence text) {
+        int selectionStart = editText.getSelectionStart();
+        int selectionEnd = editText.getSelectionEnd();
+        Editable editable = editText.getText();
+        editable.insert(position, text);
+        if (selectionStart >= position) {
+            editText.setSelection(selectionStart + 1, selectionEnd + 1);
+        }
+    }
+
+    public static String makeMentionString(String userIdOrUid) {
         return '@' + userIdOrUid + ' ';
     }
 
-    public static String makeAtUserString(SimpleUser user) {
+    public static String makeMentionString(SimpleUser user) {
         //noinspection deprecation
-        return makeAtUserString(user.uid);
+        return makeMentionString(user.uid);
     }
 
     public static String makeTopicString(String topic) {

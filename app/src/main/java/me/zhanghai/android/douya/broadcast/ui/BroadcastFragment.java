@@ -440,7 +440,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     @Override
     public void onReplyToComment(Comment comment) {
         mCommentEdit.getText().replace(mCommentEdit.getSelectionStart(),
-                mCommentEdit.getSelectionEnd(), DoubanUtils.makeAtUserString(comment.author));
+                mCommentEdit.getSelectionEnd(), DoubanUtils.makeMentionString(comment.author));
         onShowCommentIme();
     }
 
