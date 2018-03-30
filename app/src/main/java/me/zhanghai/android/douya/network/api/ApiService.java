@@ -40,6 +40,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.TimelineList;
 import me.zhanghai.android.douya.network.api.info.frodo.UploadedImage;
 import me.zhanghai.android.douya.network.api.info.frodo.UserItemList;
 import me.zhanghai.android.douya.network.api.info.frodo.UserList;
+import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.UriUtils;
@@ -247,8 +248,13 @@ public class ApiService {
 
     public ApiRequest<Broadcast> sendBroadcast(String text, List<String> imageUrls,
                                                String linkTitle, String linkUrl) {
-        return mFrodoService.sendBroadcast(text, imageUrls != null ? StringCompat.join(",",
-                imageUrls) : null, linkTitle, linkUrl);
+        boolean isImagesEmpty = CollectionUtils.isEmpty(imageUrls);
+        if (isImagesEmpty && !TextUtils.isEmpty(linkUrl)) {
+            return new ConvertBroadcastApiRequest(mFrodoService.sendBroadcastWithLifeStream(text,
+                    null, linkTitle, linkUrl));
+        }
+        String imageUrlsString = !isImagesEmpty ? StringCompat.join(",", imageUrls) : null;
+        return mFrodoService.sendBroadcast(text, imageUrlsString, linkTitle, linkUrl);
     }
 
     public ApiRequest<Broadcast> getBroadcast(long broadcastId) {
@@ -414,6 +420,12 @@ public class ApiService {
                 @Path("userIdOrUid") String userIdOrUid, @Query("start") Integer start,
                 @Query("count") Integer count);
 
+        @POST("lifestream/statuses")
+        @FormUrlEncoded
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> sendBroadcast(
+                @Field("text") String text, @Field("image_urls") String imageUrls,
+                @Field("rec_title") String linkTitle, @Field("rec_url") String linkUrl);
+
         @GET
         ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>>
                 getBroadcastList(@Url String url, @Query("until_id") Long untilId,
@@ -505,6 +517,14 @@ public class ApiService {
                                             @Field("image_urls") String imageUrls,
                                             @Field("rec_title") String linkTitle,
                                             @Field("rec_url") String linkUrl);
+
+        @POST("https://api.douban.com/v2/lifestream/statuses")
+        @FormUrlEncoded
+        ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>
+        sendBroadcastWithLifeStream(@Field("text") String text,
+                                    @Field("image_urls") String imageUrls,
+                                    @Field("rec_title") String linkTitle,
+                                    @Field("rec_url") String linkUrl);
 
         @GET("status/{broadcastId}")
         ApiRequest<Broadcast> getBroadcast(@Path("broadcastId") long broadcastId);
@@ -624,5 +644,20 @@ public class ApiService {
                                                           @Path("itemId") long itemId,
                                                           @Query("start") Integer start,
                                                           @Query("count") Integer count);
+    }
+
+    private static class ConvertBroadcastApiRequest extends ConvertApiRequest<
+            me.zhanghai.android.douya.network.api.info.apiv2.Broadcast, Broadcast> {
+
+        public ConvertBroadcastApiRequest(
+                ApiRequest<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast> request) {
+            super(request);
+        }
+
+        @Override
+        protected Broadcast transform(
+                me.zhanghai.android.douya.network.api.info.apiv2.Broadcast responseBody) {
+            return responseBody.toFrodo();
+        }
     }
 }

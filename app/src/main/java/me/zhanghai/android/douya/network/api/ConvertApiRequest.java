@@ -9,23 +9,34 @@ import android.support.annotation.NonNull;
 
 import okhttp3.Request;
 
-public class DelegateApiRequest<T> implements ApiRequest<T> {
+public abstract class ConvertApiRequest<S, T> implements ApiRequest<T> {
 
-    private ApiRequest<T> mRequest;
+    private ApiRequest<S> mRequest;
 
-    public DelegateApiRequest(ApiRequest<T> request) {
+    public ConvertApiRequest(ApiRequest<S> request) {
         mRequest = request;
     }
 
     @Override
     public T execute() throws ApiError {
-        return mRequest.execute();
+        return transform(mRequest.execute());
     }
 
     @Override
     public void enqueue(@NonNull Callback<T> callback) {
-        mRequest.enqueue(callback);
+        mRequest.enqueue(new Callback<S>() {
+            @Override
+            public void onResponse(S response) {
+                callback.onResponse(transform(response));
+            }
+            @Override
+            public void onErrorResponse(ApiError error) {
+                callback.onErrorResponse(error);
+            }
+        });
     }
+
+    protected abstract T transform(S responseBody);
 
     @Override
     public boolean isExecuted() {
@@ -43,11 +54,11 @@ public class DelegateApiRequest<T> implements ApiRequest<T> {
     }
 
     @Override
-    public DelegateApiRequest<T> clone() {
-        DelegateApiRequest<T> clone;
+    public ConvertApiRequest<S, T> clone() {
+        ConvertApiRequest<S, T> clone;
         try {
             //noinspection unchecked
-            clone = (DelegateApiRequest<T>) super.clone();
+            clone = (ConvertApiRequest<S, T>) super.clone();
         } catch (CloneNotSupportedException e) {
             // Should never happen.
             throw new RuntimeException(e);
