@@ -155,20 +155,29 @@ public class IntentUtils {
         return makeSendImage(uri, null);
     }
 
-    public static Intent makeSyncSettings(String[] authorities) {
+    public static Intent makeSyncSettings(String[] authorities, String[] accountTypes) {
         Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
         if (!ArrayUtils.isEmpty(authorities)) {
             intent.putExtra(Settings.EXTRA_AUTHORITIES, authorities);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            if (!ArrayUtils.isEmpty(accountTypes)) {
+                intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, accountTypes);
+            }
+        }
         return intent;
     }
 
-    public static Intent makeSyncSettings(String authority) {
-        return makeSyncSettings(authority != null ? new String[] { authority } : null);
+    public static Intent makeSyncSettingsWithAuthority(String authority) {
+        return makeSyncSettings(authority != null ? new String[] { authority } : null, null);
+    }
+
+    public static Intent makeSyncSettingsWithAccountType(String accountType) {
+        return makeSyncSettings(null, accountType != null ? new String[] { accountType } : null);
     }
 
     public static Intent makeSyncSettings() {
-        return makeSyncSettings((String) null);
+        return makeSyncSettings(null, null);
     }
 
     public static Intent makeView(Uri uri) {

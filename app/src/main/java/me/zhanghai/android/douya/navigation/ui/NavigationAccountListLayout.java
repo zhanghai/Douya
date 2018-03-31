@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.account.info.AccountContract;
 import me.zhanghai.android.douya.account.util.AccountUtils;
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
@@ -93,26 +94,16 @@ public class NavigationAccountListLayout extends LinearLayout {
             TextViewCompat.setCompoundDrawablesRelative(menuItem, icon, null, null, null);
         }
 
-        mAddAccountItem.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AccountUtils.addAccount(AppUtils.getActivityFromContext(context));
+        mAddAccountItem.setOnClickListener(view -> AccountUtils.addAccount(
+                AppUtils.getActivityFromContext(context)));
+        mRemoveCurrentAccountItem.setOnClickListener(view -> {
+            if (mListener != null) {
+                mListener.onRemoveCurrentAccount();
             }
         });
-        mRemoveCurrentAccountItem.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mListener != null) {
-                    mListener.onRemoveCurrentAccount();
-                }
-            }
-        });
-        mManageAccountsItem.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppUtils.startActivity(IntentUtils.makeSyncSettings(), context);
-            }
-        });
+        mManageAccountsItem.setOnClickListener(view -> AppUtils.startActivity(
+                IntentUtils.makeSyncSettingsWithAccountType(AccountContract.ACCOUNT_TYPE),
+                context));
     }
 
     public void setAdapter(Adapter adapter) {
@@ -164,12 +155,9 @@ public class NavigationAccountListLayout extends LinearLayout {
                 holder.avatarImage.setImageResource(R.drawable.avatar_icon_40dp);
             }
             holder.nameText.setText(mAdapter.getPartialUser(account).name);
-            accountLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mListener != null) {
-                        mListener.switchToAccount(account);
-                    }
+            accountLayout.setOnClickListener(view -> {
+                if (mListener != null) {
+                    mListener.switchToAccount(account);
                 }
             });
 
