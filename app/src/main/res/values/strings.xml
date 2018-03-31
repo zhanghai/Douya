@@ -171,6 +171,7 @@
     <string name="broadcast_list_title_topic_format">#%s#</string>
 
     <string name="broadcast_send_title">发广播</string>
+    <string name="broadcast_send_intent_filter_title">分享到豆瓣广播</string>
     <string name="broadcast_send_title_sending">正在发送广播…</string>
     <string name="broadcast_send">发送</string>
     <string name="broadcast_send_error_empty">说点什么吧…</string>
