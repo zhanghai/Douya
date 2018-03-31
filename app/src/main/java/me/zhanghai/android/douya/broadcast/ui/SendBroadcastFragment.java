@@ -160,6 +160,9 @@ public class SendBroadcastFragment extends Fragment
             mLinkInfo = savedInstanceState.getParcelable(STATE_LINK_INFO);
             mWriterId = savedInstanceState.getLong(STATE_WRITER_ID);
         }
+        if (mImageUris == null) {
+            mImageUris = new ArrayList<>();
+        }
 
         setHasOptionsMenu(true);
 
@@ -523,7 +526,7 @@ public class SendBroadcastFragment extends Fragment
     }
 
     public void onFinish() {
-        if (mTextEdit.getText().length() > 0) {
+        if (mTextEdit.getText().length() > 0 || !mImageUris.isEmpty() || mLinkInfo != null) {
             ConfirmDiscardContentDialogFragment.show(this);
         } else {
             getActivity().finish();
