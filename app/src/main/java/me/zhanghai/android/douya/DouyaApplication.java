@@ -40,7 +40,9 @@ public class DouyaApplication extends Application {
         Stetho.initializeWithDefaults(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+            if (BuildConfig.DEBUG) {
+                WebView.setWebContentsDebuggingEnabled(true);
+            }
         }
     }
 }
