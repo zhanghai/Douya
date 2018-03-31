@@ -108,9 +108,9 @@ public class DoubanUtils {
             editText.setSelection(paddedTopicEnd);
         } else {
             int length = editable.length();
-            editable.insert(length, "#话题#");
+            editable.insert(length, "#输入话题#");
             topicStart = length;
-            topicEnd = length + 4;
+            topicEnd = length + 6;
             editText.setSelection(topicStart + 1, topicEnd - 1);
             padSpaceAround(editText, topicStart, topicEnd);
         }
