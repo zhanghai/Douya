@@ -161,7 +161,7 @@ public class SendCommentFragment extends Fragment
 
         if (event.broadcastId == mBroadcastId) {
             mCommentSent = true;
-            getActivity().finish();
+            finish();
         }
     }
 
@@ -200,12 +200,22 @@ public class SendCommentFragment extends Fragment
         if (text.length() > 0 && !TextUtils.equals(text, mText)) {
             ConfirmDiscardContentDialogFragment.show(this);
         } else {
-            getActivity().finish();
+            finish();
         }
     }
 
     @Override
     public void discardContent() {
-        getActivity().finish();
+        finish();
+    }
+
+    private void finish() {
+        SendCommentActivity activity = (SendCommentActivity) getActivity();
+        activity.finishFromFragment();
+    }
+
+    private void finishAfterTransition() {
+        SendCommentActivity activity = (SendCommentActivity) getActivity();
+        activity.finishAfterTransitionFromFragment();
     }
 }

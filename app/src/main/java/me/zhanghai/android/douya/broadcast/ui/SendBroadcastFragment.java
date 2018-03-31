@@ -484,7 +484,7 @@ public class SendBroadcastFragment extends Fragment
                 getActivity());
         if (!imageUris.isEmpty()) {
             // If there's any image, we'll upload them and send broadcast in background.
-            getActivity().finish();
+            finish();
             return;
         }
         updateSendStatus();
@@ -500,7 +500,7 @@ public class SendBroadcastFragment extends Fragment
         if (event.writerId == mWriterId) {
             mSent = true;
             mWriterId = 0;
-            getActivity().finish();
+            finish();
         }
     }
 
@@ -541,13 +541,23 @@ public class SendBroadcastFragment extends Fragment
         if (mChanged && !isEmpty) {
             ConfirmDiscardContentDialogFragment.show(this);
         } else {
-            getActivity().finish();
+            finish();
         }
     }
 
     @Override
     public void discardContent() {
-        getActivity().finish();
+        finish();
+    }
+
+    private void finish() {
+        SendBroadcastActivity activity = (SendBroadcastActivity) getActivity();
+        activity.finishFromFragment();
+    }
+
+    private void finishAfterTransition() {
+        SendBroadcastActivity activity = (SendBroadcastActivity) getActivity();
+        activity.finishAfterTransitionFromFragment();
     }
 
     public static class LinkInfo implements Parcelable {

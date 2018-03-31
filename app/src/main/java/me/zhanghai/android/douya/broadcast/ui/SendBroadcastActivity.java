@@ -8,9 +8,7 @@ package me.zhanghai.android.douya.broadcast.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
@@ -31,6 +29,8 @@ public class SendBroadcastActivity extends AppCompatActivity {
     private static final String EXTRA_LINK_INFO = KEY_PREFIX + "link_info";
 
     private SendBroadcastFragment mFragment;
+
+    private boolean mShouldFinish;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, SendBroadcastActivity.class);
@@ -110,7 +110,30 @@ public class SendBroadcastActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        mFragment.onFinish();
+    public void finish() {
+        if (!mShouldFinish) {
+            mFragment.onFinish();
+            return;
+        }
+        super.finish();
+    }
+
+    @Override
+    public void finishAfterTransition() {
+        if (!mShouldFinish) {
+            mFragment.onFinish();
+            return;
+        }
+        super.finishAfterTransition();
+    }
+
+    public void finishFromFragment() {
+        mShouldFinish = true;
+        super.finish();
+    }
+
+    public void finishAfterTransitionFromFragment() {
+        mShouldFinish = true;
+        super.supportFinishAfterTransition();
     }
 }

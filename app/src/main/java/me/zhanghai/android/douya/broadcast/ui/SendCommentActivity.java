@@ -21,6 +21,8 @@ public class SendCommentActivity extends AppCompatActivity {
 
     private SendCommentFragment mFragment;
 
+    private boolean mShouldFinish;
+
     public static Intent makeIntent(long broadcastId, Context context) {
         return new Intent(context, SendCommentActivity.class)
                 .putExtra(EXTRA_BROADCAST_ID, broadcastId);
@@ -50,7 +52,30 @@ public class SendCommentActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        mFragment.onFinish();
+    public void finish() {
+        if (!mShouldFinish) {
+            mFragment.onFinish();
+            return;
+        }
+        super.finish();
+    }
+
+    @Override
+    public void finishAfterTransition() {
+        if (!mShouldFinish) {
+            mFragment.onFinish();
+            return;
+        }
+        super.finishAfterTransition();
+    }
+
+    public void finishFromFragment() {
+        mShouldFinish = true;
+        super.finish();
+    }
+
+    public void finishAfterTransitionFromFragment() {
+        mShouldFinish = true;
+        super.supportFinishAfterTransition();
     }
 }

@@ -324,7 +324,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
 
     @Override
     public void onBroadcastRemoved(int requestCode) {
-        getActivity().finish();
+        finish();
     }
 
     @Override
@@ -582,12 +582,22 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         if (mCommentEdit.getText().length() > 0) {
             ConfirmDiscardContentDialogFragment.show(this);
         } else {
-            ActivityCompat.finishAfterTransition(getActivity());
+            finishAfterTransition();
         }
     }
 
     @Override
     public void discardContent() {
-        ActivityCompat.finishAfterTransition(getActivity());
+        finishAfterTransition();
+    }
+
+    private void finish() {
+        BroadcastActivity activity = (BroadcastActivity) getActivity();
+        activity.finishFromFragment();
+    }
+
+    private void finishAfterTransition() {
+        BroadcastActivity activity = (BroadcastActivity) getActivity();
+        activity.finishAfterTransitionFromFragment();
     }
 }

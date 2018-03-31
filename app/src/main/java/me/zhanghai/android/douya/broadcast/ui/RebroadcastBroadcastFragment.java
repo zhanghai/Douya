@@ -236,7 +236,7 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
 
         if (mBroadcastResource.isEffectiveBroadcastId(event.broadcastId)) {
             mRebroadcasted = true;
-            getActivity().finish();
+            finish();
         }
     }
 
@@ -276,12 +276,22 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
         if (mTextEdit.getText().length() > 0) {
             ConfirmDiscardContentDialogFragment.show(this);
         } else {
-            getActivity().finish();
+            finish();
         }
     }
 
     @Override
     public void discardContent() {
-        getActivity().finish();
+        finish();
+    }
+
+    private void finish() {
+        RebroadcastBroadcastActivity activity = (RebroadcastBroadcastActivity) getActivity();
+        activity.finishFromFragment();
+    }
+
+    private void finishAfterTransition() {
+        RebroadcastBroadcastActivity activity = (RebroadcastBroadcastActivity) getActivity();
+        activity.finishAfterTransitionFromFragment();
     }
 }
