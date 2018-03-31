@@ -179,6 +179,7 @@ public abstract class BaseTimelineBroadcastListFragment extends BaseBroadcastLis
     }
 
     protected void onSendBroadcast() {
-        NotImplementedManager.sendBroadcast(null, getActivity());
+        Activity activity = getActivity();
+        activity.startActivity(SendBroadcastActivity.makeIntent(activity));
     }
 }

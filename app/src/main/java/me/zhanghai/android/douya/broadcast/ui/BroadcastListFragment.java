@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.broadcast.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -62,6 +63,7 @@ public class BroadcastListFragment extends BaseTimelineBroadcastListFragment {
 
     @Override
     protected void onSendBroadcast() {
-        NotImplementedManager.sendBroadcast(mTopic, getActivity());
+        Activity activity = getActivity();
+        activity.startActivity(SendBroadcastActivity.makeTopicIntent(mTopic, activity));
     }
 }

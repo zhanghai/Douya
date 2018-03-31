@@ -33,19 +33,6 @@ public class NotImplementedManager {
         UrlHandler.open("https://www.douban.com/search", context);
     }
 
-    public static void sendBroadcast(String topic, Context context) {
-        // FIXME: Not finished, disabled for release build.
-        if (BuildConfig.DEBUG) {
-            context.startActivity(SendBroadcastActivity.makeTopicIntent(topic, context));
-            return;
-        }
-        if (Settings.PROGRESSIVE_THIRD_PARTY_APP.getValue()
-                && FrodoBridge.sendBroadcast(topic, context)) {
-            return;
-        }
-        UrlHandler.open("https://www.douban.com/#db-isay", context);
-    }
-
     public static void showNotYetImplementedToast(Context context) {
         ToastUtils.show(R.string.not_yet_implemented, context);
     }
