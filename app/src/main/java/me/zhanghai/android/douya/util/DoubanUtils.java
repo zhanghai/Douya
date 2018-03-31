@@ -119,7 +119,10 @@ public class DoubanUtils {
     private static int padSpaceAround(EditText editText, int start, int end) {
         Editable editable = editText.getText();
         if (start > 0) {
-            if (editable.charAt(start - 1) == ' ') {
+            char c = editable.charAt(start - 1);
+            if (c == '\n') {
+                // Do nothing.
+            } else if (c == ' ') {
                 --start;
             } else {
                 insertPreservingSelection(editText, start, " ");
@@ -127,10 +130,15 @@ public class DoubanUtils {
             }
         }
         if (end < editable.length()) {
-            if (editable.charAt(end) != ' ') {
+            char c = editable.charAt(end);
+            if (c == '\n') {
+                // Do nothing.
+            } else if (c == ' ') {
+                ++end;
+            } else {
                 insertPreservingSelection(editText, end, " ");
+                ++end;
             }
-            ++end;
         }
         return end;
     }
