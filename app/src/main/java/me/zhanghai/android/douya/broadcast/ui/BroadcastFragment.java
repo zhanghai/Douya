@@ -52,6 +52,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.ui.DoubleClickToolbar;
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.ui.GetOnLongClickListenerImageButton;
 import me.zhanghai.android.douya.ui.LoadMoreAdapter;
 import me.zhanghai.android.douya.ui.NoChangeAnimationItemAnimator;
@@ -592,12 +593,10 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
     }
 
     private void finish() {
-        BroadcastActivity activity = (BroadcastActivity) getActivity();
-        activity.finishFromFragment();
+        FragmentFinishable.finish(getActivity());
     }
 
     private void finishAfterTransition() {
-        BroadcastActivity activity = (BroadcastActivity) getActivity();
-        activity.finishAfterTransitionFromFragment();
+        FragmentFinishable.finishAfterTransition(getActivity());
     }
 }

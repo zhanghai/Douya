@@ -10,9 +10,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class SendCommentActivity extends AppCompatActivity {
+public class SendCommentActivity extends AppCompatActivity implements FragmentFinishable {
 
     private static final String KEY_PREFIX = SendCommentActivity.class.getName() + '.';
 
@@ -69,11 +70,13 @@ public class SendCommentActivity extends AppCompatActivity {
         super.finishAfterTransition();
     }
 
+    @Override
     public void finishFromFragment() {
         mShouldFinish = true;
         super.finish();
     }
 
+    @Override
     public void finishAfterTransitionFromFragment() {
         mShouldFinish = true;
         super.supportFinishAfterTransition();

@@ -36,6 +36,7 @@ import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
@@ -286,12 +287,6 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
     }
 
     private void finish() {
-        RebroadcastBroadcastActivity activity = (RebroadcastBroadcastActivity) getActivity();
-        activity.finishFromFragment();
-    }
-
-    private void finishAfterTransition() {
-        RebroadcastBroadcastActivity activity = (RebroadcastBroadcastActivity) getActivity();
-        activity.finishAfterTransitionFromFragment();
+        FragmentFinishable.finish(getActivity());
     }
 }

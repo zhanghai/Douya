@@ -11,10 +11,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
-public class BroadcastActivity extends AppCompatActivity {
+public class BroadcastActivity extends AppCompatActivity implements FragmentFinishable {
 
     private static final String KEY_PREFIX = BroadcastActivity.class.getName() + '.';
 
@@ -88,11 +89,13 @@ public class BroadcastActivity extends AppCompatActivity {
         super.finishAfterTransition();
     }
 
+    @Override
     public void finishFromFragment() {
         mShouldFinish = true;
         super.finish();
     }
 
+    @Override
     public void finishAfterTransitionFromFragment() {
         mShouldFinish = true;
         super.supportFinishAfterTransition();

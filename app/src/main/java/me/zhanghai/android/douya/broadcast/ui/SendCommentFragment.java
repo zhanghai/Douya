@@ -31,6 +31,7 @@ import me.zhanghai.android.douya.eventbus.BroadcastCommentSendErrorEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastCommentSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
@@ -210,12 +211,6 @@ public class SendCommentFragment extends Fragment
     }
 
     private void finish() {
-        SendCommentActivity activity = (SendCommentActivity) getActivity();
-        activity.finishFromFragment();
-    }
-
-    private void finishAfterTransition() {
-        SendCommentActivity activity = (SendCommentActivity) getActivity();
-        activity.finishAfterTransitionFromFragment();
+        FragmentFinishable.finish(getActivity());
     }
 }

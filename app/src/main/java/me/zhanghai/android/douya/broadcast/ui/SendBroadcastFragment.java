@@ -50,6 +50,7 @@ import me.zhanghai.android.douya.eventbus.BroadcastSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FileUtils;
@@ -551,13 +552,7 @@ public class SendBroadcastFragment extends Fragment
     }
 
     private void finish() {
-        SendBroadcastActivity activity = (SendBroadcastActivity) getActivity();
-        activity.finishFromFragment();
-    }
-
-    private void finishAfterTransition() {
-        SendBroadcastActivity activity = (SendBroadcastActivity) getActivity();
-        activity.finishAfterTransitionFromFragment();
+        FragmentFinishable.finish(getActivity());
     }
 
     public static class LinkInfo implements Parcelable {

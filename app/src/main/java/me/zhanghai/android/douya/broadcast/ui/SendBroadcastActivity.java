@@ -15,12 +15,13 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.ObjectUtils;
 import me.zhanghai.android.douya.util.UrlUtils;
 
-public class SendBroadcastActivity extends AppCompatActivity {
+public class SendBroadcastActivity extends AppCompatActivity implements FragmentFinishable {
 
     private static final String KEY_PREFIX = SendBroadcastActivity.class.getName() + '.';
 
@@ -127,11 +128,13 @@ public class SendBroadcastActivity extends AppCompatActivity {
         super.finishAfterTransition();
     }
 
+    @Override
     public void finishFromFragment() {
         mShouldFinish = true;
         super.finish();
     }
 
+    @Override
     public void finishAfterTransitionFromFragment() {
         mShouldFinish = true;
         super.supportFinishAfterTransition();
