@@ -156,8 +156,19 @@ public class DoubanUtils {
         int selectionEnd = editText.getSelectionEnd();
         Editable editable = editText.getText();
         editable.insert(position, text);
-        if (selectionStart >= position) {
-            editText.setSelection(selectionStart + 1, selectionEnd + 1);
+        boolean needPreserve = false;
+        if (selectionStart == position) {
+            needPreserve = true;
+        } else {
+            selectionStart = editText.getSelectionStart();
+        }
+        if (selectionEnd == position) {
+            needPreserve = true;
+        } else {
+            selectionEnd = editText.getSelectionEnd();
+        }
+        if (needPreserve) {
+            editText.setSelection(selectionStart, selectionEnd);
         }
     }
 
