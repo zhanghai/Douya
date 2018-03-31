@@ -75,8 +75,7 @@ public class DoubanUtils {
         int selectionEnd = editText.getSelectionEnd();
         int mentionStart;
         int mentionEnd;
-        if (selectionStart != selectionEnd && selectionStart > 0
-                && editable.charAt(selectionStart - 1) == '@') {
+        if (selectionStart > 0 && editable.charAt(selectionStart - 1) == '@') {
             mentionStart = selectionStart - 1;
             mentionEnd = selectionEnd;
             padSpaceAround(editText, mentionStart, mentionEnd);
