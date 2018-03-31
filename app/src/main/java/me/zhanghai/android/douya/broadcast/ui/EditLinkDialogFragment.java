@@ -89,8 +89,7 @@ public class EditLinkDialogFragment extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.ok, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
-        dialog.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         // Don't let OK dismiss our dialog.
         dialog.setOnShowListener(dialog2 -> {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> onOk());
