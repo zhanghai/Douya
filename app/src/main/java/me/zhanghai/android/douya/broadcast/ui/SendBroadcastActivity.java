@@ -63,8 +63,10 @@ public class SendBroadcastActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             String text;
+            boolean allowUrlFromText = true;
             if (intent.hasExtra(EXTRA_TEXT)) {
                 text = intent.getStringExtra(EXTRA_TEXT);
+                allowUrlFromText = false;
             } else if (intent.hasExtra(Intent.EXTRA_TEXT)) {
                 ArrayList<CharSequence> textList = intent.getCharSequenceArrayListExtra(
                         Intent.EXTRA_TEXT);
@@ -94,7 +96,7 @@ public class SendBroadcastActivity extends AppCompatActivity {
             SendBroadcastFragment.LinkInfo linkInfo;
             if (intent.hasExtra(EXTRA_LINK_INFO)) {
                 linkInfo = intent.getParcelableExtra(EXTRA_LINK_INFO);
-            } else if (UrlUtils.isValidUrl(text)) {
+            } else if (allowUrlFromText && UrlUtils.isValidUrl(text)) {
                 linkInfo = new SendBroadcastFragment.LinkInfo(text);
                 text = null;
             } else {
