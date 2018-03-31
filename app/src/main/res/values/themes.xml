@@ -78,6 +78,7 @@
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.Douya.Light</item>
+        <item name="android:listDivider">@drawable/list_divider_light</item>
 
         <item name="colorPrimary">@color/douya_primary</item>
         <item name="colorPrimaryDark">@color/douya_primary_dark</item>
@@ -91,6 +92,7 @@
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
+        <item name="android:listDivider">@drawable/list_divider_dark</item>
 
         <item name="colorAccent">@color/douya_accent</item>
 
@@ -107,10 +109,9 @@
 
         <!-- Fixes. -->
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
-        <item name="android:textColorLink">?colorAccent</item>
-        <!-- NOTE: The following two framework attributes are v11. Anyway. -->
         <item name="dividerHorizontal">?android:dividerHorizontal</item>
         <item name="dividerVertical">?android:dividerVertical</item>
+        <item name="android:textColorLink">?colorAccent</item>
         <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
     </style>
@@ -124,10 +125,9 @@
 
         <!-- Fixes. -->
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
-        <item name="android:textColorLink">?colorAccent</item>
-        <!-- NOTE: The following two framework attributes are v11. Anyway. -->
         <item name="dividerHorizontal">?android:dividerHorizontal</item>
         <item name="dividerVertical">?android:dividerVertical</item>
+        <item name="android:textColorLink">?colorAccent</item>
         <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
     </style>
@@ -164,6 +164,8 @@
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.Douya.Light</item>
+        <item name="android:dividerHorizontal">@drawable/list_divider_light</item>
+        <item name="android:dividerVertical">@drawable/list_divider_light</item>
 
         <item name="colorPrimary">@color/douya_primary</item>
         <item name="colorPrimaryDark">@color/douya_primary_dark</item>
@@ -177,6 +179,8 @@
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
+        <item name="android:dividerHorizontal">@drawable/list_divider_light</item>
+        <item name="android:dividerVertical">@drawable/list_divider_light</item>
 
         <item name="colorAccent">@color/douya_accent</item>
 
@@ -188,6 +192,8 @@
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
+        <item name="android:dividerHorizontal">@drawable/list_divider_dark</item>
+        <item name="android:dividerVertical">@drawable/list_divider_dark</item>
 
         <item name="colorAccent">@color/douya_accent</item>
 
@@ -204,10 +210,9 @@
 
         <!-- Fixes. -->
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
-        <item name="android:textColorLink">?colorAccent</item>
-        <!-- NOTE: The following two framework attributes are v11. Anyway. -->
         <item name="dividerHorizontal">?android:dividerHorizontal</item>
         <item name="dividerVertical">?android:dividerVertical</item>
+        <item name="android:textColorLink">?colorAccent</item>
         <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
     </style>
@@ -221,10 +226,9 @@
 
         <!-- Fixes. -->
         <item name="actionMenuTextAppearance">@style/TextAppearance.Douya.Widget.ActionBar.Menu</item>
-        <item name="android:textColorLink">?colorAccent</item>
-        <!-- NOTE: The following two framework attributes are v11. Anyway. -->
         <item name="dividerHorizontal">?android:dividerHorizontal</item>
         <item name="dividerVertical">?android:dividerVertical</item>
+        <item name="android:textColorLink">?colorAccent</item>
         <item name="toolbarStyle">@style/Widget.Douya.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
     </style>
