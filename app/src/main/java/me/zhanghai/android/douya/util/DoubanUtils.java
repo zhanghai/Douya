@@ -100,10 +100,16 @@ public class DoubanUtils {
         int topicStart;
         int topicEnd;
         if (selectionStart != selectionEnd) {
-            editable.insert(selectionStart, "#");
-            editable.insert(selectionEnd + 1, "#");
-            topicStart = selectionStart;
-            topicEnd = selectionEnd + 2;
+            if (selectionStart > 0 && editable.charAt(selectionStart - 1) == '#'
+                    && selectionEnd < editable.length() && editable.charAt(selectionEnd) == '#') {
+                topicStart = selectionStart - 1;
+                topicEnd = selectionEnd + 1;
+            } else {
+                editable.insert(selectionStart, "#");
+                editable.insert(selectionEnd + 1, "#");
+                topicStart = selectionStart;
+                topicEnd = selectionEnd + 2;
+            }
             int paddedTopicEnd = padSpaceAround(editText, topicStart, topicEnd);
             editText.setSelection(paddedTopicEnd);
         } else {
