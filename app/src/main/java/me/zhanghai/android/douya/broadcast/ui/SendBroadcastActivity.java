@@ -49,7 +49,7 @@ public class SendBroadcastActivity extends AppCompatActivity {
     }
 
     public static Intent makeTopicIntent(String topic, Context context) {
-        String text = !TextUtils.isEmpty(topic) ? DoubanUtils.makeTopicString(topic) : null;
+        String text = !TextUtils.isEmpty(topic) ? DoubanUtils.makeTopicBroadcastText(topic) : null;
         return makeIntent(text, context);
     }
 

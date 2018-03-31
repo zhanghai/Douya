@@ -185,6 +185,10 @@ public class DoubanUtils {
         return '#' + topic + '#';
     }
 
+    public static String makeTopicBroadcastText(String topic) {
+        return ' ' + makeTopicString(topic);
+    }
+
     public static String makeBroadcastUri(long broadcastId) {
         return "douban://douban.com/status/" + broadcastId;
     }
