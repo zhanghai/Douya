@@ -74,6 +74,7 @@ public class SendBroadcastFragment extends Fragment
 
     private static final String STATE_IMAGE_URIS = KEY_PREFIX + "image_uris";
     private static final String STATE_LINK_INFO = KEY_PREFIX + "link_info";
+    private static final String STATE_CHANGED = KEY_PREFIX + "changed";
     private static final String STATE_WRITER_ID = KEY_PREFIX + "writer_id";
 
     private static final int REQUEST_CODE_CAPTURE_IMAGE_PERMISSION = 1;
@@ -123,6 +124,8 @@ public class SendBroadcastFragment extends Fragment
     private ArrayList<Uri> mImageUris;
     private LinkInfo mLinkInfo;
 
+    private boolean mChanged;
+
     private long mWriterId;
 
     private File mCaptureImageOutputFile;
@@ -158,6 +161,7 @@ public class SendBroadcastFragment extends Fragment
         } else {
             mImageUris = savedInstanceState.getParcelableArrayList(STATE_IMAGE_URIS);
             mLinkInfo = savedInstanceState.getParcelable(STATE_LINK_INFO);
+            mChanged = savedInstanceState.getBoolean(STATE_CHANGED);
             mWriterId = savedInstanceState.getLong(STATE_WRITER_ID);
         }
         if (mImageUris == null) {
@@ -202,6 +206,7 @@ public class SendBroadcastFragment extends Fragment
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
+                mChanged = true;
                 updateCounterText();
             }
         });
@@ -234,6 +239,7 @@ public class SendBroadcastFragment extends Fragment
 
         outState.putParcelableArrayList(STATE_IMAGE_URIS, mImageUris);
         outState.putParcelable(STATE_LINK_INFO, mLinkInfo);
+        outState.putBoolean(STATE_CHANGED, mChanged);
         outState.putLong(STATE_WRITER_ID, mWriterId);
     }
 
@@ -384,6 +390,7 @@ public class SendBroadcastFragment extends Fragment
         mImageUris.addAll(uris);
         bindAttachmentLayout(appendingImages);
         updateBottomBar();
+        mChanged = true;
     }
 
     private void removeImage(int position) {
@@ -391,6 +398,7 @@ public class SendBroadcastFragment extends Fragment
         boolean removedImageAtEnd = position == mImageUris.size();
         bindAttachmentLayout(removedImageAtEnd);
         updateBottomBar();
+        mChanged = true;
     }
 
     private void onRemoveAllImages() {
@@ -402,6 +410,7 @@ public class SendBroadcastFragment extends Fragment
         mImageUris.clear();
         bindAttachmentLayout();
         updateBottomBar();
+        mChanged = true;
     }
 
     private void editLink() {
@@ -413,6 +422,7 @@ public class SendBroadcastFragment extends Fragment
         mLinkInfo = linkInfo;
         bindAttachmentLayout();
         updateBottomBar();
+        mChanged = true;
     }
 
     private void onRemoveLink() {
@@ -526,7 +536,9 @@ public class SendBroadcastFragment extends Fragment
     }
 
     public void onFinish() {
-        if (mTextEdit.getText().length() > 0 || !mImageUris.isEmpty() || mLinkInfo != null) {
+        boolean isEmpty = TextUtils.isEmpty(mTextEdit.getText()) && mImageUris.isEmpty()
+                && mLinkInfo == null;
+        if (mChanged && !isEmpty) {
             ConfirmDiscardContentDialogFragment.show(this);
         } else {
             getActivity().finish();
