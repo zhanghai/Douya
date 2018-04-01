@@ -5,9 +5,6 @@
 
 package me.zhanghai.android.douya.broadcast.ui;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
 import butterknife.BindDimen;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.HomeBroadcastListResource;
@@ -55,6 +52,6 @@ public class HomeBroadcastListFragment extends BaseTimelineBroadcastListFragment
         super.onSwipeRefresh();
 
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.refreshNotificationList();
+        mainActivity.onRefresh();
     }
 }

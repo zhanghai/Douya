@@ -43,7 +43,7 @@ public class DoumailUnreadCountFragment extends Fragment
         super.onStart();
 
         if (mNotificationCountResource.has()) {
-            mNotificationCountResource.load();
+            refresh();
         }
     }
 
@@ -69,6 +69,10 @@ public class DoumailUnreadCountFragment extends Fragment
     public void onNotificationCountChanged(int requestCode,
                                            NotificationCount newNotificationCount) {
         mListener.onDoumailUnreadCountUpdate(newNotificationCount.doumail.count);
+    }
+
+    public void refresh() {
+        mNotificationCountResource.load();
     }
 
     public void setListener(Listener listener) {

@@ -181,8 +181,9 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
     }
 
-    public void refreshNotificationList() {
+    public void onRefresh() {
         mNotificationListFragment.refresh();
+        mDoumailUnreadCountFragment.refresh();
     }
 
     @Override
