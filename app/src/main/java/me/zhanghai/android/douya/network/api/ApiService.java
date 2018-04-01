@@ -34,6 +34,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.DoumailThreadList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopicList;
+import me.zhanghai.android.douya.network.api.info.frodo.NotificationCount;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
 import me.zhanghai.android.douya.network.api.info.frodo.PhotoList;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
@@ -175,6 +176,14 @@ public class ApiService {
                 ApiContract.Request.Authentication.GrantTypes.PASSWORD, refreshToken);
     }
 
+    public ApiRequest<NotificationCount> getNotificationCount() {
+        return mFrodoService.getNotificationCount();
+    }
+
+    public ApiRequest<NotificationList> getNotificationList(Integer start, Integer count) {
+        return mFrodoService.getNotificationList(start, count);
+    }
+
     public ApiRequest<User> getUser(String userIdOrUid) {
         if (TextUtils.isEmpty(userIdOrUid)) {
             userIdOrUid = "~me";
@@ -202,10 +211,6 @@ public class ApiService {
 
     public ApiRequest<UserList> getFollowerList(String userIdOrUid, Integer start, Integer count) {
         return mFrodoService.getFollowerList(userIdOrUid, start, count);
-    }
-
-    public ApiRequest<NotificationList> getNotificationList(Integer start, Integer count) {
-        return mFrodoService.getNotificationList(start, count);
     }
 
     public ApiRequest<List<me.zhanghai.android.douya.network.api.info.apiv2.Broadcast>>
@@ -493,6 +498,9 @@ public class ApiService {
     }
 
     public interface FrodoService {
+
+        @GET("notification_chart")
+        ApiRequest<NotificationCount> getNotificationCount();
 
         @GET("mine/notifications")
         ApiRequest<NotificationList> getNotificationList(@Query("start") Integer start,
