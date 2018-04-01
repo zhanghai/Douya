@@ -70,30 +70,10 @@ public class HomeFragment extends Fragment implements AppBarHost {
         activity.setSupportActionBar(mToolbar);
 
         mTabAdapter = new TabFragmentPagerAdapter(this);
-        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
-            @Override
-            public Fragment createFragment() {
-                return HomeBroadcastListFragment.newInstance();
-            }
-        }, getString(R.string.home_broadcast));
-        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
-            @Override
-            public Fragment createFragment() {
-                return NotYetImplementedFragment.newInstance();
-            }
-        }, getString(R.string.home_discover));
-        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
-            @Override
-            public Fragment createFragment() {
-                return NotYetImplementedFragment.newInstance();
-            }
-        }, getString(R.string.home_topic));
-        mTabAdapter.addTab(new TabFragmentPagerAdapter.FragmentCreator() {
-            @Override
-            public Fragment createFragment() {
-                return NotYetImplementedFragment.newInstance();
-            }
-        }, getString(R.string.home_online));
+        mTabAdapter.addTab(HomeBroadcastListFragment::newInstance, getString(R.string.home_broadcast));
+        mTabAdapter.addTab(NotYetImplementedFragment::newInstance, getString(R.string.home_discover));
+        mTabAdapter.addTab(NotYetImplementedFragment::newInstance, getString(R.string.home_topic));
+        mTabAdapter.addTab(NotYetImplementedFragment::newInstance, getString(R.string.home_online));
         mViewPager.setOffscreenPageLimit(mTabAdapter.getCount() - 1);
         mViewPager.setAdapter(mTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
