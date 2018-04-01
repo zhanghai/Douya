@@ -64,13 +64,13 @@
                     android:layout_marginLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
                     android:layout_marginRight="@dimen/card_content_horizontal_margin_with_4dp_padding"
                     android:layout_marginTop="@dimen/card_content_vertical_margin_large"
+                    android:hint="@string/auth_username"
                     app:errorEnabled="true">
 
                     <me.zhanghai.android.materialedittext.MaterialEditText
                         android:id="@+id/username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/auth_username"
                         android:inputType="textEmailAddress" />
                 </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
 
@@ -80,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/card_content_horizontal_margin_with_4dp_padding"
                     android:layout_marginRight="@dimen/card_content_horizontal_margin_with_4dp_padding"
+                    android:hint="@string/auth_password"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true">
 
@@ -87,7 +88,6 @@
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/auth_password"
                         android:imeActionId="@integer/ime_action_done"
                         android:imeActionLabel="@string/auth_sign_in"
                         android:imeOptions="actionDone"
