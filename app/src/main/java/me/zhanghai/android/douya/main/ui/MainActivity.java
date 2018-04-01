@@ -129,9 +129,10 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         getMenuInflater().inflate(R.menu.main, menu);
         mNotificationMenuItem = menu.findItem(R.id.action_notification);
         ActionItemBadge.setup(mNotificationMenuItem, R.drawable.notifications_icon_white_24dp,
-                mNotificationListFragment.getUnreadNotificationCount(), this);
+                mNotificationListFragment.getUnreadCount(), this);
         mDoumailMenuItem = menu.findItem(R.id.action_doumail);
-        ActionItemBadge.setup(mDoumailMenuItem, R.drawable.mail_icon_white_24dp, 0, this);
+        ActionItemBadge.setup(mDoumailMenuItem, R.drawable.mail_icon_white_24dp,
+                mDoumailUnreadCountFragment.getUnreadCount(), this);
         return true;
     }
 

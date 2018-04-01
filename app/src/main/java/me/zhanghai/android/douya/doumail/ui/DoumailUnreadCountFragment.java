@@ -60,8 +60,15 @@ public class DoumailUnreadCountFragment extends Fragment
                                            NotificationCount newNotificationCount) {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
-            activity.onDoumailUnreadCountUpdate(mNotificationCountResource.get().doumail.count);
+            activity.onDoumailUnreadCountUpdate(getUnreadCount());
         }
+    }
+
+    public int getUnreadCount() {
+        if (!mNotificationCountResource.has()) {
+            return 0;
+        }
+        return mNotificationCountResource.get().doumail.count;
     }
 
     public void refresh() {

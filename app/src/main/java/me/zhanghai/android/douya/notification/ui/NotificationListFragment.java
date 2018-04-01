@@ -166,7 +166,14 @@ public class NotificationListFragment extends Fragment implements NotificationLi
         EventBusUtils.postAsync(new NotificationUpdatedEvent(notification, this));
     }
 
-    public int getUnreadNotificationCount() {
+    private void onNotificationListUpdated() {
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            activity.onNotificationUnreadCountUpdate(getUnreadCount());
+        }
+    }
+
+    public int getUnreadCount() {
         int count = 0;
         for (Notification notification : mNotificationAdapter.getList()) {
             if (!notification.read) {
@@ -174,13 +181,6 @@ public class NotificationListFragment extends Fragment implements NotificationLi
             }
         }
         return count;
-    }
-
-    private void onNotificationListUpdated() {
-        MainActivity activity = (MainActivity) getActivity();
-        if (activity != null) {
-            activity.onNotificationUnreadCountUpdate(getUnreadNotificationCount());
-        }
     }
 
     public void refresh() {
