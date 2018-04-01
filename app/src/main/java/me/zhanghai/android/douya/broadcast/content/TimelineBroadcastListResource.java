@@ -131,6 +131,9 @@ public class TimelineBroadcastListResource
             for (Broadcast broadcast : response) {
                 EventBusUtils.postAsync(new BroadcastUpdatedEvent(broadcast, this));
             }
+            // Frodo API is sometimes buggy that broadcast list size may not be count. In this case,
+            // we simply load more until no more broadcast is returned.
+            setCanLoadMore(count == 0 || response.size() > 0);
         } else {
             getListener().onLoadBroadcastListFinished(getRequestCode());
             getListener().onLoadBroadcastListError(getRequestCode(), error);
