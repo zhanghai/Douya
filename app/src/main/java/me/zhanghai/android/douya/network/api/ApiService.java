@@ -29,6 +29,8 @@ import me.zhanghai.android.douya.network.api.info.frodo.CommentList;
 import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.DiaryList;
 import me.zhanghai.android.douya.network.api.info.frodo.DoulistList;
+import me.zhanghai.android.douya.network.api.info.frodo.DoumailThread;
+import me.zhanghai.android.douya.network.api.info.frodo.DoumailThreadList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopicList;
@@ -373,6 +375,14 @@ public class ApiService {
                 count);
     }
 
+    public ApiRequest<DoumailThreadList> getDoumailThreadList(Integer start, Integer count) {
+        return mFrodoService.getDoumailThreadList(start, count);
+    }
+
+    public ApiRequest<DoumailThread> getDoumailThread(long userId) {
+        return mFrodoService.getDoumailThread(userId);
+    }
+
     public void cancelApiRequests() {
         mLifeStreamHttpClient.dispatcher().cancelAll();
         mFrodoHttpClient.dispatcher().cancelAll();
@@ -644,6 +654,13 @@ public class ApiService {
                                                           @Path("itemId") long itemId,
                                                           @Query("start") Integer start,
                                                           @Query("count") Integer count);
+
+        @GET("chat_list")
+        ApiRequest<DoumailThreadList> getDoumailThreadList(@Query("start") Integer start,
+                                                           @Query("count") Integer count);
+
+        @GET("user/{userId}/chat")
+        ApiRequest<DoumailThread> getDoumailThread(@Path("userId") long userId);
     }
 
     private static class ConvertBroadcastApiRequest extends ConvertApiRequest<
