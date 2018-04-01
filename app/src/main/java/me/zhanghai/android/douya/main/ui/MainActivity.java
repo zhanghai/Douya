@@ -181,9 +181,15 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     @Override
     public void reloadForActiveAccountChange() {
-        FragmentUtils.remove(mMainFragment);
-        FragmentUtils.remove(mNotificationListFragment);
-        FragmentUtils.remove(mDoumailUnreadCountFragment);
+        if (mMainFragment != null) {
+            FragmentUtils.remove(mMainFragment);
+        }
+        if (mNotificationListFragment != null) {
+            FragmentUtils.remove(mNotificationListFragment);
+        }
+        if (mDoumailUnreadCountFragment != null) {
+            FragmentUtils.remove(mDoumailUnreadCountFragment);
+        }
         FragmentUtils.execPendingTransactions(this);
         addFragments();
         FragmentUtils.execPendingTransactions(this);
