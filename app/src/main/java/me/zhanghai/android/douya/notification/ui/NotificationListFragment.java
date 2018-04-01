@@ -187,11 +187,11 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
     private void onNotificationListUpdated() {
         if (mListener != null) {
-            mListener.onUnreadNotificationCountUpdate(getUnreadNotificationCount());
+            mListener.onNotificationUnreadCountUpdate(getUnreadNotificationCount());
         }
     }
 
     public interface Listener {
-        void onUnreadNotificationCountUpdate(int count);
+        void onNotificationUnreadCountUpdate(int count);
     }
 }

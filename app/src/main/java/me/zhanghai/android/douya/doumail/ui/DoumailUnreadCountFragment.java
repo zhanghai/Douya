@@ -14,21 +14,21 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationCount;
 import me.zhanghai.android.douya.util.LogUtils;
 
-public class DoumailCountFragment extends Fragment implements NotificationCountResource.Listener {
+public class DoumailUnreadCountFragment extends Fragment implements NotificationCountResource.Listener {
 
     private NotificationCountResource mNotificationCountResource;
 
     private Listener mListener;
 
-    public static DoumailCountFragment newInstance() {
+    public static DoumailUnreadCountFragment newInstance() {
         //noinspection deprecation
-        return new DoumailCountFragment();
+        return new DoumailUnreadCountFragment();
     }
 
     /**
      * @deprecated Use {@link #newInstance()} instead.
      */
-    public DoumailCountFragment() {}
+    public DoumailUnreadCountFragment() {}
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class DoumailCountFragment extends Fragment implements NotificationCountR
     @Override
     public void onNotificationCountChanged(int requestCode,
                                            NotificationCount newNotificationCount) {
-        mListener.onUnreadDoumailCountUpdate(newNotificationCount.doumail.count);
+        mListener.onDoumailUnreadCountUpdate(newNotificationCount.doumail.count);
     }
 
     public void setListener(Listener listener) {
@@ -75,6 +75,6 @@ public class DoumailCountFragment extends Fragment implements NotificationCountR
     }
 
     public interface Listener {
-        void onUnreadDoumailCountUpdate(int count);
+        void onDoumailUnreadCountUpdate(int count);
     }
 }

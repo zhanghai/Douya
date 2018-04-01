@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
-import me.zhanghai.android.douya.doumail.ui.DoumailCountFragment;
+import me.zhanghai.android.douya.doumail.ui.DoumailUnreadCountFragment;
 import me.zhanghai.android.douya.home.HomeFragment;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.navigation.ui.NavigationFragment;
@@ -32,11 +32,12 @@ import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Host,
-        NotificationListFragment.Listener, DoumailCountFragment.Listener {
+        NotificationListFragment.Listener, DoumailUnreadCountFragment.Listener {
 
     private static final String KEY_PREFIX = MainActivity.class.getName() + '.';
 
-    private static final String FRAGMENT_TAG_DOUMAIL_COUNT = KEY_PREFIX + "doumail_count";
+    private static final String FRAGMENT_TAG_DOUMAIL_UNREAD_COUNT = KEY_PREFIX +
+            "doumail_unread_count";
 
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     private NavigationFragment mNavigationFragment;
     private NotificationListFragment mNotificationListFragment;
-    private DoumailCountFragment mDoumailCountFragment;
+    private DoumailUnreadCountFragment mDoumailUnreadCountFragment;
     // FIXME
     private HomeFragment mMainFragment;
 
@@ -168,13 +169,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         mNotificationListFragment = NotificationListFragment.newInstance();
         mNotificationListFragment.setListener(this);
         FragmentUtils.add(mNotificationListFragment, this, R.id.notification_list_drawer);
-        mDoumailCountFragment = DoumailCountFragment.newInstance();
-        mDoumailCountFragment.setListener(this);
-        FragmentUtils.add(mDoumailCountFragment, this, FRAGMENT_TAG_DOUMAIL_COUNT);
+        mDoumailUnreadCountFragment = DoumailUnreadCountFragment.newInstance();
+        mDoumailUnreadCountFragment.setListener(this);
+        FragmentUtils.add(mDoumailUnreadCountFragment, this, FRAGMENT_TAG_DOUMAIL_UNREAD_COUNT);
     }
 
     @Override
-    public void onUnreadNotificationCountUpdate(int count) {
+    public void onNotificationUnreadCountUpdate(int count) {
         if (mNotificationMenuItem != null) {
             ActionItemBadge.update(mNotificationMenuItem, count);
         }
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
-    public void onUnreadDoumailCountUpdate(int count) {
+    public void onDoumailUnreadCountUpdate(int count) {
         if (mDoumailMenuItem != null) {
             ActionItemBadge.update(mDoumailMenuItem, count);
         }
