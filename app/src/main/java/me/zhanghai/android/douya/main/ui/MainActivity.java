@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     private static final String FRAGMENT_TAG_DOUMAIL_UNREAD_COUNT = KEY_PREFIX +
             "doumail_unread_count";
 
+    private static final String STATE_OPENED_DOUMAIL = KEY_PREFIX + "opened_doumail";
+
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.notification_list_drawer)
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     private DoumailUnreadCountFragment mDoumailUnreadCountFragment;
     // FIXME
     private HomeFragment mMainFragment;
+
+    private boolean mOpenedDoumail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,10 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             return;
         }
 
+        if (savedInstanceState != null) {
+            mOpenedDoumail = savedInstanceState.getBoolean(STATE_OPENED_DOUMAIL);
+        }
+
         setContentView(R.layout.main_activity);
         TransitionUtils.setupTransitionAfterSetContentView(this);
         ButterKnife.bind(this);
@@ -93,6 +101,23 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         } else {
             mMainFragment = FragmentUtils.findById(this, R.id.container);
             mNotificationListFragment = FragmentUtils.findById(this, R.id.notification_list_drawer);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(STATE_OPENED_DOUMAIL, mOpenedDoumail);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mOpenedDoumail) {
+            mDoumailUnreadCountFragment.refresh();
+            mOpenedDoumail = false;
         }
     }
 
@@ -120,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 mDrawerLayout.openDrawer(mNotificationDrawer);
                 return true;
             case R.id.action_doumail:
+                mOpenedDoumail = true;
                 NotImplementedManager.openDoumail(this);
                 return true;
             case R.id.action_search:

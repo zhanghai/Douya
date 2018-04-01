@@ -39,15 +39,6 @@ public class DoumailUnreadCountFragment extends Fragment
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        if (mNotificationCountResource.has()) {
-            refresh();
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
 
