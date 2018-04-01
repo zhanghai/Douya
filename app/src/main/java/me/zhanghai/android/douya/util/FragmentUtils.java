@@ -97,11 +97,17 @@ public class FragmentUtils {
         add(fragment, parentFragment.getChildFragmentManager(), tag);
     }
 
+    /**
+     * @deprecated Always use an id or tag for restoration.
+     */
     public static void add(Fragment fragment, FragmentActivity activity) {
         //noinspection deprecation
         add(fragment, activity.getSupportFragmentManager(), null);
     }
 
+    /**
+     * @deprecated Always use an id or tag for restoration.
+     */
     public static void add(Fragment fragment, Fragment parentFragment) {
         //noinspection deprecation
         add(fragment, parentFragment.getChildFragmentManager(), null);

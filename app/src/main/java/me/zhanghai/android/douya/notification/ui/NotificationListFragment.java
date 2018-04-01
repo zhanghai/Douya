@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.notification.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -63,13 +64,13 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.notification_list_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
@@ -81,12 +82,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
         mNotificationListResource = NotificationListResource.attachTo(this);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         mNotificationList.setHasFixedSize(true);
         mNotificationList.setItemAnimator(new NoChangeAnimationItemAnimator());
@@ -191,11 +187,11 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
     private void onNotificationListUpdated() {
         if (mListener != null) {
-            mListener.onUnreadNotificationUpdate(getUnreadNotificationCount());
+            mListener.onUnreadNotificationCountUpdate(getUnreadNotificationCount());
         }
     }
 
     public interface Listener {
-        void onUnreadNotificationUpdate(int count);
+        void onUnreadNotificationCountUpdate(int count);
     }
 }

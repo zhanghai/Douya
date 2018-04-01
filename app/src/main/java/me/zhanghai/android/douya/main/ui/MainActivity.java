@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.doumail.ui.DoumailCountFragment;
 import me.zhanghai.android.douya.home.HomeFragment;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.navigation.ui.NavigationFragment;
@@ -31,7 +32,11 @@ import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Host,
-        NotificationListFragment.Listener {
+        NotificationListFragment.Listener, DoumailCountFragment.Listener {
+
+    private static final String KEY_PREFIX = MainActivity.class.getName() + '.';
+
+    private static final String FRAGMENT_TAG_DOUMAIL_COUNT = KEY_PREFIX + "doumail_count";
 
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;
@@ -41,9 +46,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     FrameLayout mContainerLayout;
 
     private MenuItem mNotificationMenuItem;
+    private MenuItem mDoumailMenuItem;
 
     private NavigationFragment mNavigationFragment;
     private NotificationListFragment mNotificationListFragment;
+    private DoumailCountFragment mDoumailCountFragment;
     // FIXME
     private HomeFragment mMainFragment;
 
@@ -96,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         mNotificationMenuItem = menu.findItem(R.id.action_notification);
         ActionItemBadge.setup(mNotificationMenuItem, R.drawable.notifications_icon_white_24dp,
                 mNotificationListFragment.getUnreadNotificationCount(), this);
-        MenuItem mDouMailMenuItem = menu.findItem(R.id.action_doumail);
-        ActionItemBadge.setup(mDouMailMenuItem, R.drawable.mail_icon_white_24dp, 0, this);
+        mDoumailMenuItem = menu.findItem(R.id.action_doumail);
+        ActionItemBadge.setup(mDoumailMenuItem, R.drawable.mail_icon_white_24dp, 0, this);
         return true;
     }
 
@@ -161,10 +168,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         mNotificationListFragment = NotificationListFragment.newInstance();
         mNotificationListFragment.setListener(this);
         FragmentUtils.add(mNotificationListFragment, this, R.id.notification_list_drawer);
+        mDoumailCountFragment = DoumailCountFragment.newInstance();
+        mDoumailCountFragment.setListener(this);
+        FragmentUtils.add(mDoumailCountFragment, this, FRAGMENT_TAG_DOUMAIL_COUNT);
     }
 
     @Override
-    public void onUnreadNotificationUpdate(int count) {
+    public void onUnreadNotificationCountUpdate(int count) {
         if (mNotificationMenuItem != null) {
             ActionItemBadge.update(mNotificationMenuItem, count);
         }
@@ -172,5 +182,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     public void refreshNotificationList() {
         mNotificationListFragment.refresh();
+    }
+
+    @Override
+    public void onUnreadDoumailCountUpdate(int count) {
+        if (mDoumailMenuItem != null) {
+            ActionItemBadge.update(mDoumailMenuItem, count);
+        }
     }
 }

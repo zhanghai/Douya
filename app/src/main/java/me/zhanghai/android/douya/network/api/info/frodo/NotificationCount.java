@@ -10,9 +10,10 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class NotificationCount {
+public class NotificationCount implements Parcelable {
 
-    public Item chat;
+    @SerializedName("chat")
+    public Item doumail;
 
     public Item group;
 
@@ -62,5 +63,42 @@ public class NotificationCount {
             dest.writeInt(count);
             dest.writeString(version);
         }
+    }
+
+
+    public static final Parcelable.Creator<NotificationCount> CREATOR =
+            new Parcelable.Creator<NotificationCount>() {
+                @Override
+                public NotificationCount createFromParcel(Parcel source) {
+                    return new NotificationCount(source);
+                }
+                @Override
+                public NotificationCount[] newArray(int size) {
+                    return new NotificationCount[size];
+                }
+            };
+
+    public NotificationCount() {}
+
+    protected NotificationCount(Parcel in) {
+        doumail = in.readParcelable(Item.class.getClassLoader());
+        group = in.readParcelable(Item.class.getClassLoader());
+        groupChat = in.readParcelable(Item.class.getClassLoader());
+        mineTab = in.readParcelable(Item.class.getClassLoader());
+        feed = in.readParcelable(Item.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(doumail, flags);
+        dest.writeParcelable(group, flags);
+        dest.writeParcelable(groupChat, flags);
+        dest.writeParcelable(mineTab, flags);
+        dest.writeParcelable(feed, flags);
     }
 }
