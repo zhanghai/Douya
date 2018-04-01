@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.NotificationUpdatedEvent;
+import me.zhanghai.android.douya.main.ui.MainActivity;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.Notification;
 import me.zhanghai.android.douya.notification.content.NotificationListResource;
@@ -49,8 +50,6 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
     private NotificationAdapter mNotificationAdapter;
     private LoadMoreAdapter mAdapter;
-
-    private Listener mListener;
 
     public static NotificationListFragment newInstance() {
         //noinspection deprecation
@@ -177,21 +176,14 @@ public class NotificationListFragment extends Fragment implements NotificationLi
         return count;
     }
 
-    public void refresh() {
-        mNotificationListResource.load(false);
-    }
-
-    public void setListener(Listener listener) {
-        mListener = listener;
-    }
-
     private void onNotificationListUpdated() {
-        if (mListener != null) {
-            mListener.onNotificationUnreadCountUpdate(getUnreadNotificationCount());
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            activity.onNotificationUnreadCountUpdate(getUnreadNotificationCount());
         }
     }
 
-    public interface Listener {
-        void onNotificationUnreadCountUpdate(int count);
+    public void refresh() {
+        mNotificationListResource.load(false);
     }
 }

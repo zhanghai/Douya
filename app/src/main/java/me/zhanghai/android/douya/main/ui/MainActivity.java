@@ -31,8 +31,7 @@ import me.zhanghai.android.douya.ui.ActionItemBadge;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.TransitionUtils;
 
-public class MainActivity extends AppCompatActivity implements NavigationFragment.Host,
-        NotificationListFragment.Listener, DoumailUnreadCountFragment.Listener {
+public class MainActivity extends AppCompatActivity implements NavigationFragment.Host {
 
     private static final String KEY_PREFIX = MainActivity.class.getName() + '.';
 
@@ -194,29 +193,25 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         mMainFragment = HomeFragment.newInstance();
         FragmentUtils.add(mMainFragment, this, R.id.container);
         mNotificationListFragment = NotificationListFragment.newInstance();
-        mNotificationListFragment.setListener(this);
         FragmentUtils.add(mNotificationListFragment, this, R.id.notification_list_drawer);
         mDoumailUnreadCountFragment = DoumailUnreadCountFragment.newInstance();
-        mDoumailUnreadCountFragment.setListener(this);
         FragmentUtils.add(mDoumailUnreadCountFragment, this, FRAGMENT_TAG_DOUMAIL_UNREAD_COUNT);
     }
 
-    @Override
     public void onNotificationUnreadCountUpdate(int count) {
         if (mNotificationMenuItem != null) {
             ActionItemBadge.update(mNotificationMenuItem, count);
         }
     }
 
-    public void onRefresh() {
-        mNotificationListFragment.refresh();
-        mDoumailUnreadCountFragment.refresh();
-    }
-
-    @Override
     public void onDoumailUnreadCountUpdate(int count) {
         if (mDoumailMenuItem != null) {
             ActionItemBadge.update(mDoumailMenuItem, count);
         }
+    }
+
+    public void onRefresh() {
+        mNotificationListFragment.refresh();
+        mDoumailUnreadCountFragment.refresh();
     }
 }
