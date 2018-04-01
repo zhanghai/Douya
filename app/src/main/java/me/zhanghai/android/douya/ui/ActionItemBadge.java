@@ -52,8 +52,13 @@ public class ActionItemBadge {
     }
 
     private static void update(TextView badgeText, int count) {
-        badgeText.setText(String.valueOf(count));
-        ViewUtils.setVisibleOrGone(badgeText, count != 0);
+        boolean hasBadge = count > 0;
+        // Don't set the badge count to 0 if we are fading away.
+        if (hasBadge) {
+            badgeText.setText(String.valueOf(count));
+        }
+        // We are using android:animateLayoutChanges="true", so no need animating here.
+        ViewUtils.setVisibleOrGone(badgeText, hasBadge);
     }
 
     public static void update(MenuItem menuItem, int count) {
