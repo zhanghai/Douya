@@ -33,10 +33,10 @@ import me.zhanghai.android.douya.util.TransitionUtils;
 
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Host {
 
-    private static final String KEY_PREFIX = MainActivity.class.getName() + '.';
+    private static final String FRAGMENT_TAG_DOUMAIL_UNREAD_COUNT =
+            DoumailUnreadCountFragment.class.getName();
 
-    private static final String FRAGMENT_TAG_DOUMAIL_UNREAD_COUNT = KEY_PREFIX +
-            "doumail_unread_count";
+    private static final String KEY_PREFIX = MainActivity.class.getName() + '.';
 
     private static final String STATE_OPENED_DOUMAIL = KEY_PREFIX + "opened_doumail";
 
