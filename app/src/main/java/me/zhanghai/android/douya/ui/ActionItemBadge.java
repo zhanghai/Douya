@@ -18,33 +18,27 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.TooltipUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ActionItemBadge {
 
-    public static void setup(final MenuItem menuItem, Drawable icon, int count,
-                             final Activity activity) {
+    public static void setup(MenuItem menuItem, Drawable icon, int count, Activity activity) {
 
         View actionView = menuItem.getActionView();
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, menuItem);
-            }
-        });
+        actionView.setOnClickListener(view -> activity.onMenuItemSelected(
+                Window.FEATURE_OPTIONS_PANEL, menuItem));
         CharSequence title = menuItem.getTitle();
         if (!TextUtils.isEmpty(title)) {
             actionView.setContentDescription(title);
             TooltipUtils.setup(actionView);
         }
 
-        ImageView iconImage = ButterKnife.findById(actionView, R.id.icon);
+        ImageView iconImage = actionView.findViewById(R.id.icon);
         iconImage.setImageDrawable(icon);
 
-        TextView badgeText = ButterKnife.findById(actionView, R.id.badge);
+        TextView badgeText = actionView.findViewById(R.id.badge);
         Context themedContext = badgeText.getContext();
         ViewCompat.setBackground(badgeText, new BadgeDrawable(themedContext));
         badgeText.setTextColor(ViewUtils.getColorFromAttrRes(R.attr.colorPrimary, 0,
@@ -63,7 +57,7 @@ public class ActionItemBadge {
     }
 
     public static void update(MenuItem menuItem, int count) {
-        update(ButterKnife.<TextView>findById(menuItem.getActionView(), R.id.badge), count);
+        update(menuItem.getActionView().<TextView>findViewById(R.id.badge), count);
     }
 
     private static class BadgeDrawable extends GradientDrawable {
