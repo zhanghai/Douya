@@ -174,8 +174,11 @@ public class NotificationListFragment extends Fragment implements NotificationLi
     }
 
     public int getUnreadCount() {
+        if (!mNotificationListResource.has()) {
+            return 0;
+        }
         int count = 0;
-        for (Notification notification : mNotificationAdapter.getList()) {
+        for (Notification notification : mNotificationListResource.get()) {
             if (!notification.read) {
                 ++count;
             }
