@@ -14,7 +14,8 @@ import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationCount;
 import me.zhanghai.android.douya.util.LogUtils;
 
-public class DoumailUnreadCountFragment extends Fragment implements NotificationCountResource.Listener {
+public class DoumailUnreadCountFragment extends Fragment
+        implements NotificationCountResource.Listener {
 
     private NotificationCountResource mNotificationCountResource;
 
