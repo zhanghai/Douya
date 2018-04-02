@@ -242,11 +242,13 @@ public class GalleryFragment extends Fragment {
     }
 
     private void saveImageWithPermission() {
-        File file = mAdapter.getFile(mViewPager.getCurrentItem());
+        int position = mViewPager.getCurrentItem();
+        File file = mAdapter.getFile(position);
         if (file == null) {
             return;
         }
-        SaveImageService.start(file, getActivity());
+        Uri uri = mImageList.get(position);
+        SaveImageService.start(uri, file, getActivity());
     }
 
     private void shareImage() {

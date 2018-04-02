@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.util;
 
+import android.text.TextUtils;
+
 /**
  * This class assumes the only separator to be '/'.
  *
@@ -63,6 +65,10 @@ public class FileNameUtils {
     }
 
     public static String replaceExtension(String file, String extension) {
-        return removeExtension(file) + extension;
+        file = removeExtension(file);
+        if (!TextUtils.isEmpty(extension)) {
+            file += EXTENSION_SEPARATOR + extension;
+        }
+        return file;
     }
 }
