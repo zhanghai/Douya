@@ -258,7 +258,11 @@ public class BroadcastLayout extends LinearLayout {
                 mRebroadcastButton.getOnLongClickListener();
         mRebroadcastButton.setOnLongClickListener(view -> {
             if (mListener == null || !Settings.LONG_CLICK_TO_QUICK_REBROADCAST.getValue()) {
-                return rebroadcastTooltipListener.onLongClick(view);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    return rebroadcastTooltipListener.onLongClick(view);
+                } else {
+                    return true;
+                }
             }
             mListener.onRebroadcastClicked(true);
             return true;
