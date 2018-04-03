@@ -148,12 +148,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
             mScrollLayout.enter();
         }
 
-        mDismissView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                exit();
-            }
-        });
+        mDismissView.setOnClickListener(view -> exit());
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
@@ -214,6 +209,10 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
+        updateOptionsMenu();
+    }
+
+    private void updateOptionsMenu() {
         // TODO: Block or unblock.
     }
 
@@ -221,10 +220,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send_doumail:
-                // HACK: For testing
-                //startActivity(ItemCollectionActivity.makeIntent(null, getActivity()));
-                // TODO
-                NotImplementedManager.showNotYetImplementedToast(getActivity());
+                sendDoumail();
                 return true;
             case R.id.action_blacklist:
                 // TODO
@@ -262,6 +258,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
             }
         }
         mHeaderLayout.bindUser(newUser);
+        updateOptionsMenu();
     }
 
     @Override
@@ -281,6 +278,12 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         mAdapter.setData(new ProfileAdapter.Data(newUser, newBroadcastList,
                 newFollowingList, newDiaryList, newUserItemList, newReviewList));
         mContentStateLayout.setLoaded(true);
+        updateOptionsMenu();
+    }
+
+    private void sendDoumail() {
+        String userIdOrUid = mResource.getUserIdOrUid();
+        NotImplementedManager.sendDoumail(userIdOrUid, getActivity());
     }
 
     private void share() {
