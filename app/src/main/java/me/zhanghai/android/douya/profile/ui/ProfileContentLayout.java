@@ -32,6 +32,7 @@ public class ProfileContentLayout extends FlexibleSpaceContentLayout {
 
     public ProfileContentLayout(Context context) {
         super(context);
+
         init();
     }
 
