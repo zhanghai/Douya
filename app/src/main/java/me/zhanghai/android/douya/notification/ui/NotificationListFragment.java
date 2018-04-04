@@ -89,7 +89,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
         mNotificationList.setLayoutManager(new LinearLayoutManager(activity));
         mNotificationAdapter = new NotificationAdapter(mNotificationListResource.get(), activity);
         mNotificationAdapter.setListener(this);
-        mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mNotificationAdapter);
+        mAdapter = new LoadMoreAdapter(mNotificationAdapter);
         mNotificationList.setAdapter(mAdapter);
         mNotificationList.addOnScrollListener(new OnVerticalScrollListener() {
             @Override

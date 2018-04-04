@@ -366,20 +366,21 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         notifyChangedIfLoaded();
     }
 
-    public boolean isLoaded() {
-        return hasUser() && mBroadcastListResource != null && mBroadcastListResource.has()
-                && mFollowingListResource != null && mFollowingListResource.has()
-                && mDiaryListResource != null && mDiaryListResource.has()
-                && mUserItemListResource != null && mUserItemListResource.has()
-                && mReviewListResource != null && mReviewListResource.has();
+    public boolean isAnyLoaded() {
+        return hasUser()
+                || (mBroadcastListResource != null && mBroadcastListResource.has())
+                || (mFollowingListResource != null && mFollowingListResource.has())
+                || (mDiaryListResource != null && mDiaryListResource.has())
+                || (mUserItemListResource != null && mUserItemListResource.has())
+                || (mReviewListResource != null && mReviewListResource.has());
     }
 
     public void notifyChangedIfLoaded() {
-        if (isLoaded()) {
-            getListener().onChanged(getRequestCode(), getUser(), mBroadcastListResource.get(),
-                    mFollowingListResource.get(), mDiaryListResource.get(),
-                    mUserItemListResource.get(), mReviewListResource.get());
-        }
+        getListener().onChanged(getRequestCode(),
+                getUser(),
+                mBroadcastListResource.get(),
+                mFollowingListResource.get(), mDiaryListResource.get(),
+                mUserItemListResource.get(), mReviewListResource.get());
     }
 
     private void notifyError(ApiError error) {

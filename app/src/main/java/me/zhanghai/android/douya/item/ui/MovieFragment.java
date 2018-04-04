@@ -31,6 +31,9 @@ import me.zhanghai.android.douya.util.ImageUtils;
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         implements MovieFragmentResource.Listener {
 
+    private boolean mBackdropBound;
+    private boolean mExcludeFirstPhoto;
+
     private MovieAdapter mAdapter;
 
     public static MovieFragment newInstance(long movieId, SimpleMovie simpleMovie, Movie movie) {
@@ -79,46 +82,55 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
                         List<CollectableItem> recommendationList,
                         List<Doulist> relatedDoulistList) {
 
-        super.updateWithSimpleItem(movie);
-
-        boolean hasTrailer = movie.trailer != null;
-        boolean excludeFirstPhoto = false;
-        String backdropUrl = null;
-        if (hasTrailer) {
-            backdropUrl = movie.trailer.coverUrl;
-            mBackdropLayout.setOnClickListener(view -> {
-                // TODO
-                UriHandler.open(movie.trailer.videoUrl, view.getContext());
-            });
-        } else if (!photoList.isEmpty()) {
-            backdropUrl = photoList.get(0).getLargeUrl();
-            excludeFirstPhoto = true;
-            mBackdropLayout.setOnClickListener(view -> {
-                // TODO
-                Context context = view.getContext();
-                context.startActivity(GalleryActivity.makeImageListIntent(photoList, 0, context));
-            });
-        } else if (movie.poster != null) {
-            backdropUrl = movie.poster.getLargeUrl();
-            mBackdropLayout.setOnClickListener(view -> {
-                // TODO
-                Context context = view.getContext();
-                context.startActivity(GalleryActivity.makeIntent(movie.poster, context));
-            });
-        } else if (movie.cover != null) {
-            backdropUrl = movie.cover.getLargeUrl();
-            mBackdropLayout.setOnClickListener(view -> {
-                // TODO
-                Context context = view.getContext();
-                context.startActivity(GalleryActivity.makeIntent(movie.cover, context));
-            });
-        }
-        if (backdropUrl != null) {
-            ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, backdropUrl,
-                    hasTrailer ? mBackdropPlayImage : null);
+        if (movie != null) {
+            super.updateWithSimpleItem(movie);
         }
 
-        mAdapter.setData(new MovieAdapter.Data(movie, rating, photoList, excludeFirstPhoto,
+        if (movie == null || photoList == null) {
+            return;
+        }
+
+        if (!mBackdropBound) {
+            boolean hasTrailer = movie.trailer != null;
+            mExcludeFirstPhoto = false;
+            String backdropUrl = null;
+            if (hasTrailer) {
+                backdropUrl = movie.trailer.coverUrl;
+                mBackdropLayout.setOnClickListener(view -> {
+                    // TODO
+                    UriHandler.open(movie.trailer.videoUrl, view.getContext());
+                });
+            } else if (!photoList.isEmpty()) {
+                backdropUrl = photoList.get(0).getLargeUrl();
+                mExcludeFirstPhoto = true;
+                mBackdropLayout.setOnClickListener(view -> {
+                    // TODO
+                    Context context = view.getContext();
+                    context.startActivity(GalleryActivity.makeImageListIntent(photoList, 0, context));
+                });
+            } else if (movie.poster != null) {
+                backdropUrl = movie.poster.getLargeUrl();
+                mBackdropLayout.setOnClickListener(view -> {
+                    // TODO
+                    Context context = view.getContext();
+                    context.startActivity(GalleryActivity.makeIntent(movie.poster, context));
+                });
+            } else if (movie.cover != null) {
+                backdropUrl = movie.cover.getLargeUrl();
+                mBackdropLayout.setOnClickListener(view -> {
+                    // TODO
+                    Context context = view.getContext();
+                    context.startActivity(GalleryActivity.makeIntent(movie.cover, context));
+                });
+            }
+            if (backdropUrl != null) {
+                ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, backdropUrl,
+                        hasTrailer ? mBackdropPlayImage : null);
+            }
+            mBackdropBound = true;
+        }
+
+        mAdapter.setData(new MovieDataAdapter.Data(movie, rating, photoList, mExcludeFirstPhoto,
                 celebrityList, awardList, itemCollectionList, reviewList, forumTopicList,
                 recommendationList, relatedDoulistList));
     }

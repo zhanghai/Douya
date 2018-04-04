@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+ * Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
  * All Rights Reserved.
  */
 
@@ -7,13 +7,15 @@ package me.zhanghai.android.douya.ui;
 
 import android.support.v7.widget.RecyclerView;
 
-public class LoadMoreAdapter extends MergeAdapter {
+public class BarrierAdapter extends MergeAdapter {
 
+    private BarrierDataAdapter mDataAdapter;
     private ProgressAdapter mProgressAdapter;
 
-    public LoadMoreAdapter(RecyclerView.Adapter<?>... dataAdapters) {
-        super(appendAdapter(dataAdapters, new ProgressAdapter()));
+    public BarrierAdapter(BarrierDataAdapter dataAdapter) {
+        super(dataAdapter, new ProgressAdapter());
 
+        mDataAdapter = dataAdapter;
         RecyclerView.Adapter<?>[] adapters = getAdapters();
         mProgressAdapter = (ProgressAdapter) adapters[adapters.length - 1];
         updateHasProgressItem();
@@ -41,24 +43,8 @@ public class LoadMoreAdapter extends MergeAdapter {
         });
     }
 
-    private static RecyclerView.Adapter<?>[] appendAdapter(RecyclerView.Adapter<?>[] adapters,
-                                                           RecyclerView.Adapter<?> adapter) {
-        RecyclerView.Adapter<?>[] mergedAdapters = new RecyclerView.Adapter<?>[adapters.length + 1];
-        System.arraycopy(adapters, 0, mergedAdapters, 0, adapters.length);
-        mergedAdapters[adapters.length] = adapter;
-        return mergedAdapters;
-    }
-
     private void updateHasProgressItem() {
-        int count = getItemCount() - mProgressAdapter.getItemCount();
-        mProgressAdapter.setHasItem(count > 0);
-    }
-
-    public boolean isProgressVisible() {
-        return mProgressAdapter.isProgressVisible();
-    }
-
-    public void setProgressVisible(boolean progressVisible) {
-        mProgressAdapter.setProgressVisible(progressVisible);
+        int count = mDataAdapter.getItemCount();
+        mProgressAdapter.setHasItem(count > 0 && count < mDataAdapter.getTotalItemCount());
     }
 }

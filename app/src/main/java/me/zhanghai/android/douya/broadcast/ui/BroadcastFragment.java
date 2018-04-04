@@ -208,7 +208,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         setBroadcast(mResource.getBroadcast());
         mCommentAdapter = new CommentAdapter(mResource.getCommentList(),
                 (parent, itemView, item, position) -> onShowCommentAction(item));
-        mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mBroadcastAdapter, mCommentAdapter);
+        mAdapter = new LoadMoreAdapter(mBroadcastAdapter, mCommentAdapter);
         mBroadcastCommentList.setAdapter(mAdapter);
         mBroadcastCommentList.addOnScrollListener(new OnVerticalScrollListener() {
             public void onScrolledToBottom() {

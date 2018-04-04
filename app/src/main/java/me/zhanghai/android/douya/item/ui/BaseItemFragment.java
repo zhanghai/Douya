@@ -202,7 +202,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
                         mToolbar.getBottom());
             }
         });
-        if (!mResource.isLoaded()) {
+        if (!mResource.isAnyLoaded()) {
             mToolbar.getBackground().setAlpha(0);
         }
         mToolbar.setOnDoubleClickListener(view -> {
@@ -210,8 +210,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
             return true;
         });
 
-        if (mResource.isLoaded()) {
-            mResource.notifyChangedIfLoaded();
+        if (mResource.isAnyLoaded()) {
+            mResource.notifyChanged();
         } else if (mResource.hasSimpleItem()) {
             updateWithSimpleItem(mResource.getSimpleItem());
         } else {

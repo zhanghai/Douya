@@ -201,7 +201,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         mSimpleItem = newItem;
         mItemId = newItem.id;
         getListener().onItemChanged(getRequestCode(), newItem);
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     // TODO: Item collection.
@@ -228,7 +228,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onRatingChanged(int requestCode, Rating newRating) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -244,17 +244,17 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onPhotoListChanged(int requestCode, List<Photo> newPhotoList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onPhotoListAppended(int requestCode, List<Photo> appendedPhotoList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onPhotoRemoved(int requestCode, int position) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -270,7 +270,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onCelebrityListChanged(int requestCode, List<SimpleCelebrity> newCelebrityList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -286,12 +286,12 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onAwardListChanged(int requestCode, List<ItemAwardItem> newAwardList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onAwardListAppended(int requestCode, List<ItemAwardItem> appendedAwardList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -308,13 +308,13 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     @Override
     public void onItemCollectionListChanged(int requestCode,
                                             List<SimpleItemCollection> newItemCollectionList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onItemCollectionListAppended(
             int requestCode, List<SimpleItemCollection> appendedItemCollectionList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -330,22 +330,22 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onReviewListChanged(int requestCode, List<SimpleReview> newReviewList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onReviewListAppended(int requestCode, List<SimpleReview> appendedReviewList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onReviewChanged(int requestCode, int position, SimpleReview newReview) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onReviewRemoved(int requestCode, int position) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -362,13 +362,13 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     @Override
     public void onForumTopicListChanged(int requestCode,
                                         List<SimpleItemForumTopic> newForumTopicList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onForumTopicListAppended(int requestCode,
                                          List<SimpleItemForumTopic> appendedForumTopicList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -385,7 +385,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     @Override
     public void onRecommendationListChanged(int requestCode,
                                             List<CollectableItem> newRecommendationList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
@@ -401,57 +401,59 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     @Override
     public void onDoulistListChanged(int requestCode, List<Doulist> newDoulistList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onDoulistListAppended(int requestCode, List<Doulist> appendedDoulistList) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onDoulistChanged(int requestCode, int position, Doulist newDoulist) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
     @Override
     public void onDoulistRemoved(int requestCode, int position) {
-        notifyChangedIfLoaded();
+        notifyChanged();
     }
 
-    public boolean isLoaded() {
+    public boolean isAnyLoaded() {
+        // Can be called before onCreate().
         return hasItem()
-                && mRatingResource.has()
-                && (!hasPhotoList() || (mPhotoListResource != null && mPhotoListResource.has()))
-                && (!hasCelebrityList() || (mCelebrityListResource != null
+                || (mRatingResource != null && mRatingResource.has())
+                || (hasPhotoList() && (mPhotoListResource != null && mPhotoListResource.has()))
+                || (hasCelebrityList() && (mCelebrityListResource != null
                         && mCelebrityListResource.has()))
-                && (!hasAwardList() || (mAwardListResource != null && mAwardListResource.has()))
-                && mItemCollectionListResource.has()
-                && mReviewListResource.has()
-                && mForumTopicListResource.has()
-                && mRecommendationListResource.has()
-                && mRelatedDoulistListResource.has();
+                || (hasAwardList() && (mAwardListResource != null && mAwardListResource.has()))
+                || (mItemCollectionListResource != null && mItemCollectionListResource.has())
+                || (mReviewListResource != null && mReviewListResource.has())
+                || (mForumTopicListResource != null && mForumTopicListResource.has())
+                || (mRecommendationListResource != null && mRecommendationListResource.has())
+                || (mRelatedDoulistListResource != null && mRelatedDoulistListResource.has());
     }
 
-    public void notifyChangedIfLoaded() {
-        if (isLoaded()) {
-            // HACK: Add SimpleRating to Rating.
-            ItemType item = getItem();
-            Rating rating = mRatingResource.get();
+    public void notifyChanged() {
+        // HACK: Add SimpleRating to Rating.
+        ItemType item = getItem();
+        Rating rating = mRatingResource.get();
+        if (rating != null && item != null) {
             rating.rating = item.rating;
             //noinspection deprecation
             rating.ratingUnavailableReason = item.ratingUnavailableReason;
-            notifyChanged(getRequestCode(), item,
-                    rating,
-                    hasPhotoList() ? mPhotoListResource.get() : null,
-                    hasCelebrityList() ? mCelebrityListResource.get() : null,
-                    hasAwardList() ? mAwardListResource.get() : null,
-                    mItemCollectionListResource.get(),
-                    mReviewListResource.get(),
-                    mForumTopicListResource.get(),
-                    mRecommendationListResource.get(),
-                    mRelatedDoulistListResource.get());
         }
+        notifyChanged(getRequestCode(),
+                item,
+                rating,
+                hasPhotoList() ? mPhotoListResource.get() : null,
+                hasCelebrityList() ? mCelebrityListResource.get() : null,
+                hasAwardList() ? mAwardListResource.get() : null,
+                mItemCollectionListResource.get(),
+                mReviewListResource.get(),
+                mForumTopicListResource.get(),
+                mRecommendationListResource.get(),
+                mRelatedDoulistListResource.get());
     }
 
     protected abstract void notifyChanged(int requestCode, ItemType newItem, Rating newRating,

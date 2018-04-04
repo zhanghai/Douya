@@ -73,7 +73,7 @@ public abstract class BaseListFragment<T> extends Fragment {
         if (mResource.has()) {
             mItemAdapter.replace(mResource.get());
         }
-        mAdapter = new LoadMoreAdapter(R.layout.load_more_item, mItemAdapter);
+        mAdapter = new LoadMoreAdapter(mItemAdapter);
         mList.setAdapter(mAdapter);
         onAttachScrollListener();
 

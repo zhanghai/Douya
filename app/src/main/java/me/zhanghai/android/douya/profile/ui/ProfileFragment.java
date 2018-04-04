@@ -176,7 +176,7 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         }
         mAdapter = new ProfileAdapter(this);
         mContentList.setAdapter(mAdapter);
-        if (mResource.isLoaded()) {
+        if (mResource.isAnyLoaded()) {
             mResource.notifyChangedIfLoaded();
         } else {
             mContentStateLayout.setLoading();
@@ -275,9 +275,9 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     public void onChanged(int requestCode, User newUser, List<Broadcast> newBroadcastList,
                           List<SimpleUser> newFollowingList, List<Diary> newDiaryList,
                           List<UserItems> newUserItemList, List<SimpleReview> newReviewList) {
-        mAdapter.setData(new ProfileAdapter.Data(newUser, newBroadcastList,
-                newFollowingList, newDiaryList, newUserItemList, newReviewList));
-        mContentStateLayout.setLoaded(true);
+        mAdapter.setData(new ProfileDataAdapter.Data(newUser, newBroadcastList, newFollowingList,
+                newDiaryList, newUserItemList, newReviewList));
+        mContentStateLayout.setLoaded(mAdapter.getItemCount() > 0);
         updateOptionsMenu();
     }
 

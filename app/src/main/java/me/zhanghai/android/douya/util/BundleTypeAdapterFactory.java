@@ -113,7 +113,7 @@ public class BundleTypeAdapterFactory implements TypeAdapterFactory {
                         case END_OBJECT:
                             break;
                         default:
-                            throw new IOException("expecting object: " + in.getPath());
+                            throw new IOException("Expecting object: " + in.getPath());
                     }
                 }
                 in.endObject();
