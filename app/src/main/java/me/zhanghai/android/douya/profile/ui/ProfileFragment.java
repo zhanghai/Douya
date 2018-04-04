@@ -277,7 +277,9 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
                           List<UserItems> newUserItemList, List<SimpleReview> newReviewList) {
         mAdapter.setData(new ProfileDataAdapter.Data(newUser, newBroadcastList, newFollowingList,
                 newDiaryList, newUserItemList, newReviewList));
-        mContentStateLayout.setLoaded(mAdapter.getItemCount() > 0);
+        if (mAdapter.getItemCount() > 0) {
+            mContentStateLayout.setLoaded(true);
+        }
         updateOptionsMenu();
     }
 
