@@ -151,7 +151,7 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // TODO: Move to BaseItemDataAdapter?
         // HACK: Make sure we don't click through any view to our backdrop.
         holder.itemView.setClickable(true);
