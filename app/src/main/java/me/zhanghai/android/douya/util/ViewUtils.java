@@ -99,7 +99,7 @@ public class ViewUtils {
                     .start();
             return;
         }
-        view.setAlpha(0);
+        view.setAlpha(isVisible(view) ? view.getAlpha() : 0);
         view.setVisibility(View.VISIBLE);
         view.animate()
                 .alpha(1)
