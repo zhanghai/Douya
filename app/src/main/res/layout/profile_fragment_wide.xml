@@ -56,6 +56,8 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/card_list_horizontal_padding"
                 android:paddingRight="@dimen/card_list_horizontal_padding"
+                android:paddingTop="@dimen/card_vertical_space_half"
+                android:paddingBottom="@dimen/card_vertical_space_half"
                 android:clipToPadding="false"
                 android:scrollbars="vertical"
                 android:scrollbarStyle="outsideOverlay" />
