@@ -330,6 +330,7 @@
     <string name="item_rating_hint_unknown">未知</string>
     <string name="item_rating_count_format">%1$,d</string>
     <string name="item_tags">标签</string>
+    <string name="item_tags_hint">添加标签</string>
     <string name="item_comment_hint">我的评论…</string>
     <string name="item_introduction_title">条目简介</string>
     <string name="item_photo_list_view_more">全部剧照</string>

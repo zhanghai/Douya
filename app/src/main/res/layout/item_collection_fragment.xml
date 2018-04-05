@@ -140,6 +140,7 @@
                     android:paddingTop="17dp"
                     android:paddingBottom="17dp"
                     android:background="@null"
+                    android:hint="@string/item_tags_hint"
                     android:maxLines="2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
             </FrameLayout>
