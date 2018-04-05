@@ -176,10 +176,10 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
         }
         mAdapter = new ProfileAdapter(this);
         mContentList.setAdapter(mAdapter);
+
+        mContentStateLayout.setLoading();
         if (mResource.isAnyLoaded()) {
             mResource.notifyChangedIfLoaded();
-        } else {
-            mContentStateLayout.setLoading();
         }
     }
 

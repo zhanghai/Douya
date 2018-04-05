@@ -217,12 +217,12 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
         mContentStateViewsLayout.setBackdropRatio(mBackdropImage.getRatio());
 
+        if (mResource.hasSimpleItem()) {
+            updateWithSimpleItem(mResource.getSimpleItem());
+        }
+        mContentStateLayout.setLoading();
         if (mResource.isAnyLoaded()) {
             mResource.notifyChanged();
-        } else if (mResource.hasSimpleItem()) {
-            updateWithSimpleItem(mResource.getSimpleItem());
-        } else {
-            mContentStateLayout.setLoading();
         }
 
         if (mAdapter.getItemCount() == 0) {
