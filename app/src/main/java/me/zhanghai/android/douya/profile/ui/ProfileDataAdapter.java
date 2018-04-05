@@ -118,7 +118,7 @@ public class ProfileDataAdapter extends BarrierDataAdapter<ProfileDataAdapter.Vi
             default:
                 throw new IllegalArgumentException();
         }
-        return new ViewHolder(ViewUtils.inflate(layoutRes, parent));
+        return new ViewHolder(ViewUtils.inflateWithTheme(layoutRes, parent, R.style.Theme_Douya));
     }
 
     @Override

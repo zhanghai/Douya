@@ -23,6 +23,7 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -352,11 +353,26 @@ public class ViewUtils {
     }
 
     public static View inflate(int resource, ViewGroup parent) {
-        return LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
+        return inflate(resource, parent, false, parent.getContext());
+    }
+
+    public static View inflateWithTheme(int resource, ViewGroup parent, int themeRes) {
+        return inflate(resource, parent, false, new ContextThemeWrapper(parent.getContext(),
+                themeRes));
     }
 
     public static View inflateInto(int resource, ViewGroup parent) {
-        return LayoutInflater.from(parent.getContext()).inflate(resource, parent);
+        return inflate(resource, parent, true, parent.getContext());
+    }
+
+    public static View inflateIntoWithTheme(int resource, ViewGroup parent, int themeRes) {
+        return inflate(resource, parent, true, new ContextThemeWrapper(parent.getContext(),
+                themeRes));
+    }
+
+    private static View inflate(int resource, ViewGroup parent, boolean attachToRoot,
+                                Context context) {
+        return LayoutInflater.from(context).inflate(resource, parent, attachToRoot);
     }
 
     public static boolean isLightTheme(Context context) {
