@@ -59,16 +59,6 @@
                 android:scrollbars="vertical"
                 android:scrollbarStyle="outsideOverlay"
                 android:theme="@style/Theme.Douya" />
-
-            <TextView
-                android:id="@+id/error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/card_content_horizontal_margin"
-                android:layout_marginRight="@dimen/card_content_horizontal_margin"
-                android:text="@string/load_error"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
         </me.zhanghai.android.douya.profile.ui.ProfileContentLayout>
     </FrameLayout>
 </me.zhanghai.android.douya.profile.ui.ProfileLayout>

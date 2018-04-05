@@ -52,13 +52,19 @@
         </FrameLayout>
     </FrameLayout>
 
-    <me.zhanghai.android.douya.item.ui.ItemContentRecyclerView
-        android:id="@+id/content"
+    <me.zhanghai.android.douya.ui.ContentStateLayout
+        android:id="@+id/contentState"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay" />
+        android:layout_height="match_parent">
+
+        <me.zhanghai.android.douya.item.ui.ItemContentRecyclerView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay" />
+    </me.zhanghai.android.douya.ui.ContentStateLayout>
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
         android:id="@+id/appBarWrapper"

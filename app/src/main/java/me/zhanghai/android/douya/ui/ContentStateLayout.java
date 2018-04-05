@@ -94,8 +94,18 @@ public class ContentStateLayout extends FrameLayout {
 
         if (mLoadingView == null) {
             mLoadingView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.content_layout_default_loading_view, this, false);
+                    .inflate(R.layout.content_state_layout_default_loading_view, this, false);
             addView(mLoadingView);
+        }
+        if (mEmptyView == null) {
+            mEmptyView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.content_state_layout_default_empty_view, this, false);
+            addView(mEmptyView);
+        }
+        if (mErrorView == null) {
+            mErrorView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.content_state_layout_default_error_view, this, false);
+            addView(mErrorView);
         }
 
         setViewVisible(mLoadingView, false, false);

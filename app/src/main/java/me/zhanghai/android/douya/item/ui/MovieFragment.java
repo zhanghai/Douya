@@ -133,6 +133,9 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         mAdapter.setData(new MovieDataAdapter.Data(movie, rating, photoList, mExcludeFirstPhoto,
                 celebrityList, awardList, itemCollectionList, reviewList, forumTopicList,
                 recommendationList, relatedDoulistList));
+        if (mAdapter.getItemCount() > 0) {
+            mContentStateLayout.setLoaded(true);
+        }
     }
 
     @Override

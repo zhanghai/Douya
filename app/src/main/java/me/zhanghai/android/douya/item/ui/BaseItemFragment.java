@@ -31,6 +31,7 @@ import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
+import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingTouchSlopListener;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.ui.TransparentDoubleClickToolbar;
@@ -68,6 +69,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     View mBackdropScrim;
     @BindView(R.id.backdrop_play)
     ImageView mBackdropPlayImage;
+    @BindView(R.id.contentState)
+    ContentStateLayout mContentStateLayout;
     @BindView(R.id.content)
     ItemContentRecyclerView mContentList;
 
@@ -215,8 +218,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         } else if (mResource.hasSimpleItem()) {
             updateWithSimpleItem(mResource.getSimpleItem());
         } else {
-            // TODO
-            //mContentStateLayout.setLoading();
+            mContentStateLayout.setLoading();
         }
     }
 
@@ -259,8 +261,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     @Override
     public void onLoadError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
-        // TODO
-        //mContentStateLayout.setError();
+        mContentStateLayout.setError();
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);
     }
