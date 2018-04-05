@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="?colorPrimary"
+                android:clipChildren="false"
                 android:orientation="vertical"
                 android:theme="?actionBarTheme">
 
