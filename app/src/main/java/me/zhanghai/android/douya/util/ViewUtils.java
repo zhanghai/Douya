@@ -363,6 +363,11 @@ public class ViewUtils {
         return getBooleanFromAttrRes(R.attr.isLightTheme, false, context);
     }
 
+    public static boolean isInPortait(Context context) {
+        return context.getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
+    }
+
     public static boolean isInLandscape(Context context) {
         return context.getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;

@@ -73,6 +73,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     ContentStateLayout mContentStateLayout;
     @BindView(R.id.content)
     ItemContentRecyclerView mContentList;
+    @BindView(R.id.content_state_views)
+    ItemContentStateViewsLayout mContentStateViewsLayout;
 
     private long mItemId;
     private SimpleItemType mSimpleItem;
@@ -212,6 +214,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
             mContentList.smoothScrollToPosition(0);
             return true;
         });
+
+        mContentStateViewsLayout.setBackdropRatio(mBackdropImage.getRatio());
 
         if (mResource.isAnyLoaded()) {
             mResource.notifyChanged();

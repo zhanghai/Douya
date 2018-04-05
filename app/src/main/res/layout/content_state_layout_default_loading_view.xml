@@ -12,5 +12,4 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:indeterminate="true"
-    android:visibility="invisible"
     style="@style/Widget.MaterialProgressBar.ProgressBar" />

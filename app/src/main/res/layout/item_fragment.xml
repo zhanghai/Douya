@@ -64,6 +64,8 @@
             android:clipToPadding="false"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay" />
+
+        <include layout="@layout/item_fragment_content_state_views" />
     </me.zhanghai.android.douya.ui.ContentStateLayout>
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout

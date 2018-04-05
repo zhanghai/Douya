@@ -14,6 +14,7 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import java.lang.annotation.Retention;
@@ -115,10 +116,22 @@ public class ContentStateLayout extends FrameLayout {
     }
 
     private View findChildById(int id) {
-        for (int i = 0, count = getChildCount(); i < count; ++i) {
-            View child = getChildAt(i);
-            if (child.getId() == id) {
+        return findChildById(this, id);
+    }
+
+    private View findChildById(ViewGroup viewGroup, int id) {
+        for (int i = 0, count = viewGroup.getChildCount(); i < count; ++i) {
+            View child = viewGroup.getChildAt(i);
+            int childId = child.getId();
+            if (childId == id) {
                 return child;
+            } else if (child instanceof ViewGroup && childId != mLoadingViewId
+                    && childId != mContentViewId && childId != mEmptyViewId
+                    && childId != mErrorViewId) {
+                child = findChildById((ViewGroup) child, id);
+                if (child != null) {
+                    return child;
+                }
             }
         }
         return null;
