@@ -38,7 +38,7 @@ public class DispatchTouchEventToParentNestedRecyclerView extends NestedRecycler
             ((View) getParent()).onTouchEvent(event);
         } else {
             int oldAction = event.getAction();
-            event.setAction(MotionEvent.ACTION_CANCEL);
+            event.setAction(MotionEvent.ACTION_CANCEL | (oldAction & ~MotionEvent.ACTION_MASK));
             ((View) getParent()).onTouchEvent(event);
             event.setAction(oldAction);
         }

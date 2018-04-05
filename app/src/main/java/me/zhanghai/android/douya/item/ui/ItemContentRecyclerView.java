@@ -97,7 +97,7 @@ public class ItemContentRecyclerView extends RecyclerView {
             mBackdropWrapper.dispatchTouchEvent(event);
         } else {
             int oldAction = event.getAction();
-            event.setAction(MotionEvent.ACTION_CANCEL);
+            event.setAction(MotionEvent.ACTION_CANCEL | (oldAction & ~MotionEvent.ACTION_MASK));
             mBackdropWrapper.dispatchTouchEvent(event);
             event.setAction(oldAction);
         }
