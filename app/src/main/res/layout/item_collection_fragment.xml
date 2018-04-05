@@ -155,7 +155,9 @@
                 android:paddingBottom="@dimen/content_vertical_space"
                 android:background="@null"
                 android:gravity="top"
-                android:hint="@string/item_comment_hint" />
+                android:hint="@string/item_comment_hint">
+                <requestFocus />
+            </EditText>
         </LinearLayout>
     </ScrollView>
 
