@@ -110,11 +110,11 @@
                     android:id="@+id/sign_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:layout_marginLeft="@dimen/card_action_margin_with_4dp_padding"
                     android:layout_marginRight="@dimen/card_action_margin_with_4dp_padding"
                     android:layout_marginTop="@dimen/card_action_margin"
                     android:layout_marginBottom="@dimen/card_action_margin"
-                    android:layout_gravity="right"
                     android:text="@string/auth_sign_up"
                     android:textColor="?android:textColorLink"
                     style="?borderlessButtonStyle" />
