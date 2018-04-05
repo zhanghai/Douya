@@ -51,8 +51,6 @@ public class ItemCollectionFragment extends Fragment {
     TextView mRatingHintText;
     @BindView(R.id.tags)
     EditText mTagsEdit;
-    @BindView(R.id.comment_layout)
-    TextInputLayout mCommentLayout;
     @BindView(R.id.comment)
     EditText mCommentEdit;
 
@@ -86,7 +84,7 @@ public class ItemCollectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.item_collection_dialog_fragment, container, false);
+        return inflater.inflate(R.layout.item_collection_fragment, container, false);
     }
 
     @Override
