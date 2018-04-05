@@ -80,6 +80,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
     private BaseItemFragmentResource<SimpleItemType, ItemType> mResource;
 
+    private RecyclerView.Adapter<?> mAdapter;
+
     public BaseItemFragment<SimpleItemType, ItemType> setArguments(long itemId,
                                                                    SimpleItemType simpleItem,
                                                                    ItemType item) {
@@ -131,7 +133,8 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         ViewCompat.setBackground(mBackdropScrim, DrawableUtils.makeScrimDrawable(Gravity.TOP));
 
         mContentList.setLayoutManager(new LinearLayoutManager(activity));
-        mContentList.setAdapter(onCreateAdapter());
+        mAdapter = onCreateAdapter();
+        mContentList.setAdapter(mAdapter);
         mContentList.setBackdropRatio(mBackdropImage.getRatio());
         mContentList.setBackdropWrapper(mBackdropWrapperLayout);
         mContentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -205,9 +208,6 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
                         mToolbar.getBottom());
             }
         });
-        if (!mResource.isAnyLoaded()) {
-            mToolbar.getBackground().setAlpha(0);
-        }
         mToolbar.setOnDoubleClickListener(view -> {
             mContentList.smoothScrollToPosition(0);
             return true;
@@ -219,6 +219,10 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
             updateWithSimpleItem(mResource.getSimpleItem());
         } else {
             mContentStateLayout.setLoading();
+        }
+
+        if (mAdapter.getItemCount() == 0) {
+            mToolbar.getBackground().setAlpha(0);
         }
     }
 

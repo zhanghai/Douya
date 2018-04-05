@@ -31,10 +31,10 @@ import me.zhanghai.android.douya.util.ImageUtils;
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         implements MovieFragmentResource.Listener {
 
+    private MovieAdapter mAdapter;
+
     private boolean mBackdropBound;
     private boolean mExcludeFirstPhoto;
-
-    private MovieAdapter mAdapter;
 
     public static MovieFragment newInstance(long movieId, SimpleMovie simpleMovie, Movie movie) {
         //noinspection deprecation
