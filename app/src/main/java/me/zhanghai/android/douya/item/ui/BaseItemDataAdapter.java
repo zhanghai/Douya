@@ -155,8 +155,7 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         itemCollectionHolder.doneButton.setText(ItemCollectionState.DONE.getString(type,
                 itemCollectionHolder.doneButton.getContext()));
         SimpleItemCollection itemCollection = item.collection;
-        ItemCollectionState state = itemCollection != null ? itemCollection.getState()
-                : null;
+        ItemCollectionState state = itemCollection != null ? itemCollection.getState() : null;
         boolean todoVisible = itemCollection == null;
         ViewUtils.setVisibleOrGone(itemCollectionHolder.todoButton, todoVisible);
         boolean doingVisible = itemCollection == null || state == ItemCollectionState.TODO;
@@ -168,23 +167,22 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBar, buttonBarVisible);
         ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBarSpace, !buttonBarVisible);
         boolean hasItemCollection = itemCollection != null;
-        ViewUtils.setVisibleOrGone(itemCollectionHolder.itemCollectionLayout,
-                hasItemCollection);
+        ViewUtils.setVisibleOrGone(itemCollectionHolder.itemCollectionLayout, hasItemCollection);
         if (hasItemCollection) {
             itemCollectionHolder.stateText.setText(state.getString(item.getType(),
                     itemCollectionHolder.stateText.getContext()));
             boolean hasRating = itemCollection.rating != null;
             ViewUtils.setVisibleOrGone(itemCollectionHolder.ratingBar, hasRating);
             if (hasRating) {
-                itemCollectionHolder.ratingBar.setRating(
-                        itemCollection.rating.getRatingBarValue());
+                itemCollectionHolder.ratingBar.setRating(itemCollection.rating.getRatingBarValue());
             }
             itemCollectionHolder.dateText.setText(TimeUtils.formatDate(
                     TimeUtils.parseDoubanDateTime(itemCollection.createdAt),
                     itemCollectionHolder.dateText.getContext()));
             itemCollectionHolder.commentText.setText(itemCollection.comment);
             itemCollectionHolder.itemCollectionLayout.setOnClickListener(view -> {
-                // TODO
+                Context context = view.getContext();
+                context.startActivity(ItemCollectionActivity.makeIntent(item.collection, context));
             });
         }
         ViewUtils.setVisibleOrGone(itemCollectionHolder.dividerView, !hasItemCollection);
