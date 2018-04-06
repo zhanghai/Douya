@@ -146,7 +146,7 @@
                 android:id="@+id/state_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height"
-                android:paddingLeft="@dimen/content_horizontal_margin"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                 android:paddingRight="@dimen/screen_edge_horizontal_margin"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
