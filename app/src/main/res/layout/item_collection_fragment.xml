@@ -165,7 +165,6 @@
                     android:id="@+id/state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
                     android:duplicateParentState="true"
                     app:popupTheme="?actionBarPopupTheme"
                     tools:ignore="MissingPrefix" />

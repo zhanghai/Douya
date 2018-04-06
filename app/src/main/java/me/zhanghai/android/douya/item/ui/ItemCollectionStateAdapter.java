@@ -16,9 +16,9 @@ import me.zhanghai.android.douya.ui.ArrayAdapterCompat;
 public class ItemCollectionStateAdapter extends ArrayAdapterCompat<String> {
 
     public ItemCollectionStateAdapter(CollectableItem.Type type, @NonNull Context context) {
-        super(context, android.R.layout.simple_spinner_item, getStateNames(type, context));
+        super(context, R.layout.simple_spinner_item, getStateNames(type, context));
 
-        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
     }
 
     private static String[] getStateNames(CollectableItem.Type type, Context context) {
