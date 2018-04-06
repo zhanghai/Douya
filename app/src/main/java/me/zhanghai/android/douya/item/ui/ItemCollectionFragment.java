@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.StringCompat;
@@ -61,8 +60,6 @@ public class ItemCollectionFragment extends Fragment {
 
     private CollectableItem mCollectableItem;
 
-    private SimpleItemCollection mCollection;
-
     /**
      * @deprecated Use {@link #newInstance(CollectableItem)} instead.
      */
@@ -82,23 +79,7 @@ public class ItemCollectionFragment extends Fragment {
 
         mCollectableItem = getArguments().getParcelable(EXTRA_COLLECTABLE_ITEM);
 
-        if (savedInstanceState != null) {
-            mCollection = savedInstanceState.getParcelable(STATE_COLLEECTION);
-        } else {
-            mCollection = mCollectableItem.collection;
-            if (mCollection == null) {
-                mCollection = new SimpleItemCollection();
-            }
-        }
-
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(STATE_COLLEECTION, mCollection);
     }
 
     @Nullable
@@ -124,42 +105,45 @@ public class ItemCollectionFragment extends Fragment {
         activity.setSupportActionBar(mToolbar);
 
         mStateLayout.setOnClickListener(view -> mStateSpinner.performClick());
-        // TODO
-        mStateSpinner.setAdapter(new ItemCollectionStateSpinnerAdapter(CollectableItem.Type.MOVIE,
+        mStateSpinner.setAdapter(new ItemCollectionStateSpinnerAdapter(mCollectableItem.getType(),
                 mStateSpinner.getContext()));
-        mStateSpinner.setSelection(mCollection.getState().ordinal());
+        if (savedInstanceState == null && mCollectableItem.collection != null) {
+            mStateSpinner.setSelection(mCollectableItem.collection.getState().ordinal());
+        }
         mStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ItemCollectionState newCollectionState = ItemCollectionState.values()[position];
-                if (mCollection.getState() != newCollectionState) {
-                    //noinspection deprecation
-                    mCollection.state = newCollectionState.getApiString();
-                    onCollectionStateChanged();
-                }
+                updateRatingVisibility();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
         mStateThisItemText.setText(mCollectableItem.getType().getThisItem(activity));
-        onCollectionStateChanged();
-        if (mCollection.rating != null) {
-            mRatingBar.setRating(mCollection.rating.getRatingBarValue());
+        updateRatingVisibility();
+        if (savedInstanceState == null && mCollectableItem.collection != null
+                && mCollectableItem.collection.rating != null) {
+            mRatingBar.setRating(mCollectableItem.collection.rating.getRatingBarValue());
         }
         mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> onRatingChanged());
         onRatingChanged();
-        mTagsEdit.setText(StringCompat.join(" ", mCollection.tags));
-        mCommentEdit.setText(mCollection.comment);
+        if (savedInstanceState == null && mCollectableItem.collection != null) {
+            mTagsEdit.setText(StringCompat.join(" ", mCollectableItem.collection.tags));
+            mCommentEdit.setText(mCollectableItem.collection.comment);
+        }
     }
 
-    private void onCollectionStateChanged() {
-        boolean hasRating = mCollection.getState() != ItemCollectionState.TODO;
+    private void updateRatingVisibility() {
+        boolean hasRating = getCollectionState() != ItemCollectionState.TODO;
         ViewUtils.setVisibleOrGone(mRatingLayout, hasRating);
     }
 
     private void onRatingChanged() {
         mRatingHintText.setText(DoubanUtils.getRatingHint((int) mRatingBar.getRating(),
                 mRatingHintText.getContext()));
+    }
+
+    private ItemCollectionState getCollectionState() {
+        return ItemCollectionState.values()[mStateSpinner.getSelectedItemPosition()];
     }
 
     @Override
