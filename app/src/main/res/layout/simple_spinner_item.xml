@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/dropdownListPreferredItemHeight"
     android:paddingLeft="16dp"
-    android:paddingRight="0dp"
+    android:paddingRight="16dp"
     android:ellipsize="marquee"
     android:gravity="center_vertical"
     android:singleLine="true"

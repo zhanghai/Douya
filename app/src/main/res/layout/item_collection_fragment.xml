@@ -161,18 +161,21 @@
 
                     android:text="我" />
 
-                <!--
-                  ~ HACK: Spinner background gives a 17dp internal padding. It seems hard to fix so
-                  ~ we just make the spacing look equal.
-                  -->
                 <Spinner
                     android:id="@+id/state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dp"
-                    android:duplicateParentState="true"
+                    android:background="@null"
                     app:popupTheme="?actionBarPopupTheme"
+                    tools:ignore="MissingPrefix" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_marginRight="9dp"
+                    android:src="@drawable/spinner_caret_icon_white_24dp"
+                    app:tint="?colorControlNormal"
                     tools:ignore="MissingPrefix" />
 
                 <TextView
