@@ -86,6 +86,9 @@ public class ItemCollectionFragment extends Fragment {
             mCollection = savedInstanceState.getParcelable(STATE_COLLEECTION);
         } else {
             mCollection = mCollectableItem.collection;
+            if (mCollection == null) {
+                mCollection = new SimpleItemCollection();
+            }
         }
 
         setHasOptionsMenu(true);
@@ -100,13 +103,13 @@ public class ItemCollectionFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.item_collection_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
