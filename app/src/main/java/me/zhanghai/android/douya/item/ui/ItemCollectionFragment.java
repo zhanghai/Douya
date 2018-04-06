@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,13 +14,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.util.DoubanUtils;
@@ -37,12 +38,10 @@ public class ItemCollectionFragment extends Fragment {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.todo)
-    RadioButton mTodoButton;
-    @BindView(R.id.doing)
-    RadioButton mDoingButton;
-    @BindView(R.id.done)
-    RadioButton mDoneButton;
+    @BindView(R.id.state_layout)
+    ViewGroup mStateLayout;
+    @BindView(R.id.state)
+    Spinner mStateSpinner;
     @BindView(R.id.rating_layout)
     ViewGroup mRatingLayout;
     @BindView(R.id.rating)
@@ -102,40 +101,24 @@ public class ItemCollectionFragment extends Fragment {
         //activity.setTitle(getTitle());
         activity.setSupportActionBar(mToolbar);
 
-        // As in https://developer.android.com/guide/topics/ui/controls/radiobutton.html .
-        View.OnClickListener collectionStateButtonOnClickListener = new View.OnClickListener() {
+        mStateLayout.setOnClickListener(view -> mStateSpinner.performClick());
+        // TODO
+        mStateSpinner.setAdapter(new ItemCollectionStateAdapter(CollectableItem.Type.MOVIE,
+                mStateSpinner.getContext()));
+        mStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                if (!((RadioButton) view).isChecked()) {
-                    return;
-                }
-                ItemCollectionState oldCollectionState = mCollectionState;
-                switch (view.getId()) {
-                    case R.id.todo:
-                        mCollectionState = ItemCollectionState.TODO;
-                        break;
-                    case R.id.doing:
-                        mCollectionState = ItemCollectionState.DOING;
-                        break;
-                    case R.id.done:
-                        mCollectionState = ItemCollectionState.DONE;
-                        break;
-                }
-                if (mCollectionState != oldCollectionState) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ItemCollectionState newCollectionState = ItemCollectionState.values()[position];
+                if (mCollectionState != newCollectionState) {
+                    mCollectionState = newCollectionState;
                     onCollectionStateChanged();
                 }
             }
-        };
-        mTodoButton.setOnClickListener(collectionStateButtonOnClickListener);
-        mDoingButton.setOnClickListener(collectionStateButtonOnClickListener);
-        mDoneButton.setOnClickListener(collectionStateButtonOnClickListener);
-        mRatingBar.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
             @Override
-            public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
-                mRatingHintText.setText(DoubanUtils.getRatingHint((int) rating,
-                        mRatingHintText.getContext()));
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
+        mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> mRatingHintText.setText(
+                DoubanUtils.getRatingHint((int) rating, mRatingHintText.getContext())));
     }
 
     private void onCollectionStateChanged() {
