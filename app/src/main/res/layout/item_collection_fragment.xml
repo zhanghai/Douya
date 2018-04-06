@@ -37,13 +37,13 @@
                 android:clipChildren="false"
                 android:orientation="horizontal">
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/rating_icon_white_24dp"
-                    app:tint="?android:textColorSecondary"
-                    tools:ignore="MissingPrefix" />
+                    android:text="@string/item_rating"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="?android:textColorSecondary" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -77,16 +77,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
                     android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
                     android:layout_marginTop="17dp"
                     android:layout_marginBottom="17dp"
-                    android:src="@drawable/tag_icon_white_24dp"
-                    app:tint="?android:textColorSecondary"
-                    tools:ignore="MissingPrefix" />
+                    android:text="@string/item_tags"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="?android:textColorSecondary" />
 
                 <EditText
                     android:id="@+id/tags"
