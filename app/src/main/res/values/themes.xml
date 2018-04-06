@@ -283,4 +283,19 @@
         <item name="darkTheme">@style/DarkTheme</item>
     </style>
     <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie" />
+    <style name="Base.Theme.Douya.Movie.DialogWhenLarge" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimary">@color/movie_primary</item>
+        <item name="colorPrimaryDark">@color/movie_primary_dark</item>
+        <item name="colorPrimaryLight">@color/movie_primary_light</item>
+        <item name="colorAccent">@color/movie_accent</item>
+        <item name="textColorPrimaryDark">@color/movie_primary_dark</item>
+        <item name="darkTheme">@style/DarkTheme.Light.Movie</item>
+    </style>
+    <style name="Base.Theme.Douya.Movie.DialogWhenLarge.Dark" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimaryLight">@color/grey_850</item>
+        <item name="colorAccent">@color/movie_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="darkTheme">@style/DarkTheme</item>
+    </style>
+    <style name="Theme.Douya.Movie.DialogWhenLarge" parent="Base.Theme.Douya.Movie.DialogWhenLarge" />
 </resources>

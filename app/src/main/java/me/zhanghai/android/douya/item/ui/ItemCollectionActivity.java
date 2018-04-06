@@ -10,8 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ItemCollectionActivity extends AppCompatActivity {
@@ -27,14 +27,33 @@ public class ItemCollectionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();
+        CollectableItem collection = intent.getParcelableExtra(EXTRA_COLLECTABLE_ITEM);
+
+        switch (collection.getType()) {
+            case APP:
+                break;
+            case BOOK:
+                break;
+            case EVENT:
+                break;
+            case GAME:
+                break;
+            case MOVIE:
+            case TV:
+                setTheme(R.style.Theme_Douya_Movie_DialogWhenLarge);
+                break;
+            case MUSIC:
+                break;
+        }
+
         super.onCreate(savedInstanceState);
 
         // Calls ensureSubDecor().
         findViewById(android.R.id.content);
 
         if (savedInstanceState == null) {
-            Intent intent = getIntent();
-            CollectableItem collection = intent.getParcelableExtra(EXTRA_COLLECTABLE_ITEM);
             FragmentUtils.add(ItemCollectionFragment.newInstance(collection), this,
                     android.R.id.content);
         }

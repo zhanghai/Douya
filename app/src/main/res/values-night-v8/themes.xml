@@ -18,4 +18,6 @@
     <style name="Base.Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />
 
     <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie.Dark" />
+
+    <style name="Theme.Douya.Movie.DialogWhenLarge" parent="Base.Theme.Douya.Movie.DialogWhenLarge.Dark" />
 </resources>
