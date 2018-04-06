@@ -37,8 +37,6 @@ public class ItemCollectionFragment extends Fragment {
 
     private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
 
-    private static final String STATE_COLLEECTION = KEY_PREFIX + "collection";
-
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.state_layout)
