@@ -292,18 +292,25 @@
 
     <string name="item_app_name">应用</string>
     <string name="item_app_action">用</string>
+    <string name="item_app_this_item">这个应用</string>
     <string name="item_book_name">书</string>
     <string name="item_book_action">读</string>
+    <string name="item_book_this_item">这本书</string>
     <string name="item_game_name">游戏</string>
     <string name="item_game_action">玩</string>
+    <string name="item_game_this_item">这个游戏</string>
     <string name="item_event_name">活动</string>
     <string name="item_event_action">去</string>
+    <string name="item_event_this_item">这个活动</string>
     <string name="item_movie_name">电影</string>
     <string name="item_movie_action">看</string>
+    <string name="item_movie_this_item">这部电影</string>
     <string name="item_music_name">音乐</string>
     <string name="item_music_action">听</string>
+    <string name="item_music_this_item">这张专辑</string>
     <string name="item_tv_name">电视剧</string>
     <string name="item_tv_action">看</string>
+    <string name="item_tv_this_item">这部电视剧</string>
     <string name="item_todo_format">想%1$s</string>
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
@@ -312,26 +319,11 @@
     <string name="item_top_250_badge">TOP</string>
     <string name="item_top_250_rank_format">%1$d</string>
     <string name="item_similar_items">类似条目</string>
-    <string name="item_collection_title">条目收藏</string>
-    <string name="item_add_collection_title">收藏 %1$s</string>
-    <string name="item_edit_collection_title">编辑收藏 %1$s</string>
-    <string name="item_rating">评价</string>
     <string name="item_rating_unavailable">\?</string>
     <string name="item_rating_unavailable_reason_fallback">暂无评分</string>
     <string name="item_rating_format">%1$.1f</string>
     <string name="item_rating_format_ten">%1$.0f</string>
-    <string-array name="item_rating_hints">
-        <item>很差</item>
-        <item>较差</item>
-        <item>还行</item>
-        <item>推荐</item>
-        <item>力荐</item>
-    </string-array>
-    <string name="item_rating_hint_unknown">未知</string>
     <string name="item_rating_count_format">%1$,d</string>
-    <string name="item_tags">标签</string>
-    <string name="item_tags_hint">添加标签</string>
-    <string name="item_comment_hint">我的评论…</string>
     <string name="item_introduction_title">条目简介</string>
     <string name="item_photo_list_view_more">全部剧照</string>
     <string name="item_celebrity_director">导演</string>
@@ -353,6 +345,20 @@
     <string name="item_recommendation_list_title">类似条目</string>
     <string name="item_related_doulist_list_title">相关豆列</string>
     <string name="item_related_doulist_follower_count_format">%1$d 人收藏</string>
+    <string name="item_collection_title">条目收藏</string>
+    <string name="item_state_i">我</string>
+    <string name="item_rating">评价</string>
+    <string-array name="item_rating_hints">
+        <item>很差</item>
+        <item>较差</item>
+        <item>还行</item>
+        <item>推荐</item>
+        <item>力荐</item>
+    </string-array>
+    <string name="item_rating_hint_unknown">未知</string>
+    <string name="item_tags">标签</string>
+    <string name="item_tags_hint">添加标签</string>
+    <string name="item_comment_hint">我的评论…</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>

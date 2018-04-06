@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +24,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -34,7 +36,9 @@ public class ItemCollectionFragment extends Fragment {
 
     private static final String KEY_PREFIX = ItemCollectionFragment.class.getName() + '.';
 
-    private static final String EXTRA_COLLECTION = KEY_PREFIX + "collection";
+    private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
+
+    private static final String STATE_COLLEECTION = KEY_PREFIX + "collection";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -42,6 +46,8 @@ public class ItemCollectionFragment extends Fragment {
     ViewGroup mStateLayout;
     @BindView(R.id.state)
     Spinner mStateSpinner;
+    @BindView(R.id.state_this_item)
+    TextView mStateThisItemText;
     @BindView(R.id.rating_layout)
     ViewGroup mRatingLayout;
     @BindView(R.id.rating)
@@ -53,20 +59,20 @@ public class ItemCollectionFragment extends Fragment {
     @BindView(R.id.comment)
     EditText mCommentEdit;
 
+    private CollectableItem mCollectableItem;
+
     private SimpleItemCollection mCollection;
 
-    private ItemCollectionState mCollectionState;
-
     /**
-     * @deprecated Use {@link #newInstance(SimpleItemCollection)} instead.
+     * @deprecated Use {@link #newInstance(CollectableItem)} instead.
      */
     public ItemCollectionFragment() {}
 
-    public static ItemCollectionFragment newInstance(SimpleItemCollection collection) {
+    public static ItemCollectionFragment newInstance(CollectableItem collectableItem) {
         //noinspection deprecation
         ItemCollectionFragment fragment = new ItemCollectionFragment();
         FragmentUtils.ensureArguments(fragment)
-                .putParcelable(EXTRA_COLLECTION, collection);
+                .putParcelable(EXTRA_COLLECTABLE_ITEM, collectableItem);
         return fragment;
     }
 
@@ -74,9 +80,22 @@ public class ItemCollectionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCollection = getArguments().getParcelable(EXTRA_COLLECTION);
+        mCollectableItem = getArguments().getParcelable(EXTRA_COLLECTABLE_ITEM);
+
+        if (savedInstanceState != null) {
+            mCollection = savedInstanceState.getParcelable(STATE_COLLEECTION);
+        } else {
+            mCollection = mCollectableItem.collection;
+        }
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(STATE_COLLEECTION, mCollection);
     }
 
     @Nullable
@@ -98,31 +117,46 @@ public class ItemCollectionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
-        //activity.setTitle(getTitle());
+        activity.setTitle(mCollectableItem.title);
         activity.setSupportActionBar(mToolbar);
 
         mStateLayout.setOnClickListener(view -> mStateSpinner.performClick());
         // TODO
-        mStateSpinner.setAdapter(new ItemCollectionStateAdapter(CollectableItem.Type.MOVIE,
+        mStateSpinner.setAdapter(new ItemCollectionStateSpinnerAdapter(CollectableItem.Type.MOVIE,
                 mStateSpinner.getContext()));
+        mStateSpinner.setSelection(mCollection.getState().ordinal());
         mStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ItemCollectionState newCollectionState = ItemCollectionState.values()[position];
-                if (mCollectionState != newCollectionState) {
-                    mCollectionState = newCollectionState;
+                if (mCollection.getState() != newCollectionState) {
+                    //noinspection deprecation
+                    mCollection.state = newCollectionState.getApiString();
                     onCollectionStateChanged();
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-        mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> mRatingHintText.setText(
-                DoubanUtils.getRatingHint((int) rating, mRatingHintText.getContext())));
+        mStateThisItemText.setText(mCollectableItem.getType().getThisItem(activity));
+        onCollectionStateChanged();
+        if (mCollection.rating != null) {
+            mRatingBar.setRating(mCollection.rating.getRatingBarValue());
+        }
+        mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> onRatingChanged());
+        onRatingChanged();
+        mTagsEdit.setText(StringCompat.join(" ", mCollection.tags));
+        mCommentEdit.setText(mCollection.comment);
     }
 
     private void onCollectionStateChanged() {
-        ViewUtils.setVisibleOrGone(mRatingLayout, mCollectionState != ItemCollectionState.TODO);
+        boolean hasRating = mCollection.getState() != ItemCollectionState.TODO;
+        ViewUtils.setVisibleOrGone(mRatingLayout, hasRating);
+    }
+
+    private void onRatingChanged() {
+        mRatingHintText.setText(DoubanUtils.getRatingHint((int) mRatingBar.getRating(),
+                mRatingHintText.getContext()));
     }
 
     @Override

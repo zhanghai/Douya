@@ -13,9 +13,9 @@ import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.ui.ArrayAdapterCompat;
 
-public class ItemCollectionStateAdapter extends ArrayAdapterCompat<String> {
+public class ItemCollectionStateSpinnerAdapter extends ArrayAdapterCompat<String> {
 
-    public ItemCollectionStateAdapter(CollectableItem.Type type, @NonNull Context context) {
+    public ItemCollectionStateSpinnerAdapter(CollectableItem.Type type, @NonNull Context context) {
         super(context, R.layout.simple_spinner_item, getStateNames(type, context));
 
         setDropDownViewResource(R.layout.simple_spinner_dropdown_item);

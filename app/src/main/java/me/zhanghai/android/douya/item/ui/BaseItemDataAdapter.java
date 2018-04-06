@@ -182,7 +182,7 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
             itemCollectionHolder.commentText.setText(itemCollection.comment);
             itemCollectionHolder.itemCollectionLayout.setOnClickListener(view -> {
                 Context context = view.getContext();
-                context.startActivity(ItemCollectionActivity.makeIntent(item.collection, context));
+                context.startActivity(ItemCollectionActivity.makeIntent(item, context));
             });
         }
         ViewUtils.setVisibleOrGone(itemCollectionHolder.dividerView, !hasItemCollection);

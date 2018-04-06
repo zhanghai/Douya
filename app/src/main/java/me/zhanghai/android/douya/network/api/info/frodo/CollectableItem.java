@@ -24,22 +24,24 @@ public abstract class CollectableItem extends BaseItem {
 
     public enum Type {
 
-        APP("app", R.string.item_app_name, R.string.item_app_action),
-        BOOK("book", R.string.item_book_name, R.string.item_book_action),
-        EVENT("event", R.string.item_event_name, R.string.item_event_action),
-        GAME("game", R.string.item_game_name, R.string.item_game_action),
-        MOVIE("movie", R.string.item_movie_name, R.string.item_movie_action),
-        MUSIC("music", R.string.item_music_name, R.string.item_music_action),
-        TV("tv", R.string.item_tv_name, R.string.item_tv_action);
+        APP("app", R.string.item_app_name, R.string.item_app_action, R.string.item_app_this_item),
+        BOOK("book", R.string.item_book_name, R.string.item_book_action, R.string.item_book_this_item),
+        EVENT("event", R.string.item_event_name, R.string.item_event_action, R.string.item_event_this_item),
+        GAME("game", R.string.item_game_name, R.string.item_game_action, R.string.item_game_this_item),
+        MOVIE("movie", R.string.item_movie_name, R.string.item_movie_action, R.string.item_movie_this_item),
+        MUSIC("music", R.string.item_music_name, R.string.item_music_action, R.string.item_music_this_item),
+        TV("tv", R.string.item_tv_name, R.string.item_tv_action, R.string.item_tv_this_item);
 
         private String mApiString;
         private int mNameRes;
         private int mActionRes;
+        private int mThisItemRes;
 
-        Type(String apiString, int nameRes, int actionRes) {
+        Type(String apiString, int nameRes, int actionRes, int thisItemRes) {
             mApiString = apiString;
             mNameRes = nameRes;
             mActionRes = actionRes;
+            mThisItemRes = thisItemRes;
         }
 
         public static Type ofApiString(String apiString, Type defaultValue) {
@@ -73,6 +75,14 @@ public abstract class CollectableItem extends BaseItem {
 
         public String getAction(Context context) {
             return context.getString(mActionRes);
+        }
+
+        public int getThisItemRes() {
+            return mThisItemRes;
+        }
+
+        public String getThisItem(Context context) {
+            return context.getString(mThisItemRes);
         }
     }
 

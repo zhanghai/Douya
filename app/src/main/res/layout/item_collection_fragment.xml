@@ -157,9 +157,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-
-                    android:text="我" />
+                    android:text="@string/item_state_i"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <Spinner
                     android:id="@+id/state"
@@ -179,11 +178,10 @@
                     tools:ignore="MissingPrefix" />
 
                 <TextView
+                    android:id="@+id/state_this_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-
-                    android:text="这部电影" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
             </LinearLayout>
         </LinearLayout>
     </me.zhanghai.android.douya.ui.AppBarWrapperLayout>

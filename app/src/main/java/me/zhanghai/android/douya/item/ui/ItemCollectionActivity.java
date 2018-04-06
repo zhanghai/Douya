@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -17,11 +18,11 @@ public class ItemCollectionActivity extends AppCompatActivity {
 
     private static final String KEY_PREFIX = ItemCollectionActivity.class.getName() + '.';
 
-    private static final String EXTRA_COLLECTION = KEY_PREFIX + "collection";
+    private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
 
-    public static Intent makeIntent(SimpleItemCollection collection, Context context) {
+    public static Intent makeIntent(CollectableItem collectableItem, Context context) {
         return new Intent(context, ItemCollectionActivity.class)
-                .putExtra(EXTRA_COLLECTION, collection);
+                .putExtra(EXTRA_COLLECTABLE_ITEM, collectableItem);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ItemCollectionActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            SimpleItemCollection collection = intent.getParcelableExtra(EXTRA_COLLECTION);
+            CollectableItem collection = intent.getParcelableExtra(EXTRA_COLLECTABLE_ITEM);
             FragmentUtils.add(ItemCollectionFragment.newInstance(collection), this,
                     android.R.id.content);
         }
