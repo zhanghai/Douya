@@ -216,8 +216,8 @@ public class ItemCollectionFragment extends Fragment
         if (mDeleteMenuItem == null) {
             return;
         }
-        boolean hasCollection = mCollectableItem.collection != null;
-        mDeleteMenuItem.setVisible(hasCollection);
+        boolean showDelete = mCollectableItem.collection != null && mExtraCollectionState == null;
+        mDeleteMenuItem.setVisible(showDelete);
     }
 
     @Override
