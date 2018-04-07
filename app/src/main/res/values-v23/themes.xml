@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <style name="PreferenceFixTheme.Design.Light.DialogWhenLarge.LightStatusBar" parent="PreferenceFixTheme.Design.Light.DialogWhenLarge">
+        <item name="colorPrimaryDark">@color/grey_300</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

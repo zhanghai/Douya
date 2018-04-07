@@ -58,6 +58,7 @@
     <style name="PreferenceFixTheme.Design.Light.DialogWhenLarge" parent="PreferenceFixTheme.Light.DialogWhenLarge">
         <item name="textColorError">?colorError</item>
     </style>
+    <style name="PreferenceFixTheme.Design.Light.DialogWhenLarge.LightStatusBar" parent="PreferenceFixTheme.Design.Light.DialogWhenLarge" />
 
     <style name="Theme.AppCompat.Light.DarkActionBar.DialogWhenLarge" parent="Theme.AppCompat.Light.DarkActionBar" />
     <style name="PreferenceFixTheme.Light.DarkActionBar.DialogWhenLarge" parent="Theme.AppCompat.Light.DarkActionBar.DialogWhenLarge">
@@ -175,7 +176,7 @@
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">@color/douya_primary_dark_without_system_window_scrim</item>
     </style>
 
-    <style name="Base.Theme.Douya.Light.DialogWhenLarge" parent="PreferenceFixTheme.Design.Light.DialogWhenLarge">
+    <style name="Base.Theme.Douya.Light.DialogWhenLarge" parent="PreferenceFixTheme.Design.Light.DialogWhenLarge.LightStatusBar">
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
