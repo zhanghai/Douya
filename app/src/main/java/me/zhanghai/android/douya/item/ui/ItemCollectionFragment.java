@@ -43,6 +43,7 @@ public class ItemCollectionFragment extends Fragment
     private static final String KEY_PREFIX = ItemCollectionFragment.class.getName() + '.';
 
     private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
+    private static final String EXTRA_COLLECTION_STATE = KEY_PREFIX + "collection_state";
 
     private static final String STATE_CHANGED = KEY_PREFIX + "changed";
 
@@ -68,19 +69,22 @@ public class ItemCollectionFragment extends Fragment
     private MenuItem mDeleteMenuItem;
 
     private CollectableItem mCollectableItem;
+    private ItemCollectionState mExtraCollectionState;
 
     private boolean mChanged;
 
     /**
-     * @deprecated Use {@link #newInstance(CollectableItem)} instead.
+     * @deprecated Use {@link #newInstance(CollectableItem, ItemCollectionState)} instead.
      */
     public ItemCollectionFragment() {}
 
-    public static ItemCollectionFragment newInstance(CollectableItem collectableItem) {
+    public static ItemCollectionFragment newInstance(CollectableItem collectableItem,
+                                                     ItemCollectionState collectionState) {
         //noinspection deprecation
         ItemCollectionFragment fragment = new ItemCollectionFragment();
-        FragmentUtils.ensureArguments(fragment)
-                .putParcelable(EXTRA_COLLECTABLE_ITEM, collectableItem);
+        Bundle arguments = FragmentUtils.ensureArguments(fragment);
+        arguments.putParcelable(EXTRA_COLLECTABLE_ITEM, collectableItem);
+        arguments.putSerializable(EXTRA_COLLECTION_STATE, collectionState);
         return fragment;
     }
 
@@ -88,7 +92,10 @@ public class ItemCollectionFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCollectableItem = getArguments().getParcelable(EXTRA_COLLECTABLE_ITEM);
+        Bundle arguments = getArguments();
+        mCollectableItem = arguments.getParcelable(EXTRA_COLLECTABLE_ITEM);
+        mExtraCollectionState = (ItemCollectionState) arguments.getSerializable(
+                EXTRA_COLLECTION_STATE);
 
         if (savedInstanceState != null) {
             mChanged = savedInstanceState.getBoolean(STATE_CHANGED);
@@ -129,8 +136,18 @@ public class ItemCollectionFragment extends Fragment
         mStateLayout.setOnClickListener(view -> mStateSpinner.performClick());
         mStateSpinner.setAdapter(new ItemCollectionStateSpinnerAdapter(mCollectableItem.getType(),
                 mStateSpinner.getContext()));
-        if (savedInstanceState == null && mCollectableItem.collection != null) {
-            mStateSpinner.setSelection(mCollectableItem.collection.getState().ordinal(), false);
+        if (savedInstanceState == null) {
+            ItemCollectionState collectionState;
+            if (mExtraCollectionState != null) {
+                collectionState = mExtraCollectionState;
+            } else if (mCollectableItem.collection != null) {
+                collectionState = mCollectableItem.collection.getState();
+            } else {
+                collectionState = null;
+            }
+            if (collectionState != null) {
+                mStateSpinner.setSelection(collectionState.ordinal(), false);
+            }
         }
         mStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

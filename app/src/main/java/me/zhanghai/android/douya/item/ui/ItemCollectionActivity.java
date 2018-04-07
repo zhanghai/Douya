@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -20,6 +21,7 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
     private static final String KEY_PREFIX = ItemCollectionActivity.class.getName() + '.';
 
     private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
+    private static final String EXTRA_COLLECTION_STATE = KEY_PREFIX + "collection_state";
 
     private ItemCollectionFragment mFragment;
 
@@ -30,13 +32,19 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
                 .putExtra(EXTRA_COLLECTABLE_ITEM, collectableItem);
     }
 
+    public static Intent makeIntent(CollectableItem collectableItem,
+                                    ItemCollectionState collectionState, Context context) {
+        return makeIntent(collectableItem, context)
+                .putExtra(EXTRA_COLLECTION_STATE, collectionState);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Intent intent = getIntent();
-        CollectableItem collection = intent.getParcelableExtra(EXTRA_COLLECTABLE_ITEM);
+        CollectableItem collectableItem = intent.getParcelableExtra(EXTRA_COLLECTABLE_ITEM);
 
-        switch (collection.getType()) {
+        switch (collectableItem.getType()) {
             case APP:
                 break;
             case BOOK:
@@ -59,7 +67,9 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
         findViewById(android.R.id.content);
 
         if (savedInstanceState == null) {
-            mFragment = ItemCollectionFragment.newInstance(collection);
+            ItemCollectionState collectionState = (ItemCollectionState) intent.getSerializableExtra(
+                    EXTRA_COLLECTION_STATE);
+            mFragment = ItemCollectionFragment.newInstance(collectableItem, collectionState);
             FragmentUtils.add(mFragment, this, android.R.id.content);
         } else {
             mFragment = FragmentUtils.findById(this, android.R.id.content);

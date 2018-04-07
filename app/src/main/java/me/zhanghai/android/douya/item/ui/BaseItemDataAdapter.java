@@ -158,11 +158,26 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         ItemCollectionState state = itemCollection != null ? itemCollection.getState() : null;
         boolean todoVisible = itemCollection == null;
         ViewUtils.setVisibleOrGone(itemCollectionHolder.todoButton, todoVisible);
+        itemCollectionHolder.todoButton.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(ItemCollectionActivity.makeIntent(item, ItemCollectionState.TODO,
+                    context));
+        });
         boolean doingVisible = itemCollection == null || state == ItemCollectionState.TODO;
         ViewUtils.setVisibleOrGone(itemCollectionHolder.doingButton, doingVisible);
+        itemCollectionHolder.doingButton.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(ItemCollectionActivity.makeIntent(item, ItemCollectionState.DOING,
+                    context));
+        });
         boolean doneVisible = itemCollection == null || state == ItemCollectionState.TODO
                 || state == ItemCollectionState.DOING;
         ViewUtils.setVisibleOrGone(itemCollectionHolder.doneButton, doneVisible);
+        itemCollectionHolder.doneButton.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(ItemCollectionActivity.makeIntent(item, ItemCollectionState.DONE,
+                    context));
+        });
         boolean buttonBarVisible = todoVisible || doingVisible || doneVisible;
         ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBar, buttonBarVisible);
         ViewUtils.setVisibleOrGone(itemCollectionHolder.buttonBarSpace, !buttonBarVisible);
