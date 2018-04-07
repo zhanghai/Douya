@@ -11,8 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,10 +28,12 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
 import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.MoreTextUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -43,9 +44,7 @@ public class ItemCollectionFragment extends Fragment
     private static final String KEY_PREFIX = ItemCollectionFragment.class.getName() + '.';
 
     private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
-    private static final String EXTRA_COLLECTION_STATE = KEY_PREFIX + "collection_state";
-
-    private static final String STATE_CHANGED = KEY_PREFIX + "changed";
+    private static final String EXTRA_STATE = KEY_PREFIX + "state";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -69,9 +68,7 @@ public class ItemCollectionFragment extends Fragment
     private MenuItem mDeleteMenuItem;
 
     private CollectableItem mCollectableItem;
-    private ItemCollectionState mExtraCollectionState;
-
-    private boolean mChanged;
+    private ItemCollectionState mExtraState;
 
     /**
      * @deprecated Use {@link #newInstance(CollectableItem, ItemCollectionState)} instead.
@@ -79,12 +76,12 @@ public class ItemCollectionFragment extends Fragment
     public ItemCollectionFragment() {}
 
     public static ItemCollectionFragment newInstance(CollectableItem collectableItem,
-                                                     ItemCollectionState collectionState) {
+                                                     ItemCollectionState state) {
         //noinspection deprecation
         ItemCollectionFragment fragment = new ItemCollectionFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putParcelable(EXTRA_COLLECTABLE_ITEM, collectableItem);
-        arguments.putSerializable(EXTRA_COLLECTION_STATE, collectionState);
+        arguments.putSerializable(EXTRA_STATE, state);
         return fragment;
     }
 
@@ -94,21 +91,9 @@ public class ItemCollectionFragment extends Fragment
 
         Bundle arguments = getArguments();
         mCollectableItem = arguments.getParcelable(EXTRA_COLLECTABLE_ITEM);
-        mExtraCollectionState = (ItemCollectionState) arguments.getSerializable(
-                EXTRA_COLLECTION_STATE);
-
-        if (savedInstanceState != null) {
-            mChanged = savedInstanceState.getBoolean(STATE_CHANGED);
-        }
+        mExtraState = (ItemCollectionState) arguments.getSerializable(EXTRA_STATE);
 
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putBoolean(STATE_CHANGED, mChanged);
     }
 
     @Nullable
@@ -137,64 +122,40 @@ public class ItemCollectionFragment extends Fragment
         mStateSpinner.setAdapter(new ItemCollectionStateSpinnerAdapter(mCollectableItem.getType(),
                 mStateSpinner.getContext()));
         if (savedInstanceState == null) {
-            ItemCollectionState collectionState;
-            if (mExtraCollectionState != null) {
-                collectionState = mExtraCollectionState;
+            ItemCollectionState state;
+            if (mExtraState != null) {
+                state = mExtraState;
             } else if (mCollectableItem.collection != null) {
-                collectionState = mCollectableItem.collection.getState();
+                state = mCollectableItem.collection.getState();
             } else {
-                collectionState = null;
+                state = null;
             }
-            if (collectionState != null) {
-                mStateSpinner.setSelection(collectionState.ordinal(), false);
+            if (state != null) {
+                mStateSpinner.setSelection(state.ordinal(), false);
             }
         }
         mStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mChanged = true;
-                updateRatingVisibility();
+                onStateChanged();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
         mStateThisItemText.setText(mCollectableItem.getType().getThisItem(activity));
-        updateRatingVisibility();
+        onStateChanged();
         if (savedInstanceState == null && mCollectableItem.collection != null
                 && mCollectableItem.collection.rating != null) {
             mRatingBar.setRating(mCollectableItem.collection.rating.getRatingBarValue());
         }
-        mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> {
-            mChanged = true;
-            updateRatingHint();
-        });
+        mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> updateRatingHint());
         updateRatingHint();
         if (savedInstanceState == null && mCollectableItem.collection != null) {
             mTagsEdit.setText(StringCompat.join(" ", mCollectableItem.collection.tags));
         }
-        mTagsEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                mChanged = true;
-            }
-        });
         if (savedInstanceState == null && mCollectableItem.collection != null) {
             mCommentEdit.setText(mCollectableItem.collection.comment);
         }
-        mCommentEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                mChanged = true;
-            }
-        });
     }
 
     @Override
@@ -216,7 +177,8 @@ public class ItemCollectionFragment extends Fragment
         if (mDeleteMenuItem == null) {
             return;
         }
-        boolean showDelete = mCollectableItem.collection != null && mExtraCollectionState == null;
+        boolean showDelete = mCollectableItem.collection != null && (mExtraState == null
+                || getState() == mCollectableItem.collection.getState());
         mDeleteMenuItem.setVisible(showDelete);
     }
 
@@ -237,9 +199,10 @@ public class ItemCollectionFragment extends Fragment
         }
     }
 
-    private void updateRatingVisibility() {
-        boolean hasRating = getCollectionState() != ItemCollectionState.TODO;
+    private void onStateChanged() {
+        boolean hasRating = getState() != ItemCollectionState.TODO;
         ViewUtils.setVisibleOrGone(mRatingLayout, hasRating);
+        updateOptionsMenu();
     }
 
     private void updateRatingHint() {
@@ -256,11 +219,43 @@ public class ItemCollectionFragment extends Fragment
     }
 
     public void onFinish() {
-        if (mChanged) {
+        if (isChanged()) {
             ConfirmDiscardContentDialogFragment.show(this);
         } else {
             finish();
         }
+    }
+
+    private boolean isChanged() {
+        SimpleItemCollection collection = mCollectableItem.collection;
+        ItemCollectionState state = getState();
+        if (collection != null) {
+            boolean equalsExtraState = mExtraState != null && state == mExtraState;
+            boolean equalsCollectionState = state == collection.getState();
+            if (!(equalsExtraState || equalsCollectionState)) {
+                return true;
+            }
+        }
+        if (state != ItemCollectionState.TODO) {
+            float originalRating = collection != null && collection.rating != null ?
+                    collection.rating.getRatingBarValue() : 0;
+            float rating = mRatingBar.getRating();
+            if (rating != originalRating) {
+                return true;
+            }
+        }
+        String tags = mTagsEdit.getText().toString();
+        String originalTags = collection != null ? StringCompat.join(" ", collection.tags) : "";
+        if (!TextUtils.equals(tags, originalTags)) {
+            return true;
+        }
+        String comment = mCommentEdit.getText().toString();
+        String originalComment = collection != null ? MoreTextUtils.nullToEmpty(collection.comment)
+                : "";
+        if (!TextUtils.equals(comment, originalComment)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -272,7 +267,7 @@ public class ItemCollectionFragment extends Fragment
         FragmentFinishable.finish(getActivity());
     }
 
-    private ItemCollectionState getCollectionState() {
+    private ItemCollectionState getState() {
         return ItemCollectionState.values()[mStateSpinner.getSelectedItemPosition()];
     }
 }

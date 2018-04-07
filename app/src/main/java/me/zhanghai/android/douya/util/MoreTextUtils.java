@@ -19,4 +19,20 @@ public class MoreTextUtils {
         }
         return false;
     }
+
+    public static CharSequence emptyToNull(CharSequence text) {
+        return text != null && text.length() == 0 ? null : text;
+    }
+
+    public static CharSequence nullToEmpty(CharSequence text) {
+        return text == null ? "" : text;
+    }
+
+    public static String emptyToNull(String text) {
+        return text != null && text.isEmpty() ? null : text;
+    }
+
+    public static String nullToEmpty(String text) {
+        return text == null ? "" : text;
+    }
 }

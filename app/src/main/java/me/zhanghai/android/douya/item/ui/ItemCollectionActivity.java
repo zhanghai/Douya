@@ -21,7 +21,7 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
     private static final String KEY_PREFIX = ItemCollectionActivity.class.getName() + '.';
 
     private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
-    private static final String EXTRA_COLLECTION_STATE = KEY_PREFIX + "collection_state";
+    private static final String EXTRA_STATE = KEY_PREFIX + "state";
 
     private ItemCollectionFragment mFragment;
 
@@ -32,10 +32,10 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
                 .putExtra(EXTRA_COLLECTABLE_ITEM, collectableItem);
     }
 
-    public static Intent makeIntent(CollectableItem collectableItem,
-                                    ItemCollectionState collectionState, Context context) {
+    public static Intent makeIntent(CollectableItem collectableItem, ItemCollectionState state,
+                                    Context context) {
         return makeIntent(collectableItem, context)
-                .putExtra(EXTRA_COLLECTION_STATE, collectionState);
+                .putExtra(EXTRA_STATE, state);
     }
 
     @Override
@@ -67,9 +67,9 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
         findViewById(android.R.id.content);
 
         if (savedInstanceState == null) {
-            ItemCollectionState collectionState = (ItemCollectionState) intent.getSerializableExtra(
-                    EXTRA_COLLECTION_STATE);
-            mFragment = ItemCollectionFragment.newInstance(collectableItem, collectionState);
+            ItemCollectionState state = (ItemCollectionState) intent.getSerializableExtra(
+                    EXTRA_STATE);
+            mFragment = ItemCollectionFragment.newInstance(collectableItem, state);
             FragmentUtils.add(mFragment, this, android.R.id.content);
         } else {
             mFragment = FragmentUtils.findById(this, android.R.id.content);
