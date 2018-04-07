@@ -14,7 +14,9 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.ui.FragmentFinishable;
+import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ItemCollectionActivity extends AppCompatActivity implements FragmentFinishable {
 
@@ -44,6 +46,7 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
         Intent intent = getIntent();
         CollectableItem item = intent.getParcelableExtra(EXTRA_ITEM);
 
+        int themeRes = 0;
         switch (item.getType()) {
             case APP:
                 break;
@@ -55,10 +58,16 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
                 break;
             case MOVIE:
             case TV:
-                setTheme(R.style.Theme_Douya_Movie_DialogWhenLarge);
+                themeRes = R.style.Theme_Douya_Movie_DialogWhenLarge;
                 break;
             case MUSIC:
                 break;
+        }
+        if (themeRes != 0) {
+            setTheme(themeRes);
+            // @see Activity#onApplyThemeResource(Resources.Theme, int, boolean)
+            int primaryColor = ViewUtils.getColorFromAttrRes(R.attr.colorPrimary, 0, this);
+            AppUtils.setTaskDescriptionPrimaryColor(this, primaryColor);
         }
 
         super.onCreate(savedInstanceState);
