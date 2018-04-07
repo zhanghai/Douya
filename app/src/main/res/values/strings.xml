@@ -346,6 +346,8 @@
     <string name="item_related_doulist_list_title">相关豆列</string>
     <string name="item_related_doulist_follower_count_format">%1$d 人收藏</string>
     <string name="item_collection_title">条目收藏</string>
+    <string name="item_collection_delete">删除</string>
+    <string name="item_collection_save">保存</string>
     <string name="item_state_i">我</string>
     <string name="item_rating">评价</string>
     <string-array name="item_rating_hints">

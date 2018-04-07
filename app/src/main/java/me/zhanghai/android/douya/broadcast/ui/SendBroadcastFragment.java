@@ -178,6 +178,17 @@ public class SendBroadcastFragment extends Fragment
         EventBusUtils.register(this);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(STATE_IMAGE_URIS, mImageUris);
+        outState.putParcelable(STATE_LINK_INFO, mLinkInfo);
+        outState.putBoolean(STATE_CHANGED, mChanged);
+        outState.putSerializable(STATE_CAPTURE_IMAGE_OUTPUT_FILE, mCaptureImageOutputFile);
+        outState.putLong(STATE_WRITER_ID, mWriterId);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -236,17 +247,6 @@ public class SendBroadcastFragment extends Fragment
         TooltipUtils.setup(mAddTopicButton);
         mAddTopicButton.setOnClickListener(view -> addTopic());
         updateSendStatus();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelableArrayList(STATE_IMAGE_URIS, mImageUris);
-        outState.putParcelable(STATE_LINK_INFO, mLinkInfo);
-        outState.putBoolean(STATE_CHANGED, mChanged);
-        outState.putSerializable(STATE_CAPTURE_IMAGE_OUTPUT_FILE, mCaptureImageOutputFile);
-        outState.putLong(STATE_WRITER_ID, mWriterId);
     }
 
     @Override

@@ -12,13 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class ItemCollectionActivity extends AppCompatActivity {
+public class ItemCollectionActivity extends AppCompatActivity implements FragmentFinishable {
 
     private static final String KEY_PREFIX = ItemCollectionActivity.class.getName() + '.';
 
     private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
+
+    private ItemCollectionFragment mFragment;
+
+    private boolean mShouldFinish;
 
     public static Intent makeIntent(CollectableItem collectableItem, Context context) {
         return new Intent(context, ItemCollectionActivity.class)
@@ -54,8 +59,40 @@ public class ItemCollectionActivity extends AppCompatActivity {
         findViewById(android.R.id.content);
 
         if (savedInstanceState == null) {
-            FragmentUtils.add(ItemCollectionFragment.newInstance(collection), this,
-                    android.R.id.content);
+            mFragment = ItemCollectionFragment.newInstance(collection);
+            FragmentUtils.add(mFragment, this, android.R.id.content);
+        } else {
+            mFragment = FragmentUtils.findById(this, android.R.id.content);
         }
+    }
+
+    @Override
+    public void finish() {
+        if (!mShouldFinish) {
+            mFragment.onFinish();
+            return;
+        }
+        super.finish();
+    }
+
+    @Override
+    public void finishAfterTransition() {
+        if (!mShouldFinish) {
+            mFragment.onFinish();
+            return;
+        }
+        super.finishAfterTransition();
+    }
+
+    @Override
+    public void finishFromFragment() {
+        mShouldFinish = true;
+        super.finish();
+    }
+
+    @Override
+    public void finishAfterTransitionFromFragment() {
+        mShouldFinish = true;
+        super.supportFinishAfterTransition();
     }
 }

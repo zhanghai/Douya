@@ -11,7 +11,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +29,22 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
+import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class ItemCollectionFragment extends Fragment {
+public class ItemCollectionFragment extends Fragment
+        implements ConfirmDiscardContentDialogFragment.Listener {
 
     private static final String KEY_PREFIX = ItemCollectionFragment.class.getName() + '.';
 
     private static final String EXTRA_COLLECTABLE_ITEM = KEY_PREFIX + "collectable_item";
+
+    private static final String STATE_CHANGED = KEY_PREFIX + "changed";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -56,7 +65,11 @@ public class ItemCollectionFragment extends Fragment {
     @BindView(R.id.comment)
     EditText mCommentEdit;
 
+    private MenuItem mDeleteMenuItem;
+
     private CollectableItem mCollectableItem;
+
+    private boolean mChanged;
 
     /**
      * @deprecated Use {@link #newInstance(CollectableItem)} instead.
@@ -77,7 +90,18 @@ public class ItemCollectionFragment extends Fragment {
 
         mCollectableItem = getArguments().getParcelable(EXTRA_COLLECTABLE_ITEM);
 
+        if (savedInstanceState != null) {
+            mChanged = savedInstanceState.getBoolean(STATE_CHANGED);
+        }
+
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(STATE_CHANGED, mChanged);
     }
 
     @Nullable
@@ -106,11 +130,12 @@ public class ItemCollectionFragment extends Fragment {
         mStateSpinner.setAdapter(new ItemCollectionStateSpinnerAdapter(mCollectableItem.getType(),
                 mStateSpinner.getContext()));
         if (savedInstanceState == null && mCollectableItem.collection != null) {
-            mStateSpinner.setSelection(mCollectableItem.collection.getState().ordinal());
+            mStateSpinner.setSelection(mCollectableItem.collection.getState().ordinal(), false);
         }
         mStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mChanged = true;
                 updateRatingVisibility();
             }
             @Override
@@ -122,11 +147,76 @@ public class ItemCollectionFragment extends Fragment {
                 && mCollectableItem.collection.rating != null) {
             mRatingBar.setRating(mCollectableItem.collection.rating.getRatingBarValue());
         }
-        mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> onRatingChanged());
-        onRatingChanged();
+        mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> {
+            mChanged = true;
+            updateRatingHint();
+        });
+        updateRatingHint();
         if (savedInstanceState == null && mCollectableItem.collection != null) {
             mTagsEdit.setText(StringCompat.join(" ", mCollectableItem.collection.tags));
+        }
+        mTagsEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                mChanged = true;
+            }
+        });
+        if (savedInstanceState == null && mCollectableItem.collection != null) {
             mCommentEdit.setText(mCollectableItem.collection.comment);
+        }
+        mCommentEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                mChanged = true;
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.item_collection, menu);
+        mDeleteMenuItem = menu.findItem(R.id.action_delete);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        updateOptionsMenu();
+    }
+
+    private void updateOptionsMenu() {
+        if (mDeleteMenuItem == null) {
+            return;
+        }
+        boolean hasCollection = mCollectableItem.collection != null;
+        mDeleteMenuItem.setVisible(hasCollection);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onFinish();
+                return true;
+            case R.id.action_delete:
+                onDelete();
+                return true;
+            case R.id.action_save:
+                save();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -135,23 +225,37 @@ public class ItemCollectionFragment extends Fragment {
         ViewUtils.setVisibleOrGone(mRatingLayout, hasRating);
     }
 
-    private void onRatingChanged() {
+    private void updateRatingHint() {
         mRatingHintText.setText(DoubanUtils.getRatingHint((int) mRatingBar.getRating(),
                 mRatingHintText.getContext()));
     }
 
-    private ItemCollectionState getCollectionState() {
-        return ItemCollectionState.values()[mStateSpinner.getSelectedItemPosition()];
+    private void onDelete() {
+
+    }
+
+    private void save() {
+
+    }
+
+    public void onFinish() {
+        if (mChanged) {
+            ConfirmDiscardContentDialogFragment.show(this);
+        } else {
+            finish();
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getActivity().finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void discardContent() {
+        finish();
+    }
+
+    private void finish() {
+        FragmentFinishable.finish(getActivity());
+    }
+
+    private ItemCollectionState getCollectionState() {
+        return ItemCollectionState.values()[mStateSpinner.getSelectedItemPosition()];
     }
 }
