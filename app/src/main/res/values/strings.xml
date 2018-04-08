@@ -361,6 +361,8 @@
     <string name="item_tags">标签</string>
     <string name="item_tags_hint">添加标签</string>
     <string name="item_comment_hint">我的评论…</string>
+    <string name="item_collect_successful">已收藏条目</string>
+    <string name="item_collect_failed_format">收藏条目失败，%1$s</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>
