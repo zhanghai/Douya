@@ -32,7 +32,9 @@ import me.zhanghai.android.douya.network.api.info.frodo.DoulistList;
 import me.zhanghai.android.douya.network.api.info.frodo.DoumailThread;
 import me.zhanghai.android.douya.network.api.info.frodo.DoumailThreadList;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardList;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemForumTopicList;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationCount;
 import me.zhanghai.android.douya.network.api.info.frodo.NotificationList;
@@ -329,6 +331,22 @@ public class ApiService {
         return (ApiRequest<ItemType>) mFrodoService.getItem(itemType.getApiString(), itemId);
     }
 
+    public ApiRequest<ItemCollection> collectItem(CollectableItem.Type itemType, long itemId,
+                                                  ItemCollectionState state, int rating,
+                                                  List<String> tags, String comment,
+                                                  List<Long> gamePlatformIds,
+                                                  boolean shareToBroadcast, boolean shareToWeibo,
+                                                  boolean shareToWeChatMoments) {
+        return mFrodoService.collectItem(itemType.getApiString(), itemId, state.getApiString(),
+                rating, StringCompat.join(",", tags), comment, gamePlatformIds,
+                shareToBroadcast ? 1 : null, shareToWeibo ? 1 : null,
+                shareToWeChatMoments ? 1 : null);
+    }
+
+    public ApiRequest<ItemCollection> uncollectItem(CollectableItem.Type itemType, long itemId) {
+        return mFrodoService.uncollectItem(itemType.getApiString(), itemId);
+    }
+
     public ApiRequest<Rating> getItemRating(CollectableItem.Type itemType, long itemId) {
         return mFrodoService.getItemRating(itemType.getApiString(), itemId);
     }
@@ -612,6 +630,22 @@ public class ApiService {
         @GET("{itemType}/{itemId}")
         ApiRequest<CompleteCollectableItem> getItem(@Path("itemType") String itemType,
                                                     @Path("itemId") long itemId);
+
+        @POST("{itemType}/{itemId}/{state}")
+        ApiRequest<ItemCollection> collectItem(@Path("itemType") String itemType,
+                                               @Path("itemId") long itemId,
+                                               @Path("state") String state,
+                                               @Field("rating") int rating,
+                                               @Field("tags") String tags,
+                                               @Field("comment") String comment,
+                                               @Field("platform") List<Long> gamePlatformIds,
+                                               @Field("sync_douban") Integer shareToBroadcast,
+                                               @Field("sync_weibo") Integer shareToWeibo,
+                                               @Field("sync_wechat_timeline") Integer shareToWeChatMoments);
+
+        @POST("{itemType}/{itemId}/unmark")
+        ApiRequest<ItemCollection> uncollectItem(@Path("itemType") String itemType,
+                                                 @Path("itemId") long itemId);
 
         @GET("{itemType}/{itemId}/rating")
         ApiRequest<Rating> getItemRating(@Path("itemType") String itemType,

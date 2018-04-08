@@ -12,39 +12,34 @@ import me.zhanghai.android.douya.R;
 
 public enum ItemCollectionState {
 
-    // FIXME: Frodo API change, see Interest.
-    TODO(new String[] { "mark", "wish" }, R.string.item_todo_format),
-    DOING(new String[] { "doing", "do" }, R.string.item_doing_format),
-    DONE(new String[] { "done", "collect"}, R.string.item_done_format);
+    // TODO: Support attend.
+    TODO("mark", R.string.item_todo_format),
+    DOING("doing", R.string.item_doing_format),
+    DONE("done", R.string.item_done_format);
 
-    private String[] mApiStrings;
+    private String mApiString;
     private int mFormatRes;
 
-    ItemCollectionState(String[] apiStrings, int formatRes) {
-        mApiStrings = apiStrings;
+    ItemCollectionState(String apiString, int formatRes) {
+        mApiString = apiString;
         mFormatRes = formatRes;
     }
 
     public static ItemCollectionState ofString(String apiString, ItemCollectionState defaultValue) {
         for (ItemCollectionState state : ItemCollectionState.values()) {
-            for (String stateApiString : state.mApiStrings) {
-                if (TextUtils.equals(apiString, stateApiString)) {
-                    return state;
-                }
+            if (TextUtils.equals(apiString, state.mApiString)) {
+                return state;
             }
         }
         return defaultValue;
     }
 
     public static ItemCollectionState ofString(String apiString) {
-        return ofString(apiString, DONE);
+        return ofString(apiString, null);
     }
 
-    /**
-     * @deprecated HACK-only.
-     */
     public String getApiString() {
-        return mApiStrings[0];
+        return mApiString;
     }
 
     public int getFormatRes() {
