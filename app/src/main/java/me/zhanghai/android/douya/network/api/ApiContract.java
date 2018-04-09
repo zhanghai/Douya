@@ -44,13 +44,12 @@ public interface ApiContract {
                     + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
                     + Build.MODEL + "  rom:android";
 
-            String API_KEY = "apiKey";
-            String UDID = "udid";
-            String DEVICE_ID = "device_id";
+            String API_KEY = "apikey";
             String CHANNEL = "channel";
             interface Channels {
                 String DOUBAN = "Douban";
             }
+            String UDID = "udid";
             String OS_ROM = "os_rom";
 
             List<String> SIGNATURE_HOSTS = Arrays.asList("frodo.douban.com", "api.douban.com");
