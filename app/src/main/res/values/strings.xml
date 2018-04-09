@@ -54,10 +54,11 @@
     <string name="api_error_network">网络错误</string>
 
     <string name="api_error_invalid_error_response">服务器错误</string>
+    <string name="api_error_invalid_request_997">缺少签名</string>
     <string name="api_error_unknown_v2_error">未知 V2 错误</string>
     <string name="api_error_need_permission">需要权限</string>
     <string name="api_error_uri_not_found">资源不存在</string>
-    <string name="api_error_missing_args">参数不足</string>
+    <string name="api_error_missing_args">缺少参数</string>
     <string name="api_error_image_too_large">图片过大</string>
     <string name="api_error_has_ban_word">包含违禁词语</string>
     <string name="api_error_input_too_short">输入过短</string>

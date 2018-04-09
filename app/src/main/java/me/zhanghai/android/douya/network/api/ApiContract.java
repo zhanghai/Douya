@@ -89,6 +89,7 @@ public interface ApiContract {
                     int INVALID_ERROR_RESPONSE = -1;
                 }
                 interface Base {
+                    int INVALID_REQUEST_997 = 997;
                     int UNKNOWN_V2_ERROR = 999;
                     int NEED_PERMISSION = 1000;
                     int URI_NOT_FOUND = 1001;

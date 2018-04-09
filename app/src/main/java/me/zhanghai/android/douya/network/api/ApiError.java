@@ -33,6 +33,8 @@ public class ApiError extends Throwable {
         ERROR_CODE_STRING_RES_MAP.put(Custom.INVALID_ERROR_RESPONSE,
                 R.string.api_error_invalid_error_response);
 
+        ERROR_CODE_STRING_RES_MAP.put(Base.INVALID_REQUEST_997,
+                R.string.api_error_invalid_request_997);
         ERROR_CODE_STRING_RES_MAP.put(Base.UNKNOWN_V2_ERROR, R.string.api_error_unknown_v2_error);
         ERROR_CODE_STRING_RES_MAP.put(Base.NEED_PERMISSION, R.string.api_error_need_permission);
         ERROR_CODE_STRING_RES_MAP.put(Base.URI_NOT_FOUND, R.string.api_error_uri_not_found);
