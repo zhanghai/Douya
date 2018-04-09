@@ -40,9 +40,10 @@ public interface ApiContract {
             String API_HOST = "https://frodo.douban.com/api/v2/";
 
             // API protocol version is derived from user agent string.
-            String USER_AGENT = "api-client/Volley/1 com.douban.frodo/5.22.0(129) Android/"
-                    + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
-                    + Build.MODEL + "  rom:android";
+            String USER_AGENT = "api-client/1 com.douban.frodo/5.22.0(129) Android/" +
+                    Build.VERSION.SDK_INT+ " product/" + Build.PRODUCT + " vendor/" +
+                    // Sorry Frodo, but we don't want to hold ACCESS_NETWORK_STATE.
+                    Build.MANUFACTURER + " model/" + Build.MODEL + "  rom/android  network/wifi";
 
             String API_KEY = "apikey";
             String CHANNEL = "channel";
@@ -61,9 +62,9 @@ public interface ApiContract {
 
             String API_HOST = "https://api.douban.com/v2/";
 
-            String USER_AGENT = "api-client/2.0 com.douban.shuo/2.2.7(123) Android/"
-                    + Build.VERSION.SDK_INT + " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
-                    + Build.MODEL;
+            String USER_AGENT = "api-client/2.0 com.douban.shuo/2.2.7(123) Android/" +
+                    Build.VERSION.SDK_INT + " " + Build.PRODUCT + " " + Build.MANUFACTURER + " " +
+                    Build.MODEL;
 
             interface Base {
                 String API_KEY = "apikey";
