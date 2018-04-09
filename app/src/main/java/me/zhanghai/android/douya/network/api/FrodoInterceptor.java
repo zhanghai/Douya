@@ -23,10 +23,10 @@ public class FrodoInterceptor implements Interceptor {
         Request request = oldRequest.newBuilder()
                 .header(Http.Headers.USER_AGENT, ApiContract.Request.Frodo.USER_AGENT)
                 .url(oldRequest.url().newBuilder()
-                        .addQueryParameter(ApiContract.Request.Frodo.Base.API_KEY,
+                        .addQueryParameter(ApiContract.Request.Frodo.API_KEY,
                                 ApiCredential.Frodo.KEY)
-                        .addQueryParameter(ApiContract.Request.Frodo.Base.CHANNEL,
-                                ApiContract.Request.Frodo.Base.Channels.DOUBAN)
+                        .addQueryParameter(ApiContract.Request.Frodo.CHANNEL,
+                                ApiContract.Request.Frodo.Channels.DOUBAN)
                         .build())
                 .build();
         return chain.proceed(request);

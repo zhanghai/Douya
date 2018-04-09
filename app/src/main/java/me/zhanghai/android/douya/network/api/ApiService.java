@@ -82,14 +82,14 @@ public class ApiService {
 
     private ApiService() {
         mAuthenticationService = createAuthenticationService();
-        mLifeStreamHttpClient = createApiHttpClient(new LifeStreamInterceptor(),
-                AccountContract.AUTH_TOKEN_TYPE_API_V2);
+        mLifeStreamHttpClient = createApiHttpClient(AccountContract.AUTH_TOKEN_TYPE_API_V2,
+                new LifeStreamInterceptor());
         mLifeStreamService = createApiService(ApiContract.Request.ApiV2.API_HOST,
                 mLifeStreamHttpClient, LifeStreamService.class);
-        mFrodoHttpClient = createApiHttpClient(new FrodoInterceptor(),
-                AccountContract.AUTH_TOKEN_TYPE_FRODO);
-        mFrodoService = createApiService(ApiContract.Request.Frodo.API_HOST,
-                mFrodoHttpClient, FrodoService.class);
+        mFrodoHttpClient = createApiHttpClient(AccountContract.AUTH_TOKEN_TYPE_FRODO,
+                new FrodoInterceptor(), new FrodoSignatureInterceptor());
+        mFrodoService = createApiService(ApiContract.Request.Frodo.API_HOST, mFrodoHttpClient,
+                FrodoService.class);
     }
 
     private static AuthenticationService createAuthenticationService() {
@@ -105,12 +105,16 @@ public class ApiService {
                 .create(AuthenticationService.class);
     }
 
-    private static OkHttpClient createApiHttpClient(Interceptor interceptor, String authTokenType) {
-        return new OkHttpClient.Builder()
+    private static OkHttpClient createApiHttpClient(String authTokenType,
+                                                    Interceptor... interceptors) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 // AuthenticationInterceptor may retry the request, so it must be an application
                 // interceptor.
-                .addInterceptor(new ApiAuthenticationInterceptor(authTokenType))
-                .addNetworkInterceptor(interceptor)
+                .addInterceptor(new ApiAuthenticationInterceptor(authTokenType));
+        for (Interceptor interceptor : interceptors) {
+            builder.addNetworkInterceptor(interceptor);
+        }
+        return builder
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
     }

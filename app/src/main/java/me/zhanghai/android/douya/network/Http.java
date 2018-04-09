@@ -7,6 +7,18 @@ package me.zhanghai.android.douya.network;
 
 public class Http {
 
+    public interface Methods {
+        String GET = "GET";
+        String HEAD = "HEAD";
+        String POST = "POST";
+        String PUT = "PUT";
+        String DELETE = "DELETE";
+        String CONNECT = "CONNECT";
+        String OPTIONS = "OPTIONS";
+        String TRACE = "TRACE";
+        String PATCH = "PATCH";
+    }
+
     public static class Headers {
         public static final String ACCEPT = "Accept";
         public static final String ACCEPT_CHARSET = "Accept-Charset";
@@ -25,6 +37,7 @@ public class Http {
                 return bearerAuthorization.substring(bearerPrefixLength);
             }
         }
+        public static final String CONTENT_DISPOSITION = "Content-Disposition";
         public static final String CONTENT_ENCODING = "Content-Encoding";
         public static final String CONTENT_LENGTH = "Content-Length";
         public static final String CONTENT_TYPE = "Content-Type";

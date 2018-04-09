@@ -7,6 +7,9 @@ package me.zhanghai.android.douya.network.api;
 
 import android.os.Build;
 
+import java.util.Arrays;
+import java.util.List;
+
 import me.zhanghai.android.douya.network.Http;
 
 public interface ApiContract {
@@ -34,32 +37,34 @@ public interface ApiContract {
 
         interface Frodo {
 
+            String API_HOST = "https://frodo.douban.com/api/v2/";
+
             // API protocol version is derived from user agent string.
             String USER_AGENT = "api-client/Volley/1 com.douban.frodo/5.22.0(129) Android/"
                     + Build.VERSION.SDK_INT+ " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
                     + Build.MODEL + "  rom:android";
 
-            String API_HOST = "https://frodo.douban.com/api/v2/";
-
-            interface Base {
-                String API_KEY = "apiKey";
-                String UDID = "udid";
-                String DEVICE_ID = "device_id";
-                String CHANNEL = "channel";
-                interface Channels {
-                    String DOUBAN = "Douban";
-                }
-                String OS_ROM = "os_rom";
+            String API_KEY = "apiKey";
+            String UDID = "udid";
+            String DEVICE_ID = "device_id";
+            String CHANNEL = "channel";
+            interface Channels {
+                String DOUBAN = "Douban";
             }
+            String OS_ROM = "os_rom";
+
+            List<String> SIGNATURE_HOSTS = Arrays.asList("frodo.douban.com", "api.douban.com");
+            String SIG = "_sig";
+            String TS = "_ts";
         }
 
         interface ApiV2 {
 
+            String API_HOST = "https://api.douban.com/v2/";
+
             String USER_AGENT = "api-client/2.0 com.douban.shuo/2.2.7(123) Android/"
                     + Build.VERSION.SDK_INT + " " + Build.PRODUCT + " " + Build.MANUFACTURER + " "
                     + Build.MODEL;
-
-            String API_HOST = "https://api.douban.com/v2/";
 
             interface Base {
                 String API_KEY = "apikey";
