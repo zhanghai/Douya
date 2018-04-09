@@ -19,14 +19,17 @@ public class FrodoInterceptor implements Interceptor {
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
-        Request oldRequest = chain.request();
-        Request request = oldRequest.newBuilder()
+        Request request = chain.request();
+        request = request.newBuilder()
                 .header(Http.Headers.USER_AGENT, ApiContract.Request.Frodo.USER_AGENT)
-                .url(oldRequest.url().newBuilder()
+                .url(request.url().newBuilder()
                         .addQueryParameter(ApiContract.Request.Frodo.API_KEY,
                                 ApiCredential.Frodo.KEY)
                         .addQueryParameter(ApiContract.Request.Frodo.CHANNEL,
                                 ApiContract.Request.Frodo.Channels.DOUBAN)
+                        // TODO: UUID
+                        .addQueryParameter(ApiContract.Request.Frodo.OS_ROM,
+                                ApiContract.Request.Frodo.OsRoms.ANDROID)
                         .build())
                 .build();
         return chain.proceed(request);

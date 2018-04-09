@@ -52,6 +52,9 @@ public interface ApiContract {
             }
             String UDID = "udid";
             String OS_ROM = "os_rom";
+            interface OsRoms {
+                String ANDROID = "android";
+            }
 
             List<String> SIGNATURE_HOSTS = Arrays.asList("frodo.douban.com", "api.douban.com");
             String SIG = "_sig";
