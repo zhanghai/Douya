@@ -211,6 +211,7 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     protected void bindPhotoListHolder(RecyclerView.ViewHolder holder, T item,
                                        List<Photo> photoList, boolean excludeFirstPhoto) {
         PhotoListHolder photoListHolder = (PhotoListHolder) holder;
+        List<Photo> originalPhotoList = photoList;
         if (excludeFirstPhoto) {
             photoList = photoList.subList(1, photoList.size());
         }
@@ -218,15 +219,14 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         HorizontalImageAdapter adapter = (HorizontalImageAdapter)
                 photoListHolder.photoList.getAdapter();
         adapter.replace(photoList);
-        List<Photo> finalPhotoList = photoList;
         Context context = RecyclerViewUtils.getContext(holder);
         adapter.setOnItemClickListener((parent, itemView, item_, photoPosition) -> {
             if (excludeFirstPhoto) {
                 ++photoPosition;
             }
             // TODO: Use PhotoAlbumGalleryActivity instead.
-            context.startActivity(GalleryActivity.makeImageListIntent(finalPhotoList, photoPosition,
-                    context));
+            context.startActivity(GalleryActivity.makeImageListIntent(originalPhotoList,
+                    photoPosition, context));
         });
         photoListHolder.viewMoreButton.setOnClickListener(view -> {
             // TODO
