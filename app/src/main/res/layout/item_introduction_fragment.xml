@@ -50,7 +50,8 @@
                 android:layout_marginBottom="@dimen/content_vertical_space_with_4dp_padding"
                 android:gravity="center_horizontal"
                 android:lineSpacingMultiplier="1.2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textIsSelectable="true" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
