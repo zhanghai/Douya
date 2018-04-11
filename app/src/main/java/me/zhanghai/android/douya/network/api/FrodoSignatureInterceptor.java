@@ -12,21 +12,17 @@ import android.util.Base64;
 
 import java.io.IOException;
 import java.security.Key;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
-import me.zhanghai.android.douya.util.MoreTextUtils;
-import okhttp3.FormBody;
-import okhttp3.Headers;
+import me.zhanghai.android.douya.network.api.util.InterceptorUtils;
 import okhttp3.Interceptor;
-import okhttp3.MultipartBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -48,70 +44,10 @@ public class FrodoSignatureInterceptor implements Interceptor {
         if (TextUtils.isEmpty(signature)) {
             return chain.proceed(request);
         }
-        if (TextUtils.equals(request.method(), Http.Methods.GET)) {
-            request = request.newBuilder()
-                    .url(request.url().newBuilder()
-                            .setQueryParameter(ApiContract.Request.Frodo.SIG, signature)
-                            .setQueryParameter(ApiContract.Request.Frodo.TS, timestamp)
-                            .build())
-                    .build();
-        } else {
-            RequestBody body = request.body();
-            if (body instanceof FormBody) {
-                FormBody formBody = (FormBody) body;
-                FormBody.Builder builder = new FormBody.Builder();
-                for (int i = 0, size = formBody.size(); i < size; ++i) {
-                    String name = formBody.name(i);
-                    if (MoreTextUtils.equalsAny(name, ApiContract.Request.Frodo.SIG,
-                            ApiContract.Request.Frodo.TS)) {
-                        continue;
-                    }
-                    builder.add(name, formBody.value(i));
-                }
-                builder.add(ApiContract.Request.Frodo.SIG, signature);
-                builder.add(ApiContract.Request.Frodo.TS, timestamp);
-                body = builder.build();
-                // Added sanity check because Frodo is assuming POST.
-                if (!TextUtils.equals(request.method(), Http.Methods.POST)) {
-                    throw new IllegalArgumentException("Method must be GET or POST for " +
-                            FrodoSignatureInterceptor.class.getSimpleName());
-                }
-                request = request.newBuilder()
-                        .post(body)
-                        .removeHeader(Http.Headers.CONTENT_LENGTH)
-                        .header(Http.Headers.CONTENT_LENGTH, String.valueOf(body.contentLength()))
-                        .build();
-            } else if (body instanceof MultipartBody) {
-                MultipartBody multipartBody = (MultipartBody) body;
-                MultipartBody.Builder builder = new MultipartBody.Builder(multipartBody.boundary())
-                        .setType(multipartBody.type());
-                for (int i = 0, size = multipartBody.size(); i < size; ++i) {
-                    MultipartBody.Part part = multipartBody.part(i);
-                    Headers headers = part.headers();
-                    if (headers != null) {
-                        String contentDisposition = headers.get(Http.Headers.CONTENT_DISPOSITION);
-                        if (MoreTextUtils.containsAny(contentDisposition,
-                                ApiContract.Request.Frodo.SIG, ApiContract.Request.Frodo.TS)) {
-                            continue;
-                        }
-                    }
-                    builder.addPart(part);
-                }
-                builder.addFormDataPart(ApiContract.Request.Frodo.SIG, signature);
-                builder.addFormDataPart(ApiContract.Request.Frodo.TS, timestamp);
-                body = builder.build();
-                // Added sanity check because Frodo is assuming POST.
-                if (!TextUtils.equals(request.method(), Http.Methods.POST)) {
-                    throw new IllegalArgumentException("Method must be GET or POST for " +
-                            FrodoSignatureInterceptor.class.getSimpleName());
-                }
-                request = request.newBuilder()
-                        .post(body)
-                        .removeHeader(Http.Headers.CONTENT_LENGTH)
-                        .header(Http.Headers.CONTENT_LENGTH, String.valueOf(body.contentLength()))
-                        .build();
-            }
-        }
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(ApiContract.Request.Frodo.SIG, signature);
+        parameters.put(ApiContract.Request.Frodo.TS, timestamp);
+        request = InterceptorUtils.addParameters(request, parameters);
         return chain.proceed(request);
     }
 
