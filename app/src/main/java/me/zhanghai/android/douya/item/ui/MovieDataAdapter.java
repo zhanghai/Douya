@@ -57,6 +57,10 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
 
     private Data mData;
 
+    public MovieDataAdapter(Listener listener) {
+        super(listener);
+    }
+
     public void setData(Data data) {
         mData = data;
         notifyDataChanged();
@@ -262,6 +266,8 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         recyclerView.setClipChildren(false);
     }
+
+    public interface Listener extends BaseItemDataAdapter.Listener<Movie> {}
 
     public static class Data {
 

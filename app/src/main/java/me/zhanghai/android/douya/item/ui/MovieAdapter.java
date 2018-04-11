@@ -7,14 +7,15 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.support.v7.widget.RecyclerView;
 
+import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.ui.BarrierAdapter;
 
 public class MovieAdapter extends BarrierAdapter {
 
     private MovieDataAdapter mDataAdapter;
 
-    public MovieAdapter() {
-        super(new MovieDataAdapter());
+    public MovieAdapter(MovieDataAdapter.Listener listener) {
+        super(new MovieDataAdapter(listener));
 
         RecyclerView.Adapter<?>[] adapters = getAdapters();
         mDataAdapter = (MovieDataAdapter) adapters[0];

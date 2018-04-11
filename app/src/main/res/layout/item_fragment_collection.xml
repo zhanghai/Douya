@@ -75,6 +75,7 @@
         android:paddingTop="@dimen/content_vertical_space"
         android:paddingBottom="@dimen/content_vertical_space"
         android:background="?colorPrimaryLight"
+        android:clipToPadding="false"
         android:foreground="?selectableItemBackground">
 
         <ImageView
@@ -103,6 +104,8 @@
             android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="16dp"
+            android:maxHeight="16dp"
             android:layout_toRightOf="@id/state"
             android:layout_alignTop="@id/state"
             android:layout_alignBottom="@id/state"
@@ -110,8 +113,6 @@
             android:layout_marginRight="-1dp"
             android:layout_marginTop="-2dp"
             android:layout_marginBottom="-2dp"
-            android:minHeight="16dp"
-            android:maxHeight="16dp"
             app:mrb_progressTint="?textColorPrimaryDark"
             style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
 
@@ -128,11 +129,12 @@
             android:textColor="?textColorPrimaryDark" />
 
         <ImageButton
+            android:id="@+id/actions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="-12dp"
+            android:layout_marginRight="-16dp"
             android:layout_marginTop="-6dp"
             android:layout_marginBottom="-6dp"
             android:padding="6dp"

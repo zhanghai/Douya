@@ -12,7 +12,9 @@ import java.util.List;
 
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
+import me.zhanghai.android.douya.item.content.ConfirmUncollectItemDialogFragment;
 import me.zhanghai.android.douya.item.content.MovieFragmentResource;
+import me.zhanghai.android.douya.item.content.UncollectItemManager;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
@@ -29,7 +31,8 @@ import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
-        implements MovieFragmentResource.Listener {
+        implements MovieFragmentResource.Listener, MovieDataAdapter.Listener,
+        ConfirmUncollectItemDialogFragment.Listener {
 
     private MovieAdapter mAdapter;
 
@@ -57,7 +60,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
 
     @Override
     protected RecyclerView.Adapter<?> onCreateAdapter() {
-        mAdapter = new MovieAdapter();
+        mAdapter = new MovieAdapter(this);
         return mAdapter;
     }
 
@@ -141,6 +144,20 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     @Override
     public void onItemCollectionChanged(int requestCode) {
         mAdapter.notifyItemCollectionChanged();
+    }
+
+    @Override
+    public void onUncollectItem(Movie movie) {
+        ConfirmUncollectItemDialogFragment.show(this);
+    }
+
+    @Override
+    public void uncollect() {
+        if (!mResource.hasItem()) {
+            return;
+        }
+        Movie movie = mResource.getItem();
+        UncollectItemManager.getInstance().write(movie.getType(), movie.id, getActivity());
     }
 
     @Override

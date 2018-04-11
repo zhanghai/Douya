@@ -7,10 +7,13 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.Space;
 import android.widget.TextView;
@@ -48,9 +51,21 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     private static final int ITEM_FORUM_TOPIC_LIST_MAX_SIZE = 5;
     private static final int ITEM_RELATED_DOULIST_LIST_MAX_SIZE = 5;
 
+    private Listener<T> mListener;
+
+    public BaseItemDataAdapter(Listener<T> listener) {
+        mListener = listener;
+    }
+
     protected ItemCollectionHolder createItemCollectionHolder(ViewGroup parent) {
-        return new ItemCollectionHolder(ViewUtils.inflate(R.layout.item_fragment_collection,
-                parent));
+        ItemCollectionHolder holder = new ItemCollectionHolder(ViewUtils.inflate(
+                R.layout.item_fragment_collection, parent));
+        holder.actionsMenu = new PopupMenu(RecyclerViewUtils.getContext(holder),
+                holder.actionsButton);
+        holder.actionsMenu.inflate(R.menu.item_collection_actions);
+        holder.actionsButton.setOnClickListener(view -> holder.actionsMenu.show());
+        holder.actionsButton.setOnTouchListener(holder.actionsMenu.getDragToOpenListener());
+        return holder;
     }
 
     protected IntroductionHolder createIntroductionHolder(ViewGroup parent) {
@@ -198,6 +213,20 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
             itemCollectionHolder.itemCollectionLayout.setOnClickListener(view -> {
                 Context context = view.getContext();
                 context.startActivity(ItemCollectionActivity.makeIntent(item, context));
+            });
+            itemCollectionHolder.actionsMenu.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_edit: {
+                        Context context = RecyclerViewUtils.getContext(itemCollectionHolder);
+                        context.startActivity(ItemCollectionActivity.makeIntent(item, context));
+                        return true;
+                    }
+                    case R.id.action_uncollect:
+                        mListener.onUncollectItem(item);
+                        return true;
+                    default:
+                        return false;
+                }
             });
         }
         ViewUtils.setVisibleOrGone(itemCollectionHolder.dividerView, !hasItemCollection);
@@ -347,6 +376,10 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         recyclerView.setClipChildren(false);
     }
 
+    public interface Listener<T> {
+        void onUncollectItem(T item);
+    }
+
     protected static class ItemCollectionHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.button_bar)
@@ -369,8 +402,12 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         public RatingBar ratingBar;
         @BindView(R.id.comment)
         public TextView commentText;
+        @BindView(R.id.actions)
+        public ImageButton actionsButton;
         @BindView(R.id.divider)
         public View dividerView;
+
+        public PopupMenu actionsMenu;
 
         public ItemCollectionHolder(View itemView) {
             super(itemView);

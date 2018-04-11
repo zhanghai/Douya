@@ -80,7 +80,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     private SimpleItemType mSimpleItem;
     private ItemType mItem;
 
-    private BaseItemFragmentResource<SimpleItemType, ItemType> mResource;
+    protected BaseItemFragmentResource<SimpleItemType, ItemType> mResource;
 
     private RecyclerView.Adapter<?> mAdapter;
 

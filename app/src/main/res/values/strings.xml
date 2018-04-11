@@ -316,6 +316,8 @@
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
     <string name="item_movie_title">电影</string>
+    <string name="item_collection_edit">修改</string>
+    <string name="item_collection_uncollect">删除</string>
     <string name="item_top_250">豆瓣 250</string>
     <string name="item_top_250_badge">TOP</string>
     <string name="item_top_250_rank_format">%1$d</string>
@@ -348,7 +350,6 @@
     <string name="item_related_doulist_follower_count_format">%1$d 人收藏</string>
     <string name="item_collection_title">标记条目</string>
     <string name="item_collection_title_saving_format">正在标记%1$s…</string>
-    <string name="item_collection_uncollect">删除</string>
     <string name="item_uncollect_confirm">确定要删除这个标记吗？</string>
     <string name="item_uncollect_successful_format">已取消标记%1$s</string>
     <string name="item_uncollect_failed_format">取消标记%1$s失败，%2$s</string>
