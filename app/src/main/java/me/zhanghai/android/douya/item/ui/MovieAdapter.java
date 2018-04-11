@@ -23,4 +23,8 @@ public class MovieAdapter extends BarrierAdapter {
     public void setData(MovieDataAdapter.Data data) {
         mDataAdapter.setData(data);
     }
+
+    public void notifyItemCollectionChanged() {
+        mDataAdapter.notifyItemCollectionChanged();
+    }
 }

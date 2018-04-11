@@ -150,6 +150,7 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
         if (event.itemType == item.getType() && event.itemId == item.id) {
             item.collection = event.collection;
             getListener().onItemChanged(getRequestCode(), item);
+            getListener().onItemCollectionChanged(getRequestCode());
         }
     }
 
@@ -164,6 +165,7 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
         if (event.itemType == item.getType() && event.itemId == item.id) {
             item.collection = null;
             getListener().onItemChanged(getRequestCode(), item);
+            getListener().onItemCollectionChanged(getRequestCode());
         }
     }
 
@@ -177,5 +179,6 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
         void onLoadItemFinished(int requestCode);
         void onLoadItemError(int requestCode, ApiError error);
         void onItemChanged(int requestCode, ItemType newItem);
+        void onItemCollectionChanged(int requestCode);
     }
 }

@@ -139,6 +139,11 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     }
 
     @Override
+    public void onItemCollectionChanged(int requestCode) {
+        mAdapter.notifyItemCollectionChanged();
+    }
+
+    @Override
     protected String makeItemUrl(long itemId) {
         return DoubanUtils.makeMovieUrl(itemId);
     }

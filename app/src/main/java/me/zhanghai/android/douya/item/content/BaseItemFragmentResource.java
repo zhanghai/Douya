@@ -484,6 +484,11 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         }
     }
 
+    @Override
+    public void onItemCollectionChanged(int requestCode) {
+        getListener().onItemCollectionChanged(getRequestCode());
+    }
+
     private Listener<ItemType> getListener() {
         //noinspection unchecked
         return (Listener<ItemType>) getTarget();
@@ -492,8 +497,6 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     public interface Listener<ItemType> {
         void onLoadError(int requestCode, ApiError error);
         void onItemChanged(int requestCode, ItemType newItem);
-        // TODO: Item collection
-        //void onItemWriteStarted(int requestCode);
-        //void onItemWriteFinished(int requestCode);
+        void onItemCollectionChanged(int requestCode);
     }
 }

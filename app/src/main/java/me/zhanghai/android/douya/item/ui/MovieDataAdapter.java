@@ -62,6 +62,13 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
         notifyDataChanged();
     }
 
+    public void notifyItemCollectionChanged() {
+        int position = Items.ITEM_COLLECTION.ordinal();
+        if (position < getItemCount()) {
+            notifyItemChanged(position);
+        }
+    }
+
     @Override
     public int getTotalItemCount() {
         return Items.values().length;
