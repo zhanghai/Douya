@@ -298,6 +298,10 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     protected void bindItemCollectionListHolder(RecyclerView.ViewHolder holder, T item,
                                                 List<SimpleItemCollection> itemCollectionList) {
         ItemCollectionListHolder itemCollectionListHolder = (ItemCollectionListHolder) holder;
+        itemCollectionListHolder.createButton.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(ItemCollectionActivity.makeIntent(item, context));
+        });
         itemCollectionList = itemCollectionList.subList(0, Math.min(ITEM_COLLECTION_LIST_MAX_SIZE,
                 itemCollectionList.size()));
         ViewUtils.setVisibleOrGone(itemCollectionListHolder.itemCollectionList,
@@ -504,6 +508,8 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
 
     protected static class ItemCollectionListHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.create)
+        public Button createButton;
         @BindView(R.id.item_collection_list)
         public AdapterLinearLayout itemCollectionList;
         @BindView(R.id.view_more)
