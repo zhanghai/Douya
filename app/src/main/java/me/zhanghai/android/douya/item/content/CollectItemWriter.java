@@ -25,10 +25,6 @@ import me.zhanghai.android.douya.util.ToastUtils;
 
 class CollectItemWriter extends RequestResourceWriter<CollectItemWriter, ItemCollection> {
 
-    private static int sNextId = 1;
-
-    private long mId;
-
     private CollectableItem.Type mItemType;
     private long mItemId;
     private ItemCollectionState mState;
@@ -45,9 +41,6 @@ class CollectItemWriter extends RequestResourceWriter<CollectItemWriter, ItemCol
                       boolean shareToBroadcast, boolean shareToWeibo, boolean shareToWeChatMoments,
                       CollectItemManager manager) {
         super(manager);
-
-        mId = sNextId;
-        ++sNextId;
 
         mItemType = itemType;
         mItemId = itemId;
@@ -119,9 +112,11 @@ class CollectItemWriter extends RequestResourceWriter<CollectItemWriter, ItemCol
     @Override
     public void onResponse(ItemCollection response) {
 
-        ToastUtils.show(R.string.item_collect_successful, getContext());
+        Context context = getContext();
+        ToastUtils.show(context.getString(R.string.item_collect_successful_format,
+                mItemType.getName(context)), context);
 
-        EventBusUtils.postAsync(new ItemCollectedEvent(mId, response, this));
+        EventBusUtils.postAsync(new ItemCollectedEvent(mItemType, mItemId, response, this));
 
         stopSelf();
     }
@@ -132,9 +127,9 @@ class CollectItemWriter extends RequestResourceWriter<CollectItemWriter, ItemCol
         LogUtils.e(error.toString());
         Context context = getContext();
         ToastUtils.show(context.getString(R.string.item_collect_failed_format,
-                ApiError.getErrorString(error, context)), context);
+                mItemType.getName(context), ApiError.getErrorString(error, context)), context);
 
-        EventBusUtils.postAsync(new ItemCollectErrorEvent(mId, this));
+        EventBusUtils.postAsync(new ItemCollectErrorEvent(mItemType, mItemId, this));
 
         stopSelf();
     }

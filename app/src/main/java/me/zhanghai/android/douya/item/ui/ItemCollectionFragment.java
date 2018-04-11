@@ -5,10 +5,12 @@
 
 package me.zhanghai.android.douya.item.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ObjectsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -23,9 +25,23 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.eventbus.ItemCollectErrorEvent;
+import me.zhanghai.android.douya.eventbus.ItemCollectedEvent;
+import me.zhanghai.android.douya.item.content.CollectItemManager;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
@@ -65,10 +81,13 @@ public class ItemCollectionFragment extends Fragment
     @BindView(R.id.comment)
     EditText mCommentEdit;
 
+    private MenuItem mSaveMenuItem;
     private MenuItem mDeleteMenuItem;
 
     private CollectableItem mItem;
     private ItemCollectionState mExtraState;
+
+    private boolean mSaved;
 
     /**
      * @deprecated Use {@link #newInstance(CollectableItem, ItemCollectionState)} instead.
@@ -77,7 +96,7 @@ public class ItemCollectionFragment extends Fragment
 
     public static ItemCollectionFragment newInstance(CollectableItem item,
                                                      ItemCollectionState state) {
-        //noinspection deprecation
+        //noinnspection deprecation
         ItemCollectionFragment fragment = new ItemCollectionFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putParcelable(EXTRA_ITEM, item);
@@ -94,6 +113,8 @@ public class ItemCollectionFragment extends Fragment
         mExtraState = (ItemCollectionState) arguments.getSerializable(EXTRA_STATE);
 
         setHasOptionsMenu(true);
+
+        EventBusUtils.register(this);
     }
 
     @Nullable
@@ -151,11 +172,20 @@ public class ItemCollectionFragment extends Fragment
         mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> updateRatingHint());
         updateRatingHint();
         if (savedInstanceState == null && mItem.collection != null) {
-            mTagsEdit.setText(StringCompat.join(" ", mItem.collection.tags));
+            setTags(mItem.collection.tags);
         }
         if (savedInstanceState == null && mItem.collection != null) {
             mCommentEdit.setText(mItem.collection.comment);
         }
+
+        updateSaveStatus();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        EventBusUtils.unregister(this);
     }
 
     @Override
@@ -163,6 +193,7 @@ public class ItemCollectionFragment extends Fragment
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.item_collection, menu);
+        mSaveMenuItem = menu.findItem(R.id.action_save);
         mDeleteMenuItem = menu.findItem(R.id.action_delete);
     }
 
@@ -174,7 +205,7 @@ public class ItemCollectionFragment extends Fragment
     }
 
     private void updateOptionsMenu() {
-        if (mDeleteMenuItem == null) {
+        if (mSaveMenuItem == null && mDeleteMenuItem == null) {
             return;
         }
         boolean showDelete = mItem.collection != null && (mExtraState == null
@@ -215,7 +246,66 @@ public class ItemCollectionFragment extends Fragment
     }
 
     private void save() {
+        ItemCollectionState state = getState();
+        int rating = getRating();
+        List<String> tags = getTags();
+        String comment = mCommentEdit.getText().toString();
+        // TODO
+        CollectItemManager.getInstance().write(mItem.getType(), mItem.id, state, rating, tags,
+                comment, null, false, false, false, getActivity());
+        updateSaveStatus();
+    }
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onBroadcastSent(ItemCollectedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        if (event.itemType == mItem.getType() && event.itemId == mItem.id) {
+            mSaved = true;
+            finish();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onBroadcastSendError(ItemCollectErrorEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        if (event.itemType == mItem.getType() && event.itemId == mItem.id) {
+            updateSaveStatus();
+        }
+    }
+
+    private void updateSaveStatus() {
+        if (mSaved) {
+            return;
+        }
+        CollectItemManager manager = CollectItemManager.getInstance();
+        boolean sending = manager.isWriting(mItem);
+        Activity activity = getActivity();
+        activity.setTitle(sending ? getString(R.string.item_collection_title_saving_format,
+                mItem.getType().getName(activity)) : mItem.title);
+        boolean enabled = !sending;
+        mStateLayout.setEnabled(enabled);
+        mStateSpinner.setEnabled(enabled);
+        mRatingBar.setIsIndicator(!enabled);
+        mTagsEdit.setEnabled(enabled);
+        mCommentEdit.setEnabled(enabled);
+        if (mSaveMenuItem != null) {
+            mSaveMenuItem.setEnabled(enabled);
+        }
+        if (sending) {
+            mStateSpinner.setSelection(manager.getState(mItem).ordinal(), false);
+            // FIXME
+            mRatingBar.setRating(manager.getRating(mItem));
+            setTags(manager.getTags(mItem));
+            mCommentEdit.setText(manager.getComment(mItem));
+        }
     }
 
     public void onFinish() {
@@ -244,9 +334,9 @@ public class ItemCollectionFragment extends Fragment
                 return true;
             }
         }
-        String tags = mTagsEdit.getText().toString();
-        String originalTags = collection != null ? StringCompat.join(" ", collection.tags) : "";
-        if (!TextUtils.equals(tags, originalTags)) {
+        List<String> tags = getTags();
+        List<String> originalTags = collection != null ? collection.tags : Collections.emptyList();
+        if (!ObjectsCompat.equals(tags, originalTags)) {
             return true;
         }
         String comment = mCommentEdit.getText().toString();
@@ -269,5 +359,24 @@ public class ItemCollectionFragment extends Fragment
 
     private ItemCollectionState getState() {
         return ItemCollectionState.values()[mStateSpinner.getSelectedItemPosition()];
+    }
+
+    private int getRating() {
+        // TODO: We are assuming max is 5 here.
+        return (int) mRatingBar.getRating();
+    }
+
+    private List<String> getTags() {
+        String tagsText = mTagsEdit.getText().toString();
+        Matcher matcher = Pattern.compile("\\S+").matcher(tagsText);
+        List<String> tags = new ArrayList<>();
+        while (matcher.find()) {
+            tags.add(matcher.group());
+        }
+        return tags;
+    }
+
+    private void setTags(List<String> tags) {
+        mTagsEdit.setText(StringCompat.join(" ", tags));
     }
 }

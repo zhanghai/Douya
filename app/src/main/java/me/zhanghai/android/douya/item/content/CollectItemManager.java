@@ -55,4 +55,68 @@ public class CollectItemManager extends ResourceWriterManager<CollectItemWriter>
         }
         return null;
     }
+
+    public ItemCollectionState getState(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).getState();
+    }
+
+    public ItemCollectionState getState(CollectableItem item) {
+        return getState(item.getType(), item.id);
+    }
+
+    public int getRating(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).getRating();
+    }
+
+    public int getRating(CollectableItem item) {
+        return getRating(item.getType(), item.id);
+    }
+
+    public List<String> getTags(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).getTags();
+    }
+
+    public List<String> getTags(CollectableItem item) {
+        return getTags(item.getType(), item.id);
+    }
+
+    public String getComment(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).getComment();
+    }
+
+    public String getComment(CollectableItem item) {
+        return getComment(item.getType(), item.id);
+    }
+
+    public List<Long> getGamePlatformIds(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).getGamePlatformIds();
+    }
+
+    public List<Long> getGamePlatformIds(CollectableItem item) {
+        return getGamePlatformIds(item.getType(), item.id);
+    }
+
+    public boolean shouldShareToBroadcast(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).shouldShareToBroadcast();
+    }
+
+    public boolean shouldShareToBroadcast(CollectableItem item) {
+        return shouldShareToBroadcast(item.getType(), item.id);
+    }
+
+    public boolean shouldShareToWeibo(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).shouldShareToWeibo();
+    }
+
+    public boolean shouldShareToWeibo(CollectableItem item) {
+        return shouldShareToWeibo(item.getType(), item.id);
+    }
+
+    public boolean shouldShareToWeChatMoments(CollectableItem.Type itemType, long itemId) {
+        return findWriter(itemType, itemId).shouldShareToWeChatMoments();
+    }
+
+    public boolean shouldShareToWeChatMoments(CollectableItem item) {
+        return shouldShareToWeChatMoments(item.getType(), item.id);
+    }
 }

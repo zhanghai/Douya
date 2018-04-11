@@ -17,6 +17,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.ObjectsCompat;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.UploadedImage;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.LogUtils;
-import me.zhanghai.android.douya.util.ObjectUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
 class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
@@ -287,8 +287,7 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
             linkInfo = null;
         }
         Intent intent = SendBroadcastActivity.makeIntent(mText, mImageUris, linkInfo, context);
-        int requestCode = 1 + ObjectUtils.hashCode(mText) + ObjectUtils.hashCode(mImageUris)
-                + ObjectUtils.hashCode(mLinkTitle) + ObjectUtils.hashCode(mLinkUrl);
+        int requestCode = ObjectsCompat.hash(mText, mImageUris, mLinkTitle, mLinkUrl);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, requestCode, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = createNotificationBuilder(contentTitle, contentText)

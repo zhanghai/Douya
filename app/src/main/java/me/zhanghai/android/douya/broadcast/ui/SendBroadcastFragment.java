@@ -246,6 +246,7 @@ public class SendBroadcastFragment extends Fragment
         mAddMentionButton.setOnClickListener(view -> addMention());
         TooltipUtils.setup(mAddTopicButton);
         mAddTopicButton.setOnClickListener(view -> addTopic());
+
         updateSendStatus();
     }
 

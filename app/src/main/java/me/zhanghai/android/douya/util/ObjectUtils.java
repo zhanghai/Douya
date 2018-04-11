@@ -42,8 +42,4 @@ public class ObjectUtils {
     public static String toString(Object object) {
         return object != null ? object.toString() : null;
     }
-
-    public static int hashCode(Object object) {
-        return object != null ? object.hashCode() : 0;
-    }
 }

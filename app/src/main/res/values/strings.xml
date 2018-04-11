@@ -346,7 +346,8 @@
     <string name="item_recommendation_list_title">类似条目</string>
     <string name="item_related_doulist_list_title">相关豆列</string>
     <string name="item_related_doulist_follower_count_format">%1$d 人收藏</string>
-    <string name="item_collection_title">条目收藏</string>
+    <string name="item_collection_title">标记条目</string>
+    <string name="item_collection_title_saving_format">正在标记%1$s…</string>
     <string name="item_collection_delete">删除</string>
     <string name="item_collection_save">保存</string>
     <string name="item_state_i">我</string>
@@ -362,8 +363,8 @@
     <string name="item_tags">标签</string>
     <string name="item_tags_hint">添加标签</string>
     <string name="item_comment_hint">我的评论…</string>
-    <string name="item_collect_successful">已收藏条目</string>
-    <string name="item_collect_failed_format">收藏条目失败，%1$s</string>
+    <string name="item_collect_successful_format">已标记%1$s</string>
+    <string name="item_collect_failed_format">标记%1$s失败，%2$s</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>

@@ -636,6 +636,7 @@ public class ApiService {
                                                     @Path("itemId") long itemId);
 
         @POST("{itemType}/{itemId}/{state}")
+        @FormUrlEncoded
         ApiRequest<ItemCollection> collectItem(@Path("itemType") String itemType,
                                                @Path("itemId") long itemId,
                                                @Path("state") String state,

@@ -5,18 +5,23 @@
 
 package me.zhanghai.android.douya.eventbus;
 
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 
 public class ItemCollectedEvent extends Event {
 
-    public long writerId;
+    public CollectableItem.Type itemType;
+
+    public long itemId;
 
     public ItemCollection collection;
 
-    public ItemCollectedEvent(long writerId, ItemCollection collection, Object source) {
+    public ItemCollectedEvent(CollectableItem.Type itemType, long itemId, ItemCollection collection,
+                              Object source) {
         super(source);
 
-        this.writerId = writerId;
+        this.itemType = itemType;
+        this.itemId = itemId;
         this.collection = collection;
     }
 }
