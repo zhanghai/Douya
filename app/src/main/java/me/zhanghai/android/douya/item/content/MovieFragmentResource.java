@@ -71,7 +71,7 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
     }
 
     @Override
-    protected CollectableItem.Type getItemType() {
+    protected CollectableItem.Type getDefaultItemType() {
         return CollectableItem.Type.MOVIE;
     }
 

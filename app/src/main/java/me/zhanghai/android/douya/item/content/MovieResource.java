@@ -49,7 +49,7 @@ public class MovieResource extends BaseItemResource<SimpleMovie, Movie> {
     public MovieResource() {}
 
     @Override
-    protected CollectableItem.Type getItemType() {
+    protected CollectableItem.Type getDefaultItemType() {
         return CollectableItem.Type.MOVIE;
     }
 }

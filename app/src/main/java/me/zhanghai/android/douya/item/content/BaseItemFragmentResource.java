@@ -149,7 +149,18 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     protected abstract BaseItemResource<SimpleItemType, ItemType> onAttachItemResource(
             long itemId, SimpleItemType simpleItem, ItemType item);
 
-    protected abstract CollectableItem.Type getItemType();
+    private CollectableItem.Type getItemType() {
+        // Try our best for Movie/TV types.
+        if (hasItem()) {
+            return getItem().getType();
+        } else if (hasSimpleItem()) {
+            return getSimpleItem().getType();
+        } else {
+            return getDefaultItemType();
+        }
+    }
+
+    protected abstract CollectableItem.Type getDefaultItemType();
 
     protected abstract boolean hasPhotoList();
 

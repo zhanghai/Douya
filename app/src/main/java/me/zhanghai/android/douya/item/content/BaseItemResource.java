@@ -104,7 +104,18 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
         return ApiService.getInstance().getItem(getItemType(), mItemId);
     }
 
-    protected abstract CollectableItem.Type getItemType();
+    private CollectableItem.Type getItemType() {
+        // Try our best for Movie/TV types.
+        if (has()) {
+            return get().getType();
+        } else if (hasSimpleItem()) {
+            return getSimpleItem().getType();
+        } else {
+            return getDefaultItemType();
+        }
+    }
+
+    protected abstract CollectableItem.Type getDefaultItemType();
 
     @Override
     protected void onLoadStarted() {
