@@ -314,6 +314,10 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     protected void bindReviewListHolder(RecyclerView.ViewHolder holder, T item,
                                         List<SimpleReview> reviewList) {
         ReviewListHolder reviewListHolder = (ReviewListHolder) holder;
+        reviewListHolder.createButton.setOnClickListener(view -> {
+            // TODO
+            UriHandler.open(item.url + "new_review", view.getContext());
+        });
         reviewList = reviewList.subList(0, Math.min(ITEM_REVIEW_LIST_MAX_SIZE, reviewList.size()));
         ViewUtils.setVisibleOrGone(reviewListHolder.reviewList, !reviewList.isEmpty());
         ReviewListAdapter adapter = (ReviewListAdapter)
@@ -328,6 +332,10 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     protected void bindForumTopicListHolder(RecyclerView.ViewHolder holder, T item,
                                             List<SimpleItemForumTopic> forumTopicList) {
         ForumTopicListHolder forumTopicListHolder = (ForumTopicListHolder) holder;
+        forumTopicListHolder.createButton.setOnClickListener(view -> {
+            // TODO
+            UriHandler.open(item.url + "discussion/create", view.getContext());
+        });
         forumTopicList = forumTopicList.subList(0, Math.min(ITEM_FORUM_TOPIC_LIST_MAX_SIZE,
                 forumTopicList.size()));
         ViewUtils.setVisibleOrGone(forumTopicListHolder.forumTopicList,
@@ -510,6 +518,8 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
 
     protected static class ReviewListHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.create)
+        public Button createButton;
         @BindView(R.id.review_list)
         public AdapterLinearLayout reviewList;
         @BindView(R.id.view_more)
@@ -524,6 +534,8 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
 
     protected static class ForumTopicListHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.create)
+        public Button createButton;
         @BindView(R.id.forum_topic_list)
         public AdapterLinearLayout forumTopicList;
         @BindView(R.id.view_more)
