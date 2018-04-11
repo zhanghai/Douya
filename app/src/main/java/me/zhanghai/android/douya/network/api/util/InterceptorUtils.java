@@ -30,7 +30,9 @@ public class InterceptorUtils {
         if (!HttpMethod.requiresRequestBody(method)) {
             HttpUrl.Builder urlBuilder = request.url().newBuilder();
             for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-                urlBuilder.addQueryParameter(parameter.getKey(), parameter.getValue());
+                String parameterName = parameter.getKey();
+                urlBuilder.removeAllQueryParameters(parameterName);
+                urlBuilder.addQueryParameter(parameterName, parameter.getValue());
             }
             builder.url(urlBuilder.build());
         } else {
