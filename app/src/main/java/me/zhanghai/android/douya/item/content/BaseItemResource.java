@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import me.zhanghai.android.douya.content.ResourceFragment;
 import me.zhanghai.android.douya.eventbus.ItemCollectedEvent;
+import me.zhanghai.android.douya.eventbus.ItemUncollectedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
@@ -146,8 +147,24 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
         }
 
         ItemType item = get();
-        item.collection = event.collection;
-        getListener().onItemChanged(getRequestCode(), item);
+        if (event.itemType == item.getType() && event.itemId == item.id) {
+            item.collection = event.collection;
+            getListener().onItemChanged(getRequestCode(), item);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onItemUncollected(ItemUncollectedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        ItemType item = get();
+        if (event.itemType == item.getType() && event.itemId == item.id) {
+            item.collection = null;
+            getListener().onItemChanged(getRequestCode(), item);
+        }
     }
 
     private Listener<ItemType> getListener() {

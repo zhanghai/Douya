@@ -41,7 +41,10 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.ItemCollectErrorEvent;
 import me.zhanghai.android.douya.eventbus.ItemCollectedEvent;
+import me.zhanghai.android.douya.eventbus.ItemUncollectedEvent;
 import me.zhanghai.android.douya.item.content.CollectItemManager;
+import me.zhanghai.android.douya.item.content.ConfirmUncollectItemDialogFragment;
+import me.zhanghai.android.douya.item.content.UncollectItemManager;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
@@ -55,7 +58,8 @@ import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class ItemCollectionFragment extends Fragment
-        implements ConfirmDiscardContentDialogFragment.Listener {
+        implements ConfirmUncollectItemDialogFragment.Listener,
+        ConfirmDiscardContentDialogFragment.Listener {
 
     private static final String KEY_PREFIX = ItemCollectionFragment.class.getName() + '.';
 
@@ -81,13 +85,13 @@ public class ItemCollectionFragment extends Fragment
     @BindView(R.id.comment)
     EditText mCommentEdit;
 
-    private MenuItem mSaveMenuItem;
-    private MenuItem mDeleteMenuItem;
+    private MenuItem mCollectMenuItem;
+    private MenuItem mUncollectMenuItem;
 
     private CollectableItem mItem;
     private ItemCollectionState mExtraState;
 
-    private boolean mSaved;
+    private boolean mCollectd;
 
     /**
      * @deprecated Use {@link #newInstance(CollectableItem, ItemCollectionState)} instead.
@@ -178,7 +182,7 @@ public class ItemCollectionFragment extends Fragment
             mCommentEdit.setText(mItem.collection.comment);
         }
 
-        updateSaveStatus();
+        updateCollectStatus();
     }
 
     @Override
@@ -193,8 +197,8 @@ public class ItemCollectionFragment extends Fragment
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.item_collection, menu);
-        mSaveMenuItem = menu.findItem(R.id.action_save);
-        mDeleteMenuItem = menu.findItem(R.id.action_delete);
+        mCollectMenuItem = menu.findItem(R.id.action_collect);
+        mUncollectMenuItem = menu.findItem(R.id.action_uncollect);
     }
 
     @Override
@@ -205,12 +209,12 @@ public class ItemCollectionFragment extends Fragment
     }
 
     private void updateOptionsMenu() {
-        if (mSaveMenuItem == null && mDeleteMenuItem == null) {
+        if (mCollectMenuItem == null && mUncollectMenuItem == null) {
             return;
         }
-        boolean showDelete = mItem.collection != null && (mExtraState == null
+        boolean showUncollect = mItem.collection != null && (mExtraState == null
                 || getState() == mItem.collection.getState());
-        mDeleteMenuItem.setVisible(showDelete);
+        mUncollectMenuItem.setVisible(showUncollect);
     }
 
     @Override
@@ -219,11 +223,11 @@ public class ItemCollectionFragment extends Fragment
             case android.R.id.home:
                 onFinish();
                 return true;
-            case R.id.action_delete:
-                onDelete();
+            case R.id.action_uncollect:
+                onUncollect();
                 return true;
-            case R.id.action_save:
-                save();
+            case R.id.action_collect:
+                collect();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -241,11 +245,28 @@ public class ItemCollectionFragment extends Fragment
                 mRatingHintText.getContext()));
     }
 
-    private void onDelete() {
-
+    private void onUncollect() {
+        ConfirmUncollectItemDialogFragment.show(this);
     }
 
-    private void save() {
+    @Override
+    public void uncollect() {
+        UncollectItemManager.getInstance().write(mItem, getActivity());
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onItemUncolleted(ItemUncollectedEvent event) {
+
+        if (event.isFromMyself(this)) {
+            return;
+        }
+
+        if (event.itemType == mItem.getType() && event.itemId == mItem.id) {
+            finish();
+        }
+    }
+
+    private void collect() {
         ItemCollectionState state = getState();
         int rating = getRating();
         List<String> tags = getTags();
@@ -253,7 +274,7 @@ public class ItemCollectionFragment extends Fragment
         // TODO
         CollectItemManager.getInstance().write(mItem.getType(), mItem.id, state, rating, tags,
                 comment, null, false, false, false, getActivity());
-        updateSaveStatus();
+        updateCollectStatus();
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
@@ -264,25 +285,25 @@ public class ItemCollectionFragment extends Fragment
         }
 
         if (event.itemType == mItem.getType() && event.itemId == mItem.id) {
-            mSaved = true;
+            mCollectd = true;
             finish();
         }
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
-    public void onBroadcastSendError(ItemCollectErrorEvent event) {
+    public void onItemCollectError(ItemCollectErrorEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
         }
 
         if (event.itemType == mItem.getType() && event.itemId == mItem.id) {
-            updateSaveStatus();
+            updateCollectStatus();
         }
     }
 
-    private void updateSaveStatus() {
-        if (mSaved) {
+    private void updateCollectStatus() {
+        if (mCollectd) {
             return;
         }
         CollectItemManager manager = CollectItemManager.getInstance();
@@ -296,8 +317,8 @@ public class ItemCollectionFragment extends Fragment
         mRatingBar.setIsIndicator(!enabled);
         mTagsEdit.setEnabled(enabled);
         mCommentEdit.setEnabled(enabled);
-        if (mSaveMenuItem != null) {
-            mSaveMenuItem.setEnabled(enabled);
+        if (mCollectMenuItem != null) {
+            mCollectMenuItem.setEnabled(enabled);
         }
         if (sending) {
             mStateSpinner.setSelection(manager.getState(mItem).ordinal(), false);

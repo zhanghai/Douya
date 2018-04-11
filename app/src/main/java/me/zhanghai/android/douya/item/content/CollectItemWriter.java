@@ -11,6 +11,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.RequestResourceWriter;
+import me.zhanghai.android.douya.content.ResourceWriterManager;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.eventbus.ItemCollectErrorEvent;
 import me.zhanghai.android.douya.eventbus.ItemCollectedEvent;
@@ -39,7 +40,7 @@ class CollectItemWriter extends RequestResourceWriter<CollectItemWriter, ItemCol
     CollectItemWriter(CollectableItem.Type itemType, long itemId, ItemCollectionState state,
                       int rating, List<String> tags, String comment, List<Long> gamePlatformIds,
                       boolean shareToBroadcast, boolean shareToWeibo, boolean shareToWeChatMoments,
-                      CollectItemManager manager) {
+                      ResourceWriterManager<CollectItemWriter> manager) {
         super(manager);
 
         mItemType = itemType;
@@ -57,7 +58,7 @@ class CollectItemWriter extends RequestResourceWriter<CollectItemWriter, ItemCol
     CollectItemWriter(CollectableItem item, ItemCollectionState state, int rating,
                       List<String> tags, String comment, List<Long> gamePlatformIds,
                       boolean shareToBroadcast, boolean shareToWeibo, boolean shareToWeChatMoments,
-                      CollectItemManager manager) {
+                      ResourceWriterManager<CollectItemWriter> manager) {
         this(item.getType(), item.id, state, rating, tags, comment, gamePlatformIds,
                 shareToBroadcast, shareToWeibo, shareToWeChatMoments, manager);
     }

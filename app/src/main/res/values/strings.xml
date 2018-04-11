@@ -348,8 +348,13 @@
     <string name="item_related_doulist_follower_count_format">%1$d 人收藏</string>
     <string name="item_collection_title">标记条目</string>
     <string name="item_collection_title_saving_format">正在标记%1$s…</string>
-    <string name="item_collection_delete">删除</string>
-    <string name="item_collection_save">保存</string>
+    <string name="item_collection_uncollect">删除</string>
+    <string name="item_uncollect_confirm">确定要删除这个标记吗？</string>
+    <string name="item_uncollect_successful_format">已取消标记%1$s</string>
+    <string name="item_uncollect_failed_format">取消标记%1$s失败，%2$s</string>
+    <string name="item_collection_collect">保存</string>
+    <string name="item_collect_successful_format">已标记%1$s</string>
+    <string name="item_collect_failed_format">标记%1$s失败，%2$s</string>
     <string name="item_state_i">我</string>
     <string name="item_rating">评价</string>
     <string-array name="item_rating_hints">
@@ -363,8 +368,6 @@
     <string name="item_tags">标签</string>
     <string name="item_tags_hint">添加标签</string>
     <string name="item_comment_hint">我的评论…</string>
-    <string name="item_collect_successful_format">已标记%1$s</string>
-    <string name="item_collect_failed_format">标记%1$s失败，%2$s</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>
