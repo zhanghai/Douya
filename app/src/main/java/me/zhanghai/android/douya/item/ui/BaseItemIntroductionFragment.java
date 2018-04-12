@@ -128,13 +128,14 @@ public abstract class BaseItemIntroductionFragment<T extends CollectableItem> ex
     }
 
     protected void addCelebrityListToData(int titleRes, List<Celebrity> celebrityList,
-                                          String delimiter, List<Pair<String, String>> data) {
+                                          List<Pair<String, String>> data) {
         if (!CollectionUtils.isEmpty(celebrityList)) {
             List<String> celebrityNameList = new ArrayList<>();
             for (Celebrity director : celebrityList) {
                 celebrityNameList.add(director.name);
             }
-            addTextListToData(titleRes, celebrityNameList, delimiter, data);
+            addTextListToData(titleRes, celebrityNameList, getString(
+                    R.string.item_introduction_celebrity_delimiter), data);
         }
     }
 

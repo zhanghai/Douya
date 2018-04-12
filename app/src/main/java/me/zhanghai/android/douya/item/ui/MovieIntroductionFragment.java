@@ -86,11 +86,8 @@ public class MovieIntroductionFragment extends BaseItemIntroductionFragment<Movi
 
     private List<Pair<String, String>> makeCastAndCreditsData() {
         List<Pair<String, String>> data = new ArrayList<>();
-        String delimiter = getString(R.string.item_introduction_celebrity_delimiter);
-        addCelebrityListToData(R.string.item_introduction_movie_directors, mItem.directors,
-                delimiter, data);
-        addCelebrityListToData(R.string.item_introduction_movie_actors, mItem.actors, delimiter,
-                data);
+        addCelebrityListToData(R.string.item_introduction_movie_directors, mItem.directors, data);
+        addCelebrityListToData(R.string.item_introduction_movie_actors, mItem.actors, data);
         return data;
     }
 }
