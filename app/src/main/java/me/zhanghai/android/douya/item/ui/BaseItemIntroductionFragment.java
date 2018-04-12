@@ -28,7 +28,6 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.Celebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.AdapterGridLinearLayout;
-import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.StringCompat;
@@ -88,7 +87,7 @@ public abstract class BaseItemIntroductionFragment<T extends CollectableItem> ex
         TintHelper.onSetSupportActionBar(mToolbar);
         activity.setTitle(mItem.title);
 
-        mIntroductionText.setText(mItem.introduction);
+        mIntroductionText.setText(mItem.getPrettyIntroduction());
 
         List<Pair<String, String>> informationData = makeInformationData();
         boolean hasInformationData = !informationData.isEmpty();

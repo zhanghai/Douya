@@ -128,6 +128,13 @@ public abstract class CollectableItem extends BaseItem {
         return Type.ofApiString(type);
     }
 
+    public String getPrettyIntroduction() {
+        if (TextUtils.isEmpty(introduction)) {
+            return introduction;
+        }
+        return introduction.replaceAll("(?<!\n)\n(?!\n)", "\n\n");
+    }
+
     public String getRatingUnavailableReason(Context context) {
         //noinspection deprecation
         return Rating.getRatingUnavailableReason(ratingUnavailableReason, context);
