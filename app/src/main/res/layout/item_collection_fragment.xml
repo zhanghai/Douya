@@ -131,30 +131,38 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/share_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
-            android:text="@string/item_share_to"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <me.zhanghai.android.douya.ui.PreferenceCheckBox
-            android:id="@+id/share_to_broadcast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/content_horizontal_space_with_8dp_padding"
-            android:key="@string/pref_key_item_collection_share_to_broadcast"
-            android:defaultValue="@bool/pref_default_value_item_collection_share_to_broadcast"
-            android:text="@string/item_share_to_broadcast" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+                android:text="@string/item_share_to"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-        <me.zhanghai.android.douya.ui.PreferenceCheckBox
-            android:id="@+id/share_to_weibo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/content_horizontal_space_with_8dp_padding"
-            android:key="@string/pref_key_item_collection_share_to_weibo"
-            android:defaultValue="@bool/pref_default_value_item_collection_share_to_weibo"
-            android:text="@string/item_share_to_weibo" />
+            <me.zhanghai.android.douya.ui.PreferenceCheckBox
+                android:id="@+id/share_to_broadcast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_horizontal_space_with_8dp_padding"
+                android:key="@string/pref_key_item_collection_share_to_broadcast"
+                android:defaultValue="@bool/pref_default_value_item_collection_share_to_broadcast"
+                android:text="@string/item_share_to_broadcast" />
+
+            <me.zhanghai.android.douya.ui.PreferenceCheckBox
+                android:id="@+id/share_to_weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_horizontal_space_with_8dp_padding"
+                android:key="@string/pref_key_item_collection_share_to_weibo"
+                android:defaultValue="@bool/pref_default_value_item_collection_share_to_weibo"
+                android:text="@string/item_share_to_weibo" />
+        </LinearLayout>
 
         <Space
             android:layout_width="0dp"

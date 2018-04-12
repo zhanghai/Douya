@@ -87,6 +87,8 @@ public class ItemCollectionFragment extends Fragment
     EditText mTagsEdit;
     @BindView(R.id.comment)
     EditText mCommentEdit;
+    @BindView(R.id.share_layout)
+    ViewGroup mShareLayout;
     @BindView(R.id.share_to_broadcast)
     CheckBox mShareToBroadcastCheckBox;
     @BindView(R.id.share_to_weibo)
@@ -247,7 +249,12 @@ public class ItemCollectionFragment extends Fragment
     private void onStateChanged() {
         boolean hasRating = getState() != ItemCollectionState.TODO;
         ViewUtils.setVisibleOrGone(mRatingLayout, hasRating);
+        ViewUtils.setVisibleOrGone(mShareLayout, shouldAllowShare());
         updateOptionsMenu();
+    }
+
+    private boolean shouldAllowShare() {
+        return mItem.collection == null || getState() != mItem.collection.getState();
     }
 
     private void updateRatingHint() {
@@ -285,8 +292,15 @@ public class ItemCollectionFragment extends Fragment
         ItemCollectionState state = getState();
         int rating = getRating();
         List<String> tags = getTags();
-        boolean shareToBroadcast = mShareToBroadcastCheckBox.isChecked();
-        boolean shareToWeibo = mShareToWeiboCheckBox.isChecked();
+        boolean shareToBroadcast;
+        boolean shareToWeibo;
+        if (shouldAllowShare()) {
+            shareToBroadcast = mShareToBroadcastCheckBox.isChecked();
+            shareToWeibo = mShareToWeiboCheckBox.isChecked();
+        } else {
+            shareToBroadcast = false;
+            shareToWeibo = false;
+        }
         collect(state, rating, tags, comment, shareToBroadcast, shareToWeibo);
     }
 
