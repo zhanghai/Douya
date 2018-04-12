@@ -65,9 +65,11 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/screen_edge_horizontal_margin"
                 android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:paddingTop="@dimen/content_vertical_space"
+                android:paddingBottom="@dimen/content_vertical_space"
                 android:divider="@drawable/transparent_divider_horizontal_16dp"
                 android:orientation="vertical"
-                android:showDividers="beginning|middle|end">
+                android:showDividers="middle">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -84,6 +86,18 @@
                     android:orientation="vertical"
                     android:showDividers="middle" />
             </LinearLayout>
+
+            <me.zhanghai.android.douya.ui.AdapterGridLinearLayout
+                android:id="@+id/information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:paddingTop="@dimen/content_vertical_space"
+                android:paddingBottom="@dimen/content_vertical_space"
+                android:divider="@drawable/transparent_divider_horizontal_16dp"
+                android:orientation="vertical"
+                android:showDividers="middle" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

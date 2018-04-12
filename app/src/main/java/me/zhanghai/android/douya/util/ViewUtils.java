@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import me.zhanghai.android.douya.R;
@@ -491,6 +492,12 @@ public class ViewUtils {
         }
         layoutParams.width = size;
         layoutParams.height = size;
+        view.setLayoutParams(layoutParams);
+    }
+
+    public static void setWeight(View view, float weight) {
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.weight = weight;
         view.setLayoutParams(layoutParams);
     }
 

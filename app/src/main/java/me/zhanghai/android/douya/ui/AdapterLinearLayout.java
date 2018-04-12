@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 public class AdapterLinearLayout extends LinearLayout {
 
-    private RecyclerView.Adapter mAdapter;
+    protected RecyclerView.Adapter mAdapter;
 
     private final RecyclerView.AdapterDataObserver mObserver =
             new RecyclerView.AdapterDataObserver() {
@@ -58,7 +58,7 @@ public class AdapterLinearLayout extends LinearLayout {
         onDataSetChanged();
     }
 
-    private void onDataSetChanged() {
+    protected void onDataSetChanged() {
         removeAllViews();
         if (mAdapter == null) {
             return;

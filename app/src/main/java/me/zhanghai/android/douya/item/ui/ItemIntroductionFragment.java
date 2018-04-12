@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,15 +20,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.Celebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
+import me.zhanghai.android.douya.ui.AdapterGridLinearLayout;
 import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -47,6 +47,8 @@ public class ItemIntroductionFragment extends Fragment {
     TextView mIntroductionText;
     @BindView(R.id.cast_and_credits)
     AdapterLinearLayout mCastAndCreditsLayout;
+    @BindView(R.id.information)
+    AdapterGridLinearLayout mInformationLayout;
 
     private String mTitle;
     private Movie mMovie;
@@ -102,31 +104,74 @@ public class ItemIntroductionFragment extends Fragment {
 
         mIntroductionText.setText(mMovie.introduction);
 
-        CastAndCreditsAdapter castAndCreditsAdapter = new CastAndCreditsAdapter();
+        ItemIntroductionPairListAdapter castAndCreditsAdapter =
+                new ItemIntroductionPairListAdapter();
         castAndCreditsAdapter.replace(makeCastAndCreditsData());
         mCastAndCreditsLayout.setAdapter(castAndCreditsAdapter);
+
+        ItemIntroductionPairListAdapter informationAdapter = new ItemIntroductionPairListAdapter();
+        informationAdapter.replace(makeInformationData());
+        mInformationLayout.setColumnCount(2);
+        // HACK: Disabled for not looking good; anyway we always have the space from word break.
+        //mInformationLayout.setHorizontalDivider(R.drawable.transparent_divider_vertical_16dp);
+        mInformationLayout.setAdapter(informationAdapter);
     }
 
     private List<Pair<String, String>> makeCastAndCreditsData() {
-        Map<String, List<String>> roleNamesMap = new HashMap<>();
-        for (Celebrity celebrity : CollectionUtils.union(mMovie.actors, mMovie.directors)) {
-            for (String role : celebrity.roles) {
-                List<String> names = roleNamesMap.get(role);
-                if (names == null) {
-                    names = new ArrayList<>();
-                    roleNamesMap.put(role, names);
-                }
-                names.add(celebrity.name);
+        List<Pair<String, String>> data = new ArrayList<>();
+        String delimiter = getString(R.string.item_introduction_movie_cast_and_credits_delimiter);
+        addCelebrityListToData(R.string.item_introduction_movie_directors, mMovie.directors,
+                delimiter, data);
+        addCelebrityListToData(R.string.item_introduction_movie_actors, mMovie.actors, delimiter,
+                data);
+        return data;
+    }
+
+    private List<Pair<String, String>> makeInformationData() {
+        List<Pair<String, String>> data = new ArrayList<>();
+        String delimiter = getString(R.string.item_introduction_movie_information_delimiter);
+        addTextToData(R.string.item_introduction_movie_original_title, mMovie.originalTitle, data);
+        addTextListToData(R.string.item_introduction_movie_genres, mMovie.genres, delimiter, data);
+        addTextListToData(R.string.item_introduction_movie_countries, mMovie.countries, delimiter,
+                data);
+        addTextListToData(R.string.item_introduction_movie_languages, mMovie.languages, delimiter,
+                data);
+        addTextListToData(R.string.item_introduction_movie_release_dates, mMovie.releaseDates,
+                delimiter, data);
+        addTextToData(R.string.item_introduction_movie_episode_count,
+                mMovie.getEpisodeCountString(), data);
+        addTextListToData(R.string.item_introduction_movie_durations, mMovie.durations, delimiter,
+                data);
+        addTextListToData(R.string.item_introduction_movie_alternative_titles,
+                mMovie.alternativeTitles, delimiter, data);
+        return data;
+    }
+
+    private void addTextToData(int titleRes, String text, List<Pair<String, String>> data) {
+        if (!TextUtils.isEmpty(text)) {
+            String title = getString(titleRes);
+            data.add(new Pair<>(title, text));
+        }
+    }
+
+    private void addTextListToData(int titleRes, List<String> textList, String delimiter,
+                                   List<Pair<String, String>> data) {
+        if (!CollectionUtils.isEmpty(textList)) {
+            String title = getString(titleRes);
+            String text = StringCompat.join(delimiter, textList);
+            data.add(new Pair<>(title, text));
+        }
+    }
+
+    private void addCelebrityListToData(int titleRes, List<Celebrity> celebrityList,
+                                        String delimiter, List<Pair<String, String>> data) {
+        if (!CollectionUtils.isEmpty(celebrityList)) {
+            List<String> celebrityNameList = new ArrayList<>();
+            for (Celebrity director : celebrityList) {
+                celebrityNameList.add(director.name);
             }
+            addTextListToData(titleRes, celebrityNameList, delimiter, data);
         }
-        List<Pair<String, String>> roleNamesList = new ArrayList<>();
-        String castAndCreditsDelimiter = getString(
-                R.string.item_introduction_movie_cast_and_credits_delimiter);
-        for (Map.Entry<String, List<String>> roleNames : roleNamesMap.entrySet()) {
-            roleNamesList.add(new Pair<>(roleNames.getKey(), StringCompat.join(
-                    castAndCreditsDelimiter, roleNames.getValue())));
-        }
-        return roleNamesList;
     }
 
     @Override

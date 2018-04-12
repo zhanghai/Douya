@@ -16,7 +16,7 @@ import me.zhanghai.android.douya.util.CollectionUtils;
 public class Movie extends SimpleMovie {
 
     @SerializedName("aka")
-    public ArrayList<String> alternativeNames = new ArrayList<>();
+    public ArrayList<String> alternativeTitles = new ArrayList<>();
 
     public ArrayList<String> countries = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class Movie extends SimpleMovie {
     protected Movie(Parcel in) {
         super(in);
 
-        alternativeNames = in.createStringArrayList();
+        alternativeTitles = in.createStringArrayList();
         countries = in.createStringArrayList();
         poster = in.readParcelable(Photo.class.getClassLoader());
         durations = in.createStringArrayList();
@@ -103,7 +103,7 @@ public class Movie extends SimpleMovie {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeStringList(alternativeNames);
+        dest.writeStringList(alternativeTitles);
         dest.writeStringList(countries);
         dest.writeParcelable(poster, flags);
         dest.writeStringList(durations);

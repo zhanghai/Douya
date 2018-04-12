@@ -370,7 +370,18 @@
     <string name="item_tags_hint">添加标签</string>
     <string name="item_comment_hint">我的评论…</string>
     <string name="item_introduction_movie_cast_and_credits">演职人员</string>
+    <string name="item_introduction_movie_directors">导演</string>
+    <string name="item_introduction_movie_actors">演员</string>
     <string name="item_introduction_movie_cast_and_credits_delimiter">、</string>
+    <string name="item_introduction_movie_original_title">原名</string>
+    <string name="item_introduction_movie_genres">类型</string>
+    <string name="item_introduction_movie_countries">国家或地区</string>
+    <string name="item_introduction_movie_languages">语言</string>
+    <string name="item_introduction_movie_release_dates">上映日期</string>
+    <string name="item_introduction_movie_episode_count">集数</string>
+    <string name="item_introduction_movie_durations">片长</string>
+    <string name="item_introduction_movie_alternative_titles">又名</string>
+    <string name="item_introduction_movie_information_delimiter">" / "</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>
