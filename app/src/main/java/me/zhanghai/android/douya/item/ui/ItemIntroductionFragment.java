@@ -33,6 +33,7 @@ import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.TintHelper;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ItemIntroductionFragment extends Fragment {
 
@@ -45,6 +46,8 @@ public class ItemIntroductionFragment extends Fragment {
     Toolbar mToolbar;
     @BindView(R.id.introduction)
     TextView mIntroductionText;
+    @BindView(R.id.cast_and_credits_wrapper)
+    ViewGroup mCastAndCreditsWrapperLayout;
     @BindView(R.id.cast_and_credits)
     AdapterLinearLayout mCastAndCreditsLayout;
     @BindView(R.id.information)
@@ -104,17 +107,28 @@ public class ItemIntroductionFragment extends Fragment {
 
         mIntroductionText.setText(mMovie.introduction);
 
-        ItemIntroductionPairListAdapter castAndCreditsAdapter =
-                new ItemIntroductionPairListAdapter();
-        castAndCreditsAdapter.replace(makeCastAndCreditsData());
-        mCastAndCreditsLayout.setAdapter(castAndCreditsAdapter);
+        List<Pair<String, String>> castAndCreditsData = makeCastAndCreditsData();
+        boolean hasCastAndCreditsData = !castAndCreditsData.isEmpty();
+        ViewUtils.setVisibleOrGone(mCastAndCreditsWrapperLayout, hasCastAndCreditsData);
+        if (hasCastAndCreditsData) {
+            ItemIntroductionPairListAdapter castAndCreditsAdapter =
+                    new ItemIntroductionPairListAdapter();
+            castAndCreditsAdapter.replace(castAndCreditsData);
+            mCastAndCreditsLayout.setAdapter(castAndCreditsAdapter);
+        }
 
-        ItemIntroductionPairListAdapter informationAdapter = new ItemIntroductionPairListAdapter();
-        informationAdapter.replace(makeInformationData());
-        mInformationLayout.setColumnCount(2);
-        // HACK: Disabled for not looking good; anyway we always have the space from word break.
-        //mInformationLayout.setHorizontalDivider(R.drawable.transparent_divider_vertical_16dp);
-        mInformationLayout.setAdapter(informationAdapter);
+        List<Pair<String, String>> informationData = makeInformationData();
+        boolean hasInformationData = !informationData.isEmpty();
+        ViewUtils.setVisibleOrGone(mInformationLayout, hasInformationData);
+        if (hasInformationData) {
+            ItemIntroductionPairListAdapter informationAdapter =
+                    new ItemIntroductionPairListAdapter();
+            informationAdapter.replace(informationData);
+            mInformationLayout.setColumnCount(2);
+            // HACK: Disabled for looking weird; anyway we always have the space from word break.
+            //mInformationLayout.setHorizontalDivider(R.drawable.transparent_divider_vertical_16dp);
+            mInformationLayout.setAdapter(informationAdapter);
+        }
     }
 
     private List<Pair<String, String>> makeCastAndCreditsData() {

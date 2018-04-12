@@ -53,14 +53,13 @@
                     android:layout_marginRight="@dimen/content_horizontal_space_with_4dp_padding"
                     android:layout_marginTop="@dimen/content_vertical_space_with_4dp_padding"
                     android:layout_marginBottom="@dimen/content_vertical_space_with_4dp_padding"
-                    android:gravity="center_horizontal"
                     android:lineSpacingMultiplier="1.2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textIsSelectable="true" />
-
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/cast_and_credits_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/screen_edge_horizontal_margin"
