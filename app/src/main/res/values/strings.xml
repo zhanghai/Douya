@@ -316,6 +316,7 @@
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
     <string name="item_movie_title">电影</string>
+    <string name="item_information_delimiter">" / "</string>
     <string name="item_collection_edit">修改</string>
     <string name="item_collection_uncollect">删除</string>
     <string name="item_top_250">豆瓣 250</string>
@@ -381,7 +382,6 @@
     <string name="item_introduction_movie_episode_count">集数</string>
     <string name="item_introduction_movie_durations">片长</string>
     <string name="item_introduction_movie_alternative_titles">又名</string>
-    <string name="item_introduction_movie_information_delimiter">" / "</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>

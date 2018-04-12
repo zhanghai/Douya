@@ -143,7 +143,7 @@ public class ItemIntroductionFragment extends Fragment {
 
     private List<Pair<String, String>> makeInformationData() {
         List<Pair<String, String>> data = new ArrayList<>();
-        String delimiter = getString(R.string.item_introduction_movie_information_delimiter);
+        String delimiter = getString(R.string.item_information_delimiter);
         addTextToData(R.string.item_introduction_movie_original_title, mMovie.originalTitle, data);
         addTextListToData(R.string.item_introduction_movie_genres, mMovie.genres, delimiter, data);
         addTextListToData(R.string.item_introduction_movie_countries, mMovie.countries, delimiter,

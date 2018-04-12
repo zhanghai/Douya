@@ -39,10 +39,6 @@ public abstract class BaseItem implements UrlGettable, Parcelable {
 
     public String url;
 
-    public static String getListAsString(List<String> list) {
-        return StringCompat.join(" / ", list);
-    }
-
     @Override
     public String getUrl() {
         return url;

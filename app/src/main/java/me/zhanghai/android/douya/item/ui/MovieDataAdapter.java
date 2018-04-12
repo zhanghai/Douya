@@ -34,6 +34,7 @@ import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
+import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
@@ -231,8 +232,8 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
         String detail = StringUtils.joinNonEmpty("  ", movie.getYearMonth(context),
                 movie.getEpisodeCountString(), movie.getDurationString());
         headerHolder.detailText.setText(detail);
-        headerHolder.genresText.setText(CollectableItem.getListAsString(
-                movie.genres));
+        String delimiter = context.getString(R.string.item_information_delimiter);
+        headerHolder.genresText.setText(StringCompat.join(delimiter, movie.genres));
     }
 
     private void bindBadgeListHolder(RecyclerView.ViewHolder holder, Movie movie, Rating rating) {
