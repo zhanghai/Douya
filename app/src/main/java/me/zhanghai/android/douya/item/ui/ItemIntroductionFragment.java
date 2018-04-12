@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -17,11 +18,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.network.api.info.frodo.Celebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
+import me.zhanghai.android.douya.ui.AdapterLinearLayout;
+import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
+import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.TintHelper;
 
 public class ItemIntroductionFragment extends Fragment {
@@ -35,6 +45,8 @@ public class ItemIntroductionFragment extends Fragment {
     Toolbar mToolbar;
     @BindView(R.id.introduction)
     TextView mIntroductionText;
+    @BindView(R.id.cast_and_credits)
+    AdapterLinearLayout mCastAndCreditsLayout;
 
     private String mTitle;
     private Movie mMovie;
@@ -89,6 +101,28 @@ public class ItemIntroductionFragment extends Fragment {
         activity.setTitle(mTitle);
 
         mIntroductionText.setText(mMovie.introduction);
+
+        Map<String, List<String>> roleNamesMap = new HashMap<>();
+        for (Celebrity celebrity : CollectionUtils.union(mMovie.actors, mMovie.directors)) {
+            for (String role : celebrity.roles) {
+                List<String> names = roleNamesMap.get(role);
+                if (names == null) {
+                    names = new ArrayList<>();
+                    roleNamesMap.put(role, names);
+                }
+                names.add(celebrity.name);
+            }
+        }
+        List<Pair<String, String>> roleNamesList = new ArrayList<>();
+        String castAndCreditsDelimiter = getString(
+                R.string.item_introduction_movie_cast_and_credits_delimiter);
+        for (Map.Entry<String, List<String>> roleNames : roleNamesMap.entrySet()) {
+            roleNamesList.add(new Pair<>(roleNames.getKey(), StringCompat.join(
+                    castAndCreditsDelimiter, roleNames.getValue())));
+        }
+        CastAndCreditsAdapter castAndCreditsAdapter = new CastAndCreditsAdapter();
+        castAndCreditsAdapter.replace(roleNamesList);
+        mCastAndCreditsLayout.setAdapter(castAndCreditsAdapter);
     }
 
     @Override

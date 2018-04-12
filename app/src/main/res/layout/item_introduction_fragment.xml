@@ -32,26 +32,58 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-            android:paddingRight="@dimen/screen_edge_horizontal_margin"
-            android:paddingTop="@dimen/screen_edge_vertical_margin"
-            android:paddingBottom="@dimen/screen_edge_vertical_margin"
             android:divider="?dividerHorizontal"
             android:dividerPadding="@dimen/screen_edge_horizontal_margin"
+            android:orientation="vertical"
             android:showDividers="middle">
 
-            <TextView
-                android:id="@+id/introduction"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/content_horizontal_space_with_4dp_padding"
-                android:layout_marginRight="@dimen/content_horizontal_space_with_4dp_padding"
-                android:layout_marginTop="@dimen/content_vertical_space_with_4dp_padding"
-                android:layout_marginBottom="@dimen/content_vertical_space_with_4dp_padding"
-                android:gravity="center_horizontal"
-                android:lineSpacingMultiplier="1.2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textIsSelectable="true" />
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:paddingTop="@dimen/screen_edge_vertical_margin"
+                android:paddingBottom="@dimen/screen_edge_vertical_margin">
+
+                <TextView
+                    android:id="@+id/introduction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/content_horizontal_space_with_4dp_padding"
+                    android:layout_marginRight="@dimen/content_horizontal_space_with_4dp_padding"
+                    android:layout_marginTop="@dimen/content_vertical_space_with_4dp_padding"
+                    android:layout_marginBottom="@dimen/content_vertical_space_with_4dp_padding"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingMultiplier="1.2"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textIsSelectable="true" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:divider="@drawable/transparent_divider_horizontal_16dp"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_introduction_movie_cast_and_credits"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="?android:textColorSecondary" />
+
+                <me.zhanghai.android.douya.ui.AdapterLinearLayout
+                    android:id="@+id/cast_and_credits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/transparent_divider_horizontal_16dp"
+                    android:orientation="vertical"
+                    android:showDividers="middle" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
