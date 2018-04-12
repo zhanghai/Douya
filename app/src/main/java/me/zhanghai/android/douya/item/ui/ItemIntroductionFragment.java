@@ -102,6 +102,12 @@ public class ItemIntroductionFragment extends Fragment {
 
         mIntroductionText.setText(mMovie.introduction);
 
+        CastAndCreditsAdapter castAndCreditsAdapter = new CastAndCreditsAdapter();
+        castAndCreditsAdapter.replace(makeCastAndCreditsData());
+        mCastAndCreditsLayout.setAdapter(castAndCreditsAdapter);
+    }
+
+    private List<Pair<String, String>> makeCastAndCreditsData() {
         Map<String, List<String>> roleNamesMap = new HashMap<>();
         for (Celebrity celebrity : CollectionUtils.union(mMovie.actors, mMovie.directors)) {
             for (String role : celebrity.roles) {
@@ -120,9 +126,7 @@ public class ItemIntroductionFragment extends Fragment {
             roleNamesList.add(new Pair<>(roleNames.getKey(), StringCompat.join(
                     castAndCreditsDelimiter, roleNames.getValue())));
         }
-        CastAndCreditsAdapter castAndCreditsAdapter = new CastAndCreditsAdapter();
-        castAndCreditsAdapter.replace(roleNamesList);
-        mCastAndCreditsLayout.setAdapter(castAndCreditsAdapter);
+        return roleNamesList;
     }
 
     @Override
