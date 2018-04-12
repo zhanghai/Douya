@@ -29,6 +29,7 @@
     <dimen name="screen_edge_vertical_margin">16dp</dimen>
     <dimen name="content_horizontal_space">16dp</dimen>
     <dimen name="content_horizontal_space_with_4dp_padding">12dp</dimen>
+    <dimen name="content_horizontal_space_with_8dp_padding">8dp</dimen>
     <dimen name="content_vertical_space">16dp</dimen>
     <dimen name="content_vertical_space_with_4dp_padding">12dp</dimen>
     <dimen name="content_vertical_space_with_6dp_padding">10dp</dimen>

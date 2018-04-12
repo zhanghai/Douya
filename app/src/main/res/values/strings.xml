@@ -370,6 +370,9 @@
     <string name="item_tags">标签</string>
     <string name="item_tags_hint">添加标签</string>
     <string name="item_comment_hint">我的评论…</string>
+    <string name="item_share_to">分享到</string>
+    <string name="item_share_to_broadcast">我的广播</string>
+    <string name="item_share_to_weibo">微博</string>
     <string name="item_introduction_celebrity_delimiter">、</string>
     <string name="item_introduction_movie_cast_and_credits">演职人员</string>
     <string name="item_introduction_movie_directors">导演</string>

@@ -61,4 +61,10 @@
 
     <string name="pref_key_create_new_task_for_webview">key_create_new_task_for_webview</string>
     <bool name="pref_default_value_create_new_task_for_webview">false</bool>
+
+    <string name="pref_key_item_collection_share_to_broadcast">key_item_collection_share_to_broadcast</string>
+    <bool name="pref_default_value_item_collection_share_to_broadcast">true</bool>
+
+    <string name="pref_key_item_collection_share_to_weibo">key_item_collection_share_to_weibo</string>
+    <bool name="pref_default_value_item_collection_share_to_weibo">false</bool>
 </resources>

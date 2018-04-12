@@ -11,12 +11,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".item.ui.ItemCollectionActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/toolbar_and_toolbar_height"
+        android:layout_marginBottom="@dimen/toolbar_height"
         android:fillViewport="true">
 
         <LinearLayout
@@ -118,6 +120,55 @@
             </EditText>
         </LinearLayout>
     </ScrollView>
+
+    <!-- TODO: Add a compatible shadow. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_gravity="bottom"
+        android:background="?colorBackgroundFloating"
+        android:elevation="@dimen/appbar_elevation"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/screen_edge_horizontal_margin"
+            android:text="@string/item_share_to"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <me.zhanghai.android.douya.ui.PreferenceCheckBox
+            android:id="@+id/share_to_broadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/content_horizontal_space_with_8dp_padding"
+            android:key="@string/pref_key_item_collection_share_to_broadcast"
+            android:defaultValue="@bool/pref_default_value_item_collection_share_to_broadcast"
+            android:text="@string/item_share_to_broadcast" />
+
+        <me.zhanghai.android.douya.ui.PreferenceCheckBox
+            android:id="@+id/share_to_weibo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/content_horizontal_space_with_8dp_padding"
+            android:key="@string/pref_key_item_collection_share_to_weibo"
+            android:defaultValue="@bool/pref_default_value_item_collection_share_to_weibo"
+            android:text="@string/item_share_to_weibo" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:textColorSecondary" />
+    </LinearLayout>
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
         android:id="@+id/appBarWrapper"

@@ -91,15 +91,15 @@ class CollectItemWriter extends RequestResourceWriter<CollectItemWriter, ItemCol
         return mGamePlatformIds;
     }
 
-    public boolean shouldShareToBroadcast() {
+    public boolean getShareToBroadcast() {
         return mShareToBroadcast;
     }
 
-    public boolean shouldShareToWeibo() {
+    public boolean getShareToWeibo() {
         return mShareToWeibo;
     }
 
-    public boolean shouldShareToWeChatMoments() {
+    public boolean getShareToWeChatMoments() {
         return mShareToWeChatMoments;
     }
 

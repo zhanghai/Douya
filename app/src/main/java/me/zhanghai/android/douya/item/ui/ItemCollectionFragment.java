@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -84,6 +85,10 @@ public class ItemCollectionFragment extends Fragment
     EditText mTagsEdit;
     @BindView(R.id.comment)
     EditText mCommentEdit;
+    @BindView(R.id.share_to_broadcast)
+    CheckBox mShareToBroadcastCheckBox;
+    @BindView(R.id.share_to_weibo)
+    CheckBox mShareToWeiboCheckBox;
 
     private MenuItem mCollectMenuItem;
     private MenuItem mUncollectMenuItem;
@@ -271,9 +276,10 @@ public class ItemCollectionFragment extends Fragment
         int rating = getRating();
         List<String> tags = getTags();
         String comment = mCommentEdit.getText().toString();
-        // TODO
+        boolean shareToBroadcast = mShareToBroadcastCheckBox.isChecked();
+        boolean shareToWeibo = mShareToWeiboCheckBox.isChecked();
         CollectItemManager.getInstance().write(mItem.getType(), mItem.id, state, rating, tags,
-                comment, null, false, false, false, getActivity());
+                comment, null, shareToBroadcast, shareToWeibo, false, getActivity());
         updateCollectStatus();
     }
 
