@@ -285,9 +285,14 @@ public class ItemCollectionFragment extends Fragment
         ItemCollectionState state = getState();
         int rating = getRating();
         List<String> tags = getTags();
-        boolean shareToBroadcast = mShareToBroadcastCheckBox.isChecked();
-        boolean shareToWeibo = mShareToWeiboCheckBox.isChecked();
+        boolean shouldAllowShare = shouldAllowShare();
+        boolean shareToBroadcast = shouldAllowShare && mShareToBroadcastCheckBox.isChecked();
+        boolean shareToWeibo = shouldAllowShare && mShareToWeiboCheckBox.isChecked();
         collect(state, rating, tags, comment, shareToBroadcast, shareToWeibo);
+    }
+
+    private boolean shouldAllowShare() {
+        return mItem.collection == null || getState() != mItem.collection.getState();
     }
 
     private void collect(ItemCollectionState state, int rating, List<String> tags, String comment,
