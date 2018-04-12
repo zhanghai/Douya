@@ -30,7 +30,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -47,14 +46,17 @@ import me.zhanghai.android.douya.item.content.CollectItemManager;
 import me.zhanghai.android.douya.item.content.ConfirmUncollectItemDialogFragment;
 import me.zhanghai.android.douya.item.content.UncollectItemManager;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.ItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionState;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.ui.CounterTextView;
 import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
 import me.zhanghai.android.douya.util.MoreTextUtils;
 import me.zhanghai.android.douya.util.StringCompat;
+import me.zhanghai.android.douya.util.ToastUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -89,6 +91,8 @@ public class ItemCollectionFragment extends Fragment
     CheckBox mShareToBroadcastCheckBox;
     @BindView(R.id.share_to_weibo)
     CheckBox mShareToWeiboCheckBox;
+    @BindView(R.id.counter)
+    CounterTextView mCounterText;
 
     private MenuItem mCollectMenuItem;
     private MenuItem mUncollectMenuItem;
@@ -186,6 +190,7 @@ public class ItemCollectionFragment extends Fragment
         if (savedInstanceState == null && mItem.collection != null) {
             mCommentEdit.setText(mItem.collection.comment);
         }
+        mCounterText.setEditText(mCommentEdit, ItemCollection.MAX_COMMENT_LENGTH);
 
         updateCollectStatus();
     }
@@ -232,7 +237,7 @@ public class ItemCollectionFragment extends Fragment
                 onUncollect();
                 return true;
             case R.id.action_collect:
-                collect();
+                onCollect();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -271,13 +276,22 @@ public class ItemCollectionFragment extends Fragment
         }
     }
 
-    private void collect() {
+    private void onCollect() {
+        String comment = mCommentEdit.getText().toString();
+        if (comment.length() > ItemCollection.MAX_COMMENT_LENGTH) {
+            ToastUtils.show(R.string.broadcast_send_error_text_too_long, getActivity());
+            return;
+        }
         ItemCollectionState state = getState();
         int rating = getRating();
         List<String> tags = getTags();
-        String comment = mCommentEdit.getText().toString();
         boolean shareToBroadcast = mShareToBroadcastCheckBox.isChecked();
         boolean shareToWeibo = mShareToWeiboCheckBox.isChecked();
+        collect(state, rating, tags, comment, shareToBroadcast, shareToWeibo);
+    }
+
+    private void collect(ItemCollectionState state, int rating, List<String> tags, String comment,
+                         boolean shareToBroadcast, boolean shareToWeibo) {
         CollectItemManager.getInstance().write(mItem.getType(), mItem.id, state, rating, tags,
                 comment, null, shareToBroadcast, shareToWeibo, false, getActivity());
         updateCollectStatus();

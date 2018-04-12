@@ -161,13 +161,12 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
+        <me.zhanghai.android.douya.ui.CounterTextView
             android:id="@+id/counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout

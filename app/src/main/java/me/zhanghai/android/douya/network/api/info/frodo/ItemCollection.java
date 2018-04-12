@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 public class ItemCollection extends SimpleItemCollection {
 
+    public static final int MAX_COMMENT_LENGTH = 140;
+
     @SerializedName("attend_time")
     public String attendAt;
 

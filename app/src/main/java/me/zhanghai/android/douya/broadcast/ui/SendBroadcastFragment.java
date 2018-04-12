@@ -19,9 +19,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +28,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -50,6 +47,7 @@ import me.zhanghai.android.douya.eventbus.BroadcastSentEvent;
 import me.zhanghai.android.douya.eventbus.EventBusUtils;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.ui.ConfirmDiscardContentDialogFragment;
+import me.zhanghai.android.douya.ui.CounterTextView;
 import me.zhanghai.android.douya.ui.FragmentFinishable;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.DoubanUtils;
@@ -118,7 +116,7 @@ public class SendBroadcastFragment extends Fragment
     @BindView(R.id.add_topic)
     ImageButton mAddTopicButton;
     @BindView(R.id.counter)
-    TextView mCounterText;
+    CounterTextView mCounterText;
 
     private MenuItem mSendMenuItem;
 
@@ -215,18 +213,6 @@ public class SendBroadcastFragment extends Fragment
         if (savedInstanceState == null) {
             mTextEdit.setText(mExtraText);
         }
-        mTextEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                mChanged = true;
-                updateCounterText();
-            }
-        });
-        updateCounterText();
         mAttachmentLayout.setOnRemoveImageListener(this::removeImage);
         bindAttachmentLayout();
         TooltipUtils.setup(mAddImageButton);
@@ -246,6 +232,7 @@ public class SendBroadcastFragment extends Fragment
         mAddMentionButton.setOnClickListener(view -> addMention());
         TooltipUtils.setup(mAddTopicButton);
         mAddTopicButton.setOnClickListener(view -> addTopic());
+        mCounterText.setEditText(mTextEdit, Broadcast.MAX_TEXT_LENGTH);
 
         updateSendStatus();
     }
@@ -277,20 +264,6 @@ public class SendBroadcastFragment extends Fragment
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void updateCounterText() {
-        int length = mTextEdit.length();
-        boolean visible = length > Broadcast.MAX_TEXT_LENGTH / 2;
-        ViewUtils.fadeToVisibility(mCounterText, visible, false);
-        if (visible) {
-            mCounterText.setText(getString(R.string.broadcast_send_counter_format, length,
-                    Broadcast.MAX_TEXT_LENGTH));
-            int textColorAttrRes = length <= Broadcast.MAX_TEXT_LENGTH ?
-                    android.R.attr.textColorSecondary : R.attr.textColorError;
-            mCounterText.setTextColor(ViewUtils.getColorStateListFromAttrRes(textColorAttrRes,
-                    getContext()));
         }
     }
 

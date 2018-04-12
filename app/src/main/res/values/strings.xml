@@ -16,6 +16,7 @@
     <string name="activity_not_found">未找到可处理此操作的应用</string>
     <string name="copied_to_clipboard_format">已复制到剪贴板：\n%1$s</string>
     <string name="confirm_close_discarding_content">确定要舍弃正在编辑的内容吗？</string>
+    <string name="counter_format">%1$d/%2$d</string>
     <string name="load_empty">暂无内容</string>
     <string name="load_error">加载失败</string>
     <string name="more">更多</string>
@@ -206,7 +207,6 @@
     <string name="broadcast_send_edit_link_title_hint">留空以自动获取</string>
     <string name="broadcast_send_add_mention">\@某人</string>
     <string name="broadcast_send_add_topic">添加话题</string>
-    <string name="broadcast_send_counter_format">%1$d/%2$d</string>
     <string name="broadcast_title">查看广播</string>
     <string name="broadcast_rebroadcasted_by_format">由 %1$s 转播 ↴</string>
     <string name="broadcast_rebroadcasted_broadcast_text_rebroadcaster_format">%1$s：</string>
