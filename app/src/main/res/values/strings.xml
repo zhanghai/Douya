@@ -370,10 +370,10 @@
     <string name="item_tags">标签</string>
     <string name="item_tags_hint">添加标签</string>
     <string name="item_comment_hint">我的评论…</string>
+    <string name="item_introduction_celebrity_delimiter">、</string>
     <string name="item_introduction_movie_cast_and_credits">演职人员</string>
     <string name="item_introduction_movie_directors">导演</string>
     <string name="item_introduction_movie_actors">演员</string>
-    <string name="item_introduction_movie_cast_and_credits_delimiter">、</string>
     <string name="item_introduction_movie_original_title">原名</string>
     <string name="item_introduction_movie_genres">类型</string>
     <string name="item_introduction_movie_countries">国家或地区</string>

@@ -255,12 +255,11 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
     protected void bindIntroductionHolder(RecyclerView.ViewHolder holder, Movie movie) {
         super.bindIntroductionHolder(holder, movie);
 
-        // TODO: Make ItemIntroductionActivity generic for items.
-        Context context = RecyclerViewUtils.getContext(holder);
         IntroductionHolder introductionHolder = (IntroductionHolder) holder;
-        introductionHolder.introductionLayout.setOnClickListener(view ->
-                context.startActivity(ItemIntroductionActivity.makeIntent(movie.title, movie,
-                        context)));
+        introductionHolder.introductionLayout.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(ItemIntroductionActivity.makeIntent(movie, context));
+        });
     }
 
     @Override

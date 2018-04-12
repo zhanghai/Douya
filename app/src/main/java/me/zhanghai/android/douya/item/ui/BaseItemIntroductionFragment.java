@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.frodo.Celebrity;
-import me.zhanghai.android.douya.network.api.info.frodo.Movie;
+import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.AdapterGridLinearLayout;
 import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.util.CollectionUtils;
@@ -35,48 +35,32 @@ import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.TintHelper;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class ItemIntroductionFragment extends Fragment {
+public abstract class BaseItemIntroductionFragment<T extends CollectableItem> extends Fragment {
 
-    private static final String KEY_PREFIX = ItemIntroductionFragment.class.getName() + '.';
+    private static final String KEY_PREFIX = BaseItemIntroductionFragment.class.getName() + '.';
 
-    private static final String EXTRA_TITLE = KEY_PREFIX + "title";
-    private static final String EXTRA_MOVIE = KEY_PREFIX + "movie";
+    private static final String EXTRA_ITEM = KEY_PREFIX + "item";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.introduction)
     TextView mIntroductionText;
-    @BindView(R.id.cast_and_credits_wrapper)
-    ViewGroup mCastAndCreditsWrapperLayout;
-    @BindView(R.id.cast_and_credits)
-    AdapterLinearLayout mCastAndCreditsLayout;
     @BindView(R.id.information)
     AdapterGridLinearLayout mInformationLayout;
 
-    private String mTitle;
-    private Movie mMovie;
+    protected T mItem;
 
-    public static ItemIntroductionFragment newInstance(String title, Movie movie) {
-        //noinspection deprecation
-        ItemIntroductionFragment fragment = new ItemIntroductionFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putString(EXTRA_TITLE, title);
-        arguments.putParcelable(EXTRA_MOVIE, movie);
-        return fragment;
+    protected void setArguments(T item) {
+        Bundle arguments = FragmentUtils.ensureArguments(this);
+        arguments.putParcelable(EXTRA_ITEM, item);
     }
-
-    /**
-     * @deprecated Use {@link #newInstance(String, Movie)} instead.
-     */
-    public ItemIntroductionFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        mTitle = arguments.getString(EXTRA_TITLE);
-        mMovie = arguments.getParcelable(EXTRA_MOVIE);
+        mItem = arguments.getParcelable(EXTRA_ITEM);
 
         setHasOptionsMenu(true);
     }
@@ -102,20 +86,9 @@ public class ItemIntroductionFragment extends Fragment {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
         TintHelper.onSetSupportActionBar(mToolbar);
+        activity.setTitle(mItem.title);
 
-        activity.setTitle(mTitle);
-
-        mIntroductionText.setText(mMovie.introduction);
-
-        List<Pair<String, String>> castAndCreditsData = makeCastAndCreditsData();
-        boolean hasCastAndCreditsData = !castAndCreditsData.isEmpty();
-        ViewUtils.setVisibleOrGone(mCastAndCreditsWrapperLayout, hasCastAndCreditsData);
-        if (hasCastAndCreditsData) {
-            ItemIntroductionPairListAdapter castAndCreditsAdapter =
-                    new ItemIntroductionPairListAdapter();
-            castAndCreditsAdapter.replace(castAndCreditsData);
-            mCastAndCreditsLayout.setAdapter(castAndCreditsAdapter);
-        }
+        mIntroductionText.setText(mItem.introduction);
 
         List<Pair<String, String>> informationData = makeInformationData();
         boolean hasInformationData = !informationData.isEmpty();
@@ -131,37 +104,9 @@ public class ItemIntroductionFragment extends Fragment {
         }
     }
 
-    private List<Pair<String, String>> makeCastAndCreditsData() {
-        List<Pair<String, String>> data = new ArrayList<>();
-        String delimiter = getString(R.string.item_introduction_movie_cast_and_credits_delimiter);
-        addCelebrityListToData(R.string.item_introduction_movie_directors, mMovie.directors,
-                delimiter, data);
-        addCelebrityListToData(R.string.item_introduction_movie_actors, mMovie.actors, delimiter,
-                data);
-        return data;
-    }
+    protected abstract List<Pair<String, String>> makeInformationData();
 
-    private List<Pair<String, String>> makeInformationData() {
-        List<Pair<String, String>> data = new ArrayList<>();
-        String delimiter = getString(R.string.item_information_delimiter);
-        addTextToData(R.string.item_introduction_movie_original_title, mMovie.originalTitle, data);
-        addTextListToData(R.string.item_introduction_movie_genres, mMovie.genres, delimiter, data);
-        addTextListToData(R.string.item_introduction_movie_countries, mMovie.countries, delimiter,
-                data);
-        addTextListToData(R.string.item_introduction_movie_languages, mMovie.languages, delimiter,
-                data);
-        addTextListToData(R.string.item_introduction_movie_release_dates, mMovie.releaseDates,
-                delimiter, data);
-        addTextToData(R.string.item_introduction_movie_episode_count,
-                mMovie.getEpisodeCountString(), data);
-        addTextListToData(R.string.item_introduction_movie_durations, mMovie.durations, delimiter,
-                data);
-        addTextListToData(R.string.item_introduction_movie_alternative_titles,
-                mMovie.alternativeTitles, delimiter, data);
-        return data;
-    }
-
-    private void addTextToData(int titleRes, String text, List<Pair<String, String>> data) {
+    protected void addTextToData(int titleRes, String text, List<Pair<String, String>> data) {
         if (!TextUtils.isEmpty(text)) {
             String title = getString(titleRes);
             data.add(new Pair<>(title, text));
@@ -177,8 +122,13 @@ public class ItemIntroductionFragment extends Fragment {
         }
     }
 
-    private void addCelebrityListToData(int titleRes, List<Celebrity> celebrityList,
-                                        String delimiter, List<Pair<String, String>> data) {
+    protected void addTextListToData(int titleRes, List<String> textList,
+                                     List<Pair<String, String>> data) {
+        addTextListToData(titleRes, textList, getString(R.string.item_information_delimiter), data);
+    }
+
+    protected void addCelebrityListToData(int titleRes, List<Celebrity> celebrityList,
+                                          String delimiter, List<Pair<String, String>> data) {
         if (!CollectionUtils.isEmpty(celebrityList)) {
             List<String> celebrityNameList = new ArrayList<>();
             for (Celebrity director : celebrityList) {

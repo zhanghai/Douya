@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cast_and_credits_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+    android:paddingRight="@dimen/screen_edge_horizontal_margin"
+    android:paddingTop="@dimen/content_vertical_space"
+    android:paddingBottom="@dimen/content_vertical_space"
+    android:divider="@drawable/transparent_divider_horizontal_16dp"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_introduction_movie_cast_and_credits"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="?android:textColorSecondary" />
+
+    <me.zhanghai.android.douya.ui.AdapterLinearLayout
+        android:id="@+id/cast_and_credits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/transparent_divider_horizontal_16dp"
+        android:orientation="vertical"
+        android:showDividers="middle" />
+</LinearLayout>

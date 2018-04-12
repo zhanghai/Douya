@@ -30,6 +30,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="?dividerHorizontal"
@@ -57,34 +58,6 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textIsSelectable="true" />
             </FrameLayout>
-
-            <LinearLayout
-                android:id="@+id/cast_and_credits_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-                android:paddingRight="@dimen/screen_edge_horizontal_margin"
-                android:paddingTop="@dimen/content_vertical_space"
-                android:paddingBottom="@dimen/content_vertical_space"
-                android:divider="@drawable/transparent_divider_horizontal_16dp"
-                android:orientation="vertical"
-                android:showDividers="middle">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/item_introduction_movie_cast_and_credits"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="?android:textColorSecondary" />
-
-                <me.zhanghai.android.douya.ui.AdapterLinearLayout
-                    android:id="@+id/cast_and_credits"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@drawable/transparent_divider_horizontal_16dp"
-                    android:orientation="vertical"
-                    android:showDividers="middle" />
-            </LinearLayout>
 
             <me.zhanghai.android.douya.ui.AdapterGridLinearLayout
                 android:id="@+id/information"
