@@ -176,7 +176,8 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
             context.startActivity(ItemCollectionActivity.makeIntent(item, ItemCollectionState.TODO,
                     context));
         });
-        boolean doingVisible = itemCollection == null || state == ItemCollectionState.TODO;
+        boolean doingVisible = item.getType().hasDoingState() && (itemCollection == null
+                || state == ItemCollectionState.TODO);
         ViewUtils.setVisibleOrGone(itemCollectionHolder.doingButton, doingVisible);
         itemCollectionHolder.doingButton.setOnClickListener(view -> {
             Context context = view.getContext();

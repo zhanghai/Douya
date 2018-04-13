@@ -24,24 +24,32 @@ public abstract class CollectableItem extends BaseItem {
 
     public enum Type {
 
-        APP("app", R.string.item_app_name, R.string.item_app_action, R.string.item_app_this_item),
-        BOOK("book", R.string.item_book_name, R.string.item_book_action, R.string.item_book_this_item),
-        EVENT("event", R.string.item_event_name, R.string.item_event_action, R.string.item_event_this_item),
-        GAME("game", R.string.item_game_name, R.string.item_game_action, R.string.item_game_this_item),
-        MOVIE("movie", R.string.item_movie_name, R.string.item_movie_action, R.string.item_movie_this_item),
-        MUSIC("music", R.string.item_music_name, R.string.item_music_action, R.string.item_music_this_item),
-        TV("tv", R.string.item_tv_name, R.string.item_tv_action, R.string.item_tv_this_item);
+        APP("app", R.string.item_app_name, R.string.item_app_action, R.string.item_app_this_item,
+                false),
+        BOOK("book", R.string.item_book_name, R.string.item_book_action,
+                R.string.item_book_this_item, true),
+        EVENT("event", R.string.item_event_name, R.string.item_event_action,
+                R.string.item_event_this_item, false),
+        GAME("game", R.string.item_game_name, R.string.item_game_action,
+                R.string.item_game_this_item, true),
+        MOVIE("movie", R.string.item_movie_name, R.string.item_movie_action,
+                R.string.item_movie_this_item, false),
+        MUSIC("music", R.string.item_music_name, R.string.item_music_action,
+                R.string.item_music_this_item, true),
+        TV("tv", R.string.item_tv_name, R.string.item_tv_action, R.string.item_tv_this_item, true);
 
         private String mApiString;
         private int mNameRes;
         private int mActionRes;
         private int mThisItemRes;
+        private boolean mHasDoingState;
 
-        Type(String apiString, int nameRes, int actionRes, int thisItemRes) {
+        Type(String apiString, int nameRes, int actionRes, int thisItemRes, boolean hasDoingState) {
             mApiString = apiString;
             mNameRes = nameRes;
             mActionRes = actionRes;
             mThisItemRes = thisItemRes;
+            mHasDoingState = hasDoingState;
         }
 
         public static Type ofApiString(String apiString, Type defaultValue) {
@@ -83,6 +91,10 @@ public abstract class CollectableItem extends BaseItem {
 
         public String getThisItem(Context context) {
             return context.getString(mThisItemRes);
+        }
+
+        public boolean hasDoingState() {
+            return mHasDoingState;
         }
     }
 
