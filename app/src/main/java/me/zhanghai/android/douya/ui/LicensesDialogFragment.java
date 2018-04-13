@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.NoticesXmlParser;
+import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -61,6 +62,11 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        // setIncludeOwnLicense(true) will modify our notices instance.
+        Notices notices = new Notices();
+        for (Notice notice : mNotices.getNotices()) {
+            notices.addNotice(notice);
+        }
         int htmlStyleRes = ViewUtils.isLightTheme(getActivity()) ?
                 R.string.settings_open_source_licenses_html_style_light
                 : R.string.settings_open_source_licenses_html_style_dark;
@@ -68,7 +74,7 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
                 .setThemeResourceId(getTheme())
                 .setTitle(R.string.settings_open_source_licenses_title)
                 .setCloseText(R.string.close)
-                .setNotices(mNotices)
+                .setNotices(notices)
                 .setIncludeOwnLicense(true)
                 .setNoticesCssStyle(htmlStyleRes)
                 .build()
