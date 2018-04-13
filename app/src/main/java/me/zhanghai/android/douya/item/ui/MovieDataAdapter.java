@@ -155,7 +155,7 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
     }
 
     private HeaderHolder createHeaderHolder(ViewGroup parent) {
-        return new HeaderHolder(ViewUtils.inflate(R.layout.item_movie_fragment_header, parent));
+        return new HeaderHolder(ViewUtils.inflate(R.layout.item_fragment_movie_header, parent));
     }
 
     private BadgeListHolder createBadgeListHolder(ViewGroup parent) {
