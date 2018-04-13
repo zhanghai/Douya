@@ -17,7 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/toolbar_and_toolbar_height"
+        android:layout_marginTop="@dimen/toolbar_height"
         android:layout_marginBottom="@dimen/toolbar_height"
         android:fillViewport="true">
 
@@ -28,6 +28,48 @@
             android:divider="?dividerHorizontal"
             android:orientation="vertical"
             android:showDividers="middle">
+
+            <LinearLayout
+                android:id="@+id/state_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+                android:paddingRight="@dimen/screen_edge_horizontal_margin"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_state_i"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                <Spinner
+                    android:id="@+id/state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:popupTheme="?actionBarPopupTheme"
+                    tools:ignore="MissingPrefix" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_marginRight="9dp"
+                    android:src="@drawable/spinner_caret_icon_white_24dp"
+                    app:tint="?colorControlNormal"
+                    tools:ignore="MissingPrefix" />
+
+                <TextView
+                    android:id="@+id/state_this_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/rating_layout"
@@ -174,65 +216,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+            android:paddingRight="@dimen/toolbar_button_right_margin"
             android:background="?colorPrimary"
             android:elevation="@dimen/appbar_elevation"
-            android:orientation="vertical"
-            android:theme="?actionBarTheme">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
-                android:paddingRight="@dimen/toolbar_button_right_margin"
-                app:navigationIcon="@drawable/close_icon_white_24dp"
-                app:popupTheme="?actionBarPopupTheme"
-                app:titleMarginStart="@dimen/toolbar_title_left_margin" />
-
-            <LinearLayout
-                android:id="@+id/state_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height"
-                android:paddingLeft="@dimen/screen_edge_horizontal_margin"
-                android:paddingRight="@dimen/screen_edge_horizontal_margin"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/item_state_i"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                <Spinner
-                    android:id="@+id/state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    app:popupTheme="?actionBarPopupTheme"
-                    tools:ignore="MissingPrefix" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="-15dp"
-                    android:layout_marginRight="9dp"
-                    android:src="@drawable/spinner_caret_icon_white_24dp"
-                    app:tint="?colorControlNormal"
-                    tools:ignore="MissingPrefix" />
-
-                <TextView
-                    android:id="@+id/state_this_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-            </LinearLayout>
-        </LinearLayout>
+            android:theme="?actionBarTheme"
+            app:navigationIcon="@drawable/close_icon_white_24dp"
+            app:popupTheme="?actionBarPopupTheme"
+            app:titleMarginStart="@dimen/toolbar_title_left_margin" />
     </me.zhanghai.android.douya.ui.AppBarWrapperLayout>
 </FrameLayout>
