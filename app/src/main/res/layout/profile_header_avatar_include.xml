@@ -19,7 +19,7 @@
         android:src="@drawable/profile_avatar_icon_white_128dp"
         app:civ_border_color="@android:color/white"
         app:civ_border_width="3dp"
-        app:civ_fill_color="?colorPrimaryDark" />
+        app:civ_circle_background_color="?colorPrimaryDark" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
