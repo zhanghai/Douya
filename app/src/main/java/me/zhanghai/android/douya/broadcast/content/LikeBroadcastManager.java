@@ -31,7 +31,8 @@ public class LikeBroadcastManager extends ResourceWriterManager<LikeBroadcastWri
 
     public boolean write(Broadcast broadcast, boolean like, Context context) {
         if (shouldWrite(broadcast, context)) {
-            add(new LikeBroadcastWriter(broadcast, like, this), context);
+            //noinspection deprecation
+            write(broadcast.id, like, context);
             return true;
         } else {
             return false;

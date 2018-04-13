@@ -7,11 +7,9 @@ package me.zhanghai.android.douya.broadcast.content;
 
 import android.content.Context;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.content.RequestResourceWriter;
+import me.zhanghai.android.douya.content.ResourceWriterManager;
 import me.zhanghai.android.douya.eventbus.BroadcastUpdatedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteFinishedEvent;
 import me.zhanghai.android.douya.eventbus.BroadcastWriteStartedEvent;
@@ -26,26 +24,14 @@ import me.zhanghai.android.douya.util.ToastUtils;
 class LikeBroadcastWriter extends RequestResourceWriter<LikeBroadcastWriter, Broadcast> {
 
     private long mBroadcastId;
-    private Broadcast mBroadcast;
     private boolean mLike;
 
-    private LikeBroadcastWriter(long broadcastId, Broadcast broadcast, boolean like,
-                                LikeBroadcastManager manager) {
+    LikeBroadcastWriter(long broadcastId, boolean like,
+                        ResourceWriterManager<LikeBroadcastWriter> manager) {
         super(manager);
 
         mBroadcastId = broadcastId;
-        mBroadcast = broadcast;
         mLike = like;
-
-        EventBusUtils.register(this);
-    }
-
-    LikeBroadcastWriter(long broadcastId, boolean like, LikeBroadcastManager manager) {
-        this(broadcastId, null, like, manager);
-    }
-
-    LikeBroadcastWriter(Broadcast broadcast, boolean like, LikeBroadcastManager manager) {
-        this(broadcast.id, broadcast, like, manager);
     }
 
     public long getBroadcastId() {
@@ -66,13 +52,6 @@ class LikeBroadcastWriter extends RequestResourceWriter<LikeBroadcastWriter, Bro
         super.onStart();
 
         EventBusUtils.postAsync(new BroadcastWriteStartedEvent(mBroadcastId, this));
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        EventBusUtils.unregister(this);
     }
 
     @Override
@@ -99,18 +78,5 @@ class LikeBroadcastWriter extends RequestResourceWriter<LikeBroadcastWriter, Bro
         EventBusUtils.postAsync(new BroadcastWriteFinishedEvent(mBroadcastId, this));
 
         stopSelf();
-    }
-
-    @Subscribe(threadMode = ThreadMode.POSTING)
-    public void onBroadcastUpdated(BroadcastUpdatedEvent event) {
-
-        if (event.isFromMyself(this)) {
-            return;
-        }
-
-        Broadcast updatedBroadcast = event.update(mBroadcastId, mBroadcast, this);
-        if (updatedBroadcast != null) {
-            mBroadcast = updatedBroadcast;
-        }
     }
 }

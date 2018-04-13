@@ -26,7 +26,8 @@ import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ToastUtils;
 
-class RebroadcastBroadcastWriter extends RequestResourceWriter<RebroadcastBroadcastWriter, Broadcast> {
+class RebroadcastBroadcastWriter
+        extends RequestResourceWriter<RebroadcastBroadcastWriter, Broadcast> {
 
     private long mBroadcastId;
     private Broadcast mBroadcast;
