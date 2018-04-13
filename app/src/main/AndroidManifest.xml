@@ -74,25 +74,25 @@
 
         <activity
             android:name=".broadcast.ui.SendBroadcastActivity"
-            android:label="@string/broadcast_send_title"
+            android:label="@string/broadcast_send_intent_filter_title"
             android:theme="@style/Theme.Douya.DialogWhenLarge"
             android:windowSoftInputMode="adjustResize|stateVisible">
-            <intent-filter android:label="@string/broadcast_send_intent_filter_title">
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/*" />
             </intent-filter>
-            <intent-filter android:label="@string/broadcast_send_intent_filter_title">
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
             </intent-filter>
-            <intent-filter android:label="@string/broadcast_send_intent_filter_title">
+            <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="message/rfc822"/>
             </intent-filter>
-            <intent-filter android:label="@string/broadcast_send_intent_filter_title">
+            <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
