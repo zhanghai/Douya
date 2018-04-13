@@ -8,10 +8,17 @@
 <notices>
 
     <notice>
-        <name>PhotoView</name>
-        <url>https://github.com/chrisbanes/PhotoView</url>
-        <copyright>Copyright 2011, 2012 Chris Banes</copyright>
+        <name>Transitions Everywhere</name>
+        <url>https://github.com/andkulikov/Transitions-Everywhere</url>
+        <copyright>Copyright 2013 Andrey Kulikov</copyright>
         <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>Stetho</name>
+        <url>https://github.com/facebook/stetho</url>
+        <copyright>Copyright 2015 Facebook Inc.</copyright>
+        <license>BSD 3-Clause License</license>
     </notice>
 
     <notice>
@@ -26,6 +33,13 @@
         <url>https://github.com/bumptech/glide</url>
         <copyright>Copyright 2014 Google, Inc.</copyright>
         <license>BSD 2-Clause License</license>
+    </notice>
+
+    <notice>
+        <name>PhotoView</name>
+        <url>https://github.com/chrisbanes/PhotoView</url>
+        <copyright>Copyright 2011, 2012 Chris Banes</copyright>
+        <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
@@ -78,6 +92,13 @@
     </notice>
 
     <notice>
+        <name>CircleImageView</name>
+        <url>https://github.com/hdodenhof/CircleImageView</url>
+        <copyright>Copyright 2014-2018 Henning Dodenhof</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
         <name>CustomTabsHelper</name>
         <url>https://github.com/DreaminginCodeZH/CustomTabsHelper</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
@@ -102,6 +123,13 @@
         <name>MaterialProgressBar</name>
         <url>https://github.com/DreaminginCodeZH/MaterialProgressBar</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>MaterialRatingBar</name>
+        <url>https://github.com/DreaminginCodeZH/MaterialRatingBar</url>
+        <copyright>Copyright 2016 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
