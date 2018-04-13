@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<me.zhanghai.android.douya.ui.ContentStateLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_state"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/two_line_list_item_height"
+    app:animationEnabled="false">
+
+    <Space
+        android:id="@+id/empty"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+</me.zhanghai.android.douya.ui.ContentStateLayout>

@@ -10,21 +10,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ViewHolder> {
+public class ContentStateAdapter extends RecyclerView.Adapter<ContentStateAdapter.ViewHolder> {
 
     private boolean mHasItem;
-    private boolean mProgressVisible = true;
+
+    private int mState = ContentStateLayout.STATE_EMPTY;
 
     private ViewHolder mViewHolder;
 
-    public ProgressAdapter() {
+    public ContentStateAdapter() {
         setHasStableIds(true);
     }
 
@@ -46,17 +47,11 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ViewHo
         }
     }
 
-    public boolean isProgressVisible() {
-        return mProgressVisible;
-    }
-
-    public void setProgressVisible(boolean progressVisible) {
-
-        if (mProgressVisible == progressVisible) {
+    public void setState(int state) {
+        if (mState == state) {
             return;
         }
-
-        mProgressVisible = progressVisible;
+        mState = state;
         if (mHasItem) {
             if (mViewHolder != null) {
                 onBindViewHolder(mViewHolder, 0);
@@ -79,19 +74,22 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.progress_item, parent));
+        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.content_state_item, parent));
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
             StaggeredGridLayoutManager.LayoutParams staggeredGridLayoutParams =
                     (StaggeredGridLayoutManager.LayoutParams) layoutParams;
             staggeredGridLayoutParams.setFullSpan(true);
         }
+        holder.errorText.setText(R.string.load_error);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ViewUtils.setVisibleOrInvisible(holder.progress, mProgressVisible);
+        // HACK: There's a glitch on first frame of progress bar.
+        holder.contentStateLayout.setAnimationEnabled(mState == ContentStateLayout.STATE_LOADING);
+        holder.contentStateLayout.setState(mState);
         mViewHolder = holder;
     }
 
@@ -102,8 +100,10 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.progress)
-        public ProgressBar progress;
+        @BindView(R.id.content_state)
+        public ContentStateLayout contentStateLayout;
+        @BindView(R.id.error)
+        public TextView errorText;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -10,15 +10,17 @@ import android.support.v7.widget.RecyclerView;
 public class BarrierAdapter extends MergeAdapter {
 
     private BarrierDataAdapter mDataAdapter;
-    private ProgressAdapter mProgressAdapter;
+    private ContentStateAdapter mContentStateAdapter;
+
+    private boolean mHasError;
 
     public BarrierAdapter(BarrierDataAdapter dataAdapter) {
-        super(dataAdapter, new ProgressAdapter());
+        super(dataAdapter, new ContentStateAdapter());
 
         mDataAdapter = dataAdapter;
         RecyclerView.Adapter<?>[] adapters = getAdapters();
-        mProgressAdapter = (ProgressAdapter) adapters[adapters.length - 1];
-        updateHasProgressItem();
+        mContentStateAdapter = (ContentStateAdapter) adapters[adapters.length - 1];
+        updateContentState();
         registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
@@ -38,13 +40,29 @@ public class BarrierAdapter extends MergeAdapter {
             }
             @Override
             public void onChanged() {
-                updateHasProgressItem();
+                updateContentState();
             }
         });
     }
 
-    private void updateHasProgressItem() {
+    public void setError() {
+        mHasError = true;
+        updateContentState();
+    }
+
+    private void updateContentState() {
         int count = mDataAdapter.getItemCount();
-        mProgressAdapter.setHasItem(count > 0 && count < mDataAdapter.getTotalItemCount());
+        boolean hasItem = count > 0 && count < mDataAdapter.getTotalItemCount();
+        mContentStateAdapter.setHasItem(hasItem);
+        if (!hasItem) {
+            mContentStateAdapter.setState(ContentStateLayout.STATE_EMPTY);
+            mHasError = false;
+        } else {
+            if (mHasError) {
+                mContentStateAdapter.setState(ContentStateLayout.STATE_ERROR);
+            } else {
+                mContentStateAdapter.setState(ContentStateLayout.STATE_LOADING);
+            }
+        }
     }
 }

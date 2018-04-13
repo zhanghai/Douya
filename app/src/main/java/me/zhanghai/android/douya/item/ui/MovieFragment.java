@@ -27,6 +27,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
+import me.zhanghai.android.douya.ui.BarrierAdapter;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 
@@ -59,7 +60,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     }
 
     @Override
-    protected RecyclerView.Adapter<?> onCreateAdapter() {
+    protected BarrierAdapter onCreateAdapter() {
         mAdapter = new MovieAdapter(this);
         return mAdapter;
     }

@@ -244,7 +244,11 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
     @Override
     public void onLoadError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
-        mContentStateLayout.setError();
+        if (mAdapter.getItemCount() > 0) {
+            mAdapter.setError();
+        } else {
+            mContentStateLayout.setError();
+        }
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);
     }

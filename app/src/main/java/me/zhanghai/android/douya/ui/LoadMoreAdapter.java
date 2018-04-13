@@ -9,14 +9,14 @@ import android.support.v7.widget.RecyclerView;
 
 public class LoadMoreAdapter extends MergeAdapter {
 
-    private ProgressAdapter mProgressAdapter;
+    private ContentStateAdapter mContentStateAdapter;
 
     public LoadMoreAdapter(RecyclerView.Adapter<?>... dataAdapters) {
-        super(appendAdapter(dataAdapters, new ProgressAdapter()));
+        super(appendAdapter(dataAdapters, new ContentStateAdapter()));
 
         RecyclerView.Adapter<?>[] adapters = getAdapters();
-        mProgressAdapter = (ProgressAdapter) adapters[adapters.length - 1];
-        updateHasProgressItem();
+        mContentStateAdapter = (ContentStateAdapter) adapters[adapters.length - 1];
+        updateHasContentStateItem();
         registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
@@ -36,7 +36,7 @@ public class LoadMoreAdapter extends MergeAdapter {
             }
             @Override
             public void onChanged() {
-                updateHasProgressItem();
+                updateHasContentStateItem();
             }
         });
     }
@@ -49,16 +49,13 @@ public class LoadMoreAdapter extends MergeAdapter {
         return mergedAdapters;
     }
 
-    private void updateHasProgressItem() {
-        int count = getItemCount() - mProgressAdapter.getItemCount();
-        mProgressAdapter.setHasItem(count > 0);
+    private void updateHasContentStateItem() {
+        int count = getItemCount() - mContentStateAdapter.getItemCount();
+        mContentStateAdapter.setHasItem(count > 0);
     }
 
-    public boolean isProgressVisible() {
-        return mProgressAdapter.isProgressVisible();
-    }
-
-    public void setProgressVisible(boolean progressVisible) {
-        mProgressAdapter.setProgressVisible(progressVisible);
+    public void setLoading(boolean loading) {
+        mContentStateAdapter.setState(loading ? ContentStateLayout.STATE_LOADING
+                : ContentStateLayout.STATE_EMPTY);
     }
 }

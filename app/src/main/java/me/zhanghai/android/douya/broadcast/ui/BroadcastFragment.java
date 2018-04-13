@@ -389,7 +389,7 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
         mSwipeRefreshLayout.setRefreshing(loadingBroadcast
                 && (mSwipeRefreshLayout.isRefreshing() || hasBroadcast));
         ViewUtils.setVisibleOrGone(mProgress, loadingBroadcast && !hasBroadcast);
-        mAdapter.setProgressVisible(hasBroadcast && loadingCommentList);
+        mAdapter.setLoading(hasBroadcast && loadingCommentList);
     }
 
     @Override

@@ -165,7 +165,7 @@ public abstract class BaseListFragment<T> extends Fragment {
         mSwipeRefreshLayout.setRefreshing(loading && (mSwipeRefreshLayout.isRefreshing() || !empty)
                 && !loadingMore);
         ViewUtils.setVisibleOrGone(mProgress, loading && empty);
-        mAdapter.setProgressVisible(loading && !empty && loadingMore);
+        mAdapter.setLoading(loading && !empty && loadingMore);
     }
 
     protected void onSwipeRefresh() {

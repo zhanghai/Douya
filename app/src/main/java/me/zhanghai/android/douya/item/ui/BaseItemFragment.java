@@ -31,6 +31,7 @@ import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.ui.AppBarWrapperLayout;
+import me.zhanghai.android.douya.ui.BarrierAdapter;
 import me.zhanghai.android.douya.ui.ContentStateLayout;
 import me.zhanghai.android.douya.ui.OnVerticalScrollWithPagingTouchSlopListener;
 import me.zhanghai.android.douya.ui.RatioImageView;
@@ -82,7 +83,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
     protected BaseItemFragmentResource<SimpleItemType, ItemType> mResource;
 
-    private RecyclerView.Adapter<?> mAdapter;
+    private BarrierAdapter mAdapter;
 
     public BaseItemFragment<SimpleItemType, ItemType> setArguments(long itemId,
                                                                    SimpleItemType simpleItem,
@@ -233,7 +234,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     protected abstract BaseItemFragmentResource<SimpleItemType, ItemType> onAttachResource(
             long itemId, SimpleItemType simpleItem, ItemType item);
 
-    protected abstract RecyclerView.Adapter<?> onCreateAdapter();
+    protected abstract BarrierAdapter onCreateAdapter();
 
     @Override
     public void onDestroy() {
@@ -269,7 +270,11 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     @Override
     public void onLoadError(int requestCode, ApiError error) {
         LogUtils.e(error.toString());
-        mContentStateLayout.setError();
+        if (mAdapter.getItemCount() > 0) {
+            mAdapter.setError();
+        } else {
+            mContentStateLayout.setError();
+        }
         Activity activity = getActivity();
         ToastUtils.show(ApiError.getErrorString(error, activity), activity);
     }

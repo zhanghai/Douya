@@ -157,7 +157,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
         mSwipeRefreshLayout.setRefreshing(loading && (mSwipeRefreshLayout.isRefreshing() || !empty)
                 && !loadingMore);
         ViewUtils.setVisibleOrGone(mProgress, loading && empty);
-        mAdapter.setProgressVisible(loading && !empty && loadingMore);
+        mAdapter.setLoading(loading && !empty && loadingMore);
     }
 
     @Override
