@@ -18,9 +18,6 @@ public class ItemActivities {
     private ItemActivities() {}
 
     public static Intent makeIntent(CollectableItem item, Context context) {
-        if (!BuildConfig.DEBUG) {
-            return null;
-        }
         if (item instanceof Movie) {
             return MovieActivity.makeIntent((Movie) item, context);
         } else if (item instanceof SimpleMovie) {

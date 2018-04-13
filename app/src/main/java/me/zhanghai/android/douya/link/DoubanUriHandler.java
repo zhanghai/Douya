@@ -142,10 +142,6 @@ public class DoubanUriHandler {
                 break;
             case MOVIE:
             case MOVIE_FRODO:
-                // FIXME: Not finished, disabled for release build.
-                if (!BuildConfig.DEBUG) {
-                    return false;
-                }
                 intent = MovieActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
             default:
