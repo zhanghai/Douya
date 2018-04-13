@@ -42,6 +42,7 @@
     <dimen name="toolbar_edit_left_margin">12dp</dimen>
     <dimen name="toolbar_edit_right_margin">18dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="toolbar_and_toolbar_height">112dp</dimen>
     <dimen name="tab_height">48dp</dimen>
     <dimen name="toolbar_and_tab_height">104dp</dimen>
     <dimen name="appbar_elevation">4dp</dimen>
