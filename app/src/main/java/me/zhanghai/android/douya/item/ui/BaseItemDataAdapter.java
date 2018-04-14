@@ -203,7 +203,8 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
             boolean hasRating = itemCollection.rating != null;
             ViewUtils.setVisibleOrGone(itemCollectionHolder.ratingBar, hasRating);
             if (hasRating) {
-                itemCollectionHolder.ratingBar.setRating(itemCollection.rating.getRatingBarValue());
+                itemCollectionHolder.ratingBar.setRating(
+                        itemCollection.rating.getRatingBarRating());
             }
             itemCollectionHolder.dateText.setText(TimeUtils.formatDate(
                     TimeUtils.parseDoubanDateTime(itemCollection.createdAt),

@@ -39,6 +39,10 @@
             android:id="@+id/navigation_calendar"
             android:icon="@drawable/event_note_icon_white_24dp"
             android:title="@string/navigation_calendar" />
+    </group>
+
+    <!-- Set an id on this group to show a divider. -->
+    <group android:id="@+id/navigation_group_tertiary" >
 
         <item
             android:id="@+id/navigation_settings"

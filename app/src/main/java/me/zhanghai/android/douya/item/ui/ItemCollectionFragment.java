@@ -180,7 +180,7 @@ public class ItemCollectionFragment extends Fragment
         onStateChanged();
         if (savedInstanceState == null && mItem.collection != null
                 && mItem.collection.rating != null) {
-            mRatingBar.setRating(mItem.collection.rating.getRatingBarValue());
+            mRatingBar.setRating(mItem.collection.rating.getRatingBarRating());
         }
         mRatingBar.setOnRatingChangeListener((ratingBar, rating) -> updateRatingHint());
         updateRatingHint();
@@ -374,7 +374,7 @@ public class ItemCollectionFragment extends Fragment
         }
         if (state != ItemCollectionState.TODO) {
             float originalRating = collection != null && collection.rating != null ?
-                    collection.rating.getRatingBarValue() : 0;
+                    collection.rating.getRatingBarRating() : 0;
             float rating = mRatingBar.getRating();
             if (rating != originalRating) {
                 return true;

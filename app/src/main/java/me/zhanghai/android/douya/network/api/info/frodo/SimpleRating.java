@@ -32,7 +32,7 @@ public class SimpleRating implements Parcelable {
                 : R.string.item_rating_format, rating);
     }
 
-    public float getRatingBarValue() {
+    public float getRatingBarRating() {
         return (float) Math.round(value / max * 10) / 2;
     }
 

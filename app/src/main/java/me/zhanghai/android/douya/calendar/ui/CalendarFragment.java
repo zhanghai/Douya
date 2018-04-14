@@ -20,16 +20,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.threeten.bp.DayOfWeek;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.calendar.info.CalendarDay;
 import me.zhanghai.android.douya.link.UriHandler;
-import me.zhanghai.android.douya.scalpel.ScalpelHelperFragment;
-import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.TintHelper;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -111,31 +107,18 @@ public class CalendarFragment extends Fragment {
         calendarDay.poster = "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1663601927.webp";
         calendarDay.url = "https://movie.douban.com/subject/1972698/";
 
-        LocalDate date = LocalDate.parse(calendarDay.date);
-        String datePattern = getString(R.string.calendar_date_pattern);
-        mDateText.setText(date.format(DateTimeFormatter.ofPattern(datePattern)));
-        String[] dayOfWeekNames = getResources().getStringArray(R.array.calendar_day_of_week_names);
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        mDayOfWeekText.setText(dayOfWeekNames[dayOfWeek.getValue() - 1]);
+        mDateText.setText(calendarDay.getDateText(activity));
+        mDayOfWeekText.setText(calendarDay.getDayOfWeekText(activity));
         mChineseCalendarDateText.setText(calendarDay.chineseCalendarDate);
-        String dayOfMonth = getString(R.string.calendar_day_of_month_format, date.getDayOfMonth());
-        mDayOfMonthText.setText(dayOfMonth);
-        boolean isWeekend = dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
-        mDayOfMonthText.setTextColor(ViewUtils.getColorFromAttrRes(isWeekend ?
-                android.R.attr.textColorHighlight : android.R.attr.textColorPrimary, 0,
-                mDayOfMonthText.getContext()));
+        mDayOfMonthText.setText(calendarDay.getDayOfMonthText(activity));
+        mDayOfMonthText.setTextColor(calendarDay.getDayOfMonthColor(mDayOfMonthText.getContext()));
         mCommentText.setText(calendarDay.comment);
         mMovieLayout.setOnClickListener(view -> UriHandler.open(calendarDay.url,
                 view.getContext()));
-        String title = getString(R.string.calendar_title_format, calendarDay.title);
-        mTitleText.setText(title);
-        float rating = (float) Math.round(calendarDay.rating * 10) / 10;
-        float ratingBarValue = (float) Math.round(rating) / 2f;
-        mRatingBar.setRating(ratingBarValue);
-        String ratingText = getString(R.string.calendar_rating_format, rating);
-        mRatingText.setText(ratingText);
-        String event = getString(R.string.calendar_event_format, calendarDay.event);
-        mEventText.setText(event);
+        mTitleText.setText(calendarDay.getTitleText(activity));
+        mRatingBar.setRating(calendarDay.getRatingBarRating());
+        mRatingText.setText(calendarDay.getRatingText(activity));
+        mEventText.setText(calendarDay.getEventText(activity));
         ImageUtils.loadImage(mPosterImage, calendarDay.poster);
     }
 

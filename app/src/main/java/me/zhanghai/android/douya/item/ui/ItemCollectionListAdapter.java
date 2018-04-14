@@ -53,7 +53,7 @@ public class ItemCollectionListAdapter
         boolean hasRating = itemCollection.rating != null;
         ViewUtils.setVisibleOrGone(holder.ratingBar, hasRating);
         if (hasRating) {
-            holder.ratingBar.setRating(itemCollection.rating.getRatingBarValue());
+            holder.ratingBar.setRating(itemCollection.rating.getRatingBarRating());
         }
         holder.dateText.setText(TimeUtils.formatDate(TimeUtils.parseDoubanDateTime(
                 itemCollection.createdAt), holder.dateText.getContext()));

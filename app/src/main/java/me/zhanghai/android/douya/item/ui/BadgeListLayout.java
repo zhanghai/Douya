@@ -178,9 +178,9 @@ public class BadgeListLayout extends HorizontalScrollView {
                            TextView ratingCountText, ImageView ratingCountIconImage) {
         Context context = getContext();
         ratingText.setText(rating.getRatingString(context));
-        float ratingValue = rating.getRatingBarValue();
-        ratingBar.setNumStars(Math.round(ratingValue));
-        ratingBar.setRating(ratingValue);
+        float ratingBarRating = rating.getRatingBarRating();
+        ratingBar.setNumStars(Math.round(ratingBarRating));
+        ratingBar.setRating(ratingBarRating);
         ratingCountText.setText(rating.getRatingCountString(context));
         ViewUtils.setVisibleOrGone(ratingCountIconImage, true);
     }

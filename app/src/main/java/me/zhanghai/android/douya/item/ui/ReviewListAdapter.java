@@ -46,7 +46,7 @@ public class ReviewListAdapter extends SimpleAdapter<SimpleReview, ReviewListAda
         boolean hasRating = review.rating != null;
         ViewUtils.setVisibleOrGone(holder.ratingBar, hasRating);
         if (hasRating) {
-            holder.ratingBar.setRating(review.rating.getRatingBarValue());
+            holder.ratingBar.setRating(review.rating.getRatingBarRating());
         }
         String usefulness = holder.usefulnessText.getContext().getString(
                 R.string.item_review_usefulness_format, review.usefulCount,

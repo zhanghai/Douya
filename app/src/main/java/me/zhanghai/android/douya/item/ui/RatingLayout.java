@@ -62,7 +62,7 @@ public class RatingLayout extends LinearLayout {
     public void setRating(SimpleRating rating) {
         Context context = getContext();
         mRatingText.setText(rating.getRatingString(context));
-        mRatingBar.setRating(rating.getRatingBarValue());
+        mRatingBar.setRating(rating.getRatingBarRating());
         mRatingCountText.setText(rating.getRatingCountString(context));
     }
 }
