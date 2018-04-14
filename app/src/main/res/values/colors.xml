@@ -46,4 +46,9 @@
     <color name="movie_primary_dark">@color/blue_700</color>
     <color name="movie_primary_light">@color/blue_50</color>
     <color name="movie_accent">@color/blue_500</color>
+
+    <color name="calendar_secondary_text_light">#b3000000</color>
+    <color name="calendar_secondary_text_dark">#b3ffffff</color>
+    <color name="calendar_highlight_text">#00897b</color>
+    <color name="calendar_control_activated">#ffab00</color>
 </resources>

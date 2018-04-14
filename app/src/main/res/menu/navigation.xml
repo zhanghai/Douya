@@ -36,6 +36,11 @@
     <group android:id="@+id/navigation_group_secondary" >
 
         <item
+            android:id="@+id/navigation_calendar"
+            android:icon="@drawable/event_note_icon_white_24dp"
+            android:title="@string/navigation_calendar" />
+
+        <item
             android:id="@+id/navigation_settings"
             android:icon="@drawable/settings_icon_white_24dp"
             android:title="@string/navigation_settings" />

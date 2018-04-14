@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="?dividerHorizontal"
+    android:showDividers="middle"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+        android:paddingRight="@dimen/toolbar_button_right_margin"
+        android:theme="?actionBarTheme"
+        app:navigationIcon="@drawable/close_icon_white_24dp"
+        app:popupTheme="?actionBarPopupTheme"
+        app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <me.zhanghai.android.douya.ui.TallFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/calendar_layout" />
+        </me.zhanghai.android.douya.ui.TallFrameLayout>
+    </ScrollView>
+</LinearLayout>

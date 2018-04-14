@@ -299,4 +299,16 @@
         <item name="darkTheme">@style/DarkTheme</item>
     </style>
     <style name="Theme.Douya.Movie.DialogWhenLarge" parent="Base.Theme.Douya.Movie.DialogWhenLarge" />
+
+    <style name="Base.ThemeOverlay.Douya.Calendar" parent="">
+        <item name="android:textColorSecondary">@color/calendar_secondary_text_light</item>
+        <item name="android:textColorHighlight">@color/calendar_highlight_text</item>
+        <item name="colorControlActivated">@color/calendar_control_activated</item>
+    </style>
+    <style name="Base.ThemeOverlay.Douya.Calendar.Dark" parent="">
+        <item name="android:textColorSecondary">@color/calendar_secondary_text_dark</item>
+        <item name="android:textColorHighlight">@color/calendar_highlight_text</item>
+        <item name="colorControlActivated">@color/calendar_control_activated</item>
+    </style>
+    <style name="ThemeOverlay.Douya.Calendar" parent="Base.ThemeOverlay.Douya.Calendar" />
 </resources>

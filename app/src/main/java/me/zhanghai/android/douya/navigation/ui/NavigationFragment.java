@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.content.AccountUserResource;
 import me.zhanghai.android.douya.account.util.AccountUtils;
+import me.zhanghai.android.douya.calendar.ui.CalendarActivity;
 import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.ApiError;
@@ -121,6 +122,9 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
                             case R.id.navigation_movie:
                                 // TODO
                                 UriHandler.open("https://movie.douban.com/", getActivity());
+                                break;
+                            case R.id.navigation_calendar:
+                                openCalendar();
                                 break;
                             case R.id.navigation_settings:
                                 openSettings();
@@ -325,6 +329,10 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
         AccountUtils.setActiveAccount(AccountUtils.getRecentOneAccount());
         AccountUtils.removeAccount(oldActiveAccount);
         // Calls onAccountsUpdated() later.
+    }
+
+    private void openCalendar() {
+        startActivity(CalendarActivity.makeIntent(getActivity()));
     }
 
     private void openSettings() {

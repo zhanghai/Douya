@@ -153,6 +153,7 @@
     <string name="navigation_book">读书</string>
     <string name="navigation_movie">电影</string>
     <string name="navigation_music">音乐</string>
+    <string name="navigation_calendar">电影日历</string>
     <string name="navigation_settings">设置</string>
     <string name="navigation_feedback">反馈</string>
     <string name="navigation_add_account">添加账户</string>
@@ -385,6 +386,23 @@
     <string name="item_introduction_movie_episode_count">集数</string>
     <string name="item_introduction_movie_durations">片长</string>
     <string name="item_introduction_movie_alternative_titles">又名</string>
+
+    <string name="calendar_title">电影日历</string>
+    <string name="calendar_chinese_calendar">农历</string>
+    <string name="calendar_date_pattern">M月d日</string>
+    <string-array name="calendar_day_of_week_names">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+    <string name="calendar_day_of_month_format">%1$d</string>
+    <string name="calendar_title_format">《 %1$s 》</string>
+    <string name="calendar_rating_format">%1$.1f</string>
+    <string name="calendar_event_format">【 %1$s 】</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_appearance_title">外观</string>

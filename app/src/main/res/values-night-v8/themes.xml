@@ -20,4 +20,6 @@
     <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie.Dark" />
 
     <style name="Theme.Douya.Movie.DialogWhenLarge" parent="Base.Theme.Douya.Movie.DialogWhenLarge.Dark" />
+
+    <style name="ThemeOverlay.Douya.Calendar" parent="Base.ThemeOverlay.Douya.Calendar.Dark" />
 </resources>
