@@ -43,6 +43,13 @@
     </notice>
 
     <notice>
+        <name>LunarCalendar</name>
+        <url>https://github.com/XhinLiang/LunarCalendar</url>
+        <copyright>Copyright 2016 XhinLiang</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
         <name>Gson</name>
         <url>https://github.com/google/gson</url>
         <copyright>Copyright 2008 Google Inc.</copyright>

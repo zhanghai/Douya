@@ -49,6 +49,7 @@ repositories {
 dependencies {
     releaseImplementation 'com.github.mypplication:stetho-noop:1.1'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation 'com.github.XhinLiang:LunarCalendar:3.0.0'
 }
 
 buildscript {

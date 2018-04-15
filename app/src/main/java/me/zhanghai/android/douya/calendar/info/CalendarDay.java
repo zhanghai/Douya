@@ -7,6 +7,8 @@ package me.zhanghai.android.douya.calendar.info;
 
 import android.content.Context;
 
+import com.xhinliang.lunarcalendar.LunarCalendar;
+
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -17,8 +19,6 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class CalendarDay {
 
     public String date;
-
-    public String chineseCalendarDate;
 
     public String comment;
 
@@ -48,6 +48,23 @@ public class CalendarDay {
                 R.array.calendar_day_of_week_names);
         LocalDate date = getDate();
         return dayOfWeekNames[date.getDayOfWeek().getValue() - 1];
+    }
+
+    private String getChineseCalendarDateText(LocalDate date) {
+        LunarCalendar lunarCalendar = LunarCalendar.obtainCalendar(date.getYear(),
+                date.getMonthValue(), date.getDayOfMonth());
+        return lunarCalendar.getLunarMonth() + "月" + lunarCalendar.getLunarDay();
+    }
+
+    /**
+     * @deprecated Use {@link #getChineseCalendarDateText(int)} instead.
+     */
+    public String getChineseCalendarDateText() {
+        return getChineseCalendarDateText(getDate());
+    }
+
+    public String getChineseCalendarDateText(int year) {
+        return getChineseCalendarDateText(getDate().withYear(year));
     }
 
     public String getDayOfMonthText(Context context) {

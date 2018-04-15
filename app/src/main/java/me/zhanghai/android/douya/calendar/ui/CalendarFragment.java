@@ -99,7 +99,7 @@ public class CalendarFragment extends Fragment {
         // TODO
         CalendarDay calendarDay = new CalendarDay();
         calendarDay.date = "2018-03-06";
-        calendarDay.chineseCalendarDate = "正月十九";
+        //calendarDay.chineseCalendarDate = "正月十九";
         calendarDay.comment = "永不妥协，哪怕世界末日。";
         calendarDay.title = "守望者";
         calendarDay.rating = 8;
@@ -109,7 +109,7 @@ public class CalendarFragment extends Fragment {
 
         mDateText.setText(calendarDay.getDateText(activity));
         mDayOfWeekText.setText(calendarDay.getDayOfWeekText(activity));
-        mChineseCalendarDateText.setText(calendarDay.chineseCalendarDate);
+        mChineseCalendarDateText.setText(calendarDay.getChineseCalendarDateText());
         mDayOfMonthText.setText(calendarDay.getDayOfMonthText(activity));
         mDayOfMonthText.setTextColor(calendarDay.getDayOfMonthColor(mDayOfMonthText.getContext()));
         mCommentText.setText(calendarDay.comment);
