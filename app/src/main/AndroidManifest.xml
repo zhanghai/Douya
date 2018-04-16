@@ -48,6 +48,31 @@
             android:theme="@style/Theme.Douya.Translucent" />
 
         <activity
+            android:name=".link.UriHandlerActivity"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:theme="@style/Theme.Douya.Translucent">
+            <intent-filter android:scheme="http">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="douban" android:host="douban.com" />
+                <data android:scheme="https" android:host="www.douban.com" />
+                <data android:scheme="http" android:host="www.douban.com" />
+                <data android:scheme="https" android:host="book.douban.com" />
+                <data android:scheme="http" android:host="book.douban.com" />
+                <data android:scheme="https" android:host="movie.douban.com" />
+                <data android:scheme="http" android:host="movie.douban.com" />
+                <data android:scheme="https" android:host="music.douban.com" />
+                <data android:scheme="http" android:host="music.douban.com" />
+                <data android:scheme="https" android:host="m.douban.com" />
+                <data android:scheme="http" android:host="m.douban.com" />
+                <data android:scheme="https" android:host="frodo.douban.com" />
+                <data android:scheme="http" android:host="frodo.douban.com" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".ui.WebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/webview_title" />
