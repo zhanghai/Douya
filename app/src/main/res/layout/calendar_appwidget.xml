@@ -9,12 +9,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp"
-    android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.Douya.Calendar">
+    android:paddingLeft="36dp"
+    android:paddingRight="36dp"
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
-    <Space
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -29,9 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="@color/calendar_secondary_text_light" />
 
-        <Space
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="@string/calendar_chinese_calendar"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="@color/calendar_secondary_text_light" />
 
     </LinearLayout>
 
@@ -56,9 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="@color/calendar_secondary_text_light" />
 
-        <Space
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
@@ -68,10 +68,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="@color/calendar_secondary_text_light" />
     </LinearLayout>
 
-    <Space
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -87,17 +87,17 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="260sp" />
 
-    <Space
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <View
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?android:textColorSecondary" />
+        android:background="@color/calendar_secondary_text_light" />
 
-    <Space
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -107,9 +107,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="?android:textColorSecondary" />
+        android:textColor="@color/calendar_secondary_text_light" />
 
-    <Space
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -135,7 +135,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <Space
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="1sp" />
 
@@ -145,13 +145,17 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                <ProgressBar
                     android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="16dp"
+                    android:minHeight="16dp"
+                    android:maxHeight="16dp"
                     android:layout_marginLeft="-1.5dp"
                     android:layout_marginRight="-1.5dp"
-                    style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
+                    android:indeterminateDrawable="@null"
+                    android:indeterminateOnly="false"
+                    android:progressDrawable="@drawable/calendar_rating_progress" />
 
                 <TextView
                     android:id="@+id/rating_text"
@@ -159,10 +163,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="?colorControlActivated" />
+                    android:textColor="@color/calendar_control_activated" />
             </LinearLayout>
 
-            <Space
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="1sp" />
 
@@ -175,7 +179,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
         </LinearLayout>
 
-        <Space
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
@@ -189,7 +193,7 @@
             android:adjustViewBounds="true" />
     </LinearLayout>
 
-    <Space
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />

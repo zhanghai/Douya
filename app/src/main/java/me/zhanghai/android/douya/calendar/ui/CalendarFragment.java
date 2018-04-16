@@ -19,8 +19,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import org.threeten.bp.DayOfWeek;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
@@ -28,7 +26,6 @@ import me.zhanghai.android.douya.calendar.info.CalendarDay;
 import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.TintHelper;
-import me.zhanghai.android.douya.util.ViewUtils;
 
 public class CalendarFragment extends Fragment {
 
@@ -97,21 +94,14 @@ public class CalendarFragment extends Fragment {
         TintHelper.onSetSupportActionBar(mToolbar);
 
         // TODO
-        CalendarDay calendarDay = new CalendarDay();
-        calendarDay.date = "2018-03-06";
-        //calendarDay.chineseCalendarDate = "正月十九";
-        calendarDay.comment = "永不妥协，哪怕世界末日。";
-        calendarDay.title = "守望者";
-        calendarDay.rating = 8;
-        calendarDay.event = "2009年3月6日，本片上映";
-        calendarDay.poster = "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1663601927.webp";
-        calendarDay.url = "https://movie.douban.com/subject/1972698/";
+        CalendarDay calendarDay = CalendarDay.SAMPLE;
 
         mDateText.setText(calendarDay.getDateText(activity));
         mDayOfWeekText.setText(calendarDay.getDayOfWeekText(activity));
         mChineseCalendarDateText.setText(calendarDay.getChineseCalendarDateText());
         mDayOfMonthText.setText(calendarDay.getDayOfMonthText(activity));
-        mDayOfMonthText.setTextColor(calendarDay.getDayOfMonthColor(mDayOfMonthText.getContext()));
+        mDayOfMonthText.setTextColor(calendarDay.getThemedDayOfMonthColor(
+                mDayOfMonthText.getContext()));
         mCommentText.setText(calendarDay.comment);
         mMovieLayout.setOnClickListener(view -> UriHandler.open(calendarDay.url,
                 view.getContext()));

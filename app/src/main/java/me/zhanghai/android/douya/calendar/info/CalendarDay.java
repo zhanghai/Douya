@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.calendar.info;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
 import com.xhinliang.lunarcalendar.LunarCalendar;
 
@@ -17,6 +18,19 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class CalendarDay {
+
+    public static final CalendarDay SAMPLE;
+    static {
+        SAMPLE = new CalendarDay();
+        SAMPLE.date = "2018-03-06";
+        //SAMPLE.chineseCalendarDate = "正月十九";
+        SAMPLE.comment = "永不妥协，哪怕世界末日。";
+        SAMPLE.title = "守望者";
+        SAMPLE.rating = 8;
+        SAMPLE.event = "2009年3月6日，本片上映";
+        SAMPLE.poster = "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1663601927.webp";
+        SAMPLE.url = "https://movie.douban.com/subject/1972698/";
+    }
 
     public String date;
 
@@ -72,11 +86,25 @@ public class CalendarDay {
         return context.getString(R.string.calendar_day_of_month_format, date.getDayOfMonth());
     }
 
-    public int getDayOfMonthColor(Context context) {
+    public int getDayOfMonthColor(int weekdayColor, int weekendColor) {
         DayOfWeek dayOfWeek = getDate().getDayOfWeek();
         boolean isWeekend = dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
-        return ViewUtils.getColorFromAttrRes(isWeekend ? android.R.attr.textColorHighlight
-                : android.R.attr.textColorPrimary, 0, context);
+        return isWeekend ? weekendColor : weekdayColor;
+    }
+
+    public int getThemedDayOfMonthColor(Context context) {
+        int weekdayColor = ViewUtils.getColorFromAttrRes(android.R.attr.textColorPrimary, 0,
+                context);
+        int weekendColor = ViewUtils.getColorFromAttrRes(android.R.attr.textColorHighlight, 0,
+                context);
+        return getDayOfMonthColor(weekdayColor, weekendColor);
+    }
+
+    public int getDayOfMonthColor(Context context) {
+        int weekdayColor = ContextCompat.getColor(context,
+                R.color.primary_text_default_material_light);
+        int weekendColor = ContextCompat.getColor(context, R.color.calendar_highlight_text);
+        return getDayOfMonthColor(weekdayColor, weekendColor);
     }
 
     public String getTitleText(Context context) {
@@ -89,6 +117,14 @@ public class CalendarDay {
 
     public float getRatingBarRating() {
         return (float) Math.round(getRating()) / 2f;
+    }
+
+    public int getProgressRatingBarProgress() {
+        return Math.round(getRating());
+    }
+
+    public int getRatingProgressBarMax() {
+        return 10;
     }
 
     public String getRatingText(Context context) {
