@@ -35,7 +35,7 @@ public class CalendarAppWidgetProvider extends AppWidgetProvider {
         views.setTextColor(R.id.day_of_month, calendarDay.getDayOfMonthColor(context));
         views.setTextViewText(R.id.comment, calendarDay.comment);
         PendingIntent moviePendingIntent = PendingIntent.getActivity(context,
-                calendarDay.url.hashCode(), UriHandlerActivity.makeIntent(context),
+                calendarDay.url.hashCode(), UriHandlerActivity.makeIntent(calendarDay.url, context),
                 PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.movie, moviePendingIntent);
         views.setTextViewText(R.id.title, calendarDay.getTitleText(context));
