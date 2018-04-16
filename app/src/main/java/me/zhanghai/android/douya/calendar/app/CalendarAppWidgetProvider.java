@@ -5,15 +5,18 @@
 
 package me.zhanghai.android.douya.calendar.app;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.calendar.info.CalendarDay;
 import me.zhanghai.android.douya.glide.AppWidgetTarget;
 import me.zhanghai.android.douya.glide.GlideApp;
+import me.zhanghai.android.douya.link.UriHandlerActivity;
 
 public class CalendarAppWidgetProvider extends AppWidgetProvider {
 
@@ -31,8 +34,10 @@ public class CalendarAppWidgetProvider extends AppWidgetProvider {
         views.setTextViewText(R.id.day_of_month, calendarDay.getDayOfMonthText(context));
         views.setTextColor(R.id.day_of_month, calendarDay.getDayOfMonthColor(context));
         views.setTextViewText(R.id.comment, calendarDay.comment);
-        //views.setOnClickPendingIntent();mMovieLayout.setOnClickListener(view -> UriHandler.open(calendarDay.url,
-        //        view.getContext()));
+        PendingIntent moviePendingIntent = PendingIntent.getActivity(context,
+                calendarDay.url.hashCode(), UriHandlerActivity.makeIntent(context),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.movie, moviePendingIntent);
         views.setTextViewText(R.id.title, calendarDay.getTitleText(context));
         views.setProgressBar(R.id.rating, calendarDay.getRatingProgressBarMax(),
                 calendarDay.getProgressRatingBarProgress(), false);
