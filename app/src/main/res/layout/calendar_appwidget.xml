@@ -7,12 +7,14 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="36dp"
     android:paddingRight="36dp"
     android:background="@android:color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="SpUsage">
 
     <FrameLayout
         android:layout_width="0dp"
@@ -29,7 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/calendar_secondary_text_light" />
+            android:textColor="@color/calendar_secondary_text_light"
+            android:textSize="16dp" />
 
         <FrameLayout
             android:layout_width="0dp"
@@ -42,7 +45,8 @@
             android:layout_height="wrap_content"
             android:text="@string/calendar_chinese_calendar"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/calendar_secondary_text_light" />
+            android:textColor="@color/calendar_secondary_text_light"
+            android:textSize="16dp" />
 
     </LinearLayout>
 
@@ -56,7 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/calendar_secondary_text_light" />
+            android:textColor="@color/calendar_secondary_text_light"
+            android:textSize="16dp" />
 
         <FrameLayout
             android:layout_width="0dp"
@@ -68,7 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/calendar_secondary_text_light" />
+            android:textColor="@color/calendar_secondary_text_light"
+            android:textSize="16dp" />
     </LinearLayout>
 
     <FrameLayout
@@ -81,11 +87,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="-56sp"
-        android:layout_marginBottom="-60sp"
+        android:layout_marginTop="-56dp"
+        android:layout_marginBottom="-60dp"
         android:includeFontPadding="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="260sp" />
+        android:textSize="260dp" />
 
     <FrameLayout
         android:layout_width="0dp"
@@ -107,7 +113,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/calendar_secondary_text_light" />
+        android:textColor="@color/calendar_secondary_text_light"
+        android:textSize="16dp" />
 
     <FrameLayout
         android:layout_width="0dp"
@@ -129,10 +136,10 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-9sp"
-                android:layout_marginRight="-9sp"
+                android:layout_marginLeft="-9dp"
+                android:layout_marginRight="-9dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <FrameLayout
@@ -164,7 +171,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/calendar_control_activated" />
+                    android:textColor="@color/calendar_control_activated"
+                    android:textSize="14dp" />
             </LinearLayout>
 
             <FrameLayout
@@ -176,9 +184,10 @@
                 android:id="@+id/event"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-9sp"
-                android:layout_marginRight="-9sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:layout_marginLeft="-9dp"
+                android:layout_marginRight="-9dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="14dp" />
         </LinearLayout>
 
         <FrameLayout
@@ -193,9 +202,9 @@
         <ImageView
             android:id="@+id/poster"
             android:layout_width="wrap_content"
-            android:layout_height="59sp"
-            android:layout_marginTop="3sp"
-            android:layout_marginBottom="3sp"
+            android:layout_height="59dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:adjustViewBounds="true" />
     </LinearLayout>
 
