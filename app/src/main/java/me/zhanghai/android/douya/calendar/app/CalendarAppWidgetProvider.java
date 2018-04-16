@@ -10,8 +10,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.widget.RemoteViews;
 
+import com.bumptech.glide.request.target.AppWidgetTarget;
+
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.calendar.info.CalendarDay;
+import me.zhanghai.android.douya.glide.GlideApp;
 
 public class CalendarAppWidgetProvider extends AppWidgetProvider {
 
@@ -34,7 +37,10 @@ public class CalendarAppWidgetProvider extends AppWidgetProvider {
                 calendarDay.getProgressRatingBarProgress(), false);
         views.setTextViewText(R.id.rating_text, calendarDay.getRatingText(context));
         views.setTextViewText(R.id.event, calendarDay.getEventText(context));
-        //ImageUtils.loadImage(mPosterImage, calendarDay.poster);
+        GlideApp.with(context)
+                .asBitmap()
+                .load(calendarDay.poster)
+                .into(new AppWidgetTarget(context, R.id.poster, views, appWidgetIds));
 
         appWidgetManager.updateAppWidget(appWidgetIds, views);
     }

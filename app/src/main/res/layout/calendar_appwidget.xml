@@ -122,7 +122,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -137,7 +137,8 @@
 
             <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="1sp" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -168,7 +169,8 @@
 
             <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="1sp" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/event"
@@ -184,10 +186,14 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <!--
+          ~ Must set a fixed height here because both LinearLayout and RelativeLayout cannot handle
+          ~ ImageView adjustViewBounds correctly.
+          -->
         <ImageView
             android:id="@+id/poster"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="59sp"
             android:layout_marginTop="3sp"
             android:layout_marginBottom="3sp"
             android:adjustViewBounds="true" />
