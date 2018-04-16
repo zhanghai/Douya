@@ -16,8 +16,13 @@ import me.zhanghai.android.douya.account.util.AccountUtils;
 
 public class UriHandlerActivity extends AppCompatActivity {
 
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, UriHandlerActivity.class);
+    public static Intent makeIntent(Uri uri, Context context) {
+        return new Intent(context, UriHandlerActivity.class)
+                .setData(uri);
+    }
+
+    public static Intent makeIntent(String url, Context context) {
+        return makeIntent(Uri.parse(url), context);
     }
 
     @Override
@@ -27,10 +32,12 @@ public class UriHandlerActivity extends AppCompatActivity {
         Uri uri = getIntent().getData();
         if (uri == null) {
             finish();
+            return;
         }
 
         if (!AccountUtils.ensureActiveAccountAvailability(this)) {
             finish();
+            return;
         }
 
         UriHandler.open(uri, this);
