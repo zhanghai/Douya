@@ -10,13 +10,14 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.widget.RemoteViews;
 
-import com.bumptech.glide.request.target.AppWidgetTarget;
-
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.calendar.info.CalendarDay;
+import me.zhanghai.android.douya.glide.AppWidgetTarget;
 import me.zhanghai.android.douya.glide.GlideApp;
 
 public class CalendarAppWidgetProvider extends AppWidgetProvider {
+
+    private static final AppWidgetTarget sPosterTarget = new AppWidgetTarget(R.id.poster);
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -40,7 +41,7 @@ public class CalendarAppWidgetProvider extends AppWidgetProvider {
         GlideApp.with(context)
                 .asBitmap()
                 .load(calendarDay.poster)
-                .into(new AppWidgetTarget(context, R.id.poster, views, appWidgetIds));
+                .into(sPosterTarget.prepare(views, context, appWidgetIds));
 
         appWidgetManager.updateAppWidget(appWidgetIds, views);
     }
