@@ -87,11 +87,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="-56dp"
-        android:layout_marginBottom="-60dp"
+        android:layout_marginTop="-47dp"
+        android:layout_marginBottom="-51dp"
         android:includeFontPadding="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="260dp" />
+        android:textSize="220dp" />
 
     <FrameLayout
         android:layout_width="0dp"
