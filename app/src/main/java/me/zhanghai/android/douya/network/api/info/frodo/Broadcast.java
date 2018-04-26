@@ -15,6 +15,7 @@ import android.support.v4.util.ObjectsCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -204,21 +205,36 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
             Drawable icon = ContextCompat.getDrawable(context,
                     R.drawable.rebroadcast_icon_white_18dp);
             icon = DrawableCompat.wrap(icon);
-            DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(android.R.attr.textColorLink,
-                    0, context));
+            DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(parentBroadcast.isDeleted ?
+                            android.R.attr.textColorSecondary : android.R.attr.textColorLink, 0,
+                    context));
             builder.setSpan(new IconSpan(icon), parentIconStartIndex, parentIconEndIndex,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            builder.append(context.getString(
-                    R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
-                    parentBroadcast.author.name));
-            int parentNameEndIndex = builder.length();
-            builder.setSpan(new UriSpan(parentBroadcast.uri), parentSpaceStartIndex,
-                    parentNameEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (parentBroadcast.isDeleted) {
 
-            builder.append(parentBroadcast.getTextWithEntities(false, context));
+                builder.append(context.getString(
+                        R.string.broadcast_rebroadcasted_broadcast_text_rebroadcast_deleted));
+                int parentDeletedTextEndIndex = builder.length();
+                builder.setSpan(new ForegroundColorSpan(ViewUtils.getColorFromAttrRes(
+                        android.R.attr.textColorSecondary, 0, context)), parentSpaceStartIndex,
+                        parentDeletedTextEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            parentBroadcastId = parentBroadcast.getParentBroadcastId();
+                parentBroadcastId = null;
+
+            } else {
+
+                builder.append(context.getString(
+                        R.string.broadcast_rebroadcasted_broadcast_text_rebroadcaster_format,
+                        parentBroadcast.author.name));
+                int parentNameEndIndex = builder.length();
+                builder.setSpan(new UriSpan(parentBroadcast.uri), parentSpaceStartIndex,
+                        parentNameEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                builder.append(parentBroadcast.getTextWithEntities(false, context));
+
+                parentBroadcastId = parentBroadcast.getParentBroadcastId();
+            }
         }
 
         if (parentBroadcastId != null) {
