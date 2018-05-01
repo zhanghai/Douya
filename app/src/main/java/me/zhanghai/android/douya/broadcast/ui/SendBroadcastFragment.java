@@ -525,6 +525,14 @@ public class SendBroadcastFragment extends Fragment
         if (sending) {
             mTextEdit.setText(manager.getText(mWriterId));
         }
+        mAddImageButton.setEnabled(enabled);
+        mAddMoreImageButton.setEnabled(enabled);
+        mRemoveAllImagesButton.setEnabled(enabled);
+        mAddLinkButton.setEnabled(enabled);
+        mEditLinkButton.setEnabled(enabled);
+        mRemoveLinkButton.setEnabled(enabled);
+        mAddMentionButton.setEnabled(enabled);
+        mAddTopicButton.setEnabled(enabled);
     }
 
     public void onFinish() {
