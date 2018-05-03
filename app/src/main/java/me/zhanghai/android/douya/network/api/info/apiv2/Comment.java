@@ -28,7 +28,7 @@ public class Comment implements Parcelable {
 
     public String source;
 
-    public boolean isAuthorOneself(Context context) {
+    public boolean isAuthorOneself() {
         return author.isOneself();
     }
 

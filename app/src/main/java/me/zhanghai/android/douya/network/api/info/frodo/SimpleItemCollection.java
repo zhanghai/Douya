@@ -54,7 +54,6 @@ public class SimpleItemCollection implements Parcelable {
         return ItemCollectionState.ofString(state);
     }
 
-
     public static final Creator<SimpleItemCollection> CREATOR =
             new Creator<SimpleItemCollection>() {
                 @Override

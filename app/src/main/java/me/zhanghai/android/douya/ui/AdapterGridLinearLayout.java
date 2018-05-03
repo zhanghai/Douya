@@ -56,10 +56,10 @@ public class AdapterGridLinearLayout extends AdapterLinearLayout {
 
     @Override
     protected void onDataSetChanged() {
-        removeAllViews();
         if (mAdapter == null) {
             return;
         }
+        removeAllViews();
         for (int rowPosition = 0, count = mAdapter.getItemCount(); rowPosition < count;
              rowPosition += mColumnCount) {
             LinearLayout rowLayout = new LinearLayout(getContext());
@@ -80,5 +80,25 @@ public class AdapterGridLinearLayout extends AdapterLinearLayout {
                     LayoutParams.WRAP_CONTENT);
             addView(rowLayout, rowLayoutParams);
         }
+    }
+
+    @Override
+    protected void onItemRangeChanged(int positionStart, int itemCount) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected void onItemRangeInserted(int positionStart, int itemCount) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected void onItemRangeRemoved(int positionStart, int itemCount) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+        throw new UnsupportedOperationException();
     }
 }

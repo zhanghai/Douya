@@ -338,6 +338,10 @@
     <string name="item_collection_list_create">写短评</string>
     <string name="item_collection_vote_count_format">%1$d</string>
     <string name="item_collection_list_view_more">全部短评</string>
+    <string name="item_collection_vote_error_cannot_vote_oneself">不能给自己的短评投票</string>
+    <string name="item_collection_vote_error_cannot_vote_again">你已经投过票了</string>
+    <string name="item_collection_vote_successful">已投票</string>
+    <string name="item_collection_vote_failed_format">投票失败，%1$s</string>
     <string name="item_review_list_title">评论</string>
     <string name="item_review_list_create">写评论</string>
     <string name="item_review_list_view_more">全部评论</string>

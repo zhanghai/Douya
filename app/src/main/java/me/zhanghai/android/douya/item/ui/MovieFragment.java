@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
@@ -145,6 +144,22 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     @Override
     public void onItemCollectionChanged(int requestCode) {
         mAdapter.notifyItemCollectionChanged();
+    }
+
+    @Override
+    public void onItemCollectionListItemChanged(int requestCode, int position,
+                                                SimpleItemCollection newItemCollection) {
+        mAdapter.setItemCollectionListItem(position, newItemCollection);
+    }
+
+    @Override
+    public void onItemCollectionListItemWriteStarted(int requestCode, int position) {
+        mAdapter.notifyItemCollectionListItemChanged(position);
+    }
+
+    @Override
+    public void onItemCollectionListItemWriteFinished(int requestCode, int position) {
+        mAdapter.notifyItemCollectionListItemChanged(position);
     }
 
     @Override

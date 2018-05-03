@@ -378,6 +378,11 @@ public class ApiService {
                 followingsFirst ? 1 : null, start, count);
     }
 
+    public ApiRequest<ItemCollection> voteItemCollection(CollectableItem.Type itemType, long itemId,
+                                                         long itemCollectionId) {
+        return mFrodoService.voteItemCollection(itemType.getApiString(), itemId, itemCollectionId);
+    }
+
     public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
                                                     Integer start, Integer count) {
         return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, start, count);
@@ -677,6 +682,12 @@ public class ApiService {
                 @Path("itemType") String itemType, @Path("itemId") long itemId,
                 @Query("following") Integer followingsFirst, @Query("start") Integer start,
                 @Query("count") Integer count);
+
+        @POST("{itemType}/{itemId}/vote_interest")
+        @FormUrlEncoded
+        ApiRequest<ItemCollection> voteItemCollection(@Path("itemType") String itemType,
+                                                      @Path("itemId") long itemId,
+                                                      @Field("interest_id") long itemCollectionId);
 
         @GET("{itemType}/{itemId}/forum_topics")
         ApiRequest<ItemForumTopicList> getItemForumTopicList(@Path("itemType") String itemType,

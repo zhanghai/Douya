@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 public class AdapterLinearLayout extends LinearLayout {
@@ -22,6 +23,22 @@ public class AdapterLinearLayout extends LinearLayout {
                 @Override
                 public void onChanged() {
                     onDataSetChanged();
+                }
+                @Override
+                public void onItemRangeChanged(int positionStart, int itemCount) {
+                    AdapterLinearLayout.this.onItemRangeChanged(positionStart, itemCount);
+                }
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    AdapterLinearLayout.this.onItemRangeInserted(positionStart, itemCount);
+                }
+                @Override
+                public void onItemRangeRemoved(int positionStart, int itemCount) {
+                    AdapterLinearLayout.this.onItemRangeRemoved(positionStart, itemCount);
+                }
+                @Override
+                public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                    AdapterLinearLayout.this.onItemRangeMoved(fromPosition, toPosition, itemCount);
                 }
             };
 
@@ -59,16 +76,60 @@ public class AdapterLinearLayout extends LinearLayout {
     }
 
     protected void onDataSetChanged() {
-        removeAllViews();
         if (mAdapter == null) {
             return;
         }
+        removeAllViews();
         for (int position = 0, count = mAdapter.getItemCount(); position < count; ++position) {
-            int viewType = mAdapter.getItemViewType(position);
-            RecyclerView.ViewHolder holder = mAdapter.createViewHolder(this, viewType);
-            //noinspection unchecked
-            mAdapter.bindViewHolder(holder, position);
-            addView(holder.itemView);
+            addItemView(position);
         }
+    }
+
+    protected void onItemRangeChanged(int positionStart, int itemCount) {
+        for (int position = positionStart, positionEnd = positionStart + itemCount;
+             position < positionEnd; ++position) {
+            updateItemView(position);
+        }
+    }
+
+    protected void onItemRangeInserted(int positionStart, int itemCount) {
+        for (int position = positionStart, positionEnd = positionStart + itemCount;
+             position < positionEnd; ++position) {
+            addItemView(position);
+        }
+    }
+
+    protected void onItemRangeRemoved(int positionStart, int itemCount) {
+        for (int i = 0; i < itemCount; ++i) {
+            removeViewAt(positionStart);
+        }
+    }
+
+    protected void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+        View[] itemViews = new View[itemCount];
+        for (int i = 0; i < itemCount; ++i) {
+            itemViews[i] = getChildAt(fromPosition);
+            removeViewAt(fromPosition);
+        }
+        for (int i = 0, position = toPosition; i < itemCount; ++i, ++position) {
+            addView(itemViews[i], position);
+        }
+    }
+
+    private void addItemView(int position) {
+        int viewType = mAdapter.getItemViewType(position);
+        RecyclerView.ViewHolder holder = mAdapter.createViewHolder(this, viewType);
+        //noinspection unchecked
+        mAdapter.bindViewHolder(holder, position);
+        View itemView = holder.itemView;
+        itemView.setTag(holder);
+        addView(itemView, position);
+    }
+
+    private void updateItemView(int position) {
+        View itemView = getChildAt(position);
+        RecyclerView.ViewHolder holder = (RecyclerView.ViewHolder) itemView.getTag();
+        //noinspection unchecked
+        mAdapter.bindViewHolder(holder, position);
     }
 }

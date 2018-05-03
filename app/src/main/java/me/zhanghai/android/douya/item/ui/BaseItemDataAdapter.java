@@ -52,6 +52,8 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
 
     private Listener<T> mListener;
 
+    private ItemCollectionListHolder mItemCollectionListHolder;
+
     public BaseItemDataAdapter(Listener<T> listener) {
         mListener = listener;
     }
@@ -310,11 +312,31 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
                 !itemCollectionList.isEmpty());
         ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
                 itemCollectionListHolder.itemCollectionList.getAdapter();
+        adapter.setItem(item);
         adapter.replace(itemCollectionList);
         itemCollectionListHolder.viewMoreButton.setOnClickListener(view -> {
             // TODO
             UriHandler.open(item.url + "collections", view.getContext());
         });
+        mItemCollectionListHolder = itemCollectionListHolder;
+    }
+
+    public void setItemCollectionListItem(int position, SimpleItemCollection newItemCollection) {
+        if (mItemCollectionListHolder == null) {
+            return;
+        }
+        ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
+                mItemCollectionListHolder.itemCollectionList.getAdapter();
+        adapter.set(position, newItemCollection);
+    }
+
+    public void notifyItemCollectionListItemChanged(int position) {
+        if (mItemCollectionListHolder == null) {
+            return;
+        }
+        ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
+                mItemCollectionListHolder.itemCollectionList.getAdapter();
+        adapter.notifyItemChanged(position);
     }
 
     protected void bindReviewListHolder(RecyclerView.ViewHolder holder, T item,

@@ -7,6 +7,8 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:state_enabled="false" android:color="@color/blue_300" />
+
     <item android:state_activated="true" android:color="?colorControlActivated" />
 
     <item android:color="?colorControlNormal" />

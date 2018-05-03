@@ -8,6 +8,7 @@
 <resources>
 
     <color name="blue_50">#e3f2fD</color>
+    <color name="blue_300">#64B5F6</color>
     <color name="blue_500">#2196f3</color>
     <color name="blue_700">#1976d2</color>
 

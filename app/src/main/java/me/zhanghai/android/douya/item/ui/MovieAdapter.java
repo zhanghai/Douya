@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.support.v7.widget.RecyclerView;
 
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.ui.BarrierAdapter;
 
 public class MovieAdapter extends BarrierAdapter {
@@ -26,5 +27,13 @@ public class MovieAdapter extends BarrierAdapter {
 
     public void notifyItemCollectionChanged() {
         mDataAdapter.notifyItemCollectionChanged();
+    }
+
+    public void setItemCollectionListItem(int position, SimpleItemCollection newItemCollection) {
+        mDataAdapter.setItemCollectionListItem(position, newItemCollection);
+    }
+
+    public void notifyItemCollectionListItemChanged(int position) {
+        mDataAdapter.notifyItemCollectionListItemChanged(position);
     }
 }

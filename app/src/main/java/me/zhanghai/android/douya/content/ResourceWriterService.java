@@ -23,6 +23,7 @@ import me.zhanghai.android.douya.broadcast.content.SendBroadcastManager;
 import me.zhanghai.android.douya.followship.content.FollowUserManager;
 import me.zhanghai.android.douya.item.content.CollectItemManager;
 import me.zhanghai.android.douya.item.content.UncollectItemManager;
+import me.zhanghai.android.douya.item.content.VoteItemCollectionManager;
 
 public class ResourceWriterService extends Service {
 
@@ -45,6 +46,7 @@ public class ResourceWriterService extends Service {
         addWriterManager(SendBroadcastCommentManager.getInstance());
         addWriterManager(CollectItemManager.getInstance());
         addWriterManager(UncollectItemManager.getInstance());
+        addWriterManager(VoteItemCollectionManager.getInstance());
     }
 
     private void addWriterManager(ResourceWriterManager writerManager) {

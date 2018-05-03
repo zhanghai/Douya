@@ -9,16 +9,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 import java.util.List;
 
 import me.zhanghai.android.douya.content.MoreBaseListResourceFragment;
+import me.zhanghai.android.douya.eventbus.ItemCollectionUpdatedEvent;
+import me.zhanghai.android.douya.eventbus.ItemCollectionWriteFinishedEvent;
+import me.zhanghai.android.douya.eventbus.ItemCollectionWriteStartedEvent;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.ItemCollectionList;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ItemCollectionListResource
@@ -116,6 +122,56 @@ public class ItemCollectionListResource
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onItemCollectionUpdated(ItemCollectionUpdatedEvent event) {
+
+        if (event.isFromMyself(this) || isEmpty()) {
+            return;
+        }
+
+        List<SimpleItemCollection> itemCollectionList = get();
+        for (int i = 0, size = itemCollectionList.size(); i < size; ++i) {
+            SimpleItemCollection itemCollection = itemCollectionList.get(i);
+            if (itemCollection.id == event.itemCollection.id) {
+                itemCollectionList.set(i, event.itemCollection);
+                getListener().onItemCollectionListItemChanged(getRequestCode(), i,
+                        itemCollectionList.get(i));
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onItemCollectionWriteStarted(ItemCollectionWriteStartedEvent event) {
+
+        if (event.isFromMyself(this) || isEmpty()) {
+            return;
+        }
+
+        List<SimpleItemCollection> itemCollectionList = get();
+        for (int i = 0, size = itemCollectionList.size(); i < size; ++i) {
+            SimpleItemCollection itemCollection = itemCollectionList.get(i);
+            if (itemCollection.id == event.itemCollectionId) {
+                getListener().onItemCollectionListItemWriteStarted(getRequestCode(), i);
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onItemCollectionWriteFinished(ItemCollectionWriteFinishedEvent event) {
+
+        if (event.isFromMyself(this) || isEmpty()) {
+            return;
+        }
+
+        List<SimpleItemCollection> itemCollectionList = get();
+        for (int i = 0, size = itemCollectionList.size(); i < size; ++i) {
+            SimpleItemCollection itemCollection = itemCollectionList.get(i);
+            if (itemCollection.id == event.itemCollectionId) {
+                getListener().onItemCollectionListItemWriteFinished(getRequestCode(), i);
+            }
+        }
+    }
+
     private Listener getListener() {
         return (Listener) getTarget();
     }
@@ -134,5 +190,9 @@ public class ItemCollectionListResource
          */
         void onItemCollectionListAppended(int requestCode,
                                           List<SimpleItemCollection> appendedItemCollectionList);
+        void onItemCollectionListItemChanged(int requestCode, int position,
+                                             SimpleItemCollection newItemCollection);
+        void onItemCollectionListItemWriteStarted(int requestCode, int position);
+        void onItemCollectionListItemWriteFinished(int requestCode, int position);
     }
 }

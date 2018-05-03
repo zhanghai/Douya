@@ -329,6 +329,22 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
+    public void onItemCollectionListItemChanged(int requestCode, int position,
+                                                SimpleItemCollection newItemCollection) {
+        getListener().onItemCollectionListItemChanged(getRequestCode(), position, newItemCollection);
+    }
+
+    @Override
+    public void onItemCollectionListItemWriteStarted(int requestCode, int position) {
+        getListener().onItemCollectionListItemWriteStarted(getRequestCode(), position);
+    }
+
+    @Override
+    public void onItemCollectionListItemWriteFinished(int requestCode, int position) {
+        getListener().onItemCollectionListItemWriteFinished(getRequestCode(), position);
+    }
+
+    @Override
     public void onLoadReviewListStarted(int requestCode) {}
 
     @Override
@@ -498,5 +514,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         void onLoadError(int requestCode, ApiError error);
         void onItemChanged(int requestCode, ItemType newItem);
         void onItemCollectionChanged(int requestCode);
+        void onItemCollectionListItemChanged(int requestCode, int position,
+                                             SimpleItemCollection newItemCollection);
+        void onItemCollectionListItemWriteStarted(int requestCode, int position);
+        void onItemCollectionListItemWriteFinished(int requestCode, int position);
     }
 }
