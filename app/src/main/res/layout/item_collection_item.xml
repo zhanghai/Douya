@@ -94,7 +94,7 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:duplicateParentState="true"
                 android:src="@drawable/like_icon_white_18dp"
-                app:tint="@drawable/item_collection_vote_tint"
+                app:tint="@color/item_collection_vote_tint"
                 tools:ignore="MissingPrefix" />
 
             <me.zhanghai.android.douya.ui.AutoGoneTextView
@@ -103,9 +103,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-2dp"
                 android:layout_marginTop="1dp"
+                android:duplicateParentState="true"
                 android:includeFontPadding="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@drawable/item_collection_vote_tint" />
+                android:textColor="@color/item_collection_vote_tint" />
         </LinearLayout>
 
         <ImageButton
