@@ -23,9 +23,9 @@ import me.zhanghai.android.douya.util.TimeUtils;
 
 public class SimpleMovie extends CollectableItem {
 
-    public ArrayList<Celebrity> actors = new ArrayList<>();
+    public ArrayList<SimpleCelebrity> actors = new ArrayList<>();
 
-    public ArrayList<Celebrity> directors = new ArrayList<>();
+    public ArrayList<SimpleCelebrity> directors = new ArrayList<>();
 
     public ArrayList<String> genres = new ArrayList<>();
 
@@ -94,8 +94,8 @@ public class SimpleMovie extends CollectableItem {
     protected SimpleMovie(Parcel in) {
         super(in);
 
-        actors = in.createTypedArrayList(Celebrity.CREATOR);
-        directors = in.createTypedArrayList(Celebrity.CREATOR);
+        actors = in.createTypedArrayList(SimpleCelebrity.CREATOR);
+        directors = in.createTypedArrayList(SimpleCelebrity.CREATOR);
         genres = in.createStringArrayList();
         hasOnlineSource = in.readByte() != 0;
         releaseDate = in.readString();

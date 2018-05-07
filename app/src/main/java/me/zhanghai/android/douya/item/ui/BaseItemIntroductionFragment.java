@@ -25,8 +25,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.frodo.Celebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.ui.AdapterGridLinearLayout;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -126,11 +126,11 @@ public abstract class BaseItemIntroductionFragment<T extends CollectableItem> ex
         addTextListToData(titleRes, textList, getString(R.string.item_information_delimiter), data);
     }
 
-    protected void addCelebrityListToData(int titleRes, List<Celebrity> celebrityList,
+    protected void addCelebrityListToData(int titleRes, List<SimpleCelebrity> celebrityList,
                                           List<Pair<String, String>> data) {
         if (!CollectionUtils.isEmpty(celebrityList)) {
             List<String> celebrityNameList = new ArrayList<>();
-            for (Celebrity director : celebrityList) {
+            for (SimpleCelebrity director : celebrityList) {
                 celebrityNameList.add(director.name);
             }
             addTextListToData(titleRes, celebrityNameList, getString(
