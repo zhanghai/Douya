@@ -12,6 +12,10 @@ public abstract class BarrierDataAdapter<VH extends RecyclerView.ViewHolder>
 
     private int mBoundItemCount;
 
+    public BarrierDataAdapter() {
+        setHasStableIds(true);
+    }
+
     @Override
     public int getItemCount() {
         int count = 0;
