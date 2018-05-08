@@ -10,9 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,8 +25,8 @@ import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleMusic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
+import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -42,7 +42,7 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         ITEM_COLLECTION,
         BADGE_LIST,
         INTRODUCTION,
-        SONG_LIST,
+        TRACK_LIST,
         RATING,
         ITEM_COLLECTION_LIST,
         REVIEW_LIST,
@@ -91,7 +91,7 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
                 return mData.rating != null;
             case INTRODUCTION:
                 return true;
-            case SONG_LIST:
+            case TRACK_LIST:
                 return true;
             case RATING:
                 return mData.rating != null;
@@ -122,8 +122,8 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
                 return createBadgeListHolder(parent);
             case INTRODUCTION:
                 return createIntroductionHolder(parent);
-            case SONG_LIST:
-                return createSongListHolder(parent);
+            case TRACK_LIST:
+                return createTrackListHolder(parent);
             case RATING:
                 return createRatingHolder(parent);
             case ITEM_COLLECTION_LIST:
@@ -145,9 +145,8 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         return new HeaderHolder(ViewUtils.inflate(R.layout.item_fragment_music_header, parent));
     }
 
-    private SongListHolder createSongListHolder(ViewGroup parent) {
-        // TODO
-        return new SongListHolder(ViewUtils.inflate(R.layout.item_fragment_introduction, parent));
+    private TrackListHolder createTrackListHolder(ViewGroup parent) {
+        return new TrackListHolder(ViewUtils.inflate(R.layout.item_fragment_track_list, parent));
     }
 
     @Override
@@ -167,8 +166,8 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
             case INTRODUCTION:
                 bindIntroductionHolder(holder, mData.music);
                 break;
-            case SONG_LIST:
-                bindSongListHolder(holder, mData.music);
+            case TRACK_LIST:
+                bindTrackListHolder(holder, mData.music);
                 break;
             case RATING:
                 bindRatingHolder(holder, mData.music, mData.rating);
@@ -235,8 +234,8 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         });
     }
 
-    private void bindSongListHolder(RecyclerView.ViewHolder holder, Music music) {
-        SongListHolder songListHolder = (SongListHolder) holder;
+    private void bindTrackListHolder(RecyclerView.ViewHolder holder, Music music) {
+        TrackListHolder trackListHolder = (TrackListHolder) holder;
         // TODO
     }
 
@@ -285,9 +284,14 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         }
     }
 
-    static class SongListHolder extends RecyclerView.ViewHolder {
+    static class TrackListHolder extends RecyclerView.ViewHolder {
 
-        public SongListHolder(View itemView) {
+        @BindView(R.id.play_all)
+        public Button playAllButton;
+        @BindView(R.id.track_list)
+        public AdapterLinearLayout trackList;
+
+        public TrackListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
