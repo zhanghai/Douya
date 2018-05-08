@@ -32,7 +32,7 @@ public class Music extends SimpleMusic {
     public String tracksUrl;
 
     @SerializedName("version")
-    public ArrayList<String> versions = new ArrayList<>();
+    public ArrayList<String> types = new ArrayList<>();
 
 
     public static final Creator<Music> CREATOR = new Creator<Music>() {
@@ -57,7 +57,7 @@ public class Music extends SimpleMusic {
         publishers = in.createStringArrayList();
         tracks = in.createTypedArrayList(Track.CREATOR);
         tracksUrl = in.readString();
-        versions = in.createStringArrayList();
+        types = in.createStringArrayList();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Music extends SimpleMusic {
         dest.writeStringList(publishers);
         dest.writeTypedList(tracks);
         dest.writeString(tracksUrl);
-        dest.writeStringList(versions);
+        dest.writeStringList(types);
     }
 
 

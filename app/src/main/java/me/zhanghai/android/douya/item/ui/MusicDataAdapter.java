@@ -208,11 +208,7 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         headerHolder.titleText.setText(music.title);
         Context context = RecyclerViewUtils.getContext(holder);
         String slashDelimiter = context.getString(R.string.item_information_delimiter_slash);
-        List<String> artistsNames = new ArrayList<>();
-        for (SimpleMusic.Artist artist : music.artists) {
-            artistsNames.add(artist.name);
-        }
-        headerHolder.artistsText.setText(StringCompat.join(slashDelimiter, artistsNames));
+        headerHolder.artistsText.setText(StringCompat.join(slashDelimiter, music.getArtistNames()));
         String spaceDelimiter = context.getString(R.string.item_information_delimiter_space);
         String detail = StringUtils.joinNonEmpty(spaceDelimiter, music.getYearMonth(context),
                 StringCompat.join(slashDelimiter, music.publishers));

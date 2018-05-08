@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleMusic extends CollectableItem {
 
@@ -25,6 +26,14 @@ public class SimpleMusic extends CollectableItem {
 
     public String getYearMonth(Context context) {
         return CollectableItem.getYearMonth(releaseDates, context);
+    }
+
+    public List<String> getArtistNames() {
+        List<String> artistNames = new ArrayList<>();
+        for (Artist artist : artists) {
+            artistNames.add(artist.name);
+        }
+        return artistNames;
     }
 
 

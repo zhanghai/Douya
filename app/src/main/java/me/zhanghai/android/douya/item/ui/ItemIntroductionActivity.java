@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
+import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ItemIntroductionActivity extends AppCompatActivity {
@@ -55,8 +56,8 @@ public class ItemIntroductionActivity extends AppCompatActivity {
                     fragment = MovieIntroductionFragment.newInstance((Movie) item);
                     break;
                 case MUSIC:
-                    // TODO
-                    throw new UnsupportedOperationException();
+                    fragment = MusicIntroductionFragment.newInstance((Music) item);
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
