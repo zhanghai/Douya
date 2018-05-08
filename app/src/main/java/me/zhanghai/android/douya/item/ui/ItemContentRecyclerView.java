@@ -18,13 +18,12 @@ import me.zhanghai.android.douya.R;
 
 public class ItemContentRecyclerView extends RecyclerView {
 
-    private float mBackdropRatio;
-    private View mBackdropWrapper;
-
     @BindDimen(R.dimen.item_content_padding_top_max)
     int mPaddingTopMax;
-    @BindDimen(R.dimen.screen_edge_horizontal_margin_negative)
-    int mPaddingTopNegativeMargin;
+
+    private float mBackdropRatio;
+    private int mPaddingTopNegativeMargin;
+    private View mBackdropWrapper;
 
     public ItemContentRecyclerView(Context context) {
         super(context);
@@ -63,6 +62,18 @@ public class ItemContentRecyclerView extends RecyclerView {
 
     public void setBackdropRatio(float width, float height) {
         setBackdropRatio(width / height);
+    }
+
+    public int getPaddingTopNegativeMargin() {
+        return mPaddingTopNegativeMargin;
+    }
+
+    public void setPaddingTopNegativeMargin(int paddingTopNegativeMargin) {
+        if (mPaddingTopNegativeMargin != paddingTopNegativeMargin) {
+            mPaddingTopNegativeMargin = paddingTopNegativeMargin;
+            requestLayout();
+            invalidate();
+        }
     }
 
     @Override

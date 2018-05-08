@@ -9,6 +9,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import butterknife.BindDimen;
+import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.ConfirmUncollectItemDialogFragment;
@@ -33,6 +35,9 @@ import me.zhanghai.android.douya.util.ImageUtils;
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         implements MovieFragmentResource.Listener, MovieDataAdapter.Listener,
         ConfirmUncollectItemDialogFragment.Listener {
+
+    @BindDimen(R.dimen.screen_edge_horizontal_margin_negative)
+    int mContentListPaddingTopNegativeMargin;
 
     private MovieAdapter mAdapter;
 
@@ -62,6 +67,11 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     protected BarrierAdapter onCreateAdapter() {
         mAdapter = new MovieAdapter(this);
         return mAdapter;
+    }
+
+    @Override
+    protected int getContentListPaddingTopNegativeMargin() {
+        return mContentListPaddingTopNegativeMargin;
     }
 
     @Override

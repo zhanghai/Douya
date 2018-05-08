@@ -139,6 +139,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         mAdapter = onCreateAdapter();
         mContentList.setAdapter(mAdapter);
         mContentList.setBackdropRatio(mBackdropImage.getRatio());
+        mContentList.setPaddingTopNegativeMargin(getContentListPaddingTopNegativeMargin());
         mContentList.setBackdropWrapper(mBackdropWrapperLayout);
         mContentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int mScrollY;
@@ -236,6 +237,10 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
             long itemId, SimpleItemType simpleItem, ItemType item);
 
     protected abstract BarrierAdapter onCreateAdapter();
+
+    protected int getContentListPaddingTopNegativeMargin() {
+        return 0;
+    }
 
     @Override
     public void onDestroy() {
