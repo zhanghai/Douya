@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,17 +36,26 @@ public class RecommendationListAdapter
         return getItem(position).id;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.item_recommendation_item,
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(ViewUtils.inflate(R.layout.item_recommendation_item,
                 parent));
-        holder.coverImage.setRatio(27, 40);
-        return holder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CollectableItem item = getItem(position);
+        float ratio = 1;
+        switch (item.getType()) {
+            case BOOK:
+            case EVENT:
+            case MOVIE:
+            case TV:
+                ratio = 2f / 3f;
+                break;
+        }
+        holder.coverImage.setRatio(ratio);
         ImageUtils.loadImage(holder.coverImage, item.cover);
         holder.titleText.setText(item.title);
         boolean hasRating = item.rating.hasRating();
