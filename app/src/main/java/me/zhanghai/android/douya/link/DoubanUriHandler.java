@@ -11,15 +11,14 @@ import android.content.UriMatcher;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
-import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
 import me.zhanghai.android.douya.item.ui.MovieActivity;
+import me.zhanghai.android.douya.item.ui.MusicActivity;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.util.UriUtils;
 
@@ -32,6 +31,7 @@ public class DoubanUriHandler {
 
     private static final String AUTHORITY = "www.douban.com";
     private static final String AUTHORITY_MOVIE = "movie.douban.com";
+    private static final String AUTHORITY_MUSIC = "music.douban.com";
     private static final String AUTHORITY_FRODO = "douban.com";
 
     private enum UriType {
@@ -57,7 +57,9 @@ public class DoubanUriHandler {
         // Not handling "people/*/statuses" because Frodo API cannot handle it.
         USER_BROADCAST_LIST("people/#/statuses"),
         MOVIE(AUTHORITY_MOVIE, "subject/#"),
-        MOVIE_FRODO(AUTHORITY_FRODO, "movie/#");
+        MOVIE_FRODO(AUTHORITY_FRODO, "movie/#"),
+        MUSIC(AUTHORITY_MUSIC, "subject/#"),
+        MUSIC_FRODO(AUTHORITY_FRODO, "music/#");
 
         String mAuthority;
         String mPath;
@@ -143,6 +145,10 @@ public class DoubanUriHandler {
             case MOVIE:
             case MOVIE_FRODO:
                 intent = MovieActivity.makeIntent(UriUtils.parseId(uri), context);
+                break;
+            case MUSIC:
+            case MUSIC_FRODO:
+                intent = MusicActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
             default:
                 return false;

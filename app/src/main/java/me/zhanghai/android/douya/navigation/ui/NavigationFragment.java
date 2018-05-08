@@ -112,35 +112,35 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
             TintHelper.setNavigationItemTint(mNavigationView, ViewUtils.getColorFromAttrRes(
                     android.R.attr.textColorPrimary, Color.BLACK, activity));
         }
-        mNavigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.navigation_home:
-                                break;
-                            case R.id.navigation_movie:
-                                // TODO
-                                UriHandler.open("https://movie.douban.com/", getActivity());
-                                break;
-                            case R.id.navigation_calendar:
-                                openCalendar();
-                                break;
-                            case R.id.navigation_settings:
-                                openSettings();
-                                break;
-                            default:
-                                // TODO
-                                NotImplementedManager.showNotYetImplementedToast(getActivity());
-                        }
-                        // TODO
-                        if (menuItem.getGroupId() == R.id.navigation_group_primary) {
-                            menuItem.setChecked(true);
-                        }
-                        getDrawer().closeDrawer(getView());
-                        return true;
-                    }
-                });
+        mNavigationView.setNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_home:
+                    break;
+                case R.id.navigation_movie:
+                    // TODO
+                    UriHandler.open("https://movie.douban.com/", getActivity());
+                    break;
+                case R.id.navigation_music:
+                    // TODO
+                    UriHandler.open("https://music.douban.com/", getActivity());
+                    break;
+                case R.id.navigation_calendar:
+                    openCalendar();
+                    break;
+                case R.id.navigation_settings:
+                    openSettings();
+                    break;
+                default:
+                    // TODO
+                    NotImplementedManager.showNotYetImplementedToast(getActivity());
+            }
+            // TODO
+            if (menuItem.getGroupId() == R.id.navigation_group_primary) {
+                menuItem.setChecked(true);
+            }
+            getDrawer().closeDrawer(getView());
+            return true;
+        });
         // FIXME: Check remembered checked position.
         mNavigationView.getMenu().getItem(0).setChecked(true);
         mNavigationViewAdapter = NavigationViewAdapter.override(mNavigationView, this, this);
