@@ -40,8 +40,8 @@ public class CompleteCollectableItem {
                     case TV:
                         type = Movie.class;
                         break;
-//                case MUSIC:
-//
+                    case MUSIC:
+                        type = Music.class;
                 }
             }
             if (type == null) {

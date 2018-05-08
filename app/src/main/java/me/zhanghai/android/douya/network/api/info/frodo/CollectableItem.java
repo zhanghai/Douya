@@ -175,8 +175,9 @@ public abstract class CollectableItem extends BaseItem {
                     case TV:
                         type = SimpleMovie.class;
                         break;
-//                case MUSIC:
-//
+                    case MUSIC:
+                        type = SimpleMusic.class;
+                        break;
                 }
             }
             if (type == null) {
