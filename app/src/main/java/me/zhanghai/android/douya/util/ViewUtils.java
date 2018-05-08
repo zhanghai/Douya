@@ -405,13 +405,23 @@ public class ViewUtils {
         });
     }
 
-    public static void postOnPreDraw(final View view, final Runnable runnable) {
+    public static void postOnPreDraw(View view, Runnable runnable) {
         view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 view.getViewTreeObserver().removeOnPreDrawListener(this);
                 runnable.run();
                 return true;
+            }
+        });
+    }
+
+    public static void postOnPreDraw(View view, FunctionCompat.BooleanSupplier runnable) {
+        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                view.getViewTreeObserver().removeOnPreDrawListener(this);
+                return runnable.getAsBoolean();
             }
         });
     }
