@@ -167,6 +167,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
                 }
                 // FIXME: Animate out backdrop layout later.
                 mBackdropLayout.setTranslationY((float) -mScrollY / 2);
+                mBackdropScrim.setTranslationY((float) mScrollY / 2);
             }
         });
         int colorPrimaryDark = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0, activity);
