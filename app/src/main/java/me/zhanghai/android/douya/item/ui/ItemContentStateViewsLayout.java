@@ -6,7 +6,10 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -20,19 +23,40 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class ItemContentStateViewsLayout extends FrameLayout {
 
+    @BindDimen(R.dimen.item_content_padding_top_max)
+    int mPaddingTopMax;
+
     private float mBackdropRatio;
 
-    public ItemContentStateViewsLayout(Context context) {
+    public ItemContentStateViewsLayout(@NonNull Context context) {
         super(context);
+
+        init();
     }
 
-    public ItemContentStateViewsLayout(Context context, @Nullable AttributeSet attrs) {
+    public ItemContentStateViewsLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
+        init();
     }
 
-    public ItemContentStateViewsLayout(Context context, @Nullable AttributeSet attrs,
+    public ItemContentStateViewsLayout(@NonNull Context context, @Nullable AttributeSet attrs,
                                        int defStyle) {
         super(context, attrs, defStyle);
+
+        init();
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    public ItemContentStateViewsLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                                       int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+
+        init();
+    }
+
+    private void init() {
+        ButterKnife.bind(this);
     }
 
     public float getBackdropRatio() {
@@ -55,13 +79,13 @@ public class ItemContentStateViewsLayout extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mBackdropRatio > 0) {
             int width = MeasureSpec.getSize(widthMeasureSpec);
-            int backdropHeight = Math.round(width / mBackdropRatio);
-            if (ViewUtils.isInPortait(getContext())) {
-                setPadding(getPaddingLeft(), backdropHeight, getPaddingRight(), getPaddingBottom());
-            } else {
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(backdropHeight,
-                        MeasureSpec.getMode(heightMeasureSpec));
+            int paddingTop = Math.round(width / mBackdropRatio);
+            if (mPaddingTopMax > 0) {
+                paddingTop = Math.min(paddingTop, mPaddingTopMax);
             }
+            // HACK: Fix off-by-one-pixel visual glitch.
+            --paddingTop;
+            setPadding(getPaddingLeft(), paddingTop, getPaddingRight(), getPaddingBottom());
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

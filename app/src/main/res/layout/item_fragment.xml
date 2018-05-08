@@ -57,6 +57,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <me.zhanghai.android.douya.item.ui.ItemContentStateViewsLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/content_state_views"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/item_content_horizontal_margin"
+                android:layout_marginRight="@dimen/item_content_horizontal_margin"
+                android:background="?colorBackgroundFloating">
+
+                <include layout="@layout/content_state_layout_default_loading_view" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/item_content_horizontal_margin"
+                android:layout_marginRight="@dimen/item_content_horizontal_margin"
+                android:background="?colorBackgroundFloating">
+
+                <include layout="@layout/content_state_layout_default_empty_view" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/item_content_horizontal_margin"
+                android:layout_marginRight="@dimen/item_content_horizontal_margin"
+                android:background="?colorBackgroundFloating">
+
+                <include layout="@layout/content_state_layout_default_error_view" />
+            </FrameLayout>
+        </me.zhanghai.android.douya.item.ui.ItemContentStateViewsLayout>
+
         <me.zhanghai.android.douya.item.ui.ItemContentRecyclerView
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -64,8 +104,6 @@
             android:clipToPadding="false"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay" />
-
-        <include layout="@layout/item_fragment_content_state_views" />
     </me.zhanghai.android.douya.ui.ContentStateLayout>
 
     <me.zhanghai.android.douya.ui.AppBarWrapperLayout
