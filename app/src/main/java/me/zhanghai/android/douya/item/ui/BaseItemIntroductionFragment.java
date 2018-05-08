@@ -87,7 +87,9 @@ public abstract class BaseItemIntroductionFragment<T extends CollectableItem> ex
         TintHelper.onSetSupportActionBar(mToolbar);
         activity.setTitle(mItem.title);
 
-        mIntroductionText.setText(mItem.getPrettyIntroduction());
+        mIntroductionText.setText(!TextUtils.isEmpty(mItem.introduction) ?
+                mItem.getPrettyIntroduction() : activity.getString(
+                R.string.item_introduction_empty));
 
         List<Pair<String, String>> informationData = makeInformationData();
         boolean hasInformationData = !informationData.isEmpty();

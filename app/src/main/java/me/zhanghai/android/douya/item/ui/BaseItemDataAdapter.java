@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -249,7 +250,9 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
 
     protected void bindIntroductionHolder(RecyclerView.ViewHolder holder, T item) {
         IntroductionHolder introductionHolder = (IntroductionHolder) holder;
-        introductionHolder.introductionText.setText(item.introduction);
+        introductionHolder.introductionText.setText(!TextUtils.isEmpty(item.introduction) ?
+                item.introduction : introductionHolder.introductionText.getContext().getString(
+                R.string.item_introduction_empty));
     }
 
     protected void bindPhotoListHolder(RecyclerView.ViewHolder holder, T item,

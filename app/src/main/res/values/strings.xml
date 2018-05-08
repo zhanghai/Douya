@@ -334,6 +334,7 @@
     <string name="item_rating_format">%1$.1f</string>
     <string name="item_rating_format_ten">%1$.0f</string>
     <string name="item_rating_count_format">%1$,d</string>
+    <string name="item_introduction_empty">（暂无简介）</string>
     <string name="item_introduction_title">条目简介</string>
     <string name="item_photo_list_view_more">全部剧照</string>
     <string name="item_celebrity_director">导演</string>
