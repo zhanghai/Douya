@@ -11,6 +11,7 @@
     <attr name="colorPrimaryDarkWithoutSystemWindowScrim" format="color" />
     <attr name="colorPrimaryLight" format="color" />
     <attr name="textColorPrimaryDark" format="color" />
+    <attr name="iconButtonTint" format="color" />
 
     <declare-styleable name="CardIconButton">
         <attr name="android:src" />

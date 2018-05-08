@@ -274,6 +274,7 @@
         <item name="colorPrimaryLight">@color/movie_primary_light</item>
         <item name="colorAccent">@color/movie_accent</item>
         <item name="textColorPrimaryDark">@color/movie_primary_dark</item>
+        <item name="iconButtonTint">@color/icon_button_tint_movie</item>
         <item name="android:windowBackground">@color/grey_200</item>
         <item name="darkTheme">@style/DarkTheme.Light.Movie</item>
     </style>
@@ -281,6 +282,7 @@
         <item name="colorPrimaryLight">@color/grey_850</item>
         <item name="colorAccent">@color/movie_accent</item>
         <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_movie</item>
         <item name="darkTheme">@style/DarkTheme</item>
     </style>
     <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie" />
@@ -290,15 +292,56 @@
         <item name="colorPrimaryLight">@color/movie_primary_light</item>
         <item name="colorAccent">@color/movie_accent</item>
         <item name="textColorPrimaryDark">@color/movie_primary_dark</item>
+        <item name="iconButtonTint">@color/icon_button_tint_movie</item>
         <item name="darkTheme">@style/DarkTheme.Light.Movie</item>
     </style>
     <style name="Base.Theme.Douya.Movie.DialogWhenLarge.Dark" parent="Theme.Douya.DialogWhenLarge">
         <item name="colorPrimaryLight">@color/grey_850</item>
         <item name="colorAccent">@color/movie_accent</item>
         <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_movie</item>
         <item name="darkTheme">@style/DarkTheme</item>
     </style>
     <style name="Theme.Douya.Movie.DialogWhenLarge" parent="Base.Theme.Douya.Movie.DialogWhenLarge" />
+
+    <style name="DarkTheme.Light.Music" parent="DarkTheme.Light">
+        <item name="colorAccent">@color/music_accent</item>
+    </style>
+    <style name="Base.Theme.Douya.Music" parent="Theme.Douya">
+        <item name="colorPrimary">@color/music_primary</item>
+        <item name="colorPrimaryDark">@color/music_primary_dark</item>
+        <item name="colorPrimaryLight">@color/music_primary_light</item>
+        <item name="colorAccent">@color/music_accent</item>
+        <item name="textColorPrimaryDark">@color/music_primary_dark</item>
+        <item name="android:windowBackground">@color/grey_200</item>
+        <item name="iconButtonTint">@color/icon_button_tint_music</item>
+        <item name="darkTheme">@style/DarkTheme.Light.Music</item>
+    </style>
+    <style name="Base.Theme.Douya.Music.Dark" parent="Theme.Douya">
+        <item name="colorPrimaryLight">@color/grey_850</item>
+        <item name="colorAccent">@color/music_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_music</item>
+        <item name="darkTheme">@style/DarkTheme</item>
+    </style>
+    <style name="Theme.Douya.Music" parent="Base.Theme.Douya.Music" />
+    <style name="Base.Theme.Douya.Music.DialogWhenLarge" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimary">@color/music_primary</item>
+        <item name="colorPrimaryDark">@color/music_primary_dark</item>
+        <item name="colorPrimaryLight">@color/music_primary_light</item>
+        <item name="colorAccent">@color/music_accent</item>
+        <item name="textColorPrimaryDark">@color/music_primary_dark</item>
+        <item name="iconButtonTint">@color/icon_button_tint_music</item>
+        <item name="darkTheme">@style/DarkTheme.Light.Music</item>
+    </style>
+    <style name="Base.Theme.Douya.Music.DialogWhenLarge.Dark" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimaryLight">@color/grey_850</item>
+        <item name="colorAccent">@color/music_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_music</item>
+        <item name="darkTheme">@style/DarkTheme</item>
+    </style>
+    <style name="Theme.Douya.Music.DialogWhenLarge" parent="Base.Theme.Douya.Music.DialogWhenLarge" />
 
     <style name="Base.ThemeOverlay.Douya.Calendar" parent="">
         <item name="android:textColorSecondary">@color/calendar_secondary_text_light</item>

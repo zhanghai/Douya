@@ -162,6 +162,11 @@
             android:theme="@style/Theme.Douya.Movie" />
 
         <activity
+            android:name=".item.ui.MusicActivity"
+            android:label="@string/item_music_title"
+            android:theme="@style/Theme.Douya.Music" />
+
+        <activity
             android:name=".item.ui.ItemCollectionActivity"
             android:label="@string/item_collection_title"
             android:theme="@style/Theme.Douya.DialogWhenLarge" />

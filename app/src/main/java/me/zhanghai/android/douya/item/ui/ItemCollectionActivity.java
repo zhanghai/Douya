@@ -61,6 +61,7 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
                 themeRes = R.style.Theme_Douya_Movie_DialogWhenLarge;
                 break;
             case MUSIC:
+                themeRes = R.style.Theme_Douya_Music_DialogWhenLarge;
                 break;
         }
         if (themeRes != 0) {

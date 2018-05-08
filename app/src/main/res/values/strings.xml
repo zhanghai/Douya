@@ -318,6 +318,7 @@
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
     <string name="item_movie_title">电影</string>
+    <string name="item_music_title">音乐</string>
     <string name="item_information_delimiter">" / "</string>
     <string name="item_collection_edit">修改</string>
     <string name="item_collection_uncollect">删除</string>

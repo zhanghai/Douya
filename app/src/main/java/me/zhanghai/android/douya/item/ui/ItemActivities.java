@@ -8,10 +8,11 @@ package me.zhanghai.android.douya.item.ui;
 import android.content.Context;
 import android.content.Intent;
 
-import me.zhanghai.android.douya.BuildConfig;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
+import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleMusic;
 
 public class ItemActivities {
 
@@ -22,11 +23,17 @@ public class ItemActivities {
             return MovieActivity.makeIntent((Movie) item, context);
         } else if (item instanceof SimpleMovie) {
             return MovieActivity.makeIntent((SimpleMovie) item, context);
+        } else if (item instanceof Music) {
+            return MusicActivity.makeIntent((Music) item, context);
+        } else if (item instanceof SimpleMusic) {
+            return MusicActivity.makeIntent((SimpleMusic) item, context);
         } else {
             switch (item.getType()) {
                 case MOVIE:
                 case TV:
                     return MovieActivity.makeIntent(item.id, context);
+                case MUSIC:
+                    return MusicActivity.makeIntent(item.id, context);
                 default:
                     return null;
             }

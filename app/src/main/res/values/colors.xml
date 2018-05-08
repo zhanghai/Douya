@@ -27,6 +27,11 @@
     <color name="grey_800">#424242</color>
     <color name="grey_850">#303030</color>
 
+    <color name="teal_50">#e0f2f1</color>
+    <color name="teal_300">#4db6ac</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_700">#00796b</color>
+
     <color name="dark_30_percent">#4d000000</color>
     <color name="dark_50_percent">#80000000</color>
     <color name="dark_70_percent">#b3000000</color>
@@ -47,6 +52,11 @@
     <color name="movie_primary_dark">@color/blue_700</color>
     <color name="movie_primary_light">@color/blue_50</color>
     <color name="movie_accent">@color/blue_500</color>
+
+    <color name="music_primary">@color/teal_500</color>
+    <color name="music_primary_dark">@color/teal_700</color>
+    <color name="music_primary_light">@color/teal_50</color>
+    <color name="music_accent">@color/teal_500</color>
 
     <color name="calendar_secondary_text_light">#b3000000</color>
     <color name="calendar_secondary_text_dark">#b3ffffff</color>
