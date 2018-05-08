@@ -16,7 +16,7 @@ import android.provider.Settings;
 
 import java.io.File;
 
-public class IntentUtils {
+public class /**/IntentUtils {
 
     private static final String ACTION_INSTALL_SHORTCUT =
             "com.android.launcher.action.INSTALL_SHORTCUT";
@@ -182,6 +182,11 @@ public class IntentUtils {
 
     public static Intent makeView(Uri uri) {
         return new Intent(Intent.ACTION_VIEW, uri);
+    }
+
+    public static Intent makeViewWithType(Uri uri, Context context) {
+        return new Intent(Intent.ACTION_VIEW)
+                .setDataAndType(uri, UriUtils.getType(uri, context));
     }
 
     public static Intent makeViewAppInMarket(String packageName) {
