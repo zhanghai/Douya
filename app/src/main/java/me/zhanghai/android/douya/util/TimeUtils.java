@@ -127,4 +127,19 @@ public class TimeUtils {
     public static String formatDate(ZonedDateTime dateTime, Context context) {
         return formatDate(dateTime.toLocalDate(), dateTime.getZone(), context);
     }
+
+    public static String formatDuration(long seconds, Context context) {
+        Duration duration = Duration.ofSeconds(seconds);
+        long hours = duration.toHours();
+        duration = duration.minusHours(hours);
+        long minutes = duration.toMinutes();
+        duration = duration.minusMinutes(minutes);
+        seconds = duration.getSeconds();
+        if (hours > 0) {
+            return context.getString(R.string.duration_hour_minute_second_format, hours, minutes,
+                    seconds);
+        } else {
+            return context.getString(R.string.duration_minute_second_format, minutes, seconds);
+        }
+    }
 }

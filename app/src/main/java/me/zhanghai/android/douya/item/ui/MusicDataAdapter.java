@@ -146,7 +146,10 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
     }
 
     private TrackListHolder createTrackListHolder(ViewGroup parent) {
-        return new TrackListHolder(ViewUtils.inflate(R.layout.item_fragment_track_list, parent));
+        TrackListHolder holder = new TrackListHolder(ViewUtils.inflate(
+                R.layout.item_fragment_track_list, parent));
+        holder.trackList.setAdapter(new TrackListAdapter());
+        return holder;
     }
 
     @Override
@@ -236,7 +239,16 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
 
     private void bindTrackListHolder(RecyclerView.ViewHolder holder, Music music) {
         TrackListHolder trackListHolder = (TrackListHolder) holder;
-        // TODO
+        boolean playable = music.vendorCount > 0;
+        ViewUtils.setVisibleOrGone(trackListHolder.playAllButton, playable);
+        if (playable) {
+            trackListHolder.playAllButton.setOnClickListener(view -> {
+                // TODO
+            });
+        }
+        ViewUtils.setVisibleOrGone(trackListHolder.trackList, !music.tracks.isEmpty());
+        TrackListAdapter adapter = (TrackListAdapter) trackListHolder.trackList.getAdapter();
+        adapter.replace(music.tracks);
     }
 
     public interface Listener extends BaseItemDataAdapter.Listener<Music> {}
