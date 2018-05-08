@@ -117,7 +117,8 @@
     <dimen name="item_backdrop_play_layout_height">@dimen/match_parent</dimen>
     <dimen name="item_content_horizontal_margin">0dp</dimen>
     <dimen name="item_content_card_margin">8dp</dimen>
-    <dimen name="item_cover_width">104dp</dimen>
+    <dimen name="item_cover_width_long">104dp</dimen>
+    <dimen name="item_cover_width_square">150dp</dimen>
     <dimen name="item_badge_list_space">20dp</dimen>
     <dimen name="item_badge_size">60dp</dimen>
     <dimen name="item_badge_padding">10dp</dimen>

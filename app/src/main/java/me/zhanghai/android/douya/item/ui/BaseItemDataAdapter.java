@@ -232,7 +232,7 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
             itemCollectionHolder.menu.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
                     case R.id.action_edit: {
-                        Context context = RecyclerViewUtils.getContext(itemCollectionHolder);
+                        Context context = RecyclerViewUtils.getContext(holder);
                         context.startActivity(ItemCollectionActivity.makeIntent(item, context));
                         return true;
                     }

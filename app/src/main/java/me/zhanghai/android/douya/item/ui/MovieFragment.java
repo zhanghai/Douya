@@ -31,6 +31,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.BarrierAdapter;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         implements MovieFragmentResource.Listener, MovieDataAdapter.Listener,
@@ -139,6 +140,9 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
             if (backdropUrl != null) {
                 ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, backdropUrl,
                         hasTrailer ? mBackdropPlayImage : null);
+            } else {
+                mBackdropImage.setBackgroundColor(movie.getThemeColor());
+                ViewUtils.fadeIn(mBackdropImage);
             }
             mBackdropBound = true;
         }

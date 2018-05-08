@@ -16,7 +16,7 @@
 
     <me.zhanghai.android.douya.ui.RatioImageView
         android:id="@+id/cover"
-        android:layout_width="@dimen/item_cover_width"
+        android:layout_width="@dimen/item_cover_width_square"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 

@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.text.TextUtils;
 
@@ -106,12 +107,18 @@ public abstract class CollectableItem extends BaseItem {
         }
     }
 
+    /**
+     * @deprecated Use {@link #getBackgroundColor()} instead.
+     */
     @SerializedName("body_bg_color")
     public String backgroundColor;
 
     @SerializedName("comment_count")
     public int commentCount;
 
+    /**
+     * @deprecated Use {@link #getThemeColor()} instead.
+     */
     @SerializedName("header_bg_color")
     public String themeColor;
 
@@ -143,6 +150,16 @@ public abstract class CollectableItem extends BaseItem {
 
     @SerializedName("vendor_count")
     public int vendorCount;
+
+    public int getBackgroundColor() {
+        //noinspection deprecation
+        return Color.parseColor("#" + backgroundColor);
+    }
+
+    public int getThemeColor() {
+        //noinspection deprecation
+        return Color.parseColor("#" + themeColor);
+    }
 
     public Type getType() {
         return Type.ofApiString(type);

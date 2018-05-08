@@ -5,7 +5,9 @@
 
 package me.zhanghai.android.douya.item.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
 import java.util.List;
 
@@ -56,11 +58,7 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
 
     @Override
     protected float getBackdropRatio() {
-        if (ViewUtils.isInPortait(getContext())) {
-            return 1;
-        } else {
-            return super.getBackdropRatio();
-        }
+        return ViewUtils.isInPortait(getContext()) ? 1 : 2;
     }
 
     @Override
@@ -94,7 +92,7 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
         }
 
         if (!mBackdropBound) {
-            if (music.cover != null) {
+            if (ViewUtils.isInPortait(getActivity())) {
                 ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, music.cover.getLargeUrl(),
                         null);
                 mBackdropLayout.setOnClickListener(view -> {
@@ -102,6 +100,9 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
                     Context context = view.getContext();
                     context.startActivity(GalleryActivity.makeIntent(music.cover, context));
                 });
+            } else {
+                mBackdropImage.setBackgroundColor(music.getThemeColor());
+                ViewUtils.fadeIn(mBackdropImage);
             }
             mBackdropBound = true;
         }
