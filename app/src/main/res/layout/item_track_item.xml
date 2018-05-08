@@ -9,7 +9,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+    android:paddingLeft="@dimen/screen_edge_horizontal_margin_with_16dp_padding"
     android:paddingRight="@dimen/screen_edge_horizontal_margin"
     android:paddingTop="@dimen/content_vertical_space"
     android:paddingBottom="@dimen/content_vertical_space"
@@ -21,10 +21,9 @@
 
     <TextView
         android:id="@+id/number"
-        android:layout_width="wrap_content"
+        android:layout_width="56dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:minWidth="20sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="?android:textColorSecondary" />
 
@@ -32,7 +31,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginLeft="@dimen/content_horizontal_space"
         android:orientation="vertical">
 
         <TextView
