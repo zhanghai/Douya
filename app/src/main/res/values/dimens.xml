@@ -26,7 +26,7 @@
     <dimen name="content_horizontal_margin_from_screen_edge_with_24dp_padding">32dp</dimen>
     <dimen name="content_horizontal_margin_from_screen_edge_with_40dp_padding">16dp</dimen>
     <dimen name="content_horizontal_margin_from_screen_edge_with_44dp_padding">12dp</dimen>
-    <dimen name="screen_edge_vertical_margin">16dp</dimen>
+    <dimen name="screen_edge_vertical_margin">@dimen/screen_edge_horizontal_margin</dimen>
     <dimen name="content_horizontal_space">16dp</dimen>
     <dimen name="content_horizontal_space_with_4dp_padding">12dp</dimen>
     <dimen name="content_horizontal_space_with_8dp_padding">8dp</dimen>
@@ -119,6 +119,9 @@
     <dimen name="item_content_card_margin">8dp</dimen>
     <dimen name="item_cover_width_long">104dp</dimen>
     <dimen name="item_cover_width_square">150dp</dimen>
+    <dimen name="item_cover_horizontal_margin">@dimen/screen_edge_horizontal_margin</dimen>
+    <dimen name="item_cover_vertical_margin">@dimen/screen_edge_horizontal_margin</dimen>
+    <dimen name="item_cover_vertical_margin_negative">@dimen/screen_edge_horizontal_margin_negative</dimen>
     <dimen name="item_badge_list_space">20dp</dimen>
     <dimen name="item_badge_size">60dp</dimen>
     <dimen name="item_badge_padding">10dp</dimen>

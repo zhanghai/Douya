@@ -14,4 +14,8 @@
     <dimen name="toolbar_and_toolbar_height">96dp</dimen>
     <dimen name="toolbar_and_tab_height">96dp</dimen>
     <dimen name="scrim_height">144dp</dimen>
+
+    <dimen name="item_cover_horizontal_margin">0dp</dimen>
+    <dimen name="item_cover_vertical_margin">0dp</dimen>
+    <dimen name="item_cover_vertical_margin_negative">0dp</dimen>
 </resources>

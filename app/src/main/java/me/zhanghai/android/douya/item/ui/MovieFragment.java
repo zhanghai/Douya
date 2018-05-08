@@ -37,7 +37,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         implements MovieFragmentResource.Listener, MovieDataAdapter.Listener,
         ConfirmUncollectItemDialogFragment.Listener {
 
-    @BindDimen(R.dimen.screen_edge_horizontal_margin_negative)
+    @BindDimen(R.dimen.item_cover_vertical_margin_negative)
     int mContentListPaddingTopNegativeMargin;
 
     private MovieAdapter mAdapter;
