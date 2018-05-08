@@ -17,7 +17,6 @@
         android:layout_marginLeft="@dimen/item_content_horizontal_margin"
         android:layout_marginRight="@dimen/item_content_horizontal_margin"
         android:layout_marginTop="@dimen/screen_edge_horizontal_margin"
-        android:paddingRight="@dimen/screen_edge_horizontal_margin"
         android:background="?colorBackgroundFloating"
         android:clipToPadding="false"
         android:orientation="horizontal">
@@ -26,13 +25,14 @@
             android:id="@+id/cover"
             android:layout_width="@dimen/item_cover_width"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/screen_edge_horizontal_margin"
             android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+            android:paddingRight="@dimen/screen_edge_horizontal_margin"
             android:paddingTop="@dimen/screen_edge_horizontal_margin"
             android:orientation="vertical">
 
