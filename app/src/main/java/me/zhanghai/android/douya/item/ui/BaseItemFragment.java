@@ -132,7 +132,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
         StatusBarColorUtils.set(Color.TRANSPARENT, activity);
         ViewUtils.setLayoutFullscreen(activity);
 
-        mBackdropImage.setRatio(16, 9);
+        mBackdropImage.setRatio(getBackdropRatio());
         ViewCompat.setBackground(mBackdropScrim, DrawableUtils.makeScrimDrawable(Gravity.TOP));
 
         mContentList.setLayoutManager(new LinearLayoutManager(activity));
@@ -235,6 +235,10 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
     protected abstract BaseItemFragmentResource<SimpleItemType, ItemType> onAttachResource(
             long itemId, SimpleItemType simpleItem, ItemType item);
+
+    protected float getBackdropRatio() {
+        return 16f / 9f;
+    }
 
     protected abstract BarrierAdapter onCreateAdapter();
 

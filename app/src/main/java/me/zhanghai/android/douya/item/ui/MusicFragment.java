@@ -25,6 +25,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.BarrierAdapter;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.ViewUtils;
 
 public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
         implements MusicFragmentResource.Listener, MusicDataAdapter.Listener,
@@ -51,6 +52,15 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
                                                                             SimpleMusic simpleItem,
                                                                             Music item) {
         return MusicFragmentResource.attachTo(itemId, simpleItem, item, this);
+    }
+
+    @Override
+    protected float getBackdropRatio() {
+        if (ViewUtils.isInPortait(getContext())) {
+            return 1;
+        } else {
+            return super.getBackdropRatio();
+        }
     }
 
     @Override
