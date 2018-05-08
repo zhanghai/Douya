@@ -33,7 +33,6 @@ public class MusicIntroductionFragment extends BaseItemIntroductionFragment<Musi
         addTextListToData(R.string.item_introduction_music_artist, mItem.getArtistNames(), data);
         addTextListToData(R.string.item_introduction_music_genres, mItem.genres, data);
         addTextListToData(R.string.item_introduction_music_types, mItem.types, data);
-        addTextListToData(R.string.item_introduction_music_release_dates, mItem.releaseDates, data);
         addTextListToData(R.string.item_introduction_music_media, mItem.media, data);
         addTextListToData(R.string.item_introduction_music_release_dates, mItem.releaseDates, data);
         addTextListToData(R.string.item_introduction_music_publisher, mItem.publishers, data);
