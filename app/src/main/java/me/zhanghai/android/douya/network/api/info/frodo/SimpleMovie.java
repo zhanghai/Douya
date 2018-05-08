@@ -41,17 +41,9 @@ public class SimpleMovie extends CollectableItem {
     public String year;
 
     public String getYearMonth(Context context) {
-        String releaseDate = CollectionUtils.firstOrNull(releaseDates);
-        if (!TextUtils.isEmpty(releaseDate) && releaseDate.length() >= 10) {
-            releaseDate = releaseDate.substring(0, 10);
-            try {
-                LocalDate date = TimeUtils.parseDoubanDate(releaseDate);
-                return DateTimeFormatter.ofPattern(context.getString(
-                        R.string.year_month_pattern))
-                        .format(date);
-            } catch (DateTimeParseException e) {
-                e.printStackTrace();
-            }
+        String yearMoth = CollectableItem.getYearMonth(releaseDates, context);
+        if (!TextUtils.isEmpty(yearMoth)) {
+            return yearMoth;
         }
         if (!TextUtils.isEmpty(year)) {
             return year + "年";

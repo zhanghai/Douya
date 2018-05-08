@@ -6,6 +6,8 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +68,10 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         holder.menuButton.setOnClickListener(view -> holder.menu.show());
         holder.menuButton.setOnTouchListener(holder.menu.getDragToOpenListener());
         return holder;
+    }
+
+    protected BadgeListHolder createBadgeListHolder(ViewGroup parent) {
+        return new BadgeListHolder(ViewUtils.inflate(R.layout.item_fragment_badge_list, parent));
     }
 
     protected IntroductionHolder createIntroductionHolder(ViewGroup parent) {
@@ -158,6 +164,13 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
                 R.layout.item_fragment_related_doulist_list, parent));
         holder.relatedDoulistList.setAdapter(new ItemRelatedDoulistListAdapter());
         return holder;
+    }
+
+    @CallSuper
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        // HACK: Make sure we don't click through any view to our backdrop.
+        holder.itemView.setClickable(true);
     }
 
     protected void bindItemCollectionHolder(RecyclerView.ViewHolder holder, T item) {

@@ -15,7 +15,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.DateTimeParseException;
+
+import java.util.List;
+
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.CollectionUtils;
+import me.zhanghai.android.douya.util.TimeUtils;
 
 /**
  * {@code LegacySubject} in Frodo, for those that can have a rating.
@@ -150,6 +158,21 @@ public abstract class CollectableItem extends BaseItem {
     public String getRatingUnavailableReason(Context context) {
         //noinspection deprecation
         return Rating.getRatingUnavailableReason(ratingUnavailableReason, context);
+    }
+
+    protected static String getYearMonth(List<String> releaseDates, Context context) {
+        String releaseDate = CollectionUtils.firstOrNull(releaseDates);
+        if (!TextUtils.isEmpty(releaseDate) && releaseDate.length() >= 10) {
+            releaseDate = releaseDate.substring(0, 10);
+            try {
+                LocalDate date = TimeUtils.parseDoubanDate(releaseDate);
+                return DateTimeFormatter.ofPattern(context.getString(R.string.year_month_pattern))
+                        .format(date);
+            } catch (DateTimeParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
 

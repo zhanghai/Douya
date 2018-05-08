@@ -6,13 +6,13 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,14 +21,11 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
-import me.zhanghai.android.douya.network.api.info.frodo.Honor;
-import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
-import me.zhanghai.android.douya.network.api.info.frodo.Movie;
-import me.zhanghai.android.douya.network.api.info.frodo.Photo;
+import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleMusic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.CollectionUtils;
@@ -38,16 +35,14 @@ import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.StringUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
+public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
 
     private enum Items {
         HEADER,
         ITEM_COLLECTION,
         BADGE_LIST,
         INTRODUCTION,
-        PHOTO_LIST,
-        CELEBRITY_LIST,
-        AWARD_LIST,
+        SONG_LIST,
         RATING,
         ITEM_COLLECTION_LIST,
         REVIEW_LIST,
@@ -58,7 +53,7 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
 
     private Data mData;
 
-    public MovieDataAdapter(Listener listener) {
+    public MusicDataAdapter(Listener listener) {
         super(listener);
     }
 
@@ -84,7 +79,7 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
         if (mData == null) {
             return false;
         }
-        if (mData.movie == null) {
+        if (mData.music == null) {
             return false;
         }
         switch (Items.values()[position]) {
@@ -96,12 +91,8 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
                 return mData.rating != null;
             case INTRODUCTION:
                 return true;
-            case PHOTO_LIST:
-                return mData.photoList != null;
-            case CELEBRITY_LIST:
-                return mData.celebrityList != null;
-            case AWARD_LIST:
-                return mData.awardList != null;
+            case SONG_LIST:
+                return true;
             case RATING:
                 return mData.rating != null;
             case ITEM_COLLECTION_LIST:
@@ -131,12 +122,8 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
                 return createBadgeListHolder(parent);
             case INTRODUCTION:
                 return createIntroductionHolder(parent);
-            case PHOTO_LIST:
-                return createPhotoListHolder(parent);
-            case CELEBRITY_LIST:
-                return createCelebrityListHolder(parent);
-            case AWARD_LIST:
-                return createAwardListHolder(parent);
+            case SONG_LIST:
+                return createSongListHolder(parent);
             case RATING:
                 return createRatingHolder(parent);
             case ITEM_COLLECTION_LIST:
@@ -155,7 +142,12 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
     }
 
     private HeaderHolder createHeaderHolder(ViewGroup parent) {
-        return new HeaderHolder(ViewUtils.inflate(R.layout.item_fragment_movie_header, parent));
+        return new HeaderHolder(ViewUtils.inflate(R.layout.item_fragment_music_header, parent));
+    }
+
+    private SongListHolder createSongListHolder(ViewGroup parent) {
+        // TODO
+        return new SongListHolder(ViewUtils.inflate(R.layout.item_fragment_introduction, parent));
     }
 
     @Override
@@ -164,133 +156,107 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
 
         switch (Items.values()[position]) {
             case HEADER:
-                bindHeaderHolder(holder, mData.movie);
+                bindHeaderHolder(holder, mData.music);
                 break;
             case ITEM_COLLECTION:
-                bindItemCollectionHolder(holder, mData.movie);
+                bindItemCollectionHolder(holder, mData.music);
                 break;
             case BADGE_LIST:
-                bindBadgeListHolder(holder, mData.movie, mData.rating);
+                bindBadgeListHolder(holder, mData.music, mData.rating);
                 break;
             case INTRODUCTION:
-                bindIntroductionHolder(holder, mData.movie);
+                bindIntroductionHolder(holder, mData.music);
                 break;
-            case PHOTO_LIST:
-                bindPhotoListHolder(holder, mData.movie, mData.photoList, mData.excludeFirstPhoto);
-                break;
-            case CELEBRITY_LIST:
-                bindCelebrityListHolder(holder, mData.movie, mData.celebrityList);
-                break;
-            case AWARD_LIST:
-                bindAwardListHolder(holder, mData.movie, mData.awardList);
+            case SONG_LIST:
+                bindSongListHolder(holder, mData.music);
                 break;
             case RATING:
-                bindRatingHolder(holder, mData.movie, mData.rating);
+                bindRatingHolder(holder, mData.music, mData.rating);
                 break;
             case ITEM_COLLECTION_LIST:
-                bindItemCollectionListHolder(holder, mData.movie, mData.itemCollectionList);
+                bindItemCollectionListHolder(holder, mData.music, mData.itemCollectionList);
                 break;
             case REVIEW_LIST:
-                bindReviewListHolder(holder, mData.movie, mData.reviewList);
+                bindReviewListHolder(holder, mData.music, mData.reviewList);
                 break;
             case FORUM_TOPIC_LIST:
-                bindForumTopicListHolder(holder, mData.movie, mData.forumTopicList);
+                bindForumTopicListHolder(holder, mData.music, mData.forumTopicList);
                 break;
             case RECOMMENDATION_LIST:
-                bindRecommendationListHolder(holder, mData.movie, mData.recommendationList);
+                bindRecommendationListHolder(holder, mData.music, mData.recommendationList);
                 break;
             case RELATED_DOULIST_LIST:
-                bindRelatedDoulistListHolder(holder, mData.movie, mData.relatedDoulistList);
+                bindRelatedDoulistListHolder(holder, mData.music, mData.relatedDoulistList);
                 break;
             default:
                 throw new IllegalArgumentException();
         }
     }
 
-    private void bindHeaderHolder(RecyclerView.ViewHolder holder, Movie movie) {
+    private void bindHeaderHolder(RecyclerView.ViewHolder holder, Music music) {
         HeaderHolder headerHolder = (HeaderHolder) holder;
-        headerHolder.posterImage.setRatio(27, 40);
-        // Image from movie.poster is cropped except large.
-        ImageUtils.loadImage(headerHolder.posterImage, movie.cover);
-        headerHolder.posterImage.setOnClickListener(view -> {
+        headerHolder.coverImage.setRatio(1, 1);
+        ImageUtils.loadImage(headerHolder.coverImage, music.cover);
+        headerHolder.coverImage.setOnClickListener(view -> {
             Context context = view.getContext();
-            Intent intent;
-            if (movie.poster != null) {
-                intent = GalleryActivity.makeIntent(movie.poster.image, context);
-            } else {
-                intent = GalleryActivity.makeIntent(movie.cover, context);
-            }
-            context.startActivity(intent);
+            context.startActivity(GalleryActivity.makeIntent(music.cover, context));
         });
-        headerHolder.titleText.setText(movie.title);
-        headerHolder.originalTitleText.setText(movie.originalTitle);
+        headerHolder.titleText.setText(music.title);
         Context context = RecyclerViewUtils.getContext(holder);
-        String spaceDelimiter = context.getString(R.string.item_information_delimiter_space);
-        String detail = StringUtils.joinNonEmpty(spaceDelimiter, movie.getYearMonth(context),
-                movie.getEpisodeCountString(), movie.getDurationString());
-        headerHolder.detailText.setText(detail);
         String slashDelimiter = context.getString(R.string.item_information_delimiter_slash);
-        headerHolder.genresText.setText(StringCompat.join(slashDelimiter, movie.genres));
+        List<String> artistsNames = new ArrayList<>();
+        for (SimpleMusic.Artist artist : music.artists) {
+            artistsNames.add(artist.name);
+        }
+        headerHolder.artistsText.setText(StringCompat.join(slashDelimiter, artistsNames));
+        String spaceDelimiter = context.getString(R.string.item_information_delimiter_space);
+        String detail = StringUtils.joinNonEmpty(spaceDelimiter, music.getYearMonth(context),
+                StringCompat.join(slashDelimiter, music.publishers));
+        headerHolder.detailText.setText(detail);
+        headerHolder.genresText.setText(StringCompat.join(slashDelimiter, music.genres));
     }
 
-    private void bindBadgeListHolder(RecyclerView.ViewHolder holder, Movie movie, Rating rating) {
+    private void bindBadgeListHolder(RecyclerView.ViewHolder holder, Music music, Rating rating) {
         BadgeListHolder badgeListHolder = (BadgeListHolder) holder;
-        Honor top250Honor = null;
-        for (Honor honor : movie.honors) {
-            if (honor.getType() == Honor.Type.TOP_250) {
-                top250Honor = honor;
-                break;
-            }
-        }
-        badgeListHolder.badgeListLayout.setTop250(top250Honor);
-        badgeListHolder.badgeListLayout.setRating(rating, movie);
-        badgeListHolder.badgeListLayout.setGenre(R.drawable.movie_badge_white_40dp,
-                CollectionUtils.firstOrNull(movie.genres));
+        badgeListHolder.badgeListLayout.setTop250(null);
+        badgeListHolder.badgeListLayout.setRating(rating, music);
+        badgeListHolder.badgeListLayout.setGenre(R.drawable.music_badge_white_40dp,
+                CollectionUtils.firstOrNull(music.genres));
     }
 
     @Override
-    protected void bindIntroductionHolder(RecyclerView.ViewHolder holder, Movie movie) {
-        super.bindIntroductionHolder(holder, movie);
+    protected void bindIntroductionHolder(RecyclerView.ViewHolder holder, Music music) {
+        super.bindIntroductionHolder(holder, music);
 
         IntroductionHolder introductionHolder = (IntroductionHolder) holder;
         introductionHolder.introductionLayout.setOnClickListener(view -> {
             Context context = view.getContext();
-            context.startActivity(ItemIntroductionActivity.makeIntent(movie, context));
+            context.startActivity(ItemIntroductionActivity.makeIntent(music, context));
         });
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setClipChildren(false);
+    private void bindSongListHolder(RecyclerView.ViewHolder holder, Music music) {
+        SongListHolder songListHolder = (SongListHolder) holder;
+        // TODO
     }
 
-    public interface Listener extends BaseItemDataAdapter.Listener<Movie> {}
+    public interface Listener extends BaseItemDataAdapter.Listener<Music> {}
 
     public static class Data {
 
-        public Movie movie;
+        public Music music;
         public Rating rating;
-        public List<Photo> photoList;
-        public boolean excludeFirstPhoto;
-        public List<SimpleCelebrity> celebrityList;
-        public List<ItemAwardItem> awardList;
         public List<SimpleItemCollection> itemCollectionList;
         public List<SimpleReview> reviewList;
         public List<SimpleItemForumTopic> forumTopicList;
         public List<CollectableItem> recommendationList;
         public List<Doulist> relatedDoulistList;
 
-        public Data(Movie movie, Rating rating, List<Photo> photoList, boolean excludeFirstPhoto,
-                    List<SimpleCelebrity> celebrityList, List<ItemAwardItem> awardList,
-                    List<SimpleItemCollection> itemCollectionList, List<SimpleReview> reviewList,
-                    List<SimpleItemForumTopic> forumTopicList,
+        public Data(Music music, Rating rating, List<SimpleItemCollection> itemCollectionList,
+                    List<SimpleReview> reviewList, List<SimpleItemForumTopic> forumTopicList,
                     List<CollectableItem> recommendationList, List<Doulist> relatedDoulistList) {
-            this.movie = movie;
+            this.music = music;
             this.rating = rating;
-            this.photoList = photoList;
-            this.excludeFirstPhoto = excludeFirstPhoto;
-            this.celebrityList = celebrityList;
-            this.awardList = awardList;
             this.itemCollectionList = itemCollectionList;
             this.reviewList = reviewList;
             this.forumTopicList = forumTopicList;
@@ -301,18 +267,27 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
 
     static class HeaderHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.poster)
-        public RatioImageView posterImage;
+        @BindView(R.id.cover)
+        public RatioImageView coverImage;
         @BindView(R.id.title)
         public TextView titleText;
-        @BindView(R.id.original_title)
-        public TextView originalTitleText;
+        @BindView(R.id.artists)
+        public TextView artistsText;
         @BindView(R.id.detail)
         public TextView detailText;
         @BindView(R.id.genres)
         public TextView genresText;
 
         public HeaderHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class SongListHolder extends RecyclerView.ViewHolder {
+
+        public SongListHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

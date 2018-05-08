@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,6 +22,10 @@ public class SimpleMusic extends CollectableItem {
 
     @SerializedName("singer")
     public ArrayList<Artist> artists = new ArrayList<>();
+
+    public String getYearMonth(Context context) {
+        return CollectableItem.getYearMonth(releaseDates, context);
+    }
 
 
     public static final Creator<SimpleMusic> CREATOR = new Creator<SimpleMusic>() {

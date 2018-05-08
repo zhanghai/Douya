@@ -123,7 +123,8 @@ public abstract class BaseItemIntroductionFragment<T extends CollectableItem> ex
 
     protected void addTextListToData(int titleRes, List<String> textList,
                                      List<Pair<String, String>> data) {
-        addTextListToData(titleRes, textList, getString(R.string.item_information_delimiter), data);
+        addTextListToData(titleRes, textList, getString(R.string.item_information_delimiter_slash),
+                data);
     }
 
     protected void addCelebrityListToData(int titleRes, List<SimpleCelebrity> celebrityList,
