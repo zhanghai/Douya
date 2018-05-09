@@ -46,7 +46,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/item_backdrop_play_background"
                     android:scaleType="center"
-                    android:src="@drawable/play_icon_white_24dp"
+                    android:src="@drawable/play_icon_white_36dp"
                     android:visibility="gone" />
             </FrameLayout>
         </FrameLayout>

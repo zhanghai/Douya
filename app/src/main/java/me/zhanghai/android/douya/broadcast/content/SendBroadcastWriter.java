@@ -197,7 +197,7 @@ class SendBroadcastWriter extends ResourceWriter<SendBroadcastWriter> {
                 Notifications.Channels.SEND_BROADCAST.ID, channelName,
                 Notifications.Channels.SEND_BROADCAST.IMPORTANCE);
         String channelDescription = context.getString(
-                R.string.notification_channel_send_broadcast_description);
+                Notifications.Channels.PLAY_MUSIC.DESCRIPTION_RES);
         channel.setDescription(channelDescription);
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);

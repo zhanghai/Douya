@@ -29,8 +29,8 @@ public class ResourceWriterService extends Service {
 
     private List<ResourceWriterManager> mWriterManagers = new ArrayList<>();
 
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, ResourceWriterService.class);
+    public static void start(Context context) {
+        context.startService(new Intent(context, ResourceWriterService.class));
     }
 
     @Override

@@ -44,6 +44,12 @@
     <string name="duration_hour_minute_second_format">%1$d:%2$02d:%3$02d</string>
     <string name="duration_minute_second_format">%1$02d:%2$02d</string>
 
+    <string name="media_subtitle_format">%1$s - %2$s</string>
+    <string name="media_action_play">播放</string>
+    <string name="media_action_pause">暂停</string>
+    <string name="media_action_skip_to_previous">上一首</string>
+    <string name="media_action_skip_to_next">下一首</string>
+
     <!-- Overrides strings in LicensesDialog. -->
     <string name="notices_title">@string/settings_open_source_licenses_title</string>
     <string name="notices_close">@string/close</string>
@@ -114,6 +120,8 @@
 
     <string name="notification_channel_send_broadcast_name">发送广播</string>
     <string name="notification_channel_send_broadcast_description">显示发送广播的状态</string>
+    <string name="notification_channel_play_music_name">播放音乐</string>
+    <string name="notification_channel_play_music_description">显示和控制播放音乐的状态</string>
 
     <string name="auth_title_new">登录豆芽</string>
     <string name="auth_title_add">添加账户</string>

@@ -56,14 +56,14 @@ public class RatioFrameLayout extends FrameLayout {
             if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) {
                 int height = MeasureSpec.getSize(heightMeasureSpec);
                 int width = Math.round(mRatio * height);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     width = Math.max(width, getMinimumWidth());
                 }
                 widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
             } else {
                 int width = MeasureSpec.getSize(widthMeasureSpec);
                 int height = Math.round(width / mRatio);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     height = Math.max(height, getMinimumHeight());
                 }
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);

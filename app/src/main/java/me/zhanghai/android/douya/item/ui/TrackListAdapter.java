@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.link.UriHandler;
+import me.zhanghai.android.douya.media.PlayMusicService;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.TimeUtils;
@@ -23,8 +24,15 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapter.ViewHolder> {
 
+    private Music mMusic;
+
     public TrackListAdapter() {
         setHasStableIds(true);
+    }
+
+    public void setMusic(Music music) {
+        mMusic = music;
+        replace(music.tracks);
     }
 
     @Override
@@ -46,7 +54,7 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
         holder.durationText.setText(track.duration > 0 ? TimeUtils.formatDuration(track.duration,
                 holder.durationText.getContext()) : null);
         if (!TextUtils.isEmpty(track.previewUrl)) {
-            holder.itemView.setOnClickListener(view -> UriHandler.open(track.previewUrl,
+            holder.itemView.setOnClickListener(view -> PlayMusicService.start(mMusic, position,
                     view.getContext()));
         }
     }

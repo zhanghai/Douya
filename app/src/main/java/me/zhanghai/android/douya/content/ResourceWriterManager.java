@@ -75,7 +75,7 @@ public class ResourceWriterManager<T extends ResourceWriter> {
             writer.onStart();
         } else {
             mPendingWriters.add(writer);
-            context.startService(ResourceWriterService.makeIntent(context));
+            ResourceWriterService.start(context);
         }
     }
 

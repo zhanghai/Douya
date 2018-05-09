@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
+import me.zhanghai.android.douya.media.PlayMusicService;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
@@ -242,13 +243,12 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         boolean playable = music.vendorCount > 0;
         ViewUtils.setVisibleOrGone(trackListHolder.playAllButton, playable);
         if (playable) {
-            trackListHolder.playAllButton.setOnClickListener(view -> {
-                // TODO
-            });
+            trackListHolder.playAllButton.setOnClickListener(view -> PlayMusicService.start(
+                    music, view.getContext()));
         }
         ViewUtils.setVisibleOrGone(trackListHolder.trackList, !music.tracks.isEmpty());
         TrackListAdapter adapter = (TrackListAdapter) trackListHolder.trackList.getAdapter();
-        adapter.replace(music.tracks);
+        adapter.setMusic(music);
     }
 
     public interface Listener extends BaseItemDataAdapter.Listener<Music> {}
