@@ -450,10 +450,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         // Can be called before onCreate().
         return hasItem()
                 || (mRatingResource != null && mRatingResource.has())
-                || (hasPhotoList() && (mPhotoListResource != null && mPhotoListResource.has()))
-                || (hasCelebrityList() && (mCelebrityListResource != null
-                        && mCelebrityListResource.has()))
-                || (hasAwardList() && (mAwardListResource != null && mAwardListResource.has()))
+                || (mPhotoListResource != null && mPhotoListResource.has())
+                || (mCelebrityListResource != null && mCelebrityListResource.has())
+                || (mAwardListResource != null && mAwardListResource.has())
                 || (mItemCollectionListResource != null && mItemCollectionListResource.has())
                 || (mReviewListResource != null && mReviewListResource.has())
                 || (mForumTopicListResource != null && mForumTopicListResource.has())
@@ -464,7 +463,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     public void notifyChanged() {
         // HACK: Add SimpleRating to Rating.
         ItemType item = getItem();
-        Rating rating = mRatingResource.get();
+        Rating rating = mRatingResource != null ? mRatingResource.get() : null;
         if (rating != null && item != null) {
             rating.rating = item.rating;
             //noinspection deprecation
@@ -473,14 +472,14 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         notifyChanged(getRequestCode(),
                 item,
                 rating,
-                hasPhotoList() ? mPhotoListResource.get() : null,
-                hasCelebrityList() ? mCelebrityListResource.get() : null,
-                hasAwardList() ? mAwardListResource.get() : null,
-                mItemCollectionListResource.get(),
-                mReviewListResource.get(),
-                mForumTopicListResource.get(),
-                mRecommendationListResource.get(),
-                mRelatedDoulistListResource.get());
+                mPhotoListResource != null ? mPhotoListResource.get() : null,
+                mCelebrityListResource != null ? mCelebrityListResource.get() : null,
+                mAwardListResource != null ? mAwardListResource.get() : null,
+                mItemCollectionListResource != null ? mItemCollectionListResource.get() : null,
+                mReviewListResource != null ? mReviewListResource.get() : null,
+                mForumTopicListResource != null ? mForumTopicListResource.get() : null,
+                mRecommendationListResource != null ? mRecommendationListResource.get() : null,
+                mRelatedDoulistListResource != null ? mRelatedDoulistListResource.get() : null);
     }
 
     protected abstract void notifyChanged(int requestCode, ItemType newItem, Rating newRating,
