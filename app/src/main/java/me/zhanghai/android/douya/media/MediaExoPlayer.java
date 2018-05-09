@@ -60,10 +60,7 @@ public class MediaExoPlayer implements ExoPlayer {
             focusChange -> {
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_GAIN:
-                        // TODO: Is this if necessary?
-                        //if (mPlayer.getPlayWhenReady() || mPlayOnFocusGain) {
                         mPlayer.setVolume(1);
-                        //}
                         if (mPlayOnFocusGain) {
                             mPlayer.setPlayWhenReady(true);
                             mPlayOnFocusGain = false;
@@ -71,11 +68,8 @@ public class MediaExoPlayer implements ExoPlayer {
                         }
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                        // TODO: Is this if necessary?
-                        //if (mPlayer.getPlayWhenReady()) {
                         // 0.2f is the constant in Google samples.
                         mPlayer.setVolume(0.2f);
-                        //}
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         mPlayOnFocusGain |= mPlayer.getPlayWhenReady();

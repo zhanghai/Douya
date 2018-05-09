@@ -46,6 +46,7 @@ public class MediaPlayback {
         mPlayer.addListener(new Player.DefaultEventListener() {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                // If we don't check for playWhenReady, we end up called recursively from pause().
                 if (playWhenReady && playbackState == Player.STATE_ENDED
                         && getRepeatMode() == Player.REPEAT_MODE_OFF
                         && getActiveQueueItemIndex() == getQueueSize() - 1) {
