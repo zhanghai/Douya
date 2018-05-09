@@ -79,6 +79,7 @@ public class MediaNotification {
         NotificationChannel channel = new NotificationChannel(mChannelId, mService.getString(
                 mChannelNameRes), mChannelImportance);
         channel.setDescription(mService.getString(mChannelDescriptionRes));
+        channel.setShowBadge(false);
         getNotificationManager().createNotificationChannel(channel);
     }
 
