@@ -46,7 +46,8 @@ public class MediaPlayback {
         mPlayer.addListener(new Player.DefaultEventListener() {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                if (playbackState == Player.STATE_ENDED && getRepeatMode() == Player.REPEAT_MODE_OFF
+                if (playWhenReady && playbackState == Player.STATE_ENDED
+                        && getRepeatMode() == Player.REPEAT_MODE_OFF
                         && getActiveQueueItemIndex() == getQueueSize() - 1) {
                     pause();
                     skipToQueueItem(0);

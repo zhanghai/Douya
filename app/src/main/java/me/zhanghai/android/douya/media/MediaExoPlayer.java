@@ -118,11 +118,24 @@ public class MediaExoPlayer implements ExoPlayer {
 
     @Override
     public void setPlayWhenReady(boolean playWhenReady) {
+        if (getPlayWhenReady() == playWhenReady) {
+            return;
+        }
         if (playWhenReady) {
             requestAudioFocus();
         } else {
             abandonAudioFocus();
         }
+    }
+
+    @Override
+    public void addListener(Player.EventListener listener) {
+        mPlayer.addListener(new EventListenerWrapper(listener));
+    }
+
+    @Override
+    public void removeListener(Player.EventListener listener) {
+        mPlayer.removeListener(((EventListenerWrapper) listener).getWrappedListener());
     }
 
     @Override
@@ -166,6 +179,71 @@ public class MediaExoPlayer implements ExoPlayer {
         }
         mContext.unregisterReceiver(mAudioBecomingNoisyReceiver);
         mAudioBecomingNoisyReceiverRegistered = false;
+    }
+
+    private class EventListenerWrapper implements Player.EventListener {
+
+        private Player.EventListener mListener;
+
+        private EventListenerWrapper(Player.EventListener listener) {
+            mListener = listener;
+        }
+
+        public Player.EventListener getWrappedListener() {
+            return mListener;
+        }
+
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            mListener.onPlayerStateChanged(getPlayWhenReady(), playbackState);
+        }
+
+
+        @Override
+        public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+            mListener.onTimelineChanged(timeline, manifest, reason);
+        }
+
+        @Override
+        public void onTracksChanged(TrackGroupArray trackGroups,
+                                    TrackSelectionArray trackSelections) {
+            mListener.onTracksChanged(trackGroups, trackSelections);
+        }
+
+        @Override
+        public void onLoadingChanged(boolean isLoading) {
+            mListener.onLoadingChanged(isLoading);
+        }
+
+        @Override
+        public void onRepeatModeChanged(int repeatMode) {
+            mListener.onRepeatModeChanged(repeatMode);
+        }
+
+        @Override
+        public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+            mListener.onShuffleModeEnabledChanged(shuffleModeEnabled);
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+            mListener.onPlayerError(error);
+        }
+
+        @Override
+        public void onPositionDiscontinuity(int reason) {
+            mListener.onPositionDiscontinuity(reason);
+        }
+
+        @Override
+        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+            mListener.onPlaybackParametersChanged(playbackParameters);
+        }
+
+        @Override
+        public void onSeekProcessed() {
+            mListener.onSeekProcessed();
+        }
     }
 
 
@@ -224,16 +302,6 @@ public class MediaExoPlayer implements ExoPlayer {
     @Override
     public TextComponent getTextComponent() {
         return mPlayer.getTextComponent();
-    }
-
-    @Override
-    public void addListener(Player.EventListener listener) {
-        mPlayer.addListener(listener);
-    }
-
-    @Override
-    public void removeListener(Player.EventListener listener) {
-        mPlayer.removeListener(listener);
     }
 
     @Override
