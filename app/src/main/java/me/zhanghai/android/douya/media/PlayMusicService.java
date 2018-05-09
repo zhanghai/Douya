@@ -110,13 +110,15 @@ public class PlayMusicService extends Service {
         if (musicChanged) {
             mMediaPlayback.stop();
             List<MediaDescriptionCompat> mediaDescriptions = new ArrayList<>();
-            String mediaSubtitle = makeMediaSubtitle(music);
+            String artists = StringCompat.join(getString(R.string.item_information_delimiter_slash),
+                    music.getArtistNames());
             for (int i = 0; i < music.tracks.size(); ++i) {
                 Music.Track track = music.tracks.get(i);
                 mediaDescriptions.add(new MediaDescriptionCompat.Builder()
                         .setMediaId(makeMediaId(music, i))
                         .setTitle(track.title)
-                        .setSubtitle(mediaSubtitle)
+                        .setSubtitle(artists)
+                        .setDescription(music.title)
                         // TODO
                         //.setIconBitmap()
                         .setIconUri(Uri.parse(ObjectUtils.firstNonNull(track.coverUrl,
@@ -135,11 +137,5 @@ public class PlayMusicService extends Service {
 
     private String makeMediaId(Music music, int index) {
         return music.id + "#" + index;
-    }
-
-    private String makeMediaSubtitle(Music music) {
-        String delimiter = getString(R.string.item_information_delimiter_slash);
-        String artists = StringCompat.join(delimiter, music.getArtistNames());
-        return getString(R.string.media_subtitle_format, artists, music.title);
     }
 }

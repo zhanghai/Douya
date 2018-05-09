@@ -44,7 +44,6 @@
     <string name="duration_hour_minute_second_format">%1$d:%2$02d:%3$02d</string>
     <string name="duration_minute_second_format">%1$02d:%2$02d</string>
 
-    <string name="media_subtitle_format">%1$s - %2$s</string>
     <string name="media_action_play">播放</string>
     <string name="media_action_pause">暂停</string>
     <string name="media_action_skip_to_previous">上一首</string>
