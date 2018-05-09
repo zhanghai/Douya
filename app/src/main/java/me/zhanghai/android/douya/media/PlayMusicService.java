@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.media;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.Notifications;
+import me.zhanghai.android.douya.item.ui.MusicActivity;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.ObjectUtils;
@@ -109,6 +111,11 @@ public class PlayMusicService extends Service {
         mMusicId = music.id;
         if (musicChanged) {
             mMediaPlayback.stop();
+            // TODO: Use dedicated session activity.
+            PendingIntent sessionActivity = PendingIntent.getActivity(this,
+                    MusicActivity.class.getName().hashCode(), MusicActivity.makeIntent(music, this),
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            mMediaPlayback.setSessionActivity(sessionActivity);
             List<MediaDescriptionCompat> mediaDescriptions = new ArrayList<>();
             String artists = StringCompat.join(getString(R.string.item_information_delimiter_slash),
                     music.getArtistNames());

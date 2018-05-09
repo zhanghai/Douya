@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.media;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.support.v4.media.AudioAttributesCompat;
 import android.support.v4.media.MediaDescriptionCompat;
@@ -72,6 +73,10 @@ public class MediaPlayback {
 
     public MediaSessionCompat getMediaSession() {
         return mMediaSession;
+    }
+
+    public void setSessionActivity(PendingIntent sessionActivity) {
+        mMediaSession.setSessionActivity(sessionActivity);
     }
 
     public void setMediaDescriptions(List<MediaDescriptionCompat> mediaDescriptions) {
