@@ -31,9 +31,9 @@ public class MusicResource extends BaseItemResource<SimpleMusic, Music> {
         MusicResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(musicId, simpleMusic, music);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

@@ -49,9 +49,9 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
         BroadcastAndCommentListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(broadcastId, broadcast);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

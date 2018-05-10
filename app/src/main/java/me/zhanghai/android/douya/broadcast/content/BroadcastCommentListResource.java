@@ -41,9 +41,9 @@ public class BroadcastCommentListResource extends CommentListResource {
         BroadcastCommentListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(broadcastId);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

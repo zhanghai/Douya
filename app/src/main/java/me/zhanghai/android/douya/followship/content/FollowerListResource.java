@@ -28,9 +28,9 @@ public class FollowerListResource extends FollowshipUserListResource {
         FollowerListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(userIdOrUid);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

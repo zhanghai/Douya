@@ -50,9 +50,9 @@ public class UserResource extends ResourceFragment<User, User> {
         UserResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(userIdOrUid, simpleUser, user);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

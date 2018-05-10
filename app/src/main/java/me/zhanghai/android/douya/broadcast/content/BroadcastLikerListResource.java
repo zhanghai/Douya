@@ -40,9 +40,9 @@ public class BroadcastLikerListResource extends BaseUserListResource<BroadcastLi
         BroadcastLikerListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(broadcastId);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

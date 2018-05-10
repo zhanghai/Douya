@@ -31,9 +31,9 @@ public class MovieResource extends BaseItemResource<SimpleMovie, Movie> {
         MovieResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(movieId, simpleMovie, movie);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

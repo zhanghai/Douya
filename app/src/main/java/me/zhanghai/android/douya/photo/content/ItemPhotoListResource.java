@@ -38,9 +38,9 @@ public class ItemPhotoListResource extends BasePhotoListResource {
         ItemPhotoListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(itemType, itemId);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

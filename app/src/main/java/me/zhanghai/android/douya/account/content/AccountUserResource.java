@@ -37,9 +37,9 @@ public class AccountUserResource extends UserResource {
         AccountUserResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance(account);
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 

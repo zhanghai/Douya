@@ -52,9 +52,9 @@ public class NotificationListResource
         NotificationListResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
             instance = newInstance();
-            instance.targetAt(fragment, requestCode);
             FragmentUtils.add(instance, activity, tag);
         }
+        instance.targetAt(fragment, requestCode);
         return instance;
     }
 
