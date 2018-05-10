@@ -120,7 +120,6 @@ public class PlayMusicService extends Service {
 
         // TODO: Wake lock, wifi lock.
         // TODO: Better Metadata.
-        // TODO: Become noisy listener
 
         boolean musicChanged = music.id != mMusicId;
         mMusicId = music.id;
