@@ -28,11 +28,10 @@ public class MediaButtonReceiver extends BroadcastReceiver {
                     action);
             return null;
         }
-        int requestCode = MediaButtonReceiver.class.getName().hashCode() + keyCode;
         Intent intent = new Intent(context, MediaButtonReceiver.class)
                 .setAction(Intent.ACTION_MEDIA_BUTTON)
                 .putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
-        return PendingIntent.getBroadcast(context, requestCode, intent,
+        return PendingIntent.getBroadcast(context, keyCode, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
 

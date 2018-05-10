@@ -127,9 +127,8 @@ public class PlayMusicService extends Service {
         if (musicChanged) {
             mMediaPlayback.stop();
             // TODO: Use dedicated session activity.
-            PendingIntent sessionActivity = PendingIntent.getActivity(this,
-                    MusicActivity.class.getName().hashCode(), MusicActivity.makeIntent(music, this),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent sessionActivity = PendingIntent.getActivity(this, 0,
+                    MusicActivity.makeIntent(music, this), PendingIntent.FLAG_UPDATE_CURRENT);
             mMediaPlayback.setSessionActivity(sessionActivity);
             List<MediaDescriptionCompat> mediaDescriptions = new ArrayList<>();
             String artists = StringCompat.join(getString(R.string.item_information_delimiter_slash),
