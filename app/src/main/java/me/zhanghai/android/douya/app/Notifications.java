@@ -17,7 +17,7 @@ public interface Notifications {
             String ID = "send_broadcast";
             int NAME_RES = R.string.notification_channel_send_broadcast_name;
             int DESCRIPTION_RES = R.string.notification_channel_send_broadcast_description;
-            int IMPORTANCE = NotificationManagerCompat.IMPORTANCE_DEFAULT;
+            int IMPORTANCE = NotificationManagerCompat.IMPORTANCE_LOW;
         }
 
         interface PLAY_MUSIC {
