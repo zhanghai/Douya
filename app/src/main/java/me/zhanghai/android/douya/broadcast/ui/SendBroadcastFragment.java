@@ -518,10 +518,10 @@ public class SendBroadcastFragment extends Fragment
         getActivity().setTitle(sending ? R.string.broadcast_send_title_sending
                 : R.string.broadcast_send_title);
         boolean enabled = !sending;
-        mTextEdit.setEnabled(enabled);
         if (mSendMenuItem != null) {
             mSendMenuItem.setEnabled(enabled);
         }
+        mTextEdit.setEnabled(enabled);
         if (sending) {
             mTextEdit.setText(manager.getText(mWriterId));
         }

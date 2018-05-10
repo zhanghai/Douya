@@ -337,14 +337,16 @@ public class ItemCollectionFragment extends Fragment
         activity.setTitle(sending ? getString(R.string.item_collection_title_saving_format,
                 mItem.getType().getName(activity)) : mItem.title);
         boolean enabled = !sending;
+        if (mCollectMenuItem != null) {
+            mCollectMenuItem.setEnabled(enabled);
+        }
         mStateLayout.setEnabled(enabled);
         mStateSpinner.setEnabled(enabled);
         mRatingBar.setIsIndicator(!enabled);
         mTagsEdit.setEnabled(enabled);
         mCommentEdit.setEnabled(enabled);
-        if (mCollectMenuItem != null) {
-            mCollectMenuItem.setEnabled(enabled);
-        }
+        mShareToBroadcastCheckBox.setEnabled(enabled);
+        mShareToWeiboCheckBox.setEnabled(enabled);
         if (sending) {
             mStateSpinner.setSelection(manager.getState(mItem).ordinal(), false);
             // FIXME
