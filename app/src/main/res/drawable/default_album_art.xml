@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<!--
+  ~ L: @android:layout/notification_template_material_big_media
+  ~        @android:dimen/notification_large_icon_width 64dp
+  ~    @android:layout/notification_template_material_big_media_narrow 128dp
+  ~ N: @android:dimen/media_notification_expanded_image_max_size 94dp
+  -->
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+
+    <path
+        android:fillColor="#FFE0E0E0"
+        android:pathData="M0,0h80v80h-80z" />
+
+    <path
+        android:fillColor="#FF9E9E9E"
+        android:pathData="M60,40a20,20 0 0 0 -20,-20 20,20 0 0 0 -20,20 20,20 0 0 0 20,20 20,20 0 0 0 20,-20z" />
+
+    <path
+        android:fillColor="#FFE0E0E0"
+        android:pathData="M40 31v10.55c-0.59-0.34-1.27-0.55-2-0.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4v-10h4v-4h-6z" />
+</vector>

@@ -10,6 +10,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,8 +19,10 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.v7.content.res.AppCompatResources;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.util.BitmapUtils;
 import me.zhanghai.android.douya.util.FunctionCompat;
 
 public class MediaNotification {
@@ -90,20 +93,19 @@ public class MediaNotification {
                 .setContentTitle(description.getTitle())
                 .setContentText(description.getSubtitle())
                 .setSubText(description.getDescription());
-        if (description.getIconBitmap() != null) {
-            builder.setLargeIcon(description.getIconBitmap());
-        } else {
-            // TODO
+        Bitmap largeIcon = description.getIconBitmap();
+        if (largeIcon == null) {
+            largeIcon = BitmapUtils.drawableToBitmap(AppCompatResources.getDrawable(mService,
+                    R.drawable.default_album_art));
         }
         builder
+                .setLargeIcon(largeIcon)
                 .setContentIntent(controller.getSessionActivity())
                 .setDeleteIntent(MediaButtonReceiver.makePendingIntent(mService,
                         PlaybackStateCompat.ACTION_STOP))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSmallIcon(mSmallIconRes);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            builder.setColor(ContextCompat.getColor(mService, mColorRes));
-        }
+                .setSmallIcon(mSmallIconRes)
+                .setColor(ContextCompat.getColor(mService, mColorRes));
         builder.setShowWhen(false);
         boolean isPlaying = mIsPlaying.getAsBoolean();
         builder
