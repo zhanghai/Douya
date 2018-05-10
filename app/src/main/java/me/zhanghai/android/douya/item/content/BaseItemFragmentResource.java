@@ -108,34 +108,34 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     private void ensureResourcesTarget() {
         if (mItemResource != null) {
-            mItemResource.targetAt(this);
+            mItemResource.setTarget(this);
         }
         if (mRatingResource != null) {
-            mRatingResource.targetAt(this);
+            mRatingResource.setTarget(this);
         }
         if (mPhotoListResource != null) {
-            mPhotoListResource.targetAt(this);
+            mPhotoListResource.setTarget(this);
         }
         if (mCelebrityListResource != null) {
-            mCelebrityListResource.targetAt(this);
+            mCelebrityListResource.setTarget(this);
         }
         if (mAwardListResource != null) {
-            mAwardListResource.targetAt(this);
+            mAwardListResource.setTarget(this);
         }
         if (mItemCollectionListResource != null) {
-            mItemCollectionListResource.targetAt(this);
+            mItemCollectionListResource.setTarget(this);
         }
         if (mReviewListResource != null) {
-            mReviewListResource.targetAt(this);
+            mReviewListResource.setTarget(this);
         }
         if (mForumTopicListResource != null) {
-            mForumTopicListResource.targetAt(this);
+            mForumTopicListResource.setTarget(this);
         }
         if (mRecommendationListResource != null) {
-            mRecommendationListResource.targetAt(this);
+            mRecommendationListResource.setTarget(this);
         }
         if (mRelatedDoulistListResource != null) {
-            mRelatedDoulistListResource.targetAt(this);
+            mRelatedDoulistListResource.setTarget(this);
         }
     }
 

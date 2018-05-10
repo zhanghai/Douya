@@ -42,7 +42,7 @@ public class MusicFragmentResource extends BaseItemFragmentResource<SimpleMusic,
             instance = newInstance(musicId, simpleMusic, music);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

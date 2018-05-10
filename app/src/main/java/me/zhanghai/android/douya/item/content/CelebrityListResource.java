@@ -46,7 +46,7 @@ public class CelebrityListResource extends RawListResourceFragment<CelebrityList
             instance = newInstance(itemType, itemId);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

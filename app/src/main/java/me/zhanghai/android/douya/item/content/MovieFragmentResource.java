@@ -42,7 +42,7 @@ public class MovieFragmentResource extends BaseItemFragmentResource<SimpleMovie,
             instance = newInstance(movieId, simpleMovie, movie);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

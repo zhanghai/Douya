@@ -52,7 +52,7 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
             instance = newInstance(broadcastId, broadcast);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

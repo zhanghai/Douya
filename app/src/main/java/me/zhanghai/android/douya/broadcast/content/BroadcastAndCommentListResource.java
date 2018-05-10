@@ -52,7 +52,7 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
             instance = newInstance(broadcastId, broadcast);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 
@@ -83,10 +83,10 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
 
     private void ensureResourcesTarget() {
         if (mBroadcastResource != null) {
-            mBroadcastResource.targetAt(this);
+            mBroadcastResource.setTarget(this);
         }
         if (mCommentListResource != null) {
-            mCommentListResource.targetAt(this);
+            mCommentListResource.setTarget(this);
         }
     }
 

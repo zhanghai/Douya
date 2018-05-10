@@ -57,7 +57,7 @@ public class ItemCollectionListResource
             instance = newInstance(itemType, itemId, followingsFirst);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

@@ -33,7 +33,7 @@ public class MusicResource extends BaseItemResource<SimpleMusic, Music> {
             instance = newInstance(musicId, simpleMusic, music);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

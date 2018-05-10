@@ -28,7 +28,7 @@ public class AuthenticateRequest extends RequestFragment<AuthenticateRequest.Req
             instance = new AuthenticateRequest();
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

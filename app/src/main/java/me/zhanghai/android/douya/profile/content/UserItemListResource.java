@@ -43,7 +43,7 @@ public class UserItemListResource extends RawListResourceFragment<UserItemList, 
             instance = newInstance(userIdOrUid);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

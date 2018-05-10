@@ -52,7 +52,7 @@ public class UserResource extends ResourceFragment<User, User> {
             instance = newInstance(userIdOrUid, simpleUser, user);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

@@ -16,13 +16,13 @@ public class TargetedRetainedFragment extends RetainedFragment {
     private Fragment mTargetFragment;
     private int mRequestCode = REQUEST_CODE_INVALID;
 
-    public void targetAt(Fragment targetFragment, int requestCode) {
+    public void setTarget(Fragment targetFragment, int requestCode) {
         mTargetFragment = targetFragment;
         mRequestCode = requestCode;
     }
 
-    public void targetAt(Fragment fragment) {
-        targetAt(fragment, REQUEST_CODE_INVALID);
+    public void setTarget(Fragment fragment) {
+        setTarget(fragment, REQUEST_CODE_INVALID);
     }
 
     protected Fragment getTarget() {

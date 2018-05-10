@@ -46,7 +46,7 @@ public class ApiV2BroadcastListResource
             instance = newInstance(userIdOrUid, topic);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 

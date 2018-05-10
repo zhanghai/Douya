@@ -71,7 +71,7 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
             instance = newInstance(userIdOrUid, simpleUser, user);
             FragmentUtils.add(instance, activity, tag);
         }
-        instance.targetAt(fragment, requestCode);
+        instance.setTarget(fragment, requestCode);
         return instance;
     }
 
@@ -137,22 +137,22 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
 
     private void ensureResourcesTarget() {
         if (mUserResource != null) {
-            mUserResource.targetAt(this);
+            mUserResource.setTarget(this);
         }
         if (mBroadcastListResource != null) {
-            mBroadcastListResource.targetAt(this);
+            mBroadcastListResource.setTarget(this);
         }
         if (mFollowingListResource != null) {
-            mFollowingListResource.targetAt(this);
+            mFollowingListResource.setTarget(this);
         }
         if (mDiaryListResource != null) {
-            mDiaryListResource.targetAt(this);
+            mDiaryListResource.setTarget(this);
         }
         if (mUserItemListResource != null) {
-            mUserItemListResource.targetAt(this);
+            mUserItemListResource.setTarget(this);
         }
         if (mReviewListResource != null) {
-            mReviewListResource.targetAt(this);
+            mReviewListResource.setTarget(this);
         }
     }
 
