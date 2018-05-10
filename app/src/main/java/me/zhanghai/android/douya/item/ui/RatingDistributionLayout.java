@@ -6,10 +6,9 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -48,7 +47,7 @@ public class RatingDistributionLayout extends TableLayout {
 
     private void init() {
 
-        setDividerDrawable(ContextCompat.getDrawable(getContext(),
+        setDividerDrawable(AppCompatResources.getDrawable(getContext(),
                 R.drawable.transparent_divider_horizontal_2dp));
         setShowDividers(SHOW_DIVIDER_MIDDLE);
         setColumnShrinkable(1, true);

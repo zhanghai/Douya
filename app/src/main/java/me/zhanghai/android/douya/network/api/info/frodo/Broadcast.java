@@ -9,9 +9,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.util.ObjectsCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.network.api.info.ClipboardCopyable;
 import me.zhanghai.android.douya.network.api.info.UrlGettable;
-import me.zhanghai.android.douya.ui.SpaceSpan;
 import me.zhanghai.android.douya.ui.IconSpan;
+import me.zhanghai.android.douya.ui.SpaceSpan;
 import me.zhanghai.android.douya.ui.UriSpan;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.GsonHelper;
@@ -202,7 +202,7 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
             int parentIconStartIndex = builder.length();
             builder.append(" ");
             int parentIconEndIndex = builder.length();
-            Drawable icon = ContextCompat.getDrawable(context,
+            Drawable icon = AppCompatResources.getDrawable(context,
                     R.drawable.rebroadcast_icon_white_18dp);
             icon = DrawableCompat.wrap(icon);
             DrawableCompat.setTint(icon, ViewUtils.getColorFromAttrRes(parentBroadcast.isDeleted ?

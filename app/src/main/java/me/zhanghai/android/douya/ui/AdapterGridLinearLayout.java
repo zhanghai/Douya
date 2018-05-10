@@ -10,7 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -51,7 +51,7 @@ public class AdapterGridLinearLayout extends AdapterLinearLayout {
     }
 
     public void setHorizontalDivider(int dividerRes) {
-        mHorizontalDivider = ContextCompat.getDrawable(getContext(), dividerRes);
+        mHorizontalDivider = AppCompatResources.getDrawable(getContext(), dividerRes);
     }
 
     @Override

@@ -9,8 +9,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +48,7 @@ public class ActionItemBadge {
     }
 
     public static void setup(MenuItem menuItem, int iconResId, int count, Activity activity) {
-        setup(menuItem, ContextCompat.getDrawable(activity, iconResId), count, activity);
+        setup(menuItem, AppCompatResources.getDrawable(activity, iconResId), count, activity);
     }
 
     private static void update(TextView badgeText, int count) {
