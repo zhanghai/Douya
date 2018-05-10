@@ -19,7 +19,7 @@ import java.io.IOException;
 public class FileImageInfoDecoder implements ResourceDecoder<File, ImageInfo> {
 
     @Override
-    public boolean handles(File source, Options options) throws IOException {
+    public boolean handles(File source, Options options) {
         return true;
     }
 
