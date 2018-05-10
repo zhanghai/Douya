@@ -15,6 +15,7 @@ import android.media.PlaybackParams;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.media.AudioAttributesCompat;
+import android.support.v4.util.ObjectsCompat;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -129,7 +130,7 @@ public class MediaExoPlayer implements ExoPlayer {
 
     @Override
     public void removeListener(Player.EventListener listener) {
-        mPlayer.removeListener(((EventListenerWrapper) listener).getWrappedListener());
+        mPlayer.removeListener(new EventListenerWrapper(listener));
     }
 
     @Override
@@ -183,13 +184,26 @@ public class MediaExoPlayer implements ExoPlayer {
             mListener = listener;
         }
 
-        public Player.EventListener getWrappedListener() {
-            return mListener;
-        }
-
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
             mListener.onPlayerStateChanged(getPlayWhenReady(), playbackState);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (object == this) {
+                return true;
+            }
+            if (object == null || getClass() != object.getClass()) {
+                return false;
+            }
+            EventListenerWrapper that = (EventListenerWrapper) object;
+            return ObjectsCompat.equals(mListener, that.mListener);
+        }
+
+        @Override
+        public int hashCode() {
+            return ObjectsCompat.hash(mListener);
         }
 
 
