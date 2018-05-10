@@ -176,11 +176,11 @@ public class FragmentUtils {
         replace(fragment, parentFragment.getChildFragmentManager(), null);
     }
 
-    public static void execPendingTransactions(FragmentActivity activity) {
+    public static void executePendingTransactions(FragmentActivity activity) {
         activity.getSupportFragmentManager().executePendingTransactions();
     }
 
-    public static void execPendingTransactions(Fragment fragment) {
+    public static void executePendingTransactions(Fragment fragment) {
         fragment.getFragmentManager().executePendingTransactions();
     }
 }

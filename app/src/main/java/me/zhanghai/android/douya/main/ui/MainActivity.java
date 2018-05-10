@@ -193,9 +193,9 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         if (mDoumailUnreadCountFragment != null) {
             FragmentUtils.remove(mDoumailUnreadCountFragment);
         }
-        FragmentUtils.execPendingTransactions(this);
+        FragmentUtils.executePendingTransactions(this);
         addFragments();
-        FragmentUtils.execPendingTransactions(this);
+        FragmentUtils.executePendingTransactions(this);
     }
 
     private void addFragments() {
