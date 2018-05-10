@@ -41,6 +41,10 @@ public class AudioManagerCompat {
                                         AudioManager.OnAudioFocusChangeListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AudioFocusRequest request = (AudioFocusRequest) sListenerRequestMap.remove(listener);
+            if (listener != null && request == null) {
+                // The same behavior as abandoning a never requested or already abandoned request.
+                return AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+            }
             return audioManager.abandonAudioFocusRequest(request);
         } else {
             //noinspection deprecation
