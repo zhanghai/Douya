@@ -38,8 +38,6 @@
             android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
@@ -47,10 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:text="★"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="8dp" />
+            android:textSize="8sp" />
     </LinearLayout>
 </android.support.design.internal.ForegroundLinearLayout>
