@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.item.content;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import java.util.List;
@@ -96,6 +97,46 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         // Can be called before onCreate() is called.
         ensureArguments();
         return mItem != null;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        ensureResourcesTarget();
+    }
+
+    private void ensureResourcesTarget() {
+        if (mItemResource != null) {
+            mItemResource.targetAt(this);
+        }
+        if (mRatingResource != null) {
+            mRatingResource.targetAt(this);
+        }
+        if (mPhotoListResource != null) {
+            mPhotoListResource.targetAt(this);
+        }
+        if (mCelebrityListResource != null) {
+            mCelebrityListResource.targetAt(this);
+        }
+        if (mAwardListResource != null) {
+            mAwardListResource.targetAt(this);
+        }
+        if (mItemCollectionListResource != null) {
+            mItemCollectionListResource.targetAt(this);
+        }
+        if (mReviewListResource != null) {
+            mReviewListResource.targetAt(this);
+        }
+        if (mForumTopicListResource != null) {
+            mForumTopicListResource.targetAt(this);
+        }
+        if (mRecommendationListResource != null) {
+            mRecommendationListResource.targetAt(this);
+        }
+        if (mRelatedDoulistListResource != null) {
+            mRelatedDoulistListResource.targetAt(this);
+        }
     }
 
     @Override

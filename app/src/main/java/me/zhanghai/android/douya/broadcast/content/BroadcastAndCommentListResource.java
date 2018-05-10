@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.broadcast.content;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -71,6 +72,22 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
         arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
         arguments.putParcelable(EXTRA_BROADCAST, broadcast);
         return this;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        ensureResourcesTarget();
+    }
+
+    private void ensureResourcesTarget() {
+        if (mBroadcastResource != null) {
+            mBroadcastResource.targetAt(this);
+        }
+        if (mCommentListResource != null) {
+            mCommentListResource.targetAt(this);
+        }
     }
 
     @Override

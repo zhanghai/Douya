@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.profile.content;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -125,6 +126,34 @@ public class ProfileResource extends TargetedRetainedFragment implements UserRes
         // Can be called before onCreate() is called.
         ensureArguments();
         return mUser != null;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        ensureResourcesTarget();
+    }
+
+    private void ensureResourcesTarget() {
+        if (mUserResource != null) {
+            mUserResource.targetAt(this);
+        }
+        if (mBroadcastListResource != null) {
+            mBroadcastListResource.targetAt(this);
+        }
+        if (mFollowingListResource != null) {
+            mFollowingListResource.targetAt(this);
+        }
+        if (mDiaryListResource != null) {
+            mDiaryListResource.targetAt(this);
+        }
+        if (mUserItemListResource != null) {
+            mUserItemListResource.targetAt(this);
+        }
+        if (mReviewListResource != null) {
+            mReviewListResource.targetAt(this);
+        }
     }
 
     @Override
