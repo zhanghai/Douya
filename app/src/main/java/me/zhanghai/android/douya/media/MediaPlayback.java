@@ -11,8 +11,10 @@ import android.support.v4.media.AudioAttributesCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.ext.mediasession.DefaultPlaybackController;
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -25,6 +27,7 @@ import me.zhanghai.android.douya.util.FunctionCompat;
 public class MediaPlayback {
 
     private FunctionCompat.Function<MediaDescriptionCompat, MediaSource> mCreateMediaSource;
+    private Runnable mStop;
 
     private List<MediaDescriptionCompat> mMediaDescriptions = new ArrayList<>();
 
@@ -34,9 +37,10 @@ public class MediaPlayback {
 
     public MediaPlayback(
             FunctionCompat.Function<MediaDescriptionCompat, MediaSource> createMediaSource,
-            Context context) {
+            Runnable stop, Context context) {
 
         mCreateMediaSource = createMediaSource;
+        mStop = stop;
 
         context = context.getApplicationContext();
         AudioAttributesCompat audioAttributes = new AudioAttributesCompat.Builder()
@@ -55,10 +59,20 @@ public class MediaPlayback {
                     skipToQueueItem(0);
                 }
             }
+            @Override
+            public void onPlayerError(ExoPlaybackException error) {
+                error.printStackTrace();
+            }
         });
 
         mMediaSession = new MediaSessionCompat(context, context.getPackageName());
-        mMediaSessionConnector = new MediaSessionConnector(mMediaSession);
+        mMediaSessionConnector = new MediaSessionConnector(mMediaSession,
+                new DefaultPlaybackController() {
+                    @Override
+                    public void onStop(Player player) {
+                        mStop.run();
+                    }
+                });
         mMediaSessionConnector.setQueueNavigator(new MediaQueueNavigator(mMediaSession) {
             @Override
             public MediaDescriptionCompat getMediaDescription(Player player, int windowIndex) {

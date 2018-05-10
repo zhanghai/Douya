@@ -222,15 +222,9 @@
 
         <service android:name=".gallery.app.SaveImageService" />
 
-        <service
-            android:name=".media.PlayMusicService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </service>
+        <service android:name=".media.PlayMusicService" />
 
-        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
+        <receiver android:name=".media.MediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>

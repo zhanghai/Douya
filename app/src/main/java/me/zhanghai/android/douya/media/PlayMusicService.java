@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.media.MediaDescriptionCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
 
 import com.google.android.exoplayer2.source.MediaSource;
 
@@ -41,6 +40,8 @@ public class PlayMusicService extends Service {
 
     private long mMusicId;
 
+    private boolean mStopped;
+
     public static void start(Music music, int trackIndex, Context context) {
         Intent intent = new Intent(context, PlayMusicService.class)
                 .putExtra(EXTRA_MUSIC, music)
@@ -57,7 +58,9 @@ public class PlayMusicService extends Service {
         super.onCreate();
 
         mMediaSourceFactory = new OkHttpMediaSourceFactory();
-        mMediaPlayback = new MediaPlayback(this::createMediaSourceFromMediaDescription, this);
+        mMediaPlayback = new MediaPlayback(this::createMediaSourceFromMediaDescription, this::stop,
+                this);
+        MediaButtonReceiver.setMediaSessionHost(() -> mMediaPlayback.getMediaSession());
         mMediaNotification = new MediaNotification(this, mMediaPlayback.getMediaSession(),
                 () -> mMediaPlayback.isPlaying(), Notifications.Channels.PLAY_MUSIC.ID,
                 Notifications.Channels.PLAY_MUSIC.NAME_RES,
@@ -71,19 +74,31 @@ public class PlayMusicService extends Service {
         return mMediaSourceFactory.create(mediaDescription.getMediaUri());
     }
 
+    private void stop() {
+        performStop();
+        stopSelf();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
 
+        // Just in case.
+        performStop();
+    }
+
+    private void performStop() {
+        if (mStopped) {
+            return;
+        }
         mMediaNotification.stop();
+        MediaButtonReceiver.setMediaSessionHost(null);
         mMediaPlayback.release();
+        mStopped = true;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (MediaButtonReceiver.handleIntent(mMediaPlayback.getMediaSession(), intent) != null) {
-            return START_NOT_STICKY;
-        }
         if (intent == null) {
             LogUtils.e("Intent is null in onStartCommand()");
             return START_NOT_STICKY;
