@@ -22,14 +22,14 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.content.res.AppCompatResources;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.functional.compat.BooleanSupplier;
 import me.zhanghai.android.douya.util.BitmapUtils;
-import me.zhanghai.android.douya.util.FunctionCompat;
 
 public class MediaNotification {
 
     private Service mService;
     private MediaSessionCompat mMediaSession;
-    private FunctionCompat.BooleanSupplier mIsPlaying;
+    private BooleanSupplier mIsPlaying;
     private String mChannelId;
     private int mChannelNameRes;
     private int mChannelDescriptionRes;
@@ -54,9 +54,9 @@ public class MediaNotification {
     };
 
     public MediaNotification(Service service, MediaSessionCompat mediaSession,
-                             FunctionCompat.BooleanSupplier isPlaying, String channelId,
-                             int channelNameRes, int channelDescriptionRes, int channelImportance,
-                             int notificationId, int smallIconRes, int colorRes) {
+                             BooleanSupplier isPlaying, String channelId, int channelNameRes,
+                             int channelDescriptionRes, int channelImportance, int notificationId,
+                             int smallIconRes, int colorRes) {
 
         mService = service;
         mMediaSession = mediaSession;

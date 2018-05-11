@@ -13,6 +13,16 @@
     <item name="weight_1_when_phone" type="dimen" format="float">1</item>
     <item name="weight_1_when_tablet" type="dimen" format="float">0</item>
 
+    <!--
+     ~ L: @android:layout/notification_template_material_big_media
+     ~        @android:dimen/notification_large_icon_width 64dp
+     ~    @android:layout/notification_template_material_big_media_narrow 128dp
+     ~ N: @android:dimen/media_notification_expanded_image_max_size 94dp
+     -->
+    <dimen name="media_display_icon_max_size">128dp</dimen>
+    <!-- @see MediaSession#mMaxBitmapSize -->
+    <dimen name="media_art_max_size">320dp</dimen>
+
     <!-- @deprecated: Not reliable, for example on MIUI. -->
     <dimen name="status_bar_height">25dp</dimen>
     <dimen name="screen_edge_horizontal_margin">16dp</dimen>

@@ -9,11 +9,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.support.v4.media.AudioAttributesCompat;
 import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.ext.mediasession.DefaultPlaybackController;
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
@@ -22,22 +25,21 @@ import com.google.android.exoplayer2.source.MediaSource;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.zhanghai.android.douya.util.FunctionCompat;
+import me.zhanghai.android.douya.functional.compat.Function;
 
 public class MediaPlayback {
 
-    private FunctionCompat.Function<MediaDescriptionCompat, MediaSource> mCreateMediaSource;
+    private Function<MediaMetadataCompat, MediaSource> mCreateMediaSource;
     private Runnable mStop;
 
-    private List<MediaDescriptionCompat> mMediaDescriptions = new ArrayList<>();
+    private List<MediaMetadataCompat> mMediaMetadatas = new ArrayList<>();
 
     private ExoPlayer mPlayer;
     private MediaSessionCompat mMediaSession;
     private MediaSessionConnector mMediaSessionConnector;
 
-    public MediaPlayback(
-            FunctionCompat.Function<MediaDescriptionCompat, MediaSource> createMediaSource,
-            Runnable stop, Context context) {
+    public MediaPlayback(Function<MediaMetadataCompat, MediaSource> createMediaSource,
+                         Runnable stop, Context context) {
 
         mCreateMediaSource = createMediaSource;
         mStop = stop;
@@ -49,6 +51,10 @@ public class MediaPlayback {
                 .build();
         mPlayer = new MediaExoPlayer(audioAttributes, context);
         mPlayer.addListener(new Player.DefaultEventListener() {
+            @Override
+            public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+                updateMediaSessionMetadata();
+            }
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                 // If we don't check for playWhenReady, we end up called recursively from pause().
@@ -63,6 +69,10 @@ public class MediaPlayback {
             public void onPlayerError(ExoPlaybackException error) {
                 error.printStackTrace();
             }
+            @Override
+            public void onPositionDiscontinuity(int reason) {
+                updateMediaSessionMetadata();
+            }
         });
 
         mMediaSession = new MediaSessionCompat(context, context.getPackageName());
@@ -72,11 +82,11 @@ public class MediaPlayback {
                     public void onStop(Player player) {
                         mStop.run();
                     }
-                });
+                }, false, null);
         mMediaSessionConnector.setQueueNavigator(new MediaQueueNavigator(mMediaSession) {
             @Override
             public MediaDescriptionCompat getMediaDescription(Player player, int windowIndex) {
-                return mMediaDescriptions.get(windowIndex);
+                return mMediaMetadatas.get(windowIndex).getDescription();
             }
         });
     }
@@ -93,27 +103,52 @@ public class MediaPlayback {
         mMediaSession.setSessionActivity(sessionActivity);
     }
 
-    public void setMediaDescriptions(List<MediaDescriptionCompat> mediaDescriptions) {
-        mMediaDescriptions.clear();
-        mMediaDescriptions.addAll(mediaDescriptions);
+    public List<MediaMetadataCompat> getMediaMetadatas() {
+        return mMediaMetadatas;
+    }
+
+    public void setMediaMetadatas(List<MediaMetadataCompat> mediaMetadatas) {
+        mMediaMetadatas.clear();
+        mMediaMetadatas.addAll(mediaMetadatas);
+        if (mPlayer.getPlaybackState() != Player.STATE_IDLE) {
+            updateMediaSessionMetadata();
+        }
     }
 
     public void start() {
         mPlayer.prepare(createMediaSource());
         mMediaSessionConnector.setPlayer(mPlayer, null);
+        updateMediaSessionMetadata();
         mMediaSession.setActive(true);
     }
 
     private MediaSource createMediaSource() {
-        if (mMediaDescriptions.size() == 1) {
-            return mCreateMediaSource.apply(mMediaDescriptions.get(0));
+        if (mMediaMetadatas.size() == 1) {
+            return mCreateMediaSource.apply(mMediaMetadatas.get(0));
         }
-        MediaSource[] mediaSources = new MediaSource[mMediaDescriptions.size()];
-        for (int i = 0; i < mMediaDescriptions.size(); i++) {
-            MediaDescriptionCompat mediaDescription = mMediaDescriptions.get(i);
-            mediaSources[i] = mCreateMediaSource.apply(mediaDescription);
+        MediaSource[] mediaSources = new MediaSource[mMediaMetadatas.size()];
+        for (int i = 0; i < mMediaMetadatas.size(); ++i) {
+            MediaMetadataCompat mediaMetadata = mMediaMetadatas.get(i);
+            mediaSources[i] = mCreateMediaSource.apply(mediaMetadata);
         }
         return new ConcatenatingMediaSource(mediaSources);
+    }
+
+    private void updateMediaSessionMetadata() {
+        int index = getActiveQueueItemIndex();
+        if (index == C.INDEX_UNSET) {
+            // TODO: Or empty metadata?
+            mMediaSession.setMetadata(null);
+        }
+        MediaMetadataCompat mediaMetadata = mMediaMetadatas.get(index);
+        long duration = mPlayer.getDuration();
+        if (duration != C.TIME_UNSET
+                && mediaMetadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION) != duration) {
+            mediaMetadata = new MediaMetadataCompat.Builder(mediaMetadata)
+                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
+                    .build();
+        }
+        mMediaSession.setMetadata(mediaMetadata);
     }
 
     public void stop() {

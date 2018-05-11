@@ -9,11 +9,19 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.RatingCompat;
+import android.text.TextUtils;
+import android.util.TypedValue;
 
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.exoplayer2.source.MediaSource;
 
 import java.util.ArrayList;
@@ -21,10 +29,12 @@ import java.util.List;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.Notifications;
+import me.zhanghai.android.douya.functional.Functional;
+import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.item.ui.MusicActivity;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
+import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.LogUtils;
-import me.zhanghai.android.douya.util.ObjectUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 
 public class PlayMusicService extends Service {
@@ -33,6 +43,9 @@ public class PlayMusicService extends Service {
 
     private static final String EXTRA_MUSIC = KEY_PREFIX + "music";
     private static final String EXTRA_TRACK_INDEX = KEY_PREFIX + "track_index";
+
+    private int mMediaDisplayIconMaxSize;
+    private int mMediaArtMaxSize;
 
     private OkHttpMediaSourceFactory mMediaSourceFactory;
     private MediaPlayback mMediaPlayback;
@@ -57,6 +70,15 @@ public class PlayMusicService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        Resources resources = getResources();
+        mMediaDisplayIconMaxSize = resources.getDimensionPixelSize(
+                R.dimen.media_display_icon_max_size);
+        // This can actually be 1 smaller than the following:
+        //mMediaArtMaxSize = resources.getDimensionPixelSize(R.dimen.media_art_max_size);
+        // @see MediaSessionCompat
+        mMediaArtMaxSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320,
+                resources.getDisplayMetrics());
+
         mMediaSourceFactory = new OkHttpMediaSourceFactory();
         mMediaPlayback = new MediaPlayback(this::createMediaSourceFromMediaDescription, this::stop,
                 this);
@@ -70,8 +92,9 @@ public class PlayMusicService extends Service {
     }
 
     private MediaSource createMediaSourceFromMediaDescription(
-            MediaDescriptionCompat mediaDescription) {
-        return mMediaSourceFactory.create(mediaDescription.getMediaUri());
+            MediaMetadataCompat mediaMetadata) {
+        Uri uri = Uri.parse(mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI));
+        return mMediaSourceFactory.create(uri);
     }
 
     private void stop() {
@@ -129,24 +152,10 @@ public class PlayMusicService extends Service {
             PendingIntent sessionActivity = PendingIntent.getActivity(this, 0,
                     MusicActivity.makeIntent(music, this), PendingIntent.FLAG_UPDATE_CURRENT);
             mMediaPlayback.setSessionActivity(sessionActivity);
-            List<MediaDescriptionCompat> mediaDescriptions = new ArrayList<>();
-            String artists = StringCompat.join(getString(R.string.item_information_delimiter_slash),
-                    music.getArtistNames());
-            for (int i = 0; i < music.tracks.size(); ++i) {
-                Music.Track track = music.tracks.get(i);
-                mediaDescriptions.add(new MediaDescriptionCompat.Builder()
-                        .setMediaId(makeMediaId(music, i))
-                        .setTitle(track.title)
-                        .setSubtitle(artists)
-                        .setDescription(music.title)
-                        // TODO
-                        //.setIconBitmap()
-                        .setIconUri(Uri.parse(ObjectUtils.firstNonNull(track.coverUrl,
-                                music.cover.getLargeUrl())))
-                        .setMediaUri(Uri.parse(track.previewUrl))
-                        .build());
-            }
-            mMediaPlayback.setMediaDescriptions(mediaDescriptions);
+            List<MediaMetadataCompat> mediaMetadatas = Functional.map(music.tracks,
+                    (track, index) -> makeMediaMetadata(music, track, index), new ArrayList<>());
+            mMediaPlayback.setMediaMetadatas(mediaMetadatas);
+            loadMediaMetadataAlbumArt(music);
             mMediaPlayback.start();
         }
 
@@ -155,7 +164,109 @@ public class PlayMusicService extends Service {
         mMediaNotification.start();
     }
 
-    private String makeMediaId(Music music, int index) {
-        return music.id + "#" + index;
+    private MediaMetadataCompat makeMediaMetadata(Music music, Music.Track track, int index) {
+        MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, track.title)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, track.title);
+        if (!music.artists.isEmpty()) {
+            String artists = StringCompat.join(getString(R.string.item_information_delimiter_slash),
+                    music.getArtistNames());
+            builder
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artists)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, artists)
+                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, artists);
+        }
+        if (track.duration > 0) {
+            int duration = track.duration * 1000;
+            builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration);
+        }
+        builder
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.title)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, music.title);
+        String date = music.getReleaseDate();
+        if (!TextUtils.isEmpty(date)) {
+            builder.putString(MediaMetadataCompat.METADATA_KEY_DATE, date);
+            if (date.length() > 4) {
+                try {
+                    long year = Long.parseLong(date.substring(0, 4));
+                    builder.putLong(MediaMetadataCompat.METADATA_KEY_YEAR, year);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        String genre = CollectionUtils.firstOrNull(music.genres);
+        if (!TextUtils.isEmpty(genre)) {
+            builder.putString(MediaMetadataCompat.METADATA_KEY_GENRE, genre);
+        }
+        builder
+                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, index)
+                .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, music.tracks.size());
+        String albumArtUri = music.cover.getLargeUrl();
+        builder
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, albumArtUri)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI, albumArtUri);
+        if (music.rating != null) {
+            float starRating = music.rating.value / music.rating.max * 5;
+            starRating = Math.max(0, Math.min(5, starRating));
+            RatingCompat rating = RatingCompat.newStarRating(RatingCompat.RATING_5_STARS,
+                    starRating);
+            builder.putRating(MediaMetadataCompat.METADATA_KEY_RATING, rating);
+        }
+        String mediaId = music.id + "#" + index;
+        builder
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId)
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, track.previewUrl);
+        return builder.build();
+    }
+
+    private void loadMediaMetadataAlbumArt(Music music) {
+        String albumArtUrl = music.cover.getLargeUrl();
+        GlideApp.with(this)
+                .asBitmap()
+                .dontTransform()
+                .downsample(DownsampleStrategy.CENTER_INSIDE)
+                .override(mMediaDisplayIconMaxSize)
+                .load(albumArtUrl)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap displayIcon,
+                                                Transition<? super Bitmap> transition) {
+                        if (mMusicId != music.id) {
+                            return;
+                        }
+                        updateMediaMetadataAlbumArt(displayIcon, null);
+                        GlideApp.with(PlayMusicService.this)
+                                .asBitmap()
+                                .dontTransform()
+                                .downsample(DownsampleStrategy.CENTER_INSIDE)
+                                .override(mMediaArtMaxSize)
+                                .load(albumArtUrl)
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(
+                                            Bitmap albumArt,
+                                            Transition<? super Bitmap> transition) {
+                                        if (mMusicId != music.id) {
+                                            return;
+                                        }
+                                        updateMediaMetadataAlbumArt(displayIcon, albumArt);
+                                    }
+                                });
+                    }
+                });
+    }
+
+    private void updateMediaMetadataAlbumArt(Bitmap displayIcon, Bitmap albumArt) {
+        List<MediaMetadataCompat> mediaMetadatas = mMediaPlayback.getMediaMetadatas();
+        mediaMetadatas = Functional.map(mediaMetadatas, mediaMetadata -> {
+            MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder(mediaMetadata)
+                    .putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, displayIcon);
+            if (albumArt != null) {
+                builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);
+            }
+            return builder.build();
+        }, new ArrayList<>());
+        mMediaPlayback.setMediaMetadatas(mediaMetadatas);
     }
 }

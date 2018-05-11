@@ -177,21 +177,31 @@ public abstract class CollectableItem extends BaseItem {
         return Rating.getRatingUnavailableReason(ratingUnavailableReason, context);
     }
 
-    protected static String getYearMonth(List<String> releaseDates, Context context) {
-        String releaseDate = CollectionUtils.firstOrNull(releaseDates);
-        if (!TextUtils.isEmpty(releaseDate) && releaseDate.length() >= 10) {
-            releaseDate = releaseDate.substring(0, 10);
-            try {
-                LocalDate date = TimeUtils.parseDoubanDate(releaseDate);
-                return DateTimeFormatter.ofPattern(context.getString(R.string.year_month_pattern))
-                        .format(date);
-            } catch (DateTimeParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+    protected static String getReleaseDate(List<String> releaseDates) {
+        return truncateReleaseDate(CollectionUtils.firstOrNull(releaseDates));
     }
 
+    protected static String getYearMonth(List<String> releaseDates, Context context) {
+        String releaseDate = getReleaseDate(releaseDates);
+        if (TextUtils.isEmpty(releaseDate)) {
+            return null;
+        }
+        try {
+            LocalDate date = TimeUtils.parseDoubanDate(releaseDate);
+            return DateTimeFormatter.ofPattern(context.getString(R.string.year_month_pattern))
+                    .format(date);
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static String truncateReleaseDate(String releaseDate) {
+        if (TextUtils.isEmpty(releaseDate) || releaseDate.length() < 10) {
+            return null;
+        }
+        return releaseDate.substring(0, 10);
+    }
 
     public static class Deserializer implements JsonDeserializer<CollectableItem> {
 

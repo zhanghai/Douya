@@ -6,10 +6,7 @@
   -->
 
 <!--
-  ~ L: @android:layout/notification_template_material_big_media
-  ~        @android:dimen/notification_large_icon_width 64dp
-  ~    @android:layout/notification_template_material_big_media_narrow 128dp
-  ~ N: @android:dimen/media_notification_expanded_image_max_size 94dp
+  ~ @see @dimen/media_album_art_icon_size
   -->
 <vector
     xmlns:android="http://schemas.android.com/apk/res/android"

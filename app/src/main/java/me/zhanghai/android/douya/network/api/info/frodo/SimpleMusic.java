@@ -24,6 +24,10 @@ public class SimpleMusic extends CollectableItem {
     @SerializedName("singer")
     public ArrayList<Artist> artists = new ArrayList<>();
 
+    public String getReleaseDate() {
+        return CollectableItem.getReleaseDate(releaseDates);
+    }
+
     public String getYearMonth(Context context) {
         return CollectableItem.getYearMonth(releaseDates, context);
     }

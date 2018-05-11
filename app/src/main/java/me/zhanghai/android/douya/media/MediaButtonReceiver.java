@@ -14,12 +14,12 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.media.session.PlaybackStateCompat.MediaKeyAction;
 import android.view.KeyEvent;
 
-import me.zhanghai.android.douya.util.FunctionCompat;
+import me.zhanghai.android.douya.functional.compat.Supplier;
 import me.zhanghai.android.douya.util.LogUtils;
 
 public class MediaButtonReceiver extends BroadcastReceiver {
 
-    private static FunctionCompat.Supplier<MediaSessionCompat> sMediaSessionHost;
+    private static Supplier<MediaSessionCompat> sMediaSessionHost;
 
     public static PendingIntent makePendingIntent(Context context, @MediaKeyAction long action) {
         int keyCode = PlaybackStateCompat.toKeyCode(action);
@@ -35,8 +35,7 @@ public class MediaButtonReceiver extends BroadcastReceiver {
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static void setMediaSessionHost(
-            FunctionCompat.Supplier<MediaSessionCompat> mediaSessionHost) {
+    public static void setMediaSessionHost(Supplier<MediaSessionCompat> mediaSessionHost) {
         sMediaSessionHost = mediaSessionHost;
     }
 
