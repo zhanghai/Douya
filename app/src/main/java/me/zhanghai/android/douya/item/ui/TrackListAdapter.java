@@ -60,8 +60,14 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
         ViewUtils.setVisibleOrGone(holder.playImage, isTrackActive && !isTrackPlaying);
         ViewUtils.setVisibleOrGone(holder.pauseImage, isTrackPlaying);
         holder.titleText.setText(track.title);
+        holder.titleText.setTextColor(ViewUtils.getColorStateListFromAttrRes(isTrackActive ?
+                R.attr.colorControlActivated : android.R.attr.textColorPrimary,
+                holder.titleText.getContext()));
         holder.durationText.setText(track.duration > 0 ? TimeUtils.formatDuration(track.duration,
                 holder.durationText.getContext()) : null);
+        holder.durationText.setTextColor(ViewUtils.getColorStateListFromAttrRes(isTrackActive ?
+                R.attr.colorControlActivated : android.R.attr.textColorSecondary,
+                holder.durationText.getContext()));
         if (!TextUtils.isEmpty(track.previewUrl)) {
             holder.itemView.setOnClickListener(view -> PlayMusicService.start(mMusic, position,
                     view.getContext()));
