@@ -260,7 +260,7 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setClipChildren(false);
     }
 

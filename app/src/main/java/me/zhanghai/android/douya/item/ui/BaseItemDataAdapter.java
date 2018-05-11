@@ -421,11 +421,6 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         adapter.replace(relatedDoulistList);
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setClipChildren(false);
-    }
-
     public interface Listener<T> {
         void onUncollectItem(T item);
     }
