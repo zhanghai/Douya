@@ -53,8 +53,6 @@ public class PlayMusicService extends Service {
 
     private long mMusicId;
 
-    private boolean mStopped;
-
     public static void start(Music music, int trackIndex, Context context) {
         Intent intent = new Intent(context, PlayMusicService.class)
                 .putExtra(EXTRA_MUSIC, music)
@@ -80,8 +78,8 @@ public class PlayMusicService extends Service {
                 resources.getDisplayMetrics());
 
         mMediaSourceFactory = new OkHttpMediaSourceFactory();
-        mMediaPlayback = new MediaPlayback(this::createMediaSourceFromMediaDescription, this::stop,
-                this);
+        mMediaPlayback = new MediaPlayback(this::createMediaSourceFromMediaDescription,
+                this::stopSelf, this);
         MediaButtonReceiver.setMediaSessionHost(() -> mMediaPlayback.getMediaSession());
         mMediaNotification = new MediaNotification(this, mMediaPlayback.getMediaSession(),
                 () -> mMediaPlayback.isPlaying(), Notifications.Channels.PLAY_MUSIC.ID,
@@ -97,27 +95,14 @@ public class PlayMusicService extends Service {
         return mMediaSourceFactory.create(uri);
     }
 
-    private void stop() {
-        performStop();
-        stopSelf();
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        // Just in case.
-        performStop();
-    }
-
-    private void performStop() {
-        if (mStopped) {
-            return;
-        }
+        mMusicId = 0;
         mMediaNotification.stop();
         MediaButtonReceiver.setMediaSessionHost(null);
         mMediaPlayback.release();
-        mStopped = true;
     }
 
     @Override
@@ -142,7 +127,6 @@ public class PlayMusicService extends Service {
         int trackIndex = intent.getIntExtra(EXTRA_TRACK_INDEX, 0);
 
         // TODO: Wake lock, wifi lock.
-        // TODO: Better Metadata.
 
         boolean musicChanged = music.id != mMusicId;
         mMusicId = music.id;
