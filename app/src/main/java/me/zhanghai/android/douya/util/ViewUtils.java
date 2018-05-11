@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import me.zhanghai.android.douya.R;
+import me.zhanghai.android.douya.functional.compat.BooleanSupplier;
 import me.zhanghai.android.douya.ui.ClickableMovementMethod;
 
 public class ViewUtils {
@@ -416,7 +417,7 @@ public class ViewUtils {
         });
     }
 
-    public static void postOnPreDraw(View view, FunctionCompat.BooleanSupplier runnable) {
+    public static void postOnPreDraw(View view, BooleanSupplier runnable) {
         view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
