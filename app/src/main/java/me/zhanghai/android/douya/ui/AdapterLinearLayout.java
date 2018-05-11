@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
+// This does not support view type, bind payload, getAdapterPosition(), etc.
 public class AdapterLinearLayout extends LinearLayout {
 
     protected RecyclerView.Adapter mAdapter;

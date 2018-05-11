@@ -31,6 +31,7 @@ import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.RatioImageView;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
+import me.zhanghai.android.douya.util.ObjectUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 import me.zhanghai.android.douya.util.StringUtils;
@@ -178,7 +179,7 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
                 bindIntroductionHolder(holder, mData.music);
                 break;
             case TRACK_LIST:
-                bindTrackListHolder(holder, mData.music);
+                bindTrackListHolder(holder, mData.music, payloads);
                 break;
             case RATING:
                 bindRatingHolder(holder, mData.music, mData.rating);
@@ -246,6 +247,20 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         });
     }
 
+    private void bindTrackListHolder(RecyclerView.ViewHolder holder, Music music,
+                                     @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            //noinspection deprecation
+            bindTrackListHolder(holder, music);
+        } else {
+            //noinspection deprecation
+            bindTrackListHolder(holder);
+        }
+    }
+
+    /**
+     * @deprecated Use {@link #onBindViewHolder(RecyclerView.ViewHolder, int, List)} instead.
+     */
     private void bindTrackListHolder(RecyclerView.ViewHolder holder, Music music) {
         TrackListHolder trackListHolder = (TrackListHolder) holder;
         boolean playable = music.vendorCount > 0;
@@ -257,6 +272,22 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         ViewUtils.setVisibleOrGone(trackListHolder.trackList, !music.tracks.isEmpty());
         TrackListAdapter adapter = (TrackListAdapter) trackListHolder.trackList.getAdapter();
         adapter.setMusic(music);
+    }
+
+    /**
+     * @deprecated Use {@link #onBindViewHolder(RecyclerView.ViewHolder, int, List)} instead.
+     */
+    private void bindTrackListHolder(RecyclerView.ViewHolder holder) {
+        TrackListHolder trackListHolder = (TrackListHolder) holder;
+        TrackListAdapter adapter = (TrackListAdapter) trackListHolder.trackList.getAdapter();
+        adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+    }
+
+    public void notifyTrackListChanged() {
+        int position = Items.TRACK_LIST.ordinal();
+        if (position < getItemCount()) {
+            notifyItemChanged(position, ObjectUtils.EMPTY_OBJECT);
+        }
     }
 
     public interface Listener extends BaseItemDataAdapter.Listener<Music> {}

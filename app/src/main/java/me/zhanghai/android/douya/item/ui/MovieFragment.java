@@ -156,6 +156,11 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     }
 
     @Override
+    protected String makeItemUrl(long itemId) {
+        return DoubanUtils.makeMovieUrl(itemId);
+    }
+
+    @Override
     public void onItemCollectionChanged(int requestCode) {
         mAdapter.notifyItemCollectionChanged();
     }
@@ -188,10 +193,5 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         }
         Movie movie = mResource.getItem();
         UncollectItemManager.getInstance().write(movie.getType(), movie.id, getActivity());
-    }
-
-    @Override
-    protected String makeItemUrl(long itemId) {
-        return DoubanUtils.makeMovieUrl(itemId);
     }
 }

@@ -29,6 +29,10 @@ public class MusicAdapter extends BarrierAdapter {
         mDataAdapter.notifyItemCollectionChanged();
     }
 
+    public void notifyTrackListChanged() {
+        mDataAdapter.notifyTrackListChanged();
+    }
+
     public void setItemCollectionListItem(int position, SimpleItemCollection newItemCollection) {
         mDataAdapter.notifyItemCollectionListItemChanged(position, newItemCollection);
     }

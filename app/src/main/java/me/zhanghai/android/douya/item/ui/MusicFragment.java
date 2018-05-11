@@ -7,10 +7,16 @@ package me.zhanghai.android.douya.item.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.eventbus.MusicPlayingStateChangedEvent;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.ConfirmUncollectItemDialogFragment;
@@ -48,6 +54,20 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
      * @deprecated Use {@link #newInstance(long, SimpleMusic, Music)} instead.
      */
     public MusicFragment() {}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        EventBusUtils.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        EventBusUtils.unregister(this);
+    }
 
     @Override
     protected BaseItemFragmentResource<SimpleMusic, Music> onAttachResource(long itemId,
@@ -115,6 +135,11 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
     }
 
     @Override
+    protected String makeItemUrl(long itemId) {
+        return DoubanUtils.makeMusicUrl(itemId);
+    }
+
+    @Override
     public void onItemCollectionChanged(int requestCode) {
         mAdapter.notifyItemCollectionChanged();
     }
@@ -149,8 +174,13 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
         UncollectItemManager.getInstance().write(music.getType(), music.id, getActivity());
     }
 
-    @Override
-    protected String makeItemUrl(long itemId) {
-        return DoubanUtils.makeMusicUrl(itemId);
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMusicPlayingStateChanged(MusicPlayingStateChangedEvent event) {
+
+        if (event.isFromMyself(this) || mAdapter == null) {
+            return;
+        }
+
+        mAdapter.notifyTrackListChanged();
     }
 }

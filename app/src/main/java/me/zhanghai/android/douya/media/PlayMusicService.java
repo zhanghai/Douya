@@ -22,6 +22,8 @@ import android.util.TypedValue;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.MediaSource;
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ import java.util.List;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.app.Notifications;
+import me.zhanghai.android.douya.eventbus.EventBusUtils;
+import me.zhanghai.android.douya.eventbus.MusicPlayingStateChangedEvent;
 import me.zhanghai.android.douya.functional.Functional;
 import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.item.ui.MusicActivity;
@@ -88,6 +92,20 @@ public class PlayMusicService extends Service {
         mMediaSourceFactory = new OkHttpMediaSourceFactory();
         mMediaPlayback = new MediaPlayback(this::createMediaSourceFromMediaDescription,
                 this::stopSelf, this);
+        mMediaPlayback.getPlayer().addListener(new Player.DefaultEventListener() {
+            @Override
+            public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+                EventBusUtils.postAsync(new MusicPlayingStateChangedEvent(PlayMusicService.this));
+            }
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                EventBusUtils.postAsync(new MusicPlayingStateChangedEvent(PlayMusicService.this));
+            }
+            @Override
+            public void onPositionDiscontinuity(int reason) {
+                EventBusUtils.postAsync(new MusicPlayingStateChangedEvent(PlayMusicService.this));
+            }
+        });
         MediaButtonReceiver.setMediaSessionHost(() -> mMediaPlayback.getMediaSession());
         mMediaNotification = new MediaNotification(this, mMediaPlayback.getMediaSession(),
                 () -> mMediaPlayback.isPlaying(), Notifications.Channels.PLAY_MUSIC.ID,

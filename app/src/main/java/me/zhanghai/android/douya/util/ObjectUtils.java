@@ -9,6 +9,8 @@ public class ObjectUtils {
 
     private ObjectUtils() {}
 
+    public static final Object EMPTY_OBJECT = new Object();
+
     /**
      * @deprecated Should never be used.
      */
