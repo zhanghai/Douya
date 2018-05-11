@@ -10,12 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.media.PlayMusicService;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
@@ -49,7 +49,16 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Music.Track track = getItem(position);
-        holder.numberText.setText(String.valueOf(position + 1));
+        PlayMusicService service = PlayMusicService.getInstance();
+        boolean isTrackActive = service != null && service.getMusicId() == mMusic.id
+                && service.getActiveTrackIndex() == position;
+        ViewUtils.setVisibleOrGone(holder.numberText, !isTrackActive);
+        if (!isTrackActive) {
+            holder.numberText.setText(String.valueOf(position + 1));
+        }
+        boolean isTrackPlaying = isTrackActive && service.isPlaying();
+        ViewUtils.setVisibleOrGone(holder.playImage, isTrackActive && !isTrackPlaying);
+        ViewUtils.setVisibleOrGone(holder.pauseImage, isTrackPlaying);
         holder.titleText.setText(track.title);
         holder.durationText.setText(track.duration > 0 ? TimeUtils.formatDuration(track.duration,
                 holder.durationText.getContext()) : null);
@@ -63,6 +72,10 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
 
         @BindView(R.id.number)
         public TextView numberText;
+        @BindView(R.id.play)
+        public ImageView playImage;
+        @BindView(R.id.pause)
+        public ImageView pauseImage;
         @BindView(R.id.title)
         public TextView titleText;
         @BindView(R.id.duration)

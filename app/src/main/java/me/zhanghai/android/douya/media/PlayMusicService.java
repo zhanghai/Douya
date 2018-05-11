@@ -47,6 +47,8 @@ public class PlayMusicService extends Service {
     private int mMediaDisplayIconMaxSize;
     private int mMediaArtMaxSize;
 
+    private static PlayMusicService sInstance;
+
     private OkHttpMediaSourceFactory mMediaSourceFactory;
     private MediaPlayback mMediaPlayback;
     private MediaNotification mMediaNotification;
@@ -61,12 +63,18 @@ public class PlayMusicService extends Service {
     }
 
     public static void start(Music music, Context context) {
-        start(music, 0, context);
+        start(music, -1, context);
+    }
+
+    public static PlayMusicService getInstance() {
+        return sInstance;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sInstance = this;
 
         Resources resources = getResources();
         mMediaDisplayIconMaxSize = resources.getDimensionPixelSize(
@@ -103,6 +111,8 @@ public class PlayMusicService extends Service {
         mMediaNotification.stop();
         MediaButtonReceiver.setMediaSessionHost(null);
         mMediaPlayback.release();
+
+        sInstance = null;
     }
 
     @Override
@@ -143,8 +153,19 @@ public class PlayMusicService extends Service {
             mMediaPlayback.start();
         }
 
-        mMediaPlayback.skipToQueueItem(trackIndex);
-        mMediaPlayback.play();
+        if (trackIndex < 0) {
+            mMediaPlayback.skipToQueueItem(0);
+            mMediaPlayback.play();
+        } else if (mMediaPlayback.getActiveQueueItemIndex() != trackIndex) {
+            mMediaPlayback.skipToQueueItem(trackIndex);
+            mMediaPlayback.play();
+        } else {
+            if (mMediaPlayback.isPlaying()) {
+                mMediaPlayback.pause();
+            } else {
+                mMediaPlayback.play();
+            }
+        }
         mMediaNotification.start();
     }
 
@@ -252,5 +273,17 @@ public class PlayMusicService extends Service {
             return builder.build();
         }, new ArrayList<>());
         mMediaPlayback.setMediaMetadatas(mediaMetadatas);
+    }
+
+    public long getMusicId() {
+        return mMusicId;
+    }
+
+    public int getActiveTrackIndex() {
+        return mMediaPlayback.getActiveQueueItemIndex();
+    }
+
+    public boolean isPlaying() {
+        return mMediaPlayback.isPlaying();
     }
 }
