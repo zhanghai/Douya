@@ -74,6 +74,12 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
         }
     }
 
+    public void notifyItemCollectionListItemChanged(int position,
+                                                    SimpleItemCollection newItemCollection) {
+        notifyItemCollectionListItemChanged(Items.ITEM_COLLECTION_LIST.ordinal(), position,
+                newItemCollection);
+    }
+
     @Override
     public int getTotalItemCount() {
         return Items.values().length;
@@ -159,8 +165,9 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position,
+                                 @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
 
         switch (Items.values()[position]) {
             case HEADER:
@@ -188,7 +195,8 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
                 bindRatingHolder(holder, mData.movie, mData.rating);
                 break;
             case ITEM_COLLECTION_LIST:
-                bindItemCollectionListHolder(holder, mData.movie, mData.itemCollectionList);
+                bindItemCollectionListHolder(holder, mData.movie, mData.itemCollectionList,
+                        payloads);
                 break;
             case REVIEW_LIST:
                 bindReviewListHolder(holder, mData.movie, mData.reviewList);

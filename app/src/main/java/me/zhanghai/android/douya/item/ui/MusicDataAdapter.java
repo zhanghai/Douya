@@ -70,6 +70,12 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         }
     }
 
+    public void notifyItemCollectionListItemChanged(int position,
+                                                    SimpleItemCollection newItemCollection) {
+        notifyItemCollectionListItemChanged(Items.ITEM_COLLECTION_LIST.ordinal(), position,
+                newItemCollection);
+    }
+
     @Override
     public int getTotalItemCount() {
         return Items.values().length;
@@ -154,8 +160,9 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position,
+                                 @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
 
         switch (Items.values()[position]) {
             case HEADER:
@@ -177,7 +184,8 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
                 bindRatingHolder(holder, mData.music, mData.rating);
                 break;
             case ITEM_COLLECTION_LIST:
-                bindItemCollectionListHolder(holder, mData.music, mData.itemCollectionList);
+                bindItemCollectionListHolder(holder, mData.music, mData.itemCollectionList,
+                        payloads);
                 break;
             case REVIEW_LIST:
                 bindReviewListHolder(holder, mData.music, mData.reviewList);

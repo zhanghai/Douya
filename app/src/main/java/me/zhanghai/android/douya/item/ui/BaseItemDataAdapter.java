@@ -20,6 +20,7 @@ import android.widget.RatingBar;
 import android.widget.Space;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,6 +42,7 @@ import me.zhanghai.android.douya.ui.AdapterLinearLayout;
 import me.zhanghai.android.douya.ui.BarrierDataAdapter;
 import me.zhanghai.android.douya.ui.DividerItemDecoration;
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter;
+import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -54,8 +56,6 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     private static final int ITEM_RELATED_DOULIST_LIST_MAX_SIZE = 5;
 
     private Listener<T> mListener;
-
-    private ItemCollectionListHolder mItemCollectionListHolder;
 
     public BaseItemDataAdapter(Listener<T> listener) {
         mListener = listener;
@@ -167,9 +167,19 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         return holder;
     }
 
+    /**
+     * @deprecated Use {@link #onBindViewHolder(RecyclerView.ViewHolder, int, List)} instead.
+     */
     @CallSuper
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        throw new UnsupportedOperationException();
+    }
+
+    @CallSuper
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position,
+                                 @NonNull List<Object> payloads) {
         // HACK: Make sure we don't click through any view to our backdrop.
         holder.itemView.setClickable(true);
     }
@@ -316,7 +326,23 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     }
 
     protected void bindItemCollectionListHolder(RecyclerView.ViewHolder holder, T item,
-                                                List<SimpleItemCollection> itemCollectionList) {
+                                                List<SimpleItemCollection> itemCollectionList,
+                                                @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            bindItemCollectionListHolder(holder, item, itemCollectionList);
+        } else {
+            //noinspection unchecked
+            for (List<Object> payload : (List<List<Object>>) (Object) payloads) {
+                int position = (int) payload.get(0);
+                SimpleItemCollection newItemCollection = (SimpleItemCollection)
+                        CollectionUtils.getOrNull(payload, 1);
+                bindItemCollectionListHolder(holder, position, newItemCollection);
+            }
+        }
+    }
+
+    private void bindItemCollectionListHolder(RecyclerView.ViewHolder holder, T item,
+                                              List<SimpleItemCollection> itemCollectionList) {
         ItemCollectionListHolder itemCollectionListHolder = (ItemCollectionListHolder) holder;
         itemCollectionListHolder.createButton.setOnClickListener(view -> {
             Context context = view.getContext();
@@ -334,25 +360,25 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
             // TODO
             UriHandler.open(item.url + "collections", view.getContext());
         });
-        mItemCollectionListHolder = itemCollectionListHolder;
     }
 
-    public void setItemCollectionListItem(int position, SimpleItemCollection newItemCollection) {
-        if (mItemCollectionListHolder == null) {
-            return;
-        }
+    private void bindItemCollectionListHolder(RecyclerView.ViewHolder holder, int position,
+                                              SimpleItemCollection newItemCollection) {
+        ItemCollectionListHolder itemCollectionListHolder = (ItemCollectionListHolder) holder;
         ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
-                mItemCollectionListHolder.itemCollectionList.getAdapter();
-        adapter.set(position, newItemCollection);
+                itemCollectionListHolder.itemCollectionList.getAdapter();
+        if (newItemCollection != null) {
+            adapter.set(position, newItemCollection);
+        } else {
+            adapter.notifyItemChanged(position);
+        }
     }
 
-    public void notifyItemCollectionListItemChanged(int position) {
-        if (mItemCollectionListHolder == null) {
-            return;
+    protected void notifyItemCollectionListItemChanged(int position, int itemCollectionPosition,
+                                                       SimpleItemCollection newItemCollection) {
+        if (position < getItemCount()) {
+            notifyItemChanged(position, Arrays.asList(itemCollectionPosition, newItemCollection));
         }
-        ItemCollectionListAdapter adapter = (ItemCollectionListAdapter)
-                mItemCollectionListHolder.itemCollectionList.getAdapter();
-        adapter.notifyItemChanged(position);
     }
 
     protected void bindReviewListHolder(RecyclerView.ViewHolder holder, T item,

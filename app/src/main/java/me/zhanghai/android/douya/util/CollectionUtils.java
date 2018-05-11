@@ -18,6 +18,14 @@ public class CollectionUtils {
         return !list.isEmpty() ? list.get(0) : null;
     }
 
+    public static <E> E lastOrNull(List<E> list) {
+        return !list.isEmpty() ? list.get(list.size() - 1) : null;
+    }
+
+    public static <E> E getOrNull(List<E> list, int index) {
+        return index < list.size() ? list.get(index) : null;
+    }
+
     public static boolean isEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
