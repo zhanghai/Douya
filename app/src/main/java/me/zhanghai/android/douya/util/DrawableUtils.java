@@ -33,7 +33,7 @@ public class DrawableUtils {
         int blue = Color.blue(baseColor);
         int alpha = Color.alpha(baseColor);
 
-        for (int i = 0; i < numStops; i++) {
+        for (int i = 0; i < numStops; ++i) {
             float x = i * 1f / (numStops - 1);
             float opacity = MathUtils.constrain((float) Math.pow(x, 3), 0, 1);
             stopColors[i] = Color.argb((int) (alpha * opacity), red, green, blue);
