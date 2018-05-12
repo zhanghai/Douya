@@ -187,8 +187,7 @@ public class MediaPlayback {
 
     private void updateMediaSessionMetadata() {
         int index = getActiveQueueItemIndex();
-        if (index == C.INDEX_UNSET) {
-            // TODO: Or empty metadata?
+        if (index == C.INDEX_UNSET || index >= mMediaMetadatas.size()) {
             mMediaSession.setMetadata(null);
         }
         MediaMetadataCompat mediaMetadata = mMediaMetadatas.get(index);
