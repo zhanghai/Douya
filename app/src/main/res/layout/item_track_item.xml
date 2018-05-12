@@ -33,22 +33,11 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="?android:textColorSecondary" />
 
-        <ImageView
-            android:id="@+id/play"
+        <me.zhanghai.android.douya.ui.VisibilityChangedImageView
+            android:id="@+id/play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/play_icon_white_24dp"
-            android:visibility="gone"
-            app:tint="?colorControlActivated"
-            tools:ignore="MissingPrefix" />
-
-        <ImageView
-            android:id="@+id/pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/pause_icon_white_24dp"
             android:visibility="gone"
             app:tint="?colorControlActivated"
             tools:ignore="MissingPrefix" />

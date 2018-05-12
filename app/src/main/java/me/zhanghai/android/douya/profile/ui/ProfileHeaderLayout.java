@@ -180,7 +180,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         float avatarHorizontalFraction = avatarMarginTop < smallAvatarMarginTop ?
                 MathUtils.unlerp(smallAvatarMarginTop, -largeAvatarSizeHalf, avatarMarginTop) : 0;
         avatarMarginTop = Math.max(smallAvatarMarginTop, avatarMarginTop) + mInsetTop;
-        int avatarMarginLeft = MathUtils.lerp(appBarWidth / 2 - largeAvatarSizeHalf,
+        int avatarMarginLeft = MathUtils.lerpInt(appBarWidth / 2 - largeAvatarSizeHalf,
                 mScreenEdgeHorizontalMargin, avatarHorizontalFraction);
         MarginLayoutParams avatarContainerLayoutParams =
                 (MarginLayoutParams) mAvatarContainerLayout.getLayoutParams();
@@ -226,7 +226,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     }
 
     private int computeVisibleAppBarHeight() {
-        return MathUtils.lerp(getAppBarMaxHeight(), getAppBarMinHeight(), getFraction());
+        return MathUtils.lerpInt(getAppBarMaxHeight(), getAppBarMinHeight(), getFraction());
     }
 
     private float getFraction() {

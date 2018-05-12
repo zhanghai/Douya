@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.media.PlayMusicService;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
+import me.zhanghai.android.douya.ui.PlayPauseStopDrawable;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -43,7 +44,10 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(ViewUtils.inflate(R.layout.item_track_item, parent));
+        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.item_track_item, parent));
+        holder.playPauseImage.setImageDrawable(new PlayPauseStopDrawable(
+                holder.playPauseImage.getContext()));
+        return holder;
     }
 
     @Override
@@ -56,9 +60,14 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
         if (!isTrackActive) {
             holder.numberText.setText(String.valueOf(position + 1));
         }
-        boolean isTrackPlaying = isTrackActive && service.isPlaying();
-        ViewUtils.setVisibleOrGone(holder.playImage, isTrackActive && !isTrackPlaying);
-        ViewUtils.setVisibleOrGone(holder.pauseImage, isTrackPlaying);
+        if (isTrackActive) {
+            PlayPauseStopDrawable playPauseDrawable = (PlayPauseStopDrawable)
+                    holder.playPauseImage.getDrawable();
+            boolean isTrackPlaying = service.isPlaying();
+            playPauseDrawable.setNextState(isTrackPlaying ? PlayPauseStopDrawable.State.Pause
+                    : PlayPauseStopDrawable.State.Play);
+        }
+        ViewUtils.setVisibleOrGone(holder.playPauseImage, isTrackActive);
         holder.titleText.setText(track.title);
         holder.titleText.setTextColor(ViewUtils.getColorStateListFromAttrRes(isTrackActive ?
                 R.attr.colorControlActivated : android.R.attr.textColorPrimary,
@@ -78,10 +87,8 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
 
         @BindView(R.id.number)
         public TextView numberText;
-        @BindView(R.id.play)
-        public ImageView playImage;
-        @BindView(R.id.pause)
-        public ImageView pauseImage;
+        @BindView(R.id.play_pause)
+        public ImageView playPauseImage;
         @BindView(R.id.title)
         public TextView titleText;
         @BindView(R.id.duration)

@@ -17,7 +17,7 @@ public class MathUtils {
         return value < min ? min : value > max ? max : value;
     }
 
-    public static int lerp(int start, int end, float fraction) {
+    public static int lerpInt(int start, int end, float fraction) {
         return (int) (start + (end - start) * fraction);
     }
 
