@@ -131,6 +131,8 @@ public class PlayMusicService extends Service {
         mMediaPlayback.release();
 
         sInstance = null;
+
+        EventBusUtils.postAsync(new MusicPlayingStateChangedEvent(PlayMusicService.this));
     }
 
     @Override
