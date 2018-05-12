@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -37,12 +38,15 @@ import me.zhanghai.android.douya.functional.Functional;
 import me.zhanghai.android.douya.glide.GlideApp;
 import me.zhanghai.android.douya.item.ui.MusicActivity;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
+import me.zhanghai.android.douya.settings.info.Settings;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.LongCompat;
+import me.zhanghai.android.douya.util.SharedPrefsUtils;
 import me.zhanghai.android.douya.util.StringCompat;
 
-public class PlayMusicService extends Service {
+public class PlayMusicService extends Service
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String KEY_PREFIX = PlayMusicService.class.getName() + '.';
 
@@ -59,7 +63,7 @@ public class PlayMusicService extends Service {
     private MediaPlayback mMediaPlayback;
     private MediaNotification mMediaNotification;
 
-    private long mMusicId;
+    private Music mMusic;
 
     public static void start(Music music, Context context) {
         context.startService(makeIntent(music, context));
@@ -124,6 +128,7 @@ public class PlayMusicService extends Service {
                 Notifications.Channels.PLAY_MUSIC.DESCRIPTION_RES,
                 Notifications.Channels.PLAY_MUSIC.IMPORTANCE, Notifications.Ids.PLAYING_MUSIC,
                 R.drawable.notification_icon, R.color.douya_primary);
+        SharedPrefsUtils.getSharedPrefs().registerOnSharedPreferenceChangeListener(this);
     }
 
     private MediaSource createMediaSourceFromMediaDescription(
@@ -136,7 +141,8 @@ public class PlayMusicService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        mMusicId = 0;
+        SharedPrefsUtils.getSharedPrefs().unregisterOnSharedPreferenceChangeListener(this);
+        mMusic = null;
         mMediaNotification.stop();
         MediaButtonReceiver.setMediaSessionHost(null);
         mMediaPlayback.release();
@@ -169,19 +175,19 @@ public class PlayMusicService extends Service {
         int trackIndex = intent.getIntExtra(EXTRA_TRACK_INDEX, 0);
         boolean playOrPause = intent.getBooleanExtra(EXTRA_PLAY_OR_PAUSE, false);
 
-        boolean musicChanged = music.id != mMusicId;
-        mMusicId = music.id;
+        boolean musicChanged = music.id != getMusicId();
+        mMusic = music;
         if (musicChanged) {
             mMediaPlayback.stop();
             // TODO: Use dedicated session activity.
             PendingIntent sessionActivity = PendingIntent.getActivity(this,
-                    LongCompat.hashCode(music.id), MusicActivity.makeIntent(music, this),
+                    LongCompat.hashCode(getMusicId()), MusicActivity.makeIntent(mMusic, this),
                     PendingIntent.FLAG_UPDATE_CURRENT);
             mMediaPlayback.setSessionActivity(sessionActivity);
-            List<MediaMetadataCompat> mediaMetadatas = Functional.map(music.tracks,
-                    (track, index) -> makeMediaMetadata(music, track, index), new ArrayList<>());
+            List<MediaMetadataCompat> mediaMetadatas = Functional.map(mMusic.tracks,
+                    (track, index) -> makeMediaMetadata(mMusic, track, index), new ArrayList<>());
             mMediaPlayback.setMediaMetadatas(mediaMetadatas);
-            loadMediaMetadataAlbumArt(music);
+            loadMediaMetadataDisplayIconAndAlbumArt(mMusic);
             mMediaPlayback.start();
         }
 
@@ -257,7 +263,28 @@ public class PlayMusicService extends Service {
         return builder.build();
     }
 
-    private void loadMediaMetadataAlbumArt(Music music) {
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (!TextUtils.equals(key, Settings.SHOW_ALBUM_ART_ON_LOCK_SCREEN.getKey())) {
+            return;
+        }
+        boolean showAlbumArtOnLockScreen = Settings.SHOW_ALBUM_ART_ON_LOCK_SCREEN.getValue();
+        if (showAlbumArtOnLockScreen == mediaMetadataHasAlbumArt()) {
+            return;
+        }
+        if (showAlbumArtOnLockScreen) {
+            loadMediaMetadataAlbumArt(mMusic);
+        } else {
+            updateMediaMetadataDisplayIconAndAlbumArt(null, null, true);
+        }
+    }
+
+    private boolean mediaMetadataHasAlbumArt() {
+        return Functional.some(mMediaPlayback.getMediaMetadatas(), mediaMetadata ->
+                mediaMetadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) != null);
+    }
+
+    private void loadMediaMetadataDisplayIconAndAlbumArt(Music music) {
         String albumArtUrl = music.cover.getLargeUrl();
         GlideApp.with(this)
                 .asBitmap()
@@ -269,38 +296,53 @@ public class PlayMusicService extends Service {
                     @Override
                     public void onResourceReady(Bitmap displayIcon,
                                                 Transition<? super Bitmap> transition) {
-                        if (mMusicId != music.id) {
+                        if (music.id != getMusicId()) {
                             return;
                         }
-                        updateMediaMetadataAlbumArt(displayIcon, null);
-                        GlideApp.with(PlayMusicService.this)
-                                .asBitmap()
-                                .dontTransform()
-                                .downsample(DownsampleStrategy.CENTER_INSIDE)
-                                .override(mMediaArtMaxSize)
-                                .load(albumArtUrl)
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(
-                                            Bitmap albumArt,
-                                            Transition<? super Bitmap> transition) {
-                                        if (mMusicId != music.id) {
-                                            return;
-                                        }
-                                        updateMediaMetadataAlbumArt(displayIcon, albumArt);
-                                    }
-                                });
+                        updateMediaMetadataDisplayIconAndAlbumArt(displayIcon, null, false);
+                        if (Settings.SHOW_ALBUM_ART_ON_LOCK_SCREEN.getValue()) {
+                            loadMediaMetadataAlbumArt(music);
+                        }
                     }
                 });
     }
 
-    private void updateMediaMetadataAlbumArt(Bitmap displayIcon, Bitmap albumArt) {
+    private void loadMediaMetadataAlbumArt(Music music) {
+        String albumArtUrl = music.cover.getLargeUrl();
+        GlideApp.with(PlayMusicService.this)
+                .asBitmap()
+                .dontTransform()
+                .downsample(DownsampleStrategy.CENTER_INSIDE)
+                .override(mMediaArtMaxSize)
+                .load(albumArtUrl)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(
+                            Bitmap albumArt,
+                            Transition<? super Bitmap> transition) {
+                        if (music.id != getMusicId()) {
+                            return;
+                        }
+                        if (!Settings.SHOW_ALBUM_ART_ON_LOCK_SCREEN.getValue()) {
+                            return;
+                        }
+                        updateMediaMetadataDisplayIconAndAlbumArt(null, albumArt, false);
+                    }
+                });
+    }
+
+    private void updateMediaMetadataDisplayIconAndAlbumArt(Bitmap displayIcon, Bitmap albumArt,
+                                                           boolean removeAlbumArt) {
         List<MediaMetadataCompat> mediaMetadatas = mMediaPlayback.getMediaMetadatas();
         mediaMetadatas = Functional.map(mediaMetadatas, mediaMetadata -> {
-            MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder(mediaMetadata)
-                    .putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, displayIcon);
+            MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder(mediaMetadata);
+            if (displayIcon != null) {
+                builder.putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, displayIcon);
+            }
             if (albumArt != null) {
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);
+            } else if (removeAlbumArt) {
+                builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null);
             }
             return builder.build();
         }, new ArrayList<>());
@@ -308,7 +350,7 @@ public class PlayMusicService extends Service {
     }
 
     public long getMusicId() {
-        return mMusicId;
+        return mMusic != null ? mMusic.id : 0;
     }
 
     public int getActiveTrackIndex() {

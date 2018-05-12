@@ -71,6 +71,10 @@ public interface Settings {
             R.string.pref_key_long_click_to_show_send_comment_activity,
             R.bool.pref_default_value_long_click_to_show_send_comment_activity);
 
+    BooleanSettingsEntry SHOW_ALBUM_ART_ON_LOCK_SCREEN = new BooleanSettingsEntry(
+            R.string.pref_key_show_album_art_on_lock_screen,
+            R.bool.pref_default_value_show_album_art_on_lock_screen);
+
     BooleanSettingsEntry PROGRESSIVE_THIRD_PARTY_APP = new BooleanSettingsEntry(
             R.string.pref_key_progressive_third_party_app,
             R.bool.pref_default_value_progressive_third_party_app);

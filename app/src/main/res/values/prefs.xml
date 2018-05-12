@@ -42,6 +42,9 @@
     <string name="pref_key_long_click_to_show_send_comment_activity">key_long_click_to_show_send_comment_activity</string>
     <bool name="pref_default_value_long_click_to_show_send_comment_activity">true</bool>
 
+    <string name="pref_key_show_album_art_on_lock_screen">key_show_album_art_on_lock_screen</string>
+    <bool name="pref_default_value_show_album_art_on_lock_screen">true</bool>
+
     <string name="pref_key_progressive_third_party_app">key_enable_progressive_third_party_app</string>
     <bool name="pref_default_value_progressive_third_party_app">true</bool>
 
