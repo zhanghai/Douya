@@ -210,6 +210,7 @@ public class MediaPlayback {
     public void release() {
         mPlayer.release();
         mMediaSession.release();
+        holdLocks(false);
     }
 
     public boolean isPlaying() {
