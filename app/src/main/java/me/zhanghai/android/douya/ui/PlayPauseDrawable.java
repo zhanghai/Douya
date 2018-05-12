@@ -9,6 +9,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -75,6 +76,8 @@ public class PlayPauseDrawable extends BasePaintDrawable {
     private Animator mAnimator;
 
     private Path mPath = new Path();
+    private Matrix mMatrix = new Matrix();
+    private Path mRenderPath = new Path();
 
     public PlayPauseDrawable(Context context) {
         mIntrinsicSize = ViewUtils.dpToPxSize(INTRINSIC_SIZE_DP, context);
@@ -177,7 +180,7 @@ public class PlayPauseDrawable extends BasePaintDrawable {
 
     @Override
     protected void onDraw(Canvas canvas, int width, int height, Paint paint) {
-        canvas.scale((float) width / 24, (float) height / 24);
+        mMatrix.setScale((float) width / 24, (float) height / 24);
         if (mFraction == 0) {
             drawState(canvas, paint, mPreviousState);
         } else if (mFraction == 1) {
@@ -203,12 +206,16 @@ public class PlayPauseDrawable extends BasePaintDrawable {
             }
         }
         mPath.close();
-        canvas.drawPath(mPath, paint);
+        mRenderPath.rewind();
+        mRenderPath.addPath(mPath, mMatrix);
+        // Using addPath(mPath, mMatrix) and drawing the transformed path makes rendering much less
+        // blurry than using canvas transform directly. This is learned from VectorDrawable.
+        canvas.drawPath(mRenderPath, paint);
     }
 
     private void drawBetweenStates(Canvas canvas, Paint paint, State fromState, State toState,
                                    float fraction) {
-        canvas.rotate(MathUtils.lerp(0, 90, fraction), 12, 12);
+        mMatrix.preRotate(MathUtils.lerp(0, 90, fraction), 12, 12);
         int[] startPoints = fromState.getStartPoints();
         int[] endPoints = toState.getEndPoints();
         mPath.rewind();
@@ -229,6 +236,8 @@ public class PlayPauseDrawable extends BasePaintDrawable {
             }
         }
         mPath.close();
-        canvas.drawPath(mPath, paint);
+        mRenderPath.rewind();
+        mRenderPath.addPath(mPath, mMatrix);
+        canvas.drawPath(mRenderPath, paint);
     }
 }
