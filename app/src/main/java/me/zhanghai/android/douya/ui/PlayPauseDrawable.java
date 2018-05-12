@@ -77,8 +77,7 @@ public class PlayPauseDrawable extends BasePaintDrawable {
     private Path mPath = new Path();
 
     public PlayPauseDrawable(Context context) {
-        float density = context.getResources().getDisplayMetrics().density;
-        mIntrinsicSize = Math.round(INTRINSIC_SIZE_DP * density);
+        mIntrinsicSize = ViewUtils.dpToPxSize(INTRINSIC_SIZE_DP, context);
         mAnimator = ObjectAnimator.ofFloat(this, FRACTION, 0, 1)
                 .setDuration(ViewUtils.getShortAnimTime(context));
         mAnimator.setInterpolator(new FastOutSlowInInterpolator());

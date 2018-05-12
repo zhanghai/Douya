@@ -171,7 +171,7 @@ public class ViewUtils {
 
     public static int dpToPxSize(float dp, Context context) {
         float value = dpToPx(dp, context);
-        int size = (int) (value + 0.5f);
+        int size = (int) (value >= 0 ? value + 0.5f : value - 0.5f);
         if (size != 0) {
             return size;
         } else if (value == 0) {
