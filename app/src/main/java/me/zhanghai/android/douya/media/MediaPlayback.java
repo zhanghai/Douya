@@ -5,12 +5,17 @@
 
 package me.zhanghai.android.douya.media;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.net.Uri;
+import android.net.wifi.WifiManager;
+import android.os.PowerManager;
 import android.support.v4.media.AudioAttributesCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.text.TextUtils;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -25,7 +30,9 @@ import com.google.android.exoplayer2.source.MediaSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.zhanghai.android.douya.functional.Functional;
 import me.zhanghai.android.douya.functional.compat.Function;
+import me.zhanghai.android.douya.util.UriUtils;
 
 public class MediaPlayback {
 
@@ -33,6 +40,13 @@ public class MediaPlayback {
     private Runnable mStop;
 
     private List<MediaMetadataCompat> mMediaMetadatas = new ArrayList<>();
+
+    // We do need the locks.
+    // @see https://google.github.io/ExoPlayer/faqs.html#how-do-i-keep-audio-playing-when-my-app-is-backgrounded
+    // @see https://github.com/google/ExoPlayer/issues/930#issuecomment-154859256
+    private PowerManager.WakeLock mWakeLock;
+    private boolean mNeedWifiLock;
+    private WifiManager.WifiLock mWifiLock;
 
     private ExoPlayer mPlayer;
     private MediaSessionCompat mMediaSession;
@@ -45,6 +59,17 @@ public class MediaPlayback {
         mStop = stop;
 
         context = context.getApplicationContext();
+
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        String lockTag = getClass().getName();
+        mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, lockTag);
+        mWakeLock.setReferenceCounted(false);
+        // Our context is already application context.
+        @SuppressLint("WifiManagerPotentialLeak")
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        mWifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, lockTag);
+        mWifiLock.setReferenceCounted(false);
+
         AudioAttributesCompat audioAttributes = new AudioAttributesCompat.Builder()
                 .setUsage(AudioAttributesCompat.USAGE_MEDIA)
                 .setContentType(AudioAttributesCompat.CONTENT_TYPE_MUSIC)
@@ -57,6 +82,8 @@ public class MediaPlayback {
             }
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                // Must do this before the following if block because it can be recursive.
+                holdLocks(playWhenReady);
                 // If we don't check for playWhenReady, we end up called recursively from pause().
                 if (playWhenReady && playbackState == Player.STATE_ENDED
                         && getRepeatMode() == Player.REPEAT_MODE_OFF
@@ -110,8 +137,32 @@ public class MediaPlayback {
     public void setMediaMetadatas(List<MediaMetadataCompat> mediaMetadatas) {
         mMediaMetadatas.clear();
         mMediaMetadatas.addAll(mediaMetadatas);
+        mNeedWifiLock = Functional.some(mMediaMetadatas, mediaMetadata -> {
+            String uri = mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI);
+            return !TextUtils.isEmpty(uri) && UriUtils.isWebScheme(Uri.parse(uri));
+        });
         if (mPlayer.getPlaybackState() != Player.STATE_IDLE) {
             updateMediaSessionMetadata();
+        }
+    }
+
+    @SuppressLint("WakelockTimeout")
+    private void holdLocks(boolean hold) {
+        if (mWakeLock.isHeld() != hold) {
+            if (hold) {
+                // We will release the lock once playback is paused/stopped.
+                mWakeLock.acquire();
+            } else {
+                mWakeLock.release();
+            }
+        }
+        boolean holdWifiLock = mNeedWifiLock && hold;
+        if (mWifiLock.isHeld() != holdWifiLock) {
+            if (holdWifiLock) {
+                mWifiLock.acquire();
+            } else {
+                mWifiLock.release();
+            }
         }
     }
 

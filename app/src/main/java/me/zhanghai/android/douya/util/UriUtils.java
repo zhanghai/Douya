@@ -15,6 +15,20 @@ import android.webkit.MimeTypeMap;
 
 public class UriUtils {
 
+    public static boolean isWebScheme(Uri uri) {
+        String scheme = uri.getScheme();
+        if (TextUtils.isEmpty(scheme)) {
+            return false;
+        }
+        switch (uri.getScheme()) {
+            case "http":
+            case "https":
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public static String getDisplayName(Uri uri, ContentResolver contentResolver) {
         String displayName = null;
         try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {

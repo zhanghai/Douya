@@ -39,6 +39,7 @@ import me.zhanghai.android.douya.item.ui.MusicActivity;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.LogUtils;
+import me.zhanghai.android.douya.util.LongCompat;
 import me.zhanghai.android.douya.util.StringCompat;
 
 public class PlayMusicService extends Service {
@@ -168,15 +169,14 @@ public class PlayMusicService extends Service {
         int trackIndex = intent.getIntExtra(EXTRA_TRACK_INDEX, 0);
         boolean playOrPause = intent.getBooleanExtra(EXTRA_PLAY_OR_PAUSE, false);
 
-        // TODO: Wake lock, wifi lock.
-
         boolean musicChanged = music.id != mMusicId;
         mMusicId = music.id;
         if (musicChanged) {
             mMediaPlayback.stop();
             // TODO: Use dedicated session activity.
-            PendingIntent sessionActivity = PendingIntent.getActivity(this, 0,
-                    MusicActivity.makeIntent(music, this), PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent sessionActivity = PendingIntent.getActivity(this,
+                    LongCompat.hashCode(music.id), MusicActivity.makeIntent(music, this),
+                    PendingIntent.FLAG_UPDATE_CURRENT);
             mMediaPlayback.setSessionActivity(sessionActivity);
             List<MediaMetadataCompat> mediaMetadatas = Functional.map(music.tracks,
                     (track, index) -> makeMediaMetadata(music, track, index), new ArrayList<>());
