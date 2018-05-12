@@ -33,7 +33,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="?android:textColorSecondary" />
 
-        <me.zhanghai.android.douya.ui.VisibilityChangedImageView
+        <me.zhanghai.android.douya.ui.VisibilityAggregatedImageView
             android:id="@+id/play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

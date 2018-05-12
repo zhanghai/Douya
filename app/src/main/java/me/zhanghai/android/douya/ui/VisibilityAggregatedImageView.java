@@ -10,17 +10,17 @@ import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
-public class VisibilityChangedImageView extends AppCompatImageView {
+public class VisibilityAggregatedImageView extends AppCompatImageView {
 
-    public VisibilityChangedImageView(Context context) {
+    public VisibilityAggregatedImageView(Context context) {
         super(context);
     }
 
-    public VisibilityChangedImageView(Context context, AttributeSet attrs) {
+    public VisibilityAggregatedImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public VisibilityChangedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public VisibilityAggregatedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
