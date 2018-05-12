@@ -60,10 +60,10 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
         if (!isTrackActive) {
             holder.numberText.setText(String.valueOf(position + 1));
         }
+        boolean isTrackPlaying = isTrackActive && service.isPlaying();
         if (isTrackActive) {
             PlayPauseDrawable playPauseDrawable = (PlayPauseDrawable)
                     holder.playPauseImage.getDrawable();
-            boolean isTrackPlaying = service.isPlaying();
             playPauseDrawable.setNextState(isTrackPlaying ? PlayPauseDrawable.State.Pause
                     : PlayPauseDrawable.State.Play);
         }
@@ -78,8 +78,8 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
                 R.attr.colorControlActivated : android.R.attr.textColorSecondary,
                 holder.durationText.getContext()));
         if (!TextUtils.isEmpty(track.previewUrl)) {
-            holder.itemView.setOnClickListener(view -> PlayMusicService.start(mMusic, position,
-                    view.getContext()));
+            holder.itemView.setOnClickListener(view ->
+                    PlayMusicService.start(mMusic, position, !isTrackPlaying, view.getContext()));
         }
     }
 

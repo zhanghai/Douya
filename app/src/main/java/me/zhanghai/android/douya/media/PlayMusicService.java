@@ -47,6 +47,7 @@ public class PlayMusicService extends Service {
 
     private static final String EXTRA_MUSIC = KEY_PREFIX + "music";
     private static final String EXTRA_TRACK_INDEX = KEY_PREFIX + "track_index";
+    private static final String EXTRA_PLAY_OR_PAUSE = KEY_PREFIX + "play_or_pause";
 
     private int mMediaDisplayIconMaxSize;
     private int mMediaArtMaxSize;
@@ -59,15 +60,24 @@ public class PlayMusicService extends Service {
 
     private long mMusicId;
 
-    public static void start(Music music, int trackIndex, Context context) {
-        Intent intent = new Intent(context, PlayMusicService.class)
-                .putExtra(EXTRA_MUSIC, music)
-                .putExtra(EXTRA_TRACK_INDEX, trackIndex);
-        context.startService(intent);
+    public static void start(Music music, Context context) {
+        context.startService(makeIntent(music, context));
     }
 
-    public static void start(Music music, Context context) {
-        start(music, -1, context);
+    public static void start(Music music, int trackIndex, boolean playOrPause, Context context) {
+        context.startService(makeIntent(music, trackIndex, playOrPause, context));
+    }
+
+    private static Intent makeIntent(Music music, Context context) {
+        return new Intent(context, PlayMusicService.class)
+                .putExtra(EXTRA_MUSIC, music);
+    }
+
+    private static Intent makeIntent(Music music, int trackIndex, boolean playOrPause,
+                                     Context context) {
+        return makeIntent(music, context)
+                .putExtra(EXTRA_TRACK_INDEX, trackIndex)
+                .putExtra(EXTRA_PLAY_OR_PAUSE, playOrPause);
     }
 
     public static PlayMusicService getInstance() {
@@ -154,7 +164,9 @@ public class PlayMusicService extends Service {
     private void onHandleIntent(Intent intent) {
 
         Music music = intent.getParcelableExtra(EXTRA_MUSIC);
+        boolean hasTrackIndex = intent.hasExtra(EXTRA_TRACK_INDEX);
         int trackIndex = intent.getIntExtra(EXTRA_TRACK_INDEX, 0);
+        boolean playOrPause = intent.getBooleanExtra(EXTRA_PLAY_OR_PAUSE, false);
 
         // TODO: Wake lock, wifi lock.
 
@@ -173,17 +185,17 @@ public class PlayMusicService extends Service {
             mMediaPlayback.start();
         }
 
-        if (trackIndex < 0) {
+        if (!hasTrackIndex) {
             mMediaPlayback.skipToQueueItem(0);
             mMediaPlayback.play();
-        } else if (mMediaPlayback.getActiveQueueItemIndex() != trackIndex) {
-            mMediaPlayback.skipToQueueItem(trackIndex);
-            mMediaPlayback.play();
         } else {
-            if (mMediaPlayback.isPlaying()) {
-                mMediaPlayback.pause();
-            } else {
+            if (mMediaPlayback.getActiveQueueItemIndex() != trackIndex) {
+                mMediaPlayback.skipToQueueItem(trackIndex);
+            }
+            if (playOrPause) {
                 mMediaPlayback.play();
+            } else {
+                mMediaPlayback.pause();
             }
         }
         mMediaNotification.start();
