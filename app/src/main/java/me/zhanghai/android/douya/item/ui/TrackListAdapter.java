@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.media.PlayMusicService;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
-import me.zhanghai.android.douya.ui.PlayPauseStopDrawable;
+import me.zhanghai.android.douya.ui.PlayPauseDrawable;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -45,7 +45,7 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.item_track_item, parent));
-        holder.playPauseImage.setImageDrawable(new PlayPauseStopDrawable(
+        holder.playPauseImage.setImageDrawable(new PlayPauseDrawable(
                 holder.playPauseImage.getContext()));
         return holder;
     }
@@ -61,11 +61,11 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
             holder.numberText.setText(String.valueOf(position + 1));
         }
         if (isTrackActive) {
-            PlayPauseStopDrawable playPauseDrawable = (PlayPauseStopDrawable)
+            PlayPauseDrawable playPauseDrawable = (PlayPauseDrawable)
                     holder.playPauseImage.getDrawable();
             boolean isTrackPlaying = service.isPlaying();
-            playPauseDrawable.setNextState(isTrackPlaying ? PlayPauseStopDrawable.State.Pause
-                    : PlayPauseStopDrawable.State.Play);
+            playPauseDrawable.setNextState(isTrackPlaying ? PlayPauseDrawable.State.Pause
+                    : PlayPauseDrawable.State.Play);
         }
         ViewUtils.setVisibleOrGone(holder.playPauseImage, isTrackActive);
         holder.titleText.setText(track.title);

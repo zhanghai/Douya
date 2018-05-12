@@ -11,10 +11,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 
 import me.zhanghai.android.douya.util.MathUtils;
+import me.zhanghai.android.douya.util.ViewUtils;
 
-public class PlayPauseStopDrawable extends BasePaintDrawable {
+public class PlayPauseDrawable extends BasePaintDrawable {
 
     public enum State {
 
@@ -31,8 +33,7 @@ public class PlayPauseStopDrawable extends BasePaintDrawable {
         }, new int[] {
                 5, 6, 5, 10, 19, 10, 19, 6,
                 5, 14, 5, 18, 19, 18, 19, 14
-        }),
-        Stop(null, null);
+        });
 
         private int[] mStartPoints;
         private int[] mEndPoints;
@@ -54,14 +55,14 @@ public class PlayPauseStopDrawable extends BasePaintDrawable {
     private static final int INTRINSIC_SIZE_DP = 24;
     private final int mIntrinsicSize;
 
-    private static final FloatProperty<PlayPauseStopDrawable> FRACTION =
-            new FloatProperty<PlayPauseStopDrawable>("fraction") {
+    private static final FloatProperty<PlayPauseDrawable> FRACTION =
+            new FloatProperty<PlayPauseDrawable>("fraction") {
                 @Override
-                public void setValue(PlayPauseStopDrawable object, float value) {
+                public void setValue(PlayPauseDrawable object, float value) {
                     object.mFraction = value;
                 }
                 @Override
-                public Float get(PlayPauseStopDrawable object) {
+                public Float get(PlayPauseDrawable object) {
                     return object.mFraction;
                 }
             };
@@ -75,10 +76,12 @@ public class PlayPauseStopDrawable extends BasePaintDrawable {
 
     private Path mPath = new Path();
 
-    public PlayPauseStopDrawable(Context context) {
+    public PlayPauseDrawable(Context context) {
         float density = context.getResources().getDisplayMetrics().density;
         mIntrinsicSize = Math.round(INTRINSIC_SIZE_DP * density);
-        mAnimator = ObjectAnimator.ofFloat(this, FRACTION, 0, 1);
+        mAnimator = ObjectAnimator.ofFloat(this, FRACTION, 0, 1)
+                .setDuration(ViewUtils.getShortAnimTime(context));
+        mAnimator.setInterpolator(new FastOutSlowInInterpolator());
     }
 
     @Override
