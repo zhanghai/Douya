@@ -25,9 +25,12 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapter.ViewHolder> {
 
+    private Listener mListener;
+
     private Music mMusic;
 
-    public TrackListAdapter() {
+    public TrackListAdapter(Listener listener) {
+        mListener = listener;
         setHasStableIds(true);
     }
 
@@ -81,6 +84,14 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
             holder.itemView.setOnClickListener(view ->
                     PlayMusicService.start(mMusic, position, !isTrackPlaying, view.getContext()));
         }
+        holder.itemView.setOnLongClickListener(view -> {
+            mListener.copyText(track.title);
+            return true;
+        });
+    }
+
+    public interface Listener {
+        void copyText(String text);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

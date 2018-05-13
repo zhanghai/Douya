@@ -61,6 +61,10 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         mListener = listener;
     }
 
+    protected Listener<T> getListener() {
+        return mListener;
+    }
+
     protected ItemCollectionHolder createItemCollectionHolder(ViewGroup parent) {
         ItemCollectionHolder holder = new ItemCollectionHolder(ViewUtils.inflate(
                 R.layout.item_fragment_collection, parent));

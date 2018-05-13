@@ -59,6 +59,11 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         super(listener);
     }
 
+    @Override
+    protected Listener getListener() {
+        return (Listener) super.getListener();
+    }
+
     public void setData(Data data) {
         mData = data;
         notifyDataChanged();
@@ -156,7 +161,7 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
     private TrackListHolder createTrackListHolder(ViewGroup parent) {
         TrackListHolder holder = new TrackListHolder(ViewUtils.inflate(
                 R.layout.item_fragment_track_list, parent));
-        holder.trackList.setAdapter(new TrackListAdapter());
+        holder.trackList.setAdapter(new TrackListAdapter(getListener()));
         return holder;
     }
 
@@ -290,7 +295,8 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         }
     }
 
-    public interface Listener extends BaseItemDataAdapter.Listener<Music> {}
+    public interface Listener extends BaseItemDataAdapter.Listener<Music>,
+            TrackListAdapter.Listener {}
 
     public static class Data {
 
