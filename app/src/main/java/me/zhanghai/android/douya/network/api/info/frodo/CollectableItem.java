@@ -192,13 +192,16 @@ public abstract class CollectableItem extends BaseItem {
                     .format(date);
         } catch (DateTimeParseException e) {
             e.printStackTrace();
-            return null;
+            if (releaseDate.length() == 4 && TextUtils.isDigitsOnly(releaseDate)) {
+                releaseDate += '年';
+            }
+            return releaseDate;
         }
     }
 
     private static String truncateReleaseDate(String releaseDate) {
         if (TextUtils.isEmpty(releaseDate) || releaseDate.length() < 10) {
-            return null;
+            return releaseDate;
         }
         return releaseDate.substring(0, 10);
     }
