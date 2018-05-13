@@ -218,8 +218,9 @@ public abstract class CollectableItem extends BaseItem {
                 switch (itemType) {
 //                case APP:
 //
-//                case BOOK:
-//
+                    case BOOK:
+                        type = SimpleBook.class;
+                        break;
 //                case EVENT:
 //
 //                case GAME:

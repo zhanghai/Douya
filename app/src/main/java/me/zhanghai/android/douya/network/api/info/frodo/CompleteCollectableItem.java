@@ -30,8 +30,9 @@ public class CompleteCollectableItem {
                 switch (itemType) {
 //                case APP:
 //
-//                case BOOK:
-//
+                    case BOOK:
+                        type = Book.class;
+                        break;
 //                case EVENT:
 //
 //                case GAME:
