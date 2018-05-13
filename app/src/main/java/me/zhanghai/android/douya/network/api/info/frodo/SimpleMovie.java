@@ -40,10 +40,6 @@ public class SimpleMovie extends CollectableItem {
 
     public String year;
 
-    public String getReleaseDate() {
-        return CollectableItem.getReleaseDate(releaseDates);
-    }
-
     public String getYearMonth(Context context) {
         String yearMoth = CollectableItem.getYearMonth(releaseDates, context);
         if (!TextUtils.isEmpty(yearMoth)) {
