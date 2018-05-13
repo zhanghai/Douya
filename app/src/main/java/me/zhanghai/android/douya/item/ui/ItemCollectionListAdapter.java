@@ -83,7 +83,10 @@ public class ItemCollectionListAdapter
         holder.voteLayout.setOnClickListener(view -> VoteItemCollectionManager.getInstance().write(
                 mItemType, mItemId, itemCollection, view.getContext()));
         holder.commentText.setText(itemCollection.comment);
-        holder.itemView.setOnClickListener(view -> mListener.copyText(itemCollection.comment));
+        holder.itemView.setOnLongClickListener(view -> {
+            mListener.copyText(itemCollection.comment);
+            return true;
+        });
     }
 
     public interface Listener {
