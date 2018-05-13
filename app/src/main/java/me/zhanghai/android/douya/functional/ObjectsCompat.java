@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.util;
+package me.zhanghai.android.douya.functional;
 
 import java.util.Objects;
 

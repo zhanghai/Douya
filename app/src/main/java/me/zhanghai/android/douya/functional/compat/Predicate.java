@@ -26,6 +26,8 @@ package me.zhanghai.android.douya.functional.compat;
 
 import java.util.Objects;
 
+import me.zhanghai.android.douya.functional.ObjectsCompat;
+
 /**
  * Represents a predicate (boolean-valued function) of one argument.
  *
@@ -113,7 +115,7 @@ public interface Predicate<T> {
      */
     static <T> Predicate<T> isEqual(Object targetRef) {
         return (null == targetRef)
-                ? Objects::isNull
+                ? ObjectsCompat::isNull
                 : object -> targetRef.equals(object);
     }
 }
