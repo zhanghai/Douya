@@ -77,7 +77,6 @@ public class PlayPauseDrawable extends BasePaintDrawable {
 
     private Path mPath = new Path();
     private Matrix mMatrix = new Matrix();
-    private Path mRenderPath = new Path();
 
     public PlayPauseDrawable(Context context) {
         mIntrinsicSize = ViewUtils.dpToPxSize(INTRINSIC_SIZE_DP, context);
@@ -206,11 +205,10 @@ public class PlayPauseDrawable extends BasePaintDrawable {
             }
         }
         mPath.close();
-        mRenderPath.rewind();
-        mRenderPath.addPath(mPath, mMatrix);
-        // Using addPath(mPath, mMatrix) and drawing the transformed path makes rendering much less
-        // blurry than using canvas transform directly. This is learned from VectorDrawable.
-        canvas.drawPath(mRenderPath, paint);
+        mPath.transform(mMatrix);
+        // Drawing the transformed path makes rendering much less blurry than using canvas transform
+        // directly. See https://stackoverflow.com/a/16091390 .
+        canvas.drawPath(mPath, paint);
     }
 
     private void drawBetweenStates(Canvas canvas, Paint paint, State fromState, State toState,
@@ -236,8 +234,7 @@ public class PlayPauseDrawable extends BasePaintDrawable {
             }
         }
         mPath.close();
-        mRenderPath.rewind();
-        mRenderPath.addPath(mPath, mMatrix);
-        canvas.drawPath(mRenderPath, paint);
+        mPath.transform(mMatrix);
+        canvas.drawPath(mPath, paint);
     }
 }
