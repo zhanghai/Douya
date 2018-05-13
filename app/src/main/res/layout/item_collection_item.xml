@@ -5,7 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<RelativeLayout
+<me.zhanghai.android.douya.ui.ForegroundRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,7 +16,8 @@
     android:paddingRight="@dimen/screen_edge_horizontal_margin"
     android:paddingTop="@dimen/content_vertical_space"
     android:paddingBottom="@dimen/content_vertical_space"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:foreground="?selectableItemBackground">
 
     <me.zhanghai.android.douya.ui.SimpleCircleImageView
         android:id="@+id/avatar"
@@ -129,4 +130,4 @@
         android:layout_marginTop="12dp"
         android:lineSpacingMultiplier="1.2"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-</RelativeLayout>
+</me.zhanghai.android.douya.ui.ForegroundRelativeLayout>

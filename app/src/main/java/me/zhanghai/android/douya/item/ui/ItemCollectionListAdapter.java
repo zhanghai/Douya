@@ -30,10 +30,13 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class ItemCollectionListAdapter
         extends SimpleAdapter<SimpleItemCollection, ItemCollectionListAdapter.ViewHolder> {
 
+    private Listener mListener;
+
     private CollectableItem.Type mItemType;
     private long mItemId;
 
-    public ItemCollectionListAdapter() {
+    public ItemCollectionListAdapter(Listener listener) {
+        mListener = listener;
         setHasStableIds(true);
     }
 
@@ -80,6 +83,11 @@ public class ItemCollectionListAdapter
         holder.voteLayout.setOnClickListener(view -> VoteItemCollectionManager.getInstance().write(
                 mItemType, mItemId, itemCollection, view.getContext()));
         holder.commentText.setText(itemCollection.comment);
+        holder.itemView.setOnClickListener(view -> mListener.copyText(itemCollection.comment));
+    }
+
+    public interface Listener {
+        void copyText(String text);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

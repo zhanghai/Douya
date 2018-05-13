@@ -31,6 +31,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMusic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.BarrierAdapter;
+import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
 import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
@@ -182,5 +183,10 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
         }
 
         mAdapter.notifyTrackListChanged();
+    }
+
+    @Override
+    public void copyText(String text) {
+        CopyTextDialogFragment.show(text, this);
     }
 }

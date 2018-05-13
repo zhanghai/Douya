@@ -129,7 +129,7 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
     protected ItemCollectionListHolder createItemCollectionListHolder(ViewGroup parent) {
         ItemCollectionListHolder holder = new ItemCollectionListHolder(ViewUtils.inflate(
                 R.layout.item_fragment_collection_list, parent));
-        holder.itemCollectionList.setAdapter(new ItemCollectionListAdapter());
+        holder.itemCollectionList.setAdapter(new ItemCollectionListAdapter(mListener));
         return holder;
     }
 
@@ -447,8 +447,9 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         adapter.replace(relatedDoulistList);
     }
 
-    public interface Listener<T> {
+    public interface Listener<T> extends ItemCollectionListAdapter.Listener {
         void onUncollectItem(T item);
+        void copyText(String text);
     }
 
     protected static class ItemCollectionHolder extends RecyclerView.ViewHolder {
