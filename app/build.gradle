@@ -100,7 +100,10 @@ dependencies {
     // Glide 4.2.0 introduced lag/white on long images and white flash in transition for us.
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
     implementation 'com.github.bumptech.glide:glide:4.1.1'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.0'
+    // Workaround https://github.com/google/ExoPlayer/issues/4234
+    implementation ('com.google.android.exoplayer:exoplayer-core:2.8.0') {
+        exclude group: 'org.checkerframework'
+    }
     implementation 'com.google.android.exoplayer:extension-mediasession:2.8.0'
     implementation 'com.google.android.exoplayer:extension-okhttp:2.8.0'
     implementation 'com.google.code.gson:gson:2.8.2'
