@@ -29,10 +29,10 @@ public class SimpleItemCollection implements Parcelable {
     public SimpleRating rating;
 
     @SerializedName("sharing_text")
-    public String sharingText;
+    public String shareText;
 
     @SerializedName("sharing_url")
-    public String sharingUrl;
+    public String shareUrl;
 
     /**
      * @deprecated Use {@link #getState()} instead.
@@ -75,8 +75,8 @@ public class SimpleItemCollection implements Parcelable {
         isVoted = in.readByte() != 0;
         platforms = in.createTypedArrayList(GamePlatform.CREATOR);
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
-        sharingText = in.readString();
-        sharingUrl = in.readString();
+        shareText = in.readString();
+        shareUrl = in.readString();
         //noinspection deprecation
         state = in.readString();
         tags = in.createStringArrayList();
@@ -98,8 +98,8 @@ public class SimpleItemCollection implements Parcelable {
         dest.writeByte(isVoted ? (byte) 1 : (byte) 0);
         dest.writeTypedList(platforms);
         dest.writeParcelable(rating, flags);
-        dest.writeString(sharingText);
-        dest.writeString(sharingUrl);
+        dest.writeString(shareText);
+        dest.writeString(shareUrl);
         //noinspection deprecation
         dest.writeString(state);
         dest.writeStringList(tags);

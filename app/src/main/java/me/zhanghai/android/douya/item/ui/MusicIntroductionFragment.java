@@ -36,7 +36,7 @@ public class MusicIntroductionFragment extends BaseItemIntroductionFragment<Musi
         addTextListToData(R.string.item_introduction_music_media, mItem.media, data);
         addTextListToData(R.string.item_introduction_music_release_dates, mItem.releaseDates, data);
         addTextListToData(R.string.item_introduction_music_publisher, mItem.publishers, data);
-        addTextListToData(R.string.item_introduction_music_disc_count, mItem.discCount, data);
+        addTextListToData(R.string.item_introduction_music_disc_count, mItem.discCounts, data);
         return data;
     }
 }

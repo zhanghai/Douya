@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Music extends SimpleMusic {
 
     @SerializedName("discs")
-    public ArrayList<String> discCount = new ArrayList<>();
+    public ArrayList<String> discCounts = new ArrayList<>();
 
     @SerializedName("intro_url")
     public String informationUrl;
@@ -51,7 +51,7 @@ public class Music extends SimpleMusic {
     protected Music(Parcel in) {
         super(in);
 
-        discCount = in.createStringArrayList();
+        discCounts = in.createStringArrayList();
         informationUrl = in.readString();
         media = in.createStringArrayList();
         publishers = in.createStringArrayList();
@@ -69,7 +69,7 @@ public class Music extends SimpleMusic {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeStringList(discCount);
+        dest.writeStringList(discCounts);
         dest.writeString(informationUrl);
         dest.writeStringList(media);
         dest.writeStringList(publishers);
