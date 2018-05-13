@@ -17,12 +17,13 @@
 
     <style name="Base.Theme.Douya.BroadcastActivity" parent="Theme.Douya.DarkBackground" />
 
-    <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie.Dark" />
+    <style name="Theme.Douya.Book" parent="Base.Theme.Douya.Book.Dark" />
+    <style name="Theme.Douya.Book.DialogWhenLarge" parent="Base.Theme.Douya.Book.DialogWhenLarge.Dark" />
 
+    <style name="Theme.Douya.Movie" parent="Base.Theme.Douya.Movie.Dark" />
     <style name="Theme.Douya.Movie.DialogWhenLarge" parent="Base.Theme.Douya.Movie.DialogWhenLarge.Dark" />
 
     <style name="Theme.Douya.Music" parent="Base.Theme.Douya.Music.Dark" />
-
     <style name="Theme.Douya.Music.DialogWhenLarge" parent="Base.Theme.Douya.Music.DialogWhenLarge.Dark" />
 
     <style name="ThemeOverlay.Douya.Calendar" parent="Base.ThemeOverlay.Douya.Calendar.Dark" />

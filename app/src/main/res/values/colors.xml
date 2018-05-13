@@ -12,6 +12,11 @@
     <color name="blue_500">#2196f3</color>
     <color name="blue_700">#1976d2</color>
 
+    <color name="brown_50">#efebe9</color>
+    <color name="brown_300">#a1887f</color>
+    <color name="brown_500">#795548</color>
+    <color name="brown_700">#5d4037</color>
+
     <color name="green_100">#c8e6c9</color>
     <color name="green_300">#81c784</color>
     <color name="green_500">#4caf50</color>
@@ -47,6 +52,11 @@
     <color name="douya_primary_dark">@color/green_700</color>
     <color name="douya_primary_dark_without_system_window_scrim">#4dc252</color>
     <color name="douya_accent">@color/green_500</color>
+
+    <color name="book_primary">@color/brown_500</color>
+    <color name="book_primary_dark">@color/brown_700</color>
+    <color name="book_primary_light">@color/brown_50</color>
+    <color name="book_accent">@color/brown_500</color>
 
     <color name="movie_primary">@color/blue_500</color>
     <color name="movie_primary_dark">@color/blue_700</color>

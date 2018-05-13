@@ -265,6 +265,45 @@
 
     <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />
 
+    <style name="DarkTheme.Light.Book" parent="DarkTheme.Light">
+        <item name="colorAccent">@color/book_accent</item>
+    </style>
+    <style name="Base.Theme.Douya.Book" parent="Theme.Douya">
+        <item name="colorPrimary">@color/book_primary</item>
+        <item name="colorPrimaryDark">@color/book_primary_dark</item>
+        <item name="colorPrimaryLight">@color/book_primary_light</item>
+        <item name="colorAccent">@color/book_accent</item>
+        <item name="textColorPrimaryDark">@color/book_primary_dark</item>
+        <item name="iconButtonTint">@color/icon_button_tint_book</item>
+        <item name="android:windowBackground">@color/grey_200</item>
+        <item name="darkTheme">@style/DarkTheme.Light.Book</item>
+    </style>
+    <style name="Base.Theme.Douya.Book.Dark" parent="Theme.Douya">
+        <item name="colorPrimaryLight">@color/grey_850</item>
+        <item name="colorAccent">@color/book_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_book</item>
+        <item name="darkTheme">@style/DarkTheme</item>
+    </style>
+    <style name="Theme.Douya.Book" parent="Base.Theme.Douya.Book" />
+    <style name="Base.Theme.Douya.Book.DialogWhenLarge" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimary">@color/book_primary</item>
+        <item name="colorPrimaryDark">@color/book_primary_dark</item>
+        <item name="colorPrimaryLight">@color/book_primary_light</item>
+        <item name="colorAccent">@color/book_accent</item>
+        <item name="textColorPrimaryDark">@color/book_primary_dark</item>
+        <item name="iconButtonTint">@color/icon_button_tint_book</item>
+        <item name="darkTheme">@style/DarkTheme.Light.Book</item>
+    </style>
+    <style name="Base.Theme.Douya.Book.DialogWhenLarge.Dark" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimaryLight">@color/grey_850</item>
+        <item name="colorAccent">@color/book_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_book</item>
+        <item name="darkTheme">@style/DarkTheme</item>
+    </style>
+    <style name="Theme.Douya.Book.DialogWhenLarge" parent="Base.Theme.Douya.Book.DialogWhenLarge" />
+
     <style name="DarkTheme.Light.Movie" parent="DarkTheme.Light">
         <item name="colorAccent">@color/movie_accent</item>
     </style>
