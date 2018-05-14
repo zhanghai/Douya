@@ -79,6 +79,8 @@ public class Book extends SimpleBook {
     public Book() {}
 
     protected Book(Parcel in) {
+        super(in);
+
         authorIntroduction = in.readString();
         bookSeries = in.readParcelable(Series.class.getClassLoader());
         buyUrl = in.readString();
@@ -91,6 +93,7 @@ public class Book extends SimpleBook {
         prices = in.createStringArrayList();
         storeUri = in.readString();
         subtitles = in.createStringArrayList();
+        translators = in.createStringArrayList();
     }
 
     @Override
@@ -114,6 +117,7 @@ public class Book extends SimpleBook {
         dest.writeStringList(prices);
         dest.writeString(storeUri);
         dest.writeStringList(subtitles);
+        dest.writeStringList(translators);
     }
 
 
