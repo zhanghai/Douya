@@ -203,6 +203,7 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         String slashDelimiter = context.getString(R.string.item_information_delimiter_slash);
         headerHolder.subtitleText.setText(StringCompat.join(slashDelimiter, book.subtitles));
         headerHolder.authorsText.setText(StringCompat.join(slashDelimiter, book.authors));
+        headerHolder.translatorsText.setText(StringCompat.join(slashDelimiter, book.translators));
         String spaceDelimiter = context.getString(R.string.item_information_delimiter_space);
         String detail = StringUtils.joinNonEmpty(spaceDelimiter, book.getYearMonth(context),
                 StringCompat.join(slashDelimiter, book.presses), StringCompat.join(slashDelimiter,
@@ -263,6 +264,8 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         public TextView subtitleText;
         @BindView(R.id.authors)
         public TextView authorsText;
+        @BindView(R.id.translators)
+        public TextView translatorsText;
         @BindView(R.id.detail)
         public TextView detailText;
 
