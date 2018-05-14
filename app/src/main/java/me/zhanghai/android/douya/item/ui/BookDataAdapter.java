@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.item.ui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -203,7 +204,12 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         String slashDelimiter = context.getString(R.string.item_information_delimiter_slash);
         headerHolder.subtitleText.setText(StringCompat.join(slashDelimiter, book.subtitles));
         headerHolder.authorsText.setText(StringCompat.join(slashDelimiter, book.authors));
-        headerHolder.translatorsText.setText(StringCompat.join(slashDelimiter, book.translators));
+        String translators = StringCompat.join(slashDelimiter, book.translators);
+        if (!TextUtils.isEmpty(translators)) {
+            translators = context.getString(R.string.item_information_book_translators_format,
+                    translators);
+        }
+        headerHolder.translatorsText.setText(translators);
         String spaceDelimiter = context.getString(R.string.item_information_delimiter_space);
         String detail = StringUtils.joinNonEmpty(spaceDelimiter, book.getYearMonth(context),
                 StringCompat.join(slashDelimiter, book.presses), StringCompat.join(slashDelimiter,
