@@ -21,6 +21,8 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeParseException;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.CollectionUtils;
@@ -193,7 +195,12 @@ public abstract class CollectableItem extends BaseItem {
         } catch (DateTimeParseException e) {
             e.printStackTrace();
             if (releaseDate.length() == 4 && TextUtils.isDigitsOnly(releaseDate)) {
-                releaseDate += '年';
+                return releaseDate + '年';
+            } else if (releaseDate.length() == 6 || releaseDate.length() == 7) {
+                Matcher matcher = Pattern.compile("(\\d{4})-(\\d{1,2})").matcher(releaseDate);
+                if (matcher.matches()) {
+                    return matcher.group(1) + '年' + matcher.group(2) + '月';
+                }
             }
             return releaseDate;
         }
