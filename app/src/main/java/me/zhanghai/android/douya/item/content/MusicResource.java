@@ -25,8 +25,7 @@ public class MusicResource extends BaseItemResource<SimpleMusic, Music> {
     }
 
     public static MusicResource attachTo(long musicId, SimpleMusic simpleMusic, Music music,
-                                         Fragment fragment, String tag,
-                                         int requestCode) {
+                                         Fragment fragment, String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
         MusicResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {

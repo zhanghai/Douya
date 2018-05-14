@@ -25,8 +25,7 @@ public class MovieResource extends BaseItemResource<SimpleMovie, Movie> {
     }
 
     public static MovieResource attachTo(long movieId, SimpleMovie simpleMovie, Movie movie,
-                                         Fragment fragment, String tag,
-                                         int requestCode) {
+                                         Fragment fragment, String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
         MovieResource instance = FragmentUtils.findByTag(activity, tag);
         if (instance == null) {
