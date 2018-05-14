@@ -406,13 +406,20 @@
     <string name="item_introduction_movie_episode_count">集数</string>
     <string name="item_introduction_movie_durations">片长</string>
     <string name="item_introduction_movie_alternative_titles">又名</string>
-    <string name="item_introduction_music_artist">艺术家</string>
+    <string name="item_introduction_music_artists">艺术家</string>
     <string name="item_introduction_music_genres">流派</string>
     <string name="item_introduction_music_types">类型</string>
     <string name="item_introduction_music_media">介质</string>
     <string name="item_introduction_music_release_dates">发行日期</string>
-    <string name="item_introduction_music_publisher">出版者</string>
-    <string name="item_introduction_music_disc_count">碟片数</string>
+    <string name="item_introduction_music_publishers">出版者</string>
+    <string name="item_introduction_music_disc_counts">碟片数</string>
+    <string name="item_introduction_book_authors">作者</string>
+    <string name="item_introduction_book_presses">出版社</string>
+    <string name="item_introduction_book_subtitles">副标题</string>
+    <string name="item_introduction_book_translators">译者</string>
+    <string name="item_introduction_book_release_dates">出版日期</string>
+    <string name="item_introduction_book_page_counts">页数</string>
+    <string name="item_introduction_book_prices">定价</string>
 
     <string name="calendar_title">电影日历</string>
     <string name="calendar_chinese_calendar">农历</string>

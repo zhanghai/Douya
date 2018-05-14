@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import me.zhanghai.android.douya.network.api.info.frodo.Book;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
@@ -43,8 +44,8 @@ public class ItemIntroductionActivity extends AppCompatActivity {
                     // TODO
                     throw new UnsupportedOperationException();
                 case BOOK:
-                    // TODO
-                    throw new UnsupportedOperationException();
+                    fragment = BookIntroductionFragment.newInstance((Book) item);
+                    break;
                 case EVENT:
                     // TODO
                     throw new UnsupportedOperationException();
