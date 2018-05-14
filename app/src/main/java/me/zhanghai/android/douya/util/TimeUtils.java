@@ -10,12 +10,16 @@ import android.content.Context;
 import org.threeten.bp.Duration;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.YearMonth;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.chrono.IsoChronology;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 import org.threeten.bp.format.DateTimeParseException;
+import org.threeten.bp.format.ResolverStyle;
+import org.threeten.bp.format.SignStyle;
+import org.threeten.bp.temporal.ChronoField;
 
 import me.zhanghai.android.douya.R;
 
@@ -25,12 +29,33 @@ public class TimeUtils {
     private static final int MINUTES_PER_HOUR = 60;
     private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
 
+    private static final DateTimeFormatter DOUBAN_YEAR_MONTH_FORMATTER =
+            new DateTimeFormatterBuilder()
+                    .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NOT_NEGATIVE)
+                    .toFormatter()
+                    .withResolverStyle(ResolverStyle.STRICT)
+                    .withChronology(IsoChronology.INSTANCE);
+
+    private static final DateTimeFormatter DOUBAN_DATE_FORMATTER =
+            new DateTimeFormatterBuilder()
+                    .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NOT_NEGATIVE)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NOT_NEGATIVE)
+                    .toFormatter()
+                    .withResolverStyle(ResolverStyle.STRICT)
+                    .withChronology(IsoChronology.INSTANCE);
+
     private static final DateTimeFormatter DOUBAN_DATE_TIME_FORMATTER =
             new DateTimeFormatterBuilder()
                     .append(DateTimeFormatter.ISO_LOCAL_DATE)
                     .appendLiteral(' ')
                     .append(DateTimeFormatter.ISO_LOCAL_TIME)
                     .toFormatter()
+                    .withResolverStyle(ResolverStyle.STRICT)
                     .withChronology(IsoChronology.INSTANCE);
 
     private static final ZoneId DOUBAN_ZONE_ID = ZoneId.of("Asia/Shanghai");
@@ -42,8 +67,15 @@ public class TimeUtils {
     /**
      * @throws DateTimeParseException
      */
+    public static YearMonth parseDoubanYearMonth(String doubanDate) {
+        return YearMonth.parse(doubanDate, DOUBAN_YEAR_MONTH_FORMATTER);
+    }
+
+    /**
+     * @throws DateTimeParseException
+     */
     public static LocalDate parseDoubanDate(String doubanDate) {
-        return LocalDate.parse(doubanDate);
+        return LocalDate.parse(doubanDate, DOUBAN_DATE_FORMATTER);
     }
 
     /**

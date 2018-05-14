@@ -41,6 +41,9 @@
     <string name="month_day_pattern">M月d日</string>
     <string name="date_pattern">Y年M月d日</string>
     <string name="year_month_pattern">Y年M月</string>
+    <string name="year_month_format">%1$d年%2$d月</string>
+    <string name="year_pattern">Y年</string>
+    <string name="year_format">%1$d年</string>
     <string name="duration_hour_minute_second_format">%1$d:%2$02d:%3$02d</string>
     <string name="duration_minute_second_format">%1$02d:%2$02d</string>
 

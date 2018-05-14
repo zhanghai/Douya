@@ -17,12 +17,12 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.Year;
+import org.threeten.bp.YearMonth;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeParseException;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.CollectionUtils;
@@ -194,16 +194,27 @@ public abstract class CollectableItem extends BaseItem {
                     .format(date);
         } catch (DateTimeParseException e) {
             e.printStackTrace();
-            if (releaseDate.length() == 4 && TextUtils.isDigitsOnly(releaseDate)) {
-                return releaseDate + '年';
-            } else if (releaseDate.length() == 6 || releaseDate.length() == 7) {
-                Matcher matcher = Pattern.compile("(\\d{4})-(\\d{1,2})").matcher(releaseDate);
-                if (matcher.matches()) {
-                    return matcher.group(1) + '年' + matcher.group(2) + '月';
-                }
-            }
-            return releaseDate;
         }
+        try {
+            YearMonth yearMonth = TimeUtils.parseDoubanYearMonth(releaseDate);
+            // Throws UnsupportedTemporalTypeException: Unsupported field: DayOfWeek
+            //return DateTimeFormatter.ofPattern(context.getString(R.string.year_month_pattern))
+            //        .format(yearMonth);
+            return context.getString(R.string.year_month_format, yearMonth.getYear(),
+                    yearMonth.getMonthValue());
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            Year year = Year.parse(releaseDate);
+            // Throws UnsupportedTemporalTypeException: Unsupported field: DayOfWeek
+            //return DateTimeFormatter.ofPattern(context.getString(R.string.year_pattern))
+            //        .format(year);
+            return context.getString(R.string.year_format, year.getValue());
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+        }
+        return releaseDate;
     }
 
     private static String truncateReleaseDate(String releaseDate) {
@@ -254,8 +265,10 @@ public abstract class CollectableItem extends BaseItem {
     protected CollectableItem(Parcel in) {
         super(in);
 
+        //noinspection deprecation
         backgroundColor = in.readString();
         commentCount = in.readInt();
+        //noinspection deprecation
         themeColor = in.readString();
         collection = in.readParcelable(SimpleItemCollection.class.getClassLoader());
         introduction = in.readString();
@@ -278,8 +291,10 @@ public abstract class CollectableItem extends BaseItem {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
+        //noinspection deprecation
         dest.writeString(backgroundColor);
         dest.writeInt(commentCount);
+        //noinspection deprecation
         dest.writeString(themeColor);
         dest.writeParcelable(collection, flags);
         dest.writeString(introduction);
