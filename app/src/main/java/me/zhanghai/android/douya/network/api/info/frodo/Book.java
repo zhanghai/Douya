@@ -12,6 +12,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import me.zhanghai.android.douya.functional.Functional;
 
 public class Book extends SimpleBook {
 
@@ -55,6 +58,10 @@ public class Book extends SimpleBook {
 
     public String getYearMonth(Context context) {
         return CollectableItem.getYearMonth(releaseDates, context);
+    }
+
+    public List<String> getPageCountStrings() {
+        return Functional.map(pageCounts, pageCount -> pageCount + "页", new ArrayList<>());
     }
 
 

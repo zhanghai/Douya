@@ -158,6 +158,11 @@
             android:theme="@style/Theme.Douya" />
 
         <activity
+            android:name=".item.ui.BookActivity"
+            android:label="@string/item_book_title"
+            android:theme="@style/Theme.Douya.Book" />
+
+        <activity
             android:name=".item.ui.MovieActivity"
             android:label="@string/item_movie_title"
             android:theme="@style/Theme.Douya.Movie" />

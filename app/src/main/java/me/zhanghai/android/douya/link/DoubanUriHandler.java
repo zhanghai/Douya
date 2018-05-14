@@ -17,6 +17,7 @@ import me.zhanghai.android.douya.broadcast.ui.BroadcastActivity;
 import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
+import me.zhanghai.android.douya.item.ui.BookActivity;
 import me.zhanghai.android.douya.item.ui.MovieActivity;
 import me.zhanghai.android.douya.item.ui.MusicActivity;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
@@ -30,6 +31,7 @@ public class DoubanUriHandler {
     private static final String DISPATCH_URI_QUERY_PARAMETER_URI_PREFIX = "douban://douban.com";
 
     private static final String AUTHORITY = "www.douban.com";
+    private static final String AUTHORITY_BOOK = "book.douban.com";
     private static final String AUTHORITY_MOVIE = "movie.douban.com";
     private static final String AUTHORITY_MUSIC = "music.douban.com";
     private static final String AUTHORITY_FRODO = "douban.com";
@@ -56,6 +58,8 @@ public class DoubanUriHandler {
         // Reordered for correct behavior
         // Not handling "people/*/statuses" because Frodo API cannot handle it.
         USER_BROADCAST_LIST("people/#/statuses"),
+        BOOK(AUTHORITY_BOOK, "subject/#"),
+        BOOK_FRODO(AUTHORITY_FRODO, "book/#"),
         MOVIE(AUTHORITY_MOVIE, "subject/#"),
         MOVIE_FRODO(AUTHORITY_FRODO, "movie/#"),
         MUSIC(AUTHORITY_MUSIC, "subject/#"),
@@ -141,6 +145,10 @@ public class DoubanUriHandler {
             case USER_FOLLOWING_LIST:
             case USER_FOLLOWING_LIST_FRODO:
                 intent = FollowingListActivity.makeIntent(uri.getPathSegments().get(1), context);
+                break;
+            case BOOK:
+            case BOOK_FRODO:
+                intent = BookActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
             case MOVIE:
             case MOVIE_FRODO:

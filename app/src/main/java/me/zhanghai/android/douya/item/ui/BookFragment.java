@@ -6,27 +6,21 @@
 package me.zhanghai.android.douya.item.ui;
 
 import android.content.Context;
-import android.os.Bundle;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import me.zhanghai.android.douya.eventbus.EventBusUtils;
-import me.zhanghai.android.douya.eventbus.MusicPlayingStateChangedEvent;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
+import me.zhanghai.android.douya.item.content.BookFragmentResource;
 import me.zhanghai.android.douya.item.content.ConfirmUncollectItemDialogFragment;
-import me.zhanghai.android.douya.item.content.MusicFragmentResource;
 import me.zhanghai.android.douya.item.content.UncollectItemManager;
+import me.zhanghai.android.douya.network.api.info.frodo.Book;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
-import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleBook;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
-import me.zhanghai.android.douya.network.api.info.frodo.SimpleMusic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.BarrierAdapter;
 import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
@@ -34,45 +28,31 @@ import me.zhanghai.android.douya.util.DoubanUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
-        implements MusicFragmentResource.Listener, MusicDataAdapter.Listener,
+public class BookFragment extends BaseItemFragment<SimpleBook, Book>
+        implements BookFragmentResource.Listener, BookDataAdapter.Listener,
         ConfirmUncollectItemDialogFragment.Listener {
 
-    private MusicAdapter mAdapter;
+    private BookAdapter mAdapter;
 
     private boolean mBackdropBound;
 
-    public static MusicFragment newInstance(long musicId, SimpleMusic simpleMusic, Music music) {
+    public static BookFragment newInstance(long bookId, SimpleBook simpleBook, Book book) {
         //noinspection deprecation
-        MusicFragment fragment = new MusicFragment();
-        fragment.setArguments(musicId, simpleMusic, music);
+        BookFragment fragment = new BookFragment();
+        fragment.setArguments(bookId, simpleBook, book);
         return fragment;
     }
 
     /**
-     * @deprecated Use {@link #newInstance(long, SimpleMusic, Music)} instead.
+     * @deprecated Use {@link #newInstance(long, SimpleBook, Book)} instead.
      */
-    public MusicFragment() {}
+    public BookFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        EventBusUtils.register(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        EventBusUtils.unregister(this);
-    }
-
-    @Override
-    protected BaseItemFragmentResource<SimpleMusic, Music> onAttachResource(long itemId,
-                                                                            SimpleMusic simpleItem,
-                                                                            Music item) {
-        return MusicFragmentResource.attachTo(itemId, simpleItem, item, this);
+    protected BaseItemFragmentResource<SimpleBook, Book> onAttachResource(long itemId,
+                                                                          SimpleBook simpleItem,
+                                                                          Book item) {
+        return BookFragmentResource.attachTo(itemId, simpleItem, item, this);
     }
 
     @Override
@@ -82,51 +62,51 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
 
     @Override
     protected BarrierAdapter onCreateAdapter() {
-        mAdapter = new MusicAdapter(this);
+        mAdapter = new BookAdapter(this);
         return mAdapter;
     }
 
     @Override
-    public void onChanged(int requestCode, Music newMusic, Rating newRating,
+    public void onChanged(int requestCode, Book newBook, Rating newRating,
                           List<SimpleItemCollection> newItemCollectionList,
                           List<SimpleReview> newReviewList,
                           List<SimpleItemForumTopic> newForumTopicList,
                           List<CollectableItem> newRecommendationList,
                           List<Doulist> newRelatedDoulistList) {
-        update(newMusic, newRating, newItemCollectionList, newReviewList, newForumTopicList,
+        update(newBook, newRating, newItemCollectionList, newReviewList, newForumTopicList,
                 newRecommendationList, newRelatedDoulistList);
     }
 
-    private void update(Music music, Rating rating, List<SimpleItemCollection> itemCollectionList,
+    private void update(Book book, Rating rating, List<SimpleItemCollection> itemCollectionList,
                         List<SimpleReview> reviewList, List<SimpleItemForumTopic> forumTopicList,
                         List<CollectableItem> recommendationList,
                         List<Doulist> relatedDoulistList) {
 
-        if (music != null) {
-            super.updateWithSimpleItem(music);
+        if (book != null) {
+            super.updateWithSimpleItem(book);
         }
 
-        if (music == null) {
+        if (book == null) {
             return;
         }
 
         if (!mBackdropBound) {
             if (ViewUtils.isInPortait(getActivity())) {
-                ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, music.cover.getLargeUrl(),
+                ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, book.cover.getLargeUrl(),
                         null);
                 mBackdropLayout.setOnClickListener(view -> {
                     // TODO
                     Context context = view.getContext();
-                    context.startActivity(GalleryActivity.makeIntent(music.cover, context));
+                    context.startActivity(GalleryActivity.makeIntent(book.cover, context));
                 });
             } else {
-                mBackdropImage.setBackgroundColor(music.getThemeColor());
+                mBackdropImage.setBackgroundColor(book.getThemeColor());
                 ViewUtils.fadeIn(mBackdropImage);
             }
             mBackdropBound = true;
         }
 
-        mAdapter.setData(new MusicDataAdapter.Data(music, rating, itemCollectionList, reviewList,
+        mAdapter.setData(new BookDataAdapter.Data(book, rating, itemCollectionList, reviewList,
                 forumTopicList, recommendationList, relatedDoulistList));
         if (mAdapter.getItemCount() > 0) {
             mContentStateLayout.setLoaded(true);
@@ -135,7 +115,7 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
 
     @Override
     protected String makeItemUrl(long itemId) {
-        return DoubanUtils.makeMusicUrl(itemId);
+        return DoubanUtils.makeBookUrl(itemId);
     }
 
     @Override
@@ -160,7 +140,7 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
     }
 
     @Override
-    public void onUncollectItem(Music music) {
+    public void onUncollectItem(Book book) {
         ConfirmUncollectItemDialogFragment.show(this);
     }
 
@@ -169,18 +149,8 @@ public class MusicFragment extends BaseItemFragment<SimpleMusic, Music>
         if (!mResource.hasItem()) {
             return;
         }
-        Music music = mResource.getItem();
-        UncollectItemManager.getInstance().write(music.getType(), music.id, getActivity());
-    }
-
-    @Subscribe(threadMode = ThreadMode.POSTING)
-    public void onMusicPlayingStateChanged(MusicPlayingStateChangedEvent event) {
-
-        if (event.isFromMyself(this) || mAdapter == null) {
-            return;
-        }
-
-        mAdapter.notifyTrackListChanged();
+        Book book = mResource.getItem();
+        UncollectItemManager.getInstance().write(book.getType(), book.id, getActivity());
     }
 
     @Override

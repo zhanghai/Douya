@@ -212,6 +212,10 @@ public class DoubanUtils {
         }
     }
 
+    public static String makeBookUrl(long itemId) {
+        return "https://book.douban.com/subject/" + itemId + "/";
+    }
+
     public static String makeMovieUrl(long itemId) {
         return "https://movie.douban.com/subject/" + itemId + "/";
     }

@@ -326,6 +326,7 @@
     <string name="item_todo_format">想%1$s</string>
     <string name="item_doing_format">在%1$s</string>
     <string name="item_done_format">%1$s过</string>
+    <string name="item_book_title">书</string>
     <string name="item_movie_title">电影</string>
     <string name="item_music_title">音乐</string>
     <string name="item_information_delimiter_space">"  "</string>
