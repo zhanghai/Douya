@@ -195,16 +195,12 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
 
     private void bindHeaderHolder(RecyclerView.ViewHolder holder, Book book) {
         HeaderHolder headerHolder = (HeaderHolder) holder;
-        boolean coverVisible = ViewUtils.isInLandscape(headerHolder.coverImage.getContext());
-        ViewUtils.setVisibleOrGone(headerHolder.coverImage, coverVisible);
-        if (coverVisible) {
-            headerHolder.coverImage.setRatio(1, 1);
-            ImageUtils.loadImage(headerHolder.coverImage, book.cover);
-            headerHolder.coverImage.setOnClickListener(view -> {
-                Context context = view.getContext();
-                context.startActivity(GalleryActivity.makeIntent(book.cover, context));
-            });
-        }
+        headerHolder.coverImage.setRatio(2, 3);
+        ImageUtils.loadImage(headerHolder.coverImage, book.cover);
+        headerHolder.coverImage.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(GalleryActivity.makeIntent(book.cover, context));
+        });
         headerHolder.titleText.setText(book.title);
         Context context = RecyclerViewUtils.getContext(holder);
         String slashDelimiter = context.getString(R.string.item_information_delimiter_slash);
