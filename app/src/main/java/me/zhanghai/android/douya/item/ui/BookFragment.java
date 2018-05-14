@@ -9,6 +9,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import butterknife.BindDimen;
+import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.BookFragmentResource;
@@ -31,6 +33,9 @@ import me.zhanghai.android.douya.util.ViewUtils;
 public class BookFragment extends BaseItemFragment<SimpleBook, Book>
         implements BookFragmentResource.Listener, BookDataAdapter.Listener,
         ConfirmUncollectItemDialogFragment.Listener {
+
+    @BindDimen(R.dimen.toolbar_height)
+    int mContentPaddingTopExtra;
 
     private BookAdapter mAdapter;
 
@@ -57,13 +62,23 @@ public class BookFragment extends BaseItemFragment<SimpleBook, Book>
 
     @Override
     protected float getBackdropRatio() {
-        return ViewUtils.isInPortait(getContext()) ? 1 : 2;
+        return ViewUtils.isInPortait(getContext()) ? 0 : 2;
     }
 
     @Override
     protected BarrierAdapter onCreateAdapter() {
         mAdapter = new BookAdapter(this);
         return mAdapter;
+    }
+
+    @Override
+    protected int getContentListPaddingTopExtra() {
+        return mContentPaddingTopExtra;
+    }
+
+    @Override
+    protected int getContentStateViewsPaddingTopExtra() {
+        return mContentPaddingTopExtra;
     }
 
     @Override

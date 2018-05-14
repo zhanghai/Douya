@@ -27,6 +27,7 @@ public class ItemContentStateViewsLayout extends FrameLayout {
     int mPaddingTopMax;
 
     private float mBackdropRatio;
+    private int mPaddingTopPaddingExtra;
 
     public ItemContentStateViewsLayout(@NonNull Context context) {
         super(context);
@@ -75,18 +76,31 @@ public class ItemContentStateViewsLayout extends FrameLayout {
         setBackdropRatio(width / height);
     }
 
+    public int getPaddingTopPaddingExtra() {
+        return mPaddingTopPaddingExtra;
+    }
+
+    public void setPaddingTopPaddingExtra(int paddingTopPaddingExtra) {
+        if (mPaddingTopPaddingExtra != paddingTopPaddingExtra) {
+            mPaddingTopPaddingExtra = paddingTopPaddingExtra;
+            requestLayout();
+            invalidate();
+        }
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int paddingTop = 0;
         if (mBackdropRatio > 0) {
             int width = MeasureSpec.getSize(widthMeasureSpec);
-            int paddingTop = Math.round(width / mBackdropRatio);
-            if (mPaddingTopMax > 0) {
-                paddingTop = Math.min(paddingTop, mPaddingTopMax);
-            }
-            // HACK: Fix off-by-one-pixel visual glitch.
-            --paddingTop;
-            setPadding(getPaddingLeft(), paddingTop, getPaddingRight(), getPaddingBottom());
+            // Should fix off-by-one-pixel visual glitch.
+            paddingTop += (int) (width / mBackdropRatio);
         }
+        paddingTop += mPaddingTopPaddingExtra;
+        if (mPaddingTopMax > 0) {
+            paddingTop = Math.min(paddingTop, mPaddingTopMax);
+        }
+        setPadding(getPaddingLeft(), paddingTop, getPaddingRight(), getPaddingBottom());
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

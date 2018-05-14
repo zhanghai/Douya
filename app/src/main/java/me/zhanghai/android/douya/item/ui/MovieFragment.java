@@ -39,7 +39,7 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
         ConfirmUncollectItemDialogFragment.Listener {
 
     @BindDimen(R.dimen.item_cover_vertical_margin_negative)
-    int mContentListPaddingTopNegativeMargin;
+    int mContentListPaddingTopExtra;
 
     private MovieAdapter mAdapter;
 
@@ -72,8 +72,8 @@ public class MovieFragment extends BaseItemFragment<SimpleMovie, Movie>
     }
 
     @Override
-    protected int getContentListPaddingTopNegativeMargin() {
-        return mContentListPaddingTopNegativeMargin;
+    protected int getContentListPaddingTopExtra() {
+        return mContentListPaddingTopExtra;
     }
 
     @Override

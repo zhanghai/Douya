@@ -22,7 +22,7 @@ public class ItemContentRecyclerView extends RecyclerView {
     int mPaddingTopMax;
 
     private float mBackdropRatio;
-    private int mPaddingTopNegativeMargin;
+    private int mPaddingTopPaddingExtra;
     private View mBackdropWrapper;
 
     public ItemContentRecyclerView(Context context) {
@@ -64,13 +64,13 @@ public class ItemContentRecyclerView extends RecyclerView {
         setBackdropRatio(width / height);
     }
 
-    public int getPaddingTopNegativeMargin() {
-        return mPaddingTopNegativeMargin;
+    public int getPaddingTopPaddingExtra() {
+        return mPaddingTopPaddingExtra;
     }
 
-    public void setPaddingTopNegativeMargin(int paddingTopNegativeMargin) {
-        if (mPaddingTopNegativeMargin != paddingTopNegativeMargin) {
-            mPaddingTopNegativeMargin = paddingTopNegativeMargin;
+    public void setPaddingTopPaddingExtra(int paddingTopPaddingExtra) {
+        if (mPaddingTopPaddingExtra != paddingTopPaddingExtra) {
+            mPaddingTopPaddingExtra = paddingTopPaddingExtra;
             requestLayout();
             invalidate();
         }
@@ -78,17 +78,17 @@ public class ItemContentRecyclerView extends RecyclerView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int paddingTop = 0;
         if (mBackdropRatio > 0) {
             int width = MeasureSpec.getSize(widthMeasureSpec);
-            int paddingTop = Math.round(width / mBackdropRatio);
-            if (mPaddingTopMax > 0) {
-                paddingTop = Math.min(paddingTop, mPaddingTopMax);
-            }
-            paddingTop += mPaddingTopNegativeMargin;
-            // HACK: Fix off-by-one-pixel visual glitch.
-            --paddingTop;
-            setPadding(getPaddingLeft(), paddingTop, getPaddingRight(), getPaddingBottom());
+            // Should fix off-by-one-pixel visual glitch.
+            paddingTop += (int) (width / mBackdropRatio);
         }
+        paddingTop += mPaddingTopPaddingExtra;
+        if (mPaddingTopMax > 0) {
+            paddingTop = Math.min(paddingTop, mPaddingTopMax);
+        }
+        setPadding(getPaddingLeft(), paddingTop, getPaddingRight(), getPaddingBottom());
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -102,7 +102,11 @@ public class ItemContentRecyclerView extends RecyclerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        super.onTouchEvent(event);
+        boolean superResult = super.onTouchEvent(event);
+
+        if (mBackdropWrapper == null) {
+            return superResult;
+        }
 
         if (getScrollState() != SCROLL_STATE_DRAGGING) {
             mBackdropWrapper.dispatchTouchEvent(event);

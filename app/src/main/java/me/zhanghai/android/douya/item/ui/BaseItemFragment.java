@@ -129,96 +129,124 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
-        StatusBarColorUtils.set(Color.TRANSPARENT, activity);
-        ViewUtils.setLayoutFullscreen(activity);
+        float backdropRatio = getBackdropRatio();
+        boolean hasBackdrop = backdropRatio > 0;
+        if (hasBackdrop) {
+            StatusBarColorUtils.set(Color.TRANSPARENT, activity);
+            ViewUtils.setLayoutFullscreen(activity);
+        }
 
-        mBackdropImage.setRatio(getBackdropRatio());
+        mBackdropImage.setRatio(backdropRatio);
         ViewCompat.setBackground(mBackdropScrim, DrawableUtils.makeScrimDrawable(Gravity.TOP));
 
         mContentList.setLayoutManager(new LinearLayoutManager(activity));
         mAdapter = onCreateAdapter();
         mContentList.setAdapter(mAdapter);
-        mContentList.setBackdropRatio(mBackdropImage.getRatio());
-        mContentList.setPaddingTopNegativeMargin(getContentListPaddingTopNegativeMargin());
-        mContentList.setBackdropWrapper(mBackdropWrapperLayout);
-        mContentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int mScrollY;
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (recyclerView.getChildCount() == 0) {
-                    return;
-                }
-                View firstChild = recyclerView.getChildAt(0);
-                int firstPosition = recyclerView.getChildAdapterPosition(firstChild);
-                boolean firstItemInLayout = firstPosition == 0;
-                if (mScrollY == 0) {
-                    if (!firstItemInLayout) {
-                        // We are restored from previous scroll position and we don't have a
-                        // scrollY.
-                        ViewUtils.setVisibleOrInvisible(mBackdropLayout, false);
+        mContentList.setBackdropRatio(backdropRatio);
+        mContentList.setPaddingTopPaddingExtra(getContentListPaddingTopExtra());
+        if (hasBackdrop) {
+            mContentList.setBackdropWrapper(mBackdropWrapperLayout);
+            mContentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                private int mScrollY;
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    if (recyclerView.getChildCount() == 0) {
                         return;
-                    } else {
-                        // We scrolled towards top so the first item became visible now.
-                        // Won't do anything if it is not hidden.
-                        ViewUtils.fadeIn(mBackdropLayout);
-                        mScrollY = recyclerView.getPaddingTop() - firstChild.getTop();
                     }
-                } else {
-                    mScrollY += dy;
-                }
-                // FIXME: Animate out backdrop layout later.
-                mBackdropLayout.setTranslationY((float) -mScrollY / 2);
-                mBackdropScrim.setTranslationY((float) mScrollY / 2);
-            }
-        });
-        int colorPrimaryDark = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0, activity);
-        mContentList.addOnScrollListener(new OnVerticalScrollWithPagingTouchSlopListener(activity) {
-            private int mStatusBarColor = Color.TRANSPARENT;
-            @Override
-            public void onScrolledUp() {
-                if (mAppBarWrapperLayout.isHidden()) {
-                    mToolbar.setTransparent(!hasFirstChildReachedTop());
-                }
-                mAppBarWrapperLayout.show();
-            }
-            @Override
-            public void onScrolledDown() {
-                if (hasFirstChildReachedTop()) {
-                    mAppBarWrapperLayout.hide();
-                }
-            }
-            @Override
-            public void onScrolled(int dy) {
-                boolean initialize = dy == 0;
-                boolean hasFirstChildReachedTop = hasFirstChildReachedTop();
-                int statusBarColor = hasFirstChildReachedTop ? colorPrimaryDark : Color.TRANSPARENT;
-                if (mStatusBarColor != statusBarColor) {
-                    mStatusBarColor = statusBarColor;
-                    if (initialize) {
-                        StatusBarColorUtils.set(mStatusBarColor, activity);
+                    View firstChild = recyclerView.getChildAt(0);
+                    int firstPosition = recyclerView.getChildAdapterPosition(firstChild);
+                    boolean firstItemInLayout = firstPosition == 0;
+                    if (mScrollY == 0) {
+                        if (!firstItemInLayout) {
+                            // We are restored from previous scroll position and we don't have a
+                            // scrollY.
+                            ViewUtils.setVisibleOrInvisible(mBackdropLayout, false);
+                            return;
+                        } else {
+                            // We scrolled towards top so the first item became visible now.
+                            // Won't do anything if it is not hidden.
+                            ViewUtils.fadeIn(mBackdropLayout);
+                            mScrollY = recyclerView.getPaddingTop() - firstChild.getTop();
+                        }
                     } else {
-                        StatusBarColorUtils.animateTo(mStatusBarColor, activity);
+                        mScrollY += dy;
                     }
+                    // FIXME: Animate out backdrop layout later.
+                    mBackdropLayout.setTranslationY((float) -mScrollY / 2);
+                    mBackdropScrim.setTranslationY((float) mScrollY / 2);
                 }
-                if (mAppBarWrapperLayout.isShowing()) {
-                    if (initialize) {
-                        mToolbar.setTransparent(!hasFirstChildReachedTop);
-                    } else {
-                        mToolbar.animateToTransparent(!hasFirstChildReachedTop);
-                    }
+            });
+            int colorPrimaryDark = ViewUtils.getColorFromAttrRes(R.attr.colorPrimaryDark, 0,
+                    activity);
+            mContentList.addOnScrollListener(
+                    new OnVerticalScrollWithPagingTouchSlopListener(activity) {
+                        private int mStatusBarColor = Color.TRANSPARENT;
+                        @Override
+                        public void onScrolledUp() {
+                            if (mAppBarWrapperLayout.isHidden()) {
+                                mToolbar.setTransparent(!hasFirstChildReachedTop());
+                            }
+                            mAppBarWrapperLayout.show();
+                        }
+                        @Override
+                        public void onScrolledDown() {
+                            if (hasFirstChildReachedTop()) {
+                                mAppBarWrapperLayout.hide();
+                            }
+                        }
+                        @Override
+                        public void onScrolled(int dy) {
+                            boolean initialize = dy == 0;
+                            boolean hasFirstChildReachedTop = hasFirstChildReachedTop();
+                            int statusBarColor = hasFirstChildReachedTop ? colorPrimaryDark
+                                    : Color.TRANSPARENT;
+                            if (mStatusBarColor != statusBarColor) {
+                                mStatusBarColor = statusBarColor;
+                                if (initialize) {
+                                    StatusBarColorUtils.set(mStatusBarColor, activity);
+                                } else {
+                                    StatusBarColorUtils.animateTo(mStatusBarColor, activity);
+                                }
+                            }
+                            if (mAppBarWrapperLayout.isShowing()) {
+                                if (initialize) {
+                                    mToolbar.setTransparent(!hasFirstChildReachedTop);
+                                } else {
+                                    mToolbar.animateToTransparent(!hasFirstChildReachedTop);
+                                }
+                            }
+                        }
+                        private boolean hasFirstChildReachedTop() {
+                            return RecyclerViewUtils.hasFirstChildReachedTop(mContentList,
+                                    mToolbar.getBottom());
+                        }
+                    });
+        } else {
+            ViewUtils.setVisibleOrGone(mBackdropWrapperLayout, false);
+            mContentList.addOnScrollListener(
+                    new OnVerticalScrollWithPagingTouchSlopListener(activity) {
+                        @Override
+                        public void onScrolledUp() {
+                            mAppBarWrapperLayout.show();
+                        }
+                        @Override
+                        public void onScrolledDown() {
+                            if (hasFirstChildReachedTop()) {
+                                mAppBarWrapperLayout.hide();
+                            }
+                        }
+                        private boolean hasFirstChildReachedTop() {
+                            return RecyclerViewUtils.hasFirstChildReachedTop(mContentList, 0);
+                        }
+                    });
                 }
-            }
-            private boolean hasFirstChildReachedTop() {
-                return RecyclerViewUtils.hasFirstChildReachedTop(mContentList,
-                        mToolbar.getBottom());
-            }
-        });
         mToolbar.setOnDoubleClickListener(view -> {
             mContentList.smoothScrollToPosition(0);
             return true;
         });
 
-        mContentStateViewsLayout.setBackdropRatio(mBackdropImage.getRatio());
+        mContentStateViewsLayout.setBackdropRatio(backdropRatio);
+        mContentStateViewsLayout.setPaddingTopPaddingExtra(getContentStateViewsPaddingTopExtra());
 
         if (mResource.hasSimpleItem()) {
             updateWithSimpleItem(mResource.getSimpleItem());
@@ -228,7 +256,7 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
             mResource.notifyChanged();
         }
 
-        if (mAdapter.getItemCount() == 0) {
+        if (hasBackdrop && mAdapter.getItemCount() == 0) {
             mToolbar.getBackground().setAlpha(0);
         }
     }
@@ -242,7 +270,11 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
 
     protected abstract BarrierAdapter onCreateAdapter();
 
-    protected int getContentListPaddingTopNegativeMargin() {
+    protected int getContentListPaddingTopExtra() {
+        return 0;
+    }
+
+    protected int getContentStateViewsPaddingTopExtra() {
         return 0;
     }
 
