@@ -5,13 +5,10 @@
 
 package me.zhanghai.android.douya.item.ui;
 
-import android.content.Context;
-
 import java.util.List;
 
 import butterknife.BindDimen;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.item.content.BaseItemFragmentResource;
 import me.zhanghai.android.douya.item.content.BookFragmentResource;
 import me.zhanghai.android.douya.item.content.ConfirmUncollectItemDialogFragment;
@@ -27,7 +24,6 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.BarrierAdapter;
 import me.zhanghai.android.douya.ui.CopyTextDialogFragment;
 import me.zhanghai.android.douya.util.DoubanUtils;
-import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class BookFragment extends BaseItemFragment<SimpleBook, Book>
@@ -106,15 +102,7 @@ public class BookFragment extends BaseItemFragment<SimpleBook, Book>
         }
 
         if (!mBackdropBound) {
-            if (ViewUtils.isInPortait(getActivity())) {
-                ImageUtils.loadItemBackdropAndFadeIn(mBackdropImage, book.cover.getLargeUrl(),
-                        null);
-                mBackdropLayout.setOnClickListener(view -> {
-                    // TODO
-                    Context context = view.getContext();
-                    context.startActivity(GalleryActivity.makeIntent(book.cover, context));
-                });
-            } else {
+            if (!ViewUtils.isInPortait(getActivity())) {
                 mBackdropImage.setBackgroundColor(book.getThemeColor());
                 ViewUtils.fadeIn(mBackdropImage);
             }
