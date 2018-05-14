@@ -109,7 +109,7 @@ public class ItemCollectionFragment extends Fragment
 
     public static ItemCollectionFragment newInstance(CollectableItem item,
                                                      ItemCollectionState state) {
-        //noinnspection deprecation
+        //noinspection deprecation
         ItemCollectionFragment fragment = new ItemCollectionFragment();
         Bundle arguments = FragmentUtils.ensureArguments(fragment);
         arguments.putParcelable(EXTRA_ITEM, item);

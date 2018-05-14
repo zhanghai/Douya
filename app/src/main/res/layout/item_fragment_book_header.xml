@@ -37,7 +37,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <me.zhanghai.android.douya.ui.AutoGoneTextView
-            android:id="@+id/original_title"
+            android:id="@+id/subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

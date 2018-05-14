@@ -12,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.functional.Functional;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
 import me.zhanghai.android.douya.network.api.info.frodo.Book;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
@@ -28,7 +26,6 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.RatioImageView;
-import me.zhanghai.android.douya.util.CollectionUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.StringCompat;
@@ -204,7 +201,7 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         headerHolder.titleText.setText(book.title);
         Context context = RecyclerViewUtils.getContext(holder);
         String slashDelimiter = context.getString(R.string.item_information_delimiter_slash);
-        headerHolder.originalTitleText.setText(StringCompat.join(slashDelimiter, book.subtitles));
+        headerHolder.subtitleText.setText(StringCompat.join(slashDelimiter, book.subtitles));
         headerHolder.authorsText.setText(StringCompat.join(slashDelimiter, book.authors));
         String spaceDelimiter = context.getString(R.string.item_information_delimiter_space);
         String detail = StringUtils.joinNonEmpty(spaceDelimiter, book.getYearMonth(context),
@@ -262,8 +259,8 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         public RatioImageView coverImage;
         @BindView(R.id.title)
         public TextView titleText;
-        @BindView(R.id.original_title)
-        public TextView originalTitleText;
+        @BindView(R.id.subtitle)
+        public TextView subtitleText;
         @BindView(R.id.authors)
         public TextView authorsText;
         @BindView(R.id.detail)

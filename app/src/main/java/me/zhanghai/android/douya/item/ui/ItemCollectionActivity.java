@@ -51,6 +51,7 @@ public class ItemCollectionActivity extends AppCompatActivity implements Fragmen
             case APP:
                 break;
             case BOOK:
+                themeRes = R.style.Theme_Douya_Book_DialogWhenLarge;
                 break;
             case EVENT:
                 break;
