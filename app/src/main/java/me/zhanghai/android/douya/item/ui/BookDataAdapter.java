@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         ITEM_COLLECTION,
         BADGE_LIST,
         INTRODUCTION,
+        AUTHOR,
+        TABLE_OF_CONTENTS,
         RATING,
         ITEM_COLLECTION_LIST,
         REVIEW_LIST,
@@ -99,6 +102,10 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
                 return mData.rating != null;
             case INTRODUCTION:
                 return true;
+            case AUTHOR:
+                return true;
+            case TABLE_OF_CONTENTS:
+                return true;
             case RATING:
                 return mData.rating != null;
             case ITEM_COLLECTION_LIST:
@@ -128,6 +135,10 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
                 return createBadgeListHolder(parent);
             case INTRODUCTION:
                 return createIntroductionHolder(parent);
+            case AUTHOR:
+                return createAuthorHolder(parent);
+            case TABLE_OF_CONTENTS:
+                return createTableOfContentsHolder(parent);
             case RATING:
                 return createRatingHolder(parent);
             case ITEM_COLLECTION_LIST:
@@ -167,6 +178,12 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
             case INTRODUCTION:
                 bindIntroductionHolder(holder, mData.book);
                 break;
+            case AUTHOR:
+                bindAuthorHolder(holder, mData.book);
+                break;
+            case TABLE_OF_CONTENTS:
+                bindTableOfContentsHolder(holder, mData.book);
+                break;
             case RATING:
                 bindRatingHolder(holder, mData.book, mData.rating);
                 break;
@@ -189,6 +206,15 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    private AuthorHolder createAuthorHolder(ViewGroup parent) {
+        return new AuthorHolder(ViewUtils.inflate(R.layout.item_fragment_author, parent));
+    }
+
+    private TableOfContentsHolder createTableOfContentsHolder(ViewGroup parent) {
+        return new TableOfContentsHolder(ViewUtils.inflate(R.layout.item_fragment_table_of_contents,
+                parent));
     }
 
     private void bindHeaderHolder(RecyclerView.ViewHolder holder, Book book) {
@@ -235,6 +261,20 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         });
     }
 
+    private void bindAuthorHolder(RecyclerView.ViewHolder holder, Book book) {
+        AuthorHolder authorHolder = (AuthorHolder) holder;
+        authorHolder.introductionText.setText(book.authorIntroduction);
+        // TODO
+        authorHolder.itemView.setOnClickListener(view -> {});
+    }
+
+    private void bindTableOfContentsHolder(RecyclerView.ViewHolder holder, Book book) {
+        TableOfContentsHolder tableOfContentsHolder = (TableOfContentsHolder) holder;
+        tableOfContentsHolder.tableOfContentsText.setText(book.tableOfContents);
+        // TODO
+        tableOfContentsHolder.itemView.setOnClickListener(view -> {});
+    }
+
     public interface Listener extends BaseItemDataAdapter.Listener<Book> {}
 
     public static class Data {
@@ -276,6 +316,30 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         public TextView detailText;
 
         public HeaderHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class AuthorHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.introduction)
+        public TextView introductionText;
+
+        public AuthorHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class TableOfContentsHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.table_of_contents)
+        public TextView tableOfContentsText;
+
+        public TableOfContentsHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
