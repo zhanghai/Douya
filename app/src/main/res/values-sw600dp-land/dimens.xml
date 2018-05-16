@@ -16,6 +16,10 @@
     <dimen name="item_content_padding_top_max">240dp</dimen>
     <dimen name="item_backdrop_play_layout_height">@dimen/item_content_padding_top_max</dimen>
     <dimen name="item_content_horizontal_margin">@dimen/screen_edge_horizontal_margin</dimen>
+    <dimen name="item_card_list_horizontal_padding">12dp</dimen>
+    <dimen name="item_card_list_vertical_padding">12dp</dimen>
+    <dimen name="item_card_horizontal_margin">10dp</dimen>
+    <dimen name="item_card_vertical_margin">9dp</dimen>
     <dimen name="item_cover_width_long">214dp</dimen>
     <dimen name="item_cover_width_square">308dp</dimen>
 </resources>
