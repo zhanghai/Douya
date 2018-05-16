@@ -271,8 +271,10 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
     private void bindTableOfContentsHolder(RecyclerView.ViewHolder holder, Book book) {
         TableOfContentsHolder tableOfContentsHolder = (TableOfContentsHolder) holder;
         tableOfContentsHolder.tableOfContentsText.setText(book.tableOfContents);
-        // TODO
-        tableOfContentsHolder.itemView.setOnClickListener(view -> {});
+        tableOfContentsHolder.itemView.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(TableOfContentsActivity.makeIntent(book, context));
+        });
     }
 
     public interface Listener extends BaseItemDataAdapter.Listener<Book> {}

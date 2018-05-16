@@ -183,6 +183,11 @@
             android:theme="@style/Theme.Douya.Light.DialogWhenLarge" />
 
         <activity
+            android:name=".item.ui.TableOfContentsActivity"
+            android:label="@string/item_table_of_contents_title"
+            android:theme="@style/Theme.Douya.Light.DialogWhenLarge" />
+
+        <activity
             android:name=".calendar.ui.CalendarActivity"
             android:label="@string/calendar_title"
             android:launchMode="singleTop"

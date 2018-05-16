@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2018 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="?dividerHorizontal"
+    android:showDividers="middle"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:paddingLeft="@dimen/toolbar_navigation_button_left_margin"
+        android:paddingRight="@dimen/toolbar_button_right_margin"
+        android:theme="?actionBarTheme"
+        app:navigationIcon="@drawable/close_icon_white_24dp"
+        app:popupTheme="?actionBarPopupTheme"
+        app:titleMarginStart="@dimen/toolbar_title_left_margin" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/screen_edge_horizontal_margin"
+            android:paddingRight="@dimen/screen_edge_horizontal_margin"
+            android:paddingTop="@dimen/screen_edge_vertical_margin"
+            android:paddingBottom="@dimen/screen_edge_vertical_margin">
+
+            <TextView
+                android:id="@+id/table_of_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_horizontal_space_with_4dp_padding"
+                android:layout_marginRight="@dimen/content_horizontal_space_with_4dp_padding"
+                android:layout_marginTop="@dimen/content_vertical_space_with_4dp_padding"
+                android:layout_marginBottom="@dimen/content_vertical_space_with_4dp_padding"
+                android:lineSpacingMultiplier="1.2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textIsSelectable="true" />
+        </FrameLayout>
+    </ScrollView>
+</LinearLayout>
