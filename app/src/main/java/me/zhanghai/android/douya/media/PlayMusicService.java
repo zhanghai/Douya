@@ -98,6 +98,8 @@ public class PlayMusicService extends Service
         Resources resources = getResources();
         mMediaDisplayIconMaxSize = resources.getDimensionPixelSize(
                 R.dimen.media_display_icon_max_size);
+        // TODO: https://issuetracker.google.com/issues/79631811 is fixed now, uncomment when
+        // released.
         // This can actually be 1 smaller than the following:
         //mMediaArtMaxSize = resources.getDimensionPixelSize(R.dimen.media_art_max_size);
         // @see MediaSessionCompat
