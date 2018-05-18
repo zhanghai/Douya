@@ -28,6 +28,7 @@ import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.ui.RatioImageView;
+import me.zhanghai.android.douya.ui.WebViewActivity;
 import me.zhanghai.android.douya.util.ImageUtils;
 import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.StringCompat;
@@ -264,8 +265,10 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
     private void bindAuthorHolder(RecyclerView.ViewHolder holder, Book book) {
         AuthorHolder authorHolder = (AuthorHolder) holder;
         authorHolder.introductionText.setText(book.authorIntroduction);
-        // TODO
-        authorHolder.itemView.setOnClickListener(view -> {});
+        authorHolder.itemView.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(WebViewActivity.makeIntent(book.url, true, context));
+        });
     }
 
     private void bindTableOfContentsHolder(RecyclerView.ViewHolder holder, Book book) {
