@@ -129,9 +129,9 @@ public class NavigationFragment extends Fragment implements OnAccountsUpdateList
                     // TODO
                     UriHandler.open("https://music.douban.com/", getActivity());
                     break;
-                case R.id.navigation_calendar:
-                    openCalendar();
-                    break;
+                //case R.id.navigation_calendar:
+                //    openCalendar();
+                //    break;
                 case R.id.navigation_settings:
                     openSettings();
                     break;

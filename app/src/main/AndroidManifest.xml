@@ -241,14 +241,14 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".calendar.app.CalendarAppWidgetProvider" >
+        <!--<receiver android:name=".calendar.app.CalendarAppWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/calendar_appwidget" />
-        </receiver>
+        </receiver>-->
 
         <receiver
             android:name=".network.api.credential.SetApiCredentialReceiver"
