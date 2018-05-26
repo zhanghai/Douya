@@ -70,7 +70,8 @@ public class ApiService {
 
     private static final ApiService sInstance = new ApiService();
 
-    private AuthenticationService mAuthenticationService;
+    private ApiV2AuthenticationService mApiV2AuthenticationService;
+    private FrodoAuthenticationService mFrodoAuthenticationService;
     private OkHttpClient mLifeStreamHttpClient;
     private LifeStreamService mLifeStreamService;
     private OkHttpClient mFrodoHttpClient;
@@ -81,53 +82,61 @@ public class ApiService {
     }
 
     private ApiService() {
-        mAuthenticationService = createAuthenticationService();
+        mApiV2AuthenticationService = createAuthenticationService(
+                ApiContract.Request.Authentication.BaseUrls.API_V2,
+                ApiV2AuthenticationService.class);
+        mFrodoAuthenticationService = createAuthenticationService(
+                ApiContract.Request.Authentication.BaseUrls.FRODO, FrodoAuthenticationService.class,
+                new FrodoInterceptor(), new FrodoSignatureInterceptor());
         mLifeStreamHttpClient = createApiHttpClient(AccountContract.AUTH_TOKEN_TYPE_API_V2,
                 new LifeStreamInterceptor());
-        mLifeStreamService = createApiService(ApiContract.Request.ApiV2.API_HOST,
+        mLifeStreamService = createApiService(ApiContract.Request.ApiV2.BASE_URL,
                 mLifeStreamHttpClient, LifeStreamService.class);
         mFrodoHttpClient = createApiHttpClient(AccountContract.AUTH_TOKEN_TYPE_FRODO,
                 new FrodoInterceptor(), new FrodoSignatureInterceptor());
-        mFrodoService = createApiService(ApiContract.Request.Frodo.API_HOST, mFrodoHttpClient,
+        mFrodoService = createApiService(ApiContract.Request.Frodo.BASE_URL, mFrodoHttpClient,
                 FrodoService.class);
     }
 
-    private static AuthenticationService createAuthenticationService() {
-        return new Retrofit.Builder()
-                .addCallAdapterFactory(ApiCallAdapter.Factory.create())
-                .addConverterFactory(GsonResponseBodyConverterFactory.create())
-                // Make Retrofit happy.
-                .baseUrl("https://www.douban.com")
-                .client(new OkHttpClient.Builder()
-                        .addNetworkInterceptor(new StethoInterceptor())
-                        .build())
-                .build()
-                .create(AuthenticationService.class);
-    }
-
-    private static OkHttpClient createApiHttpClient(String authTokenType,
-                                                    Interceptor... interceptors) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                // AuthenticationInterceptor may retry the request, so it must be an application
-                // interceptor.
-                .addInterceptor(new ApiAuthenticationInterceptor(authTokenType));
-        for (Interceptor interceptor : interceptors) {
+    private static OkHttpClient.Builder createHttpClientBuilder(
+            Interceptor... networkInterceptors) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        for (Interceptor interceptor : networkInterceptors) {
             builder.addNetworkInterceptor(interceptor);
         }
         return builder
-                .addNetworkInterceptor(new StethoInterceptor())
+                .addNetworkInterceptor(new StethoInterceptor());
+    }
+
+    private static <T> T createAuthenticationService(String baseUrl, Class<T> serviceClass,
+                                                     Interceptor... networkInterceptors) {
+        return new Retrofit.Builder()
+                .addCallAdapterFactory(ApiCallAdapter.Factory.create())
+                .addConverterFactory(GsonResponseBodyConverterFactory.create())
+                .baseUrl(baseUrl)
+                .client(createHttpClientBuilder(networkInterceptors).build())
+                .build()
+                .create(serviceClass);
+    }
+
+    private static OkHttpClient createApiHttpClient(String authTokenType,
+                                                    Interceptor... networkInterceptors) {
+        return createHttpClientBuilder(networkInterceptors)
+                // AuthenticationInterceptor may retry the request, so it must be an application
+                // interceptor.
+                .addInterceptor(new ApiAuthenticationInterceptor(authTokenType))
                 .build();
     }
 
     private static <T> T createApiService(String baseUrl, OkHttpClient client,
-                                         Class<T> clientClass) {
+                                          Class<T> serviceClass) {
         return new Retrofit.Builder()
                 .addCallAdapterFactory(ApiCallAdapter.Factory.create())
                 .addConverterFactory(GsonResponseBodyConverterFactory.create())
                 .baseUrl(baseUrl)
                 .client(client)
                 .build()
-                .create(clientClass);
+                .create(serviceClass);
     }
 
     public ApiRequest<AuthenticationResponse> authenticate(String authTokenType, String username,
@@ -155,31 +164,29 @@ public class ApiService {
     }
 
     private ApiRequest<AuthenticationResponse> authenticateApiV2(String username, String password) {
-        return mAuthenticationService.authenticate(ApiContract.Request.ApiV2.USER_AGENT,
+        return mApiV2AuthenticationService.authenticate(ApiContract.Request.ApiV2.USER_AGENT,
                 ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.ApiV2.KEY,
                 ApiCredential.ApiV2.SECRET, ApiContract.Request.Authentication.RedirectUris.API_V2,
                 ApiContract.Request.Authentication.GrantTypes.PASSWORD, username, password);
     }
 
     private ApiRequest<AuthenticationResponse> authenticateApiV2(String refreshToken) {
-        return mAuthenticationService.authenticate(ApiContract.Request.ApiV2.USER_AGENT,
+        return mApiV2AuthenticationService.authenticate(ApiContract.Request.ApiV2.USER_AGENT,
                 ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.ApiV2.KEY,
                 ApiCredential.ApiV2.SECRET, ApiContract.Request.Authentication.RedirectUris.API_V2,
                 ApiContract.Request.Authentication.GrantTypes.REFRESH_TOKEN, refreshToken);
     }
 
     private ApiRequest<AuthenticationResponse> authenticateFrodo(String username, String password) {
-        return mAuthenticationService.authenticate(ApiContract.Request.Frodo.USER_AGENT,
-                ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.Frodo.KEY,
+        return mFrodoAuthenticationService.authenticate(ApiCredential.Frodo.KEY,
                 ApiCredential.Frodo.SECRET, ApiContract.Request.Authentication.RedirectUris.FRODO,
-                ApiContract.Request.Authentication.GrantTypes.PASSWORD, username, password);
+                false, ApiContract.Request.Authentication.GrantTypes.PASSWORD, username, password);
     }
 
     private ApiRequest<AuthenticationResponse> authenticateFrodo(String refreshToken) {
-        return mAuthenticationService.authenticate(ApiContract.Request.Frodo.USER_AGENT,
-                ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.Frodo.KEY,
+        return mFrodoAuthenticationService.authenticate(ApiCredential.Frodo.KEY,
                 ApiCredential.Frodo.SECRET, ApiContract.Request.Authentication.RedirectUris.FRODO,
-                ApiContract.Request.Authentication.GrantTypes.PASSWORD, refreshToken);
+                false, ApiContract.Request.Authentication.GrantTypes.PASSWORD, refreshToken);
     }
 
     public ApiRequest<NotificationCount> getNotificationCount() {
@@ -425,7 +432,7 @@ public class ApiService {
         mFrodoHttpClient.dispatcher().cancelAll();
     }
 
-    public interface AuthenticationService {
+    public interface ApiV2AuthenticationService {
 
         @POST(ApiContract.Request.Authentication.URL)
         @FormUrlEncoded
@@ -444,6 +451,26 @@ public class ApiService {
                 @Field("client_id") String clientId, @Field("client_secret") String clientSecret,
                 @Field("redirect_uri") String redirectUri, @Field("grant_type") String grantType,
                 @Field("refresh_token") String refreshToken);
+    }
+
+    public interface FrodoAuthenticationService {
+
+        @POST(ApiContract.Request.Authentication.URL)
+        @FormUrlEncoded
+        ApiRequest<AuthenticationResponse> authenticate(
+                @Field("client_id") String clientId, @Field("client_secret") String clientSecret,
+                @Field("redirect_uri") String redirectUri,
+                @Field("disable_account_create") Boolean disableAccountCreation,
+                @Field("grant_type") String grantType, @Field("username") String username,
+                @Field("password") String password);
+
+        @POST(ApiContract.Request.Authentication.URL)
+        @FormUrlEncoded
+        ApiRequest<AuthenticationResponse> authenticate(
+                @Field("client_id") String clientId, @Field("client_secret") String clientSecret,
+                @Field("redirect_uri") String redirectUri,
+                @Field("disable_account_create") Boolean disableAccountCreation,
+                @Field("grant_type") String grantType, @Field("refresh_token") String refreshToken);
     }
 
     public interface LifeStreamService {

@@ -18,7 +18,11 @@ public interface ApiContract {
 
         interface Authentication {
 
-            String URL = "https://www.douban.com/service/auth2/token";
+            interface BaseUrls {
+                String API_V2 = "https://www.douban.com/";
+                String FRODO = "https://frodo.douban.com/";
+            }
+            String URL = "service/auth2/token";
 
             String ACCEPT_CHARSET = Http.Charsets.UTF8;
             interface RedirectUris {
@@ -37,7 +41,7 @@ public interface ApiContract {
 
         interface Frodo {
 
-            String API_HOST = "https://frodo.douban.com/api/v2/";
+            String BASE_URL = "https://frodo.douban.com/api/v2/";
 
             // API protocol version is derived from user agent string.
             String USER_AGENT = "api-client/1 com.douban.frodo/5.23.0(130) Android/" +
@@ -63,7 +67,7 @@ public interface ApiContract {
 
         interface ApiV2 {
 
-            String API_HOST = "https://api.douban.com/v2/";
+            String BASE_URL = "https://api.douban.com/v2/";
 
             String USER_AGENT = "api-client/2.0 com.douban.shuo/2.2.7(123) Android/" +
                     Build.VERSION.SDK_INT + " " + Build.PRODUCT + " " + Build.MANUFACTURER + " " +
