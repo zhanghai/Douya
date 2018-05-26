@@ -18,6 +18,7 @@ import me.zhanghai.android.douya.broadcast.ui.BroadcastListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowerListActivity;
 import me.zhanghai.android.douya.followship.ui.FollowingListActivity;
 import me.zhanghai.android.douya.item.ui.BookActivity;
+import me.zhanghai.android.douya.item.ui.GameActivity;
 import me.zhanghai.android.douya.item.ui.MovieActivity;
 import me.zhanghai.android.douya.item.ui.MusicActivity;
 import me.zhanghai.android.douya.profile.ui.ProfileActivity;
@@ -63,7 +64,9 @@ public class DoubanUriHandler {
         MOVIE(AUTHORITY_MOVIE, "subject/#"),
         MOVIE_FRODO(AUTHORITY_FRODO, "movie/#"),
         MUSIC(AUTHORITY_MUSIC, "subject/#"),
-        MUSIC_FRODO(AUTHORITY_FRODO, "music/#");
+        MUSIC_FRODO(AUTHORITY_FRODO, "music/#"),
+        GAME("game/#"),
+        GAME_FRODO(AUTHORITY_FRODO, "game/#");
 
         String mAuthority;
         String mPath;
@@ -157,6 +160,10 @@ public class DoubanUriHandler {
             case MUSIC:
             case MUSIC_FRODO:
                 intent = MusicActivity.makeIntent(UriUtils.parseId(uri), context);
+                break;
+            case GAME:
+            case GAME_FRODO:
+                intent = GameActivity.makeIntent(UriUtils.parseId(uri), context);
                 break;
             default:
                 return false;

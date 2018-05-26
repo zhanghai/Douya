@@ -224,6 +224,10 @@ public class DoubanUtils {
         return "https://music.douban.com/subject/" + itemId + "/";
     }
 
+    public static String makeGameUrl(long itemId) {
+        return "https://www.douban.com/game/" + itemId + "/";
+    }
+
     public static String makePhotoAlbumUri(long photoAlbumId) {
         return "douban://douban.com/photo_album/" + photoAlbumId;
     }

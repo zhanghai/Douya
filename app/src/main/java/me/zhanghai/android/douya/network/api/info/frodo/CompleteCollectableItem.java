@@ -28,15 +28,16 @@ public class CompleteCollectableItem {
                     json.getAsJsonObject().get("type").getAsString());
             if (itemType != null) {
                 switch (itemType) {
-//                case APP:
-//
+//                    case APP:
+//                        break;
                     case BOOK:
                         type = Book.class;
                         break;
-//                case EVENT:
-//
-//                case GAME:
-//
+//                    case EVENT:
+//                        break;
+                    case GAME:
+                        type = Game.class;
+                        break;
                     case MOVIE:
                     case TV:
                         type = Movie.class;

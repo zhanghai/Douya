@@ -238,15 +238,16 @@ public abstract class CollectableItem extends BaseItem {
             Type itemType = Type.ofApiString(json.getAsJsonObject().get("type").getAsString());
             if (itemType != null) {
                 switch (itemType) {
-//                case APP:
-//
+//                    case APP:
+//                        break;
                     case BOOK:
                         type = SimpleBook.class;
                         break;
-//                case EVENT:
-//
-//                case GAME:
-//
+//                    case EVENT:
+//                        break;
+                    case GAME:
+                        type = SimpleGame.class;
+                        break;
                     case MOVIE:
                     case TV:
                         type = SimpleMovie.class;

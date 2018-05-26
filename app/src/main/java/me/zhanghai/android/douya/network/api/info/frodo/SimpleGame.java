@@ -11,6 +11,9 @@ import android.os.Parcel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import me.zhanghai.android.douya.functional.Functional;
 
 public class SimpleGame extends CollectableItem {
 
@@ -20,6 +23,10 @@ public class SimpleGame extends CollectableItem {
 
     @SerializedName("release_date")
     public String releaseDate;
+
+    public List<String> getPlatformNames() {
+        return Functional.map(platforms, platform -> platform.name, new ArrayList<>());
+    }
 
     public String getYearMonth(Context context) {
         return CollectableItem.getYearMonth(releaseDate, context);

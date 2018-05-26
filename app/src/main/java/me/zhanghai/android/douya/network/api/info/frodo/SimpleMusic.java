@@ -14,6 +14,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.zhanghai.android.douya.functional.Functional;
+
 public class SimpleMusic extends CollectableItem {
 
     public ArrayList<String> genres = new ArrayList<>();
@@ -33,11 +35,7 @@ public class SimpleMusic extends CollectableItem {
     }
 
     public List<String> getArtistNames() {
-        List<String> artistNames = new ArrayList<>();
-        for (Artist artist : artists) {
-            artistNames.add(artist.name);
-        }
-        return artistNames;
+        return Functional.map(artists, artist -> artist.name, new ArrayList<>());
     }
 
 

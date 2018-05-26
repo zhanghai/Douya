@@ -332,6 +332,7 @@
     <string name="item_book_title">书</string>
     <string name="item_movie_title">电影</string>
     <string name="item_music_title">音乐</string>
+    <string name="item_game_title">游戏</string>
     <string name="item_information_delimiter_space">"  "</string>
     <string name="item_information_delimiter_slash">" / "</string>
     <string name="item_information_book_translators_format">译者：%1$s</string>
