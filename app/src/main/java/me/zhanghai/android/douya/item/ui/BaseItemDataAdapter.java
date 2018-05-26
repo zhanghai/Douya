@@ -385,22 +385,40 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
         }
     }
 
-    protected void bindReviewListHolder(RecyclerView.ViewHolder holder, T item,
-                                        List<SimpleReview> reviewList) {
+    private void bindReviewListHolder(RecyclerView.ViewHolder holder, T item,
+                                      List<SimpleReview> reviewList,
+                                      View.OnClickListener onCreateListener,
+                                      View.OnClickListener onViewMoreListener) {
         ReviewListHolder reviewListHolder = (ReviewListHolder) holder;
-        reviewListHolder.createButton.setOnClickListener(view -> {
-            // TODO
-            UriHandler.open(item.url + "new_review", view.getContext());
-        });
+        reviewListHolder.createButton.setOnClickListener(onCreateListener);
         reviewList = reviewList.subList(0, Math.min(ITEM_REVIEW_LIST_MAX_SIZE, reviewList.size()));
         ViewUtils.setVisibleOrGone(reviewListHolder.reviewList, !reviewList.isEmpty());
         ReviewListAdapter adapter = (ReviewListAdapter)
                 reviewListHolder.reviewList.getAdapter();
         adapter.replace(reviewList);
-        reviewListHolder.viewMoreButton.setOnClickListener(view -> {
+        reviewListHolder.viewMoreButton.setOnClickListener(onViewMoreListener);
+    }
+
+    protected void bindReviewListHolder(RecyclerView.ViewHolder holder, T item,
+                                        List<SimpleReview> reviewList) {
+        bindReviewListHolder(holder, item, reviewList, view -> {
+            // TODO
+            UriHandler.open(item.url + "new_review", view.getContext());
+        }, view -> {
             // TODO
             UriHandler.open(item.url + "reviews", view.getContext());
         });
+    }
+
+    protected void bindReviewListHolder(RecyclerView.ViewHolder holder, T item,
+                                        List<SimpleReview> reviewList, int titleRes, int createRes,
+                                        int viewMoreRes, View.OnClickListener onCreateListener,
+                                        View.OnClickListener onViewMoreListener) {
+        ReviewListHolder reviewListHolder = (ReviewListHolder) holder;
+        reviewListHolder.titleText.setText(titleRes);
+        reviewListHolder.createButton.setText(createRes);
+        reviewListHolder.viewMoreButton.setText(viewMoreRes);
+        bindReviewListHolder(holder, item, reviewList, onCreateListener, onViewMoreListener);
     }
 
     protected void bindForumTopicListHolder(RecyclerView.ViewHolder holder, T item,
@@ -590,6 +608,8 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
 
     protected static class ReviewListHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.title)
+        public TextView titleText;
         @BindView(R.id.create)
         public Button createButton;
         @BindView(R.id.review_list)

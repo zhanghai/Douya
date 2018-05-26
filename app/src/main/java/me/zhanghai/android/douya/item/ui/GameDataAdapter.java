@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.gallery.ui.GalleryActivity;
+import me.zhanghai.android.douya.link.UriHandler;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Doulist;
 import me.zhanghai.android.douya.network.api.info.frodo.Game;
@@ -44,6 +45,7 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
         PHOTO_LIST,
         RATING,
         ITEM_COLLECTION_LIST,
+        GAME_GUIDE_LIST,
         REVIEW_LIST,
         FORUM_TOPIC_LIST,
         RECOMMENDATION_LIST,
@@ -107,6 +109,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return mData.rating != null;
             case ITEM_COLLECTION_LIST:
                 return mData.itemCollectionList != null;
+            case GAME_GUIDE_LIST:
+                return mData.gameGuideList != null;
             case REVIEW_LIST:
                 return mData.reviewList != null;
             case FORUM_TOPIC_LIST:
@@ -138,6 +142,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return createRatingHolder(parent);
             case ITEM_COLLECTION_LIST:
                 return createItemCollectionListHolder(parent);
+            case GAME_GUIDE_LIST:
+                return createGameGuideListHolder(parent);
             case REVIEW_LIST:
                 return createReviewListHolder(parent);
             case FORUM_TOPIC_LIST:
@@ -153,6 +159,10 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
 
     private HeaderHolder createHeaderHolder(ViewGroup parent) {
         return new HeaderHolder(ViewUtils.inflate(R.layout.item_fragment_game_header, parent));
+    }
+
+    protected ReviewListHolder createGameGuideListHolder(ViewGroup parent) {
+        return createReviewListHolder(parent);
     }
 
     @Override
@@ -182,6 +192,9 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
             case ITEM_COLLECTION_LIST:
                 bindItemCollectionListHolder(holder, mData.game, mData.itemCollectionList,
                         payloads);
+                break;
+            case GAME_GUIDE_LIST:
+                bindGameGuideListHolder(holder, mData.game, mData.gameGuideList);
                 break;
             case REVIEW_LIST:
                 bindReviewListHolder(holder, mData.game, mData.reviewList);
@@ -238,6 +251,19 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
             Context context = view.getContext();
             context.startActivity(ItemIntroductionActivity.makeIntent(game, context));
         });
+    }
+
+    private void bindGameGuideListHolder(RecyclerView.ViewHolder holder, Game game,
+                                         List<SimpleReview> gameGuideList) {
+        bindReviewListHolder(holder, game, gameGuideList, R.string.item_game_guide_list_title,
+                R.string.item_game_guide_list_create, R.string.item_game_guide_list_view_more,
+                view -> {
+                    // TODO
+                    UriHandler.open(game.url + "new_review?rtype=G", view.getContext());
+                }, view -> {
+                    // TODO
+                    UriHandler.open(game.url + "reviews?rtype=G", view.getContext());
+                });
     }
 
     public interface Listener extends BaseItemDataAdapter.Listener<Game> {}

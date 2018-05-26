@@ -364,6 +364,9 @@
     <string name="item_collection_vote_error_cannot_vote_again">你已经投过票了</string>
     <string name="item_collection_vote_successful">已投票</string>
     <string name="item_collection_vote_failed_format">投票失败，%1$s</string>
+    <string name="item_game_guide_list_title">攻略</string>
+    <string name="item_game_guide_list_create">写攻略</string>
+    <string name="item_game_guide_list_view_more">全部攻略</string>
     <string name="item_review_list_title">评论</string>
     <string name="item_review_list_create">写评论</string>
     <string name="item_review_list_view_more">全部评论</string>
