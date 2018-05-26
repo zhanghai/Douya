@@ -232,8 +232,12 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     public void onDestroy() {
         super.onDestroy();
 
-        mItemResource.detach();
-        mRatingResource.detach();
+        if (mItemResource != null) {
+            mItemResource.detach();
+        }
+        if (mRatingResource != null) {
+            mRatingResource.detach();
+        }
         if (mPhotoListResource != null) {
             mPhotoListResource.detach();
         }
@@ -243,14 +247,24 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         if (mAwardListResource != null) {
             mAwardListResource.detach();
         }
-        mItemCollectionListResource.detach();
+        if (mItemCollectionListResource != null) {
+            mItemCollectionListResource.detach();
+        }
         if (mGameGuideListResource != null) {
             mGameGuideListResource.detach();
         }
-        mReviewListResource.detach();
-        mForumTopicListResource.detach();
-        mRecommendationListResource.detach();
-        mRelatedDoulistListResource.detach();
+        if (mReviewListResource != null) {
+            mReviewListResource.detach();
+        }
+        if (mForumTopicListResource != null) {
+            mForumTopicListResource.detach();
+        }
+        if (mRecommendationListResource != null) {
+            mRecommendationListResource.detach();
+        }
+        if (mRelatedDoulistListResource != null) {
+            mRelatedDoulistListResource.detach();
+        }
 
         Bundle arguments = getArguments();
         arguments.putLong(EXTRA_ITEM_ID, mItemId);
