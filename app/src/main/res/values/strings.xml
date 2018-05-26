@@ -351,7 +351,7 @@
     <string name="item_introduction_title">条目简介</string>
     <string name="item_author_title">作者</string>
     <string name="item_table_of_contents_title">目录</string>
-    <string name="item_photo_list_view_more">全部剧照</string>
+    <string name="item_photo_list_view_more">全部图片</string>
     <string name="item_celebrity_director">导演</string>
     <string name="item_award_category_multiple_format">%1$s 等%2$d项</string>
     <string name="item_track_list_title">曲目</string>
