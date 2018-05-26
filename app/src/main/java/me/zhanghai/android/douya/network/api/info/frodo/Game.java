@@ -13,7 +13,8 @@ import java.util.ArrayList;
 
 public class Game extends SimpleGame {
 
-    public ArrayList<String> aliases = new ArrayList<>();
+    @SerializedName("aliases")
+    public ArrayList<String> alternativeTitles = new ArrayList<>();
 
     public ArrayList<String> developers = new ArrayList<>();
 
@@ -39,7 +40,7 @@ public class Game extends SimpleGame {
     protected Game(Parcel in) {
         super(in);
 
-        aliases = in.createStringArrayList();
+        alternativeTitles = in.createStringArrayList();
         developers = in.createStringArrayList();
         informationUrl = in.readString();
         publishers = in.createStringArrayList();
@@ -54,7 +55,7 @@ public class Game extends SimpleGame {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeStringList(aliases);
+        dest.writeStringList(alternativeTitles);
         dest.writeStringList(developers);
         dest.writeString(informationUrl);
         dest.writeStringList(publishers);
