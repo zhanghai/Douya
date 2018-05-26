@@ -170,8 +170,10 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         mReviewListResource = ItemReviewListResource.attachTo(itemType, mItemId, this);
         mForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
                 this);
-        mRecommendationListResource = ItemRecommendationListResource.attachTo(itemType, mItemId,
-                this);
+        if (hasRecommendationList()) {
+            mRecommendationListResource = ItemRecommendationListResource.attachTo(itemType, mItemId,
+                    this);
+        }
         mRelatedDoulistListResource = ItemRelatedDoulistListResource.attachTo(itemType, mItemId,
                 this);
     }
@@ -219,6 +221,11 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     protected boolean hasGameGuideList() {
         return getItemType() == CollectableItem.Type.GAME;
+    }
+
+    protected boolean hasRecommendationList() {
+        // TODO: Frodo API currently returns 5xx for recommendation list.
+        return getItemType() != CollectableItem.Type.GAME;
     }
 
     @Override

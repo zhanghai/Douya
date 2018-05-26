@@ -48,7 +48,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
         GAME_GUIDE_LIST,
         REVIEW_LIST,
         FORUM_TOPIC_LIST,
-        RECOMMENDATION_LIST,
+        // TODO: Frodo API currently returns 5xx for recommendation list.
+        //RECOMMENDATION_LIST,
         RELATED_DOULIST_LIST
     }
 
@@ -115,8 +116,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return mData.reviewList != null;
             case FORUM_TOPIC_LIST:
                 return mData.forumTopicList != null;
-            case RECOMMENDATION_LIST:
-                return mData.recommendationList != null;
+            //case RECOMMENDATION_LIST:
+            //    return mData.recommendationList != null;
             case RELATED_DOULIST_LIST:
                 return mData.relatedDoulistList != null;
             default:
@@ -148,10 +149,18 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return createReviewListHolder(parent);
             case FORUM_TOPIC_LIST:
                 return createForumTopicListHolder(parent);
-            case RECOMMENDATION_LIST:
-                return createRecommendationListHolder(parent);
+            //case RECOMMENDATION_LIST:
+            //    return createRecommendationListHolder(parent);
             case RELATED_DOULIST_LIST:
-                return createRelatedDoulistListHolder(parent);
+                //return createRelatedDoulistListHolder(parent);
+            {
+                // HACK
+                RelatedDoulistListHolder holder = createRelatedDoulistListHolder(parent);
+                int marginTop = holder.itemView.getContext().getResources().getDimensionPixelOffset(
+                        R.dimen.item_card_list_vertical_padding);
+                ViewUtils.setMarginTop(holder.itemView, marginTop);
+                return holder;
+            }
             default:
                 throw new IllegalArgumentException();
         }
@@ -202,9 +211,9 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
             case FORUM_TOPIC_LIST:
                 bindForumTopicListHolder(holder, mData.game, mData.forumTopicList);
                 break;
-            case RECOMMENDATION_LIST:
-                bindRecommendationListHolder(holder, mData.game, mData.recommendationList);
-                break;
+            //case RECOMMENDATION_LIST:
+            //    bindRecommendationListHolder(holder, mData.game, mData.recommendationList);
+            //    break;
             case RELATED_DOULIST_LIST:
                 bindRelatedDoulistListHolder(holder, mData.game, mData.relatedDoulistList);
                 break;
@@ -216,7 +225,7 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
     private void bindHeaderHolder(RecyclerView.ViewHolder holder, Game game) {
         HeaderHolder headerHolder = (HeaderHolder) holder;
         headerHolder.coverImage.setRatio(2, 3);
-        // Have to use game.cover.getLargeUrl() here or it will be cropped.
+        // HACK: Have to use game.cover.getLargeUrl() here or it will be cropped.
         ImageUtils.loadImage(headerHolder.coverImage, game.cover.getLargeUrl());
         headerHolder.coverImage.setOnClickListener(view -> {
             Context context = view.getContext();
