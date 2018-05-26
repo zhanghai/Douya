@@ -47,7 +47,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
         ITEM_COLLECTION_LIST,
         GAME_GUIDE_LIST,
         REVIEW_LIST,
-        FORUM_TOPIC_LIST,
+        // TODO: Currently there's no forum for game.
+        //FORUM_TOPIC_LIST,
         // TODO: Frodo API currently returns 5xx for recommendation list.
         //RECOMMENDATION_LIST,
         RELATED_DOULIST_LIST
@@ -114,8 +115,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return mData.gameGuideList != null;
             case REVIEW_LIST:
                 return mData.reviewList != null;
-            case FORUM_TOPIC_LIST:
-                return mData.forumTopicList != null;
+            //case FORUM_TOPIC_LIST:
+            //    return mData.forumTopicList != null;
             //case RECOMMENDATION_LIST:
             //    return mData.recommendationList != null;
             case RELATED_DOULIST_LIST:
@@ -147,8 +148,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return createGameGuideListHolder(parent);
             case REVIEW_LIST:
                 return createReviewListHolder(parent);
-            case FORUM_TOPIC_LIST:
-                return createForumTopicListHolder(parent);
+            //case FORUM_TOPIC_LIST:
+            //    return createForumTopicListHolder(parent);
             //case RECOMMENDATION_LIST:
             //    return createRecommendationListHolder(parent);
             case RELATED_DOULIST_LIST:
@@ -208,9 +209,9 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
             case REVIEW_LIST:
                 bindReviewListHolder(holder, mData.game, mData.reviewList);
                 break;
-            case FORUM_TOPIC_LIST:
-                bindForumTopicListHolder(holder, mData.game, mData.forumTopicList);
-                break;
+            //case FORUM_TOPIC_LIST:
+            //    bindForumTopicListHolder(holder, mData.game, mData.forumTopicList);
+            //    break;
             //case RECOMMENDATION_LIST:
             //    bindRecommendationListHolder(holder, mData.game, mData.recommendationList);
             //    break;

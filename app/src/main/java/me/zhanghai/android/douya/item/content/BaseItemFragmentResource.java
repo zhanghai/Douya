@@ -168,8 +168,10 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
             mGameGuideListResource = GameGuideListResource.attachTo(mItemId, this);
         }
         mReviewListResource = ItemReviewListResource.attachTo(itemType, mItemId, this);
-        mForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
-                this);
+        if (hasForumTopicList()) {
+            mForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
+                    this);
+        }
         if (hasRecommendationList()) {
             mRecommendationListResource = ItemRecommendationListResource.attachTo(itemType, mItemId,
                     this);
@@ -221,6 +223,11 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     protected boolean hasGameGuideList() {
         return getItemType() == CollectableItem.Type.GAME;
+    }
+
+    protected boolean hasForumTopicList() {
+        // TODO: Currently there's no forum for game.
+        return getItemType() != CollectableItem.Type.GAME;
     }
 
     protected boolean hasRecommendationList() {
