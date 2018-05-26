@@ -50,6 +50,7 @@ public class RecommendationListAdapter
         switch (item.getType()) {
             case BOOK:
             case EVENT:
+            case GAME:
             case MOVIE:
             case TV:
                 ratio = 2f / 3f;
