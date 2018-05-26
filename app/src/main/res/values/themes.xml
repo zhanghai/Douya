@@ -382,6 +382,45 @@
     </style>
     <style name="Theme.Douya.Music.DialogWhenLarge" parent="Base.Theme.Douya.Music.DialogWhenLarge" />
 
+    <style name="DarkTheme.Light.GameApp" parent="DarkTheme.Light">
+        <item name="colorAccent">@color/game_app_accent</item>
+    </style>
+    <style name="Base.Theme.Douya.GameApp" parent="Theme.Douya">
+        <item name="colorPrimary">@color/game_app_primary</item>
+        <item name="colorPrimaryDark">@color/game_app_primary_dark</item>
+        <item name="colorPrimaryLight">@color/game_app_primary_light</item>
+        <item name="colorAccent">@color/game_app_accent</item>
+        <item name="textColorPrimaryDark">@color/game_app_primary_dark</item>
+        <item name="android:windowBackground">@color/grey_200</item>
+        <item name="iconButtonTint">@color/icon_button_tint_game_app</item>
+        <item name="darkTheme">@style/DarkTheme.Light.GameApp</item>
+    </style>
+    <style name="Base.Theme.Douya.GameApp.Dark" parent="Theme.Douya">
+        <item name="colorPrimaryLight">@color/grey_850</item>
+        <item name="colorAccent">@color/game_app_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_game_app</item>
+        <item name="darkTheme">@style/DarkTheme</item>
+    </style>
+    <style name="Theme.Douya.GameApp" parent="Base.Theme.Douya.GameApp" />
+    <style name="Base.Theme.Douya.GameApp.DialogWhenLarge" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimary">@color/game_app_primary</item>
+        <item name="colorPrimaryDark">@color/game_app_primary_dark</item>
+        <item name="colorPrimaryLight">@color/game_app_primary_light</item>
+        <item name="colorAccent">@color/game_app_accent</item>
+        <item name="textColorPrimaryDark">@color/game_app_primary_dark</item>
+        <item name="iconButtonTint">@color/icon_button_tint_game_app</item>
+        <item name="darkTheme">@style/DarkTheme.Light.GameApp</item>
+    </style>
+    <style name="Base.Theme.Douya.GameApp.DialogWhenLarge.Dark" parent="Theme.Douya.DialogWhenLarge">
+        <item name="colorPrimaryLight">@color/grey_850</item>
+        <item name="colorAccent">@color/game_app_accent</item>
+        <item name="textColorPrimaryDark">?android:textColorPrimary</item>
+        <item name="iconButtonTint">@color/icon_button_tint_game_app</item>
+        <item name="darkTheme">@style/DarkTheme</item>
+    </style>
+    <style name="Theme.Douya.GameApp.DialogWhenLarge" parent="Base.Theme.Douya.GameApp.DialogWhenLarge" />
+
     <style name="Base.ThemeOverlay.Douya.Calendar" parent="">
         <item name="android:textColorSecondary">@color/calendar_secondary_text_light</item>
         <item name="android:textColorHighlight">@color/calendar_highlight_text</item>

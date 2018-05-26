@@ -17,6 +17,7 @@
     <color name="brown_500">#795548</color>
     <color name="brown_700">#5d4037</color>
 
+    <color name="green_50">#e8f5e9</color>
     <color name="green_100">#c8e6c9</color>
     <color name="green_300">#81c784</color>
     <color name="green_500">#4caf50</color>
@@ -67,6 +68,11 @@
     <color name="music_primary_dark">@color/teal_700</color>
     <color name="music_primary_light">@color/teal_50</color>
     <color name="music_accent">@color/teal_500</color>
+
+    <color name="game_app_primary">@color/green_500</color>
+    <color name="game_app_primary_dark">@color/green_700</color>
+    <color name="game_app_primary_light">@color/green_50</color>
+    <color name="game_app_accent">@color/green_500</color>
 
     <color name="calendar_secondary_text_light">#b3000000</color>
     <color name="calendar_secondary_text_dark">#b3ffffff</color>
