@@ -100,7 +100,9 @@ public class ItemCollectionFragment extends Fragment
     private CollectableItem mItem;
     private ItemCollectionState mExtraState;
 
-    private boolean mCollectd;
+    private ItemCollectionStateSpinnerAdapter mStateAdapter;
+
+    private boolean mCollected;
 
     /**
      * @deprecated Use {@link #newInstance(CollectableItem, ItemCollectionState)} instead.
@@ -153,8 +155,9 @@ public class ItemCollectionFragment extends Fragment
         activity.setSupportActionBar(mToolbar);
 
         mStateLayout.setOnClickListener(view -> mStateSpinner.performClick());
-        mStateSpinner.setAdapter(new ItemCollectionStateSpinnerAdapter(mItem.getType(),
-                mStateSpinner.getContext()));
+        mStateAdapter = new ItemCollectionStateSpinnerAdapter(mItem.getType(),
+                mStateSpinner.getContext());
+        mStateSpinner.setAdapter(mStateAdapter);
         if (savedInstanceState == null) {
             ItemCollectionState state;
             if (mExtraState != null) {
@@ -165,7 +168,7 @@ public class ItemCollectionFragment extends Fragment
                 state = null;
             }
             if (state != null) {
-                mStateSpinner.setSelection(state.ordinal(), false);
+                mStateSpinner.setSelection(mStateAdapter.getPositionForState(state), false);
             }
         }
         mStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -265,7 +268,7 @@ public class ItemCollectionFragment extends Fragment
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
-    public void onItemUncolleted(ItemUncollectedEvent event) {
+    public void onItemUncollected(ItemUncollectedEvent event) {
 
         if (event.isFromMyself(this)) {
             return;
@@ -310,7 +313,7 @@ public class ItemCollectionFragment extends Fragment
         }
 
         if (event.itemType == mItem.getType() && event.itemId == mItem.id) {
-            mCollectd = true;
+            mCollected = true;
             finish();
         }
     }
@@ -328,7 +331,7 @@ public class ItemCollectionFragment extends Fragment
     }
 
     private void updateCollectStatus() {
-        if (mCollectd) {
+        if (mCollected) {
             return;
         }
         CollectItemManager manager = CollectItemManager.getInstance();
@@ -348,7 +351,8 @@ public class ItemCollectionFragment extends Fragment
         mShareToBroadcastCheckBox.setEnabled(enabled);
         mShareToWeiboCheckBox.setEnabled(enabled);
         if (sending) {
-            mStateSpinner.setSelection(manager.getState(mItem).ordinal(), false);
+            mStateSpinner.setSelection(mStateAdapter.getPositionForState(manager.getState(mItem)),
+                    false);
             // FIXME
             mRatingBar.setRating(manager.getRating(mItem));
             setTags(manager.getTags(mItem));
@@ -406,7 +410,7 @@ public class ItemCollectionFragment extends Fragment
     }
 
     private ItemCollectionState getState() {
-        return ItemCollectionState.values()[mStateSpinner.getSelectedItemPosition()];
+        return mStateAdapter.getStateAtPosition(mStateSpinner.getSelectedItemPosition());
     }
 
     private int getRating() {
