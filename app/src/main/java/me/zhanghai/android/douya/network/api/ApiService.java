@@ -765,7 +765,10 @@ public class ApiService {
         @Override
         protected Broadcast transform(
                 me.zhanghai.android.douya.network.api.info.apiv2.Broadcast responseBody) {
-            return responseBody.toFrodo();
+            Broadcast broadcast = responseBody.toFrodo();
+            // Can contain "分享" instead of "推荐".
+            broadcast.fix();
+            return broadcast;
         }
     }
 }

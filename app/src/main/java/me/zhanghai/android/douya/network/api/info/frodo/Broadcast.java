@@ -310,8 +310,27 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
         }
     }
 
-    private void fix() {
+    private void fixSelf() {
         fixAction();
+    }
+
+    public void fix() {
+        fixSelf();
+        if (parentBroadcast != null) {
+            parentBroadcast.fixSelf();
+            //noinspection deprecation
+            if (parentBroadcast.parentBroadcastId != null
+                    && rebroadcastedBroadcast != null
+                    && parentBroadcast.parentBroadcastId
+                    == rebroadcastedBroadcast.id) {
+                // Important for rebroadcast text.
+                //noinspection deprecation
+                parentBroadcast.parentBroadcastId = null;
+            }
+        }
+        if (rebroadcastedBroadcast != null) {
+            rebroadcastedBroadcast.fixSelf();
+        }
     }
 
 
@@ -322,21 +341,6 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
                                      JsonDeserializationContext context) throws JsonParseException {
             Broadcast broadcast = GsonHelper.GSON.fromJson(json, typeOfT);
             broadcast.fix();
-            if (broadcast.parentBroadcast != null) {
-                broadcast.parentBroadcast.fix();
-                //noinspection deprecation
-                if (broadcast.parentBroadcast.parentBroadcastId != null
-                        && broadcast.rebroadcastedBroadcast != null
-                        && broadcast.parentBroadcast.parentBroadcastId
-                                == broadcast.rebroadcastedBroadcast.id) {
-                    // Important for rebroadcast text.
-                    //noinspection deprecation
-                    broadcast.parentBroadcast.parentBroadcastId = null;
-                }
-            }
-            if (broadcast.rebroadcastedBroadcast != null) {
-                broadcast.rebroadcastedBroadcast.fix();
-            }
             return broadcast;
         }
     }
