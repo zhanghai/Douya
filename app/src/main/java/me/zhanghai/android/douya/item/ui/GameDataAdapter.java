@@ -41,6 +41,7 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
         ITEM_COLLECTION,
         BADGE_LIST,
         INTRODUCTION,
+        PHOTO_LIST,
         RATING,
         ITEM_COLLECTION_LIST,
         REVIEW_LIST,
@@ -100,6 +101,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return mData.rating != null;
             case INTRODUCTION:
                 return true;
+            case PHOTO_LIST:
+                return mData.photoList != null;
             case RATING:
                 return mData.rating != null;
             case ITEM_COLLECTION_LIST:
@@ -129,6 +132,8 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 return createBadgeListHolder(parent);
             case INTRODUCTION:
                 return createIntroductionHolder(parent);
+            case PHOTO_LIST:
+                return createPhotoListHolder(parent);
             case RATING:
                 return createRatingHolder(parent);
             case ITEM_COLLECTION_LIST:
@@ -167,6 +172,9 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
                 break;
             case INTRODUCTION:
                 bindIntroductionHolder(holder, mData.game);
+                break;
+            case PHOTO_LIST:
+                bindPhotoListHolder(holder, mData.game, mData.photoList, mData.excludeFirstPhoto);
                 break;
             case RATING:
                 bindRatingHolder(holder, mData.game, mData.rating);
