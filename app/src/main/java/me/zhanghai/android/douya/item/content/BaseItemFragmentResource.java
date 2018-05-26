@@ -31,8 +31,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         implements BaseItemResource.Listener<ItemType>, RatingResource.Listener,
         ItemPhotoListResource.Listener, CelebrityListResource.Listener,
         ItemAwardListResource.Listener, ItemCollectionListResource.Listener,
-        ItemReviewListResource.Listener, ItemForumTopicListResource.Listener,
-        ItemRecommendationListResource.Listener, ItemRelatedDoulistListResource.Listener {
+        GameGuideListResource.Listener, ItemReviewListResource.Listener,
+        ItemForumTopicListResource.Listener, ItemRecommendationListResource.Listener,
+        ItemRelatedDoulistListResource.Listener {
 
     private final String KEY_PREFIX = getClass().getName() + '.';
 
@@ -53,6 +54,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     private CelebrityListResource mCelebrityListResource;
     private ItemAwardListResource mAwardListResource;
     private ItemCollectionListResource mItemCollectionListResource;
+    private GameGuideListResource mGameGuideListResource;
     private ItemReviewListResource mReviewListResource;
     private ItemForumTopicListResource mForumTopicListResource;
     private ItemRecommendationListResource mRecommendationListResource;
@@ -125,6 +127,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         if (mItemCollectionListResource != null) {
             mItemCollectionListResource.setTarget(this);
         }
+        if (mGameGuideListResource != null) {
+            mGameGuideListResource.setTarget(this);
+        }
         if (mReviewListResource != null) {
             mReviewListResource.setTarget(this);
         }
@@ -159,6 +164,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
         }
         mItemCollectionListResource = ItemCollectionListResource.attachTo(itemType, mItemId, true,
                 this);
+        if (hasGameGuideList()) {
+            mGameGuideListResource = GameGuideListResource.attachTo(mItemId, this);
+        }
         mReviewListResource = ItemReviewListResource.attachTo(itemType, mItemId, this);
         mForumTopicListResource = ItemForumTopicListResource.attachTo(itemType, mItemId, null,
                 this);
@@ -209,6 +217,10 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
 
     protected abstract boolean hasAwardList();
 
+    protected boolean hasGameGuideList() {
+        return getItemType() == CollectableItem.Type.GAME;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -225,6 +237,9 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
             mAwardListResource.detach();
         }
         mItemCollectionListResource.detach();
+        if (mGameGuideListResource != null) {
+            mGameGuideListResource.detach();
+        }
         mReviewListResource.detach();
         mForumTopicListResource.detach();
         mRecommendationListResource.detach();
@@ -386,6 +401,37 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
     }
 
     @Override
+    public void onLoadGameGuideListStarted(int requestCode) {}
+
+    @Override
+    public void onLoadGameGuideListFinished(int requestCode) {}
+
+    @Override
+    public void onLoadGameGuideListError(int requestCode, ApiError error) {
+        notifyError(error);
+    }
+
+    @Override
+    public void onGameGuideListChanged(int requestCode, List<SimpleReview> newGameGuideList) {
+        notifyChanged();
+    }
+
+    @Override
+    public void onGameGuideListAppended(int requestCode, List<SimpleReview> appendedGameGuideList) {
+        notifyChanged();
+    }
+
+    @Override
+    public void onGameGuideChanged(int requestCode, int position, SimpleReview newGameGuide) {
+        notifyChanged();
+    }
+
+    @Override
+    public void onGameGuideRemoved(int requestCode, int position) {
+        notifyChanged();
+    }
+
+    @Override
     public void onLoadReviewListStarted(int requestCode) {}
 
     @Override
@@ -495,6 +541,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                 || (mCelebrityListResource != null && mCelebrityListResource.has())
                 || (mAwardListResource != null && mAwardListResource.has())
                 || (mItemCollectionListResource != null && mItemCollectionListResource.has())
+                || (mGameGuideListResource != null && mGameGuideListResource.has())
                 || (mReviewListResource != null && mReviewListResource.has())
                 || (mForumTopicListResource != null && mForumTopicListResource.has())
                 || (mRecommendationListResource != null && mRecommendationListResource.has())
@@ -517,6 +564,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                 mCelebrityListResource != null ? mCelebrityListResource.get() : null,
                 mAwardListResource != null ? mAwardListResource.get() : null,
                 mItemCollectionListResource != null ? mItemCollectionListResource.get() : null,
+                mGameGuideListResource != null ? mGameGuideListResource.get() : null,
                 mReviewListResource != null ? mReviewListResource.get() : null,
                 mForumTopicListResource != null ? mForumTopicListResource.get() : null,
                 mRecommendationListResource != null ? mRecommendationListResource.get() : null,
@@ -528,6 +576,7 @@ public abstract class BaseItemFragmentResource<SimpleItemType extends Collectabl
                                           List<SimpleCelebrity> newCelebrityList,
                                           List<ItemAwardItem> newAwardList,
                                           List<SimpleItemCollection> newItemCollectionList,
+                                          List<SimpleReview> newGameGuideList,
                                           List<SimpleReview> newReviewList,
                                           List<SimpleItemForumTopic> newForumTopicList,
                                           List<CollectableItem> newRecommendationList,

@@ -88,7 +88,7 @@ public abstract class BaseReviewListResource
         }
     }
 
-    private Listener getListener() {
+    protected Listener getListener() {
         return (Listener) getTarget();
     }
 

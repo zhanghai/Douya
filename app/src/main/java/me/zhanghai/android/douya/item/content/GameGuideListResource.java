@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import java.util.List;
+
+import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
 import me.zhanghai.android.douya.network.api.info.frodo.ReviewList;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.review.content.BaseReviewListResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
@@ -67,5 +71,70 @@ public class GameGuideListResource extends BaseReviewListResource {
     @Override
     protected ApiRequest<ReviewList> onCreateRequest(Integer start, Integer count) {
         return ApiService.getInstance().getGameGuideList(mItemId, start, count);
+    }
+
+    @Override
+    protected BaseReviewListResource.Listener getListener() {
+        return new ListenerWrapper((Listener) getTarget());
+    }
+
+    public interface Listener {
+        void onLoadGameGuideListStarted(int requestCode);
+        void onLoadGameGuideListFinished(int requestCode);
+        void onLoadGameGuideListError(int requestCode, ApiError error);
+        /**
+         * @param newGameGuideList Unmodifiable.
+         */
+        void onGameGuideListChanged(int requestCode, List<SimpleReview> newGameGuideList);
+        /**
+         * @param appendedGameGuideList Unmodifiable.
+         */
+        void onGameGuideListAppended(int requestCode, List<SimpleReview> appendedGameGuideList);
+        void onGameGuideChanged(int requestCode, int position, SimpleReview newGameGuide);
+        void onGameGuideRemoved(int requestCode, int position);
+    }
+
+    private static class ListenerWrapper implements BaseReviewListResource.Listener {
+
+        private Listener mListener;
+
+        public ListenerWrapper(Listener listener) {
+            mListener = listener;
+        }
+
+        @Override
+        public void onLoadReviewListStarted(int requestCode) {
+            mListener.onLoadGameGuideListStarted(requestCode);
+        }
+
+        @Override
+        public void onLoadReviewListFinished(int requestCode) {
+            mListener.onLoadGameGuideListFinished(requestCode);
+        }
+
+        @Override
+        public void onLoadReviewListError(int requestCode, ApiError error) {
+            mListener.onLoadGameGuideListError(requestCode, error);
+        }
+
+        @Override
+        public void onReviewListChanged(int requestCode, List<SimpleReview> newReviewList) {
+            mListener.onGameGuideListChanged(requestCode, newReviewList);
+        }
+
+        @Override
+        public void onReviewListAppended(int requestCode, List<SimpleReview> appendedReviewList) {
+            mListener.onGameGuideListAppended(requestCode, appendedReviewList);
+        }
+
+        @Override
+        public void onReviewChanged(int requestCode, int position, SimpleReview newReview) {
+            mListener.onGameGuideChanged(requestCode, position, newReview);
+        }
+
+        @Override
+        public void onReviewRemoved(int requestCode, int position) {
+            mListener.onGameGuideRemoved(requestCode, position);
+        }
     }
 }

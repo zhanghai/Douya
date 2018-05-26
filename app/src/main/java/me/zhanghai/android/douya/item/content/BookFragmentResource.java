@@ -95,6 +95,7 @@ public class BookFragmentResource extends BaseItemFragmentResource<SimpleBook, B
                                  List<Photo> newPhotoList, List<SimpleCelebrity> newCelebrityList,
                                  List<ItemAwardItem> newAwardList,
                                  List<SimpleItemCollection> newItemCollectionList,
+                                 List<SimpleReview> newGameGuideList,
                                  List<SimpleReview> newReviewList,
                                  List<SimpleItemForumTopic> newForumTopicList,
                                  List<CollectableItem> newRecommendationList,
