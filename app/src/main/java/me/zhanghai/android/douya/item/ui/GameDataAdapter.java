@@ -194,16 +194,13 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
 
     private void bindHeaderHolder(RecyclerView.ViewHolder holder, Game game) {
         HeaderHolder headerHolder = (HeaderHolder) holder;
-        boolean coverVisible = ViewUtils.isInLandscape(headerHolder.coverImage.getContext());
-        ViewUtils.setVisibleOrGone(headerHolder.coverImage, coverVisible);
-        if (coverVisible) {
-            headerHolder.coverImage.setRatio(1, 1);
-            ImageUtils.loadImage(headerHolder.coverImage, game.cover);
-            headerHolder.coverImage.setOnClickListener(view -> {
-                Context context = view.getContext();
-                context.startActivity(GalleryActivity.makeIntent(game.cover, context));
-            });
-        }
+        headerHolder.coverImage.setRatio(2, 3);
+        // Have to use game.cover.getLargeUrl() here or it will be cropped.
+        ImageUtils.loadImage(headerHolder.coverImage, game.cover.getLargeUrl());
+        headerHolder.coverImage.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(GalleryActivity.makeIntent(game.cover, context));
+        });
         headerHolder.titleText.setText(game.title);
         Context context = RecyclerViewUtils.getContext(holder);
         String slashDelimiter = context.getString(R.string.item_information_delimiter_slash);
