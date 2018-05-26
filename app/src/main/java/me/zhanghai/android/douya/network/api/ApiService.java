@@ -385,7 +385,12 @@ public class ApiService {
 
     public ApiRequest<ReviewList> getItemReviewList(CollectableItem.Type itemType, long itemId,
                                                     Integer start, Integer count) {
-        return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, start, count);
+        return mFrodoService.getItemReviewList(itemType.getApiString(), itemId, null, start, count);
+    }
+
+    public ApiRequest<ReviewList> getGameGuideList(long itemId, Integer start, Integer count) {
+        return mFrodoService.getItemReviewList(CollectableItem.Type.GAME.getApiString(), itemId,
+                "guide", start, count);
     }
 
     public ApiRequest<ItemForumTopicList> getItemForumTopicList(CollectableItem.Type itemType,
@@ -699,6 +704,7 @@ public class ApiService {
         @GET("{itemType}/{itemId}/reviews")
         ApiRequest<ReviewList> getItemReviewList(@Path("itemType") String itemType,
                                                  @Path("itemId") long itemId,
+                                                 @Query("rtype") String reviewType,
                                                  @Query("start") Integer start,
                                                  @Query("count") Integer count);
 
