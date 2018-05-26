@@ -18,21 +18,22 @@ import me.zhanghai.android.douya.network.api.info.frodo.ItemAwardItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Photo;
 import me.zhanghai.android.douya.network.api.info.frodo.Rating;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleCelebrity;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleGame;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemCollection;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleItemForumTopic;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleReview;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class GameFragmentResource extends BaseItemFragmentResource<Game, Game> {
+public class GameFragmentResource extends BaseItemFragmentResource<SimpleGame, Game> {
 
     private static final String FRAGMENT_TAG_DEFAULT = GameFragmentResource.class.getName();
 
-    private static GameFragmentResource newInstance(long gameId, Game simpleGame, Game game) {
+    private static GameFragmentResource newInstance(long gameId, SimpleGame simpleGame, Game game) {
         //noinspection deprecation
         return new GameFragmentResource().setArguments(gameId, simpleGame, game);
     }
 
-    public static GameFragmentResource attachTo(long gameId, Game simpleGame, Game game,
+    public static GameFragmentResource attachTo(long gameId, SimpleGame simpleGame, Game game,
                                                 Fragment fragment, String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
         GameFragmentResource instance = FragmentUtils.findByTag(activity, tag);
@@ -44,7 +45,7 @@ public class GameFragmentResource extends BaseItemFragmentResource<Game, Game> {
         return instance;
     }
 
-    public static GameFragmentResource attachTo(long gameId, Game simpleGame, Game game,
+    public static GameFragmentResource attachTo(long gameId, SimpleGame simpleGame, Game game,
                                                 Fragment fragment) {
         return attachTo(gameId, simpleGame, game, fragment, FRAGMENT_TAG_DEFAULT,
                 REQUEST_CODE_INVALID);
@@ -56,14 +57,15 @@ public class GameFragmentResource extends BaseItemFragmentResource<Game, Game> {
     public GameFragmentResource() {}
 
     @Override
-    protected GameFragmentResource setArguments(long itemId, Game simpleItem, Game item) {
+    protected GameFragmentResource setArguments(long itemId, SimpleGame simpleItem, Game item) {
         super.setArguments(itemId, simpleItem, item);
         return this;
     }
 
     @Override
-    protected BaseItemResource<Game, Game> onAttachItemResource(long itemId, Game simpleItem,
-                                                                Game item) {
+    protected BaseItemResource<SimpleGame, Game> onAttachItemResource(long itemId,
+                                                                      SimpleGame simpleItem,
+                                                                      Game item) {
         return GameResource.attachTo(itemId, simpleItem, item, this);
     }
 

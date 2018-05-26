@@ -179,12 +179,19 @@ public abstract class CollectableItem extends BaseItem {
         return Rating.getRatingUnavailableReason(ratingUnavailableReason, context);
     }
 
+    private static String truncateReleaseDate(String releaseDate) {
+        if (TextUtils.isEmpty(releaseDate) || releaseDate.length() < 10) {
+            return releaseDate;
+        }
+        return releaseDate.substring(0, 10);
+    }
+
     protected static String getReleaseDate(List<String> releaseDates) {
         return truncateReleaseDate(CollectionUtils.firstOrNull(releaseDates));
     }
 
-    protected static String getYearMonth(List<String> releaseDates, Context context) {
-        String releaseDate = getReleaseDate(releaseDates);
+    protected static String getYearMonth(String releaseDate, Context context) {
+        releaseDate = truncateReleaseDate(releaseDate);
         if (TextUtils.isEmpty(releaseDate)) {
             return null;
         }
@@ -217,11 +224,8 @@ public abstract class CollectableItem extends BaseItem {
         return releaseDate;
     }
 
-    private static String truncateReleaseDate(String releaseDate) {
-        if (TextUtils.isEmpty(releaseDate) || releaseDate.length() < 10) {
-            return releaseDate;
-        }
-        return releaseDate.substring(0, 10);
+    protected static String getYearMonth(List<String> releaseDates, Context context) {
+        return getYearMonth(CollectionUtils.firstOrNull(releaseDates), context);
     }
 
     public static class Deserializer implements JsonDeserializer<CollectableItem> {

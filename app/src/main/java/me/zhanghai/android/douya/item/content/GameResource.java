@@ -10,20 +10,21 @@ import android.support.v4.app.FragmentActivity;
 
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Game;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleGame;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class GameResource extends BaseItemResource<Game, Game> {
+public class GameResource extends BaseItemResource<SimpleGame, Game> {
 
     private static final String FRAGMENT_TAG_DEFAULT = GameResource.class.getName();
 
-    private static GameResource newInstance(long gameId, Game simpleGame, Game game) {
+    private static GameResource newInstance(long gameId, SimpleGame simpleGame, Game game) {
         //noinspection deprecation
         GameResource instance = new GameResource();
         instance.setArguments(gameId, simpleGame, game);
         return instance;
     }
 
-    public static GameResource attachTo(long gameId, Game simpleGame, Game game,
+    public static GameResource attachTo(long gameId, SimpleGame simpleGame, Game game,
                                         Fragment fragment, String tag, int requestCode) {
         FragmentActivity activity = fragment.getActivity();
         GameResource instance = FragmentUtils.findByTag(activity, tag);
@@ -35,7 +36,7 @@ public class GameResource extends BaseItemResource<Game, Game> {
         return instance;
     }
 
-    public static GameResource attachTo(long gameId, Game simpleGame, Game game,
+    public static GameResource attachTo(long gameId, SimpleGame simpleGame, Game game,
                                         Fragment fragment) {
         return attachTo(gameId, simpleGame, game, fragment, FRAGMENT_TAG_DEFAULT,
                 REQUEST_CODE_INVALID);
