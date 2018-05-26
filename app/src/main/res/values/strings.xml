@@ -430,6 +430,12 @@
     <string name="item_introduction_book_release_dates">出版日期</string>
     <string name="item_introduction_book_page_counts">页数</string>
     <string name="item_introduction_book_prices">定价</string>
+    <string name="item_introduction_game_genres">类型</string>
+    <string name="item_introduction_game_platforms">平台</string>
+    <string name="item_introduction_game_alternative_titles">又名</string>
+    <string name="item_introduction_game_developers">开发者</string>
+    <string name="item_introduction_game_publishers">发行者</string>
+    <string name="item_introduction_game_release_date">发行日期</string>
 
     <string name="calendar_title">电影日历</string>
     <string name="calendar_chinese_calendar">农历</string>

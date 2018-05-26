@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.network.api.info.frodo.Book;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Game;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.util.FragmentUtils;
@@ -50,8 +51,8 @@ public class ItemIntroductionActivity extends AppCompatActivity {
                     // TODO
                     throw new UnsupportedOperationException();
                 case GAME:
-                    // TODO
-                    throw new UnsupportedOperationException();
+                    fragment = GameIntroductionFragment.newInstance((Game) item);
+                    break;
                 case MOVIE:
                 case TV:
                     fragment = MovieIntroductionFragment.newInstance((Movie) item);
