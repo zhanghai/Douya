@@ -10,9 +10,11 @@ import android.content.Intent;
 
 import me.zhanghai.android.douya.network.api.info.frodo.Book;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
+import me.zhanghai.android.douya.network.api.info.frodo.Game;
 import me.zhanghai.android.douya.network.api.info.frodo.Movie;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleBook;
+import me.zhanghai.android.douya.network.api.info.frodo.SimpleGame;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMovie;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMusic;
 
@@ -33,10 +35,16 @@ public class ItemActivities {
             return MusicActivity.makeIntent((Music) item, context);
         } else if (item instanceof SimpleMusic) {
             return MusicActivity.makeIntent((SimpleMusic) item, context);
+        } else if (item instanceof Game) {
+            return GameActivity.makeIntent((Game) item, context);
+        } else if (item instanceof SimpleGame) {
+            return GameActivity.makeIntent((SimpleGame) item, context);
         } else {
             switch (item.getType()) {
                 case BOOK:
                     return BookActivity.makeIntent(item.id,context);
+                case GAME:
+                    return GameActivity.makeIntent(item.id, context);
                 case MOVIE:
                 case TV:
                     return MovieActivity.makeIntent(item.id, context);
