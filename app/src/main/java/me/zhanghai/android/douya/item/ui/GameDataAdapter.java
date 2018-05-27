@@ -249,7 +249,7 @@ public class GameDataAdapter extends BaseItemDataAdapter<Game> {
         badgeListHolder.badgeListLayout.setTop250(null);
         badgeListHolder.badgeListLayout.setRating(rating, game);
         badgeListHolder.badgeListLayout.setGenre(R.drawable.game_badge_white_40dp,
-                CollectionUtils.firstOrNull(game.genres));
+                CollectionUtils.firstOrNull(game.genres), CollectableItem.Type.GAME);
     }
 
     @Override

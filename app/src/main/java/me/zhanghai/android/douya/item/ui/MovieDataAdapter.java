@@ -253,7 +253,7 @@ public class MovieDataAdapter extends BaseItemDataAdapter<Movie> {
         badgeListHolder.badgeListLayout.setTop250(top250Honor);
         badgeListHolder.badgeListLayout.setRating(rating, movie);
         badgeListHolder.badgeListLayout.setGenre(R.drawable.movie_badge_white_40dp,
-                CollectionUtils.firstOrNull(movie.genres));
+                CollectionUtils.firstOrNull(movie.genres), CollectableItem.Type.MOVIE);
     }
 
     @Override

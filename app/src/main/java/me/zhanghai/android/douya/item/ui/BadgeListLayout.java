@@ -193,15 +193,27 @@ public class BadgeListLayout extends HorizontalScrollView {
         ViewUtils.setVisibleOrGone(mRatingCountIconImage, false);
     }
 
-    public void setGenre(int genreBadgeResId, String genre) {
+    public void setGenre(int genreBadgeResId, String genre, CollectableItem.Type itemType) {
         boolean hasGenre = !TextUtils.isEmpty(genre);
         ViewUtils.setVisibleOrGone(mGenreLayout, hasGenre);
         if (hasGenre) {
             mGenreBadgeImage.setImageResource(genreBadgeResId);
             mGenreText.setText(genre);
             mGenreLayout.setOnClickListener(view -> {
-                UriHandler.open("https://movie.douban.com/tag/#/?tags=" + Uri.encode(genre),
-                        view.getContext());
+                // TODO
+                String url = null;
+                switch (itemType) {
+                    case MOVIE:
+                    case TV:
+                        url = "https://movie.douban.com/tag/#/?tags=" + Uri.encode(genre);
+                        break;
+                    case MUSIC:
+                        url = "https://music.douban.com/tag/" + Uri.encode(genre);
+                        break;
+                }
+                if (!TextUtils.isEmpty(url)) {
+                    UriHandler.open(url, view.getContext());
+                }
             });
         }
     }

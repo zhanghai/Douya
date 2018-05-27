@@ -248,7 +248,7 @@ public class BookDataAdapter extends BaseItemDataAdapter<Book> {
         BadgeListHolder badgeListHolder = (BadgeListHolder) holder;
         badgeListHolder.badgeListLayout.setTop250(null);
         badgeListHolder.badgeListLayout.setRating(rating, book);
-        badgeListHolder.badgeListLayout.setGenre(0, null);
+        badgeListHolder.badgeListLayout.setGenre(0, null, CollectableItem.Type.BOOK);
     }
 
     @Override

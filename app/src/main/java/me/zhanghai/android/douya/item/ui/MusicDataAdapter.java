@@ -238,7 +238,7 @@ public class MusicDataAdapter extends BaseItemDataAdapter<Music> {
         badgeListHolder.badgeListLayout.setTop250(null);
         badgeListHolder.badgeListLayout.setRating(rating, music);
         badgeListHolder.badgeListLayout.setGenre(R.drawable.music_badge_white_40dp,
-                CollectionUtils.firstOrNull(music.genres));
+                CollectionUtils.firstOrNull(music.genres), CollectableItem.Type.MUSIC);
     }
 
     @Override
