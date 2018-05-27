@@ -10,8 +10,6 @@ import android.content.Context;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.WindowInsets;
 
 /**
  * A {@link NavigationView} that draws no scrim and dispatches window insets correctly.
@@ -46,15 +44,11 @@ public class FullscreenNavigationView extends NavigationView {
         setFitsSystemWindows(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            setOnApplyWindowInsetsListener(new OnApplyWindowInsetsListener() {
-                @Override
-                @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets insets) {
-                    if (getHeaderCount() == 0) {
-                        return FullscreenNavigationView.this.onApplyWindowInsets(insets);
-                    }
-                    return getHeaderView(0).onApplyWindowInsets(insets);
+            setOnApplyWindowInsetsListener((view, insets) -> {
+                if (getHeaderCount() == 0) {
+                    return FullscreenNavigationView.this.onApplyWindowInsets(insets);
                 }
+                return getHeaderView(0).onApplyWindowInsets(insets);
             });
         }
     }
