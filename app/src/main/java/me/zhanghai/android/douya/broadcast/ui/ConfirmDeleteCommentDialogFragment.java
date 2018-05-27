@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.broadcast.ui;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
 import me.zhanghai.android.douya.R;
-import me.zhanghai.android.douya.network.api.info.frodo.Comment;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment {
@@ -34,7 +32,7 @@ public class ConfirmDeleteCommentDialogFragment extends AppCompatDialogFragment 
     public static ConfirmDeleteCommentDialogFragment newInstance(long commentId) {
         //noinspection deprecation
         ConfirmDeleteCommentDialogFragment fragment = new ConfirmDeleteCommentDialogFragment();
-        FragmentUtils.ensureArguments(fragment)
+        FragmentUtils.getArgumentsBuilder(fragment)
                 .putLong(EXTRA_COMMENT_ID, commentId);
         return fragment;
     }

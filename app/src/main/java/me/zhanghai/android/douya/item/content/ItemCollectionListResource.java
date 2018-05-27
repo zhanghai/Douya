@@ -74,10 +74,10 @@ public class ItemCollectionListResource
 
     protected ItemCollectionListResource setArguments(CollectableItem.Type itemType, long itemId,
                                                       boolean followingsFirst) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putSerializable(EXTRA_ITEM_TYPE, itemType);
-        arguments.putLong(EXTRA_ITEM_ID, itemId);
-        arguments.putBoolean(EXTRA_FOLLOWINGS_FIRST, followingsFirst);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putSerializable(EXTRA_ITEM_TYPE, itemType)
+                .putLong(EXTRA_ITEM_ID, itemId)
+                .putBoolean(EXTRA_FOLLOWINGS_FIRST, followingsFirst);
         return this;
     }
 

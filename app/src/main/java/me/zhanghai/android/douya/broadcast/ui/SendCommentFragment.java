@@ -58,9 +58,9 @@ public class SendCommentFragment extends Fragment
     public static SendCommentFragment newInstance(long broadcastId, CharSequence text) {
         //noinspection deprecation
         SendCommentFragment fragment = new SendCommentFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
-        arguments.putCharSequence(EXTRA_TEXT, text);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putLong(EXTRA_BROADCAST_ID, broadcastId)
+                .putCharSequence(EXTRA_TEXT, text);
         return fragment;
     }
 

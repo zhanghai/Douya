@@ -57,7 +57,7 @@ public class BroadcastRebroadcastedBroadcastListResource extends BaseBroadcastLi
     public BroadcastRebroadcastedBroadcastListResource() {}
 
     protected BroadcastRebroadcastedBroadcastListResource setArguments(long broadcastId) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putLong(EXTRA_BROADCAST_ID, broadcastId);
         return this;
     }

@@ -41,10 +41,10 @@ public class CommentActionDialogFragment extends AppCompatDialogFragment {
                                                           boolean canDelete) {
         //noinspection deprecation
         CommentActionDialogFragment fragment = new CommentActionDialogFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putParcelable(EXTRA_COMMENT, comment);
-        arguments.putBoolean(EXTRA_CAN_REPLY_TO, canReplyTo);
-        arguments.putBoolean(EXTRA_CAN_DELETE, canDelete);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putParcelable(EXTRA_COMMENT, comment)
+                .putBoolean(EXTRA_CAN_REPLY_TO, canReplyTo)
+                .putBoolean(EXTRA_CAN_DELETE, canDelete);
         return fragment;
     }
 

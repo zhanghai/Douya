@@ -26,12 +26,16 @@ public class BundleBuilder {
 
     private Bundle mBundle;
 
-    public BundleBuilder(Bundle bundle) {
+    private BundleBuilder(Bundle bundle) {
         mBundle = bundle;
     }
 
     public BundleBuilder() {
         this(new Bundle());
+    }
+
+    public static BundleBuilder buildUpon(Bundle bundle) {
+        return new BundleBuilder(bundle);
     }
 
     public Bundle build() {

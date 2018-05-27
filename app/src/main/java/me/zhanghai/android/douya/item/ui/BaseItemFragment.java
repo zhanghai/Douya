@@ -88,10 +88,10 @@ public abstract class BaseItemFragment<SimpleItemType extends CollectableItem,
     public BaseItemFragment<SimpleItemType, ItemType> setArguments(long itemId,
                                                                    SimpleItemType simpleItem,
                                                                    ItemType item) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putLong(EXTRA_ITEM_ID, itemId);
-        arguments.putParcelable(EXTRA_SIMPLE_ITEM, simpleItem);
-        arguments.putParcelable(EXTRA_ITEM, item);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putLong(EXTRA_ITEM_ID, itemId)
+                .putParcelable(EXTRA_SIMPLE_ITEM, simpleItem)
+                .putParcelable(EXTRA_ITEM, item);
         return this;
     }
 

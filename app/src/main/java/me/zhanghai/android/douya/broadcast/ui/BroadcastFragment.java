@@ -117,11 +117,11 @@ public class BroadcastFragment extends Fragment implements BroadcastAndCommentLi
                                                 boolean showSendComment, String title) {
         //noinspection deprecation
         BroadcastFragment fragment = new BroadcastFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
-        arguments.putParcelable(EXTRA_BROADCAST, broadcast);
-        arguments.putBoolean(EXTRA_SHOW_SEND_COMMENT, showSendComment);
-        arguments.putString(EXTRA_TITLE, title);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putLong(EXTRA_BROADCAST_ID, broadcastId)
+                .putParcelable(EXTRA_BROADCAST, broadcast)
+                .putBoolean(EXTRA_SHOW_SEND_COMMENT, showSendComment)
+                .putString(EXTRA_TITLE, title);
         return fragment;
     }
 

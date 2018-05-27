@@ -450,24 +450,21 @@ public class SimpleDialogFragment extends AppCompatDialogFragment {
         }
 
         public SimpleDialogFragment build() {
-
             SimpleDialogFragment fragment = new SimpleDialogFragment();
-
-            Bundle arguments = FragmentUtils.ensureArguments(fragment);
-            arguments.putInt(ARGUMENT_REQUEST_CODE, mRequestCode);
-            arguments.putInt(ARGUMENT_THEME, mTheme);
-            arguments.putInt(ARGUMENT_ICON_ID, mIconId);
-            arguments.putCharSequence(ARGUMENT_TITLE, mTitle);
-            arguments.putCharSequence(ARGUMENT_MESSAGE, mMessage);
-            arguments.putCharSequenceArray(ARGUMENT_ITEMS, mItems);
-            arguments.putBoolean(ARGUMENT_IS_SINGLE_CHOICE, mIsSingleChoice);
-            arguments.putCharSequenceArray(ARGUMENT_CHOICE_ITEMS, mChoiceItems);
-            arguments.putInt(ARGUMENT_CHOICE_CHECKED_ITEM, mChoiceCheckedItem);
-            arguments.putCharSequence(ARGUMENT_POSITIVE_BUTTON_TEXT, mPositiveButtonText);
-            arguments.putCharSequence(ARGUMENT_NEUTRAL_BUTTON_TEXT, mNeutralButtonText);
-            arguments.putCharSequence(ARGUMENT_NEGATIVE_BUTTON_TEXT, mNegativeButtonText);
-            arguments.putBoolean(ARGUMENT_CANCELABLE, mCancelable);
-
+            FragmentUtils.getArgumentsBuilder(fragment)
+                    .putInt(ARGUMENT_REQUEST_CODE, mRequestCode)
+                    .putInt(ARGUMENT_THEME, mTheme)
+                    .putInt(ARGUMENT_ICON_ID, mIconId)
+                    .putCharSequence(ARGUMENT_TITLE, mTitle)
+                    .putCharSequence(ARGUMENT_MESSAGE, mMessage)
+                    .putCharSequenceArray(ARGUMENT_ITEMS, mItems)
+                    .putBoolean(ARGUMENT_IS_SINGLE_CHOICE, mIsSingleChoice)
+                    .putCharSequenceArray(ARGUMENT_CHOICE_ITEMS, mChoiceItems)
+                    .putInt(ARGUMENT_CHOICE_CHECKED_ITEM, mChoiceCheckedItem)
+                    .putCharSequence(ARGUMENT_POSITIVE_BUTTON_TEXT, mPositiveButtonText)
+                    .putCharSequence(ARGUMENT_NEUTRAL_BUTTON_TEXT, mNeutralButtonText)
+                    .putCharSequence(ARGUMENT_NEGATIVE_BUTTON_TEXT, mNegativeButtonText)
+                    .putBoolean(ARGUMENT_CANCELABLE, mCancelable);
             return fragment;
         }
     }

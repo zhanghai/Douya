@@ -57,7 +57,7 @@ public class UserItemListResource extends RawListResourceFragment<UserItemList, 
     public UserItemListResource() {}
 
     protected UserItemListResource setArguments(String userIdOrUid) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         return this;
     }

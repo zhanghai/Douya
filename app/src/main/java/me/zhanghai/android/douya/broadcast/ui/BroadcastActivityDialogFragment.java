@@ -61,7 +61,7 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
     public static BroadcastActivityDialogFragment newInstance(Broadcast broadcast) {
         //noinspection deprecation
         BroadcastActivityDialogFragment fragment = new BroadcastActivityDialogFragment();
-        FragmentUtils.ensureArguments(fragment)
+        FragmentUtils.getArgumentsBuilder(fragment)
                 .putParcelable(EXTRA_BROADCAST, broadcast);
         return fragment;
     }

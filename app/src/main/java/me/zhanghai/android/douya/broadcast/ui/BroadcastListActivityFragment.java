@@ -51,10 +51,10 @@ public class BroadcastListActivityFragment extends Fragment implements AppBarHos
                                                             String topic) {
         //noinspection deprecation
         BroadcastListActivityFragment fragment = new BroadcastListActivityFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        arguments.putParcelable(EXTRA_USER, user);
-        arguments.putString(EXTRA_TOPIC, topic);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid)
+                .putParcelable(EXTRA_USER, user)
+                .putString(EXTRA_TOPIC, topic);
         return fragment;
     }
 

@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.ui;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,7 +34,7 @@ public class CopyTextDialogFragment extends AppCompatDialogFragment {
     public static CopyTextDialogFragment newInstance(String text) {
         //noinspection deprecation
         CopyTextDialogFragment fragment = new CopyTextDialogFragment();
-        FragmentUtils.ensureArguments(fragment)
+        FragmentUtils.getArgumentsBuilder(fragment)
                 .putString(EXTRA_TEXT, text);
         return fragment;
     }

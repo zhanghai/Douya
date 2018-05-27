@@ -68,10 +68,10 @@ public class UserResource extends ResourceFragment<User, User> {
     public UserResource() {}
 
     protected UserResource setArguments(String userIdOrUid, SimpleUser simpleUser, User user) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        arguments.putParcelable(EXTRA_SIMPLE_USER, simpleUser);
-        arguments.putParcelable(EXTRA_USER, user);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid)
+                .putParcelable(EXTRA_SIMPLE_USER, simpleUser)
+                .putParcelable(EXTRA_USER, user);
         return this;
     }
 

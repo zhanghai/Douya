@@ -46,8 +46,8 @@ public class EditLinkDialogFragment extends AppCompatDialogFragment {
     public static EditLinkDialogFragment newInstance(SendBroadcastFragment.LinkInfo linkInfo) {
         //noinspection deprecation
         EditLinkDialogFragment fragment = new EditLinkDialogFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putParcelable(EXTRA_LINK_INFO, linkInfo);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putParcelable(EXTRA_LINK_INFO, linkInfo);
         return fragment;
     }
 

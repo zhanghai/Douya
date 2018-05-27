@@ -81,9 +81,9 @@ public class AuthenticatorFragment extends Fragment implements AuthenticateReque
     public static AuthenticatorFragment newInstance(String authMode, String username) {
         //noinspection deprecation
         AuthenticatorFragment fragment = new AuthenticatorFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putString(EXTRA_AUTH_MODE, authMode);
-        arguments.putString(EXTRA_USERNAME, username);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putString(EXTRA_AUTH_MODE, authMode)
+                .putString(EXTRA_USERNAME, username);
         return fragment;
     }
 

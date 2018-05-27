@@ -39,7 +39,7 @@ public class ConfirmUnrebroadcastBroadcastDialogFragment extends AppCompatDialog
         //noinspection deprecation
         ConfirmUnrebroadcastBroadcastDialogFragment fragment =
                 new ConfirmUnrebroadcastBroadcastDialogFragment();
-        FragmentUtils.ensureArguments(fragment)
+        FragmentUtils.getArgumentsBuilder(fragment)
                 .putParcelable(EXTRA_BROADCAST, broadcast);
         return fragment;
     }

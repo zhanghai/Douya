@@ -53,7 +53,7 @@ public class BroadcastLikerListResource extends BaseUserListResource<BroadcastLi
     public BroadcastLikerListResource() {}
 
     protected BroadcastLikerListResource setArguments(long broadcastId) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putLong(EXTRA_BROADCAST_ID, broadcastId);
         return this;
     }

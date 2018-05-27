@@ -139,10 +139,10 @@ public class SendBroadcastFragment extends Fragment
                                                     LinkInfo linkInfo) {
         //noinspection deprecation
         SendBroadcastFragment fragment = new SendBroadcastFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putString(EXTRA_TEXT, text);
-        arguments.putParcelableArrayList(EXTRA_IMAGE_URIS, imageUris);
-        arguments.putParcelable(EXTRA_LINK_INFO, linkInfo);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putString(EXTRA_TEXT, text)
+                .putParcelableArrayList(EXTRA_IMAGE_URIS, imageUris)
+                .putParcelable(EXTRA_LINK_INFO, linkInfo);
         return fragment;
     }
 

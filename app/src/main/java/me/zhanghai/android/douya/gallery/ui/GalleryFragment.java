@@ -76,9 +76,9 @@ public class GalleryFragment extends Fragment {
     public static GalleryFragment newInstance(ArrayList<Uri> imageList, int position) {
         //noinspection deprecation
         GalleryFragment fragment = new GalleryFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putParcelableArrayList(EXTRA_IMAGE_LIST, imageList);
-        arguments.putInt(EXTRA_POSITION, position);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putParcelableArrayList(EXTRA_IMAGE_LIST, imageList)
+                .putInt(EXTRA_POSITION, position);
         return fragment;
     }
 

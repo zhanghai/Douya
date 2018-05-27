@@ -72,9 +72,9 @@ public class TimelineBroadcastListResource
     public TimelineBroadcastListResource() {}
 
     protected TimelineBroadcastListResource setArguments(String userIdOrUid, String topic) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        arguments.putString(EXTRA_TOPIC, topic);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid)
+                .putString(EXTRA_TOPIC, topic);
         return this;
     }
 

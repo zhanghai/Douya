@@ -14,13 +14,13 @@ public class FragmentUtils {
 
     private FragmentUtils() {}
 
-    public static Bundle ensureArguments(Fragment fragment) {
+    public static BundleBuilder getArgumentsBuilder(Fragment fragment) {
         Bundle arguments = fragment.getArguments();
         if (arguments == null) {
             arguments = new Bundle();
             fragment.setArguments(arguments);
         }
-        return arguments;
+        return BundleBuilder.buildUpon(arguments);
     }
 
     @Deprecated

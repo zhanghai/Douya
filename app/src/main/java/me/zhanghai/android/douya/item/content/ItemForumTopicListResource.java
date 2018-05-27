@@ -68,10 +68,10 @@ public class ItemForumTopicListResource
 
     protected ItemForumTopicListResource setArguments(CollectableItem.Type itemType, long itemId,
                                                       Integer episode) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putSerializable(EXTRA_ITEM_TYPE, itemType);
-        arguments.putLong(EXTRA_ITEM_ID, itemId);
-        arguments.putSerializable(EXTRA_EPISODE, episode);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putSerializable(EXTRA_ITEM_TYPE, itemType)
+                .putLong(EXTRA_ITEM_ID, itemId)
+                .putSerializable(EXTRA_EPISODE, episode);
         return this;
     }
 

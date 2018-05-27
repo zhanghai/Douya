@@ -68,9 +68,9 @@ public class BroadcastResource extends ResourceFragment<Broadcast, Broadcast> {
     public BroadcastResource() {}
 
     protected BroadcastResource setArguments(long broadcastId, Broadcast broadcast) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
-        arguments.putParcelable(EXTRA_BROADCAST, broadcast);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putLong(EXTRA_BROADCAST_ID, broadcastId)
+                .putParcelable(EXTRA_BROADCAST, broadcast);
         return this;
     }
 

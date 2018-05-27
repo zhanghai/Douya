@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import butterknife.BindDimen;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.broadcast.content.TimelineBroadcastListResource;
-import me.zhanghai.android.douya.link.NotImplementedManager;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class BroadcastListFragment extends BaseTimelineBroadcastListFragment {
@@ -31,9 +30,9 @@ public class BroadcastListFragment extends BaseTimelineBroadcastListFragment {
     public static BroadcastListFragment newInstance(String userIdOrUid, String topic) {
         //noinspection deprecation
         BroadcastListFragment fragment = new BroadcastListFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        arguments.putString(EXTRA_TOPIC, topic);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid)
+                .putString(EXTRA_TOPIC, topic);
         return fragment;
     }
 

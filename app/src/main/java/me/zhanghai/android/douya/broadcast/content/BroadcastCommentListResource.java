@@ -57,7 +57,7 @@ public class BroadcastCommentListResource extends CommentListResource {
     public BroadcastCommentListResource() {}
 
     protected BroadcastCommentListResource setArguments(long broadcastId) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putLong(EXTRA_BROADCAST_ID, broadcastId);
         return this;
     }

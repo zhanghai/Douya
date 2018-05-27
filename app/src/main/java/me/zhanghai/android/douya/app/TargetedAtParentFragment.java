@@ -25,7 +25,7 @@ public class TargetedAtParentFragment extends Fragment {
     }
 
     protected void putRequestCode(int requestCode) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putInt(EXTRA_REQUEST_CODE, requestCode);
     }
 

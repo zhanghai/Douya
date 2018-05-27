@@ -56,7 +56,7 @@ public class AccountUserResource extends UserResource {
     protected AccountUserResource setArguments(Account account) {
         SimpleUser partialUser = makePartialUser(account);
         super.setArguments(partialUser.getIdOrUid(), partialUser, AccountUtils.getUser(account));
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putParcelable(EXTRA_ACCOUNT, account);
         return this;
     }

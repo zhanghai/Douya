@@ -68,9 +68,9 @@ public class BroadcastAndCommentListResource extends TargetedRetainedFragment
     public BroadcastAndCommentListResource() {}
 
     protected BroadcastAndCommentListResource setArguments(long broadcastId, Broadcast broadcast) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
-        arguments.putParcelable(EXTRA_BROADCAST, broadcast);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putLong(EXTRA_BROADCAST_ID, broadcastId)
+                .putParcelable(EXTRA_BROADCAST, broadcast);
         return this;
     }
 

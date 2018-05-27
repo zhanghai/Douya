@@ -35,10 +35,10 @@ public abstract class BaseItemResource<SimpleItemType extends CollectableItem,
     private ItemType mItem;
 
     protected BaseItemResource setArguments(long itemId, SimpleItemType simpleItem, ItemType item) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putLong(EXTRA_ITEM_ID, itemId);
-        arguments.putParcelable(EXTRA_SIMPLE_ITEM, simpleItem);
-        arguments.putParcelable(EXTRA_ITEM, item);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putLong(EXTRA_ITEM_ID, itemId)
+                .putParcelable(EXTRA_SIMPLE_ITEM, simpleItem)
+                .putParcelable(EXTRA_ITEM, item);
         return this;
     }
 

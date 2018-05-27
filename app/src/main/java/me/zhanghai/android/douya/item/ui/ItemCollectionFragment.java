@@ -113,9 +113,9 @@ public class ItemCollectionFragment extends Fragment
                                                      ItemCollectionState state) {
         //noinspection deprecation
         ItemCollectionFragment fragment = new ItemCollectionFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putParcelable(EXTRA_ITEM, item);
-        arguments.putSerializable(EXTRA_STATE, state);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putParcelable(EXTRA_ITEM, item)
+                .putSerializable(EXTRA_STATE, state);
         return fragment;
     }
 

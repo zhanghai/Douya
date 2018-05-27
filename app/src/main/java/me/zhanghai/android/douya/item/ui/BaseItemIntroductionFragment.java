@@ -50,8 +50,8 @@ public abstract class BaseItemIntroductionFragment<T extends CollectableItem> ex
     protected T mItem;
 
     protected void setArguments(T item) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putParcelable(EXTRA_ITEM, item);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putParcelable(EXTRA_ITEM, item);
     }
 
     @Override

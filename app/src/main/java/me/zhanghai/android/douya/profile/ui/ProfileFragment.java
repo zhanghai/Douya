@@ -85,14 +85,15 @@ public class ProfileFragment extends Fragment implements ProfileResource.Listene
 
     private ProfileAdapter mAdapter;
 
-    public static ProfileFragment newInstance(String userIdOrUid, me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser,
-                                              User user) {
+    public static ProfileFragment newInstance(
+            String userIdOrUid,
+            me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser simpleUser, User user) {
         //noinspection deprecation
         ProfileFragment fragment = new ProfileFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        arguments.putParcelable(EXTRA_SIMPLE_USER, simpleUser);
-        arguments.putParcelable(EXTRA_USER, user);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid)
+                .putParcelable(EXTRA_SIMPLE_USER, simpleUser)
+                .putParcelable(EXTRA_USER, user);
         return fragment;
     }
 

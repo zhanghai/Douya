@@ -40,8 +40,8 @@ public class TableOfContentsFragment extends Fragment {
     public static TableOfContentsFragment newInstance(Book book) {
         //noinspection deprecation
         TableOfContentsFragment fragment = new TableOfContentsFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putParcelable(EXTRA_BOOK, book);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putParcelable(EXTRA_BOOK, book);
         return fragment;
     }
 

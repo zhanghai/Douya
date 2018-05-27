@@ -62,9 +62,9 @@ public class ItemAwardListResource
     public ItemAwardListResource() {}
 
     protected ItemAwardListResource setArguments(CollectableItem.Type itemType, long itemId) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putSerializable(EXTRA_ITEM_TYPE, itemType);
-        arguments.putLong(EXTRA_ITEM_ID, itemId);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putSerializable(EXTRA_ITEM_TYPE, itemType)
+                .putLong(EXTRA_ITEM_ID, itemId);
         return this;
     }
 

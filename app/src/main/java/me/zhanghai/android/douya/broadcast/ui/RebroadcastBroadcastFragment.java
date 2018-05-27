@@ -76,10 +76,10 @@ public class RebroadcastBroadcastFragment extends Fragment implements BroadcastR
                                                            CharSequence text) {
         //noinspection deprecation
         RebroadcastBroadcastFragment fragment = new RebroadcastBroadcastFragment();
-        Bundle arguments = FragmentUtils.ensureArguments(fragment);
-        arguments.putLong(EXTRA_BROADCAST_ID, broadcastId);
-        arguments.putParcelable(EXTRA_BROADCAST, broadcast);
-        arguments.putCharSequence(EXTRA_TEXT, text);
+        FragmentUtils.getArgumentsBuilder(fragment)
+                .putLong(EXTRA_BROADCAST_ID, broadcastId)
+                .putParcelable(EXTRA_BROADCAST, broadcast)
+                .putCharSequence(EXTRA_TEXT, text);
         return fragment;
     }
 

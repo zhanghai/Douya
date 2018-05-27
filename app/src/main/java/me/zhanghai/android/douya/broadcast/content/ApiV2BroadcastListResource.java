@@ -61,9 +61,9 @@ public class ApiV2BroadcastListResource
     public ApiV2BroadcastListResource() {}
 
     protected ApiV2BroadcastListResource setArguments(String userIdOrUid, String topic) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
-        arguments.putString(EXTRA_TOPIC, topic);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putString(EXTRA_USER_ID_OR_UID, userIdOrUid)
+                .putString(EXTRA_TOPIC, topic);
         return this;
     }
 

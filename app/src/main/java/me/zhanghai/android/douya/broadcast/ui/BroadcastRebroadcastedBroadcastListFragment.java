@@ -40,7 +40,7 @@ public class BroadcastRebroadcastedBroadcastListFragment extends BaseBroadcastLi
     public BroadcastRebroadcastedBroadcastListFragment() {}
 
     protected BroadcastRebroadcastedBroadcastListFragment setArguments(Broadcast broadcast) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putParcelable(EXTRA_BROADCAST, broadcast);
         return this;
     }

@@ -56,8 +56,8 @@ public class GameGuideListResource extends BaseReviewListResource {
     public GameGuideListResource() {}
 
     protected GameGuideListResource setArguments(long itemId) {
-        Bundle arguments = FragmentUtils.ensureArguments(this);
-        arguments.putLong(EXTRA_ITEM_ID, itemId);
+        FragmentUtils.getArgumentsBuilder(this)
+                .putLong(EXTRA_ITEM_ID, itemId);
         return this;
     }
 

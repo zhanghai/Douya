@@ -42,7 +42,7 @@ public class BroadcastLikerListFragment extends BaseUserListFragment {
     public BroadcastLikerListFragment() {}
 
     protected BroadcastLikerListFragment setArguments(Broadcast broadcast) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putParcelable(EXTRA_BROADCAST, broadcast);
         return this;
     }

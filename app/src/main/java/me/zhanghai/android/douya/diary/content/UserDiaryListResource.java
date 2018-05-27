@@ -63,7 +63,7 @@ public class UserDiaryListResource extends MoreBaseListResourceFragment<DiaryLis
     public UserDiaryListResource() {}
 
     protected UserDiaryListResource setArguments(String userIdOrUid) {
-        FragmentUtils.ensureArguments(this)
+        FragmentUtils.getArgumentsBuilder(this)
                 .putString(EXTRA_USER_ID_OR_UID, userIdOrUid);
         return this;
     }
