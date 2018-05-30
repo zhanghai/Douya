@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -18,10 +17,11 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.media.PlayMusicService;
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
-import me.zhanghai.android.douya.ui.PlayPauseDrawable;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
+import me.zhanghai.android.materialplaypausedrawable.MaterialPlayPauseDrawable;
+import me.zhanghai.android.materialplaypausedrawable.MaterialPlayPauseView;
 
 public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapter.ViewHolder> {
 
@@ -47,10 +47,7 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewHolder holder = new ViewHolder(ViewUtils.inflate(R.layout.item_track_item, parent));
-        holder.playPauseImage.setImageDrawable(new PlayPauseDrawable(
-                holder.playPauseImage.getContext()));
-        return holder;
+        return new ViewHolder(ViewUtils.inflate(R.layout.item_track_item, parent));
     }
 
     @Override
@@ -65,10 +62,8 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
         }
         boolean isTrackPlaying = isTrackActive && service.isPlaying();
         if (isTrackActive) {
-            PlayPauseDrawable playPauseDrawable = (PlayPauseDrawable)
-                    holder.playPauseImage.getDrawable();
-            playPauseDrawable.setNextState(isTrackPlaying ? PlayPauseDrawable.State.Pause
-                    : PlayPauseDrawable.State.Play);
+            holder.playPauseImage.setState(isTrackPlaying ? MaterialPlayPauseDrawable.State.Pause
+                    : MaterialPlayPauseDrawable.State.Play);
         }
         ViewUtils.setVisibleOrGone(holder.playPauseImage, isTrackActive);
         holder.titleText.setText(track.title);
@@ -99,7 +94,7 @@ public class TrackListAdapter extends SimpleAdapter<Music.Track, TrackListAdapte
         @BindView(R.id.number)
         public TextView numberText;
         @BindView(R.id.play_pause)
-        public ImageView playPauseImage;
+        public MaterialPlayPauseView playPauseImage;
         @BindView(R.id.title)
         public TextView titleText;
         @BindView(R.id.duration)

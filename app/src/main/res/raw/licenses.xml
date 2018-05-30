@@ -127,6 +127,13 @@
     </notice>
 
     <notice>
+        <name>MaterialPlayPauseDrawable</name>
+        <url>https://github.com/DreaminginCodeZH/MaterialPlayPauseDrawable</url>
+        <copyright>Copyright 2018 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
         <name>MaterialProgressBar</name>
         <url>https://github.com/DreaminginCodeZH/MaterialProgressBar</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
