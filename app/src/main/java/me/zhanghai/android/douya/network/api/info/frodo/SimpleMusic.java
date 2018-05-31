@@ -35,7 +35,7 @@ public class SimpleMusic extends CollectableItem {
     }
 
     public List<String> getArtistNames() {
-        return Functional.map(artists, artist -> artist.name, new ArrayList<>());
+        return Functional.map(artists, artist -> artist.name);
     }
 
 

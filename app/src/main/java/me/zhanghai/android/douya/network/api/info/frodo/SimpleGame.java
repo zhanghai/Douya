@@ -25,7 +25,7 @@ public class SimpleGame extends CollectableItem {
     public String releaseDate;
 
     public List<String> getPlatformNames() {
-        return Functional.map(platforms, platform -> platform.name, new ArrayList<>());
+        return Functional.map(platforms, platform -> platform.name);
     }
 
     public String getYearMonth(Context context) {

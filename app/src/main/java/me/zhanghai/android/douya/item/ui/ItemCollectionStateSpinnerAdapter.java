@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.item.ui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,15 +32,13 @@ public class ItemCollectionStateSpinnerAdapter extends ArrayAdapterCompat<String
     private static List<ItemCollectionState> getStates(CollectableItem.Type type) {
         List<ItemCollectionState> states = Arrays.asList(ItemCollectionState.values());
         if (!type.hasDoingState()) {
-            states = Functional.filter(states, state -> state != ItemCollectionState.DOING,
-                    new ArrayList<>());
+            states = Functional.filter(states, state -> state != ItemCollectionState.DOING);
         }
         return states;
     }
 
     private static List<String> getStateNames(CollectableItem.Type type, Context context) {
-        return Functional.map(getStates(type), state -> state.getString(type, context),
-                new ArrayList<>());
+        return Functional.map(getStates(type), state -> state.getString(type, context));
     }
 
     public int getPositionForState(ItemCollectionState state) {

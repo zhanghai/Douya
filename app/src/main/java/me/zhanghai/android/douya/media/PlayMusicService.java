@@ -27,7 +27,6 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.MediaSource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.zhanghai.android.douya.R;
@@ -187,7 +186,7 @@ public class PlayMusicService extends Service
                     PendingIntent.FLAG_UPDATE_CURRENT);
             mMediaPlayback.setSessionActivity(sessionActivity);
             List<MediaMetadataCompat> mediaMetadatas = Functional.map(mMusic.tracks,
-                    (track, index) -> makeMediaMetadata(mMusic, track, index), new ArrayList<>());
+                    (track, index) -> makeMediaMetadata(mMusic, track, index));
             mMediaPlayback.setMediaMetadatas(mediaMetadatas);
             loadMediaMetadataDisplayIconAndAlbumArt(mMusic);
             mMediaPlayback.start();
@@ -347,7 +346,7 @@ public class PlayMusicService extends Service
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null);
             }
             return builder.build();
-        }, new ArrayList<>());
+        });
         mMediaPlayback.setMediaMetadatas(mediaMetadatas);
     }
 

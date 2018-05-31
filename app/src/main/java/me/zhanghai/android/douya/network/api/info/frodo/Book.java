@@ -61,7 +61,7 @@ public class Book extends SimpleBook {
     }
 
     public List<String> getPageCountStrings() {
-        return Functional.map(pageCounts, pageCount -> pageCount + "页", new ArrayList<>());
+        return Functional.map(pageCounts, pageCount -> pageCount + "页");
     }
 
 
