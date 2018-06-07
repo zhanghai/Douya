@@ -5,29 +5,62 @@
 
 package me.zhanghai.android.douya.util;
 
+import android.support.v4.util.ObjectsCompat;
+
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 
+import me.zhanghai.android.douya.functional.Functional;
+
 public class CollectionUtils {
 
     private CollectionUtils() {}
 
-    public static <E> E firstOrNull(List<E> list) {
-        return !list.isEmpty() ? list.get(0) : null;
+    public static <E> E first(List<? extends E> list) {
+        return list.get(0);
     }
 
-    public static <E> E lastOrNull(List<E> list) {
-        return !list.isEmpty() ? list.get(list.size() - 1) : null;
+    public static <E> E last(List<? extends E> list) {
+        return list.get(list.size() - 1);
     }
 
-    public static <E> E getOrNull(List<E> list, int index) {
-        return index < list.size() ? list.get(index) : null;
+    public static <E> E firstOrNull(List<? extends E> list) {
+        return getOrNull(list, 0);
+    }
+
+    public static <E> E lastOrNull(List<? extends E> list) {
+        return getOrNull(list, list.size() - 1);
+    }
+
+    public static <E> E getOrNull(List<? extends E> list, int index) {
+        return index >= 0 && index < list.size() ? list.get(index) : null;
+    }
+
+    public static <E> E peek(List<? extends E> list) {
+        return lastOrNull(list);
+    }
+
+    public static <E> void push(List<? super E> list, E item) {
+        list.add(item);
+    }
+
+    public static <E> E pop(List<? extends E> list) {
+        return list.remove(list.size() - 1);
+    }
+
+    public static <E> E popOrNull(List<? extends E> list) {
+        return !list.isEmpty() ? pop(list) : null;
     }
 
     public static boolean isEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
+    }
+
+    public static boolean isPrefix(List<?> prefix, List<?> list) {
+        return prefix.size() <= list.size() && Functional.every(prefix,
+                (element, index) -> ObjectsCompat.equals(element, list.get(index)));
     }
 
     public static int size(Collection<?> collection) {

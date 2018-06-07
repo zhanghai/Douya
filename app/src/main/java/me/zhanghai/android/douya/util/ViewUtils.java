@@ -583,6 +583,36 @@ public class ViewUtils {
         view.setLayoutParams(layoutParams);
     }
 
+    public static void setPaddingStart(View view, int paddingStart) {
+        ViewCompat.setPaddingRelative(view, paddingStart, view.getPaddingTop(),
+                ViewCompat.getPaddingEnd(view), view.getPaddingBottom());
+    }
+
+    public static void setPaddingEnd(View view, int paddingEnd) {
+        ViewCompat.setPaddingRelative(view, ViewCompat.getPaddingStart(view), view.getPaddingTop(),
+                paddingEnd, view.getPaddingBottom());
+    }
+
+    public static void setPaddingLeft(View view, int paddingLeft) {
+        view.setPadding(paddingLeft, view.getPaddingTop(), view.getPaddingRight(),
+                view.getPaddingBottom());
+    }
+
+    public static void setPaddingRight(View view, int paddingRight) {
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), paddingRight,
+                view.getPaddingBottom());
+    }
+
+    public static void setPaddingTop(View view, int paddingTop) {
+        view.setPadding(view.getPaddingLeft(), paddingTop, view.getPaddingRight(),
+                view.getPaddingBottom());
+    }
+
+    public static void setPaddingBottom(View view, int paddingBottom) {
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(),
+                paddingBottom);
+    }
+
     public static void setLayoutFullscreen(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             view.setSystemUiVisibility(
