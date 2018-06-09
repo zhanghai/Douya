@@ -132,8 +132,7 @@ public class PlayMusicService extends Service
         SharedPrefsUtils.getSharedPrefs().registerOnSharedPreferenceChangeListener(this);
     }
 
-    private MediaSource createMediaSourceFromMediaDescription(
-            MediaMetadataCompat mediaMetadata) {
+    private MediaSource createMediaSourceFromMediaDescription(MediaMetadataCompat mediaMetadata) {
         Uri uri = Uri.parse(mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI));
         return mMediaSourceFactory.create(uri);
     }

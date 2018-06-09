@@ -160,6 +160,7 @@ public interface SettingsEntries {
         }
     }
 
+    // Extending StringSettingsEntry so that we can support ListPreference.
     class EnumSettingsEntry<E extends Enum<E>> extends StringSettingsEntry {
 
         private E[] mEnumValues;
