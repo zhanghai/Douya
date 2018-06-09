@@ -25,50 +25,50 @@ public class FileNameUtils {
 
     private FileNameUtils() {}
 
-    public static String getBaseName(String file) {
-        return removeExtension(getFileName(file));
+    public static String getBaseName(String path) {
+        return removeExtension(getFileName(path));
     }
 
-    public static String getExtension(String file) {
-        int index = indexOfExtensionSeparator(file);
-        return index != -1 ? file.substring(index + 1) : "";
+    public static String getExtension(String path) {
+        int index = indexOfExtensionSeparator(path);
+        return index != -1 ? path.substring(index + 1) : "";
     }
 
-    public static String getFileName(String file) {
-        int index = indexOfLastSeparator(file);
-        return file.substring(index + 1);
+    public static String getFileName(String path) {
+        int index = indexOfLastSeparator(path);
+        return path.substring(index + 1);
     }
 
-    public static String getPath(String file) {
-        int index = indexOfLastSeparator(file);
-        return index != -1 ? file.substring(0, index) : ".";
+    public static String getDirectory(String path) {
+        int index = indexOfLastSeparator(path);
+        return index != -1 ? path.substring(0, index) : ".";
     }
 
-    public static String getPathWithEndSeparator(String file) {
+    public static String getDirectoryWithEndSeparator(String path) {
         // We assume the only separator is '/'.
-        return getPath(file) + SEPARATOR;
+        return getDirectory(path) + SEPARATOR;
     }
 
-    public static int indexOfExtensionSeparator(String file) {
-        int lastSeparatorIndex = indexOfLastSeparator(file);
-        int lastExtensionSeparatorIndex = file.lastIndexOf(EXTENSION_SEPARATOR);
+    public static int indexOfExtensionSeparator(String path) {
+        int lastSeparatorIndex = indexOfLastSeparator(path);
+        int lastExtensionSeparatorIndex = path.lastIndexOf(EXTENSION_SEPARATOR);
         return lastSeparatorIndex > lastExtensionSeparatorIndex ? -1 : lastExtensionSeparatorIndex;
     }
 
-    public static int indexOfLastSeparator(String file) {
-        return file.lastIndexOf(SEPARATOR);
+    public static int indexOfLastSeparator(String path) {
+        return path.lastIndexOf(SEPARATOR);
     }
 
-    public static String removeExtension(String file) {
-        int index = indexOfExtensionSeparator(file);
-        return index != -1 ? file.substring(0, index) : file;
+    public static String removeExtension(String path) {
+        int index = indexOfExtensionSeparator(path);
+        return index != -1 ? path.substring(0, index) : path;
     }
 
-    public static String replaceExtension(String file, String extension) {
-        file = removeExtension(file);
+    public static String replaceExtension(String path, String extension) {
+        path = removeExtension(path);
         if (!TextUtils.isEmpty(extension)) {
-            file += EXTENSION_SEPARATOR + extension;
+            path += EXTENSION_SEPARATOR + extension;
         }
-        return file;
+        return path;
     }
 }
