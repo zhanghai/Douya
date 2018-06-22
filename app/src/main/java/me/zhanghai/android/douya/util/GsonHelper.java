@@ -28,8 +28,14 @@ public class GsonHelper {
     static {
         GsonBuilder builder = new GsonBuilder()
                 .serializeNulls()
+                .registerTypeAdapter(int.class, new IntegerDeserializer())
+                .registerTypeAdapter(Integer.class, new IntegerDeserializer())
                 .registerTypeAdapter(long.class, new LongDeserializer())
                 .registerTypeAdapter(Long.class, new LongDeserializer())
+                .registerTypeAdapter(float.class, new FloatDeserializer())
+                .registerTypeAdapter(Float.class, new FloatDeserializer())
+                .registerTypeAdapter(double.class, new DoubleDeserializer())
+                .registerTypeAdapter(Double.class, new DoubleDeserializer())
                 .registerTypeAdapter(BaseTimelineItem.class, new BaseTimelineItem.Deserializer())
                 .registerTypeAdapter(CollectableItem.class, new CollectableItem.Deserializer())
                 .registerTypeAdapter(CompleteCollectableItem.class,
@@ -43,11 +49,10 @@ public class GsonHelper {
 
     private GsonHelper() {}
 
-    // Allows empty string to be Long as null, such as the case of Broadcast.parentBroadcastId.
-    private static class LongDeserializer implements JsonDeserializer<Long> {
+    private static class IntegerDeserializer implements JsonDeserializer<Integer> {
 
         @Override
-        public Long deserialize(JsonElement json, Type typeOfT,
+        public Integer deserialize(JsonElement json, Type typeOfT,
                                    JsonDeserializationContext context) throws JsonParseException {
             if (json.isJsonNull()) {
                 return null;
@@ -57,7 +62,58 @@ public class GsonHelper {
                     return null;
                 }
             }
+            return json.getAsInt();
+        }
+    }
+
+    private static class LongDeserializer implements JsonDeserializer<Long> {
+
+        @Override
+        public Long deserialize(JsonElement json, Type typeOfT,
+                                JsonDeserializationContext context) throws JsonParseException {
+            if (json.isJsonNull()) {
+                return null;
+            } else if (json.isJsonPrimitive()) {
+                JsonPrimitive jsonPrimitive = (JsonPrimitive) json;
+                if (jsonPrimitive.isString() && jsonPrimitive.getAsString().isEmpty()) {
+                    return null;
+                }
+            }
             return json.getAsLong();
+        }
+    }
+
+    private static class FloatDeserializer implements JsonDeserializer<Float> {
+
+        @Override
+        public Float deserialize(JsonElement json, Type typeOfT,
+                                JsonDeserializationContext context) throws JsonParseException {
+            if (json.isJsonNull()) {
+                return null;
+            } else if (json.isJsonPrimitive()) {
+                JsonPrimitive jsonPrimitive = (JsonPrimitive) json;
+                if (jsonPrimitive.isString() && jsonPrimitive.getAsString().isEmpty()) {
+                    return null;
+                }
+            }
+            return json.getAsFloat();
+        }
+    }
+
+    private static class DoubleDeserializer implements JsonDeserializer<Double> {
+
+        @Override
+        public Double deserialize(JsonElement json, Type typeOfT,
+                                 JsonDeserializationContext context) throws JsonParseException {
+            if (json.isJsonNull()) {
+                return null;
+            } else if (json.isJsonPrimitive()) {
+                JsonPrimitive jsonPrimitive = (JsonPrimitive) json;
+                if (jsonPrimitive.isString() && jsonPrimitive.getAsString().isEmpty()) {
+                    return null;
+                }
+            }
+            return json.getAsDouble();
         }
     }
 }
