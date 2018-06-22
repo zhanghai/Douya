@@ -28,6 +28,7 @@ public class GsonHelper {
     static {
         GsonBuilder builder = new GsonBuilder()
                 .serializeNulls()
+                .registerTypeAdapter(long.class, new LongDeserializer())
                 .registerTypeAdapter(Long.class, new LongDeserializer())
                 .registerTypeAdapter(BaseTimelineItem.class, new BaseTimelineItem.Deserializer())
                 .registerTypeAdapter(CollectableItem.class, new CollectableItem.Deserializer())
