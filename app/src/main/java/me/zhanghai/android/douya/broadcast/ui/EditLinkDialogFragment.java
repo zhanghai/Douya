@@ -30,7 +30,7 @@ import me.zhanghai.android.douya.util.ViewUtils;
 
 public class EditLinkDialogFragment extends AppCompatDialogFragment {
 
-    private static final String KEY_PREFIX = SendBroadcastFragment.class.getName() + '.';
+    private static final String KEY_PREFIX = EditLinkDialogFragment.class.getName() + '.';
 
     private static final String EXTRA_LINK_INFO = KEY_PREFIX + "link_info";
 
