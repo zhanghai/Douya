@@ -416,6 +416,10 @@ public class BroadcastLayout extends LinearLayout {
         ViewUtils.setVisibleOrGone(mActionsLayout, false);
     }
 
+    public void setTextSelectable() {
+        ViewUtils.setTextViewWithClickableLinkSelectable(mTextText);
+    }
+
     public interface Listener {
         void onLikeClicked();
         void onRebroadcastClicked(boolean isLongClick);

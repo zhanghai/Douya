@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.broadcast.ui;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,15 +67,17 @@ public class SingleBroadcastAdapter
         return 0;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(ViewUtils.inflate(R.layout.single_broadcast_item, parent));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Broadcast effectiveBroadcast = mBroadcast.getEffectiveBroadcast();
         holder.broadcastLayout.bind(mBroadcast);
+        holder.broadcastLayout.setTextSelectable();
         holder.broadcastLayout.setListener(new BroadcastLayout.Listener() {
             @Override
             public void onLikeClicked() {
@@ -95,7 +98,7 @@ public class SingleBroadcastAdapter
     }
 
     @Override
-    public void onViewRecycled(ViewHolder holder) {
+    public void onViewRecycled(@NonNull ViewHolder holder) {
         holder.broadcastLayout.unbind();
     }
 

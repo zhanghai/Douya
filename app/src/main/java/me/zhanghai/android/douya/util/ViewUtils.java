@@ -40,6 +40,7 @@ import android.widget.TextView;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.functional.compat.BooleanSupplier;
 import me.zhanghai.android.douya.ui.ClickableMovementMethod;
+import me.zhanghai.android.douya.ui.SelectableLinkMovementMethod;
 
 public class ViewUtils {
 
@@ -678,6 +679,11 @@ public class ViewUtils {
         // to consume touch events.
         textView.setClickable(wasClickable);
         textView.setLongClickable(wasLongClickable);
+    }
+
+    public static void setTextViewWithClickableLinkSelectable(TextView textView) {
+        textView.setTextIsSelectable(true);
+        textView.setMovementMethod(SelectableLinkMovementMethod.getInstance());
     }
 
     public static void setVisibleOrGone(View view, boolean visible) {
