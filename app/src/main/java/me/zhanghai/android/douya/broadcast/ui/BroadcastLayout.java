@@ -417,7 +417,7 @@ public class BroadcastLayout extends LinearLayout {
     }
 
     public void setTextSelectable() {
-        ViewUtils.setTextViewWithClickableLinkSelectable(mTextText);
+        ViewUtils.setTextViewLinkClickableAndTextSelectable(mTextText);
     }
 
     public interface Listener {

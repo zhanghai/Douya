@@ -40,7 +40,7 @@ import android.widget.TextView;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.functional.compat.BooleanSupplier;
 import me.zhanghai.android.douya.ui.ClickableMovementMethod;
-import me.zhanghai.android.douya.ui.SelectableLinkMovementMethod;
+import me.zhanghai.android.douya.ui.LinkArrowKeyMovementMethod;
 
 public class ViewUtils {
 
@@ -681,9 +681,9 @@ public class ViewUtils {
         textView.setLongClickable(wasLongClickable);
     }
 
-    public static void setTextViewWithClickableLinkSelectable(TextView textView) {
+    public static void setTextViewLinkClickableAndTextSelectable(TextView textView) {
         textView.setTextIsSelectable(true);
-        textView.setMovementMethod(SelectableLinkMovementMethod.getInstance());
+        textView.setMovementMethod(LinkArrowKeyMovementMethod.getInstance());
     }
 
     public static void setVisibleOrGone(View view, boolean visible) {
