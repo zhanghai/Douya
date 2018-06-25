@@ -11,6 +11,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import me.zhanghai.android.douya.util.CollectionUtils;
 
 /**
  * {@code StatusFeedList} in Frodo.
@@ -19,14 +22,22 @@ public class TimelineList implements Parcelable {
 
     public int count;
 
+    @SerializedName("hot_items")
+    public ArrayList<BaseTimelineItem> hotItems = new ArrayList<>();
+
     public ArrayList<BaseTimelineItem> items = new ArrayList<>();
+
+    @SerializedName("top_items")
+    public ArrayList<BaseTimelineItem> topItems = new ArrayList<>();
 
     @SerializedName("new_status_count_str")
     public String newBroadcastCountString;
 
     public ArrayList<Broadcast> toBroadcastList() {
         ArrayList<Broadcast> broadcastList = new ArrayList<>();
-        for (BaseTimelineItem item : items) {
+        List<BaseTimelineItem> allItems = CollectionUtils.union(topItems, CollectionUtils.union(
+                hotItems, items));
+        for (BaseTimelineItem item : allItems) {
             if (item instanceof BroadcastTimelineItem) {
                 broadcastList.add(((BroadcastTimelineItem) item).broadcast);
             }
