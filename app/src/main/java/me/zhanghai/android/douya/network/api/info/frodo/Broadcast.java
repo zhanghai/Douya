@@ -303,6 +303,8 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
             action = "说";
         } else {
             action = action
+                    .replaceFirst("^转发", "转播")
+                    .replaceFirst("^转播日记$", "推荐日记")
                     .replaceFirst("^分享", "推荐")
                     .replaceFirst("^推荐链接$", "推荐网页")
                     .replaceFirst("^(想.|在.|.过)这.+", "$1")
