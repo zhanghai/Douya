@@ -44,7 +44,7 @@ public interface ApiContract {
             String BASE_URL = "https://frodo.douban.com/api/v2/";
 
             // API protocol version is derived from user agent string.
-            String USER_AGENT = "api-client/1 com.douban.frodo/5.23.0(130) Android/" +
+            String USER_AGENT = "api-client/1 com.douban.frodo/6.0.1(138) Android/" +
                     Build.VERSION.SDK_INT+ " product/" + Build.PRODUCT + " vendor/" +
                     // Sorry Frodo, but we don't want to hold ACCESS_NETWORK_STATE.
                     Build.MANUFACTURER + " model/" + Build.MODEL + "  rom/android  network/wifi";
