@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import me.zhanghai.android.douya.ui.SizedImageItem;
 
 /**
- * {@code BroadcastCard} in Frodo.
+ * {@code StatusCard} in Frodo.
  */
 public class BroadcastAttachment implements Parcelable {
 

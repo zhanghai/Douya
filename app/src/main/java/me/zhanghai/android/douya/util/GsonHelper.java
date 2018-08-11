@@ -15,7 +15,7 @@ import com.google.gson.JsonPrimitive;
 
 import java.lang.reflect.Type;
 
-import me.zhanghai.android.douya.network.api.info.frodo.BaseTimelineItem;
+import me.zhanghai.android.douya.network.api.info.frodo.TimelineItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.CompleteCollectableItem;
@@ -36,7 +36,6 @@ public class GsonHelper {
                 .registerTypeAdapter(Float.class, new FloatDeserializer())
                 .registerTypeAdapter(double.class, new DoubleDeserializer())
                 .registerTypeAdapter(Double.class, new DoubleDeserializer())
-                .registerTypeAdapter(BaseTimelineItem.class, new BaseTimelineItem.Deserializer())
                 .registerTypeAdapter(CollectableItem.class, new CollectableItem.Deserializer())
                 .registerTypeAdapter(CompleteCollectableItem.class,
                         new CompleteCollectableItem.Deserializer());

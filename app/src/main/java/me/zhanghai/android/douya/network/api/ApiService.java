@@ -249,9 +249,9 @@ public class ApiService {
                                                     boolean guestOnly) {
         String url;
         if (TextUtils.isEmpty(userIdOrUid) && TextUtils.isEmpty(topic)) {
-            url = "status/home_timeline";
+            url = "elendil/home_timeline";
         } else if (TextUtils.isEmpty(topic)) {
-            url = StringUtils.formatUs("status/user_timeline/%s", userIdOrUid);
+            url = StringUtils.formatUs("elendil/user/%s/timeline", userIdOrUid);
         } else {
             url = "status/topic/timeline";
         }

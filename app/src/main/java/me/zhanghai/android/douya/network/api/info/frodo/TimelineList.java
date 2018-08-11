@@ -16,30 +16,32 @@ import java.util.List;
 import me.zhanghai.android.douya.util.CollectionUtils;
 
 /**
- * {@code StatusFeedList} in Frodo.
+ * {@code Timeline} in Frodo.
  */
 public class TimelineList implements Parcelable {
 
     public int count;
 
     @SerializedName("hot_items")
-    public ArrayList<BaseTimelineItem> hotItems = new ArrayList<>();
+    public ArrayList<TimelineItem> hotItems = new ArrayList<>();
 
-    public ArrayList<BaseTimelineItem> items = new ArrayList<>();
+    public ArrayList<TimelineItem> items = new ArrayList<>();
+
+    @SerializedName("new_item_count")
+    public int newItemCount;
+
+    public String toast;
 
     @SerializedName("top_items")
-    public ArrayList<BaseTimelineItem> topItems = new ArrayList<>();
-
-    @SerializedName("new_status_count_str")
-    public String newBroadcastCountString;
+    public ArrayList<TimelineItem> topItems = new ArrayList<>();
 
     public ArrayList<Broadcast> toBroadcastList() {
         ArrayList<Broadcast> broadcastList = new ArrayList<>();
-        List<BaseTimelineItem> allItems = CollectionUtils.union(topItems, CollectionUtils.union(
+        List<TimelineItem> allItems = CollectionUtils.union(topItems, CollectionUtils.union(
                 hotItems, items));
-        for (BaseTimelineItem item : allItems) {
-            if (item instanceof BroadcastTimelineItem) {
-                broadcastList.add(((BroadcastTimelineItem) item).broadcast);
+        for (TimelineItem item : allItems) {
+            if (item.content != null && item.content.broadcast != null) {
+                broadcastList.add(item.content.broadcast);
             }
         }
         return broadcastList;
@@ -62,9 +64,11 @@ public class TimelineList implements Parcelable {
 
     protected TimelineList(Parcel in) {
         count = in.readInt();
-        items = new ArrayList<>();
-        in.readList(items, BaseTimelineItem.class.getClassLoader());
-        newBroadcastCountString = in.readString();
+        in.readList(hotItems, TimelineItem.class.getClassLoader());
+        in.readList(items, TimelineItem.class.getClassLoader());
+        newItemCount = in.readInt();
+        toast = in.readString();
+        in.readList(topItems, TimelineItem.class.getClassLoader());
     }
 
     @Override
@@ -75,7 +79,10 @@ public class TimelineList implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(count);
+        dest.writeList(hotItems);
         dest.writeList(items);
-        dest.writeString(newBroadcastCountString);
+        dest.writeInt(newItemCount);
+        dest.writeString(toast);
+        dest.writeList(topItems);
     }
 }
