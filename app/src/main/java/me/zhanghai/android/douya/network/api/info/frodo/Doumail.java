@@ -26,7 +26,7 @@ public class Doumail implements Parcelable {
     public String conversationType;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     public int id;
 
@@ -64,7 +64,7 @@ public class Doumail implements Parcelable {
         card = in.readParcelable(DoumailCard.class.getClassLoader());
         conversationId = in.readLong();
         conversationType = in.readString();
-        createdAt = in.readString();
+        createTime = in.readString();
         id = in.readInt();
         isSuspicious = in.readByte() != 0;
         nonce = in.readLong();
@@ -85,7 +85,7 @@ public class Doumail implements Parcelable {
         dest.writeParcelable(card, flags);
         dest.writeLong(conversationId);
         dest.writeString(conversationType);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeInt(id);
         dest.writeByte(isSuspicious ? (byte) 1 : (byte) 0);
         dest.writeLong(nonce);

@@ -281,8 +281,8 @@
     <string name="user_unfollow_successful">已取消关注</string>
     <string name="user_unfollow_failed_format">取消关注失败，%1$s</string>
 
-    <string name="profile_joined_at_format">%1$s 加入</string>
-    <string name="profile_joined_at_and_location_format">%1$s 加入，常居 %2$s</string>
+    <string name="profile_join_time_format">%1$s 加入</string>
+    <string name="profile_join_time_location_format">%1$s 加入，常居 %2$s</string>
     <string name="profile_edit">编辑个人资料</string>
     <string name="profile_follow">关注此人</string>
     <string name="profile_following">已关注</string>

@@ -19,7 +19,7 @@ public class SimpleItemForumTopic extends BaseItem {
     public int commentCount;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     public ItemEpisode episode;
 
@@ -41,7 +41,7 @@ public class SimpleItemForumTopic extends BaseItem {
     public ArrayList<Tag> tags = new ArrayList<>();
 
     @SerializedName("update_time")
-    public String updatedAt;
+    public String updateTime;
 
 
     public static final Creator<SimpleItemForumTopic> CREATOR =
@@ -67,7 +67,7 @@ public class SimpleItemForumTopic extends BaseItem {
 
         dest.writeParcelable(author, flags);
         dest.writeInt(commentCount);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeParcelable(episode, flags);
         dest.writeByte(isElite ? (byte) 1 : (byte) 0);
         dest.writeByte(isMute ? (byte) 1 : (byte) 0);
@@ -75,7 +75,7 @@ public class SimpleItemForumTopic extends BaseItem {
         dest.writeInt(likeCount);
         dest.writeInt(publisherType);
         dest.writeTypedList(tags);
-        dest.writeString(updatedAt);
+        dest.writeString(updateTime);
     }
 
     public SimpleItemForumTopic() {}
@@ -85,7 +85,7 @@ public class SimpleItemForumTopic extends BaseItem {
 
         author = in.readParcelable(User.class.getClassLoader());
         commentCount = in.readInt();
-        createdAt = in.readString();
+        createTime = in.readString();
         episode = in.readParcelable(ItemEpisode.class.getClassLoader());
         isElite = in.readByte() != 0;
         isMute = in.readByte() != 0;
@@ -93,7 +93,7 @@ public class SimpleItemForumTopic extends BaseItem {
         likeCount = in.readInt();
         publisherType = in.readInt();
         tags = in.createTypedArrayList(Tag.CREATOR);
-        updatedAt = in.readString();
+        updateTime = in.readString();
     }
 
 

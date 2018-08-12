@@ -67,8 +67,8 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-        <me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView
-            android:id="@+id/joined_at_location"
+        <me.zhanghai.android.douya.ui.JoinTimeLocationAutoGoneTextView
+            android:id="@+id/join_time_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="24dp"

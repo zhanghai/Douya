@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.network.api.info.apiv2;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -20,7 +19,7 @@ public class Comment implements Parcelable {
     public String content;
 
     @SerializedName("created")
-    public String createdAt;
+    public String createTime;
 
     public ArrayList<TextEntity> entities = new ArrayList<>();
 
@@ -59,7 +58,7 @@ public class Comment implements Parcelable {
     protected Comment(Parcel in) {
         author = in.readParcelable(SimpleUser.class.getClassLoader());
         content = in.readString();
-        createdAt = in.readString();
+        createTime = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         id = in.readLong();
         source = in.readString();
@@ -74,7 +73,7 @@ public class Comment implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(author, 0);
         dest.writeString(content);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeTypedList(entities);
         dest.writeLong(id);
         dest.writeString(source);

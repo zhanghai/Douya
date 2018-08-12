@@ -88,7 +88,7 @@ public class Diary implements Parcelable {
     public String type;
 
     @SerializedName("update_time")
-    public String updatedAt;
+    public String updateTime;
 
     public String uri;
 
@@ -131,7 +131,7 @@ public class Diary implements Parcelable {
         shareUrl = in.readString();
         title = in.readString();
         type = in.readString();
-        updatedAt = in.readString();
+        updateTime = in.readString();
         uri = in.readString();
         url = in.readString();
     }
@@ -160,7 +160,7 @@ public class Diary implements Parcelable {
         dest.writeString(shareUrl);
         dest.writeString(title);
         dest.writeString(type);
-        dest.writeString(updatedAt);
+        dest.writeString(updateTime);
         dest.writeString(uri);
         dest.writeString(url);
     }

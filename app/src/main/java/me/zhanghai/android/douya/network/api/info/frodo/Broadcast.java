@@ -56,7 +56,7 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
     public int commentCount;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     @SerializedName("deleted")
     public boolean isDeleted;
@@ -367,7 +367,7 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
         author = in.readParcelable(SimpleUser.class.getClassLoader());
         attachment = in.readParcelable(BroadcastAttachment.class.getClassLoader());
         commentCount = in.readInt();
-        createdAt = in.readString();
+        createTime = in.readString();
         isDeleted = in.readByte() != 0;
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         isRebroadcastAndCommentForbidden = in.readByte() != 0;
@@ -401,7 +401,7 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
         dest.writeParcelable(author, flags);
         dest.writeParcelable(attachment, flags);
         dest.writeInt(commentCount);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeByte(isDeleted ? (byte) 1 : (byte) 0);
         dest.writeTypedList(entities);
         dest.writeByte(isRebroadcastAndCommentForbidden ? (byte) 1 : (byte) 0);

@@ -17,7 +17,7 @@ public class SimpleItemCollection implements Parcelable {
     public String comment;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     public long id;
 
@@ -70,7 +70,7 @@ public class SimpleItemCollection implements Parcelable {
 
     protected SimpleItemCollection(Parcel in) {
         comment = in.readString();
-        createdAt = in.readString();
+        createTime = in.readString();
         id = in.readLong();
         isVoted = in.readByte() != 0;
         platforms = in.createTypedArrayList(GamePlatform.CREATOR);
@@ -93,7 +93,7 @@ public class SimpleItemCollection implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(comment);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeLong(id);
         dest.writeByte(isVoted ? (byte) 1 : (byte) 0);
         dest.writeTypedList(platforms);

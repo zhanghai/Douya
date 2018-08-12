@@ -71,7 +71,7 @@ public class ItemCollectionListAdapter
             holder.ratingBar.setRating(itemCollection.rating.getRatingBarRating());
         }
         holder.dateText.setText(TimeUtils.formatDate(TimeUtils.parseDoubanDateTime(
-                itemCollection.createdAt), holder.dateText.getContext()));
+                itemCollection.createTime), holder.dateText.getContext()));
         String voteCount = itemCollection.voteCount > 0 ?
                 holder.voteCountText.getContext().getString(
                         R.string.item_collection_vote_count_format, itemCollection.voteCount)

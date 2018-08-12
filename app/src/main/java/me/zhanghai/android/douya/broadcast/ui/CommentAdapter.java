@@ -55,7 +55,7 @@ public class CommentAdapter extends ClickableSimpleAdapter<Comment, CommentAdapt
         holder.avatarImage.setOnClickListener(view -> context.startActivity(
                 ProfileActivity.makeIntent(comment.author, context)));
         holder.nameText.setText(comment.author.name);
-        holder.timeText.setDoubanTime(comment.createdAt);
+        holder.timeText.setDoubanTime(comment.createTime);
         holder.textText.setText(comment.getTextWithEntities());
     }
 

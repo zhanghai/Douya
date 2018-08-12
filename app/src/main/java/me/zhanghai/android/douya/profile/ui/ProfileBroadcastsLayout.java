@@ -120,7 +120,7 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                     text = broadcast.attachment.title;
                 }
                 holder.textText.setText(text);
-                holder.timeText.setDoubanTime(broadcast.createdAt);
+                holder.timeText.setDoubanTime(broadcast.createTime);
                 holder.actionText.setText(broadcast.action);
                 broadcastLayout.setOnClickListener(view -> context.startActivity(
                         BroadcastActivity.makeIntent(broadcast, context)));

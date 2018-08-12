@@ -23,7 +23,7 @@ public class Comment implements ClipboardCopyable, Parcelable {
     public SimpleUser author;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     public ArrayList<TextEntity> entities;
 
@@ -80,7 +80,7 @@ public class Comment implements ClipboardCopyable, Parcelable {
 
     protected Comment(Parcel in) {
         author = in.readParcelable(SimpleUser.class.getClassLoader());
-        createdAt = in.readString();
+        createTime = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         hasReference = in.readByte() != 0;
         id = in.readLong();
@@ -100,7 +100,7 @@ public class Comment implements ClipboardCopyable, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(author, flags);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeTypedList(entities);
         dest.writeByte(hasReference ? (byte) 1 : (byte) 0);
         dest.writeLong(id);

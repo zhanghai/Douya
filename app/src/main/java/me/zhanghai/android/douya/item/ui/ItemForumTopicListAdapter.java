@@ -48,7 +48,7 @@ public class ItemForumTopicListAdapter
                 R.string.item_forum_topic_like_count_format, itemForumTopic.likeCount));
         holder.commentCountText.setText(holder.commentCountText.getContext().getString(
                 R.string.item_forum_topic_comment_count_format, itemForumTopic.commentCount));
-        holder.updatedAtText.setDoubanTime(itemForumTopic.updatedAt);
+        holder.updateTimeText.setDoubanTime(itemForumTopic.updateTime);
         holder.itemView.setOnClickListener(view -> {
             // TODO
             UriHandler.open(itemForumTopic.url, view.getContext());
@@ -67,8 +67,8 @@ public class ItemForumTopicListAdapter
         public TextView likeCountText;
         @BindView(R.id.comment_count)
         public TextView commentCountText;
-        @BindView(R.id.updated_at)
-        public TimeTextView updatedAtText;
+        @BindView(R.id.update_time)
+        public TimeTextView updateTimeText;
 
         public ViewHolder(View itemView) {
             super(itemView);

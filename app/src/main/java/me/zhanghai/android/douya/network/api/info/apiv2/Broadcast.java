@@ -33,7 +33,7 @@ public class Broadcast implements Parcelable {
     public int commentCount;
 
     @SerializedName("created_at")
-    public String createdAt;
+    public String createTime;
 
     public ArrayList<TextEntity> entities = new ArrayList<>();
 
@@ -173,7 +173,7 @@ public class Broadcast implements Parcelable {
         broadcast.author = author.toFrodo();
         broadcast.attachment = attachment.toFrodo(photos);
         broadcast.commentCount = commentCount;
-        broadcast.createdAt = createdAt;
+        broadcast.createTime = createTime;
         broadcast.entities = TextEntity.toFrodo(entities);
         broadcast.isRebroadcastAndCommentForbidden = canComment();
         broadcast.id = id;
@@ -208,7 +208,7 @@ public class Broadcast implements Parcelable {
         author = in.readParcelable(SimpleUser.class.getClassLoader());
         canCommentInt = in.readInt();
         commentCount = in.readInt();
-        createdAt = in.readString();
+        createTime = in.readString();
         entities = in.createTypedArrayList(TextEntity.CREATOR);
         id = in.readLong();
         interestType = in.readString();
@@ -239,7 +239,7 @@ public class Broadcast implements Parcelable {
         dest.writeParcelable(author, 0);
         dest.writeInt(canCommentInt);
         dest.writeInt(commentCount);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeTypedList(entities);
         dest.writeLong(id);
         dest.writeString(interestType);

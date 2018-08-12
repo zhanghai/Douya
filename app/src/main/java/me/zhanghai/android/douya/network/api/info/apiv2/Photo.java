@@ -36,7 +36,7 @@ public class Photo implements SizedImageItem, Parcelable {
     public String cover;
 
     @SerializedName("created")
-    public String createdAt;
+    public String createTime;
 
     @SerializedName("desc")
     public String description;
@@ -206,7 +206,7 @@ public class Photo implements SizedImageItem, Parcelable {
         comments = in.createTypedArrayList(Comment.CREATOR);
         commentCount = in.readInt();
         cover = in.readString();
-        createdAt = in.readString();
+        createTime = in.readString();
         description = in.readString();
         icon = in.readString();
         id = in.readString();
@@ -238,7 +238,7 @@ public class Photo implements SizedImageItem, Parcelable {
         dest.writeTypedList(comments);
         dest.writeInt(commentCount);
         dest.writeString(cover);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeString(description);
         dest.writeString(icon);
         dest.writeString(id);

@@ -21,7 +21,7 @@ public class User extends SimpleUser {
     public boolean isBlocking;
 
     @SerializedName("created")
-    public String createdAt;
+    public String createTime;
 
     @SerializedName("desc")
     public String introduction;
@@ -89,7 +89,7 @@ public class User extends SimpleUser {
         albumCount = in.readInt();
         isBlocked = in.readByte() != 0;
         isBlocking = in.readByte() != 0;
-        createdAt = in.readString();
+        createTime = in.readString();
         introduction = in.readString();
         followerCount = in.readInt();
         isFollowed = in.readByte() != 0;
@@ -117,7 +117,7 @@ public class User extends SimpleUser {
         dest.writeInt(albumCount);
         dest.writeByte(isBlocked ? (byte) 1 : (byte) 0);
         dest.writeByte(isBlocking ? (byte) 1 : (byte) 0);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeString(introduction);
         dest.writeInt(followerCount);
         dest.writeByte(isFollowed ? (byte) 1 : (byte) 0);

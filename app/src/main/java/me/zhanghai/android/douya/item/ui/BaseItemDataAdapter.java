@@ -237,7 +237,7 @@ public abstract class BaseItemDataAdapter<T extends CollectableItem>
                         itemCollection.rating.getRatingBarRating());
             }
             itemCollectionHolder.dateText.setText(TimeUtils.formatDate(
-                    TimeUtils.parseDoubanDateTime(itemCollection.createdAt),
+                    TimeUtils.parseDoubanDateTime(itemCollection.createTime),
                     itemCollectionHolder.dateText.getContext()));
             itemCollectionHolder.commentText.setText(itemCollection.comment);
             itemCollectionHolder.itemCollectionLayout.setOnClickListener(view -> {

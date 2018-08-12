@@ -10,9 +10,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SimpleReview extends BaseItem {
 
     public enum VoteState {
@@ -39,7 +36,7 @@ public class SimpleReview extends BaseItem {
     public int commentCount;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     @SerializedName("likers_count")
     public int likerCount;
@@ -98,7 +95,7 @@ public class SimpleReview extends BaseItem {
     protected SimpleReview(Parcel in) {
         super(in);
         commentCount = in.readInt();
-        createdAt = in.readString();
+        createTime = in.readString();
         likerCount = in.readInt();
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
         rType = in.readString();
@@ -121,7 +118,7 @@ public class SimpleReview extends BaseItem {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(commentCount);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeInt(likerCount);
         dest.writeParcelable(rating, flags);
         dest.writeString(rType);

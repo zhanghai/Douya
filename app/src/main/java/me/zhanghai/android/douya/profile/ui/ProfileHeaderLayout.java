@@ -32,7 +32,7 @@ import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.profile.util.ProfileUtils;
 import me.zhanghai.android.douya.ui.FlexibleSpaceHeaderView;
-import me.zhanghai.android.douya.ui.JoinedAtLocationAutoGoneTextView;
+import me.zhanghai.android.douya.ui.JoinTimeLocationAutoGoneTextView;
 import me.zhanghai.android.douya.ui.WhiteIndeterminateProgressIconDrawable;
 import me.zhanghai.android.douya.util.AppUtils;
 import me.zhanghai.android.douya.util.ImageUtils;
@@ -70,8 +70,8 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
     TextView mUsernameText;
     @BindView(R.id.signature)
     TextView mSignatureText;
-    @BindView(R.id.joined_at_location)
-    JoinedAtLocationAutoGoneTextView mJoinedAtLocationText;
+    @BindView(R.id.join_time_location)
+    JoinTimeLocationAutoGoneTextView mJoinTimeLocationText;
     @BindView(R.id.follow)
     Button mFollowButton;
     @BindView(R.id.avatar_container)
@@ -299,7 +299,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mToolbarUsernameText.setText(simpleUser.name);
         mUsernameText.setText(simpleUser.name);
         mSignatureText.setText(null);
-        mJoinedAtLocationText.setText(null);
+        mJoinTimeLocationText.setText(null);
         TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton, 0, 0, 0, 0);
         mFollowButton.setVisibility(GONE);
     }
@@ -320,7 +320,7 @@ public class ProfileHeaderLayout extends FrameLayout implements FlexibleSpaceHea
         mToolbarUsernameText.setText(user.name);
         mUsernameText.setText(user.name);
         mSignatureText.setText(user.signature);
-        mJoinedAtLocationText.setJoinedAtAndLocation(user.createdAt, user.locationName);
+        mJoinTimeLocationText.setJoinTimeAndLocation(user.createTime, user.locationName);
         if (user.isOneself()) {
             TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(mFollowButton,
                     R.drawable.edit_icon_white_24dp, 0, 0, 0);

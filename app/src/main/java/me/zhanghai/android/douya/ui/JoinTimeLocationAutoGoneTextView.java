@@ -17,28 +17,28 @@ import me.zhanghai.android.douya.util.LogUtils;
 import me.zhanghai.android.douya.util.TimeUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
-public class JoinedAtLocationAutoGoneTextView extends TimeTextView {
+public class JoinTimeLocationAutoGoneTextView extends TimeTextView {
 
     private String mLocation;
 
-    public JoinedAtLocationAutoGoneTextView(Context context) {
+    public JoinTimeLocationAutoGoneTextView(Context context) {
         super(context);
     }
 
-    public JoinedAtLocationAutoGoneTextView(Context context, AttributeSet attrs) {
+    public JoinTimeLocationAutoGoneTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public JoinedAtLocationAutoGoneTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public JoinTimeLocationAutoGoneTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @Override
     public void setDoubanTime(String doubanTime) {
-        throw new UnsupportedOperationException("Use setJoinedAtAndLocation() instead.");
+        throw new UnsupportedOperationException("Use setJoinTimeAndLocation() instead.");
     }
 
-    public void setJoinedAtAndLocation(String doubanTime, String location) {
+    public void setJoinTimeAndLocation(String doubanTime, String location) {
         mLocation = location;
         try {
             setTime(TimeUtils.parseDoubanDateTime(doubanTime));
@@ -58,10 +58,10 @@ public class JoinedAtLocationAutoGoneTextView extends TimeTextView {
     protected void setTimeText(String timeText) {
         String text;
         if (!TextUtils.isEmpty(mLocation)) {
-            text = getContext().getString(R.string.profile_joined_at_and_location_format, timeText,
+            text = getContext().getString(R.string.profile_join_time_location_format, timeText,
                     mLocation);
         } else {
-            text = getContext().getString(R.string.profile_joined_at_format, timeText);
+            text = getContext().getString(R.string.profile_join_time_format, timeText);
         }
         setText(text);
     }

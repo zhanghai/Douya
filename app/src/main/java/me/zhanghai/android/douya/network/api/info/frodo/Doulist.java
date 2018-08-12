@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Doulist extends BaseItem {
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     @SerializedName("desc")
     public String description;
@@ -40,7 +40,7 @@ public class Doulist extends BaseItem {
     public ArrayList<String> tags = new ArrayList<>();
 
     @SerializedName("update_time")
-    public String updatedAt;
+    public String updateTime;
 
 
     public static final Creator<Doulist> CREATOR = new Creator<Doulist>() {
@@ -59,7 +59,7 @@ public class Doulist extends BaseItem {
     protected Doulist(Parcel in) {
         super(in);
 
-        createdAt = in.readString();
+        createTime = in.readString();
         description = in.readString();
         followerCount = in.readInt();
         isFollowing = in.readByte() != 0;
@@ -68,7 +68,7 @@ public class Doulist extends BaseItem {
         mergedCoverUrl = in.readString();
         author = in.readParcelable(User.class.getClassLoader());
         tags = in.createStringArrayList();
-        updatedAt = in.readString();
+        updateTime = in.readString();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Doulist extends BaseItem {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeString(description);
         dest.writeInt(followerCount);
         dest.writeByte(isFollowing ? (byte) 1 : (byte) 0);
@@ -89,6 +89,6 @@ public class Doulist extends BaseItem {
         dest.writeString(mergedCoverUrl);
         dest.writeParcelable(author, flags);
         dest.writeStringList(tags);
-        dest.writeString(updatedAt);
+        dest.writeString(updateTime);
     }
 }

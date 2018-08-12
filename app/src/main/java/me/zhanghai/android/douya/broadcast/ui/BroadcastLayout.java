@@ -198,7 +198,7 @@ public class BroadcastLayout extends LinearLayout {
         mAvatarImage.setOnClickListener(view -> context.startActivity(ProfileActivity.makeIntent(
                 broadcast.author, context)));
         mNameText.setText(broadcast.author.name);
-        mTimeText.setDoubanTime(broadcast.createdAt);
+        mTimeText.setDoubanTime(broadcast.createTime);
         mActionText.setText(broadcast.action);
 
         boolean isRebind = ObjectsCompat.equals(mBoundBroadcastId, broadcast.id);

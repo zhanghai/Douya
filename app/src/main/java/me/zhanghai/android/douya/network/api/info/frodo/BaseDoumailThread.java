@@ -53,7 +53,7 @@ public abstract class BaseDoumailThread implements Parcelable {
     public String conversationType;
 
     @SerializedName("create_time")
-    public String createdAt;
+    public String createTime;
 
     @SerializedName("last_message")
     public Doumail lastDoumail;
@@ -81,7 +81,7 @@ public abstract class BaseDoumailThread implements Parcelable {
     protected BaseDoumailThread(Parcel in) {
         conversationId = in.readString();
         conversationType = in.readString();
-        createdAt = in.readString();
+        createTime = in.readString();
         lastDoumail = in.readParcelable(Doumail.class.getClassLoader());
         pinned = in.readByte() != 0;
         //noinspection deprecation
@@ -99,7 +99,7 @@ public abstract class BaseDoumailThread implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(conversationId);
         dest.writeString(conversationType);
-        dest.writeString(createdAt);
+        dest.writeString(createTime);
         dest.writeParcelable(lastDoumail, flags);
         dest.writeByte(pinned ? (byte) 1 : (byte) 0);
         //noinspection deprecation
