@@ -12,11 +12,11 @@ import android.support.v4.app.FragmentActivity;
 import me.zhanghai.android.douya.network.api.ApiError;
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;
-import me.zhanghai.android.douya.network.api.info.frodo.BroadcastLikerList;
+import me.zhanghai.android.douya.network.api.info.frodo.LikerList;
 import me.zhanghai.android.douya.user.content.BaseUserListResource;
 import me.zhanghai.android.douya.util.FragmentUtils;
 
-public class BroadcastLikerListResource extends BaseUserListResource<BroadcastLikerList> {
+public class BroadcastLikerListResource extends BaseUserListResource<LikerList> {
 
     private static final String FRAGMENT_TAG_DEFAULT = BroadcastLikerListResource.class.getName();
 
@@ -70,13 +70,13 @@ public class BroadcastLikerListResource extends BaseUserListResource<BroadcastLi
     }
 
     @Override
-    protected ApiRequest<BroadcastLikerList> onCreateRequest(Integer start, Integer count) {
+    protected ApiRequest<LikerList> onCreateRequest(Integer start, Integer count) {
         return ApiService.getInstance().getBroadcastLikerList(getBroadcastId(), start, count);
     }
 
     @Override
     protected void onCallRawLoadFinished(boolean more, int count, boolean successful,
-                                         BroadcastLikerList response, ApiError error) {
+                                         LikerList response, ApiError error) {
         onRawLoadFinished(more, count, successful, successful ? response.likers : null, error);
     }
 }

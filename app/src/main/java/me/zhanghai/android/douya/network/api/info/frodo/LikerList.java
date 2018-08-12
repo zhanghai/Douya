@@ -9,7 +9,7 @@ import android.os.Parcel;
 
 import java.util.ArrayList;
 
-public class BroadcastLikerList extends BaseList<SimpleUser> {
+public class LikerList extends BaseList<SimpleUser> {
 
     public ArrayList<SimpleUser> likers = new ArrayList<>();
 
@@ -19,20 +19,20 @@ public class BroadcastLikerList extends BaseList<SimpleUser> {
     }
 
 
-    public static final Creator<BroadcastLikerList> CREATOR = new Creator<BroadcastLikerList>() {
+    public static final Creator<LikerList> CREATOR = new Creator<LikerList>() {
         @Override
-        public BroadcastLikerList createFromParcel(Parcel source) {
-            return new BroadcastLikerList(source);
+        public LikerList createFromParcel(Parcel source) {
+            return new LikerList(source);
         }
         @Override
-        public BroadcastLikerList[] newArray(int size) {
-            return new BroadcastLikerList[size];
+        public LikerList[] newArray(int size) {
+            return new LikerList[size];
         }
     };
 
-    public BroadcastLikerList() {}
+    public LikerList() {}
 
-    protected BroadcastLikerList(Parcel in) {
+    protected LikerList(Parcel in) {
         super(in);
 
         likers = in.createTypedArrayList(SimpleUser.CREATOR);

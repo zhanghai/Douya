@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.network.api.info.AuthenticationResponse;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
-import me.zhanghai.android.douya.network.api.info.frodo.BroadcastLikerList;
+import me.zhanghai.android.douya.network.api.info.frodo.LikerList;
 import me.zhanghai.android.douya.network.api.info.frodo.RebroadcastList;
 import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
@@ -298,8 +298,8 @@ public class ApiService {
         return mFrodoService.rebroadcastBroadcast(broadcastId, text);
     }
 
-    public ApiRequest<BroadcastLikerList> getBroadcastLikerList(long broadcastId, Integer start,
-                                                                Integer count) {
+    public ApiRequest<LikerList> getBroadcastLikerList(long broadcastId, Integer start,
+                                                       Integer count) {
         return mFrodoService.getBroadcastLikerList(broadcastId, start, count);
     }
 
@@ -606,9 +606,9 @@ public class ApiService {
         ApiRequest<Broadcast> getBroadcast(@Path("broadcastId") long broadcastId);
 
         @GET("status/{broadcastId}/likers")
-        ApiRequest<BroadcastLikerList> getBroadcastLikerList(@Path("broadcastId") long broadcastId,
-                                                             @Query("start") Integer start,
-                                                             @Query("count") Integer count);
+        ApiRequest<LikerList> getBroadcastLikerList(@Path("broadcastId") long broadcastId,
+                                                    @Query("start") Integer start,
+                                                    @Query("count") Integer count);
 
         @GET("status/{broadcastId}/resharers_statuses")
         ApiRequest<RebroadcastList> getBroadcastRebroadcastList(
