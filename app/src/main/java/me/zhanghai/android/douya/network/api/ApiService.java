@@ -21,7 +21,7 @@ import me.zhanghai.android.douya.network.api.info.AuthenticationResponse;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;
 import me.zhanghai.android.douya.network.api.info.frodo.Broadcast;
 import me.zhanghai.android.douya.network.api.info.frodo.BroadcastLikerList;
-import me.zhanghai.android.douya.network.api.info.frodo.BroadcastList;
+import me.zhanghai.android.douya.network.api.info.frodo.RebroadcastList;
 import me.zhanghai.android.douya.network.api.info.frodo.CelebrityList;
 import me.zhanghai.android.douya.network.api.info.frodo.CollectableItem;
 import me.zhanghai.android.douya.network.api.info.frodo.Comment;
@@ -303,10 +303,9 @@ public class ApiService {
         return mFrodoService.getBroadcastLikerList(broadcastId, start, count);
     }
 
-    public ApiRequest<BroadcastList> getBroadcastRebroadcastedBroadcastList(long broadcastId,
-                                                                            Integer start,
-                                                                            Integer count) {
-        return mFrodoService.getBroadcastRebroadcastedBroadcastList(broadcastId, start, count);
+    public ApiRequest<RebroadcastList> getBroadcastRebroadcastList(long broadcastId, Integer start,
+                                                                   Integer count) {
+        return mFrodoService.getBroadcastRebroadcastList(broadcastId, start, count);
     }
 
     public ApiRequest<Void> deleteBroadcastComment(long broadcastId, long commentId) {
@@ -612,7 +611,7 @@ public class ApiService {
                                                              @Query("count") Integer count);
 
         @GET("status/{broadcastId}/resharers_statuses")
-        ApiRequest<BroadcastList> getBroadcastRebroadcastedBroadcastList(
+        ApiRequest<RebroadcastList> getBroadcastRebroadcastList(
                 @Path("broadcastId") long broadcastId, @Query("start") Integer start,
                 @Query("count") Integer count);
 

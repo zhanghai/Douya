@@ -104,7 +104,7 @@ public class BroadcastActivityDialogFragment extends AppCompatDialogFragment {
 
         mTabAdapter = new TabFragmentPagerAdapter(this);
         mTabAdapter.addTab(() -> BroadcastLikerListFragment.newInstance(mBroadcast), null);
-        mTabAdapter.addTab(() -> BroadcastRebroadcastedBroadcastListFragment.newInstance(
+        mTabAdapter.addTab(() -> BroadcastRebroadcastListFragment.newInstance(
                 mBroadcast), null);
         updateTabTitle();
         mViewPager.setOffscreenPageLimit(mTabAdapter.getCount() - 1);
