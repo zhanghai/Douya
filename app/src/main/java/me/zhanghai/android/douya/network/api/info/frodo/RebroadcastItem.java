@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,10 +13,15 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import me.zhanghai.android.douya.R;
+
 public class RebroadcastItem implements Parcelable {
 
     public SimpleUser author;
 
+    /**
+     * @deprecated Use {@link #getText(Context)} instead.
+     */
     public String text;
 
     @SerializedName("create_time")
@@ -23,6 +29,12 @@ public class RebroadcastItem implements Parcelable {
 
     public String uri;
 
+
+    public String getText(Context context) {
+        //noinspection deprecation
+        return hasBroadcast() ? text : context.getString(
+                R.string.broadcast_rebroadcasts_simple_rebroadcast_text);
+    }
 
     public boolean hasBroadcast() {
         return !TextUtils.isEmpty(uri);
@@ -48,6 +60,7 @@ public class RebroadcastItem implements Parcelable {
 
     protected RebroadcastItem(Parcel in) {
         author = in.readParcelable(SimpleUser.class.getClassLoader());
+        //noinspection deprecation
         text = in.readString();
         createTime = in.readString();
         uri = in.readString();
@@ -61,6 +74,7 @@ public class RebroadcastItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(author, flags);
+        //noinspection deprecation
         dest.writeString(text);
         dest.writeString(createTime);
         dest.writeString(uri);

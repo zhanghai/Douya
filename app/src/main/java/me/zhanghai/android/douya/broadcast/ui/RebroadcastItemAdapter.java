@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.broadcast.ui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -47,21 +46,23 @@ public class RebroadcastItemAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Context context = RecyclerViewUtils.getContext(holder);
         RebroadcastItem rebroadcastItem = getItem(position);
         holder.itemView.setOnClickListener(view -> {
             if (!rebroadcastItem.hasBroadcast()) {
                 return;
             }
+            Context context = view.getContext();
             context.startActivity(BroadcastActivity.makeIntent(rebroadcastItem.getBroadcastId(),
                     context));
         });
         ImageUtils.loadAvatar(holder.avatarImage, rebroadcastItem.author.avatar);
-        holder.avatarImage.setOnClickListener(view -> context.startActivity(
-                ProfileActivity.makeIntent(rebroadcastItem.author, context)));
+        holder.avatarImage.setOnClickListener(view -> {
+            Context context = view.getContext();
+            context.startActivity(ProfileActivity.makeIntent(rebroadcastItem.author, context));
+        });
         holder.nameText.setText(rebroadcastItem.author.name);
         holder.timeText.setDoubanTime(rebroadcastItem.createTime);
-        holder.textText.setText(rebroadcastItem.text);
+        holder.textText.setText(rebroadcastItem.getText(holder.textText.getContext()));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

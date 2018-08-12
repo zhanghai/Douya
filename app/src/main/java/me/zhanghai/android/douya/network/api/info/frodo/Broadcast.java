@@ -128,11 +128,6 @@ public class Broadcast implements ClipboardCopyable, UrlGettable, Parcelable {
                 R.string.broadcast_rebroadcasted_by_format, author.name);
     }
 
-    public CharSequence getRebroadcastText(Context context) {
-        return !TextUtils.isEmpty(text) ? getTextWithEntities(false, context) : context.getString(
-                R.string.broadcast_rebroadcasted_broadcasts_simple_rebroadcast_text);
-    }
-
     public boolean isAuthorOneself() {
         return author != null && author.isOneself();
     }

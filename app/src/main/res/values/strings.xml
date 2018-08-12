@@ -268,9 +268,9 @@
     <string name="broadcast_delete_failed_format">删除广播失败，%1$s</string>
     <string name="broadcast_likers_title_format">%1$d 人赞</string>
     <string name="broadcast_likers_title_empty">暂无赞</string>
-    <string name="broadcast_rebroadcasted_broadcasts_title_format">%1$d 条转播</string>
-    <string name="broadcast_rebroadcasted_broadcasts_title_empty">暂无转播</string>
-    <string name="broadcast_rebroadcasted_broadcasts_simple_rebroadcast_text">转播了这条广播</string>
+    <string name="broadcast_rebroadcasts_title_format">%1$d 条转播</string>
+    <string name="broadcast_rebroadcasts_title_empty">暂无转播</string>
+    <string name="broadcast_rebroadcasts_simple_rebroadcast_text">转播</string>
 
     <string name="user_follow_error_cannot_follow_oneself">不能关注自己</string>
     <string name="user_following">正在关注</string>
