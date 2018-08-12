@@ -44,18 +44,16 @@ public class BroadcastAttachment implements Parcelable {
         attachment.image.medium.url = image;
         attachment.image.medium.width = 1;
         attachment.image.medium.height = 1;
-        attachment.imageBlock =
-                new me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment
-                        .ImageBlock();
+        attachment.imageList =
+                new me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment.ImageList();
         for (Photo photo : photos) {
-            me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment.ImageBlock.Image
-                    image = new me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment
-                    .ImageBlock.Image();
+            me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment.ImageList.Image
+                    image = new me.zhanghai.android.douya.network.api.info.frodo.BroadcastAttachment.ImageList.Image();
             image.image = photo.toFrodoSizedImage();
             image.uri = DoubanUtils.makePhotoAlbumUri(photo.albumId);
-            attachment.imageBlock.images.add(image);
+            attachment.imageList.images.add(image);
         }
-        attachment.imageBlock.countString = attachment.imageBlock.images.size() + "张";
+        attachment.imageList.countString = attachment.imageList.images.size() + "张";
         attachment.text = description;
         attachment.title = title;
         attachment.uri = href;

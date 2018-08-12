@@ -303,8 +303,8 @@ public class BroadcastLayout extends LinearLayout {
                 : broadcast;
         BroadcastAttachment attachment = contentBroadcast.attachment;
         List<? extends SizedImageItem> images = contentBroadcast.attachment != null
-                && contentBroadcast.attachment.imageBlock != null ?
-                contentBroadcast.attachment.imageBlock.images : contentBroadcast.images;
+                && contentBroadcast.attachment.imageList != null ?
+                contentBroadcast.attachment.imageList.images : contentBroadcast.images;
 
         if (attachment != null) {
             mAttachmentLayout.setVisibility(VISIBLE);

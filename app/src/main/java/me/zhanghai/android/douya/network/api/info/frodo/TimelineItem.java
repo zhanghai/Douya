@@ -7,10 +7,14 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+
+import me.zhanghai.android.douya.functional.Functional;
+import me.zhanghai.android.douya.util.DoubanUtils;
 
 public class TimelineItem extends BaseItem {
 
@@ -135,7 +139,39 @@ public class TimelineItem extends BaseItem {
     //public BroadcastTopic topic;
 
     @SerializedName("uid")
-    public String id;
+    public long id;
+
+
+    public Broadcast toBroadcast() {
+        if (content == null) {
+            return null;
+        }
+        if (rebroadcaster == null) {
+            return content.broadcast;
+        }
+        Broadcast broadcast = new Broadcast();
+        if (content.broadcast != null) {
+            broadcast.action = "转播";
+            broadcast.rebroadcastedBroadcast = content.broadcast;
+        } else {
+            broadcast.action = "推荐";
+            if (!TextUtils.isEmpty(action)) {
+                int index = action.indexOf("的");
+                broadcast.action += index != -1 ? action.substring(index + 1) : action;
+            }
+            broadcast.attachment = content.toBroadcastAttachment();
+            broadcast.commentCount = commentCount;
+            broadcast.likeCount = reactionCount;
+            broadcast.rebroadcastCount = rebroadcastCount;
+        }
+        broadcast.author = rebroadcaster;
+        broadcast.createTime = createTime;
+        broadcast.id = id;
+        broadcast.shareUrl = "https://www.douban.com/doubanapp/dispatch?uri=/status/" + id +
+                "/";
+        broadcast.uri = DoubanUtils.makeBroadcastUri(id);
+        return broadcast;
+    }
 
 
     public static final Creator<TimelineItem> CREATOR = new Creator<TimelineItem>() {
@@ -176,7 +212,7 @@ public class TimelineItem extends BaseItem {
         rebroadcaster = in.readParcelable(SimpleUser.class.getClassLoader());
         rebroadcastCount = in.readInt();
         showActions = in.readByte() != 0;
-        id = in.readString();
+        id = in.readLong();
     }
 
     @Override
@@ -187,6 +223,7 @@ public class TimelineItem extends BaseItem {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
+
         dest.writeString(action);
         dest.writeTypedList(comments);
         dest.writeInt(commentCount);
@@ -209,7 +246,7 @@ public class TimelineItem extends BaseItem {
         dest.writeParcelable(rebroadcaster, flags);
         dest.writeInt(rebroadcastCount);
         dest.writeByte(showActions ? (byte) 1 : (byte) 0);
-        dest.writeString(id);
+        dest.writeLong(id);
     }
 
 
@@ -239,6 +276,31 @@ public class TimelineItem extends BaseItem {
         //@SerializedName("video_info")
         //public VideoInfo videoInfo;
 
+
+        public BroadcastAttachment toBroadcastAttachment() {
+            if (attachment != null) {
+                return attachment;
+            }
+            BroadcastAttachment attachment = new BroadcastAttachment();
+            if (photo != null) {
+                attachment.image = photo.image;
+            }
+            if (photos != null) {
+                attachment.imageList = new BroadcastAttachment.ImageList();
+                attachment.imageList.images = Functional.map(photos, photo -> {
+                    BroadcastAttachment.ImageList.Image image =
+                            new BroadcastAttachment.ImageList.Image();
+                    image.image = photo.image;
+                    image.uri = photo.uri;
+                    return image;
+                });
+            }
+            attachment.text = abstract_;
+            attachment.title = title;
+            attachment.uri = uri;
+            attachment.url = url;
+            return attachment;
+        }
 
         public static final Creator<Content> CREATOR = new Creator<Content>() {
             @Override
@@ -293,7 +355,7 @@ public class TimelineItem extends BaseItem {
         @SerializedName("event_label")
         public String eventLabel;
 
-        public String id;
+        public long id;
 
         @SerializedName("is_rect_avatar")
         public boolean isAvatarRectangular;
@@ -308,6 +370,18 @@ public class TimelineItem extends BaseItem {
 
         @SerializedName("verify_type")
         public int verifyType;
+
+
+        public SimpleUser toSimpleUser() {
+            SimpleUser user = new SimpleUser();
+            user.avatar = avatar;
+            user.id = id;
+            user.type = type;
+            user.name = name;
+            user.uri = uri;
+            user.url = url;
+            return user;
+        }
 
 
         public static final Creator<Owner> CREATOR = new Creator<Owner>() {
@@ -326,7 +400,7 @@ public class TimelineItem extends BaseItem {
         protected Owner(Parcel in) {
             avatar = in.readString();
             eventLabel = in.readString();
-            id = in.readString();
+            id = in.readLong();
             isAvatarRectangular = in.readByte() != 0;
             name = in.readString();
             type = in.readString();
@@ -344,7 +418,7 @@ public class TimelineItem extends BaseItem {
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(avatar);
             dest.writeString(eventLabel);
-            dest.writeString(id);
+            dest.writeLong(id);
             dest.writeByte(isAvatarRectangular ? (byte) 1 : (byte) 0);
             dest.writeString(name);
             dest.writeString(type);

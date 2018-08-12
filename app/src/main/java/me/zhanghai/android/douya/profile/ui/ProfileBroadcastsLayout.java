@@ -103,8 +103,8 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                 }
                 if (image == null) {
                     List<? extends SizedImageItem> images = broadcast.attachment != null
-                            && broadcast.attachment.imageBlock != null ?
-                            broadcast.attachment.imageBlock.images : broadcast.images;
+                            && broadcast.attachment.imageList != null ?
+                            broadcast.attachment.imageList.images : broadcast.images;
                     if (images.size() > 0){
                         image = images.get(0);
                     }

@@ -13,6 +13,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.zhanghai.android.douya.functional.Functional;
+import me.zhanghai.android.douya.functional.ObjectsCompat;
 import me.zhanghai.android.douya.util.CollectionUtils;
 
 /**
@@ -36,15 +38,10 @@ public class TimelineList implements Parcelable {
     public ArrayList<TimelineItem> topItems = new ArrayList<>();
 
     public ArrayList<Broadcast> toBroadcastList() {
-        ArrayList<Broadcast> broadcastList = new ArrayList<>();
         List<TimelineItem> allItems = CollectionUtils.union(topItems, CollectionUtils.union(
                 hotItems, items));
-        for (TimelineItem item : allItems) {
-            if (item.content != null && item.content.broadcast != null) {
-                broadcastList.add(item.content.broadcast);
-            }
-        }
-        return broadcastList;
+        return Functional.filter(Functional.map(allItems, TimelineItem::toBroadcast),
+                ObjectsCompat::nonNull);
     }
 
 

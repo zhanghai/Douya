@@ -60,7 +60,7 @@ public class BroadcastAttachment implements Parcelable {
     public SizedImage image;
 
     @SerializedName("images_block")
-    public ImageBlock imageBlock;
+    public ImageList imageList;
 
     /**
      * @deprecated Use {@link #getRatingUnavailableReason(Context)} instead.
@@ -115,7 +115,7 @@ public class BroadcastAttachment implements Parcelable {
         //noinspection deprecation
         type = in.readString();
         image = in.readParcelable(SizedImage.class.getClassLoader());
-        imageBlock = in.readParcelable(ImageBlock.class.getClassLoader());
+        imageList = in.readParcelable(ImageList.class.getClassLoader());
         //noinspection deprecation
         ratingUnavailableReason = in.readString();
         rating = in.readParcelable(SimpleRating.class.getClassLoader());
@@ -136,7 +136,7 @@ public class BroadcastAttachment implements Parcelable {
         //noinspection deprecation
         dest.writeString(type);
         dest.writeParcelable(image, flags);
-        dest.writeParcelable(imageBlock, flags);
+        dest.writeParcelable(imageList, flags);
         //noinspection deprecation
         dest.writeString(ratingUnavailableReason);
         dest.writeParcelable(rating, flags);
@@ -148,7 +148,10 @@ public class BroadcastAttachment implements Parcelable {
     }
 
 
-    public static class ImageBlock implements Parcelable {
+    /**
+     * {@code ImageBlock} in Frodo.
+     */
+    public static class ImageList implements Parcelable {
 
         @SerializedName("count_str")
         public String countString;
@@ -156,20 +159,20 @@ public class BroadcastAttachment implements Parcelable {
         public ArrayList<Image> images = new ArrayList<>();
 
 
-        public static final Creator<ImageBlock> CREATOR = new Creator<ImageBlock>() {
+        public static final Creator<ImageList> CREATOR = new Creator<ImageList>() {
             @Override
-            public ImageBlock createFromParcel(Parcel source) {
-                return new ImageBlock(source);
+            public ImageList createFromParcel(Parcel source) {
+                return new ImageList(source);
             }
             @Override
-            public ImageBlock[] newArray(int size) {
-                return new ImageBlock[size];
+            public ImageList[] newArray(int size) {
+                return new ImageList[size];
             }
         };
 
-        public ImageBlock() {}
+        public ImageList() {}
 
-        protected ImageBlock(Parcel in) {
+        protected ImageList(Parcel in) {
             countString = in.readString();
             images = in.createTypedArrayList(Image.CREATOR);
         }
