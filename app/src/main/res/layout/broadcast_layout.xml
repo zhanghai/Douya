@@ -39,40 +39,42 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textStyle="bold" />
 
-        <me.zhanghai.android.douya.ui.TimeTextView
-            android:id="@+id/broadcastlayout_time"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/broadcastlayout_name"
             android:layout_alignBottom="@id/broadcastlayout_avatar"
             android:layout_marginBottom="@dimen/avatar_padding"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/broadcastlayout_time_action_space"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/broadcastlayout_time"
-            android:layout_alignTop="@id/broadcastlayout_time"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/space"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
+            <me.zhanghai.android.douya.ui.TimeTextView
+                android:id="@+id/broadcastlayout_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
 
-        <TextView
-            android:id="@+id/broadcastlayout_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/broadcastlayout_time_action_space"
-            android:layout_alignTop="@id/broadcastlayout_time_action_space"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="?android:textColorSecondary" />
+            <TextView
+                android:id="@+id/broadcastlayout_time_action_space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/space"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/broadcastlayout_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?android:textColorSecondary" />
+        </LinearLayout>
     </RelativeLayout>
 
     <me.zhanghai.android.douya.ui.AutoGoneTextView

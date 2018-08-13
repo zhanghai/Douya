@@ -143,7 +143,8 @@ public class TimelineItem extends BaseItem {
 
 
     public Broadcast toBroadcast() {
-        if (content == null) {
+        // content.type == null when content is empty.
+        if (content == null || content.type == null) {
             return null;
         }
         Broadcast contentBroadcast = contentToBroadcast();
@@ -172,15 +173,12 @@ public class TimelineItem extends BaseItem {
         broadcast.author = content.author;
         broadcast.attachment = content.toBroadcastAttachment();
         broadcast.commentCount = commentCount;
-        // FIXME
-        broadcast.createTime = createTime;
-        broadcast.id = id;
+        broadcast.id = content.id;
         broadcast.likeCount = reactionCount;
         broadcast.isLiked = reactionType > 0;
         broadcast.rebroadcastCount = rebroadcastCount;
-        broadcast.shareUrl = "https://www.douban.com/doubanapp/dispatch?uri=/status/" + id +
-                "/";
-        broadcast.uri = DoubanUtils.makeBroadcastUri(id);
+        broadcast.shareUrl = content.shareUrl;
+        broadcast.uri = content.uri;
         return broadcast;
     }
 

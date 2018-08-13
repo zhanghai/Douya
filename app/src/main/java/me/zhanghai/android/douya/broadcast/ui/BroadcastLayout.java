@@ -65,6 +65,8 @@ public class BroadcastLayout extends LinearLayout {
     TextView mNameText;
     @BindView(R.id.broadcastlayout_time)
     TimeTextView mTimeText;
+    @BindView(R.id.broadcastlayout_time_action_space)
+    View mTimeActionSpace;
     @BindView(R.id.broadcastlayout_action)
     TextView mActionText;
     @BindView(R.id.broadcastlayout_text)
@@ -198,7 +200,12 @@ public class BroadcastLayout extends LinearLayout {
         mAvatarImage.setOnClickListener(view -> context.startActivity(ProfileActivity.makeIntent(
                 broadcast.author, context)));
         mNameText.setText(broadcast.author.name);
-        mTimeText.setDoubanTime(broadcast.createTime);
+        boolean hasTime = !TextUtils.isEmpty(broadcast.createTime);
+        ViewUtils.setVisibleOrGone(mTimeText, hasTime);
+        if (hasTime) {
+            mTimeText.setDoubanTime(broadcast.createTime);
+        }
+        ViewUtils.setVisibleOrGone(mTimeActionSpace, hasTime);
         mActionText.setText(broadcast.action);
 
         boolean isRebind = ObjectsCompat.equals(mBoundBroadcastId, broadcast.id);
