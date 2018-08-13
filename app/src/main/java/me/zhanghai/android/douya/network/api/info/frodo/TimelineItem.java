@@ -146,27 +146,38 @@ public class TimelineItem extends BaseItem {
         if (content == null) {
             return null;
         }
+        Broadcast contentBroadcast = contentToBroadcast();
         if (rebroadcaster == null) {
-            return content.broadcast;
+            return contentBroadcast;
         }
         Broadcast broadcast = new Broadcast();
-        if (content.broadcast != null) {
-            broadcast.action = "转播";
-            broadcast.rebroadcastedBroadcast = content.broadcast;
-        } else {
-            broadcast.action = "推荐";
-            if (!TextUtils.isEmpty(action)) {
-                int index = action.indexOf("的");
-                broadcast.action += index != -1 ? action.substring(index + 1) : action;
-            }
-            broadcast.attachment = content.toBroadcastAttachment();
-            broadcast.commentCount = commentCount;
-            broadcast.likeCount = reactionCount;
-            broadcast.rebroadcastCount = rebroadcastCount;
-        }
+        broadcast.action = "转播";
         broadcast.author = rebroadcaster;
         broadcast.createTime = createTime;
         broadcast.id = id;
+        broadcast.rebroadcastedBroadcast = contentBroadcast;
+        broadcast.shareUrl = "https://www.douban.com/doubanapp/dispatch?uri=/status/" + id +
+                "/";
+        broadcast.uri = DoubanUtils.makeBroadcastUri(id);
+        return broadcast;
+    }
+
+    private Broadcast contentToBroadcast() {
+        if (content.broadcast != null) {
+            return content.broadcast;
+        }
+        Broadcast broadcast = new Broadcast();
+        broadcast.action = action;
+        // FIXME: No author?
+        broadcast.author = content.author;
+        broadcast.attachment = content.toBroadcastAttachment();
+        broadcast.commentCount = commentCount;
+        // FIXME
+        broadcast.createTime = createTime;
+        broadcast.id = id;
+        broadcast.likeCount = reactionCount;
+        broadcast.isLiked = reactionType > 0;
+        broadcast.rebroadcastCount = rebroadcastCount;
         broadcast.shareUrl = "https://www.douban.com/doubanapp/dispatch?uri=/status/" + id +
                 "/";
         broadcast.uri = DoubanUtils.makeBroadcastUri(id);
