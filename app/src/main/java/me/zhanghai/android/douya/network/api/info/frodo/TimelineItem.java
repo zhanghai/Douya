@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.network.api.info.frodo;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -169,8 +170,19 @@ public class TimelineItem extends BaseItem {
         }
         Broadcast broadcast = new Broadcast();
         broadcast.action = action;
-        // FIXME: No author?
-        broadcast.author = content.author;
+        if (content.author != null) {
+            broadcast.author = content.author;
+        } else if (owner != null) {
+            broadcast.author = owner.toSimpleUser();
+        } else {
+            broadcast.author = new SimpleUser();
+            broadcast.author.avatar = "";
+            broadcast.author.id = 0;
+            broadcast.author.type = "user";
+            broadcast.author.name = ownerAlternaitveLabel != null ? ownerAlternaitveLabel.text : "";
+            broadcast.author.uri = "";
+            broadcast.author.url = "";
+        }
         broadcast.attachment = content.toBroadcastAttachment();
         broadcast.commentCount = commentCount;
         broadcast.id = content.id;
@@ -384,9 +396,17 @@ public class TimelineItem extends BaseItem {
         public SimpleUser toSimpleUser() {
             SimpleUser user = new SimpleUser();
             user.avatar = avatar;
+            long id;
+            if (this.id != 0) {
+                id = this.id;
+            } else {
+                id = Long.parseLong(Uri.parse(uri).getLastPathSegment());
+            }
             user.id = id;
             user.type = type;
             user.name = name;
+            //noinspection deprecation
+            user.uid = String.valueOf(id);
             user.uri = uri;
             user.url = url;
             return user;
