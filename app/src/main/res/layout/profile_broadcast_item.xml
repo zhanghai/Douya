@@ -35,39 +35,41 @@
         android:maxLines="3"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <me.zhanghai.android.douya.ui.TimeTextView
-        android:id="@+id/time"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/image"
         android:layout_alignBottom="@id/image"
         android:layout_below="@id/text"
         android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:gravity="bottom"
-        android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/time_action_space"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/time"
-        android:layout_alignBottom="@id/time"
-        android:ellipsize="end"
-        android:gravity="bottom"
-        android:maxLines="1"
-        android:text="@string/space"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        <me.zhanghai.android.douya.ui.TimeTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
-    <TextView
-        android:id="@+id/action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/time_action_space"
-        android:layout_alignTop="@id/time_action_space"
-        android:ellipsize="end"
-        android:gravity="bottom"
-        android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        <TextView
+            android:id="@+id/time_action_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:text="@string/space"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+        <TextView
+            android:id="@+id/action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+    </LinearLayout>
 </me.zhanghai.android.douya.ui.ForegroundRelativeLayout>

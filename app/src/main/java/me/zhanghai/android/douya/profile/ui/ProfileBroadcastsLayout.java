@@ -120,7 +120,12 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
                     text = broadcast.attachment.title;
                 }
                 holder.textText.setText(text);
-                holder.timeText.setDoubanTime(broadcast.createTime);
+                boolean hasTime = !TextUtils.isEmpty(broadcast.createTime);
+                ViewUtils.setVisibleOrGone(holder.timeText, hasTime);
+                if (hasTime) {
+                    holder.timeText.setDoubanTime(broadcast.createTime);
+                }
+                ViewUtils.setVisibleOrGone(holder.timeActionSpace, hasTime);
                 holder.actionText.setText(broadcast.action);
                 broadcastLayout.setOnClickListener(view -> context.startActivity(
                         BroadcastActivity.makeIntent(broadcast, context)));
@@ -153,6 +158,8 @@ public class ProfileBroadcastsLayout extends FriendlyCardView {
         public TextView textText;
         @BindView(R.id.time)
         public TimeTextView timeText;
+        @BindView(R.id.time_action_space)
+        public View timeActionSpace;
         @BindView(R.id.action)
         public TextView actionText;
 
