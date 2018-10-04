@@ -7,7 +7,7 @@
 
 <resources>
 
-    <style name="PreferenceFixTheme.Design.Light.DialogWhenLarge.LightStatusBar" parent="PreferenceFixTheme.Design.Light.DialogWhenLarge">
+    <style name="PreferenceFixTheme.Light.DialogWhenLarge.LightStatusBar" parent="PreferenceFixTheme.Light.DialogWhenLarge">
         <item name="colorPrimaryDark">@color/grey_300</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
