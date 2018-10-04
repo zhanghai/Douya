@@ -74,7 +74,7 @@ public class AboutFragment extends Fragment implements ConfirmEnableScalpelDialo
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ScalpelHelperFragment.attachTo(this);
+        ScalpelHelperFragment.attachToActivity(this);
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);

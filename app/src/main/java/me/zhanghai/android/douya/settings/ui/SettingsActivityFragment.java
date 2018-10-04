@@ -61,7 +61,7 @@ public class SettingsActivityFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ScalpelHelperFragment.attachTo(this);
+        ScalpelHelperFragment.attachToActivity(this);
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);

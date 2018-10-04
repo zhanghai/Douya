@@ -28,7 +28,7 @@ public class ScalpelHelperFragment extends RetainedFragment {
     private boolean mInjected;
 
     /**
-     * @deprecated Use {@link #attachTo(Fragment)} instead.
+     * @deprecated Use {@link #attachToActivity(Fragment)} instead.
      */
     public static ScalpelHelperFragment attachTo(FragmentActivity activity) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
@@ -43,7 +43,7 @@ public class ScalpelHelperFragment extends RetainedFragment {
         return fragment;
     }
 
-    public static ScalpelHelperFragment attachTo(Fragment fragment) {
+    public static ScalpelHelperFragment attachToActivity(Fragment fragment) {
         //noinspection deprecation
         return attachTo(fragment.getActivity());
     }
