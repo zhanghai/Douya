@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -15,14 +14,8 @@ import android.util.AttributeSet;
  */
 public class MaxDimensionDispatchInsetsFrameLayout extends DispatchInsetsFrameLayout {
 
-    private MaxDimensionHelper mMaxDimensionHelper = new MaxDimensionHelper(
-            new MaxDimensionHelper.Delegate() {
-                @SuppressLint("WrongCall")
-                @Override
-                public void superOnMeasure(int widthSpec, int heightSpec) {
-                    MaxDimensionDispatchInsetsFrameLayout.super.onMeasure(widthSpec, heightSpec);
-                }
-            });
+    private MaxDimensionHelper mMaxDimensionHelper = new MaxDimensionHelper((widthSpec, heightSpec)
+            -> MaxDimensionDispatchInsetsFrameLayout.super.onMeasure(widthSpec, heightSpec));
 
     public MaxDimensionDispatchInsetsFrameLayout(Context context) {
         super(context);

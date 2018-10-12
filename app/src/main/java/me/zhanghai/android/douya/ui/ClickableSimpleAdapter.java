@@ -47,7 +47,6 @@ public abstract class ClickableSimpleAdapter<T, VH extends RecyclerView.ViewHold
         mRecyclerView = null;
     }
 
-    // Set listener with position in onBindViewHolder() so we are not affected by merge adapters.
     @Override
     public void onBindViewHolder(final VH holder, int position, List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);

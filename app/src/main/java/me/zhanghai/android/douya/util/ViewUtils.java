@@ -218,6 +218,35 @@ public class ViewUtils {
         }
     }
 
+    public static float getDimensionFromAttrRes(int attrRes, float defaultValue, Context context) {
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            return a.getDimension(0, defaultValue);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    public static int getDimensionPixelOffsetFromAttrRes(int attrRes, int defaultValue,
+                                                         Context context) {
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            return a.getDimensionPixelOffset(0, defaultValue);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    public static int getDimensionPixelSizeFromAttrRes(int attrRes, int defaultValue,
+                                                       Context context) {
+        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        try {
+            return a.getDimensionPixelSize(0, defaultValue);
+        } finally {
+            a.recycle();
+        }
+    }
+
     public static Drawable getDrawableFromAttrRes(int attrRes, Context context) {
         // TODO: Switch to TintTypedArray when they added this overload.
         TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
@@ -286,6 +315,14 @@ public class ViewUtils {
 
     public static int getLongAnimTime(Context context) {
         return getLongAnimTime(context.getResources());
+    }
+
+    public static int getDisplayWidth(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getDisplayHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
     }
 
     public static int getMarginStart(View view) {
