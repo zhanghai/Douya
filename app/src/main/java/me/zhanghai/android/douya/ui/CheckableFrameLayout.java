@@ -12,9 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.Checkable;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
-public class CheckableLinearLayout extends LinearLayout implements Checkable {
+public class CheckableFrameLayout extends FrameLayout implements Checkable {
 
     private static final int[] CHECKED_STATE_SET = {
             android.R.attr.state_checked
@@ -22,21 +22,21 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
 
     private boolean mChecked;
 
-    public CheckableLinearLayout(@NonNull Context context) {
+    public CheckableFrameLayout(@NonNull Context context) {
         super(context);
     }
 
-    public CheckableLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public CheckableFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CheckableLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs,
-                                 int defStyleAttr) {
+    public CheckableFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                                int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public CheckableLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs,
-                                 int defStyleAttr, int defStyleRes) {
+    public CheckableFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                                int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -91,14 +91,12 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
 
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
             @NonNull
-            @Override
-            public SavedState createFromParcel(@NonNull Parcel in) {
-                return new SavedState(in);
+            public CheckableFrameLayout.SavedState createFromParcel(@NonNull Parcel in) {
+                return new CheckableFrameLayout.SavedState(in);
             }
             @NonNull
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
+            public CheckableFrameLayout.SavedState[] newArray(int size) {
+                return new CheckableFrameLayout.SavedState[size];
             }
         };
 

@@ -7,6 +7,7 @@ package me.zhanghai.android.douya;
 
 import android.app.Application;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.webkit.WebView;
 
 import com.bumptech.glide.request.target.ViewTarget;
@@ -18,12 +19,14 @@ import me.zhanghai.android.douya.util.NightModeHelper;
 
 public class DouyaApplication extends Application {
 
+    @NonNull
     private static DouyaApplication sInstance;
 
     public DouyaApplication() {
         sInstance = this;
     }
 
+    @NonNull
     public static DouyaApplication getInstance() {
         return sInstance;
     }

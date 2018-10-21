@@ -5,7 +5,6 @@
 
 package me.zhanghai.android.douya.util;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +12,9 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.IntentCompat;
 
 import java.io.File;
 
@@ -27,22 +29,27 @@ public class IntentUtils {
 
     private IntentUtils() {}
 
-    public static Intent withChooser(Intent intent) {
+    @NonNull
+    public static Intent withChooser(@Nullable Intent intent) {
         return Intent.createChooser(intent, null);
     }
 
-    public static Intent makeCaptureImage(Uri outputUri) {
+    @NonNull
+    public static Intent makeCaptureImage(@NonNull Uri outputUri) {
         return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 .putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
     }
 
-    public static Intent makeCaptureImage(File outputFile, Context context) {
+    @NonNull
+    public static Intent makeCaptureImage(@NonNull File outputFile, @NonNull Context context) {
         return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 .putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getContentUri(outputFile, context));
     }
 
-    public static Intent makeInstallShortcut(int iconRes, int nameRes, Class<?> intentClass,
-                                             Context context) {
+    @NonNull
+    public static Intent makeInstallShortcut(int iconRes, int nameRes,
+                                             @NonNull Class<?> intentClass,
+                                             @NonNull Context context) {
         return new Intent()
                 .setAction(ACTION_INSTALL_SHORTCUT)
                 .putExtra(Intent.EXTRA_SHORTCUT_INTENT, new Intent(context.getApplicationContext(),
@@ -52,20 +59,41 @@ public class IntentUtils {
                         Intent.ShortcutIconResource.fromContext(context, iconRes));
     }
 
-    public static Intent makeLaunchApp(String packageName, Context context) {
+    @Nullable
+    public static Intent makeLaunchApp(@NonNull String packageName, @NonNull Context context) {
         return context.getPackageManager().getLaunchIntentForPackage(packageName);
     }
 
-    public static Intent makeMediaScan(Uri uri) {
+    @NonNull
+    public static Intent makeMediaScan(@NonNull Uri uri) {
         return new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
                 .setData(uri);
     }
 
-    public static Intent makeMediaScan(File file) {
+    @NonNull
+    public static Intent makeMediaScan(@NonNull File file) {
         return makeMediaScan(Uri.fromFile(file));
     }
 
-    private static Intent makePickFile(String mimeType, String[] mimeTypes, boolean allowMultiple) {
+    @NonNull
+    public static Intent makePickFile(boolean allowMultiple) {
+        return makePickFile(MIME_TYPE_ANY, null, allowMultiple);
+    }
+
+    @NonNull
+    public static Intent makePickFile(@NonNull String mimeType, boolean allowMultiple) {
+        return makePickFile(mimeType, new String[] { mimeType }, allowMultiple);
+    }
+
+    @NonNull
+    public static Intent makePickFile(@Nullable String[] mimeTypes, boolean allowMultiple) {
+        String mimeType = mimeTypes != null && mimeTypes.length == 1 ? mimeTypes[0] : MIME_TYPE_ANY;
+        return makePickFile(mimeType, mimeTypes, allowMultiple);
+    }
+
+    @NonNull
+    private static Intent makePickFile(@NonNull String mimeType, @Nullable String[] mimeTypes,
+                                       boolean allowMultiple) {
         // If not using ACTION_OPEN_DOCUMENT, URI permission can be lost after ~10 seconds.
         String action = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ?
                 Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT;
@@ -74,7 +102,7 @@ public class IntentUtils {
                 .setType(mimeType);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (mimeTypes != null && mimeTypes.length > 0) {
-                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -85,77 +113,76 @@ public class IntentUtils {
         return intent;
     }
 
-    public static Intent makePickFile(boolean allowMultiple) {
-        return makePickFile(MIME_TYPE_ANY, null, allowMultiple);
-    }
-
-    public static Intent makePickFile(String mimeType, boolean allowMultiple) {
-        return makePickFile(mimeType, new String[] { mimeType }, allowMultiple);
-    }
-
-    public static Intent makePickFile(String[] mimeTypes, boolean allowMultiple) {
-        String mimeType = mimeTypes != null && mimeTypes.length == 1 ? mimeTypes[0] : MIME_TYPE_ANY;
-        return makePickFile(mimeType, mimeTypes, allowMultiple);
-    }
-
+    @NonNull
     public static Intent makePickImage(boolean allowMultiple) {
         return makePickFile(MIME_TYPE_IMAGE_ANY, allowMultiple);
     }
 
+    @NonNull
     public static Intent makePickOrCaptureImageWithChooser(boolean allowPickMultiple,
-                                                           Uri captureOutputUri) {
-        Intent intent = withChooser(makePickImage(allowPickMultiple));
-        if (captureOutputUri != null) {
-            intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Parcelable[] {
-                    makeCaptureImage(captureOutputUri)
-            });
-        }
-        return intent;
+                                                           @NonNull Uri captureOutputUri) {
+        return withChooser(makePickImage(allowPickMultiple))
+                .putExtra(Intent.EXTRA_INITIAL_INTENTS, new Parcelable[] {
+                        makeCaptureImage(captureOutputUri)
+                });
     }
 
+    @NonNull
     public static Intent makePickOrCaptureImageWithChooser(boolean allowPickMultiple,
-                                                           File captureOutputFile,
-                                                           Context context) {
+                                                           @NonNull File captureOutputFile,
+                                                           @NonNull Context context) {
         return makePickOrCaptureImageWithChooser(allowPickMultiple, FileUtils.getContentUri(
                 captureOutputFile, context));
     }
 
     // TODO: Use android.support.v4.app.ShareCompat ?
 
-    // NOTE: Before Build.VERSION_CODES.JELLY_BEAN htmlText will be no-op.
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static Intent makeSendText(CharSequence text, String htmlText) {
+    @NonNull
+    public static Intent makeSendText(@NonNull CharSequence text, @Nullable String htmlText) {
         Intent intent = new Intent()
                 .setAction(Intent.ACTION_SEND)
                 .putExtra(Intent.EXTRA_TEXT, text);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && htmlText != null) {
-            intent.putExtra(Intent.EXTRA_HTML_TEXT, htmlText);
+        if (htmlText != null) {
+            intent.putExtra(IntentCompat.EXTRA_HTML_TEXT, htmlText);
         }
         return intent.setType(MIME_TYPE_TEXT_PLAIN);
     }
 
-    public static Intent makeSendText(CharSequence text) {
+    @NonNull
+    public static Intent makeSendText(@NonNull CharSequence text) {
         return makeSendText(text, null);
     }
 
-    public static Intent makeSendImage(Uri uri, CharSequence text) {
-        return new Intent()
-                .setAction(Intent.ACTION_SEND)
-                // For maximum compatibility.
-                .putExtra(Intent.EXTRA_TEXT, text)
-                .putExtra(Intent.EXTRA_TITLE, text)
-                .putExtra(Intent.EXTRA_SUBJECT, text)
-                // HACK: WeChat moments respects this extra only.
-                .putExtra("Kdescription", text)
-                .putExtra(Intent.EXTRA_STREAM, uri)
-                .setType(MIME_TYPE_IMAGE_ANY);
+    @NonNull
+    public static Intent makeSendImage(@NonNull Uri uri, @Nullable CharSequence text) {
+        Intent intent = makeSendStream(uri, MIME_TYPE_IMAGE_ANY);
+        if (text != null) {
+            intent
+                    // For maximum compatibility.
+                    .putExtra(Intent.EXTRA_TEXT, text)
+                    .putExtra(Intent.EXTRA_TITLE, text)
+                    .putExtra(Intent.EXTRA_SUBJECT, text)
+                    // HACK: WeChat moments respects this extra only.
+                    .putExtra("Kdescription", text);
+        }
+        return intent;
     }
 
-    public static Intent makeSendImage(Uri uri) {
+    @NonNull
+    public static Intent makeSendImage(@NonNull Uri uri) {
         return makeSendImage(uri, null);
     }
 
-    public static Intent makeSyncSettings(String[] authorities, String[] accountTypes) {
+    @NonNull
+    public static Intent makeSendStream(@NonNull Uri stream, @NonNull String type) {
+        return new Intent(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_STREAM, stream)
+                .setType(type);
+    }
+
+    @NonNull
+    public static Intent makeSyncSettings(@Nullable String[] authorities,
+                                          @Nullable String[] accountTypes) {
         Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
         if (!ArrayUtils.isEmpty(authorities)) {
             intent.putExtra(Settings.EXTRA_AUTHORITIES, authorities);
@@ -168,33 +195,36 @@ public class IntentUtils {
         return intent;
     }
 
-    public static Intent makeSyncSettingsWithAuthority(String authority) {
+    @NonNull
+    public static Intent makeSyncSettingsWithAuthority(@Nullable String authority) {
         return makeSyncSettings(authority != null ? new String[] { authority } : null, null);
     }
 
-    public static Intent makeSyncSettingsWithAccountType(String accountType) {
+    @NonNull
+    public static Intent makeSyncSettingsWithAccountType(@Nullable String accountType) {
         return makeSyncSettings(null, accountType != null ? new String[] { accountType } : null);
     }
 
+    @NonNull
     public static Intent makeSyncSettings() {
         return makeSyncSettings(null, null);
     }
 
-    public static Intent makeView(Uri uri) {
+    @NonNull
+    public static Intent makeView(@NonNull Uri uri) {
         return new Intent(Intent.ACTION_VIEW, uri);
     }
 
-    public static Intent makeView(Uri uri, String type) {
+    @NonNull
+    public static Intent makeView(@NonNull Uri uri, @NonNull String type) {
         return new Intent(Intent.ACTION_VIEW)
                 // Calling setType() will clear data.
-                .setDataAndType(uri, type);
+                .setDataAndType(uri, type)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
 
-    public static Intent makeViewWithType(Uri uri, Context context) {
-        return makeView(uri, UriUtils.getType(uri, context));
-    }
-
-    public static Intent makeViewAppInMarket(String packageName) {
+    @NonNull
+    public static Intent makeViewAppInMarket(@NonNull String packageName) {
         return makeView(Uri.parse("market://details?id=" + packageName));
     }
 }

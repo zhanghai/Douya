@@ -11,12 +11,11 @@ public class NightModeAccessor {
 
     private NightModeAccessor() {}
 
-    public static boolean flushResources(Resources resources) {
-        return ResourcesFlusher.flush(resources);
+    public static void flushResources(Resources resources) {
+        ResourcesFlusher.flush(resources);
     }
 
     public static int mapNightMode(AppCompatDelegate delegate, int mode) {
-        // We don't care about APIs below 14.
-        return ((AppCompatDelegateImplV14) delegate).mapNightMode(mode);
+        return ((AppCompatDelegateImpl) delegate).mapNightMode(mode);
     }
 }

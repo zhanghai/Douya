@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.douya.ui;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.NoCopySpan;
 import android.text.Selection;
@@ -27,10 +29,12 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     private static final int UP = 2;
     private static final int DOWN = 3;
 
-    private static Object FROM_BELOW = new NoCopySpan.Concrete();
+    private static final Object FROM_BELOW = new NoCopySpan.Concrete();
 
+    @Nullable
     private static LinkArrowKeyMovementMethod sInstance;
 
+    @NonNull
     public static LinkArrowKeyMovementMethod getInstance() {
         if (sInstance == null) {
             sInstance = new LinkArrowKeyMovementMethod();
@@ -39,14 +43,14 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     }
 
     @Override
-    public void initialize(TextView widget, Spannable text) {
+    public void initialize(@Nullable TextView widget, @NonNull Spannable text) {
         super.initialize(widget, text);
 
         text.removeSpan(FROM_BELOW);
     }
 
     @Override
-    public void onTakeFocus(TextView view, Spannable text, int dir) {
+    public void onTakeFocus(@NonNull TextView view, @NonNull Spannable text, int dir) {
         super.onTakeFocus(view, text, dir);
 
         if ((dir & View.FOCUS_BACKWARD) != 0) {
@@ -57,8 +61,9 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     }
 
     @Override
-    protected boolean handleMovementKey(TextView widget, Spannable buffer, int keyCode,
-                                        int movementMetaState, KeyEvent event) {
+    protected boolean handleMovementKey(@NonNull TextView widget, @NonNull Spannable buffer,
+                                        int keyCode, int movementMetaState,
+                                        @NonNull KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
@@ -74,7 +79,7 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     }
 
     @Override
-    protected boolean up(TextView widget, Spannable buffer) {
+    protected boolean up(@NonNull TextView widget, @NonNull Spannable buffer) {
         if (action(UP, widget, buffer)) {
             return true;
         }
@@ -83,7 +88,7 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     }
 
     @Override
-    protected boolean down(TextView widget, Spannable buffer) {
+    protected boolean down(@NonNull TextView widget, @NonNull Spannable buffer) {
         if (action(DOWN, widget, buffer)) {
             return true;
         }
@@ -92,7 +97,7 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     }
 
     @Override
-    protected boolean left(TextView widget, Spannable buffer) {
+    protected boolean left(@NonNull TextView widget, @NonNull Spannable buffer) {
         if (action(UP, widget, buffer)) {
             return true;
         }
@@ -101,7 +106,7 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     }
 
     @Override
-    protected boolean right(TextView widget, Spannable buffer) {
+    protected boolean right(@NonNull TextView widget, @NonNull Spannable buffer) {
         if (action(DOWN, widget, buffer)) {
             return true;
         }
@@ -109,7 +114,7 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
         return super.right(widget, buffer);
     }
 
-    private boolean action(int what, TextView widget, Spannable buffer) {
+    private boolean action(int what, @NonNull TextView widget, @NonNull Spannable buffer) {
         Layout layout = widget.getLayout();
 
         int padding = widget.getTotalPaddingTop() +
@@ -207,7 +212,8 @@ public class LinkArrowKeyMovementMethod extends ArrowKeyMovementMethod {
     }
 
     @Override
-    public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
+    public boolean onTouchEvent(@NonNull TextView widget, @NonNull Spannable buffer,
+                                @NonNull MotionEvent event) {
         int action = event.getAction();
 
         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_DOWN) {
