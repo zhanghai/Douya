@@ -78,6 +78,6 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
                 .setIncludeOwnLicense(true)
                 .setNoticesCssStyle(htmlStyleRes)
                 .build()
-                .createAppCompat();
+                .create();
     }
 }
