@@ -92,13 +92,6 @@
     </notice>
 
     <notice>
-        <name>EventBus</name>
-        <url>https://github.com/greenrobot/EventBus</url>
-        <copyright>Copyright 2012 greenrobot</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-
-    <notice>
         <name>CircleImageView</name>
         <url>https://github.com/hdodenhof/CircleImageView</url>
         <copyright>Copyright 2014-2018 Henning Dodenhof</copyright>
@@ -151,6 +144,13 @@
         <name>SystemUiHelper</name>
         <url>https://github.com/DreaminginCodeZH/SystemUiHelper</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <notice>
+        <name>EventBus</name>
+        <url>https://github.com/greenrobot/EventBus</url>
+        <copyright>Copyright 2012 greenrobot</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 </notices>

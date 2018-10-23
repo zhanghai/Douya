@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.ui;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,8 +25,10 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
 
     private static final String STATE_NOTICES = KEY_PREFIX + "NOTICES";
 
+    @NonNull
     private Notices mNotices;
 
+    @NonNull
     public static LicensesDialogFragment newInstance() {
         //noinspection deprecation
         return new LicensesDialogFragment();
@@ -44,7 +47,7 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
             mNotices = savedInstanceState.getParcelable(STATE_NOTICES);
         } else {
             try {
-                mNotices = NoticesXmlParser.parse(getActivity().getResources().openRawResource(
+                mNotices = NoticesXmlParser.parse(requireContext().getResources().openRawResource(
                         R.raw.licenses));
             } catch (Exception e) {
                 throw new IllegalStateException(e);
@@ -53,7 +56,7 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(STATE_NOTICES, mNotices);
@@ -61,22 +64,23 @@ public class LicensesDialogFragment extends AppCompatDialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         // setIncludeOwnLicense(true) will modify our notices instance.
         Notices notices = new Notices();
         for (Notice notice : mNotices.getNotices()) {
             notices.addNotice(notice);
         }
-        int htmlStyleRes = ViewUtils.isLightTheme(getActivity()) ?
+        Context context = requireContext();
+        int htmlStyleRes = ViewUtils.isLightTheme(context) ?
                 R.string.settings_open_source_licenses_html_style_light
                 : R.string.settings_open_source_licenses_html_style_dark;
-        return new LicensesDialog.Builder(getActivity())
+        return new LicensesDialog.Builder(context)
                 .setThemeResourceId(getTheme())
                 .setTitle(R.string.settings_open_source_licenses_title)
-                .setCloseText(R.string.close)
                 .setNotices(notices)
                 .setIncludeOwnLicense(true)
                 .setNoticesCssStyle(htmlStyleRes)
+                .setCloseText(R.string.close)
                 .build()
                 .create();
     }
