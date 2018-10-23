@@ -55,7 +55,7 @@ public class CounterTextView extends AppCompatTextView {
         if (visible) {
             setText(getContext().getString(R.string.counter_format, length, mMaxLength));
             int textColorAttrRes = length <= mMaxLength ? android.R.attr.textColorSecondary
-                    : R.attr.textColorError;
+                    : R.attr.colorError;
             setTextColor(ViewUtils.getColorStateListFromAttrRes(textColorAttrRes, getContext()));
         }
     }

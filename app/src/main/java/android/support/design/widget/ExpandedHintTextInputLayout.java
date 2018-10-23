@@ -5,12 +5,14 @@
 
 package android.support.design.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
 import me.zhanghai.android.douya.R;
 
+@SuppressLint("RestrictedApi")
 public class ExpandedHintTextInputLayout extends TextInputLayout {
 
     private EditText mHasTextEditText;
@@ -34,16 +36,16 @@ public class ExpandedHintTextInputLayout extends TextInputLayout {
     }
 
     private void init() {
-        mCollapsingTextHelper.setCollapsedTextAppearance(R.style.TextAppearance_AppCompat_Caption);
+        collapsingTextHelper.setCollapsedTextAppearance(R.style.TextAppearance_AppCompat_Caption);
         mHasTextEditText = new EditText(getContext());
         mHasTextEditText.setText(" ");
     }
 
     @Override
-    void updateLabelState(boolean animate, boolean force) {
-        EditText editText = mEditText;
-        mEditText = mHasTextEditText;
-        super.updateLabelState(animate, force);
-        mEditText = editText;
+    void updateLabelState(boolean animate) {
+        EditText realEditText = editText;
+        editText = mHasTextEditText;
+        super.updateLabelState(animate);
+        editText = realEditText;
     }
 }
