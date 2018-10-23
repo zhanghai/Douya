@@ -537,15 +537,21 @@ public class WebViewActivity extends AppCompatActivity {
     private void download() {
         if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_DOWNLOAD)) {
             downloadWithPermission();
-        } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
-                PERMISSIONS_DOWNLOAD)) {
-            OpenAppDetailsDialogFragment.show(
-                    R.string.webview_download_permission_permanently_denied_message,
-                    R.string.open_settings, this);
-        } else  {
+        } else {
             EffortlessPermissions.requestPermissions(this,
                     R.string.webview_download_permission_request_message,
                     REQUEST_CODE_DOWNLOAD_PERMISSION, PERMISSIONS_DOWNLOAD);
+        }
+    }
+
+    @AfterPermissionDenied(REQUEST_CODE_DOWNLOAD_PERMISSION)
+    private void onDownloadPermissionDenied() {
+        if (EffortlessPermissions.somePermissionPermanentlyDenied(this, PERMISSIONS_DOWNLOAD)) {
+            OpenAppDetailsDialogFragment.show(
+                    R.string.webview_download_permission_permanently_denied_message,
+                    R.string.open_settings, this);
+        } else {
+            ToastUtils.show(R.string.webview_download_permission_denied, this);
         }
     }
 
@@ -553,11 +559,6 @@ public class WebViewActivity extends AppCompatActivity {
         WebViewUtils.download(mDownloadInfo.mUrl, mDownloadInfo.mUserAgent,
                 mDownloadInfo.mContentDisposition, mDownloadInfo.mMimeType, this);
         mDownloadInfo = null;
-    }
-
-    @AfterPermissionDenied(REQUEST_CODE_DOWNLOAD_PERMISSION)
-    private void onDownloadPermissionDenied() {
-        ToastUtils.show(R.string.webview_download_permission_denied, this);
     }
 
     private class ChromeClient extends WebChromeClient {

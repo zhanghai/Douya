@@ -224,12 +224,7 @@ public class GalleryFragment extends Fragment {
     private void saveImage() {
         if (EffortlessPermissions.hasPermissions(this, PERMISSIONS_SAVE_IMAGE)) {
             saveImageWithPermission();
-        } else if (EffortlessPermissions.somePermissionPermanentlyDenied(this,
-                PERMISSIONS_SAVE_IMAGE)) {
-            OpenAppDetailsDialogFragment.show(
-                    R.string.gallery_save_permission_permanently_denied_message,
-                    R.string.open_settings, this);
-        } else  {
+        } else {
             EffortlessPermissions.requestPermissions(this,
                     R.string.gallery_save_permission_request_message,
                     REQUEST_CODE_SAVE_IMAGE_PERMISSION, PERMISSIONS_SAVE_IMAGE);
@@ -238,7 +233,13 @@ public class GalleryFragment extends Fragment {
 
     @AfterPermissionDenied(REQUEST_CODE_SAVE_IMAGE_PERMISSION)
     private void onSaveImagePermissionDenied() {
-        ToastUtils.show(R.string.gallery_save_permission_denied, getActivity());
+        if (EffortlessPermissions.somePermissionPermanentlyDenied(this, PERMISSIONS_SAVE_IMAGE)) {
+            OpenAppDetailsDialogFragment.show(
+                    R.string.gallery_save_permission_permanently_denied_message,
+                    R.string.open_settings, this);
+        } else {
+            ToastUtils.show(R.string.gallery_save_permission_denied, getActivity());
+        }
     }
 
     private void saveImageWithPermission() {

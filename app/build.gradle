@@ -124,7 +124,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3'
     implementation 'me.zhanghai.android.customtabshelper:library:1.0.4'
-    implementation 'me.zhanghai.android.effortlesspermissions:library:1.0.3'
+    implementation 'me.zhanghai.android.effortlesspermissions:library:1.1.0'
     implementation 'me.zhanghai.android.materialedittext:library:1.0.5'
     implementation 'me.zhanghai.android.materialplaypausedrawable:library:1.0.0'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
