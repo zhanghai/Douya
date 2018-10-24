@@ -8,18 +8,21 @@ package me.zhanghai.android.douya.settings.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.util.FragmentUtils;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    public static Intent makeIntent(Context context) {
+    @NonNull
+    public static Intent makeIntent(@NonNull Context context) {
         return new Intent(context, SettingsActivity.class);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Calls ensureSubDecor().
