@@ -191,8 +191,8 @@ public class WebViewActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
 
         // Need to do this before calling super to avoid activity recreation by AppCompat.
-        NightModeHelper.onConfigurationChanged(this);
-        onApplyThemeResource(getTheme(), R.style.Theme_Douya, true);
+        NightModeHelper.onConfigurationChanged(this, this::onApplyThemeResource,
+                R.style.Theme_Douya);
 
         super.onConfigurationChanged(newConfig);
 

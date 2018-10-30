@@ -48,6 +48,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers
         if (!TextUtils.equals(key, Settings.NIGHT_MODE.getKey())) {
             return;
         }
-        NightModeHelper.updateNightMode((AppCompatActivity) getActivity());
+        NightModeHelper.updateNightMode(requireActivity());
     }
 }
