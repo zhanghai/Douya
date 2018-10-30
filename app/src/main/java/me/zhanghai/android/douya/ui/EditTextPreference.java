@@ -6,28 +6,32 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
 public class EditTextPreference extends com.takisoft.fix.support.v7.preference.EditTextPreference {
 
-    public EditTextPreference(Context context) {
+    public EditTextPreference(@NonNull Context context) {
         super(context);
     }
 
-    public EditTextPreference(Context context, AttributeSet attrs) {
+    public EditTextPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public EditTextPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public EditTextPreference(@NonNull Context context, @Nullable AttributeSet attrs,
+                              int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public EditTextPreference(Context context, AttributeSet attrs, int defStyleAttr,
-                              int defStyleRes) {
+    public EditTextPreference(@NonNull Context context, @Nullable AttributeSet attrs,
+                              int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    @Nullable
     @Override
     public CharSequence getSummary() {
         String text = getText();
