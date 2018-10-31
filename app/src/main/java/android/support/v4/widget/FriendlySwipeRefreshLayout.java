@@ -6,8 +6,6 @@
 package android.support.v4.widget;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
@@ -15,10 +13,9 @@ import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 /**
- * Offers <code>app:progressOffset</code>, <code>app:progressDistanceOffset</code>, and defaults
- * progress color to <code>?colorPrimary</code>.
+ * Offers <code>app:progressOffset</code>, <code>app:progressDistanceOffset</code>.
  */
-public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
+public class FriendlySwipeRefreshLayout extends ThemedSwipeRefreshLayout {
 
     private static final int CIRCLE_DIAMETER_DP = CIRCLE_DIAMETER;
     private static final int CIRCLE_DIAMETER_LARGE_DP = CIRCLE_DIAMETER_LARGE;
@@ -61,13 +58,6 @@ public class FriendlySwipeRefreshLayout extends SwipeRefreshLayout {
         if (progressOffset != 0 || progressDistanceOffset != 0) {
             setProgressViewOffset(progressOffset, progressDistanceOffset);
         }
-
-        int backgroundColor = ViewUtils.getColorFromAttrRes(R.attr.colorBackgroundFloating,
-                Color.WHITE, context);
-        ((ShapeDrawable) mCircleView.getBackground()).getPaint().setColor(backgroundColor);
-        mProgress.setBackgroundColor(backgroundColor);
-        setColorSchemeColors(ViewUtils.getColorFromAttrRes(R.attr.colorControlActivated,
-                Color.BLACK, context));
     }
 
     @Override
