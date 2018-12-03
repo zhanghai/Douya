@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.util;
 
 import android.os.ParcelFileDescriptor;
+import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import org.json.JSONArray;
@@ -96,12 +97,14 @@ public class IoUtils {
         outputStream.write(string.getBytes(charset));
     }
 
-    public static String byteArrayToBase64(byte[] byteArray) {
+    @NonNull
+    public static String byteArrayToBase64(@NonNull byte[] bytes) {
         // We are using Base64 in Json so we don't want newlines here.
-        return Base64.encodeToString(byteArray, Base64.NO_WRAP);
+        return Base64.encodeToString(bytes, Base64.NO_WRAP);
     }
 
-    public static byte[] base64ToByteArray(String base64) {
+    @NonNull
+    public static byte[] base64ToByteArray(@NonNull String base64) {
         return Base64.decode(base64, Base64.DEFAULT);
     }
 

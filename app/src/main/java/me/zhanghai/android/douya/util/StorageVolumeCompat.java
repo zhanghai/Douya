@@ -43,8 +43,8 @@ public class StorageVolumeCompat {
 
     private StorageVolumeCompat() {}
 
-    /**
-     * &#064;see StorageVolume#getPath()
+    /*
+     * @see StorageVolume#getPath()
      */
     @NonNull
     @SuppressLint({"NewApi", "PrivateApi"})
@@ -76,8 +76,8 @@ public class StorageVolumeCompat {
         }
     }
 
-    /**
-     * &#064;see StorageVolume#getPathFile()
+    /*
+     * @see StorageVolume#getPathFile()
      */
     @NonNull
     @SuppressLint({"NewApi", "PrivateApi"})
