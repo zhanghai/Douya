@@ -334,7 +334,7 @@ public class SendBroadcastFragment extends Fragment
 
     private void pickImage() {
         AppUtils.startActivityForResultWithChooser(IntentUtils.makePickImage(true),
-                REQUEST_CODE_PICK_OR_CAPTURE_IMAGE, getActivity());
+                REQUEST_CODE_PICK_OR_CAPTURE_IMAGE, this);
     }
 
     private List<Uri> parsePickOrCaptureImageResult(Intent data) {

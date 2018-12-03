@@ -5,17 +5,15 @@
 
 package me.zhanghai.android.douya.util;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+
+import me.zhanghai.android.douya.reflected.ReflectedMethod;
 
 /**
  * @see StorageManager
@@ -25,9 +23,8 @@ import java.util.List;
 public class StorageManagerCompat {
 
     @NonNull
-    private static final Object sStorageManagerGetVolumeListMethodLock = new Object();
-    @Nullable
-    private static Method sStorageManagerGetVolumeListMethod;
+    private static final ReflectedMethod sGetVolumeListMethod = new ReflectedMethod(
+            StorageManager.class, "getVolumeList");
 
     private StorageManagerCompat() {}
 
@@ -39,35 +36,8 @@ public class StorageManagerCompat {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return storageManager.getStorageVolumes();
         } else {
-            StorageVolume[] storageVolumes;
-            //noinspection TryWithIdenticalCatches
-            try {
-                storageVolumes = (StorageVolume[]) getStorageManagerGetVolumeListMethod().invoke(
-                        storageManager);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
+            StorageVolume[] storageVolumes = sGetVolumeListMethod.invoke(storageManager);
             return Arrays.asList(storageVolumes);
-        }
-    }
-
-    @NonNull
-    @SuppressLint("PrivateApi")
-    private static Method getStorageManagerGetVolumeListMethod() {
-        synchronized (sStorageManagerGetVolumeListMethodLock) {
-            if (sStorageManagerGetVolumeListMethod == null) {
-                try {
-                    //noinspection JavaReflectionMemberAccess
-                    sStorageManagerGetVolumeListMethod = StorageManager.class.getDeclaredMethod(
-                            "getVolumeList");
-                } catch (NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                }
-                sStorageManagerGetVolumeListMethod.setAccessible(true);
-            }
-            return sStorageManagerGetVolumeListMethod;
         }
     }
 }
