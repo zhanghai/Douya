@@ -5,11 +5,11 @@
 
 package me.zhanghai.android.douya.network;
 
+import android.support.annotation.Nullable;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-
-import javax.annotation.Nullable;
 
 import me.zhanghai.android.douya.util.GsonHelper;
 import okhttp3.ResponseBody;
