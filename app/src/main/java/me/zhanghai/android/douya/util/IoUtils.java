@@ -71,12 +71,14 @@ public class IoUtils {
         return count;
     }
 
-    public static String inputStreamToString(InputStream inputStream, Charset charset)
-            throws IOException {
+    @NonNull
+    public static String inputStreamToString(@NonNull InputStream inputStream,
+                                             @NonNull Charset charset) throws IOException {
         return readerToString(new InputStreamReader(inputStream, charset));
     }
 
-    public static String readerToString(Reader reader) throws IOException {
+    @NonNull
+    public static String readerToString(@NonNull Reader reader) throws IOException {
         StringBuilder builder = new StringBuilder();
         char[] buffer = new char[BUFFER_SIZE];
         int length;

@@ -13,10 +13,12 @@ import java.util.AbstractList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Set;
 
 import me.zhanghai.android.douya.functional.Functional;
+import me.zhanghai.android.douya.functional.FunctionalIterator;
 
 public class CollectionUtils {
 
@@ -80,13 +82,22 @@ public class CollectionUtils {
         return collection == null || collection.isEmpty();
     }
 
-    public static boolean isPrefix(@NonNull List<?> prefix, List<?> list) {
-        return prefix.size() <= list.size() && Functional.every(prefix,
-                (element, index) -> ObjectsCompat.equals(element, list.get(index)));
-    }
-
     public static int size(@Nullable Collection<?> collection) {
         return collection != null ? collection.size() : 0;
+    }
+
+    public static <E> boolean startsWith(@NonNull List<? extends E> list1,
+                                         @NonNull List<? extends E> list2) {
+        return list1.size() >= list2.size() && Functional.every(list2, (element, index) ->
+                ObjectsCompat.equals(list1.get(index), element));
+    }
+
+    public static <E> boolean endsWith(@NonNull List<? extends E> list1,
+                                       @NonNull List<? extends E> list2) {
+        int list1Size = list1.size();
+        return list1Size >= list2.size() && FunctionalIterator.everyRemaining(
+                new FunctionalIterator.ReverseIterator<>(list2), (element, index) ->
+                        ObjectsCompat.equals(list1.get(list1Size - 1 - index), element));
     }
 
     @NonNull

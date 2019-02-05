@@ -5,9 +5,13 @@
 
 package me.zhanghai.android.douya.functional;
 
+import android.support.annotation.CheckResult;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import me.zhanghai.android.douya.functional.compat.BiConsumer;
 import me.zhanghai.android.douya.functional.compat.BiFunction;
@@ -73,6 +77,7 @@ public class FunctionalIterator {
         return collector;
     }
 
+    @CheckResult
     public static <T, J extends Collection<? super T>> ArrayList<T> filterRemaining(
             Iterator<T> iterator, Predicate<T> predicate) {
         return filterRemaining(iterator, predicate, new ArrayList<>());
@@ -91,6 +96,7 @@ public class FunctionalIterator {
         return collector;
     }
 
+    @CheckResult
     public static <T, J extends Collection<? super T>> ArrayList<T> filterRemaining(
             Iterator<T> iterator, BiPredicate<T, Integer> predicate) {
         return filterRemaining(iterator, predicate, new ArrayList<>());
@@ -109,6 +115,7 @@ public class FunctionalIterator {
         return collector;
     }
 
+    @CheckResult
     public static <I extends Iterator<T>, T, J extends Collection<? super T>> ArrayList<T>
     filterRemaining(I iterator, TriPredicate<T, Integer, I> predicate) {
         return filterRemaining(iterator, predicate, new ArrayList<>());
@@ -188,10 +195,7 @@ public class FunctionalIterator {
     }
 
     public static <T> void forEachRemaining(Iterator<T> iterator, Consumer<T> consumer) {
-        while (iterator.hasNext()) {
-            T t = iterator.next();
-            consumer.accept(t);
-        }
+        IteratorCompat.forEachRemaining(iterator, consumer);
     }
 
     public static <T> void forEachRemaining(Iterator<T> iterator, BiConsumer<T, Integer> consumer) {
@@ -223,6 +227,7 @@ public class FunctionalIterator {
         return collector;
     }
 
+    @CheckResult
     public static <T, U, J extends Collection<? super U>> ArrayList<U> mapRemaining(
             Iterator<T> iterator, Function<T, U> function) {
         return mapRemaining(iterator, function, new ArrayList<>());
@@ -239,6 +244,7 @@ public class FunctionalIterator {
         return collector;
     }
 
+    @CheckResult
     public static <T, U, J extends Collection<? super U>> ArrayList<U> mapRemaining(
             Iterator<T> iterator, BiFunction<T, Integer, U> function) {
         return mapRemaining(iterator, function, new ArrayList<>());
@@ -255,6 +261,7 @@ public class FunctionalIterator {
         return collector;
     }
 
+    @CheckResult
     public static <I extends Iterator<T>, T, U, J extends Collection<? super U>> ArrayList<U>
     mapRemaining(I iterator, TriFunction<T, Integer, I, U> function) {
         return mapRemaining(iterator, function, new ArrayList<>());
@@ -353,5 +360,24 @@ public class FunctionalIterator {
             ++index;
         }
         return false;
+    }
+
+    public static class ReverseIterator<T> implements Iterator<T> {
+
+        private ListIterator<T> mListIterator;
+
+        public ReverseIterator(List<T> list) {
+            mListIterator = list.listIterator(list.size());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return mListIterator.hasPrevious();
+        }
+
+        @Override
+        public T next() {
+            return mListIterator.previous();
+        }
     }
 }

@@ -5,11 +5,11 @@
 
 package me.zhanghai.android.douya.functional;
 
+import android.support.annotation.CheckResult;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import me.zhanghai.android.douya.functional.compat.BiConsumer;
 import me.zhanghai.android.douya.functional.compat.BiFunction;
@@ -47,6 +47,7 @@ public class Functional {
         return FunctionalIterator.filterRemaining(iterable.iterator(), predicate, collector);
     }
 
+    @CheckResult
     public static <T, J extends Collection<? super T>> ArrayList<T> filter(Iterable<T> iterable,
                                                                            Predicate<T> predicate) {
         return FunctionalIterator.filterRemaining(iterable.iterator(), predicate);
@@ -58,6 +59,7 @@ public class Functional {
         return FunctionalIterator.filterRemaining(iterable.iterator(), predicate, collector);
     }
 
+    @CheckResult
     public static <T, J extends Collection<? super T>> ArrayList<T> filter(
             Iterable<T> iterable, BiPredicate<T, Integer> predicate) {
         return FunctionalIterator.filterRemaining(iterable.iterator(), predicate);
@@ -69,6 +71,7 @@ public class Functional {
                 predicate.test(t, index, iterable), collector);
     }
 
+    @CheckResult
     public static <I extends Iterable<T>, T, J extends Collection<? super T>> ArrayList<T> filter(
             I iterable, TriPredicate<T, Integer, I> predicate) {
         return FunctionalIterator.filterRemaining(iterable.iterator(), (t, index, iterator) ->
@@ -123,6 +126,7 @@ public class Functional {
         return FunctionalIterator.mapRemaining(iterable.iterator(), function, collector);
     }
 
+    @CheckResult
     public static <T, U, J extends Collection<? super U>> ArrayList<U> map(
             Iterable<T> iterable, Function<T, U> function) {
         return FunctionalIterator.mapRemaining(iterable.iterator(), function);
@@ -134,6 +138,7 @@ public class Functional {
         return FunctionalIterator.mapRemaining(iterable.iterator(), function, collector);
     }
 
+    @CheckResult
     public static <T, U, J extends Collection<? super U>> ArrayList<U> map(
             Iterable<T> iterable, BiFunction<T, Integer, U> function) {
         return FunctionalIterator.mapRemaining(iterable.iterator(), function);
@@ -145,6 +150,7 @@ public class Functional {
                 function.apply(t, index, iterable), collector);
     }
 
+    @CheckResult
     public static <I extends Iterable<T>, T, U, J extends Collection<? super U>> ArrayList<U> map(
             I iterable, TriFunction<T, Integer, I, U> function) {
         return FunctionalIterator.mapRemaining(iterable.iterator(), (t, index, iterator) ->
@@ -185,39 +191,21 @@ public class Functional {
     }
 
     public static <T> T reduceRight(List<T> iterable, BiFunction<T, T, T> function) {
-        return FunctionalIterator.reduceRemaining(new ReverseIterator<>(iterable), function);
+        return FunctionalIterator.reduceRemaining(new FunctionalIterator.ReverseIterator<>(
+                iterable), function);
     }
 
     public static <T> T reduceRight(List<T> list, TriFunction<T, T, Integer, T> function) {
-        return FunctionalIterator.reduceRemaining(new ReverseIterator<>(list),
+        return FunctionalIterator.reduceRemaining(new FunctionalIterator.ReverseIterator<>(list),
                 (previousValue, t, index, iterator) -> function.apply(previousValue, t,
                         list.size() - 1 - index));
     }
 
     public static <I extends List<T>, T> T reduceRight(I list,
                                                        QuadFunction<T, T, Integer, I, T> function) {
-        return FunctionalIterator.reduceRemaining(new ReverseIterator<>(list),
+        return FunctionalIterator.reduceRemaining(new FunctionalIterator.ReverseIterator<>(list),
                 (previousValue, t, index, iterator) -> function.apply(previousValue, t,
                         list.size() - 1 - index, list));
-    }
-
-    private static class ReverseIterator<T> implements Iterator<T> {
-
-        private ListIterator<T> mListIterator;
-
-        public ReverseIterator(List<T> list) {
-            mListIterator = list.listIterator(list.size());
-        }
-
-        @Override
-        public boolean hasNext() {
-            return mListIterator.hasPrevious();
-        }
-
-        @Override
-        public T next() {
-            return mListIterator.previous();
-        }
     }
 
     public static <T> boolean some(Iterable<T> iterable, Predicate<T> predicate) {
