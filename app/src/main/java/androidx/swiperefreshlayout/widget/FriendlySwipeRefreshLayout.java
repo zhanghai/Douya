@@ -3,10 +3,10 @@
  * All Rights Reserved.
  */
 
-package android.support.v4.widget;
+package androidx.swiperefreshlayout.widget;
 
 import android.content.Context;
-import android.support.v7.widget.TintTypedArray;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.R;

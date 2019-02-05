@@ -3,14 +3,15 @@
  * All Rights Reserved.
  */
 
-package android.support.v4.widget;
+package androidx.swiperefreshlayout.widget;
 
 import android.content.Context;
 import android.graphics.drawable.ShapeDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 

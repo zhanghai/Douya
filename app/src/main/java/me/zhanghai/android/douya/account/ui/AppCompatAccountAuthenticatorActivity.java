@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.account.ui;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Base class for implementing an AppCompatActivity that is used to help implement an

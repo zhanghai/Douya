@@ -5,8 +5,8 @@
 
 package me.zhanghai.android.douya.account.content;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import me.zhanghai.android.douya.network.RequestFragment;
 import me.zhanghai.android.douya.network.api.ApiRequest;

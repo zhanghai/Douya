@@ -8,8 +8,8 @@ package me.zhanghai.android.douya.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.TintTypedArray;
+import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.R;

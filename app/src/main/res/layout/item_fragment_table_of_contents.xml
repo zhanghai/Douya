@@ -5,7 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<android.support.design.internal.ForegroundLinearLayout
+<com.google.android.material.internal.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -48,4 +48,4 @@
         android:includeFontPadding="false"
         android:text="@string/view_more"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
-</android.support.design.internal.ForegroundLinearLayout>
+</com.google.android.material.internal.ForegroundLinearLayout>

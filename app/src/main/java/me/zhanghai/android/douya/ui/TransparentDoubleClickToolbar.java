@@ -9,9 +9,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 

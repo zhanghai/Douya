@@ -6,8 +6,8 @@
 package me.zhanghai.android.douya.broadcast.content;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import java.util.Collections;
 import java.util.List;

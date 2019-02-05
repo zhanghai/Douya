@@ -86,7 +86,7 @@
         android:layout_marginBottom="@dimen/card_content_vertical_space"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <android.support.design.internal.ForegroundLinearLayout
+    <com.google.android.material.internal.ForegroundLinearLayout
         android:id="@+id/broadcastlayout_rebroadcasted_attachment_images_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -236,7 +236,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </FrameLayout>
         </FrameLayout>
-    </android.support.design.internal.ForegroundLinearLayout>
+    </com.google.android.material.internal.ForegroundLinearLayout>
 
     <Space
         android:id="@+id/broadcastlayout_rebroadcasted_attachment_images_space"

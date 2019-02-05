@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.glide.progress;
 
-import android.support.v4.util.SimpleArrayMap;
+import androidx.collection.SimpleArrayMap;
 
 import com.bumptech.glide.load.Options;
 import com.bumptech.glide.load.model.GlideUrl;

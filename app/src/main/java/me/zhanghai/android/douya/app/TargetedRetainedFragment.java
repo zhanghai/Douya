@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.app;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import me.zhanghai.android.douya.util.FragmentUtils;
 

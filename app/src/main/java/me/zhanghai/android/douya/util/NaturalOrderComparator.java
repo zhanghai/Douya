@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Comparator;
 

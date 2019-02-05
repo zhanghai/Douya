@@ -9,10 +9,10 @@ import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Build.VERSION;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import android.util.ArrayMap;
 import android.util.LongSparseArray;
 
@@ -23,7 +23,7 @@ import java.util.Map;
  * This class flushes all the entries of ThemedResourceCache, instead of only mUnthemedEntries as in
  * AppCompat.
  *
- * @see android.support.v7.app.ResourcesFlusher
+ * @see androidx.appcompat.app.ResourcesFlusher
  */
 public class ResourcesFlusher {
 

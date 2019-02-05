@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.item.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.network.api.info.frodo.Music;
 import me.zhanghai.android.douya.network.api.info.frodo.SimpleMusic;

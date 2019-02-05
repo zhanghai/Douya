@@ -5,8 +5,8 @@
 
 package me.zhanghai.android.douya.followship.content;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import me.zhanghai.android.douya.network.api.ApiRequest;
 import me.zhanghai.android.douya.network.api.ApiService;

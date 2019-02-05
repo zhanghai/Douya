@@ -9,8 +9,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.util.PatternsCompat;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.util.PatternsCompat;
 import android.text.TextUtils;
 
 import org.chromium.customtabsclient.CustomTabsActivityHelper;

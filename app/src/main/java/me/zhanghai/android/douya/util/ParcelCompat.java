@@ -6,8 +6,8 @@
 package me.zhanghai.android.douya.util;
 
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 public class ParcelCompat {
@@ -15,17 +15,17 @@ public class ParcelCompat {
     private ParcelCompat() {}
 
     /**
-     * @see android.support.v4.os.ParcelCompat#readBoolean(Parcel)
+     * @see androidx.core.os.ParcelCompat#readBoolean(Parcel)
      */
     public static boolean readBoolean(@NonNull Parcel in) {
-        return android.support.v4.os.ParcelCompat.readBoolean(in);
+        return androidx.core.os.ParcelCompat.readBoolean(in);
     }
 
     /**
-     * @see android.support.v4.os.ParcelCompat#writeBoolean(Parcel, boolean)
+     * @see androidx.core.os.ParcelCompat#writeBoolean(Parcel, boolean)
      */
     public static void writeBoolean(@NonNull Parcel out, boolean value) {
-        android.support.v4.os.ParcelCompat.writeBoolean(out, value);
+        androidx.core.os.ParcelCompat.writeBoolean(out, value);
     }
 
     /*

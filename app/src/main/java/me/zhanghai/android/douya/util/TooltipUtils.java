@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.util;
 
-import android.support.v7.widget.TooltipCompat;
+import androidx.appcompat.widget.TooltipCompat;
 import android.view.View;
 
 public class TooltipUtils {

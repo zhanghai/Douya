@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.util;
 
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Base64;
 
 import org.json.JSONArray;

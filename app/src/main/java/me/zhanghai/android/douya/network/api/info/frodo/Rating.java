@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.network.api.info.frodo;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;

@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.network.api;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,12 +14,9 @@ import java.util.Map;
 import me.zhanghai.android.douya.network.Http;
 import me.zhanghai.android.douya.network.api.credential.ApiCredential;
 import me.zhanghai.android.douya.network.api.util.InterceptorUtils;
-import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.internal.http.HttpMethod;
 
 public class FrodoInterceptor implements Interceptor {
 

@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.reflected;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class ReflectedMethod extends BaseReflectedMethod {
 

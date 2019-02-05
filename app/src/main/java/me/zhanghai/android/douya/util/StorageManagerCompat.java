@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.util;
 import android.os.Build;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;

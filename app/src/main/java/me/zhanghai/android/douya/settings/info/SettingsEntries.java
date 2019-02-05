@@ -6,12 +6,12 @@
 package me.zhanghai.android.douya.settings.info;
 
 import android.net.Uri;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.BoolRes;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.ArrayRes;
+import androidx.annotation.BoolRes;
+import androidx.annotation.IntegerRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import android.text.TextUtils;
 
 import java.util.Arrays;

@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.util;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class StringCompat {
 

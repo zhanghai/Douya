@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.ui;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;

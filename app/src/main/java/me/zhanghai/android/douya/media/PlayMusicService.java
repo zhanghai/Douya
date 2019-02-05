@@ -14,7 +14,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.RatingCompat;
 import android.text.TextUtils;

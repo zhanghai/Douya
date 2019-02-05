@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.profile.ui;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;

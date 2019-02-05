@@ -7,9 +7,9 @@ package me.zhanghai.android.douya.settings.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;

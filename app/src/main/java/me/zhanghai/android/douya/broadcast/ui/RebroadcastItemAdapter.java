@@ -6,8 +6,8 @@
 package me.zhanghai.android.douya.broadcast.ui;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,7 +21,6 @@ import me.zhanghai.android.douya.profile.ui.ProfileActivity;
 import me.zhanghai.android.douya.ui.SimpleAdapter;
 import me.zhanghai.android.douya.ui.TimeTextView;
 import me.zhanghai.android.douya.util.ImageUtils;
-import me.zhanghai.android.douya.util.RecyclerViewUtils;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class RebroadcastItemAdapter

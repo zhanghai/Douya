@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.glide.info;
 
 import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.load.Options;
 import com.bumptech.glide.load.ResourceDecoder;

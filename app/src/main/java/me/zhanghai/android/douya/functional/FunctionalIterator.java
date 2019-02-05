@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.functional;
 
-import android.support.annotation.CheckResult;
+import androidx.annotation.CheckResult;
 
 import java.util.ArrayList;
 import java.util.Collection;

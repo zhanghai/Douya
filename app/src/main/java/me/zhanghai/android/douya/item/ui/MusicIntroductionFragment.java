@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.item.ui;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

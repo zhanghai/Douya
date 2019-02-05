@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package android.support.v4.widget;
+package androidx.core.widget;
 
 import android.content.Context;
 import android.os.Build;
@@ -12,9 +12,9 @@ import android.widget.Scroller;
 
 public class FriendlyScrollerCompat {
 
-    ScrollerCompat mScrollerCompat;
+    private ScrollerCompat mScrollerCompat;
 
-    FriendlyScrollerCompatImpl mImpl;
+    private FriendlyScrollerCompatImpl mImpl;
 
     interface FriendlyScrollerCompatImpl {
         int getStartX(Object scroller);
@@ -22,7 +22,7 @@ public class FriendlyScrollerCompat {
         void forceFinished(Object scroller, boolean finished);
     }
 
-    static class FriendlyScrollerCompatImplBase implements FriendlyScrollerCompatImpl {
+    private static class FriendlyScrollerCompatImplBase implements FriendlyScrollerCompatImpl {
 
         @Override
         public int getStartX(Object scroller) {
@@ -40,7 +40,7 @@ public class FriendlyScrollerCompat {
         }
     }
 
-    static class FriendlyScrollerCompatImplGingerbread implements FriendlyScrollerCompatImpl {
+    private static class FriendlyScrollerCompatImplGingerbread implements FriendlyScrollerCompatImpl {
 
         @Override
         public int getStartX(Object scroller) {
@@ -66,7 +66,7 @@ public class FriendlyScrollerCompat {
         return new FriendlyScrollerCompat(context, interpolator);
     }
 
-    FriendlyScrollerCompat(Context context, Interpolator interpolator) {
+    private FriendlyScrollerCompat(Context context, Interpolator interpolator) {
 
         mScrollerCompat = ScrollerCompat.create(context, interpolator);
 

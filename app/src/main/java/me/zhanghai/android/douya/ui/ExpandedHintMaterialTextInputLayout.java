@@ -6,11 +6,12 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
-import android.support.design.widget.ExpandedHintTextInputLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.textfield.ExpandedHintTextInputLayout;
 
 import me.zhanghai.android.materialedittext.MaterialEditText;
 import me.zhanghai.android.materialedittext.MaterialEditTextBackgroundDrawable;

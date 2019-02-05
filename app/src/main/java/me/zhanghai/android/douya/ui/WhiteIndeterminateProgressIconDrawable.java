@@ -15,9 +15,9 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import me.zhanghai.android.materialprogressbar.IndeterminateCircularProgressDrawable;
 

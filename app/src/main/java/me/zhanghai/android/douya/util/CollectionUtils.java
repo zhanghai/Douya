@@ -5,15 +5,14 @@
 
 package me.zhanghai.android.douya.util;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.ObjectsCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.ObjectsCompat;
 
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Set;
 

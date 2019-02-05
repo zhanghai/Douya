@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.app;
 
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import me.zhanghai.android.douya.R;
 

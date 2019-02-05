@@ -5,8 +5,8 @@
 
 package me.zhanghai.android.douya.navigation.ui;
 
-import android.support.design.widget.NavigationView;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.navigation.NavigationView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 

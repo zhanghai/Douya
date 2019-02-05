@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.util.SpanUtils;

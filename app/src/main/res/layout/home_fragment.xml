@@ -13,7 +13,7 @@
     android:layout_height="match_parent"
     tools:context=".main.ui.MainActivity">
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -41,7 +41,7 @@
                 app:popupTheme="?actionBarPopupTheme"
                 app:titleMarginStart="@dimen/toolbar_title_left_margin" />
 
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -8,10 +8,10 @@ package me.zhanghai.android.douya.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.TintTypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 

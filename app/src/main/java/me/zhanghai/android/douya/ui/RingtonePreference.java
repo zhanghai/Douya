@@ -28,8 +28,8 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.v4.util.ObjectsCompat;
-import android.support.v7.preference.Preference;
+import androidx.core.util.ObjectsCompat;
+import androidx.preference.Preference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 

@@ -16,12 +16,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

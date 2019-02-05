@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.settings.info;
 
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.settings.info.SettingsEntries.*;

@@ -182,7 +182,7 @@
             android:orientation="vertical"
             android:theme="?actionBarTheme">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"

@@ -6,11 +6,10 @@
 package me.zhanghai.android.douya.ui;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;

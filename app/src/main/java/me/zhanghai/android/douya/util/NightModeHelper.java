@@ -10,12 +10,12 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.app.NightModeAccessor;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.NightModeAccessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class NightModeHelper {
      * Should be called before super.onConfigurationChanged() to avoid activity recreation by
      * AppCompat.
      *
-     * @see android.support.v7.app.AppCompatDelegateImpl#updateForNightMode(int)
+     * @see androidx.appcompat.app.AppCompatDelegateImpl#updateForNightMode(int)
      */
     public static void onConfigurationChanged(
             @NonNull Activity activity,

@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.ui;
 import android.content.Context;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatButton;
 import android.util.AttributeSet;
 
 public class AnimateCompoundDrawableButton extends AppCompatButton {

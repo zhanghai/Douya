@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.design.widget.NavigationView;
+import com.google.android.material.navigation.NavigationView;
 import android.util.AttributeSet;
 
 /**

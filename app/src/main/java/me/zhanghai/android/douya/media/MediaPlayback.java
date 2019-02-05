@@ -11,7 +11,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
-import android.support.v4.media.AudioAttributesCompat;
+import androidx.media.AudioAttributesCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;

@@ -6,7 +6,7 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
-import android.support.v7.preference.DialogPreference;
+import androidx.preference.DialogPreference;
 import android.util.AttributeSet;
 
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;

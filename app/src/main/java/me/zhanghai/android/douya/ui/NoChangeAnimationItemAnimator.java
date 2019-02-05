@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.support.v7.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 
 /**
  * A DefaultItemAnimator with setSupportsChangeAnimations(false).

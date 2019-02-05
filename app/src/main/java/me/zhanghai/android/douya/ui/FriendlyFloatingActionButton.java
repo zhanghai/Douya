@@ -10,9 +10,9 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 

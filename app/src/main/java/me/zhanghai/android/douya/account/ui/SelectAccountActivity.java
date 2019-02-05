@@ -9,7 +9,7 @@ import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.account.util.AccountUtils;

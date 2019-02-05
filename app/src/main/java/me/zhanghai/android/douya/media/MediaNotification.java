@@ -12,14 +12,14 @@ import android.app.Service;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.content.res.AppCompatResources;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.functional.compat.BooleanSupplier;
@@ -127,7 +127,7 @@ public class MediaNotification {
                         R.string.media_action_skip_to_next),
                         MediaButtonReceiver.makePendingIntent(mService,
                                 PlaybackStateCompat.ACTION_SKIP_TO_NEXT)))
-                .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setMediaSession(mMediaSession.getSessionToken())
                         .setShowActionsInCompactView(0, 1, 2)
                         .setShowCancelButton(true)

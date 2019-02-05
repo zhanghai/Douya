@@ -7,7 +7,7 @@ package me.zhanghai.android.douya.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.TintTypedArray;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 

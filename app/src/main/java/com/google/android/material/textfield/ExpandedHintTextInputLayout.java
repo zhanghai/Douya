@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package android.support.design.widget;
+package com.google.android.material.textfield;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -7,7 +7,7 @@ package me.zhanghai.android.douya.broadcast.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import butterknife.BindDimen;
 import me.zhanghai.android.douya.R;

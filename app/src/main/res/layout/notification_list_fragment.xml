@@ -11,13 +11,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.FriendlySwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.FriendlySwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:progressDistanceOffset="@dimen/status_bar_height">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notification_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,7 +25,7 @@
             android:fitsSystemWindows="true"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay" />
-    </android.support.v4.widget.FriendlySwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.FriendlySwipeRefreshLayout>
 
     <!-- For fitsSystemWindows. -->
     <FrameLayout

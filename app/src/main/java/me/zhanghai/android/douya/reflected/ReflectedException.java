@@ -7,8 +7,8 @@ package me.zhanghai.android.douya.reflected;
 
 import android.os.Build;
 
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 public class ReflectedException extends RuntimeException {
 

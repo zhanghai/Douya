@@ -5,9 +5,9 @@
 
 package me.zhanghai.android.douya.item.ui;
 
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;

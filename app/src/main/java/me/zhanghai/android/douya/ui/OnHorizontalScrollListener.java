@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.ui;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class OnHorizontalScrollListener extends RecyclerView.OnScrollListener {
 

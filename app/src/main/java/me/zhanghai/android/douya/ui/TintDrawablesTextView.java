@@ -12,10 +12,10 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 
 import me.zhanghai.android.douya.R;

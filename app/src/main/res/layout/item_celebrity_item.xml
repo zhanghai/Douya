@@ -5,7 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<android.support.design.internal.ForegroundLinearLayout
+<com.google.android.material.internal.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -36,4 +36,4 @@
         android:gravity="center_horizontal"
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-</android.support.design.internal.ForegroundLinearLayout>
+</com.google.android.material.internal.ForegroundLinearLayout>

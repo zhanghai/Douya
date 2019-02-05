@@ -8,8 +8,8 @@ package me.zhanghai.android.douya.profile.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import me.zhanghai.android.douya.network.api.info.apiv2.SimpleUser;
 import me.zhanghai.android.douya.network.api.info.apiv2.User;

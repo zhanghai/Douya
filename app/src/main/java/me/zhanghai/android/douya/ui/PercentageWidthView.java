@@ -8,10 +8,10 @@ package me.zhanghai.android.douya.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.view.ViewCompat;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 

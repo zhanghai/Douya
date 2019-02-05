@@ -10,7 +10,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.widget.TintTypedArray;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;

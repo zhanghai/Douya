@@ -7,7 +7,7 @@ package me.zhanghai.android.douya;
 
 import android.app.Application;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.webkit.WebView;
 
 import com.bumptech.glide.request.target.ViewTarget;
