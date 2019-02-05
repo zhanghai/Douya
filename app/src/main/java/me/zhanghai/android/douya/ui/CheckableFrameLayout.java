@@ -6,10 +6,13 @@
 package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.FrameLayout;
@@ -35,6 +38,7 @@ public class CheckableFrameLayout extends FrameLayout implements Checkable {
         super(context, attrs, defStyleAttr);
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public CheckableFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs,
                                 int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

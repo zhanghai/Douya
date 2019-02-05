@@ -8,6 +8,9 @@ package me.zhanghai.android.douya.ui;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
@@ -27,6 +30,7 @@ public class PassWindowInsetsFrameLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public PassWindowInsetsFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs,
                                        int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

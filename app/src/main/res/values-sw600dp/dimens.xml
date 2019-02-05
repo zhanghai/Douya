@@ -24,9 +24,7 @@
     <dimen name="toolbar_edit_left_margin">20dp</dimen>
     <dimen name="toolbar_height">64dp</dimen>
     <dimen name="toolbar_and_toolbar_height">128dp</dimen>
-    <dimen name="toolbar_hide_offset">-70dp</dimen>
     <dimen name="toolbar_and_tab_height">112dp</dimen>
-    <dimen name="toolbar_and_tab_hide_offset">-118dp</dimen>
     <dimen name="navigation_header_height">192dp</dimen>
     <dimen name="scrim_height">192dp</dimen>
     <dimen name="card_list_horizontal_padding">12dp</dimen>

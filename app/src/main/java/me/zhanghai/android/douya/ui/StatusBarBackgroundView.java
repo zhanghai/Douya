@@ -12,13 +12,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.WindowInsets;
 
+import androidx.annotation.RequiresApi;
 import me.zhanghai.android.douya.R;
 import me.zhanghai.android.douya.util.ViewUtils;
 
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public class StatusBarBackgroundView extends View {
 
     @NonNull
