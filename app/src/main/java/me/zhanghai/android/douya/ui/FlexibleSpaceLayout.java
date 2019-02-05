@@ -15,7 +15,6 @@ import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.core.widget.EdgeEffectCompat;
-import androidx.core.widget.FriendlyScrollerCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -25,6 +24,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 
 import butterknife.BindInt;
 import butterknife.ButterKnife;
@@ -51,7 +51,7 @@ public class FlexibleSpaceLayout extends LinearLayout {
     private float mLastMotionY;
     private VelocityTracker mVelocityTracker;
 
-    private FriendlyScrollerCompat mScroller;
+    private Scroller mScroller;
     private EdgeEffectCompat mEdgeEffectBottom;
 
     private float mView_verticalScrollFactor = Float.MIN_VALUE;
@@ -96,7 +96,7 @@ public class FlexibleSpaceLayout extends LinearLayout {
         mMinimumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
         mMaximumFlingVelocity = viewConfiguration.getScaledMaximumFlingVelocity();
 
-        mScroller = FriendlyScrollerCompat.create(context);
+        mScroller = new Scroller(context);
         mEdgeEffectBottom = new EdgeEffectCompat(context);
     }
 
