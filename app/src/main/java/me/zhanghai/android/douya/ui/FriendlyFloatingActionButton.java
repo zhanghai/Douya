@@ -8,9 +8,11 @@ package me.zhanghai.android.douya.ui;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.os.Parcel;
+import android.os.Bundle;
 import android.os.Parcelable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.stateful.ExtendableSavedState;
+
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
@@ -18,9 +20,13 @@ import android.view.ViewGroup;
 
 import butterknife.BindInt;
 import butterknife.ButterKnife;
+import me.zhanghai.android.douya.util.BundleBuilder;
 import me.zhanghai.android.douya.util.ViewUtils;
 
 public class FriendlyFloatingActionButton extends FloatingActionButton {
+
+    private static final String EXTENDABLE_STATE_KEY = FriendlyFloatingActionButton.class.getName();
+    private static final String STATE_KEY_SHOWING = "SHOWING";
 
     @BindInt(android.R.integer.config_shortAnimTime)
     int mAnimationDuration;
@@ -52,19 +58,21 @@ public class FriendlyFloatingActionButton extends FloatingActionButton {
 
     @Override
     protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-
-        SavedState savedState = new SavedState(superState);
-        savedState.showing = mShowing;
-        return savedState;
+        ExtendableSavedState state = (ExtendableSavedState) super.onSaveInstanceState();
+        state.extendableStates.put(EXTENDABLE_STATE_KEY, new BundleBuilder()
+                .putBoolean(STATE_KEY_SHOWING, mShowing)
+                .build());
+        return state;
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        SavedState savedState = (SavedState) state;
-        super.onRestoreInstanceState(savedState.getSuperState());
+        super.onRestoreInstanceState(state);
 
-        if (!savedState.showing) {
+        ExtendableSavedState extendableSavedState = (ExtendableSavedState) state;
+        Bundle extendableState = extendableSavedState.extendableStates.get(EXTENDABLE_STATE_KEY);
+        boolean showing = extendableState.getBoolean(STATE_KEY_SHOWING);
+        if (!showing) {
             hideImmediately();
         }
     }
@@ -138,40 +146,6 @@ public class FriendlyFloatingActionButton extends FloatingActionButton {
         if (mAnimator != null) {
             mAnimator.cancel();
             mAnimator = null;
-        }
-    }
-
-    private static class SavedState extends BaseSavedState {
-
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    @Override
-                    public SavedState createFromParcel(Parcel source) {
-                        return new SavedState(source);
-                    }
-                    @Override
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
-
-        public boolean showing;
-
-        public SavedState(Parcel in) {
-            super(in);
-
-            showing = in.readByte() != 0;
-        }
-
-        public SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            super.writeToParcel(dest, flags);
-
-            dest.writeByte(showing ? (byte) 1 : (byte) 0);
         }
     }
 }
