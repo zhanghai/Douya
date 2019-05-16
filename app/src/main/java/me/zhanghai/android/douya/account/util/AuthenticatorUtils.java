@@ -18,7 +18,7 @@ public class AuthenticatorUtils {
     public static Intent makeSetApiKeyIntent(Context context) {
         // Implicit intent with ACTION_VIEW is not launched by account manager.
         return WebViewActivity.makeIntent(Uri.parse(
-                "https://github.com/DreaminginCodeZH/DouyaApiKey/releases/latest"), context);
+                "https://github.com/zhanghai/DouyaApiKey/releases/latest"), context);
     }
 
     public static Intent makeWebsiteIntent(Context context) {

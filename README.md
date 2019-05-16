@@ -6,15 +6,15 @@
 
 另一个 Material Design 的豆瓣客户端。
 
-![Travis CI](https://travis-ci.org/DreaminginCodeZH/Douya.svg)
+![Travis CI](https://travis-ci.org/zhanghai/Douya.svg)
 
 <!--<a href="https://play.google.com/store/apps/details?id=me.zhanghai.android.douya" target="_blank"><img alt="Google Play" height="90" src="https://play.google.com/intl/zh_CN/badges/images/generic/zh-cn_badge_web_generic.png"/></a>-->
 
-下载：[豆芽稳定版本](https://github.com/DreaminginCodeZH/Douya/releases/latest)
+下载：[豆芽稳定版本](https://github.com/zhanghai/Douya/releases/latest)
 
-[豆芽 CI 构建](https://github.com/DreaminginCodeZH/DouyaCiBuilds)
+[豆芽 CI 构建](https://github.com/zhanghai/DouyaCiBuilds)
 
-[豆芽 API Key 设置向导](https://github.com/DreaminginCodeZH/DouyaApiKey)
+[豆芽 API Key 设置向导](https://github.com/zhanghai/DouyaApiKey)
 
 ## 部分特性
 
@@ -196,7 +196,7 @@ Android 本身的资源系统提供了对不同配置的很好支持，通过建
 
 Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前会加载应用主题中的背景作为预览，而默认背景是白色，与应用在上部拥有绿色 AppBar 的效果不相匹配。
 
-为了生成适应于不同屏幕大小、系统版本的图片，我使用 bash 编写了一系列脚本，并实现了一个通用的模板化 SVG 格式，详情见 [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart) 和 [AndroidSVGScripts](https://github.com/DreaminginCodeZH/AndroidSVGScripts)。
+为了生成适应于不同屏幕大小、系统版本的图片，我使用 bash 编写了一系列脚本，并实现了一个通用的模板化 SVG 格式，详情见 [MaterialColdStart](https://github.com/zhanghai/MaterialColdStart) 和 [AndroidSVGScripts](https://github.com/zhanghai/AndroidSVGScripts)。
 
 经过自定义窗口背景和其他优化，应用在手机上已经可以达到立即启动的视觉效果。
 
@@ -204,11 +204,11 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 
 为此项目诞生的五个开源库：
 
-- [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)，800+ Stars
-- [MaterialProgressBar](https://github.com/DreaminginCodeZH/MaterialProgressBar)，500+ Stars
-- [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)，200+ Stars
-- [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)
-- [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
+- [MaterialColdStart](https://github.com/zhanghai/MaterialColdStart)，800+ Stars
+- [MaterialProgressBar](https://github.com/zhanghai/MaterialProgressBar)，500+ Stars
+- [CustomTabsHelper](https://github.com/zhanghai/CustomTabsHelper)，200+ Stars
+- [MaterialEditText](https://github.com/zhanghai/MaterialEditText)
+- [SystemUiHelper](https://github.com/zhanghai/SystemUiHelper)
 
 ## 第三方库
 
@@ -220,16 +220,16 @@ Android 默认在冷启动应用进程至能够调用 `Activity.onCreate()` 前�
 - [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP/)
 - [Retrofit](https://github.com/square/retrofit)
 - [EventBus](https://github.com/greenrobot/EventBus)
-- [CustomTabsHelper](https://github.com/DreaminginCodeZH/CustomTabsHelper)
-- [EffortlessPermissions](https://github.com/DreaminginCodeZH/EffortlessPermissions)
-- [MaterialEditText](https://github.com/DreaminginCodeZH/MaterialEditText)
-- [MaterialProgressBar](https://github.com/DreaminginCodeZH/MaterialProgressBar)
-- [SystemUiHelper](https://github.com/DreaminginCodeZH/SystemUiHelper)
-- [MaterialColdStart](https://github.com/DreaminginCodeZH/MaterialColdStart)
+- [CustomTabsHelper](https://github.com/zhanghai/CustomTabsHelper)
+- [EffortlessPermissions](https://github.com/zhanghai/EffortlessPermissions)
+- [MaterialEditText](https://github.com/zhanghai/MaterialEditText)
+- [MaterialProgressBar](https://github.com/zhanghai/MaterialProgressBar)
+- [SystemUiHelper](https://github.com/zhanghai/SystemUiHelper)
+- [MaterialColdStart](https://github.com/zhanghai/MaterialColdStart)
 
 ## 构建
 
-APK 文件可以在本项目的 [Releases](https://github.com/DreaminginCodeZH/Douya/releases) 中找到。
+APK 文件可以在本项目的 [Releases](https://github.com/zhanghai/Douya/releases) 中找到。
 
 至于手动构建本项目的基本步骤：
 
@@ -246,7 +246,7 @@ keyPassword=
 
 ## 使用
 
-安装应用后，请安装 [豆芽 API Key 设置向导](https://github.com/DreaminginCodeZH/DouyaApiKey) 以设置 API Key。
+安装应用后，请安装 [豆芽 API Key 设置向导](https://github.com/zhanghai/DouyaApiKey) 以设置 API Key。
 
 暂时没有内置的更新渠道，请关注本项目的 Release。
 

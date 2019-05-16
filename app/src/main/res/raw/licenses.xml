@@ -100,49 +100,49 @@
 
     <notice>
         <name>CustomTabsHelper</name>
-        <url>https://github.com/DreaminginCodeZH/CustomTabsHelper</url>
+        <url>https://github.com/zhanghai/CustomTabsHelper</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
         <name>EffortlessPermissions</name>
-        <url>https://github.com/DreaminginCodeZH/EffortlessPermissions</url>
+        <url>https://github.com/zhanghai/EffortlessPermissions</url>
         <copyright>Copyright 2017 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
         <name>MaterialEditText</name>
-        <url>https://github.com/DreaminginCodeZH/MaterialEditText</url>
+        <url>https://github.com/zhanghai/MaterialEditText</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
         <name>MaterialPlayPauseDrawable</name>
-        <url>https://github.com/DreaminginCodeZH/MaterialPlayPauseDrawable</url>
+        <url>https://github.com/zhanghai/MaterialPlayPauseDrawable</url>
         <copyright>Copyright 2018 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
         <name>MaterialProgressBar</name>
-        <url>https://github.com/DreaminginCodeZH/MaterialProgressBar</url>
+        <url>https://github.com/zhanghai/MaterialProgressBar</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
         <name>MaterialRatingBar</name>
-        <url>https://github.com/DreaminginCodeZH/MaterialRatingBar</url>
+        <url>https://github.com/zhanghai/MaterialRatingBar</url>
         <copyright>Copyright 2016 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 
     <notice>
         <name>SystemUiHelper</name>
-        <url>https://github.com/DreaminginCodeZH/SystemUiHelper</url>
+        <url>https://github.com/zhanghai/SystemUiHelper</url>
         <copyright>Copyright 2015 Zhang Hai</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
