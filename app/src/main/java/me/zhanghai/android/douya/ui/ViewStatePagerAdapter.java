@@ -7,6 +7,9 @@ package me.zhanghai.android.douya.ui;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import android.util.SparseArray;
 import android.view.View;
@@ -19,26 +22,31 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
     private static final String STATE_VIEW_STATES_SIZE = KEY_PREFIX + "VIEW_STATES_SIZE";
     private static final String STATE_VIEW_STATE_PREFIX = KEY_PREFIX + "VIEW_STATE_";
 
-    private SparseArray<View> mViews = new SparseArray<>();
-    private SparseArray<SparseArray<Parcelable>> mViewStates = new SparseArray<>();
+    @NonNull
+    private final SparseArray<View> mViews = new SparseArray<>();
+    @NonNull
+    private final SparseArray<SparseArray<Parcelable>> mViewStates = new SparseArray<>();
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
+    @NonNull
     @Override
-    public final View instantiateItem(ViewGroup container, int position) {
+    public final View instantiateItem(@NonNull ViewGroup container, int position) {
         View view = onCreateView(container, position);
         restoreViewState(position, view);
         mViews.put(position, view);
         return view;
     }
 
-    protected abstract View onCreateView(ViewGroup container, int position);
+    @NonNull
+    protected abstract View onCreateView(@NonNull ViewGroup container, int position);
 
     @Override
-    public final void destroyItem(ViewGroup container, int position, Object object) {
+    public final void destroyItem(@NonNull ViewGroup container, int position,
+                                  @NonNull Object object) {
         View view = (View) object;
         saveViewState(position, view);
         onDestroyView(container, position, view);
@@ -46,15 +54,15 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
         container.removeView(view);
     }
 
-    protected abstract void onDestroyView(ViewGroup container, int position, View view);
+    protected abstract void onDestroyView(@NonNull ViewGroup container, int position,
+                                          @NonNull View view);
 
+    @NonNull
     @Override
     public Parcelable saveState() {
-
         for (int i = 0, size = mViews.size(); i < size; ++i) {
             saveViewState(mViews.keyAt(i), mViews.valueAt(i));
         }
-
         Bundle bundle = new Bundle();
         int size = mViewStates.size();
         bundle.putInt(STATE_VIEW_STATES_SIZE, size);
@@ -66,7 +74,7 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void restoreState(Parcelable state, ClassLoader loader) {
+    public void restoreState(@NonNull Parcelable state, @Nullable ClassLoader loader) {
         Bundle bundle = (Bundle) state;
         bundle.setClassLoader(loader);
         int size = bundle.getInt(STATE_VIEW_STATES_SIZE);
@@ -75,17 +83,18 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
         }
     }
 
+    @NonNull
     private String makeViewStateKey(int position) {
         return STATE_VIEW_STATE_PREFIX + position;
     }
 
-    private void saveViewState(int position, View view) {
+    private void saveViewState(int position, @NonNull View view) {
         SparseArray<Parcelable> viewState = new SparseArray<>();
         view.saveHierarchyState(viewState);
         mViewStates.put(position, viewState);
     }
 
-    private void restoreViewState(int position, View view) {
+    private void restoreViewState(int position, @NonNull View view) {
         SparseArray<Parcelable> viewState = mViewStates.get(position);
         if (viewState != null) {
             view.restoreHierarchyState(viewState);

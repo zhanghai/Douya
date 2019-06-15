@@ -5,37 +5,39 @@
 
 package me.zhanghai.android.douya.util;
 
+import androidx.annotation.Nullable;
+
 public class ArrayUtils {
 
-    public static boolean isEmpty(byte[] array) {
+    public static boolean isEmpty(@Nullable byte[] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(char[] array) {
+    public static boolean isEmpty(@Nullable char[] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(short[] array) {
+    public static boolean isEmpty(@Nullable short[] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(int[] array) {
+    public static boolean isEmpty(@Nullable int[] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(long[] array) {
+    public static boolean isEmpty(@Nullable long[] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(float[] array) {
+    public static boolean isEmpty(@Nullable float[] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(double[] array) {
+    public static boolean isEmpty(@Nullable double[] array) {
         return array == null || array.length == 0;
     }
 
-    public static <T> boolean isEmpty(T[] array) {
+    public static <T> boolean isEmpty(@Nullable T[] array) {
         return array == null || array.length == 0;
     }
 }

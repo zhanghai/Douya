@@ -7,6 +7,8 @@ package me.zhanghai.android.douya.gallery.ui;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.SparseArrayCompat;
 import android.text.TextUtils;
@@ -57,12 +59,13 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
+    @NonNull
     @Override
-    public View onCreateView(ViewGroup container, int position) {
+    public View onCreateView(@NonNull ViewGroup container, int position) {
         final View layout = ViewUtils.inflate(R.layout.gallery_item, container);
         final ViewHolder holder = new ViewHolder(layout);
         layout.setTag(holder);
@@ -233,7 +236,7 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
     }
 
     @Override
-    public void onDestroyView(ViewGroup container, int position, View view) {
+    public void onDestroyView(@NonNull ViewGroup container, int position, @NonNull View view) {
         ViewHolder holder = (ViewHolder) view.getTag();
         GlideApp.with(holder.image).clear(holder.image);
         container.removeView(view);

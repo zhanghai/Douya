@@ -59,8 +59,9 @@ public class IoUtils {
         }
     }
 
-    public static long inputStreamToOutputStream(InputStream inputStream,
-                                                 OutputStream outputStream) throws IOException {
+    public static long inputStreamToOutputStream(@NonNull InputStream inputStream,
+                                                 @NonNull OutputStream outputStream)
+            throws IOException {
         long count = 0;
         byte[] buffer = new byte[BUFFER_SIZE];
         int length;

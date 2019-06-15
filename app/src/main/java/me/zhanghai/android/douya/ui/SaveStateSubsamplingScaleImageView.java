@@ -14,23 +14,28 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class SaveStateSubsamplingScaleImageView extends SubsamplingScaleImageView {
 
     private ImageViewState mPendingSavedState;
 
-    public SaveStateSubsamplingScaleImageView(Context context, AttributeSet attr) {
-        super(context, attr);
-    }
-
-    public SaveStateSubsamplingScaleImageView(Context context) {
+    public SaveStateSubsamplingScaleImageView(@NonNull Context context) {
         super(context);
     }
 
-    public void setImageRestoringSavedState(ImageSource imageSource) {
+    public SaveStateSubsamplingScaleImageView(@NonNull Context context,
+                                              @Nullable AttributeSet attr) {
+        super(context, attr);
+    }
+
+    public void setImageRestoringSavedState(@NonNull ImageSource imageSource) {
         setImage(imageSource, mPendingSavedState);
         mPendingSavedState = null;
     }
 
+    @NonNull
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
@@ -41,7 +46,7 @@ public class SaveStateSubsamplingScaleImageView extends SubsamplingScaleImageVie
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 

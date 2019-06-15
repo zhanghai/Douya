@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <me.zhanghai.android.douya.ui.FriendlyViewPager
+    <me.zhanghai.android.douya.ui.FixIllegalArgumentExceptionViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -21,7 +21,6 @@
     <!-- Use a wrapping layout to clip toolbar in order to avoid overlap with status bar. -->
     <FrameLayout
         android:id="@+id/appBar"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"

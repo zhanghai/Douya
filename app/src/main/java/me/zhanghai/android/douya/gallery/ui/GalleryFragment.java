@@ -155,7 +155,7 @@ public class GalleryFragment extends Fragment {
         });
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mInitialPosition);
-        mViewPager.setPageTransformer(true, new ViewPagerTransformers.Depth());
+        mViewPager.setPageTransformer(true, ViewPagerTransformers.DEPTH);
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
