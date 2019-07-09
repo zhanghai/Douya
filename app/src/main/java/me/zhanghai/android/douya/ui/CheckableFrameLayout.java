@@ -7,15 +7,13 @@ package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-
 import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 public class CheckableFrameLayout extends FrameLayout implements Checkable {
 
@@ -66,55 +64,5 @@ public class CheckableFrameLayout extends FrameLayout implements Checkable {
             mergeDrawableStates(drawableState, CHECKED_STATE_SET);
         }
         return drawableState;
-    }
-
-    @NonNull
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState savedState = new SavedState(superState);
-        savedState.checked = isChecked();
-        return savedState;
-    }
-
-    @Override
-    public void onRestoreInstanceState(@NonNull Parcelable state) {
-        SavedState savedState = (SavedState) state;
-        super.onRestoreInstanceState(savedState.getSuperState());
-        setChecked(savedState.checked);
-    }
-
-    private static class SavedState extends BaseSavedState {
-
-        public boolean checked;
-
-        public SavedState(@NonNull Parcelable superState) {
-            super(superState);
-        }
-
-
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            @NonNull
-            public CheckableFrameLayout.SavedState createFromParcel(@NonNull Parcel in) {
-                return new CheckableFrameLayout.SavedState(in);
-            }
-            @NonNull
-            public CheckableFrameLayout.SavedState[] newArray(int size) {
-                return new CheckableFrameLayout.SavedState[size];
-            }
-        };
-
-        private SavedState(@NonNull Parcel in) {
-            super(in);
-
-            checked = in.readByte() != 0;
-        }
-
-        @Override
-        public void writeToParcel(@NonNull Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-
-            out.writeByte(checked ? (byte) 1 : (byte) 0);
-        }
     }
 }

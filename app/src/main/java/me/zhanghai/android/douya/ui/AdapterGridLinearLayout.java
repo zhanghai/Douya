@@ -8,8 +8,13 @@ package me.zhanghai.android.douya.ui;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -22,20 +27,22 @@ public class AdapterGridLinearLayout extends AdapterLinearLayout {
     private int mColumnCount = 1;
     private Drawable mHorizontalDivider;
 
-    public AdapterGridLinearLayout(Context context) {
+    public AdapterGridLinearLayout(@NonNull Context context) {
         super(context);
     }
 
-    public AdapterGridLinearLayout(Context context, @Nullable AttributeSet attrs) {
+    public AdapterGridLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AdapterGridLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AdapterGridLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                                   @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    public AdapterGridLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AdapterGridLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                                   @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -50,7 +57,7 @@ public class AdapterGridLinearLayout extends AdapterLinearLayout {
         }
     }
 
-    public void setHorizontalDivider(int dividerRes) {
+    public void setHorizontalDivider(@DrawableRes int dividerRes) {
         mHorizontalDivider = AppCompatResources.getDrawable(getContext(), dividerRes);
     }
 

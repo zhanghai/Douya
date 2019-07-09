@@ -7,8 +7,12 @@ package me.zhanghai.android.douya.ui;
 
 import android.content.Context;
 import android.os.Build;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleRes;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -43,21 +47,22 @@ public class AdapterLinearLayout extends LinearLayout {
                 }
             };
 
-    public AdapterLinearLayout(Context context) {
+    public AdapterLinearLayout(@NonNull Context context) {
         super(context);
     }
 
-    public AdapterLinearLayout(Context context, @Nullable AttributeSet attrs) {
+    public AdapterLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AdapterLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AdapterLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                               @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    public AdapterLinearLayout(Context context, AttributeSet attrs, int defStyleAttr,
-                               int defStyleRes) {
+    public AdapterLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                               @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -65,7 +70,7 @@ public class AdapterLinearLayout extends LinearLayout {
         return mAdapter;
     }
 
-    public void setAdapter(RecyclerView.Adapter adapter) {
+    public void setAdapter(@Nullable RecyclerView.Adapter adapter) {
         if (mAdapter != null) {
             mAdapter.unregisterAdapterDataObserver(mObserver);
         }
@@ -77,10 +82,10 @@ public class AdapterLinearLayout extends LinearLayout {
     }
 
     protected void onDataSetChanged() {
+        removeAllViews();
         if (mAdapter == null) {
             return;
         }
-        removeAllViews();
         for (int position = 0, count = mAdapter.getItemCount(); position < count; ++position) {
             addItemView(position);
         }
