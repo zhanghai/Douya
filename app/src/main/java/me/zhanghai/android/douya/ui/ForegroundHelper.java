@@ -24,16 +24,12 @@ import android.widget.FrameLayout;
 
 public class ForegroundHelper {
 
-    //com.android.internal.R.attr.foregroundInsidePadding
-    private static final int COM_ANDROID_INTERNAL_R_ATTR_FOREGROUND_INSIDE_PADDING = -300063;
     private static final int[] STYLEABLE = {
             android.R.attr.foreground,
-            android.R.attr.foregroundGravity,
-            COM_ANDROID_INTERNAL_R_ATTR_FOREGROUND_INSIDE_PADDING
+            android.R.attr.foregroundGravity
     };
     private static final int STYLEABLE_ANDROID_FOREGROUND = 0;
     private static final int STYLEABLE_ANDROID_FOREGROUND_GRAVITY = 1;
-    private static final int STYLEABLE_ANDROID_FOREGROUND_INSIDE_PADDING = 2;
 
     private Delegate mDelegate;
 
@@ -44,7 +40,6 @@ public class ForegroundHelper {
     private final Rect mSelfBounds = new Rect();
     private final Rect mOverlayBounds = new Rect();
     private int mForegroundGravity = Gravity.FILL;
-    private boolean mForegroundInPadding = true;
 
     private boolean mForegroundBoundsChanged = false;
 
@@ -73,8 +68,6 @@ public class ForegroundHelper {
         if (foreground != null) {
             setForeground(foreground);
         }
-
-        mForegroundInPadding = a.getBoolean(STYLEABLE_ANDROID_FOREGROUND_INSIDE_PADDING, true);
 
         a.recycle();
     }
@@ -253,12 +246,7 @@ public class ForegroundHelper {
                 int w = owner.getRight() - owner.getLeft();
                 int h = owner.getBottom() - owner.getTop();
 
-                if (mForegroundInPadding) {
-                    selfBounds.set(0, 0, w, h);
-                } else {
-                    selfBounds.set(owner.getPaddingLeft(), owner.getPaddingTop(),
-                            w - owner.getPaddingRight(), h - owner.getPaddingBottom());
-                }
+                selfBounds.set(0, 0, w, h);
 
                 int layoutDirection = ViewCompat.getLayoutDirection(owner);
                 GravityCompat.apply(mForegroundGravity, foreground.getIntrinsicWidth(),
