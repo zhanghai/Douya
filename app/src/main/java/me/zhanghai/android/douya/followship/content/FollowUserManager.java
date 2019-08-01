@@ -23,9 +23,9 @@ public class FollowUserManager extends ResourceWriterManager<FollowUserWriter> {
     }
 
     /**
-     * @deprecated Use {@link #write(User, boolean, Context)} instead.
+     * @deprecated Use {@link #addFollowUser(String, boolean, Context)} instead.
      */
-    public void write(String userIdOrUid, boolean like, Context context) {
+    public void addFollowUser(String userIdOrUid, boolean like, Context context) {
         add(new FollowUserWriter(userIdOrUid, like, this), context);
     }
 
