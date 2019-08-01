@@ -29,7 +29,7 @@ public class FollowUserManager extends ResourceWriterManager<FollowUserWriter> {
         add(new FollowUserWriter(userIdOrUid, like, this), context);
     }
 
-    public boolean write(User user, boolean like, Context context) {
+    public boolean addFollowUser(User user, boolean like, Context context) {
         if (shouldWrite(user, context)) {
             add(new FollowUserWriter(user, like, this), context);
             return true;
