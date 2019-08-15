@@ -58,11 +58,6 @@ public class GalleryAdapter extends ViewStatePagerAdapter {
         return mImageList.size();
     }
 
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == object;
-    }
-
     @NonNull
     @Override
     public View onCreateView(@NonNull ViewGroup container, int position) {

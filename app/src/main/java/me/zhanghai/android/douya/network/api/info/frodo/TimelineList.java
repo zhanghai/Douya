@@ -38,7 +38,7 @@ public class TimelineList implements Parcelable {
     public ArrayList<TimelineItem> topItems = new ArrayList<>();
 
     public ArrayList<Broadcast> toBroadcastList() {
-        List<TimelineItem> allItems = CollectionUtils.union(topItems, CollectionUtils.union(
+        List<TimelineItem> allItems = CollectionUtils.join(topItems, CollectionUtils.join(
                 hotItems, items));
         return Functional.filter(Functional.map(allItems, TimelineItem::toBroadcast),
                 ObjectsCompat::nonNull);

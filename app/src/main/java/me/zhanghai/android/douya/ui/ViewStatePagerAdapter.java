@@ -10,6 +10,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
+import androidx.collection.SparseArrayCompat;
 import androidx.viewpager.widget.PagerAdapter;
 import android.util.SparseArray;
 import android.view.View;
@@ -23,14 +25,9 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
     private static final String STATE_VIEW_STATE_PREFIX = KEY_PREFIX + "VIEW_STATE_";
 
     @NonNull
-    private final SparseArray<View> mViews = new SparseArray<>();
+    private final SparseArrayCompat<View> mViews = new SparseArrayCompat<>();
     @NonNull
-    private final SparseArray<SparseArray<Parcelable>> mViewStates = new SparseArray<>();
-
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == object;
-    }
+    private final ArrayMap<String, SparseArray<Parcelable>> mViewStates = new ArrayMap<>();
 
     @NonNull
     @Override
@@ -57,9 +54,25 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
     protected abstract void onDestroyView(@NonNull ViewGroup container, int position,
                                           @NonNull View view);
 
+    @Override
+    public final boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == object;
+    }
+
+    @Override
+    public final int getItemPosition(@NonNull Object object) {
+        View view = (View) object;
+        return getViewPosition(view);
+    }
+
+    protected int getViewPosition(@NonNull View view) {
+        return POSITION_UNCHANGED;
+    }
+
     @NonNull
     @Override
     public Parcelable saveState() {
+        mViewStates.clear();
         for (int i = 0, size = mViews.size(); i < size; ++i) {
             saveViewState(mViews.keyAt(i), mViews.valueAt(i));
         }
@@ -67,8 +80,7 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
         int size = mViewStates.size();
         bundle.putInt(STATE_VIEW_STATES_SIZE, size);
         for (int i = 0; i < size; ++i) {
-            bundle.putSparseParcelableArray(makeViewStateKey(mViewStates.keyAt(i)),
-                    mViewStates.valueAt(i));
+            bundle.putSparseParcelableArray(mViewStates.keyAt(i), mViewStates.valueAt(i));
         }
         return bundle;
     }
@@ -79,25 +91,34 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
         bundle.setClassLoader(loader);
         int size = bundle.getInt(STATE_VIEW_STATES_SIZE);
         for (int i = 0; i < size; ++i) {
-            mViewStates.put(i, bundle.getSparseParcelableArray(makeViewStateKey(i)));
+            String key = getViewStateKey(i);
+            SparseArray<Parcelable> viewState = bundle.getSparseParcelableArray(key);
+            mViewStates.put(key, viewState);
+        }
+    }
+
+    private void saveViewState(int position, @NonNull View view) {
+        String key = getViewStateKey(position);
+        SparseArray<Parcelable> viewState = new SparseArray<>();
+        view.saveHierarchyState(viewState);
+        mViewStates.put(key, viewState);
+    }
+
+    private void restoreViewState(int position, @NonNull View view) {
+        String key = getViewStateKey(position);
+        SparseArray<Parcelable> viewState = mViewStates.get(key);
+        if (viewState != null) {
+            view.restoreHierarchyState(viewState);
         }
     }
 
     @NonNull
-    private String makeViewStateKey(int position) {
-        return STATE_VIEW_STATE_PREFIX + position;
+    private String getViewStateKey(int position) {
+        return STATE_VIEW_STATE_PREFIX + getViewStateKeySuffix(position);
     }
 
-    private void saveViewState(int position, @NonNull View view) {
-        SparseArray<Parcelable> viewState = new SparseArray<>();
-        view.saveHierarchyState(viewState);
-        mViewStates.put(position, viewState);
-    }
-
-    private void restoreViewState(int position, @NonNull View view) {
-        SparseArray<Parcelable> viewState = mViewStates.get(position);
-        if (viewState != null) {
-            view.restoreHierarchyState(viewState);
-        }
+    @NonNull
+    protected String getViewStateKeySuffix(int position) {
+        return Integer.toString(position);
     }
 }

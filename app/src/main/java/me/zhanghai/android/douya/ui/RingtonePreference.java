@@ -93,6 +93,8 @@ public class RingtonePreference extends Preference {
 
     public RingtonePreference(Context context) {
         super(context);
+
+        init(null, 0, 0);
     }
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {

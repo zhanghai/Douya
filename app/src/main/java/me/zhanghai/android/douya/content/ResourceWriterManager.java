@@ -22,7 +22,7 @@ public class ResourceWriterManager<T extends ResourceWriter> {
     private List<T> mPendingWriters = new ArrayList<>();
     private List<T> mRunningWriters = new ArrayList<>();
     private List<T> mUnmodifiableWriters = Collections.unmodifiableList(
-            CollectionUtils.union(mRunningWriters, mPendingWriters));
+            CollectionUtils.join(mRunningWriters, mPendingWriters));
 
     public void onBind(ResourceWriterService service) {
 
