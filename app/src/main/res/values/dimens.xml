@@ -113,8 +113,7 @@
     <dimen name="avatar_small_padding">12dp</dimen>
     <dimen name="icon_button_padding">12dp</dimen>
     <dimen name="button_bar_horizontal_divider_width">0dp</dimen>
-    <!-- Fab internally sets a 14dp margin on pre-Lollipop devices. -->
-    <dimen name="fab_margin">2dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="dialog_padding_horizontal_with_4dp_padding">20dp</dimen>
     <dimen name="dialog_content_padding_top">14dp</dimen>
     <dimen name="dialog_content_padding_bottom">24dp</dimen>

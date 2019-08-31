@@ -5,7 +5,15 @@
   ~ All Rights Reserved.
   -->
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?colorControlHighlight">
+
+    <item android:id="@android:id/mask">
+        <shape android:shape="oval">
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
 
     <item>
         <selector>
@@ -21,7 +29,7 @@
             </item>
             <item android:state_activated="true">
                 <shape android:shape="oval">
-                    <solid android:color="@color/douya_accent" />
+                    <solid android:color="?colorControlActivated" />
                 </shape>
             </item>
             <item>
@@ -31,7 +39,4 @@
             </item>
         </selector>
     </item>
-
-    <!-- FIXME: Use an oval background instead. -->
-    <item android:drawable="@drawable/abc_item_background_holo_light" />
-</layer-list>
+</ripple>

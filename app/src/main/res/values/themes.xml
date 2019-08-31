@@ -99,7 +99,9 @@
         <item name="toolbarNavigationButtonStyle">@style/Widget.Douya.Toolbar.Button.Navigation</item>
     </style>
 
-    <style name="Theme.Douya.TransparentStatusBar" />
+    <style name="Theme.Douya.TransparentStatusBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 
     <style name="Theme.Douya.Translucent" parent="Theme.Douya.TransparentStatusBar">
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -124,7 +126,9 @@
         <item name="android:windowBackground">?colorPrimary</item>
     </style>
 
-    <style name="Theme.Douya.ScrimStatusBar" />
+    <style name="Theme.Douya.ScrimStatusBar">
+        <item name="android:statusBarColor">@color/system_window_scrim</item>
+    </style>
 
     <style name="Base.Theme.Douya.DialogWhenLarge" parent="PreferenceFixTheme.Light.DarkActionBar.DialogWhenLarge">
 
@@ -207,6 +211,7 @@
     <style name="Theme.Douya.MainActivity" parent="Base.Theme.Douya.MainActivity" />
 
     <style name="Theme.Douya.MainActivity.ColdStart">
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/window_background_statusbar_toolbar_tab</item>
     </style>
 
@@ -214,7 +219,9 @@
         <item name="android:colorBackground">@color/grey_100</item>
     </style>
 
-    <style name="Theme.Douya.BroadcastActivity" parent="Base.Theme.Douya.BroadcastActivity" />
+    <style name="Theme.Douya.BroadcastActivity" parent="Base.Theme.Douya.BroadcastActivity">
+        <item name="android:statusBarColor">?colorPrimaryDark</item>
+    </style>
 
     <style name="ThemeOverlay.Douya.Gallery.Dialog" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="colorAccent">@color/douya_accent</item>
@@ -229,7 +236,10 @@
         <item name="alertDialogTheme">@style/ThemeOverlay.Douya.Gallery.Dialog.Alert</item>
     </style>
 
-    <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery" />
+    <style name="Theme.Douya.Gallery" parent="Base.Theme.Douya.Gallery">
+        <item name="android:navigationBarColor">@color/dark_70_percent</item>
+        <item name="android:statusBarColor">@color/dark_70_percent</item>
+    </style>
 
     <style name="DarkTheme.Light.Book" parent="DarkTheme.Light">
         <item name="colorAccent">@color/book_accent</item>

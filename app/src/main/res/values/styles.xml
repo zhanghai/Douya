@@ -66,9 +66,7 @@
     <style name="Base.TextAppearance.Douya.Widget.ActionBar.Menu" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
         <item name="android:textSize">@dimen/abc_text_size_menu_material</item>
     </style>
-    <style name="TextAppearance.Douya.Widget.ActionBar.Menu" parent="@style/Base.TextAppearance.Douya.Widget.ActionBar.Menu">
-        <item name="android:textAllCaps">true</item>
-    </style>
+    <style name="TextAppearance.Douya.Widget.ActionBar.Menu" parent="@style/Base.TextAppearance.Douya.Widget.ActionBar.Menu" />
 
     <!-- Declare our own styles so that we won't be switched to platform styles. -->
     <style name="Base.TextAppearance.Douya.Widget.ActionBar.Title" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
@@ -87,7 +85,7 @@
     <style name="Widget.Douya.Toolbar" parent="Base.Widget.Douya.Toolbar" />
 
     <style name="Widget.Douya.Toolbar.Button.Navigation" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingStart">0dp</item>
     </style>
 
     <style name="TextAppearance.Widget.Douya.Toolbar.Title.WebView" parent="TextAppearance.Widget.Douya.Toolbar.Title">
