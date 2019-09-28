@@ -85,18 +85,18 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
     implementation 'com.google.android.material:material:1.1.0-alpha10'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
-    // For SubsamplingScaleImageView
-    implementation 'androidx.exifinterface:exifinterface:1.0.0'
 
     implementation 'com.andkulikov:transitionseverywhere:1.8.1'
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+    // For SubsamplingScaleImageView
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
     // Glide 4.2.0 introduced lag/white on long images and white flash in transition for us.
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
     implementation 'com.github.bumptech.glide:glide:4.1.1'
@@ -118,8 +118,8 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.takisoft.fix:preference-v7:28.0.0.0'
-    implementation 'com.takisoft.fix:preference-v7-simplemenu:28.0.0.0'
+    implementation 'com.takisoft.preferencex:preferencex:1.1.0-alpha05'
+    implementation 'com.takisoft.preferencex:preferencex-simplemenu:1.1.0-alpha05'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
     implementation 'me.zhanghai.android.customtabshelper:library:1.0.6'

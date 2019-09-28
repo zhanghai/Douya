@@ -18,29 +18,16 @@
         <item name="colorAccent">@color/douya_accent</item>
     </style>
 
-    <style name="PreferenceFixTheme.DialogWhenLarge" parent="Theme.AppCompat.DialogWhenLarge">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Fix</item>
-        <item name="preferenceDialog_messageAppearance">@style/PreferenceFixTheme.TextAppearanceDialogMessage</item>
-    </style>
-
-    <style name="PreferenceFixTheme.Light.DialogWhenLarge" parent="Theme.AppCompat.Light.DialogWhenLarge">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Fix</item>
-        <item name="preferenceDialog_messageAppearance">@style/PreferenceFixTheme.TextAppearanceDialogMessage</item>
-    </style>
-    <style name="PreferenceFixTheme.Light.DialogWhenLarge.LightStatusBar" parent="PreferenceFixTheme.Light.DialogWhenLarge" />
+    <style name="Theme.AppCompat.Light.DialogWhenLarge.LightStatusBar" parent="Theme.AppCompat.Light.DialogWhenLarge" />
 
     <style name="Theme.AppCompat.Light.DarkActionBar.DialogWhenLarge" parent="Theme.AppCompat.Light.DarkActionBar" />
-    <style name="PreferenceFixTheme.Light.DarkActionBar.DialogWhenLarge" parent="Theme.AppCompat.Light.DarkActionBar.DialogWhenLarge">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Fix</item>
-        <item name="preferenceDialog_messageAppearance">@style/PreferenceFixTheme.TextAppearanceDialogMessage</item>
-    </style>
 
     <style name="DarkTheme" parent="ThemeOverlay.AppCompat.Dark" />
     <style name="DarkTheme.Light" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorAccent">@color/douya_accent</item>
     </style>
 
-    <style name="Base.Theme.Douya" parent="PreferenceFixTheme.Light.DarkActionBar">
+    <style name="Base.Theme.Douya" parent="Theme.AppCompat.Light.DarkActionBar">
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
@@ -55,7 +42,7 @@
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">@color/douya_primary_dark_without_system_window_scrim</item>
     </style>
 
-    <style name="Base.Theme.Douya.Dark" parent="PreferenceFixTheme">
+    <style name="Base.Theme.Douya.Dark" parent="Theme.AppCompat">
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
@@ -130,7 +117,7 @@
         <item name="android:statusBarColor">@color/system_window_scrim</item>
     </style>
 
-    <style name="Base.Theme.Douya.DialogWhenLarge" parent="PreferenceFixTheme.Light.DarkActionBar.DialogWhenLarge">
+    <style name="Base.Theme.Douya.DialogWhenLarge" parent="Theme.AppCompat.Light.DarkActionBar.DialogWhenLarge">
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>
@@ -146,7 +133,7 @@
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">@color/douya_primary_dark_without_system_window_scrim</item>
     </style>
 
-    <style name="Base.Theme.Douya.Light.DialogWhenLarge" parent="PreferenceFixTheme.Light.DialogWhenLarge.LightStatusBar">
+    <style name="Base.Theme.Douya.Light.DialogWhenLarge" parent="Theme.AppCompat.Light.DialogWhenLarge.LightStatusBar">
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.ActionBar</item>
@@ -159,7 +146,7 @@
         <item name="colorPrimaryDarkWithoutSystemWindowScrim">?colorPrimary</item>
     </style>
 
-    <style name="Base.Theme.Douya.Dark.DialogWhenLarge" parent="PreferenceFixTheme.DialogWhenLarge">
+    <style name="Base.Theme.Douya.Dark.DialogWhenLarge" parent="Theme.AppCompat.DialogWhenLarge">
 
         <!-- Fixes. -->
         <item name="actionBarTheme">@style/ThemeOverlay.Douya.Dark.ActionBar</item>

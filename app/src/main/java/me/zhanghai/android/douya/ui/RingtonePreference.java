@@ -33,7 +33,7 @@ import androidx.preference.Preference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
+import com.takisoft.preferencex.PreferenceFragmentCompat;
 
 /**
  * A {@link Preference} that allows the user to choose a ringtone from those on the device.
