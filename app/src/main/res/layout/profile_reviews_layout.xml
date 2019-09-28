@@ -47,7 +47,7 @@
         android:text="@string/profile_reviews_empty"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <me.zhanghai.android.douya.ui.TintDrawablesTextView
+    <TextView
         android:id="@+id/view_more"
         android:layout_width="match_parent"
         android:layout_height="@dimen/single_line_list_item_height"

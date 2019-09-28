@@ -48,7 +48,7 @@ repositories {
 }
 dependencies {
     releaseImplementation 'com.github.mypplication:stetho-noop:1.1'
-    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.XhinLiang:LunarCalendar:3.0.0'
 }
 
@@ -84,17 +84,17 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha04'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha10'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
     // For SubsamplingScaleImageView
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
 
     implementation 'com.andkulikov:transitionseverywhere:1.8.1'
-    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     // Glide 4.2.0 introduced lag/white on long images and white flash in transition for us.
@@ -111,17 +111,17 @@ dependencies {
         exclude group: 'org.checkerframework', module: 'checker-qual'
     }
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.jakewharton.scalpel:scalpel:1.1.2'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.2'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.takisoft.fix:preference-v7:28.0.0.0'
     implementation 'com.takisoft.fix:preference-v7-simplemenu:28.0.0.0'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation 'de.psdev.licensesdialog:licensesdialog:2.0.0'
+    implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
     implementation 'me.zhanghai.android.customtabshelper:library:1.0.6'
     implementation 'me.zhanghai.android.effortlesspermissions:library:1.1.0'
     implementation 'me.zhanghai.android.materialedittext:library:1.0.5'
