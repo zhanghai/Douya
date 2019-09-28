@@ -16,11 +16,13 @@ import me.zhanghai.android.douya.util.LogUtils;
 
 public class MergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private RecyclerView.Adapter[] mAdapters;
+    @NonNull
+    private final RecyclerView.Adapter[] mAdapters;
 
-    private SparseIntArray mItemViewTypeToAdapterIndexMap = new SparseIntArray();
+    @NonNull
+    private final SparseIntArray mItemViewTypeToAdapterIndexMap = new SparseIntArray();
 
-    public MergeAdapter(RecyclerView.Adapter... adapters) {
+    public MergeAdapter(@NonNull RecyclerView.Adapter... adapters) {
 
         mAdapters = adapters;
 
@@ -38,6 +40,7 @@ public class MergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         super.setHasStableIds(hasStableIds);
     }
 
+    @NonNull
     public RecyclerView.Adapter[] getAdapters() {
         return mAdapters;
     }
@@ -197,9 +200,9 @@ public class MergeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private class AdapterDataObserver extends RecyclerView.AdapterDataObserver {
 
-        private RecyclerView.Adapter mAdapter;
+        private final RecyclerView.Adapter mAdapter;
 
-        public AdapterDataObserver(RecyclerView.Adapter adapter) {
+        public AdapterDataObserver(@NonNull RecyclerView.Adapter adapter) {
             mAdapter = adapter;
         }
 

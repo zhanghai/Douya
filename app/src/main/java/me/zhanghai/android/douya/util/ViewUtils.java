@@ -206,12 +206,12 @@ public class ViewUtils {
 
     public static int getColorFromAttrRes(@AttrRes int attrRes, int defaultValue,
                                           @NonNull Context context) {
-        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
-        try {
-            return a.getColor(0, defaultValue);
-        } finally {
-            a.recycle();
+        // If attrRes points to a color state list, we need to use the compat parsing.
+        ColorStateList colorStateList = getColorStateListFromAttrRes(attrRes, context);
+        if (colorStateList == null) {
+            return defaultValue;
         }
+        return colorStateList.getDefaultColor();
     }
 
     @Nullable
@@ -616,6 +616,25 @@ public class ViewUtils {
                 savedPaddingBottom);
     }
 
+    public static void setMargin(@NonNull View view, int left, int top, int right, int bottom) {
+        ViewGroup.MarginLayoutParams layoutParams =
+                (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        layoutParams.leftMargin = left;
+        layoutParams.topMargin = top;
+        layoutParams.rightMargin = right;
+        layoutParams.bottomMargin = bottom;
+    }
+
+    public static void setMarginRelative(@NonNull View view, int start, int top, int end,
+                                         int bottom) {
+        ViewGroup.MarginLayoutParams layoutParams =
+                (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        MarginLayoutParamsCompat.setMarginStart(layoutParams, start);
+        layoutParams.topMargin = top;
+        MarginLayoutParamsCompat.setMarginEnd(layoutParams, end);
+        layoutParams.bottomMargin = bottom;
+    }
+
     public static void setMarginStart(@NonNull View view, int marginStart) {
         MarginLayoutParamsCompat.setMarginStart(
                 (ViewGroup.MarginLayoutParams) view.getLayoutParams(), marginStart);
@@ -708,13 +727,25 @@ public class ViewUtils {
 
     public static void setLayoutFullscreen(@NonNull View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            view.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            view.setSystemUiVisibility(view.getSystemUiVisibility()
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
 
     public static void setLayoutFullscreen(@NonNull Activity activity) {
         setLayoutFullscreen(activity.getWindow().getDecorView());
+    }
+
+    public static void setLayoutHideNavigation(@NonNull View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.setSystemUiVisibility(view.getSystemUiVisibility()
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
+    }
+
+    public static void setLayoutHideNavigation(@NonNull Activity activity) {
+        setLayoutHideNavigation(activity.getWindow().getDecorView());
     }
 
     public static void setTextViewBold(@NonNull TextView textView, boolean bold) {
