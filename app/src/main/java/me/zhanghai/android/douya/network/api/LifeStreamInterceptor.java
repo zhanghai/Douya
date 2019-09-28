@@ -24,7 +24,7 @@ public class LifeStreamInterceptor implements Interceptor {
                 .header(Http.Headers.USER_AGENT, ApiContract.Request.ApiV2.USER_AGENT)
                 .url(oldRequest.url().newBuilder()
                         .addQueryParameter(ApiContract.Request.ApiV2.Base.API_KEY,
-                                ApiCredential.ApiV2.KEY)
+                                ApiCredential.API_V2_KEY)
                         .addQueryParameter(ApiContract.Request.ApiV2.LifeStream.VERSION,
                                 String.valueOf(ApiContract.Request.ApiV2.LifeStream.Versions.TWO))
                         .build())

@@ -257,11 +257,6 @@
                 android:resource="@xml/calendar_appwidget" />
         </receiver>-->
 
-        <receiver
-            android:name=".network.api.credential.SetApiCredentialReceiver"
-            android:exported="true"
-            tools:ignore="ExportedReceiver" />
-
         <provider
             android:name=".app.ImageTypeFileProvider"
             android:authorities="@string/file_provider_authority"

@@ -26,7 +26,7 @@ public class FrodoInterceptor implements Interceptor {
         Request.Builder builder = request.newBuilder()
                 .header(Http.Headers.USER_AGENT, ApiContract.Request.Frodo.USER_AGENT);
         Map<String, String> parameters = new HashMap<>();
-        parameters.put(ApiContract.Request.Frodo.API_KEY, ApiCredential.Frodo.KEY);
+        parameters.put(ApiContract.Request.Frodo.API_KEY, ApiCredential.FRODO_KEY);
         parameters.put(ApiContract.Request.Frodo.CHANNEL,
                 ApiContract.Request.Frodo.Channels.DOUBAN);
         // TODO: UUID

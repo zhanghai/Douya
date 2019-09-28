@@ -312,7 +312,7 @@ public class WebViewActivity extends AppCompatActivity {
                         AccountContract.AUTH_TOKEN_TYPE_FRODO);
                 if (!TextUtils.isEmpty(authToken)) {
                     url = StringUtils.formatUs(DOUBAN_OAUTH2_REDIRECT_URL_FORMAT, Uri.encode(url),
-                            Uri.encode(ApiCredential.ApiV2.KEY));
+                            Uri.encode(ApiCredential.API_V2_KEY));
                     headers = new HashMap<>();
                     headers.put(Http.Headers.AUTHORIZATION,
                             Http.Headers.makeBearerAuthorization(authToken));

@@ -57,11 +57,6 @@ public class FrodoSignatureInterceptor implements Interceptor {
 
     private String makeSignature(Request request, String timestamp) {
 
-        String key = ApiCredential.Frodo.SECRET;
-        if (TextUtils.isEmpty(key)) {
-            return null;
-        }
-
         StringBuilder builder = new StringBuilder();
         builder.append(request.method());
         String path = request.url().encodedPath();
@@ -81,7 +76,7 @@ public class FrodoSignatureInterceptor implements Interceptor {
         builder.append("&").append(timestamp);
 
         String signature = builder.toString();
-        signature = hmacSha1(key, signature);
+        signature = hmacSha1(ApiCredential.FRODO_SECRET, signature);
         return signature;
     }
 

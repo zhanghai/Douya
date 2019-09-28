@@ -165,27 +165,27 @@ public class ApiService {
 
     private ApiRequest<AuthenticationResponse> authenticateApiV2(String username, String password) {
         return mApiV2AuthenticationService.authenticate(ApiContract.Request.ApiV2.USER_AGENT,
-                ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.ApiV2.KEY,
-                ApiCredential.ApiV2.SECRET, ApiContract.Request.Authentication.RedirectUris.API_V2,
+                ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.API_V2_KEY,
+                ApiCredential.API_V2_SECRET, ApiContract.Request.Authentication.RedirectUris.API_V2,
                 ApiContract.Request.Authentication.GrantTypes.PASSWORD, username, password);
     }
 
     private ApiRequest<AuthenticationResponse> authenticateApiV2(String refreshToken) {
         return mApiV2AuthenticationService.authenticate(ApiContract.Request.ApiV2.USER_AGENT,
-                ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.ApiV2.KEY,
-                ApiCredential.ApiV2.SECRET, ApiContract.Request.Authentication.RedirectUris.API_V2,
+                ApiContract.Request.Authentication.ACCEPT_CHARSET, ApiCredential.API_V2_KEY,
+                ApiCredential.API_V2_SECRET, ApiContract.Request.Authentication.RedirectUris.API_V2,
                 ApiContract.Request.Authentication.GrantTypes.REFRESH_TOKEN, refreshToken);
     }
 
     private ApiRequest<AuthenticationResponse> authenticateFrodo(String username, String password) {
-        return mFrodoAuthenticationService.authenticate(ApiCredential.Frodo.KEY,
-                ApiCredential.Frodo.SECRET, ApiContract.Request.Authentication.RedirectUris.FRODO,
+        return mFrodoAuthenticationService.authenticate(ApiCredential.FRODO_KEY,
+                ApiCredential.FRODO_SECRET, ApiContract.Request.Authentication.RedirectUris.FRODO,
                 false, ApiContract.Request.Authentication.GrantTypes.PASSWORD, username, password);
     }
 
     private ApiRequest<AuthenticationResponse> authenticateFrodo(String refreshToken) {
-        return mFrodoAuthenticationService.authenticate(ApiCredential.Frodo.KEY,
-                ApiCredential.Frodo.SECRET, ApiContract.Request.Authentication.RedirectUris.FRODO,
+        return mFrodoAuthenticationService.authenticate(ApiCredential.FRODO_KEY,
+                ApiCredential.FRODO_SECRET, ApiContract.Request.Authentication.RedirectUris.FRODO,
                 false, ApiContract.Request.Authentication.GrantTypes.PASSWORD, refreshToken);
     }
 
