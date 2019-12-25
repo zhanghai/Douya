@@ -1,0 +1,4 @@
+storeFile=travis.jks
+storePassword=
+keyAlias=douya
+keyPassword=
