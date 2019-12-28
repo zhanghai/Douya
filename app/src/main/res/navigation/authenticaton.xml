@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2019 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/navigation_authenticationFragment">
+
+    <fragment
+        android:id="@+id/navigation_authenticationFragment"
+        android:name="me.zhanghai.android.douya.account.ui.AuthenticationFragment">
+        <argument
+            android:name="mode"
+            app:argType="me.zhanghai.android.douya.account.ui.AuthenticationMode"
+            app:nullable="false" />
+        <argument
+            android:name="username"
+            app:argType="String"
+            app:nullable="true" />
+        <argument
+            android:name="response"
+            app:argType="android.accounts.AccountAuthenticatorResponse"
+            app:nullable="true" />
+    </fragment>
+</navigation>

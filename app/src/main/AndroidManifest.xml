@@ -10,6 +10,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="me.zhanghai.android.douya">
 
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -19,5 +23,20 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
+        <service
+            android:name=".account.app.AuthenticatorService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <provider
+            android:name=".AppProvider"
+            android:authorities="${applicationId}.AppProvider"
+            android:exported="false" />
     </application>
 </manifest>
