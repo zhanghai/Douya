@@ -7,22 +7,26 @@ package me.zhanghai.android.douya.account.app
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import androidx.core.content.ContextCompat
 import me.zhanghai.android.douya.account.info.AccountContract
+import me.zhanghai.android.douya.appContext
+import me.zhanghai.android.douya.setting.Settings
 
-fun AccountManager.getRefreshToken(account: Account): String? =
-    getUserData(account, AccountContract.USER_DATA_KEY_REFRESH_TOKEN)
+val accountManager = ContextCompat.getSystemService(appContext, AccountManager::class.java)!!
 
-fun AccountManager.setRefreshToken(account: Account, refreshToken: String?) =
-    setUserData(account, AccountContract.USER_DATA_KEY_REFRESH_TOKEN, refreshToken)
+val AccountManager.ownAccounts get() = getAccountsByType(AccountContract.ACCOUNT_TYPE)
 
-fun AccountManager.getUserId(account: Account): Long? =
-    getUserData(account, AccountContract.USER_DATA_KEY_USER_ID)?.toLongOrNull()
+fun AccountManager.getAccountByName(name: String) = ownAccounts.find { it.name == name }
 
-fun AccountManager.setUserId(account: Account, userId: Long?) =
-    setUserData(account, AccountContract.USER_DATA_KEY_USER_ID, userId?.toString())
-
-fun AccountManager.getUserName(account: Account): String? =
-    getUserData(account, AccountContract.USER_DATA_KEY_USER_NAME)
-
-fun AccountManager.setUserName(account: Account, userName: String?) =
-    setUserData(account, AccountContract.USER_DATA_KEY_USER_NAME, userName)
+var AccountManager.activeAccount: Account?
+    get() {
+        val accountName = Settings.ACTIVE_ACCOUNT_NAME.value ?: return null
+        val account = getAccountByName(accountName)
+        if (account == null) {
+            Settings.ACTIVE_ACCOUNT_NAME.putValue(null)
+        }
+        return account
+    }
+    set(value) {
+        Settings.ACTIVE_ACCOUNT_NAME.putValue(value?.name)
+    }

@@ -8,4 +8,10 @@
 <resources>
 
     <string name="app_name">豆芽</string>
+
+    <string name="error_message_parse">解析错误</string>
+    <string name="error_message_authentication">认证失败</string>
+    <string name="error_message_timeout">请求超时</string>
+    <string name="error_message_no_connection">无网络连接</string>
+    <string name="error_message_network">网络错误</string>
 </resources>

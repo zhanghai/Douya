@@ -15,7 +15,7 @@
         android:name="me.zhanghai.android.douya.account.ui.AuthenticationFragment">
         <argument
             android:name="mode"
-            app:argType="me.zhanghai.android.douya.account.ui.AuthenticationMode"
+            app:argType="me.zhanghai.android.douya.account.info.AuthenticationMode"
             app:nullable="false" />
         <argument
             android:name="username"

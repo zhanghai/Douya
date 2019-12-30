@@ -11,14 +11,12 @@ import android.content.Context
 import android.net.Uri
 import timber.log.Timber
 
+lateinit var appContext: Context private set
+
 class AppProvider : ContentProvider() {
 
-    companion object {
-        lateinit var context: Context private set
-    }
-
     override fun onCreate(): Boolean {
-        AppProvider.context = context!!
+        appContext = context!!
         Timber.plant(Timber.DebugTree())
         return true
     }

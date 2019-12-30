@@ -10,9 +10,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="me.zhanghai.android.douya">
 
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
-        android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" android:maxSdkVersion="22" />
 
     <application
         android:allowBackup="true"

@@ -13,19 +13,17 @@ import android.accounts.NetworkErrorException
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import kotlinx.coroutines.runBlocking
 import me.zhanghai.android.douya.account.info.AccountContract
+import me.zhanghai.android.douya.account.info.AuthenticationMode
 import me.zhanghai.android.douya.account.ui.AuthenticationActivity
 import me.zhanghai.android.douya.account.ui.AuthenticationFragmentArgs
-import me.zhanghai.android.douya.account.info.AuthenticationMode
-import me.zhanghai.android.douya.network.api.ApiContract.Response.Error.Codes
-import me.zhanghai.android.douya.network.api.ApiError
-import me.zhanghai.android.douya.network.api.ApiService
-import me.zhanghai.android.douya.network.api.info.AuthenticationResponse
+import me.zhanghai.android.douya.api.app.ApiService
+import me.zhanghai.android.douya.api.info.ApiContract
+import retrofit2.HttpException
 import timber.log.Timber
 
 class Authenticator(private val context: Context) : AbstractAccountAuthenticator(context) {
-
-    private val accountManager by lazy { AccountManager.get(context) }
 
     override fun editProperties(response: AccountAuthenticatorResponse, accountType: String) =
         throw UnsupportedOperationException()
@@ -37,16 +35,14 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         authTokenType: String,
         requiredFeatures: Array<String>,
         options: Bundle
-    ) = createAuthenticationBundle(
-        AuthenticationMode.ADD, null, response)
+    ) = createAuthenticationBundle(AuthenticationMode.ADD, null, response)
 
     @Throws(NetworkErrorException::class)
     override fun confirmCredentials(
         response: AccountAuthenticatorResponse,
         account: Account,
         options: Bundle
-    ) = createAuthenticationBundle(
-        AuthenticationMode.CONFIRM, account, response)
+    ) = createAuthenticationBundle(AuthenticationMode.CONFIRM, account, response)
 
     @Throws(NetworkErrorException::class)
     override fun getAuthToken(response: AccountAuthenticatorResponse, account: Account,
@@ -60,70 +56,61 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                 "Invalid authTokenType: $authTokenType")
         }
         // http://stackoverflow.com/questions/11434621/login-in-twice-when-using-syncadapters
-        var authToken = accountManager.peekAuthToken(account, authTokenType)
-        if (authToken.isNullOrEmpty()) {
-            val refreshToken: String? = accountManager.getRefreshToken(account)
-            if (!refreshToken.isNullOrEmpty()) {
-                try {
-                    val authenticationResponse: AuthenticationResponse = ApiService.getInstance()
-                            .authenticate(authTokenType, refreshToken).execute()
-                    authToken = authenticationResponse.accessToken
-                    with(accountManager) {
-                        setRefreshToken(account, authenticationResponse.refreshToken)
-                        setUserId(account, authenticationResponse.userId)
-                        setUserName(account, authenticationResponse.userName)
-                    }
-                } catch (e: ApiError) {
+        var authToken = account.peekAuthToken()
+        if (authToken == null) {
+            do {
+                val refreshToken: String = account.refreshToken ?: break
+                val authenticationResponse = try {
+                    runBlocking { ApiService.authenticate(refreshToken) }
+                } catch (e: Exception) {
                     Timber.e(e.toString())
-                    // Try again with XAuth afterwards.
+                    break
                 }
-            }
-        }
-        if (authToken.isNullOrEmpty()) {
-            val password: String? = accountManager.getPassword(account)
-            if (password.isNullOrEmpty()) {
-                return createErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
-                    "AccountManager.getPassword() returned null or empty")
-            }
-            val apiService: ApiService = ApiService.getInstance()
-            try {
-                val authenticationResponse: AuthenticationResponse = apiService.authenticate(
-                        authTokenType, account.name, password).execute()
                 authToken = authenticationResponse.accessToken
-                with(accountManager) {
-                    setRefreshToken(account, authenticationResponse.refreshToken)
-                    setUserId(account, authenticationResponse.userId)
-                    setUserName(account, authenticationResponse.userName)
-                }
-            } catch (e: ApiError) {
+                account.refreshToken = authenticationResponse.refreshToken
+                account.userId = authenticationResponse.userId
+                account.userName = authenticationResponse.userName
+            } while (false)
+        }
+        if (authToken == null) {
+            val password = account.password ?: return createErrorBundle(
+                AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
+                "AccountManager.getPassword() returned null"
+            )
+            val authenticationResponse = try {
+                runBlocking { ApiService.authenticate(account.name, password) }
+            } catch (e: Exception) {
                 Timber.e(e.toString())
-                return if (e.bodyJson != null && e.code !== Codes.Custom.INVALID_ERROR_RESPONSE) {
-                    val message: String = ApiError.getErrorString(e, context)
-                    when (e.code) {
-                        Codes.Token.USERNAME_PASSWORD_MISMATCH -> {
-                            ApiService.getInstance().cancelApiRequests()
-                            return createAuthenticationBundle(
-                                AuthenticationMode.UPDATE, account, response
-                            ).also { addAuthenticationFailedMessage(it, message) }
+                return if (e is HttpException) {
+                    val errorResponse = ApiService.errorResponse(e)
+                    if (errorResponse != null) {
+                        when (errorResponse.code) {
+                            ApiContract.Error.Codes.Token.USERNAME_PASSWORD_MISMATCH -> {
+                                ApiService.cancelApiRequests()
+                                createAuthenticationBundle(
+                                    AuthenticationMode.UPDATE, account, response
+                                ).also {
+                                    addAuthenticationFailedMessage(
+                                        it, errorResponse.localizedMessage
+                                    )
+                                }
+                            }
+                            else -> createErrorBundle(
+                                AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
+                                errorResponse.localizedMessage
+                            )
                         }
-                        Codes.Token.INVALID_USER, Codes.Token.USER_HAS_BLOCKED,
-                        Codes.Token.USER_LOCKED -> {
-                            ApiService.getInstance().cancelApiRequests()
-                            return createIntentBundle(AuthenticatorUtils.makeWebsiteIntent(context))
-                                .also { addAuthenticationFailedMessage(it, message) }
-                        }
+                    } else {
+                        createErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE, e)
                     }
-                    createErrorBundle(AccountManager.ERROR_CODE_BAD_AUTHENTICATION, message)
-                } else if (e.response != null) {
-                    createErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE, e)
                 } else {
                     createErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e)
                 }
             }
-        }
-        if (authToken.isNullOrEmpty()) {
-            return createErrorBundle(AccountManager.ERROR_CODE_INVALID_RESPONSE,
-                    "Server-returned auth token is null or empty")
+            authToken = authenticationResponse.accessToken
+            account.refreshToken = authenticationResponse.refreshToken
+            account.userId = authenticationResponse.userId
+            account.userName = authenticationResponse.userName
         }
         return createSuccessBundle(account, authToken)
     }
@@ -136,12 +123,14 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         account: Account,
         authTokenType: String,
         options: Bundle
-    ) = createAuthenticationBundle(
-        AuthenticationMode.UPDATE, account, response)
+    ) = createAuthenticationBundle(AuthenticationMode.UPDATE, account, response)
 
     @Throws(NetworkErrorException::class)
-    override fun hasFeatures(response: AccountAuthenticatorResponse, account: Account,
-                             features: Array<String>): Bundle? = null
+    override fun hasFeatures(
+        response: AccountAuthenticatorResponse,
+        account: Account,
+        features: Array<String>
+    ): Bundle? = null
 
     private fun createIntentBundle(intent: Intent) = Bundle().apply {
         putParcelable(AccountManager.KEY_INTENT, intent)
@@ -163,8 +152,8 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         putString(AccountManager.KEY_ERROR_MESSAGE, message)
     }
 
-    private fun createErrorBundle(code: Int, throwable: Throwable) =
-        createErrorBundle(code, throwable.toString())
+    private fun createErrorBundle(code: Int, exception: Exception) =
+        createErrorBundle(code, exception.toString())
 
     private fun createSuccessBundle(account: Account, authToken: String) = Bundle().apply {
         putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
