@@ -14,4 +14,9 @@
     <string name="error_message_timeout">请求超时</string>
     <string name="error_message_no_connection">无网络连接</string>
     <string name="error_message_network">网络错误</string>
+
+    <string name="authentication_username">用户名</string>
+    <string name="authentication_password">密码</string>
+    <string name="authentication_sign_in">登录</string>
+    <string name="authentication_sign_up">注册</string>
 </resources>
