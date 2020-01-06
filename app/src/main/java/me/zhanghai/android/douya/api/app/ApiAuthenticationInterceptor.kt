@@ -15,7 +15,7 @@ import okhttp3.Response
 
 class ApiAuthenticationInterceptor : AuthenticationInterceptor(ApiContract.Api.MAX_AUTH_RETRIES) {
 
-    private lateinit var authenticator: Authenticator
+    override lateinit var authenticator: Authenticator
 
     init {
         updateAuthenticator()
@@ -27,12 +27,11 @@ class ApiAuthenticationInterceptor : AuthenticationInterceptor(ApiContract.Api.M
         authenticator = if (account != null) ApiAuthenticator(account) else NoOpAuthenticator
     }
 
-    override fun authenticator() = authenticator
-
     private object NoOpAuthenticator : Authenticator {
 
         override fun authenticate(request: Request) = request
 
+        @Suppress("ImplicitNullableNothingType")
         override fun retryAuthentication(response: Response) = null
     }
 }

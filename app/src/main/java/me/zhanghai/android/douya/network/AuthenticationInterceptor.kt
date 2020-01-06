@@ -17,10 +17,12 @@ abstract class AuthenticationInterceptor(
     private val maxRetries: Int
 ) : Interceptor {
 
+    protected abstract var authenticator: Authenticator
+
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var retryCount = 0
-        val authenticator = authenticator()
+        val authenticator = authenticator
         var request: Request = authenticator.authenticate(chain.request())
         while (true) {
             val response = chain.proceed(request)
@@ -35,8 +37,6 @@ abstract class AuthenticationInterceptor(
             ++retryCount
         }
     }
-
-    protected abstract fun authenticator(): Authenticator
 
     interface Authenticator {
 
