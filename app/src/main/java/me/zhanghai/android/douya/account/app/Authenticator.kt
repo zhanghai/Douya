@@ -32,8 +32,8 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
     override fun addAccount(
         response: AccountAuthenticatorResponse,
         accountType: String,
-        authTokenType: String,
-        requiredFeatures: Array<String>,
+        authTokenType: String?,
+        requiredFeatures: Array<String>?,
         options: Bundle
     ) = createAuthenticationBundle(AuthenticationMode.ADD, null, response)
 
@@ -41,7 +41,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
     override fun confirmCredentials(
         response: AccountAuthenticatorResponse,
         account: Account,
-        options: Bundle
+        options: Bundle?
     ) = createAuthenticationBundle(AuthenticationMode.CONFIRM, account, response)
 
     @Throws(NetworkErrorException::class)
@@ -55,8 +55,10 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
             return createErrorBundle(AccountManager.ERROR_CODE_BAD_ARGUMENTS,
                 "Invalid authTokenType: $authTokenType")
         }
+
         // http://stackoverflow.com/questions/11434621/login-in-twice-when-using-syncadapters
         var authToken = account.peekAuthToken()
+
         if (authToken == null) {
             do {
                 val refreshToken: String = account.refreshToken ?: break
@@ -72,6 +74,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                 account.userName = authenticationResponse.userName
             } while (false)
         }
+
         if (authToken == null) {
             val password = account.password ?: return createErrorBundle(
                 AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
@@ -89,9 +92,10 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                                 ApiService.cancelApiRequests()
                                 createAuthenticationBundle(
                                     AuthenticationMode.UPDATE, account, response
-                                ).also {
-                                    addAuthenticationFailedMessage(
-                                        it, errorResponse.localizedMessage
+                                ).apply {
+                                    putString(
+                                        AccountManager.KEY_AUTH_FAILED_MESSAGE,
+                                        errorResponse.localizedMessage
                                     )
                                 }
                             }
@@ -112,7 +116,12 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
             account.userId = authenticationResponse.userId
             account.userName = authenticationResponse.userName
         }
-        return createSuccessBundle(account, authToken)
+
+        return Bundle().apply {
+            putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
+            putString(AccountManager.KEY_ACCOUNT_TYPE, account.type)
+            putString(AccountManager.KEY_AUTHTOKEN, authToken)
+        }
     }
 
     override fun getAuthTokenLabel(authTokenType: String): String? = null
@@ -121,8 +130,8 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
     override fun updateCredentials(
         response: AccountAuthenticatorResponse,
         account: Account,
-        authTokenType: String,
-        options: Bundle
+        authTokenType: String?,
+        options: Bundle?
     ) = createAuthenticationBundle(AuthenticationMode.UPDATE, account, response)
 
     @Throws(NetworkErrorException::class)
@@ -130,7 +139,9 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         response: AccountAuthenticatorResponse,
         account: Account,
         features: Array<String>
-    ): Bundle? = null
+    ) = Bundle().apply {
+        putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false)
+    }
 
     private fun createIntentBundle(intent: Intent) = Bundle().apply {
         putParcelable(AccountManager.KEY_INTENT, intent)
@@ -141,11 +152,8 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         account: Account?,
         response: AccountAuthenticatorResponse?
     ) = createIntentBundle(Intent(context, AuthenticationActivity::class.java).apply {
-        putExtras(AuthenticationFragmentArgs(mode, account?.name, response).toBundle())
+        putExtras(AuthenticationFragmentArgs(mode.ordinal, account?.name, response).toBundle())
     })
-
-    private fun addAuthenticationFailedMessage(bundle: Bundle, message: String) =
-        bundle.putString(AccountManager.KEY_AUTH_FAILED_MESSAGE, message)
 
     private fun createErrorBundle(code: Int, message: String) = Bundle().apply {
         putInt(AccountManager.KEY_ERROR_CODE, code)
@@ -154,10 +162,4 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
 
     private fun createErrorBundle(code: Int, exception: Exception) =
         createErrorBundle(code, exception.toString())
-
-    private fun createSuccessBundle(account: Account, authToken: String) = Bundle().apply {
-        putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
-        putString(AccountManager.KEY_ACCOUNT_TYPE, account.type)
-        putString(AccountManager.KEY_AUTHTOKEN, authToken)
-    }
 }

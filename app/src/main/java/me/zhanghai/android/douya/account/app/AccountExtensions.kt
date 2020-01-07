@@ -11,6 +11,8 @@ import android.accounts.OperationCanceledException
 import me.zhanghai.android.douya.account.info.AccountContract
 import java.io.IOException
 
+fun Account(name: String) = Account(name, AccountContract.ACCOUNT_TYPE)
+
 var Account.password: String?
     get() = accountManager.getPassword(this)
     set(value) = accountManager.setPassword(this, value)
@@ -21,6 +23,9 @@ fun Account.peekAuthToken(): String? =
 @Throws(AuthenticatorException::class, IOException::class, OperationCanceledException::class)
 fun Account.blockingGetAuthToken(notifyAuthFailure: Boolean): String? =
     accountManager.blockingGetAuthToken(this, AccountContract.AUTH_TOKEN_TYPE, notifyAuthFailure)
+
+fun Account.setAuthToken(authToken: String) =
+    accountManager.setAuthToken(this, AccountContract.AUTH_TOKEN_TYPE, authToken)
 
 fun Account.invalidateAuthToken(authToken: String) =
     accountManager.invalidateAuthToken(type, authToken)

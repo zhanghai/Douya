@@ -8,18 +8,18 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/navigation_authenticationFragment">
+    app:startDestination="@id/navigation_authentication">
 
     <fragment
-        android:id="@+id/navigation_authenticationFragment"
+        android:id="@+id/navigation_authentication"
         android:name="me.zhanghai.android.douya.account.ui.AuthenticationFragment">
+        <!-- App classes will be striped from bundles given to system. -->
         <argument
             android:name="mode"
-            app:argType="me.zhanghai.android.douya.account.info.AuthenticationMode"
-            app:nullable="false" />
+            app:argType="integer" />
         <argument
             android:name="username"
-            app:argType="String"
+            app:argType="string"
             app:nullable="true" />
         <argument
             android:name="response"

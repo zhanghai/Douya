@@ -6,21 +6,29 @@
 package me.zhanghai.android.douya.account.ui
 
 import android.accounts.AccountManager
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.account.info.AuthenticationMode
+import me.zhanghai.android.douya.arch.observe
+import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.AuthenticationFragmentBinding
 
 class AuthenticationFragment : Fragment() {
 
     private val args: AuthenticationFragmentArgs by navArgs()
 
+    private val viewModel: AuthenticationViewModel by viewModels {
+        { AuthenticationViewModel(AuthenticationMode.values()[args.mode], args.username ?: "") }
+    }
+
     private lateinit var binding: AuthenticationFragmentBinding
+
+    private var resultSent = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +36,6 @@ class AuthenticationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = AuthenticationFragmentBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -37,13 +44,24 @@ class AuthenticationFragment : Fragment() {
 
         args.response?.onRequestContinued()
 
-        //binding.viewModel =
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
+        viewModel.result.observe(this) { result ->
+            if (result == null) {
+                return@observe
+            }
+            args.response?.onResult(result.extras)
+            resultSent = true
+            with (requireActivity()) {
+                setResult(Activity.RESULT_OK, result)
+                finish()
+            }
+        }
     }
 
-    private fun setResult(result: Bundle?) {
-        if (result != null) {
-            args.response?.onResult(result)
-        } else {
+    fun onActivityFinish() {
+        if (!resultSent) {
             args.response?.onError(AccountManager.ERROR_CODE_CANCELED, "canceled")
         }
     }

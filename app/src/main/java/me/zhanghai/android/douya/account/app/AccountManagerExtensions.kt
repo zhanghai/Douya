@@ -18,6 +18,9 @@ val AccountManager.ownAccounts get() = getAccountsByType(AccountContract.ACCOUNT
 
 fun AccountManager.getAccountByName(name: String) = ownAccounts.find { it.name == name }
 
+fun AccountManager.addAccountExplicitly(account: Account, password: String) =
+    accountManager.addAccountExplicitly(account, password, null)
+
 var AccountManager.activeAccount: Account?
     get() {
         val accountName = Settings.ACTIVE_ACCOUNT_NAME.value ?: return null

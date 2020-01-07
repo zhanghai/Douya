@@ -22,9 +22,20 @@ class AuthenticationActivity: AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                add(android.R.id.content, NavHostFragment.create(R.navigation.authenticaton,
-                        intent.extras))
+                NavHostFragment.create(R.navigation.authentication, intent.extras).let {
+                    add(android.R.id.content, it)
+                    setPrimaryNavigationFragment(it)
+                }
             }
         }
+    }
+
+    override fun finish() {
+        val navHostFragment = supportFragmentManager.primaryNavigationFragment as NavHostFragment
+        val fragment = navHostFragment.childFragmentManager.primaryNavigationFragment
+            as AuthenticationFragment
+        fragment.onActivityFinish()
+
+        super.finish()
     }
 }

@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.api.info
 
 import android.os.Build
-import android.provider.Telephony.Carriers.PASSWORD
 import android.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -22,7 +21,7 @@ object ApiContract {
 
         init {
             val cipher = Cipher.getInstance("AES/CBC/NoPadding")
-            val key = SecretKeySpec(PASSWORD.toByteArray(Charsets.UTF_8), "AES")
+            val key = SecretKeySpec("MIICUjCCAbsCBEty".toByteArray(Charsets.UTF_8), "AES")
             val parameters = IvParameterSpec("DOUBANFRODOAPPIV".toByteArray(Charsets.UTF_8))
             cipher.init(Cipher.DECRYPT_MODE, key, parameters)
             val keyInput = Base64.decode(

@@ -16,7 +16,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -58,7 +59,7 @@
                     android:id="@+id/passwordText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPassword"
                     android:text="@={viewModel.password}"
                     android:onTextChanged="@{() -> viewModel.onPasswordChanged()}" />
             </com.google.android.material.textfield.TextInputLayout>
