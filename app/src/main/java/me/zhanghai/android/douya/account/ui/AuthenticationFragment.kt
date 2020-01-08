@@ -47,10 +47,7 @@ class AuthenticationFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewModel.result.observe(this) { result ->
-            if (result == null) {
-                return@observe
-            }
+        viewModel.sendResultAndFinish.observe(this) { result ->
             args.response?.onResult(result.extras)
             resultSent = true
             with (requireActivity()) {

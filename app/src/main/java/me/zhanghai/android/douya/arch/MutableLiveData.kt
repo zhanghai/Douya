@@ -7,7 +7,11 @@ package me.zhanghai.android.douya.arch
 
 import androidx.lifecycle.MutableLiveData
 
-class MutableLiveData<T>(value: T) : MutableLiveData<T>(value) {
+open class MutableLiveData<T> : MutableLiveData<T> {
+
+    constructor(value: T) : super(value)
+
+    protected constructor()
 
     override fun getValue(): T {
         @Suppress("UNCHECKED_CAST")
