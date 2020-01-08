@@ -95,13 +95,13 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                                 ).apply {
                                     putString(
                                         AccountManager.KEY_AUTH_FAILED_MESSAGE,
-                                        errorResponse.localizedMessage
+                                        ApiService.errorMessage(errorResponse)
                                     )
                                 }
                             }
                             else -> createErrorBundle(
                                 AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
-                                errorResponse.localizedMessage
+                                ApiService.errorMessage(errorResponse)
                             )
                         }
                     } else {

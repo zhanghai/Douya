@@ -15,5 +15,5 @@ data class ErrorResponse(
     val message: String,
     val request: String,
     @Json(name = "localized_message")
-    val localizedMessage: String
+    val localizedMessage: String?
 )

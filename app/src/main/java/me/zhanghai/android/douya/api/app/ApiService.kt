@@ -22,6 +22,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
+import timber.log.Timber
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -63,6 +64,7 @@ object ApiService {
     fun errorResponse(body: ResponseBody): ErrorResponse? = try {
         errorConverter.convert(body)
     } catch (e: Exception) {
+        Timber.e(e)
         null
     }
 
@@ -73,7 +75,9 @@ object ApiService {
 
     fun errorMessage(exception: Exception): String =
         if (exception is HttpException) {
-            errorResponse(exception)?.localizedMessage
+            val errorResponse = errorResponse(exception)
+            errorResponse?.localizedMessage
+                ?: errorResponse?.message
                 ?: appContext.getString(R.string.error_message_parse)
         } else {
             when (exception) {
@@ -87,6 +91,13 @@ object ApiService {
                 is IOException -> appContext.getString(R.string.error_message_network)
                 else -> exception.toString()
             }
+        }
+
+    fun errorMessage(errorResponse: ErrorResponse) =
+        if (errorResponse.localizedMessage != null) {
+            errorResponse.localizedMessage
+        } else {
+            errorResponse.message
         }
 
     fun cancelApiRequests() = apiHttpClient.dispatcher.cancelAll()
