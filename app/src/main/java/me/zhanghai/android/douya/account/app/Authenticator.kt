@@ -88,7 +88,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                     val errorResponse = ApiService.errorResponse(e)
                     if (errorResponse != null) {
                         when (errorResponse.code) {
-                            ApiContract.Error.Codes.Token.USERNAME_PASSWORD_MISMATCH -> {
+                            ApiContract.Error.Codes.USERNAME_PASSWORD_MISMATCH -> {
                                 ApiService.cancelApiRequests()
                                 createAuthenticationBundle(
                                     AuthenticationMode.UPDATE, account, response

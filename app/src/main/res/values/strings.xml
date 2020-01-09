@@ -9,11 +9,18 @@
 
     <string name="app_name">豆芽</string>
 
-    <string name="error_message_parse">解析错误</string>
-    <string name="error_message_authentication">认证失败</string>
-    <string name="error_message_timeout">请求超时</string>
-    <string name="error_message_no_connection">无网络连接</string>
-    <string name="error_message_network">网络错误</string>
+    <string name="api_error_parse">解析错误</string>
+    <string name="api_error_authentication">认证失败</string>
+    <string name="api_error_timeout">请求超时</string>
+    <string name="api_error_no_connection">无网络连接</string>
+    <string name="api_error_network">网络错误</string>
+    <string name="api_error_invalid_access_token">访问令牌无效</string>
+    <string name="api_error_access_token_has_expired">访问令牌已过期</string>
+    <string name="api_error_username_password_mismatch">用户名或密码错误</string>
+    <string name="api_error_invalid_user">用户不存在</string>
+    <string name="api_error_user_is_blocked">用户已被封禁</string>
+    <string name="api_error_access_token_has_expired_since_password_changed">访问令牌因密码改变已过期</string>
+    <string name="api_error_user_is_locked">用户已被锁定</string>
 
     <string name="authentication_username">用户名</string>
     <string name="authentication_username_error_empty">请输入用户名</string>

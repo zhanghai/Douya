@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.api.info
 
 import android.os.Build
 import android.util.Base64
+import me.zhanghai.android.douya.R
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -36,15 +37,25 @@ object ApiContract {
     object Error {
 
         object Codes {
-
-            object Token {
-                const val INVALID_ACCESS_TOKEN = 103
-                const val ACCESS_TOKEN_HAS_EXPIRED = 106
-                const val INVALID_REFRESH_TOKEN = 119
-                const val USERNAME_PASSWORD_MISMATCH = 120
-                const val ACCESS_TOKEN_HAS_EXPIRED_SINCE_PASSWORD_CHANGED = 123
-            }
+            const val INVALID_ACCESS_TOKEN = 103
+            const val ACCESS_TOKEN_HAS_EXPIRED = 106
+            const val USERNAME_PASSWORD_MISMATCH = 120
+            const val INVALID_USER = 121
+            const val USER_IS_BLOCKED = 122
+            const val ACCESS_TOKEN_HAS_EXPIRED_SINCE_PASSWORD_CHANGED = 123
+            const val USER_IS_LOCKED = 128
         }
+
+        val MESSAGES = mapOf(
+            Codes.INVALID_ACCESS_TOKEN to R.string.api_error_invalid_access_token,
+            Codes.ACCESS_TOKEN_HAS_EXPIRED to R.string.api_error_access_token_has_expired,
+            Codes.USERNAME_PASSWORD_MISMATCH to R.string.api_error_username_password_mismatch,
+            Codes.INVALID_USER to R.string.api_error_invalid_user,
+            Codes.USER_IS_BLOCKED to R.string.api_error_user_is_blocked,
+            Codes.ACCESS_TOKEN_HAS_EXPIRED_SINCE_PASSWORD_CHANGED
+                to R.string.api_error_access_token_has_expired_since_password_changed,
+            Codes.USER_IS_LOCKED to R.string.api_error_user_is_locked
+        )
     }
 
     object Authentication {

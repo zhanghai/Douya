@@ -24,10 +24,9 @@ class ApiAuthenticator(account: Account) : AndroidAuthenticator(account) {
         }
         val errorResponse = ApiService.errorResponse(body)
         return when (errorResponse?.code) {
-            ApiContract.Error.Codes.Token.INVALID_ACCESS_TOKEN,
-            ApiContract.Error.Codes.Token.ACCESS_TOKEN_HAS_EXPIRED,
-            ApiContract.Error.Codes.Token.INVALID_REFRESH_TOKEN,
-            ApiContract.Error.Codes.Token.ACCESS_TOKEN_HAS_EXPIRED_SINCE_PASSWORD_CHANGED -> true
+            ApiContract.Error.Codes.INVALID_ACCESS_TOKEN,
+            ApiContract.Error.Codes.ACCESS_TOKEN_HAS_EXPIRED,
+            ApiContract.Error.Codes.ACCESS_TOKEN_HAS_EXPIRED_SINCE_PASSWORD_CHANGED -> true
             else -> false
         }
     }

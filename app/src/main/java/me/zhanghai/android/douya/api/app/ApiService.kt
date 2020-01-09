@@ -73,32 +73,29 @@ object ApiService {
         return errorResponse(body)
     }
 
+    // @see com.douban.frodo.network.ErrorMessageHelper
     fun errorMessage(exception: Exception): String =
         if (exception is HttpException) {
             val errorResponse = errorResponse(exception)
-            errorResponse?.localizedMessage
-                ?: errorResponse?.message
-                ?: appContext.getString(R.string.error_message_parse)
+            errorResponse?.let { errorMessage(it) }
+                ?: appContext.getString(R.string.api_error_parse)
         } else {
             when (exception) {
                 is JsonDataException, is JsonEncodingException, is KotlinNullPointerException ->
-                    appContext.getString(R.string.error_message_parse)
+                    appContext.getString(R.string.api_error_parse)
                 is AuthenticationException ->
-                    appContext.getString(R.string.error_message_authentication)
-                is SocketTimeoutException -> appContext.getString(R.string.error_message_timeout)
-                is UnknownHostException ->
-                    appContext.getString(R.string.error_message_no_connection)
-                is IOException -> appContext.getString(R.string.error_message_network)
+                    appContext.getString(R.string.api_error_authentication)
+                is SocketTimeoutException -> appContext.getString(R.string.api_error_timeout)
+                is UnknownHostException -> appContext.getString(R.string.api_error_no_connection)
+                is IOException -> appContext.getString(R.string.api_error_network)
                 else -> exception.toString()
             }
         }
 
     fun errorMessage(errorResponse: ErrorResponse) =
-        if (errorResponse.localizedMessage != null) {
-            errorResponse.localizedMessage
-        } else {
-            errorResponse.message
-        }
+        errorResponse.localizedMessage
+            ?: ApiContract.Error.MESSAGES[errorResponse.code]?.let { appContext.getString(it) }
+            ?: errorResponse.message
 
     fun cancelApiRequests() = apiHttpClient.dispatcher.cancelAll()
 
