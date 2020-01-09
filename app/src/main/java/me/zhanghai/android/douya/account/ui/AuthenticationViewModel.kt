@@ -13,7 +13,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.account.app.Account
-import me.zhanghai.android.douya.account.app.accountManager
 import me.zhanghai.android.douya.account.app.activeAccount
 import me.zhanghai.android.douya.account.app.addAccountExplicitly
 import me.zhanghai.android.douya.account.app.ownAccounts
@@ -23,7 +22,8 @@ import me.zhanghai.android.douya.account.app.userId
 import me.zhanghai.android.douya.account.app.userName
 import me.zhanghai.android.douya.account.info.AuthenticationMode
 import me.zhanghai.android.douya.api.app.ApiService
-import me.zhanghai.android.douya.appContext
+import me.zhanghai.android.douya.app.accountManager
+import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.MutableLiveData
 import timber.log.Timber

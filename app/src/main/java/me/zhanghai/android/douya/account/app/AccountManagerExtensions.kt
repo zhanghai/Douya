@@ -7,12 +7,9 @@ package me.zhanghai.android.douya.account.app
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import androidx.core.content.ContextCompat
 import me.zhanghai.android.douya.account.info.AccountContract
-import me.zhanghai.android.douya.appContext
+import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.setting.Settings
-
-val accountManager = ContextCompat.getSystemService(appContext, AccountManager::class.java)!!
 
 val AccountManager.ownAccounts get() = getAccountsByType(AccountContract.ACCOUNT_TYPE)
 

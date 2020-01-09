@@ -50,7 +50,7 @@
         </service>
 
         <provider
-            android:name=".AppProvider"
+            android:name=".app.AppProvider"
             android:authorities="${applicationId}.AppProvider"
             android:exported="false" />
     </application>

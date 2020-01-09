@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2019 Hai Zhang <dreaming.in.code.zh@gmail.com>
+ * Copyright (c) 2020 Hai Zhang <dreaming.in.code.zh@gmail.com>
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya
+package me.zhanghai.android.douya.app
 
 import android.content.ContentProvider
 import android.content.ContentValues

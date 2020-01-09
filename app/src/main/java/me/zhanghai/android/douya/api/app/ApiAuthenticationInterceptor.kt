@@ -5,9 +5,9 @@
 
 package me.zhanghai.android.douya.api.app
 
-import me.zhanghai.android.douya.account.app.accountManager
 import me.zhanghai.android.douya.account.app.activeAccount
 import me.zhanghai.android.douya.api.info.ApiContract
+import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.network.AuthenticationInterceptor
 import me.zhanghai.android.douya.setting.Settings
 import okhttp3.Request

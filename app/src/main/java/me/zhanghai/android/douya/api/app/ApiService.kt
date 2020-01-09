@@ -11,7 +11,7 @@ import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.AuthenticationResponse
 import me.zhanghai.android.douya.api.info.ErrorResponse
-import me.zhanghai.android.douya.appContext
+import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.network.AuthenticationException
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody

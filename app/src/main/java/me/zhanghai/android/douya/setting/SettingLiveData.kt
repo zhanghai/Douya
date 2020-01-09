@@ -15,7 +15,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.preference.PreferenceManager
-import me.zhanghai.android.douya.appContext
+import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.util.getBoolean
 import me.zhanghai.android.douya.util.getFloat
 import me.zhanghai.android.douya.util.getInteger

@@ -9,6 +9,7 @@ import android.accounts.Account
 import android.accounts.AuthenticatorException
 import android.accounts.OperationCanceledException
 import me.zhanghai.android.douya.account.info.AccountContract
+import me.zhanghai.android.douya.app.accountManager
 import java.io.IOException
 
 fun Account(name: String) = Account(name, AccountContract.ACCOUNT_TYPE)
