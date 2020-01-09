@@ -27,5 +27,5 @@
     <string name="authentication_password">密码</string>
     <string name="authentication_password_error_empty">请输入密码</string>
     <string name="authentication_sign_in">登录</string>
-    <string name="authentication_sign_up">注册</string>
+    <string name="authentication_sign_up">没有账户？现在注册</string>
 </resources>

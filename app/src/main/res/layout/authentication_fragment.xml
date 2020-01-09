@@ -21,18 +21,42 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/screen_edge_margin"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/titleTextUsernameLayoutSpace"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
+                android:textColor="?colorPrimary" />
+
+            <Space
+                android:id="@+id/titleTextUsernameLayoutSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/usernameLayout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:hint="@string/authentication_username"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleText"
+                app:layout_constraintBottom_toTopOf="@id/passwordLayout"
+                app:layout_constraintVertical_chainStyle="packed"
                 app:error="@{viewModel.usernameError}"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                android:hint="@string/authentication_username">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernameText"
@@ -47,12 +71,14 @@
                 android:id="@+id/passwordLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/usernameLayout"
-                android:hint="@string/authentication_password"
+                app:layout_constraintBottom_toTopOf="@id/signInButton"
+                android:layout_marginTop="8dp"
                 app:error="@{viewModel.passwordError}"
                 app:errorEnabled="true"
+                android:hint="@string/authentication_password"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -64,26 +90,38 @@
                     android:onTextChanged="@{() -> viewModel.onPasswordChanged()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/signInButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/passwordLayout"
+                app:layout_constraintBottom_toTopOf="@id/signUpButtonEndSpace"
+                android:layout_marginTop="8dp"
                 android:text="@string/authentication_sign_in"
                 android:onClick="@{() -> viewModel.onSignIn()}" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/signUpButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+            <Space
+                android:id="@+id/signUpButtonEndSpace"
+                android:layout_width="8dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signInButton"
+                app:layout_constraintBottom_toTopOf="@id/signUpButton" />
+
+            <Button
+                android:id="@+id/signUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/signUpButtonEndSpace"
+                app:layout_constraintTop_toBottomOf="@id/signUpButtonEndSpace"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"
                 android:text="@string/authentication_sign_up"
-                android:onClick="@{() -> viewModel.onSignUp()}"
-                style="@style/Widget.MaterialComponents.Button.TextButton" />
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:onClick="@{() -> viewModel.onSignUp()}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
