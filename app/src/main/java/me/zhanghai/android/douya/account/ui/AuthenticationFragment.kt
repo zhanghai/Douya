@@ -47,7 +47,7 @@ class AuthenticationFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewModel.sendResultAndFinish.observe(this) { result ->
+        viewModel.sendResultAndFinishEvent.observe(this) { result ->
             args.response?.onResult(result.extras)
             resultSent = true
             with (requireActivity()) {

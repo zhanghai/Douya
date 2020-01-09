@@ -46,8 +46,8 @@ class AuthenticationViewModel(
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
-    private val _sendResultAndFinish = EventLiveData<Intent>()
-    val sendResultAndFinish: LiveData<Intent> = _sendResultAndFinish
+    private val _sendResultAndFinishEvent = EventLiveData<Intent>()
+    val sendResultAndFinishEvent: LiveData<Intent> = _sendResultAndFinishEvent
 
     fun onUsernameChanged() {
         _usernameError.value = null
@@ -104,7 +104,7 @@ class AuthenticationViewModel(
             account.refreshToken = response.refreshToken
             account.userId = response.userId
             account.userName = response.userName
-            _sendResultAndFinish.value = when (mode) {
+            _sendResultAndFinishEvent.value = when (mode) {
                 AuthenticationMode.ADD, AuthenticationMode.UPDATE -> Intent().apply {
                     putExtra(AccountManager.KEY_ACCOUNT_NAME, account.name)
                     putExtra(AccountManager.KEY_ACCOUNT_TYPE, account.type)
