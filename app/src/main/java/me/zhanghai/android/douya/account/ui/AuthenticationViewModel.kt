@@ -25,7 +25,7 @@ import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.arch.EventLiveData
-import me.zhanghai.android.douya.arch.MutableLiveData
+import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import timber.log.Timber
 
 class AuthenticationViewModel(
@@ -33,17 +33,17 @@ class AuthenticationViewModel(
     private val initialUsername: String
 ) : ViewModel() {
 
-    val username = MutableLiveData(initialUsername)
+    val username = DistinctMutableLiveData(initialUsername)
 
-    private val _usernameError = MutableLiveData<String?>(null)
+    private val _usernameError = DistinctMutableLiveData<String?>(null)
     val usernameError: LiveData<String?> = _usernameError
 
-    val password = MutableLiveData("")
+    val password = DistinctMutableLiveData("")
 
-    private val _passwordError = MutableLiveData<String?>(null)
+    private val _passwordError = DistinctMutableLiveData<String?>(null)
     val passwordError: LiveData<String?> = _passwordError
 
-    private val _loading = MutableLiveData(false)
+    private val _loading = DistinctMutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
     private val _sendResultAndFinishEvent = EventLiveData<Intent>()

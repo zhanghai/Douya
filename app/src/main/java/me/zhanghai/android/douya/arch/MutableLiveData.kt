@@ -11,18 +11,10 @@ open class MutableLiveData<T> : MutableLiveData<T> {
 
     constructor(value: T) : super(value)
 
-    protected constructor()
+    constructor()
 
     override fun getValue(): T {
         @Suppress("UNCHECKED_CAST")
         return super.getValue() as T
     }
-
-    override fun setValue(value: T) {
-        if (getValue() != value) {
-            super.setValue(value)
-        }
-    }
-
-    fun forceValue(value: T) = super.setValue(value)
 }
