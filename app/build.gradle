@@ -74,11 +74,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
     implementation 'com.google.android.material:material:1.2.0-alpha03'
 
-    def epoxy_version = '3.9.0'
-    implementation "com.airbnb.android:epoxy:$epoxy_version"
-    implementation "com.airbnb.android:epoxy-databinding:$epoxy_version"
-    implementation "com.airbnb.android:epoxy-paging:$epoxy_version"
-    kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
     def moshi_version = '1.9.2'
     implementation "com.squareup.moshi:moshi:$moshi_version"
