@@ -25,7 +25,7 @@ import kotlin.reflect.KClass
 abstract class SettingLiveData<T>(
     @StringRes keyRes: Int,
     private val defaultValue: T
-) : LiveData<T>(), OnSharedPreferenceChangeListener {
+) : LiveData<T>() {
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
 
@@ -34,12 +34,10 @@ abstract class SettingLiveData<T>(
     init {
         loadValue()
         // Only a weak reference is stored so we don't need to worry about unregistering.
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == this.key) {
-            loadValue()
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
+            if (key == this.key) {
+                loadValue()
+            }
         }
     }
 
