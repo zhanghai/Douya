@@ -22,10 +22,10 @@ class ApiKeyInterceptor : Interceptor {
             .addParameters(
                 request,
                 mapOf(
+                    ApiContract.Api.OS_ROM to ApiContract.Api.OsRoms.ANDROID,
                     ApiContract.Api.API_KEY to ApiContract.Credential.KEY,
-                    ApiContract.Api.CHANNEL to ApiContract.Api.Channels.DOUBAN,
+                    ApiContract.Api.CHANNEL to ApiContract.Api.Channels.DOUBAN
                     // TODO: UUID
-                    ApiContract.Api.OS_ROM to ApiContract.Api.OsRoms.ANDROID
                 )
             )
             .build()

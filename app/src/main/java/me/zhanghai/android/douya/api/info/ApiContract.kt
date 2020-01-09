@@ -21,10 +21,10 @@ object ApiContract {
         const val BASE_URL = "https://frodo.douban.com/api/v2/"
 
         // API protocol version is derived from user agent string.
-        val USER_AGENT = "api-client/1 com.douban.frodo/6.0.1(138) Android/" +
-            Build.VERSION.SDK_INT + " product/" + Build.PRODUCT + " vendor/" +
+        val USER_AGENT = "api-client/1 com.douban.frodo/6.28.1(174) Android/" +
+            Build.VERSION.SDK_INT + " product/" + Build.PRODUCT + " vendor/" + Build.MANUFACTURER +
             // Sorry Frodo, but we don't want to request ACCESS_NETWORK_STATE.
-            Build.MANUFACTURER + " model/" + Build.MODEL + "  rom/android  network/wifi"
+            " model/" + Build.MODEL + "  rom/android  network/wifi  platform/mobile"
 
         const val API_KEY = "apikey"
 
@@ -60,7 +60,7 @@ object ApiContract {
                 "74CwfJd4+7LYgFhXi1cx0IQC35UQqYVFycCE+EVyw1E=", Base64.DEFAULT
             )
             KEY = cipher.doFinal(keyInput).toString(Charsets.UTF_8)
-            val secretInput = Base64.decode("MkFm2XdTnoPKFKXu1gveBQ==", Base64.DEFAULT)
+            val secretInput = Base64.decode("bHUvfbiVZUmm2sQRKwiAcw==", Base64.DEFAULT)
             SECRET = cipher.doFinal(secretInput).toString(Charsets.UTF_8)
         }
     }
