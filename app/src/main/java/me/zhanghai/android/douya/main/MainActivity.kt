@@ -5,6 +5,18 @@
 
 package me.zhanghai.android.douya.main
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import me.zhanghai.android.douya.account.app.ensureActiveAccount
+import me.zhanghai.android.douya.app.accountManager
 
-class MainActivity : AppCompatActivity()
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (!accountManager.ensureActiveAccount(this)) {
+            return
+        }
+    }
+}
