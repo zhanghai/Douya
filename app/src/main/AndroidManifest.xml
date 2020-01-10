@@ -27,7 +27,7 @@
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <activity
-            android:name=".account.ui.AuthenticationActivity"
+            android:name=".account.ui.AuthenticatorActivity"
             android:launchMode="singleTop" />
 
         <activity

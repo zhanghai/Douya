@@ -26,11 +26,11 @@
     <string name="api_error_access_token_has_expired_since_password_changed">访问令牌因密码改变已过期</string>
     <string name="api_error_user_is_locked">用户已被锁定</string>
 
-    <string name="authentication_username">用户名</string>
-    <string name="authentication_username_error_empty">请输入用户名</string>
-    <string name="authentication_password">密码</string>
-    <string name="authentication_password_error_empty">请输入密码</string>
-    <string name="authentication_sign_in">登录</string>
-    <string name="authentication_sign_up">没有账户？现在注册</string>
+    <string name="authenticator_username">用户名</string>
+    <string name="authenticator_username_error_empty">请输入用户名</string>
+    <string name="authenticator_password">密码</string>
+    <string name="authenticator_password_error_empty">请输入密码</string>
+    <string name="authenticator_sign_in">登录</string>
+    <string name="authenticator_sign_up">没有账户？现在注册</string>
     <string name="select_account_title">选择账户</string>
 </resources>

@@ -15,9 +15,9 @@ import android.content.Intent
 import android.os.Bundle
 import kotlinx.coroutines.runBlocking
 import me.zhanghai.android.douya.account.info.AccountContract
-import me.zhanghai.android.douya.account.info.AuthenticationMode
-import me.zhanghai.android.douya.account.ui.AuthenticationActivity
-import me.zhanghai.android.douya.account.ui.AuthenticationFragmentArgs
+import me.zhanghai.android.douya.account.info.AuthenticatorMode
+import me.zhanghai.android.douya.account.ui.AuthenticatorActivity
+import me.zhanghai.android.douya.account.ui.AuthenticatorFragmentArgs
 import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.api.info.ApiContract
 import retrofit2.HttpException
@@ -35,14 +35,14 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         authTokenType: String?,
         requiredFeatures: Array<String>?,
         options: Bundle
-    ) = createAuthenticationBundle(AuthenticationMode.ADD, null, response)
+    ) = createAuthenticationBundle(AuthenticatorMode.ADD, null, response)
 
     @Throws(NetworkErrorException::class)
     override fun confirmCredentials(
         response: AccountAuthenticatorResponse,
         account: Account,
         options: Bundle?
-    ) = createAuthenticationBundle(AuthenticationMode.CONFIRM, account, response)
+    ) = createAuthenticationBundle(AuthenticatorMode.CONFIRM, account, response)
 
     @Throws(NetworkErrorException::class)
     override fun getAuthToken(
@@ -99,7 +99,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                             ApiContract.Error.Codes.USERNAME_PASSWORD_MISMATCH -> {
                                 ApiService.cancelApiRequests()
                                 createAuthenticationBundle(
-                                    AuthenticationMode.UPDATE, account, response
+                                    AuthenticatorMode.UPDATE, account, response
                                 ).apply {
                                     putString(
                                         AccountManager.KEY_AUTH_FAILED_MESSAGE,
@@ -140,7 +140,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         account: Account,
         authTokenType: String?,
         options: Bundle?
-    ) = createAuthenticationBundle(AuthenticationMode.UPDATE, account, response)
+    ) = createAuthenticationBundle(AuthenticatorMode.UPDATE, account, response)
 
     @Throws(NetworkErrorException::class)
     override fun hasFeatures(
@@ -156,11 +156,11 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
     }
 
     private fun createAuthenticationBundle(
-        mode: AuthenticationMode,
+        mode: AuthenticatorMode,
         account: Account?,
         response: AccountAuthenticatorResponse?
-    ) = createIntentBundle(Intent(context, AuthenticationActivity::class.java).apply {
-        putExtras(AuthenticationFragmentArgs(mode.ordinal, account?.name, response).toBundle())
+    ) = createIntentBundle(Intent(context, AuthenticatorActivity::class.java).apply {
+        putExtras(AuthenticatorFragmentArgs(mode.ordinal, account?.name, response).toBundle())
     })
 
     private fun createErrorBundle(code: Int, message: String) = Bundle().apply {

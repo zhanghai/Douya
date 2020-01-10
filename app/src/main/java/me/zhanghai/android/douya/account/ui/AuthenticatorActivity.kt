@@ -12,7 +12,7 @@ import androidx.fragment.app.commit
 import androidx.navigation.fragment.NavHostFragment
 import me.zhanghai.android.douya.R
 
-class AuthenticationActivity : AppCompatActivity() {
+class AuthenticatorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class AuthenticationActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                NavHostFragment.create(R.navigation.authentication, intent.extras).let {
+                NavHostFragment.create(R.navigation.authenticator, intent.extras).let {
                     add(android.R.id.content, it)
                     setPrimaryNavigationFragment(it)
                 }
@@ -33,7 +33,7 @@ class AuthenticationActivity : AppCompatActivity() {
     override fun finish() {
         val navHostFragment = supportFragmentManager.primaryNavigationFragment as NavHostFragment
         val fragment = navHostFragment.childFragmentManager.primaryNavigationFragment
-            as AuthenticationFragment
+            as AuthenticatorFragment
         fragment.onActivityFinish()
 
         super.finish()

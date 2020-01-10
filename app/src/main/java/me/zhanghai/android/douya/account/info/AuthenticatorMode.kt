@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.account.info
 
-enum class AuthenticationMode {
+enum class AuthenticatorMode {
     ADD,
     UPDATE,
     CONFIRM

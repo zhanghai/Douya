@@ -15,23 +15,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import me.zhanghai.android.douya.account.info.AuthenticationMode
+import me.zhanghai.android.douya.account.info.AuthenticatorMode
 import me.zhanghai.android.douya.arch.observe
 import me.zhanghai.android.douya.arch.viewModels
-import me.zhanghai.android.douya.databinding.AuthenticationFragmentBinding
+import me.zhanghai.android.douya.databinding.AuthenticatorFragmentBinding
 import me.zhanghai.android.douya.util.startActivitySafely
 
 private val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
 
-class AuthenticationFragment : Fragment() {
+class AuthenticatorFragment : Fragment() {
 
-    private val args: AuthenticationFragmentArgs by navArgs()
+    private val args: AuthenticatorFragmentArgs by navArgs()
 
-    private val viewModel: AuthenticationViewModel by viewModels {
-        { AuthenticationViewModel(AuthenticationMode.values()[args.mode], args.username ?: "") }
+    private val viewModel: AuthenticatorViewModel by viewModels {
+        { AuthenticatorViewModel(AuthenticatorMode.values()[args.mode], args.username ?: "") }
     }
 
-    private lateinit var binding: AuthenticationFragmentBinding
+    private lateinit var binding: AuthenticatorFragmentBinding
 
     private var resultSent = false
 
@@ -40,7 +40,7 @@ class AuthenticationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = AuthenticationFragmentBinding.inflate(inflater, container, false)
+        binding = AuthenticatorFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 

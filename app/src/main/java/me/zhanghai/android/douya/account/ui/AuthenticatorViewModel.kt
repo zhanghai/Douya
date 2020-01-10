@@ -20,7 +20,7 @@ import me.zhanghai.android.douya.account.app.refreshToken
 import me.zhanghai.android.douya.account.app.setAuthToken
 import me.zhanghai.android.douya.account.app.userId
 import me.zhanghai.android.douya.account.app.userName
-import me.zhanghai.android.douya.account.info.AuthenticationMode
+import me.zhanghai.android.douya.account.info.AuthenticatorMode
 import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.app.appContext
@@ -28,8 +28,8 @@ import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.EventLiveData
 import timber.log.Timber
 
-class AuthenticationViewModel(
-    private val mode: AuthenticationMode,
+class AuthenticatorViewModel(
+    private val mode: AuthenticatorMode,
     private val initialUsername: String
 ) : ViewModel() {
 
@@ -65,16 +65,16 @@ class AuthenticationViewModel(
             return@launch
         }
 
-        val username = if (mode == AuthenticationMode.ADD) username.value else initialUsername
+        val username = if (mode == AuthenticatorMode.ADD) username.value else initialUsername
         val password = password.value
 
         _usernameError.value = if (username.isEmpty()) {
-            appContext.getString(R.string.authentication_username_error_empty)
+            appContext.getString(R.string.authenticator_username_error_empty)
         } else {
             null
         }
         _passwordError.value = if (password.isEmpty()) {
-            appContext.getString(R.string.authentication_password_error_empty)
+            appContext.getString(R.string.authenticator_password_error_empty)
         } else {
             null
         }
@@ -94,13 +94,13 @@ class AuthenticationViewModel(
 
             val account = Account(username)
             when (mode) {
-                AuthenticationMode.ADD -> {
+                AuthenticatorMode.ADD -> {
                     accountManager.addAccountExplicitly(account, password)
                     if (accountManager.ownAccounts.size == 1) {
                         accountManager.activeAccount = account
                     }
                 }
-                AuthenticationMode.UPDATE, AuthenticationMode.CONFIRM ->
+                AuthenticatorMode.UPDATE, AuthenticatorMode.CONFIRM ->
                     accountManager.setPassword(account, password)
             }
             account.setAuthToken(response.accessToken)
@@ -108,11 +108,11 @@ class AuthenticationViewModel(
             account.userId = response.userId
             account.userName = response.userName
             _sendResultAndFinishEvent.value = when (mode) {
-                AuthenticationMode.ADD, AuthenticationMode.UPDATE -> Intent().apply {
+                AuthenticatorMode.ADD, AuthenticatorMode.UPDATE -> Intent().apply {
                     putExtra(AccountManager.KEY_ACCOUNT_NAME, account.name)
                     putExtra(AccountManager.KEY_ACCOUNT_TYPE, account.type)
                 }
-                AuthenticationMode.CONFIRM -> Intent().apply {
+                AuthenticatorMode.CONFIRM -> Intent().apply {
                     putExtra(AccountManager.KEY_BOOLEAN_RESULT, true)
                 }
             }
