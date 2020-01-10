@@ -23,6 +23,7 @@ class SelectAccountDialogFragment : AppCompatDialogFragment() {
             .setTitle(R.string.select_account_title)
             .setSingleChoiceItems(accounts.map { it.name }.toTypedArray(), -1) { _, which ->
                 accountManager.activeAccount = accounts[which]
+                dismiss()
             }
             .setNegativeButton(R.string.cancel, null)
             .create()
