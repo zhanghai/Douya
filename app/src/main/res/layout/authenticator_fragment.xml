@@ -7,7 +7,8 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="viewModel" type="me.zhanghai.android.douya.account.ui.AuthenticatorViewModel" />
@@ -62,9 +63,11 @@
                     android:id="@+id/usernameText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:editable="@{viewModel.usernameEditable}"
                     android:inputType="textEmailAddress"
                     android:text="@={viewModel.username}"
-                    android:onTextChanged="@{() -> viewModel.onUsernameChanged()}" />
+                    android:onTextChanged="@{() -> viewModel.onUsernameChanged()}"
+                    tools:ignore="Deprecated" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

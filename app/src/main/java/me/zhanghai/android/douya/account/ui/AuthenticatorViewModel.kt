@@ -35,6 +35,8 @@ class AuthenticatorViewModel(
 
     val username = DistinctMutableLiveData(initialUsername)
 
+    val usernameEditable = mode == AuthenticatorMode.ADD
+
     private val _usernameError = DistinctMutableLiveData<String?>(null)
     val usernameError: LiveData<String?> = _usernameError
 
