@@ -28,7 +28,7 @@ fun AccountManager.addAccountExplicitly(account: Account, password: String) =
 fun AccountManager.addAccount(
     activity: Activity?,
     callback: ((AccountManagerFuture<Bundle>) -> Unit)?
-) = addAccount(
+): AccountManagerFuture<Bundle> = addAccount(
     AccountContract.ACCOUNT_TYPE, AccountContract.AUTH_TOKEN_TYPE, null, null, activity, callback,
     null
 )
