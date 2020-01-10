@@ -45,15 +45,23 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
     ) = createAuthenticationBundle(AuthenticationMode.CONFIRM, account, response)
 
     @Throws(NetworkErrorException::class)
-    override fun getAuthToken(response: AccountAuthenticatorResponse, account: Account,
-                              authTokenType: String, options: Bundle): Bundle {
+    override fun getAuthToken(
+        response: AccountAuthenticatorResponse,
+        account: Account,
+        authTokenType: String,
+        options: Bundle
+    ): Bundle {
         if (account.type != AccountContract.ACCOUNT_TYPE) {
-            return createErrorBundle(AccountManager.ERROR_CODE_BAD_ARGUMENTS,
-                "Invalid account type: ${account.type}")
+            return createErrorBundle(
+                AccountManager.ERROR_CODE_BAD_ARGUMENTS,
+                "Invalid account type: ${account.type}"
+            )
         }
         if (authTokenType != AccountContract.AUTH_TOKEN_TYPE) {
-            return createErrorBundle(AccountManager.ERROR_CODE_BAD_ARGUMENTS,
-                "Invalid authTokenType: $authTokenType")
+            return createErrorBundle(
+                AccountManager.ERROR_CODE_BAD_ARGUMENTS,
+                "Invalid authTokenType: $authTokenType"
+            )
         }
 
         // http://stackoverflow.com/questions/11434621/login-in-twice-when-using-syncadapters

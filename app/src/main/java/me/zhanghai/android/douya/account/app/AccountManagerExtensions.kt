@@ -17,9 +17,8 @@ import me.zhanghai.android.douya.setting.Settings
 import me.zhanghai.android.douya.util.show
 import timber.log.Timber
 
-
-val AccountManager.ownAccounts: Array<Account> get() =
-    getAccountsByType(AccountContract.ACCOUNT_TYPE)
+val AccountManager.ownAccounts: Array<Account>
+    get() = getAccountsByType(AccountContract.ACCOUNT_TYPE)
 
 fun AccountManager.getAccountByName(name: String) = ownAccounts.find { it.name == name }
 

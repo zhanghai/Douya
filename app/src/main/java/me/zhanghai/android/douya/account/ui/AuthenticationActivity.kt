@@ -12,7 +12,7 @@ import androidx.fragment.app.commit
 import androidx.navigation.fragment.NavHostFragment
 import me.zhanghai.android.douya.R
 
-class AuthenticationActivity: AppCompatActivity() {
+class AuthenticationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

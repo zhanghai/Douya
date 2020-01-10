@@ -35,7 +35,8 @@ class ApiSignatureInterceptor : Interceptor {
         request = request.newBuilder()
             .addParameters(
                 request,
-                mapOf(ApiContract.Api.SIG to signature, ApiContract.Api.TS to timestamp))
+                mapOf(ApiContract.Api.SIG to signature, ApiContract.Api.TS to timestamp)
+            )
             .build()
         return chain.proceed(request)
     }

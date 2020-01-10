@@ -37,11 +37,13 @@ object ApiService {
             as Converter<ResponseBody, ErrorResponse?>
 
     private val authenticationService = Retrofit.Builder()
-        .client(OkHttpClient.Builder()
-            .addNetworkInterceptor(ApiKeyInterceptor())
-            .addNetworkInterceptor(ApiSignatureInterceptor())
-            //.addNetworkInterceptor(StethoInterceptor())
-            .build())
+        .client(
+            OkHttpClient.Builder()
+                .addNetworkInterceptor(ApiKeyInterceptor())
+                .addNetworkInterceptor(ApiSignatureInterceptor())
+                //.addNetworkInterceptor(StethoInterceptor())
+                .build()
+        )
         .baseUrl(ApiContract.Authentication.BASE_URL)
         .addConverterFactory(converterFactory)
         .build()

@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.setting
 
 import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import androidx.annotation.ArrayRes
 import androidx.annotation.BoolRes
 import androidx.annotation.DimenRes

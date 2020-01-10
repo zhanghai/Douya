@@ -58,7 +58,7 @@ class AuthenticationFragment : Fragment() {
         viewModel.sendResultAndFinishEvent.observe(this) { result ->
             args.response?.onResult(result.extras)
             resultSent = true
-            with (requireActivity()) {
+            with(requireActivity()) {
                 setResult(Activity.RESULT_OK, result)
                 finish()
             }

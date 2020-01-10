@@ -24,8 +24,8 @@ import me.zhanghai.android.douya.account.info.AuthenticationMode
 import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.app.appContext
-import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
+import me.zhanghai.android.douya.arch.EventLiveData
 import timber.log.Timber
 
 class AuthenticationViewModel(
