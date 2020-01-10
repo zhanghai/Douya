@@ -7,6 +7,8 @@ package me.zhanghai.android.douya.account.ui
 
 import android.accounts.AccountManager
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,9 @@ import me.zhanghai.android.douya.account.info.AuthenticationMode
 import me.zhanghai.android.douya.arch.observe
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.AuthenticationFragmentBinding
+import me.zhanghai.android.douya.util.startActivitySafely
+
+private val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
 
 class AuthenticationFragment : Fragment() {
 
@@ -47,6 +52,9 @@ class AuthenticationFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        viewModel.signUpEvent.observe(this) {
+            startActivitySafely(Intent(Intent.ACTION_VIEW, SIGN_UP_URI))
+        }
         viewModel.sendResultAndFinishEvent.observe(this) { result ->
             args.response?.onResult(result.extras)
             resultSent = true

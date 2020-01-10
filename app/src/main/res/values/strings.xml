@@ -11,6 +11,8 @@
 
     <string name="cancel">@android:string/cancel</string>
 
+    <string name="activity_not_found">未找到可处理此操作的应用</string>
+
     <string name="api_error_parse">解析错误</string>
     <string name="api_error_authentication">认证失败</string>
     <string name="api_error_timeout">请求超时</string>

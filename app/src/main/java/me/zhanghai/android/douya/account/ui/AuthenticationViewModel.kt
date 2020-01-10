@@ -46,6 +46,9 @@ class AuthenticationViewModel(
     private val _loading = DistinctMutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
+    private val _signUpEvent = EventLiveData<Unit>()
+    val signUpEvent = _signUpEvent
+
     private val _sendResultAndFinishEvent = EventLiveData<Intent>()
     val sendResultAndFinishEvent: LiveData<Intent> = _sendResultAndFinishEvent
 
@@ -118,5 +121,7 @@ class AuthenticationViewModel(
         }
     }
 
-    fun onSignUp() = Unit
+    fun onSignUp() {
+        _signUpEvent.value = Unit
+    }
 }
