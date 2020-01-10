@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2020 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <style name="Platform.V27.Theme.Douya" parent="Platform.V23.Theme.Douya">
+        <item name="android:navigationBarColor">@color/system_window_scrim_daynight</item>
+        <item name="android:windowLightNavigationBar">?isLightTheme</item>
+    </style>
+    <style name="Platform.Theme.Douya" parent="Platform.V27.Theme.Douya" />
+</resources>

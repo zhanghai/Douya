@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2020 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <color name="status_bar_background_compat_daynight">@color/status_bar_background_compat_dark</color>
+
+    <color name="system_window_scrim_daynight">@color/system_window_scrim_dark</color>
+
+    <color name="color_primary_daynight">@color/color_primary_dark</color>
+
+    <color name="color_surface_daynight">@color/color_surface_dark</color>
+</resources>

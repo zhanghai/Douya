@@ -6,5 +6,21 @@
   -->
 
 <resources>
-    <color name="color_primary">@color/material_green_500</color>
+
+    <color name="status_bar_background_compat_light">#BBBBBB</color>
+    <color name="status_bar_background_compat_dark">@color/color_surface_dark</color>
+    <color name="status_bar_background_compat_daynight">@color/status_bar_background_compat_light</color>
+
+    <color name="system_window_scrim_compat">#44000000</color>
+    <color name="system_window_scrim_light">@color/system_window_scrim_compat</color>
+    <color name="system_window_scrim_dark">@color/system_window_scrim_compat</color>
+    <color name="system_window_scrim_daynight">@color/system_window_scrim_light</color>
+
+    <color name="color_primary_light">@color/material_green_500</color>
+    <color name="color_primary_dark">@color/material_green_300</color>
+    <color name="color_primary_daynight">@color/color_primary_light</color>
+
+    <color name="color_surface_light">@android:color/white</color>
+    <color name="color_surface_dark">@color/google_grey_900</color>
+    <color name="color_surface_daynight">@color/color_surface_light</color>
 </resources>
