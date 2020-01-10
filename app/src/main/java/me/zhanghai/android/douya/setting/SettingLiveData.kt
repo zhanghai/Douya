@@ -30,14 +30,17 @@ abstract class SettingLiveData<T>(
 
     private val key = appContext.getString(keyRes)
 
+    // We need to keep a strong reference to the listener.
+    private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key == this.key) {
+            loadValue()
+        }
+    }
+
     init {
         loadValue()
         // Only a weak reference is stored so we don't need to worry about unregistering.
-        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key == this.key) {
-                loadValue()
-            }
-        }
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     }
 
     private fun loadValue() {
