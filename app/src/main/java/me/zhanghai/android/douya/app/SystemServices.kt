@@ -8,4 +8,6 @@ package me.zhanghai.android.douya.app
 import android.accounts.AccountManager
 import androidx.core.content.ContextCompat
 
-val accountManager = ContextCompat.getSystemService(appContext, AccountManager::class.java)!!
+val accountManager: AccountManager by lazy {
+    ContextCompat.getSystemService(appContext, AccountManager::class.java)!!
+}

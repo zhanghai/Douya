@@ -45,8 +45,8 @@ class AuthenticatorViewModel(
     private val _passwordError = DistinctMutableLiveData<String?>(null)
     val passwordError: LiveData<String?> = _passwordError
 
-    private val _loading = DistinctMutableLiveData(false)
-    val loading: LiveData<Boolean> = _loading
+    private val _authenticating = DistinctMutableLiveData(false)
+    val authenticating: LiveData<Boolean> = _authenticating
 
     private val _signUpEvent = EventLiveData<Unit>()
     val signUpEvent = _signUpEvent
@@ -63,7 +63,7 @@ class AuthenticatorViewModel(
     }
 
     fun onSignIn() = viewModelScope.launch {
-        if (_loading.value) {
+        if (_authenticating.value) {
             return@launch
         }
 
@@ -84,7 +84,7 @@ class AuthenticatorViewModel(
             return@launch
         }
 
-        _loading.value = true
+        _authenticating.value = true
         try {
             val response = try {
                 ApiService.authenticate(username, password)
@@ -119,7 +119,7 @@ class AuthenticatorViewModel(
                 }
             }
         } finally {
-            _loading.value = false
+            _authenticating.value = false
         }
     }
 

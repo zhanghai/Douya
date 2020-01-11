@@ -14,11 +14,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.account.info.AuthenticatorMode
 import me.zhanghai.android.douya.arch.observe
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.AuthenticatorFragmentBinding
+import me.zhanghai.android.douya.util.fadeIn
+import me.zhanghai.android.douya.util.fadeOut
 import me.zhanghai.android.douya.util.startActivitySafely
 
 private val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
@@ -52,13 +56,24 @@ class AuthenticatorFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        viewModel.authenticating.observe(this) { authenticating ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                if (authenticating) {
+                    binding.formGroup.fadeOut()
+                    binding.progress.fadeIn()
+                } else {
+                    binding.progress.fadeOut()
+                    binding.formGroup.fadeIn()
+                }
+            }
+        }
         viewModel.signUpEvent.observe(this) {
             startActivitySafely(Intent(Intent.ACTION_VIEW, SIGN_UP_URI))
         }
         viewModel.sendResultAndFinishEvent.observe(this) { result ->
             args.response?.onResult(result.extras)
             resultSent = true
-            with(requireActivity()) {
+            requireActivity().run {
                 setResult(Activity.RESULT_OK, result)
                 finish()
             }
