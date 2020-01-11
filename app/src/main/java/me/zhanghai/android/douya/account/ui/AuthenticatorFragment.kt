@@ -59,11 +59,11 @@ class AuthenticatorFragment : Fragment() {
         viewModel.authenticating.observe(this) { authenticating ->
             viewLifecycleOwner.lifecycleScope.launch {
                 if (authenticating) {
-                    binding.formGroup.fadeOut()
+                    binding.formLayout.fadeOut()
                     binding.progress.fadeIn()
                 } else {
                     binding.progress.fadeOut()
-                    binding.formGroup.fadeIn()
+                    binding.formLayout.fadeIn()
                 }
             }
         }

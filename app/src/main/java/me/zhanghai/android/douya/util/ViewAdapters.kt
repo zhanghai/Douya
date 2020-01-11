@@ -3,14 +3,12 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.ui
+package me.zhanghai.android.douya.util
 
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import java.util.*
-
-private val textViewInitialInputTypes = WeakHashMap<TextView, Int>()
+import java.util.WeakHashMap
 
 @BindingAdapter("visibleOrGone")
 fun setViewVisibleOrGone(view: View, visible: Boolean) {
@@ -21,6 +19,8 @@ fun setViewVisibleOrGone(view: View, visible: Boolean) {
 fun setViewVisibleOrInvisible(view: View, visible: Boolean) {
     view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
 }
+
+private val textViewInitialInputTypes = WeakHashMap<TextView, Int>()
 
 @BindingAdapter("android:editable")
 fun setTextViewEditable(textView: TextView, editable: Boolean) {
