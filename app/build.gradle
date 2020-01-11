@@ -82,4 +82,5 @@ dependencies {
     def retrofit_version = '2.7.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "dev.chrisbanes:insetter-dbx:0.2.0"
 }

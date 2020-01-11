@@ -26,7 +26,11 @@
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:paddingTop="@dimen/screen_edge_margin"
-            android:paddingBottom="@dimen/screen_edge_margin">
+            android:paddingBottom="@dimen/screen_edge_margin"
+            app:paddingLeftSystemWindowInsets="@{true}"
+            app:paddingRightSystemWindowInsets="@{true}"
+            app:paddingTopSystemWindowInsets="@{true}"
+            app:paddingBottomSystemWindowInsets="@{true}">
 
             <Space
                 android:layout_width="0dp"

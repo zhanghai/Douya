@@ -5,10 +5,13 @@
 
 package me.zhanghai.android.douya.app
 
+import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import me.zhanghai.android.douya.util.ensureActivitySubDecor
+import me.zhanghai.android.douya.util.layoutActivityEdgeToEdge
 import timber.log.Timber
 
 lateinit var appContext: Context private set
@@ -18,6 +21,9 @@ class AppProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         appContext = context!!
         Timber.plant(Timber.DebugTree())
+        val application = appContext as Application
+        layoutActivityEdgeToEdge(application)
+        ensureActivitySubDecor(application)
         return true
     }
 

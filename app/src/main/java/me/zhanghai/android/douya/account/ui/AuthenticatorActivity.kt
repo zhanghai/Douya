@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.account.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.navigation.fragment.NavHostFragment
@@ -16,9 +15,6 @@ class AuthenticatorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Calls ensureSubDecor().
-        findViewById<View>(android.R.id.content)
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
