@@ -8,5 +8,5 @@
 <resources>
 
     <color name="system_window_scrim_light">#99FFFFFF</color>
-    <color name="system_window_scrim_dark">#52000000</color>
+    <color name="system_window_scrim_dark">#66202124</color>
 </resources>

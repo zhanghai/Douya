@@ -21,6 +21,6 @@
     <color name="color_primary_daynight">@color/color_primary_light</color>
 
     <color name="color_surface_light">@android:color/white</color>
-    <color name="color_surface_dark">@color/google_grey_900</color>
+    <color name="color_surface_dark">#202124</color>
     <color name="color_surface_daynight">@color/color_surface_light</color>
 </resources>
