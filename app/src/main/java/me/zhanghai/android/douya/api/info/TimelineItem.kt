@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.api.info
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import me.zhanghai.android.douya.network.EmptyObjectToNull
 
 @JsonClass(generateAdapter = true)
 data class TimelineItem(
@@ -16,6 +17,7 @@ data class TimelineItem(
     val comments: List<RefAtComment> = emptyList(),
     @Json(name = "comments_count")
     val commentsCount: Int = 0,
+    @EmptyObjectToNull
     val content: CommonContent? = null,
     @Json(name = "created_time")
     val createTime: String = "",

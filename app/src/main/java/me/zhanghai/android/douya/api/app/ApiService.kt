@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.api.app
 
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonEncodingException
+import com.squareup.moshi.Moshi
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.AuthenticationResponse
@@ -14,6 +15,7 @@ import me.zhanghai.android.douya.api.info.ErrorResponse
 import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.network.AuthenticationException
+import me.zhanghai.android.douya.network.EmptyObjectToNullAdapter
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -25,7 +27,6 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import retrofit2.http.Url
 import timber.log.Timber
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -33,7 +34,12 @@ import java.net.UnknownHostException
 
 object ApiService {
 
-    private val converterFactory = MoshiConverterFactory.create().withNullSerialization()
+    private val converterFactory = MoshiConverterFactory.create(
+        Moshi.Builder()
+            .add(EmptyObjectToNullAdapter.Factory)
+            .build()
+    )
+        .withNullSerialization()
 
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "UNCHECKED_CAST")
     private val errorConverter: Converter<ResponseBody, ErrorResponse?> =
@@ -150,6 +156,7 @@ object ApiService {
         suspend fun getHomeTimeline(
             @Query("max_id") maxId: Long?,
             @Query("count") count: Int = 20,
-            @Query("last_visit_id") lastVisitId: Long?): Timeline
+            @Query("last_visit_id") lastVisitId: Long?
+        ): Timeline
     }
 }
