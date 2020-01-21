@@ -11,6 +11,7 @@ import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.AuthenticationResponse
 import me.zhanghai.android.douya.api.info.ErrorResponse
+import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.network.AuthenticationException
 import okhttp3.OkHttpClient
@@ -21,7 +22,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
+import retrofit2.http.Url
 import timber.log.Timber
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -140,5 +144,12 @@ object ApiService {
         ): AuthenticationResponse
     }
 
-    private interface ApiService
+    private interface ApiService {
+
+        @GET("elendil/home_timeline")
+        suspend fun getHomeTimeline(
+            @Query("max_id") maxId: Long?,
+            @Query("count") count: Int = 20,
+            @Query("last_visit_id") lastVisitId: Long?): Timeline
+    }
 }
