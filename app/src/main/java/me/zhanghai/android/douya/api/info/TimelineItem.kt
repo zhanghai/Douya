@@ -11,6 +11,20 @@ import me.zhanghai.android.douya.network.EmptyObjectToNull
 
 @JsonClass(generateAdapter = true)
 data class TimelineItem(
+    // BaseFeedableItem
+    @Json(name = "abstract")
+    override val abstractString: String = "",
+    @Json(name = "url")
+    override val alt: String = "",
+    @Json(name = "cover_url")
+    override val coverUrl: String = "",
+    override val id: String = "",
+    @Json(name = "sharing_url")
+    override val sharingUrl: String = "",
+    override val title: String = "",
+    override val type: String = "",
+    override val uri: String = "",
+
     val action: String = "",
     //@Json(name = "ad_info")
     //val adInfo: FeedAd? = null,
@@ -51,7 +65,7 @@ data class TimelineItem(
     @Json(name = "type_cn")
     val typeCn: String = "",
     val uid: String = ""
-) {
+) : BaseFeedableItem {
 
     companion object {
 
