@@ -15,9 +15,7 @@ fun layoutActivityEdgeToEdge(application: Application) {
     application.registerActivityLifecycleCallbacks(object : SimpleActivityLifecycleCallbacks() {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             activity.window.decorView.run {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    layoutInStatusBar = true
-                }
+                layoutInStatusBar = true
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
                     layoutInNavigation = true
                 }
