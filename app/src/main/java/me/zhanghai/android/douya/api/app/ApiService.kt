@@ -6,22 +6,16 @@
 package me.zhanghai.android.douya.api.app
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.squareup.moshi.JsonDataException
-import com.squareup.moshi.JsonEncodingException
 import com.squareup.moshi.Moshi
-import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.AuthenticationResponse
 import me.zhanghai.android.douya.api.info.ErrorResponse
 import me.zhanghai.android.douya.api.info.Timeline
-import me.zhanghai.android.douya.app.appContext
-import me.zhanghai.android.douya.network.AuthenticationException
 import me.zhanghai.android.douya.network.EmptyObjectToNullJsonAdapter
 import me.zhanghai.android.douya.network.NullToEmptyStringOrCollectionJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter
-import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Field
@@ -29,10 +23,6 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import timber.log.Timber
-import java.io.IOException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 
 object ApiService {
     private val converterFactory = MoshiConverterFactory.create(
@@ -44,7 +34,7 @@ object ApiService {
         .withNullSerialization()
 
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "UNCHECKED_CAST")
-    private val errorConverter: Converter<ResponseBody, ErrorResponse?> =
+    internal val errorResponseConverter: Converter<ResponseBody, ErrorResponse?> =
         converterFactory.responseBodyConverter(ErrorResponse::class.java, arrayOf(), null)!!
             as Converter<ResponseBody, ErrorResponse?>
 
@@ -74,42 +64,6 @@ object ApiService {
         .addConverterFactory(converterFactory)
         .build()
         .create(ApiService::class.java)
-
-    fun errorResponse(body: ResponseBody): ErrorResponse? = try {
-        errorConverter.convert(body)
-    } catch (e: Exception) {
-        Timber.e(e)
-        null
-    }
-
-    fun errorResponse(exception: HttpException): ErrorResponse? {
-        val body = exception.response()?.errorBody() ?: return null
-        return errorResponse(body)
-    }
-
-    // @see com.douban.frodo.network.ErrorMessageHelper
-    fun errorMessage(exception: Exception): String =
-        if (exception is HttpException) {
-            val errorResponse = errorResponse(exception)
-            errorResponse?.let { errorMessage(it) }
-                ?: appContext.getString(R.string.api_error_parse)
-        } else {
-            when (exception) {
-                is JsonDataException, is JsonEncodingException, is KotlinNullPointerException ->
-                    appContext.getString(R.string.api_error_parse)
-                is AuthenticationException ->
-                    appContext.getString(R.string.api_error_authentication)
-                is SocketTimeoutException -> appContext.getString(R.string.api_error_timeout)
-                is UnknownHostException -> appContext.getString(R.string.api_error_no_connection)
-                is IOException -> appContext.getString(R.string.api_error_network)
-                else -> exception.toString()
-            }
-        }
-
-    fun errorMessage(errorResponse: ErrorResponse) =
-        errorResponse.localizedMessage
-            ?: ApiContract.Error.MESSAGES[errorResponse.code]?.let { appContext.getString(it) }
-            ?: errorResponse.message
 
     fun cancelApiRequests() = apiHttpClient.dispatcher.cancelAll()
 

@@ -12,7 +12,7 @@ import com.squareup.moshi.JsonClass
 data class ErrorResponse(
     val code: Int,
     @Json(name = "msg")
-    val message: String,
+    val internalMessage: String,
     val request: String,
     @Json(name = "localized_message")
     val localizedMessage: String?

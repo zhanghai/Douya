@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import me.zhanghai.android.douya.api.app.ApiService
+import me.zhanghai.android.douya.api.app.apiMessage
 import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.Error
@@ -57,17 +57,13 @@ class TimelineViewModel(
                 _timeline.value = Pair(timeline, diffResult)
                 val loading = resource.value is Loading
                 val empty = timeline.isEmpty()
-                val error = (resource.value as? Error)?.exception?.let {
-                    ApiService.errorMessage(it)
-                }
+                val error = (resource.value as? Error)?.exception?.apiMessage
                 refreshing.value = loading && !empty
                 _loading.value = loading && empty
                 _empty.value = empty && !loading && error == null
                 _error.value = error
                 _moreLoading.value = resource.more is Loading
-                val moreError = (resource.more as? Error)?.exception?.let {
-                    ApiService.errorMessage(it)
-                }
+                val moreError = (resource.more as? Error)?.exception?.apiMessage
                 moreError?.let { _moreErrorEvent.value = it }
                 this@TimelineViewModel.resource = resource
             }

@@ -19,6 +19,8 @@ import me.zhanghai.android.douya.account.info.AuthenticatorMode
 import me.zhanghai.android.douya.account.ui.AuthenticatorActivity
 import me.zhanghai.android.douya.account.ui.AuthenticatorFragmentArgs
 import me.zhanghai.android.douya.api.app.ApiService
+import me.zhanghai.android.douya.api.app.errorResponse
+import me.zhanghai.android.douya.api.app.message
 import me.zhanghai.android.douya.api.info.ApiContract
 import retrofit2.HttpException
 import timber.log.Timber
@@ -92,7 +94,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
             } catch (e: Exception) {
                 Timber.e(e.toString())
                 return if (e is HttpException) {
-                    val errorResponse = ApiService.errorResponse(e)
+                    val errorResponse = e.errorResponse
                     if (errorResponse != null) {
                         when (errorResponse.code) {
                             ApiContract.Error.Codes.USERNAME_PASSWORD_MISMATCH -> {
@@ -102,13 +104,13 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                                 ).apply {
                                     putString(
                                         AccountManager.KEY_AUTH_FAILED_MESSAGE,
-                                        ApiService.errorMessage(errorResponse)
+                                        errorResponse.message
                                     )
                                 }
                             }
                             else -> createErrorBundle(
                                 AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
-                                ApiService.errorMessage(errorResponse)
+                                errorResponse.message
                             )
                         }
                     } else {

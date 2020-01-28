@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.account.app.userId
 import me.zhanghai.android.douya.account.app.userName
 import me.zhanghai.android.douya.account.info.AuthenticatorMode
 import me.zhanghai.android.douya.api.app.ApiService
+import me.zhanghai.android.douya.api.app.apiMessage
 import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
@@ -89,7 +90,7 @@ class AuthenticatorViewModel(
                 ApiService.authenticate(username, password)
             } catch (e: Exception) {
                 Timber.e(e)
-                _passwordError.value = ApiService.errorMessage(e)
+                _passwordError.value = e.apiMessage
                 return@launch
             }
 

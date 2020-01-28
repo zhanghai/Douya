@@ -21,8 +21,7 @@ class ApiAuthenticator(account: Account) : AndroidAuthenticator(account) {
             Timber.e(e)
             return false
         }
-        val errorResponse = ApiService.errorResponse(body)
-        return when (errorResponse?.code) {
+        return when (body.toErrorResponse()?.code) {
             ApiContract.Error.Codes.INVALID_ACCESS_TOKEN,
             ApiContract.Error.Codes.ACCESS_TOKEN_HAS_EXPIRED,
             ApiContract.Error.Codes.ACCESS_TOKEN_HAS_EXPIRED_SINCE_PASSWORD_CHANGED -> true
