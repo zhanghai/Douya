@@ -11,39 +11,26 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UserAbstract(
     @Json(name = "abstract")
-    val abstractIntro: String = "",
-    val avatar: String = "",
-    val birthday: String = "",
+    override val abstractIntro: String = "",
+    override val avatar: String = "",
+    override val birthday: String = "",
     @Json(name = "follow_source")
-    val followSource: String = "",
-    val gender: String = "",
-    val id: String = "",
-    val intro: String = "",
+    override val followSource: String = "",
+    override val gender: String = "",
+    override val id: String = "",
+    override val intro: String = "",
     @Json(name = "large_avatar")
-    val largeAvatar: String = "",
-    val name: String = "",
+    override val largeAvatar: String = "",
+    override val name: String = "",
     @Json(name = "sharing_url")
-    val shareUri: String = "",
+    override val shareUri: String = "",
     @Json(name = "kind")
-    val type: String = "",
-    val uid: String = "",
-    val uri: String = "",
-    val url: String = "",
+    override val type: String = "",
+    override val uid: String = "",
+    override val uri: String = "",
+    override val url: String = "",
     @Json(name = "verify_reason")
-    val verifyReason: String = "",
+    override val verifyReason: String = "",
     @Json(name = "verify_type")
-    val verifyType: Int = 0
-) {
-
-    companion object {
-
-        const val TYPE_SITE = "site"
-        const val TYPE_USER = "user"
-
-        const val VERIFY_TYPE_NONE = 0
-        const val VERIFY_TYPE_OFFICIAL = 1
-        const val VERIFY_TYPE_PERSONAL = 3
-        const val VERIFY_TYPE_THIRD = 2
-        const val VERIFY_TYPE_VERIFIED_USER = 4
-    }
-}
+    override val verifyType: Int = 0
+) : IUserAbstract

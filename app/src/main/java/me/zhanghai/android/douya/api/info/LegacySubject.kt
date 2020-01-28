@@ -86,4 +86,4 @@ data class LegacySubject(
     val ugcTabs: List<UgcTab> = emptyList(),
     @Json(name = "vendor_count")
     val vendorCount: Int = 0
-) : Subject
+) : ISubject

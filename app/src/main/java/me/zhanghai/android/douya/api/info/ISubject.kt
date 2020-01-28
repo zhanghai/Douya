@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.api.info
 
-interface Subject : BaseFeedableItem {
+interface ISubject : IBaseFeedableItem {
     val cardSubtitle: String
     val colorScheme: ColorScheme?
     val hasLinewatch: Boolean

@@ -65,10 +65,8 @@ data class TimelineItem(
     @Json(name = "type_cn")
     val typeCn: String = "",
     val uid: String = ""
-) : BaseFeedableItem {
-
+) : IBaseFeedableItem {
     companion object {
-
         const val LAYOUT_AD_CONTENT = 15
         const val LAYOUT_AD_FOUR_IMAGES = 21
         const val LAYOUT_AD_ONE_LARGE_IMAGE = 6
