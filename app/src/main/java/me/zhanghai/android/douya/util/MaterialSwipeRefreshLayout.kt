@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.util
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.annotation.Dimension
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.elevation.ElevationOverlayProvider
 import me.zhanghai.android.douya.R
@@ -16,7 +17,12 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
         /**
          * @see androidx.swiperefreshlayout.widget.CircleImageView.SHADOW_ELEVATION
          */
-        const val ELEVATION_DP = 4
+        private const val ELEVATION_DP = 4
+
+        /**
+         * @see androidx.swiperefreshlayout.widget.SwipeRefreshLayout.DEFAULT_CIRCLE_TARGET
+         */
+        private const val PROGRESS_END_DP = 64
     }
 
     init {
@@ -31,4 +37,8 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+
+    fun setProgressOffset(@Dimension offset: Int) {
+        setProgressViewOffset(false, offset, offset + context.dpToPixelOffset(PROGRESS_END_DP))
+    }
 }
