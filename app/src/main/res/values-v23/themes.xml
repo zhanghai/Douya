@@ -8,7 +8,6 @@
 <resources>
 
     <style name="Platform.V23.Theme.Douya" parent="Platform.V21.Theme.Douya">
-        <item name="colorPrimaryDark">@color/system_window_scrim_daynight</item>
         <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
     <style name="Platform.Theme.Douya" parent="Platform.V23.Theme.Douya" />

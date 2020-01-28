@@ -7,10 +7,6 @@
 
 <resources>
 
-    <color name="status_bar_background_compat_light">#BBBBBB</color>
-    <color name="status_bar_background_compat_dark">@color/color_surface_dark</color>
-    <color name="status_bar_background_compat_daynight">@color/status_bar_background_compat_light</color>
-
     <color name="system_window_scrim_compat">#44000000</color>
     <color name="system_window_scrim_light">@color/system_window_scrim_compat</color>
     <color name="system_window_scrim_dark">@color/system_window_scrim_compat</color>

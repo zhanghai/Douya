@@ -8,7 +8,7 @@
 <resources>
 
     <style name="Platform.V21.Theme.Douya" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimaryDark">@color/status_bar_background_compat_daynight</item>
+        <item name="colorPrimaryDark">@color/system_window_scrim_daynight</item>
     </style>
     <style name="Platform.Theme.Douya" parent="Platform.V21.Theme.Douya" />
     <style name="Base.Theme.Douya" parent="Platform.Theme.Douya">
