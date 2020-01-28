@@ -44,6 +44,10 @@
             android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/timeline_empty"
+            app:layout_marginLeftSystemWindowInsets="@{true}"
+            app:layout_marginRightSystemWindowInsets="@{true}"
+            app:layout_marginTopSystemWindowInsets="@{true}"
+            app:layout_marginBottomSystemWindowInsets="@{true}"
             app:visibleOrGone="@{viewModel.empty}" />
 
         <TextView
@@ -53,12 +57,20 @@
             android:drawableTop="@drawable/cloud_off_icon_control_normal_200dp"
             android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_marginLeftSystemWindowInsets="@{true}"
+            app:layout_marginRightSystemWindowInsets="@{true}"
+            app:layout_marginTopSystemWindowInsets="@{true}"
+            app:layout_marginBottomSystemWindowInsets="@{true}"
             app:textOrGone="@{viewModel.error}" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            app:layout_marginLeftSystemWindowInsets="@{true}"
+            app:layout_marginRightSystemWindowInsets="@{true}"
+            app:layout_marginTopSystemWindowInsets="@{true}"
+            app:layout_marginBottomSystemWindowInsets="@{true}"
             app:visibleOrGoneAnimated="@{viewModel.loading}" />
     </FrameLayout>
 </layout>
