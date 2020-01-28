@@ -25,9 +25,11 @@ import me.zhanghai.android.douya.util.fadeIn
 import me.zhanghai.android.douya.util.fadeOut
 import me.zhanghai.android.douya.util.startActivitySafely
 
-private val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
-
 class AuthenticatorFragment : Fragment() {
+
+    companion object {
+        val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
+    }
 
     private val args: AuthenticatorFragmentArgs by navArgs()
 

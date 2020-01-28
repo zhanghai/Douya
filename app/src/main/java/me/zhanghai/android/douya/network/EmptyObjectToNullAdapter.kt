@@ -19,6 +19,10 @@ class EmptyObjectToNullAdapter<T>(private val adapter: JsonAdapter<T>) : JsonAda
                 beginObject()
                 endObject()
             }.isSuccess) {
+            reader.run {
+                beginObject()
+                endObject()
+            }
             null
         } else {
             adapter.fromJson(reader)

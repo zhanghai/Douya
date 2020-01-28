@@ -48,7 +48,7 @@ data class Photo(
     val likersCount: Int = 0,
     @Json(name = "allow_comment")
     val allowComment: Boolean = false,
-    val owner: BaseFeedableItem? = null,
+    //val owner: BaseFeedableItem? = null,
     @Json(name = "owner_uri")
     val ownerUri: String = "",
     val position: Int = 0,

@@ -16,6 +16,7 @@ import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.network.AuthenticationException
 import me.zhanghai.android.douya.network.EmptyObjectToNullAdapter
+import me.zhanghai.android.douya.network.NullToEmptyStringAdapter
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -36,6 +37,7 @@ object ApiService {
 
     private val converterFactory = MoshiConverterFactory.create(
         Moshi.Builder()
+            .add(String::class.java, NullToEmptyStringAdapter)
             .add(EmptyObjectToNullAdapter.Factory)
             .build()
     )
@@ -124,6 +126,8 @@ object ApiService {
         ApiContract.Authentication.GrantTypes.REFRESH_TOKEN, refreshToken
     )
 
+    suspend fun getHomeTimeline(maxId: String? = null) = apiService.getHomeTimeline(maxId)
+
     private interface AuthenticationService {
 
         @POST(ApiContract.Authentication.URL)
@@ -154,9 +158,10 @@ object ApiService {
 
         @GET("elendil/home_timeline")
         suspend fun getHomeTimeline(
-            @Query("max_id") maxId: Long?,
+            @Query("max_id") maxId: String? = null,
             @Query("count") count: Int = 20,
-            @Query("last_visit_id") lastVisitId: Long?
+            @Query("last_visit_id") lastVisitId: String? = null,
+            @Query("ad_ids") adIds: String? = null
         ): Timeline
     }
 }

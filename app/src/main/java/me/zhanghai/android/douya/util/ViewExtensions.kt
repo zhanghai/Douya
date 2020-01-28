@@ -46,7 +46,7 @@ suspend fun View.fadeIn(force: Boolean = false) {
         if (!(force || isLaidOut) || (visible && alpha == 1f)) {
             duration = 0
         } else {
-            duration = context.shortAnimTime()
+            duration = context.shortAnimTime
             interpolator = context.getInterpolator(android.R.interpolator.fast_out_slow_in)
         }
         start()
@@ -60,11 +60,19 @@ suspend fun View.fadeOut(force: Boolean = false, gone: Boolean = false) {
         if (!(force || isLaidOut) || (!visible || alpha == 0f)) {
             duration = 0
         } else {
-            duration = context.shortAnimTime()
+            duration = context.shortAnimTime
             interpolator = context.getInterpolator(android.R.interpolator.fast_out_linear_in)
         }
         start()
         awaitEnd()
     }
     setVisible(false, gone)
+}
+
+suspend fun View.fadeToVisibility(visible: Boolean, force: Boolean = false, gone: Boolean = false) {
+    if (visible) {
+        fadeIn(force)
+    } else {
+        fadeOut(force, gone)
+    }
 }
