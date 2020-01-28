@@ -7,4 +7,5 @@
 
 <resources>
     <dimen name="screen_edge_margin">16dp</dimen>
+    <dimen name="list_bottom_padding_with_fab">88dp</dimen>
 </resources>

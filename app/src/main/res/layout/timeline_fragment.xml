@@ -21,7 +21,13 @@
             android:id="@+id/timelineRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            app:paddingLeftSystemWindowInsets="@{true}"
+            app:paddingRightSystemWindowInsets="@{true}"
+            app:paddingTopSystemWindowInsets="@{true}"
+            app:paddingBottomSystemWindowInsets="@{true}" />
 
         <TextView
             android:layout_width="wrap_content"

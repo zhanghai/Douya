@@ -8,8 +8,11 @@ package me.zhanghai.android.douya.timeline
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.DiffUtil
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.arch.Deleted
@@ -21,12 +24,14 @@ import me.zhanghai.android.douya.arch.Refreshable
 import me.zhanghai.android.douya.arch.ResourceWithMore
 import me.zhanghai.android.douya.arch.Success
 
-class TimelineViewModel : ViewModel() {
+class TimelineViewModel(
+    private val diffCallbackFactory: (List<TimelineItem>) -> DiffUtil.Callback
+) : ViewModel() {
 
     private lateinit var resource: ResourceWithMore<List<TimelineItem>>
 
-    private val _timeline = MutableLiveData(emptyList<TimelineItem>())
-    val timeline: LiveData<List<TimelineItem>> = _timeline
+    private val _timeline = MutableLiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>>()
+    val timeline: LiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>> = _timeline
 
     private val _loading = DistinctMutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
@@ -49,12 +54,11 @@ class TimelineViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             TimelineRepository.observeHomeTimeline().collect { resource ->
-                this@TimelineViewModel.resource = resource
-                _timeline.value = if (resource.value is Success) {
-                    resource.value.value
-                } else {
-                    emptyList()
+                val timeline = if (resource.value is Success) resource.value.value else emptyList()
+                val diffResult = withContext(Dispatchers.Default) {
+                    DiffUtil.calculateDiff(diffCallbackFactory(timeline), false)
                 }
+                _timeline.value = Pair(timeline, diffResult)
                 _loading.value = resource.value == Loading
                 _empty.value = resource.value is Success && resource.value.value.isEmpty()
                 _error.value = if (resource.value is Error) {
@@ -69,6 +73,7 @@ class TimelineViewModel : ViewModel() {
                 } else {
                     null
                 }
+                this@TimelineViewModel.resource = resource
             }
         }
     }

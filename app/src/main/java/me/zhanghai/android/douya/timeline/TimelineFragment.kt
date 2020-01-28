@@ -11,17 +11,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.arch.observe
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.TimelineFragmentBinding
+import me.zhanghai.android.douya.util.MergeAdapter
+import me.zhanghai.android.douya.util.MoreItemAdapter
+import me.zhanghai.android.douya.util.OnVerticalScrollWithPagingTouchSlopListener
 
 class TimelineFragment : Fragment() {
 
-    private val viewModel: TimelineViewModel by viewModels()
+    private val timelineAdapter = TimelineAdapter()
+
+    private val viewModel: TimelineViewModel by viewModels {{
+        TimelineViewModel { timelineAdapter.createDiffCallback(it) }
+    }}
 
     private lateinit var binding: TimelineFragmentBinding
 
-    private val adapter = TimelineAdapter()
+    private val moreItemAdapter = MoreItemAdapter(R.layout.timeline_more_item)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +48,20 @@ class TimelineFragment : Fragment() {
 
         binding.timelineRecycler.run {
             layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-            adapter = this@TimelineFragment.adapter
+            adapter = MergeAdapter(timelineAdapter, moreItemAdapter)
+            addOnScrollListener(object : OnVerticalScrollWithPagingTouchSlopListener(context) {
+                override fun onScrolledToBottom() {
+                    if (viewModel.moreAvailable.value!!) {
+                        viewModel.loadMore()
+                    }
+                }
+            })
         }
-        viewModel.timeline.observe(viewLifecycleOwner) { adapter.submitList(it) }
+        viewModel.timeline.observe(viewLifecycleOwner) { (timeline, diffResult) ->
+            timelineAdapter.items = timeline
+            diffResult.dispatchUpdatesTo(timelineAdapter)
+            moreItemAdapter.available = timeline.isNotEmpty()
+        }
+        viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
     }
 }

@@ -49,7 +49,7 @@ class AuthenticatorViewModel(
     val authenticating: LiveData<Boolean> = _authenticating
 
     private val _signUpEvent = EventLiveData<Unit>()
-    val signUpEvent = _signUpEvent
+    val signUpEvent: LiveData<Unit> = _signUpEvent
 
     private val _sendResultAndFinishEvent = EventLiveData<Intent>()
     val sendResultAndFinishEvent: LiveData<Intent> = _sendResultAndFinishEvent
