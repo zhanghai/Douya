@@ -25,11 +25,24 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
         private const val PROGRESS_END_DP = 64
     }
 
+    @Dimension
+    var progressOffset = 0
+        set(value) {
+            if (field == value) {
+                return
+            }
+            field = value
+            val start = value - progressCircleDiameter
+            setProgressViewOffset(
+                false, start, start + context.dpToDimensionPixelOffset(PROGRESS_END_DP)
+            )
+        }
+
     init {
         setColorSchemeColors(context.getColorByAttr(R.attr.colorSecondary))
         setProgressBackgroundColorSchemeColor(
             ElevationOverlayProvider(context).compositeOverlayWithThemeSurfaceColorIfNeeded(
-                context.dpToPixel(ELEVATION_DP)
+                context.dpToDimension(ELEVATION_DP)
             )
         )
     }
@@ -37,8 +50,4 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-
-    fun setProgressOffset(@Dimension offset: Int) {
-        setProgressViewOffset(false, offset, offset + context.dpToPixelOffset(PROGRESS_END_DP))
-    }
 }

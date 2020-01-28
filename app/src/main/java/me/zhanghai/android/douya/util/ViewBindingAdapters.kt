@@ -7,10 +7,13 @@ package me.zhanghai.android.douya.util
 
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.AttrRes
+import androidx.annotation.Dimension
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -40,9 +43,9 @@ private val textViewInitialInputTypes = WeakHashMap<TextView, Int>()
 
 @BindingAdapter("android:editable")
 fun setTextViewEditable(textView: TextView, editable: Boolean) {
-    val inputType = textViewInitialInputTypes.getOrPut(textView) { textView.inputType }
+    val initialInputType = textViewInitialInputTypes.getOrPut(textView) { textView.inputType }
     if (editable) {
-        textView.inputType = inputType
+        textView.inputType = initialInputType
     } else {
         textView.keyListener = null
     }
@@ -58,6 +61,42 @@ fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
 fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
     textView.text = text
     textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
+}
+
+@BindingAdapter("progressOffset")
+fun setSwipeRefreshLayoutProgressOffset(
+    swipeRefreshLayout: MaterialSwipeRefreshLayout,
+    @Dimension progressOffset: Int
+) {
+    swipeRefreshLayout.progressOffset = progressOffset
+}
+
+@BindingAdapter("progressOffsetSizeAttr")
+fun setSwipeRefreshLayoutProgressOffsetSizeAttr(
+    swipeRefreshLayout: MaterialSwipeRefreshLayout,
+    @AttrRes progressOffsetSizeAttr: Int
+) = setSwipeRefreshLayoutProgressOffset(
+    swipeRefreshLayout,
+    swipeRefreshLayout.context.getDimensionPixelSizeByAttr(progressOffsetSizeAttr)
+)
+
+private val swipeRefreshLayoutInitialProgressOffset = WeakHashMap<MaterialSwipeRefreshLayout, Int>()
+
+@BindingAdapter("progressOffsetSystemWindowInsets")
+fun setSwipeRefreshLayoutProgressOffsetSystemWindowInsets(
+    swipeRefreshLayout: MaterialSwipeRefreshLayout,
+    enabled: Boolean
+) {
+    swipeRefreshLayout.doOnApplyWindowInsets { _, insets, _ ->
+        val initialProgressOffset = swipeRefreshLayoutInitialProgressOffset.getOrPut(
+            swipeRefreshLayout
+        ) { swipeRefreshLayout.progressOffset }
+        swipeRefreshLayout.progressOffset = if (enabled) {
+            initialProgressOffset + insets.systemWindowInsetTop
+        } else {
+            initialProgressOffset
+        }
+    }
 }
 
 @BindingAdapter("refreshing")

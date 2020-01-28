@@ -10,6 +10,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="me.zhanghai.android.douya.R" />
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineViewModel" />
     </data>
 
@@ -20,6 +21,8 @@
         <me.zhanghai.android.douya.util.MaterialSwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:progressOffsetSizeAttr="@{R.attr.actionBarSize}"
+            app:progressOffsetSystemWindowInsets="@{true}"
             app:refreshing="@={viewModel.refreshing}"
             app:onRefresh="@{() -> viewModel.refresh()}">
 

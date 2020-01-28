@@ -40,6 +40,17 @@ fun Context.getColorStateListByAttr(@AttrRes attr: Int) =
     obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use { it.getColorStateList(0) }
         ?: attributeNotFound(attr)
 
+fun Context.getDimensionByAttr(@AttrRes attr: Int) =
+    obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use { it.getDimension(0, 0f) }
+
+fun Context.getDimensionPixelOffsetByAttr(@AttrRes attr: Int) =
+    obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use {
+        it.getDimensionPixelOffset(0, 0)
+    }
+
+fun Context.getDimensionPixelSizeByAttr(@AttrRes attr: Int) =
+    obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use { it.getDimensionPixelSize(0, 0) }
+
 fun Context.obtainAppCompatStyledAttributes(
     set: AttributeSet? = null,
     @StyleableRes attrs: IntArray,
@@ -54,21 +65,23 @@ private fun attributeNotFound(@AttrRes attr: Int): Nothing =
     throw Resources.NotFoundException("Attribute resource ID #0x${Integer.toHexString(attr)}")
 
 @Dimension
-fun Context.dpToPixel(@Dimension(unit = Dimension.DP) dp: Float) =
+fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Float) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
 
 @Dimension
-fun Context.dpToPixel(@Dimension(unit = Dimension.DP) dp: Int) = dpToPixel(dp.toFloat())
+fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Int) = dpToDimension(dp.toFloat())
 
 @Dimension
-fun Context.dpToPixelOffset(@Dimension(unit = Dimension.DP) dp: Float) = dpToPixel(dp).toInt()
+fun Context.dpToDimensionPixelOffset(@Dimension(unit = Dimension.DP) dp: Float) =
+    dpToDimension(dp).toInt()
 
 @Dimension
-fun Context.dpToPixelOffset(@Dimension(unit = Dimension.DP) dp: Int) = dpToPixelOffset(dp.toFloat())
+fun Context.dpToDimensionPixelOffset(@Dimension(unit = Dimension.DP) dp: Int) =
+    dpToDimensionPixelOffset(dp.toFloat())
 
 @Dimension
-fun Context.dpToPixelSize(@Dimension(unit = Dimension.DP) dp: Float): Int {
-    val value = dpToPixel(dp)
+fun Context.dpToDimensionPixelSize(@Dimension(unit = Dimension.DP) dp: Float): Int {
+    val value = dpToDimension(dp)
     val size = (if (value >= 0) value + 0.5f else value - 0.5f).toInt()
     return when {
         size != 0 -> size
@@ -79,7 +92,8 @@ fun Context.dpToPixelSize(@Dimension(unit = Dimension.DP) dp: Float): Int {
 }
 
 @Dimension
-fun Context.dpToPixelSize(@Dimension(unit = Dimension.DP) dp: Int) = dpToPixelSize(dp.toFloat())
+fun Context.dpToDimensionPixelSize(@Dimension(unit = Dimension.DP) dp: Int) =
+    dpToDimensionPixelSize(dp.toFloat())
 
 val Context.shortAnimTime
     get() = getInteger(android.R.integer.config_shortAnimTime).toLong()
