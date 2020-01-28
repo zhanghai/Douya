@@ -18,6 +18,7 @@ import me.zhanghai.android.douya.databinding.TimelineFragmentBinding
 import me.zhanghai.android.douya.util.MergeAdapter
 import me.zhanghai.android.douya.util.MoreItemAdapter
 import me.zhanghai.android.douya.util.OnVerticalScrollWithPagingTouchSlopListener
+import me.zhanghai.android.douya.util.showToast
 
 class TimelineFragment : Fragment() {
     private val timelineAdapter = TimelineAdapter()
@@ -60,5 +61,6 @@ class TimelineFragment : Fragment() {
             moreItemAdapter.available = timeline.isNotEmpty()
         }
         viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
+        viewModel.moreErrorEvent.observe(viewLifecycleOwner) { showToast(it) }
     }
 }

@@ -15,9 +15,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.api.info.TimelineItem
-import me.zhanghai.android.douya.arch.Deleted
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.Error
+import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.Loading
 import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResourceWithMore
@@ -41,14 +41,11 @@ class TimelineViewModel(
     private val _error = DistinctMutableLiveData<String?>(null)
     val error: LiveData<String?> = _error
 
-    private val _moreAvailable = DistinctMutableLiveData(false)
-    val moreAvailable: LiveData<Boolean> = _moreAvailable
-
     private val _moreLoading = DistinctMutableLiveData(false)
     val moreLoading: LiveData<Boolean> = _moreLoading
 
-    private val _moreError = DistinctMutableLiveData<String?>(null)
-    val moreError: LiveData<String?> = _moreError
+    private val _moreErrorEvent = EventLiveData<String>()
+    val moreErrorEvent: LiveData<String> = _moreErrorEvent
 
     init {
         viewModelScope.launch {
@@ -60,16 +57,18 @@ class TimelineViewModel(
                 _timeline.value = Pair(timeline, diffResult)
                 val loading = resource.value is Loading
                 val empty = timeline.isEmpty()
-                val exception = (resource.value as? Error)?.exception
+                val error = (resource.value as? Error)?.exception?.let {
+                    ApiService.errorMessage(it)
+                }
                 refreshing.value = loading && !empty
                 _loading.value = loading && empty
-                _empty.value = empty && !loading && exception == null
-                _error.value = exception?.let { ApiService.errorMessage(it) }
-                _moreAvailable.value = resource.more !is Deleted
+                _empty.value = empty && !loading && error == null
+                _error.value = error
                 _moreLoading.value = resource.more is Loading
-                _moreError.value = (resource.more as? Error)?.let {
-                    ApiService.errorMessage(it.exception)
+                val moreError = (resource.more as? Error)?.exception?.let {
+                    ApiService.errorMessage(it)
                 }
+                moreError?.let { _moreErrorEvent.value = it }
                 this@TimelineViewModel.resource = resource
             }
         }
