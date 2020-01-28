@@ -12,7 +12,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import java.lang.reflect.Type
 
-class EmptyObjectToNullAdapter<T>(private val adapter: JsonAdapter<T>) : JsonAdapter<T>() {
+class EmptyObjectToNullJsonAdapter<T>(private val adapter: JsonAdapter<T>) : JsonAdapter<T>() {
 
     override fun fromJson(reader: JsonReader) =
         if (reader.peekJson().runCatching {
@@ -39,7 +39,7 @@ class EmptyObjectToNullAdapter<T>(private val adapter: JsonAdapter<T>) : JsonAda
         ): JsonAdapter<*>? {
             val delegateAnnotations = Types.nextAnnotations(annotations,
                 EmptyObjectToNull::class.java) ?: return null
-            return EmptyObjectToNullAdapter(moshi.adapter<Any>(type, delegateAnnotations))
+            return EmptyObjectToNullJsonAdapter(moshi.adapter<Any>(type, delegateAnnotations))
         }
     }
 }

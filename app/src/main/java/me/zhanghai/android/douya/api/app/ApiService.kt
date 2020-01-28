@@ -16,8 +16,8 @@ import me.zhanghai.android.douya.api.info.ErrorResponse
 import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.app.appContext
 import me.zhanghai.android.douya.network.AuthenticationException
-import me.zhanghai.android.douya.network.EmptyObjectToNullAdapter
-import me.zhanghai.android.douya.network.NullToEmptyStringAdapter
+import me.zhanghai.android.douya.network.EmptyObjectToNullJsonAdapter
+import me.zhanghai.android.douya.network.NullToEmptyStringOrCollectionJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -38,8 +38,8 @@ object ApiService {
 
     private val converterFactory = MoshiConverterFactory.create(
         Moshi.Builder()
-            .add(String::class.java, NullToEmptyStringAdapter)
-            .add(EmptyObjectToNullAdapter.Factory)
+            .add(NullToEmptyStringOrCollectionJsonAdapterFactory)
+            .add(EmptyObjectToNullJsonAdapter.Factory)
             .build()
     )
         .withNullSerialization()
