@@ -16,6 +16,7 @@ import me.zhanghai.android.douya.arch.Loading
 import me.zhanghai.android.douya.arch.ResourceWithMore
 import me.zhanghai.android.douya.arch.Success
 import me.zhanghai.android.douya.status.StatusRepository
+import timber.log.Timber
 
 object TimelineRepository {
 
@@ -33,6 +34,7 @@ object TimelineRepository {
             val timeline = try {
                 getHomeTimeline()
             } catch (e: Exception) {
+                Timber.e(e)
                 offer(ResourceWithMore(Error(e, refresh), Deleted))
                 return@refresh
             }
@@ -49,6 +51,7 @@ object TimelineRepository {
             val moreTimeline = try {
                 getHomeTimeline(timeline.last().uid)
             } catch (e: Exception) {
+                Timber.e(e)
                 offer(resource.copy(more = Error(e, loadMore)))
                 return@loadMore
             }
