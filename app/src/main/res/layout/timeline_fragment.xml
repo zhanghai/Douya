@@ -20,7 +20,7 @@
         <me.zhanghai.android.douya.util.MaterialSwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:refreshing="@{viewModel.refreshing}"
+            app:refreshing="@={viewModel.refreshing}"
             app:onRefresh="@{() -> viewModel.refresh()}">
 
             <androidx.recyclerview.widget.RecyclerView

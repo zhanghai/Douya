@@ -30,8 +30,7 @@ class TimelineViewModel(
     private val _timeline = MutableLiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>>()
     val timeline: LiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>> = _timeline
 
-    private val _refreshing = DistinctMutableLiveData(false)
-    val refreshing: LiveData<Boolean> = _refreshing
+    val refreshing = DistinctMutableLiveData(false)
 
     private val _loading = DistinctMutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
@@ -62,9 +61,9 @@ class TimelineViewModel(
                 val loading = resource.value is Loading
                 val empty = timeline.isEmpty()
                 val exception = (resource.value as? Error)?.exception
-                _refreshing.value = loading && !empty
+                refreshing.value = loading && !empty
                 _loading.value = loading && empty
-                _empty.value = empty && exception == null
+                _empty.value = empty && !loading && exception == null
                 _error.value = exception?.let { ApiService.errorMessage(it) }
                 _moreAvailable.value = resource.more !is Deleted
                 _moreLoading.value = resource.more is Loading

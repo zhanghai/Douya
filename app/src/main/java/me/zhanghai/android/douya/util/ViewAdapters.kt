@@ -8,11 +8,14 @@ package me.zhanghai.android.douya.util
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.WeakHashMap
+
 
 @BindingAdapter("visibleOrGone")
 fun setViewVisibleOrGone(view: View, visible: Boolean) {
@@ -63,10 +66,18 @@ fun setSwipeRefreshLayoutRefreshing(swipeRefreshLayout: SwipeRefreshLayout, refr
     swipeRefreshLayout.isRefreshing = refreshing
 }
 
-@BindingAdapter("onRefresh")
+@InverseBindingAdapter(attribute = "refreshing", event = "refreshingAttrChanged")
+fun getSwipeRefreshLayoutRefreshing(swipeRefreshLayout: SwipeRefreshLayout) =
+    swipeRefreshLayout.isRefreshing
+
+@BindingAdapter(value = ["onRefresh", "refreshingAttrChanged"], requireAll = false)
 fun setSwipeRefreshLayoutOnRefreshListener(
     swipeRefreshLayout: SwipeRefreshLayout,
-    listener: SwipeRefreshLayout.OnRefreshListener?
+    listener: SwipeRefreshLayout.OnRefreshListener?,
+    refreshingAttrChanged: InverseBindingListener?
 ) {
-    swipeRefreshLayout.setOnRefreshListener(listener)
+    swipeRefreshLayout.setOnRefreshListener {
+        listener?.onRefresh()
+        refreshingAttrChanged?.onChange()
+    }
 }
