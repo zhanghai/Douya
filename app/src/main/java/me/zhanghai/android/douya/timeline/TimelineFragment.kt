@@ -51,9 +51,7 @@ class TimelineFragment : Fragment() {
             adapter = MergeAdapter(timelineAdapter, moreItemAdapter)
             addOnScrollListener(object : OnVerticalScrollWithPagingTouchSlopListener(context) {
                 override fun onScrolledToBottom() {
-                    if (viewModel.moreAvailable.value!!) {
-                        viewModel.loadMore()
-                    }
+                    viewModel.loadMore()
                 }
             })
         }

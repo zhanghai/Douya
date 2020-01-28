@@ -7,5 +7,5 @@ package me.zhanghai.android.douya.arch
 
 data class ResourceWithMore<out T>(
     val value: Resource<T>,
-    val more: Resource<Unit>
+    val more: Resource<Nothing>
 )

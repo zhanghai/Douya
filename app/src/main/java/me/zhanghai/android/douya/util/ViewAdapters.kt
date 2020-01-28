@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.util
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -55,4 +56,17 @@ fun setTextViewEditable(textView: TextView, editable: Boolean) {
     } else {
         textView.keyListener = null
     }
+}
+
+@BindingAdapter("refreshing")
+fun setSwipeRefreshLayoutRefreshing(swipeRefreshLayout: SwipeRefreshLayout, refreshing: Boolean) {
+    swipeRefreshLayout.isRefreshing = refreshing
+}
+
+@BindingAdapter("onRefresh")
+fun setSwipeRefreshLayoutOnRefreshListener(
+    swipeRefreshLayout: SwipeRefreshLayout,
+    listener: SwipeRefreshLayout.OnRefreshListener?
+) {
+    swipeRefreshLayout.setOnRefreshListener(listener)
 }

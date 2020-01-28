@@ -17,17 +17,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timelineRecycler"
+        <me.zhanghai.android.douya.util.ThemedSwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"
-            app:paddingLeftSystemWindowInsets="@{true}"
-            app:paddingRightSystemWindowInsets="@{true}"
-            app:paddingTopSystemWindowInsets="@{true}"
-            app:paddingBottomSystemWindowInsets="@{true}" />
+            app:refreshing="@{viewModel.refreshing}"
+            app:onRefresh="@{() -> viewModel.refresh()}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/timelineRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="outsideOverlay"
+                app:paddingLeftSystemWindowInsets="@{true}"
+                app:paddingRightSystemWindowInsets="@{true}"
+                app:paddingTopSystemWindowInsets="@{true}"
+                app:paddingBottomSystemWindowInsets="@{true}" />
+        </me.zhanghai.android.douya.util.ThemedSwipeRefreshLayout>
 
         <TextView
             android:layout_width="wrap_content"

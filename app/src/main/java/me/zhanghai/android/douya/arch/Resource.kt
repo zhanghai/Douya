@@ -5,22 +5,30 @@
 
 package me.zhanghai.android.douya.arch
 
-sealed class Resource<out T>
+sealed class Resource<out T> {
+    abstract val value: T?
+    abstract val refresh: (suspend () -> Unit)?
+}
 
-object Loading : Resource<Nothing>()
-
-interface Refreshable {
-    val refresh: suspend () -> Unit
+data class Loading<out T>(
+    override val value: T?
+) : Resource<T>() {
+    override val refresh = null
 }
 
 data class Success<out T>(
-    val value: T,
+    override val value: T?,
     override val refresh: suspend () -> Unit
-) : Resource<T>(), Refreshable
+) : Resource<T>()
 
-data class Error(
+data class Error<out T>(
+    override val value: T?,
     val exception: Exception,
     override val refresh: suspend () -> Unit
-) : Resource<Nothing>(), Refreshable
+) : Resource<T>()
 
-object Deleted : Resource<Nothing>()
+data class Deleted<out T>(
+    override val value: T?
+) : Resource<T>() {
+    override val refresh = null
+}

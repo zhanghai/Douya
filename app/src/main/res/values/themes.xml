@@ -14,7 +14,6 @@
     <style name="Base.Theme.Douya" parent="Platform.Theme.Douya">
 
         <item name="android:colorBackground">?colorSurface</item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
 
         <item name="colorPrimary">@color/color_primary_daynight</item>
         <item name="colorPrimaryVariant">?colorPrimary</item>
@@ -22,6 +21,9 @@
         <item name="colorOnSecondary">?colorOnPrimary</item>
         <item name="colorSecondaryVariant">?colorSecondary</item>
         <item name="colorSurface">@color/color_surface_daynight</item>
+
+        <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">?colorSurface</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
     </style>
     <style name="Theme.Douya" parent="Base.Theme.Douya" />
 </resources>

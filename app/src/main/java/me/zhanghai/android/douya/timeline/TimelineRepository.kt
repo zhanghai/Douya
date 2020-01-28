@@ -21,7 +21,7 @@ import timber.log.Timber
 object TimelineRepository {
 
     fun observeHomeTimeline() = callbackFlow<ResourceWithMore<List<TimelineItem>>> {
-        var resource = ResourceWithMore<List<TimelineItem>>(Deleted, Deleted)
+        var resource = ResourceWithMore<List<TimelineItem>>(Deleted(null), Deleted(null))
         val offer = { newResource: ResourceWithMore<List<TimelineItem>> ->
             resource = newResource
             channel.offer(resource)
@@ -30,45 +30,40 @@ object TimelineRepository {
         var loadMore = suspend {}
 
         refresh = refresh@ {
-            offer(ResourceWithMore(Loading, Deleted))
+            offer(ResourceWithMore(Loading(resource.value.value), Deleted(null)))
             val timeline = try {
                 getHomeTimeline()
             } catch (e: Exception) {
                 Timber.e(e)
-                offer(ResourceWithMore(Error(e, refresh), Deleted))
+                offer(ResourceWithMore(Error(resource.value.value, e, refresh), Deleted(null)))
                 return@refresh
             }
             offer(ResourceWithMore(
                 Success(timeline, refresh),
-                if (timeline.isNotEmpty()) Success(Unit, loadMore) else Deleted
+                if (timeline.isNotEmpty()) Success(null, loadMore) else Deleted(null)
             ))
         }
 
         loadMore = loadMore@ {
-            offer(resource.copy(more = Loading))
-            val value = resource.value as Success<List<TimelineItem>>
-            val timeline = value.value
+            offer(resource.copy(more = Loading(null)))
+            val timeline = resource.value.value!!
             val moreTimeline = try {
                 getHomeTimeline(timeline.last().uid)
             } catch (e: Exception) {
                 Timber.e(e)
-                offer(resource.copy(more = Error(e, loadMore)))
+                offer(resource.copy(more = Error(null, e, loadMore)))
                 return@loadMore
             }
             offer(ResourceWithMore(
                 Success(timeline + moreTimeline, refresh),
-                if (moreTimeline.isNotEmpty()) Success(Unit, loadMore) else Deleted
+                if (moreTimeline.isNotEmpty()) Success(null, loadMore) else Deleted(null)
             ))
         }
 
         refresh()
 
         val statusObserver = statusObserver@ { status: Status ->
-            if (resource.value !is Success) {
-                return@statusObserver
-            }
-            val value = resource.value as Success<List<TimelineItem>>
-            val timeline = value.value
+            val timeline = resource.value.value ?: return@statusObserver
             var changed = false
             val newTimeline = timeline.map {
                 when {

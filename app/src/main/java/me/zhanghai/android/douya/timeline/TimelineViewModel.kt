@@ -20,9 +20,7 @@ import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.Error
 import me.zhanghai.android.douya.arch.Loading
 import me.zhanghai.android.douya.arch.MutableLiveData
-import me.zhanghai.android.douya.arch.Refreshable
 import me.zhanghai.android.douya.arch.ResourceWithMore
-import me.zhanghai.android.douya.arch.Success
 
 class TimelineViewModel(
     private val diffCallbackFactory: (List<TimelineItem>) -> DiffUtil.Callback
@@ -32,6 +30,9 @@ class TimelineViewModel(
 
     private val _timeline = MutableLiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>>()
     val timeline: LiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>> = _timeline
+
+    private val _refreshing = DistinctMutableLiveData(false)
+    val refreshing: LiveData<Boolean> = _refreshing
 
     private val _loading = DistinctMutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
@@ -54,20 +55,23 @@ class TimelineViewModel(
     init {
         viewModelScope.launch {
             TimelineRepository.observeHomeTimeline().collect { resource ->
-                val timeline = if (resource.value is Success) resource.value.value else emptyList()
+                val timeline = resource.value.value ?: emptyList()
                 val diffResult = withContext(Dispatchers.Default) {
                     DiffUtil.calculateDiff(diffCallbackFactory(timeline), false)
                 }
                 _timeline.value = Pair(timeline, diffResult)
-                _loading.value = resource.value == Loading
-                _empty.value = resource.value is Success && resource.value.value.isEmpty()
+                val loading = resource.value is Loading
+                val empty = timeline.isEmpty()
+                _refreshing.value = loading && !empty
+                _loading.value = loading && empty
+                _empty.value = empty
                 _error.value = if (resource.value is Error) {
                     ApiService.errorMessage(resource.value.exception)
                 } else {
                     null
                 }
-                _moreAvailable.value = resource.more != Deleted
-                _moreLoading.value = resource.more == Loading
+                _moreAvailable.value = resource.more !is Deleted
+                _moreLoading.value = resource.more is Loading
                 _moreError.value = if (resource.more is Error) {
                     ApiService.errorMessage(resource.more.exception)
                 } else {
@@ -79,10 +83,10 @@ class TimelineViewModel(
     }
 
     fun refresh() = viewModelScope.launch {
-        (resource as Refreshable).refresh()
+        resource.value.refresh?.invoke()
     }
 
     fun loadMore() = viewModelScope.launch {
-        (resource.more as Refreshable).refresh()
+        resource.more.refresh?.invoke()
     }
 }
