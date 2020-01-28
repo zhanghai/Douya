@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.api.app
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonEncodingException
 import com.squareup.moshi.Moshi
@@ -53,7 +54,7 @@ object ApiService {
             OkHttpClient.Builder()
                 .addNetworkInterceptor(ApiKeyInterceptor())
                 .addNetworkInterceptor(ApiSignatureInterceptor())
-                //.addNetworkInterceptor(StethoInterceptor())
+                .addNetworkInterceptor(StethoInterceptor())
                 .build()
         )
         .baseUrl(ApiContract.Authentication.BASE_URL)
@@ -62,10 +63,10 @@ object ApiService {
         .create(AuthenticationService::class.java)
 
     private val apiHttpClient = OkHttpClient.Builder()
+        .addInterceptor(ApiAuthenticationInterceptor())
         .addNetworkInterceptor(ApiKeyInterceptor())
         .addNetworkInterceptor(ApiSignatureInterceptor())
-        //.addNetworkInterceptor(StethoInterceptor())
-        .addInterceptor(ApiAuthenticationInterceptor())
+        .addNetworkInterceptor(StethoInterceptor())
         .build()
 
     private val apiService = Retrofit.Builder()
