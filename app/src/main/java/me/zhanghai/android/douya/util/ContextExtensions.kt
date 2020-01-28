@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.util
 import android.content.Context
 import android.content.res.Resources
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.annotation.ArrayRes
 import androidx.annotation.AttrRes
 import androidx.annotation.BoolRes
 import androidx.annotation.DimenRes
+import androidx.annotation.Dimension
 import androidx.annotation.IntegerRes
 import androidx.annotation.InterpolatorRes
 import androidx.annotation.StyleRes
@@ -50,6 +52,34 @@ private inline fun <R> TintTypedArray.use(block: (TintTypedArray) -> R) =
 
 private fun attributeNotFound(@AttrRes attr: Int): Nothing =
     throw Resources.NotFoundException("Attribute resource ID #0x${Integer.toHexString(attr)}")
+
+@Dimension
+fun Context.dpToPixel(@Dimension(unit = Dimension.DP) dp: Float) =
+    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
+
+@Dimension
+fun Context.dpToPixel(@Dimension(unit = Dimension.DP) dp: Int) = dpToPixel(dp.toFloat())
+
+@Dimension
+fun Context.dpToPixelOffset(@Dimension(unit = Dimension.DP) dp: Float) = dpToPixel(dp).toInt()
+
+@Dimension
+fun Context.dpToPixelOffset(@Dimension(unit = Dimension.DP) dp: Int) = dpToPixelOffset(dp.toFloat())
+
+@Dimension
+fun Context.dpToPixelSize(@Dimension(unit = Dimension.DP) dp: Float): Int {
+    val value = dpToPixel(dp)
+    val size = (if (value >= 0) value + 0.5f else value - 0.5f).toInt()
+    return when {
+        size != 0 -> size
+        value == 0f -> 0
+        value > 0 -> 1
+        else -> -1
+    }
+}
+
+@Dimension
+fun Context.dpToPixelSize(@Dimension(unit = Dimension.DP) dp: Int) = dpToPixelSize(dp.toFloat())
 
 val Context.shortAnimTime
     get() = getInteger(android.R.integer.config_shortAnimTime).toLong()

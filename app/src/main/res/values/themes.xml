@@ -22,7 +22,6 @@
         <item name="colorSecondaryVariant">?colorSecondary</item>
         <item name="colorSurface">@color/color_surface_daynight</item>
 
-        <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">?colorSurface</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
     </style>
     <style name="Theme.Douya" parent="Base.Theme.Douya" />
