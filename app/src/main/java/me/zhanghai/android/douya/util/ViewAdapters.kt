@@ -16,7 +16,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.WeakHashMap
 
-
 @BindingAdapter("visibleOrGone")
 fun setViewVisibleOrGone(view: View, visible: Boolean) {
     view.visibility = if (visible) View.VISIBLE else View.GONE
@@ -37,18 +36,6 @@ fun setViewVisibleOrInvisibleAnimated(view: View, visible: Boolean) {
     GlobalScope.launch(Dispatchers.Main.immediate) { view.fadeToVisibility(visible) }
 }
 
-@BindingAdapter("textOrGone")
-fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
-    textView.text = text
-    textView.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
-}
-
-@BindingAdapter("textOrInvisible")
-fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
-    textView.text = text
-    textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
-}
-
 private val textViewInitialInputTypes = WeakHashMap<TextView, Int>()
 
 @BindingAdapter("android:editable")
@@ -59,6 +46,18 @@ fun setTextViewEditable(textView: TextView, editable: Boolean) {
     } else {
         textView.keyListener = null
     }
+}
+
+@BindingAdapter("textOrGone")
+fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
+    textView.text = text
+    textView.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
+}
+
+@BindingAdapter("textOrInvisible")
+fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
+    textView.text = text
+    textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
 }
 
 @BindingAdapter("refreshing")
