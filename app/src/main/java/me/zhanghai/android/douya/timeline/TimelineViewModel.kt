@@ -61,20 +61,15 @@ class TimelineViewModel(
                 _timeline.value = Pair(timeline, diffResult)
                 val loading = resource.value is Loading
                 val empty = timeline.isEmpty()
+                val exception = (resource.value as? Error)?.exception
                 _refreshing.value = loading && !empty
                 _loading.value = loading && empty
-                _empty.value = empty
-                _error.value = if (resource.value is Error) {
-                    ApiService.errorMessage(resource.value.exception)
-                } else {
-                    null
-                }
+                _empty.value = empty && exception == null
+                _error.value = exception?.let { ApiService.errorMessage(it) }
                 _moreAvailable.value = resource.more !is Deleted
                 _moreLoading.value = resource.more is Loading
-                _moreError.value = if (resource.more is Error) {
-                    ApiService.errorMessage(resource.more.exception)
-                } else {
-                    null
+                _moreError.value = (resource.more as? Error)?.let {
+                    ApiService.errorMessage(it.exception)
                 }
                 this@TimelineViewModel.resource = resource
             }

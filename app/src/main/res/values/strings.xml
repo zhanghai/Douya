@@ -33,4 +33,6 @@
     <string name="authenticator_sign_in">登录</string>
     <string name="authenticator_sign_up">没有账户？现在注册</string>
     <string name="select_account_title">选择账户</string>
+
+    <string name="timeline_empty">没有广播</string>
 </resources>
