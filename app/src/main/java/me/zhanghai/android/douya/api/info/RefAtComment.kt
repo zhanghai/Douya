@@ -10,6 +10,25 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RefAtComment(
+    // Comment
+    override val author: UserAbstract? = null,
+    @Json(name = "censor_message")
+    override val censorMessage: String = "",
+    @Json(name = "create_time")
+    override val createTime: String = "",
+    override val id: String = "",
+    @Json(name = "is_censoring")
+    override val isCensoring: Boolean = false,
+    @Json(name = "is_deleted")
+    override val isDeleted: Boolean = false,
+    @Json(name = "is_folded")
+    override val isFolded: Boolean = false,
+    @Json(name = "parent_comment_id")
+    override val parentCommentId: String = "",
+    override val photos: List<SizedPhoto> = emptyList(),
+    override val text: String = "",
+    override val uri: String = "",
+
     val entities: List<CommentAtEntity> = emptyList(),
     @Json(name = "has_ref")
     val hasRef: Boolean = false,
@@ -24,4 +43,4 @@ data class RefAtComment(
     val type: Int = 0,
     @Json(name = "vote_count")
     val voteCount: Int = 0
-)
+) : IComment
