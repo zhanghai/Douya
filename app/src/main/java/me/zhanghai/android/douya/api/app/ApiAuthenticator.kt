@@ -13,7 +13,6 @@ import timber.log.Timber
 import java.io.IOException
 
 class ApiAuthenticator(account: Account) : AndroidAuthenticator(account) {
-
     override fun shouldRetryAuthentication(response: Response): Boolean {
         // Don't consume the response body so that it can later be read by others.
         val body = try {

@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment
 import me.zhanghai.android.douya.R
 
 class AuthenticatorActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

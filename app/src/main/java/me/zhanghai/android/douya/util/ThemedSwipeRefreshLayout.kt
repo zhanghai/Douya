@@ -11,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.zhanghai.android.douya.R
 
 class ThemedSwipeRefreshLayout : SwipeRefreshLayout {
-
     init {
         setColorSchemeColors(context.getColorByAttr(R.attr.colorSecondary))
     }

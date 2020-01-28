@@ -23,7 +23,6 @@ private const val ALGORITHM_HMAC_SHA1 = "HmacSHA1"
  * See ApiSignatureHelper and ApiSignatureInterceptor in Frodo.
  */
 class ApiSignatureInterceptor : Interceptor {
-
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()

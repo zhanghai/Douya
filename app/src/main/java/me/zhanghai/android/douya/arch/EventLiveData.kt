@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 
 class EventLiveData<T> : MutableLiveData<T>() {
-
     private val eventObservers = mutableMapOf<Observer<in T>, EventObserver<T>>()
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
@@ -38,7 +37,6 @@ class EventLiveData<T> : MutableLiveData<T>() {
     }
 
     private class EventObserver<T>(private val observer: Observer<in T>) : Observer<T> {
-
         private var expected = false
 
         override fun onChanged(value: T) {

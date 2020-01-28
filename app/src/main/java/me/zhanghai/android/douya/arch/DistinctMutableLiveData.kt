@@ -6,7 +6,6 @@
 package me.zhanghai.android.douya.arch
 
 class DistinctMutableLiveData<T>(value: T) : MutableLiveData<T>(value) {
-
     override fun setValue(value: T) {
         if (getValue() != value) {
             super.setValue(value)

@@ -19,7 +19,6 @@ import me.zhanghai.android.douya.status.StatusRepository
 import timber.log.Timber
 
 object TimelineRepository {
-
     fun observeHomeTimeline() = callbackFlow<ResourceWithMore<List<TimelineItem>>> {
         var resource = ResourceWithMore<List<TimelineItem>>(Deleted(null), Deleted(null))
         val offer = { newResource: ResourceWithMore<List<TimelineItem>> ->

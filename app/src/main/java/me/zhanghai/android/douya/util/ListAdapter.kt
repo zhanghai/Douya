@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.util
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
-
     private val _items = mutableListOf<T>()
     var items: List<T>
         get() = _items

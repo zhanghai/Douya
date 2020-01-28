@@ -20,7 +20,6 @@ import me.zhanghai.android.douya.util.MoreItemAdapter
 import me.zhanghai.android.douya.util.OnVerticalScrollWithPagingTouchSlopListener
 
 class TimelineFragment : Fragment() {
-
     private val timelineAdapter = TimelineAdapter()
 
     private val viewModel: TimelineViewModel by viewModels {{

@@ -18,7 +18,6 @@ import timber.log.Timber
 lateinit var appContext: Context private set
 
 class AppProvider : ContentProvider() {
-
     override fun onCreate(): Boolean {
         appContext = context!!
         Timber.plant(Timber.DebugTree())

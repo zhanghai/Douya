@@ -13,9 +13,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 object ApiContract {
-
     object Api {
-
         const val MAX_AUTH_RETRIES = 2
 
         const val BASE_URL = "https://frodo.douban.com/api/v2/"
@@ -46,7 +44,6 @@ object ApiContract {
     }
 
     object Credential {
-
         val KEY: String
 
         val SECRET: String
@@ -66,7 +63,6 @@ object ApiContract {
     }
 
     object Authentication {
-
         const val BASE_URL = "https://frodo.douban.com/"
 
         const val URL = "service/auth2/token"
@@ -80,7 +76,6 @@ object ApiContract {
     }
 
     object Error {
-
         object Codes {
             const val INVALID_ACCESS_TOKEN = 103
             const val ACCESS_TOKEN_HAS_EXPIRED = 106

@@ -10,7 +10,6 @@ import android.app.Application
 import android.os.Bundle
 
 open class SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
-
     override fun onActivityPaused(activity: Activity) = Unit
 
     override fun onActivityStarted(activity: Activity) = Unit

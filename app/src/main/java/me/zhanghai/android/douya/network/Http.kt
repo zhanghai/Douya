@@ -6,9 +6,7 @@
 package me.zhanghai.android.douya.network
 
 object Http {
-
     object Headers {
-
         const val AUTHORIZATION = "Authorization"
         private const val BEARER_PREFIX = "Bearer "
         fun String.getAccessToken() =

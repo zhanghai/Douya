@@ -25,7 +25,6 @@ import me.zhanghai.android.douya.arch.ResourceWithMore
 class TimelineViewModel(
     private val diffCallbackFactory: (List<TimelineItem>) -> DiffUtil.Callback
 ) : ViewModel() {
-
     private lateinit var resource: ResourceWithMore<List<TimelineItem>>
 
     private val _timeline = MutableLiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>>()

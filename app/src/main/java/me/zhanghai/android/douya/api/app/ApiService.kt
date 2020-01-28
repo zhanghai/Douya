@@ -35,7 +35,6 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 object ApiService {
-
     private val converterFactory = MoshiConverterFactory.create(
         Moshi.Builder()
             .add(NullToEmptyStringOrCollectionJsonAdapterFactory)
@@ -130,7 +129,6 @@ object ApiService {
     suspend fun getHomeTimeline(maxId: String? = null) = apiService.getHomeTimeline(maxId)
 
     private interface AuthenticationService {
-
         @POST(ApiContract.Authentication.URL)
         @FormUrlEncoded
         suspend fun authenticate(
@@ -156,7 +154,6 @@ object ApiService {
     }
 
     private interface ApiService {
-
         @GET("elendil/home_timeline")
         suspend fun getHomeTimeline(
             @Query("max_id") maxId: String? = null,

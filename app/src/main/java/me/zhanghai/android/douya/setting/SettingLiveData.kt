@@ -25,7 +25,6 @@ abstract class SettingLiveData<T>(
     @StringRes keyRes: Int,
     private val defaultValue: T
 ) : LiveData<T>() {
-
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
 
     private val key = appContext.getString(keyRes)
@@ -66,7 +65,6 @@ class NullableStringSettingLiveData(
 ) : SettingLiveData<String?>(
     keyRes, if (defaultValueRes != null) appContext.getString(defaultValueRes) else null
 ) {
-
     override fun readValue(
         sharedPreferences: SharedPreferences,
         key: String,
@@ -84,7 +82,6 @@ class StringSettingLiveData(
     @StringRes keyRes: Int,
     @StringRes defaultValueRes: Int
 ) : SettingLiveData<String>(keyRes, appContext.getString(defaultValueRes)) {
-
     override fun readValue(
         sharedPreferences: SharedPreferences,
         key: String,
@@ -102,7 +99,6 @@ class StringSetSettingLiveData(
     @StringRes keyRes: Int,
     @ArrayRes defaultValueRes: Int
 ) : SettingLiveData<Set<String?>>(keyRes, appContext.getStringArray(defaultValueRes).toSet()) {
-
     override fun readValue(
         sharedPreferences: SharedPreferences,
         key: String,
@@ -120,7 +116,6 @@ class IntegerSettingLiveData(
     @StringRes keyRes: Int,
     @IntegerRes defaultValueRes: Int
 ) : SettingLiveData<Int>(keyRes, appContext.getInteger(defaultValueRes)) {
-
     override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Int) =
         sharedPreferences.getInt(key, defaultValue)
 
@@ -132,7 +127,6 @@ class LongSettingLiveData(
     @StringRes keyRes: Int,
     @StringRes defaultValueRes: Int
 ) : SettingLiveData<Long>(keyRes, appContext.getString(defaultValueRes).toLong()) {
-
     override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Long) =
         sharedPreferences.getLong(key, defaultValue)
 
@@ -143,7 +137,6 @@ class LongSettingLiveData(
 class FloatSettingLiveData(
     @StringRes keyRes: Int, @DimenRes defaultValueRes: Int
 ) : SettingLiveData<Float>(keyRes, appContext.getFloat(defaultValueRes)) {
-
     override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Float) =
         sharedPreferences.getFloat(key, defaultValue)
 
@@ -155,7 +148,6 @@ class BooleanSettingLiveData(
     @StringRes keyRes: Int,
     @BoolRes defaultValueRes: Int
 ) : SettingLiveData<Boolean>(keyRes, appContext.getBoolean(defaultValueRes)) {
-
     override fun readValue(
         sharedPreferences: SharedPreferences,
         key: String,
@@ -174,7 +166,6 @@ class EnumSettingLiveData<E : Enum<E>>(
 ) : SettingLiveData<E>(
     keyRes, enumClass.java.enumConstants!![appContext.getString(defaultValueRes).toInt()]
 ) {
-
     private val enumValues = enumClass.java.enumConstants!!
 
     override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: E): E {

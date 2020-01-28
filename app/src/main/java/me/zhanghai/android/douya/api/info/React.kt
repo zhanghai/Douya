@@ -16,7 +16,6 @@ data class React(
     var time: String = "",
     var user: UserAbstract? = null
 ) {
-
     companion object {
         const val TYPE_CANCEL_VOTE = "0"
         const val TYPE_VOTE = "1"

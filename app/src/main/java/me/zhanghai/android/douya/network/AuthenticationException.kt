@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.network
 import java.io.IOException
 
 class AuthenticationException : IOException {
-
     constructor() : super()
 
     constructor(message: String?) : super(message)

@@ -13,7 +13,6 @@ import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.timeline.TimelineFragment
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

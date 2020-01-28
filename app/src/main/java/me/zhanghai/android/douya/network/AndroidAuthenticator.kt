@@ -17,7 +17,6 @@ import java.io.IOException
 abstract class AndroidAuthenticator(
     private val account: Account
 ) : AuthenticationInterceptor.Authenticator {
-
     @Throws(IOException::class)
     override fun authenticate(request: Request): Request {
         val authToken = try {

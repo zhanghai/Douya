@@ -9,7 +9,6 @@ import me.zhanghai.android.douya.api.info.Status
 import java.lang.ref.WeakReference
 
 object StatusRepository {
-
     private val statuses = mutableMapOf<String, WeakReference<Status>>()
     private val observers = mutableSetOf<(Status) -> Unit>()
 

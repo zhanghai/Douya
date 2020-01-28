@@ -8,7 +8,6 @@ package me.zhanghai.android.douya.account.info
 import me.zhanghai.android.douya.BuildConfig
 
 object AccountContract {
-
     const val ACCOUNT_TYPE = BuildConfig.APPLICATION_ID
 
     const val AUTH_TOKEN_TYPE = "${BuildConfig.APPLICATION_ID}.auth_token.FRODO"

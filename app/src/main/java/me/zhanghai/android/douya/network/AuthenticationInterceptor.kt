@@ -16,7 +16,6 @@ import java.net.HttpRetryException
 abstract class AuthenticationInterceptor(
     private val maxRetries: Int
 ) : Interceptor {
-
     protected abstract var authenticator: Authenticator
 
     @Throws(IOException::class)
@@ -39,7 +38,6 @@ abstract class AuthenticationInterceptor(
     }
 
     interface Authenticator {
-
         @Throws(IOException::class)
         fun authenticate(request: Request): Request
 

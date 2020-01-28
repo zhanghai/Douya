@@ -14,13 +14,11 @@ import me.zhanghai.android.douya.util.ListAdapter
 import me.zhanghai.android.douya.util.layoutInflater
 
 class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() {
-
     init {
         setHasStableIds(true)
     }
 
     fun createDiffCallback(newItems: List<TimelineItem>) = object : DiffUtil.Callback() {
-
         override fun getOldListSize() = itemCount
 
         override fun getNewListSize() = newItems.size
@@ -43,7 +41,6 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
     class ViewHolder(
         private val binding: TimelineItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(timelineItem: TimelineItem) {
             binding.run {
                 this.timelineItem = timelineItem

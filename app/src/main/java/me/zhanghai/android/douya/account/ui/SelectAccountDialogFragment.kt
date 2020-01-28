@@ -16,7 +16,6 @@ import me.zhanghai.android.douya.account.app.ownAccounts
 import me.zhanghai.android.douya.app.accountManager
 
 class SelectAccountDialogFragment : AppCompatDialogFragment() {
-
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
         val accounts = accountManager.ownAccounts
         return MaterialAlertDialogBuilder(requireContext(), theme)

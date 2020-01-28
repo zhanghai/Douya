@@ -22,7 +22,6 @@ import androidx.annotation.StyleableRes
 import androidx.appcompat.widget.TintTypedArray
 import androidx.core.content.res.ResourcesCompat
 
-
 fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
 
 fun Context.getFloat(@DimenRes id: Int) = ResourcesCompat.getFloat(resources, id)

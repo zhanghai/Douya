@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 class MoreItemAdapter(
     @LayoutRes private val layoutRes: Int
 ) : RecyclerView.Adapter<MoreItemAdapter.ViewHolder>() {
-
     var available: Boolean = false
         set(value) {
             if (field == value) {

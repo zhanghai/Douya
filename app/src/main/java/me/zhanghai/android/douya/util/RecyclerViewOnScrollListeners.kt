@@ -10,7 +10,6 @@ import android.view.ViewConfiguration
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class OnVerticalScrollListener : RecyclerView.OnScrollListener() {
-
     final override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         if (!recyclerView.canScrollVertically(-1)) {
             onScrolledToTop()
@@ -39,7 +38,6 @@ abstract class OnVerticalScrollListener : RecyclerView.OnScrollListener() {
 abstract class OnVerticalScrollWithPagingTouchSlopListener(
     context: Context
 ) : OnVerticalScrollListener() {
-
     private val mPagingTouchSlop = ViewConfiguration.get(context).scaledPagingTouchSlop
 
     // Distance in y since last idle or direction change.

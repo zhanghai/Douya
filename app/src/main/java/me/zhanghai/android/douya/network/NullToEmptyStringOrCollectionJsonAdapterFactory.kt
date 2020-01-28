@@ -11,7 +11,6 @@ import com.squareup.moshi.Types
 import java.lang.reflect.Type
 
 object NullToEmptyStringOrCollectionJsonAdapterFactory : JsonAdapter.Factory {
-
     override fun create(
         type: Type,
         annotations: MutableSet<out Annotation>,

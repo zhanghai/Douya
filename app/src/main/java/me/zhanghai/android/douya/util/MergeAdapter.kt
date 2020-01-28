@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 open class MergeAdapter(
     vararg adapters: RecyclerView.Adapter<*>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     @Suppress("UNCHECKED_CAST")
     private val adapters = adapters.asList() as List<RecyclerView.Adapter<RecyclerView.ViewHolder>>
 
@@ -112,7 +111,6 @@ open class MergeAdapter(
     private inner class AdapterDataObserver(
         private val adapter: RecyclerView.Adapter<*>
     ) : RecyclerView.AdapterDataObserver() {
-
         override fun onChanged() {
             notifyDataSetChanged()
         }

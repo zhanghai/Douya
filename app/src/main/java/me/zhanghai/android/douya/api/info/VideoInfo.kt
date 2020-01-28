@@ -36,7 +36,6 @@ data class VideoInfo(
     @Json(name = "video_width")
     val videoWidth: Int = 0
 ) {
-
     companion object {
         val VIDEO_PLAY_STATUS_BANNED = 2
         val VIDEO_PLAY_STATUS_IN_REVIEW = 0

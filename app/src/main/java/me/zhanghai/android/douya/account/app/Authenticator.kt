@@ -24,7 +24,6 @@ import retrofit2.HttpException
 import timber.log.Timber
 
 class Authenticator(private val context: Context) : AbstractAccountAuthenticator(context) {
-
     override fun editProperties(response: AccountAuthenticatorResponse, accountType: String) =
         throw UnsupportedOperationException()
 
