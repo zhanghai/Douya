@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.arch.observe
@@ -48,6 +49,7 @@ class TimelineFragment : Fragment() {
 
         binding.timelineRecycler.run {
             layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+            itemAnimator = DefaultItemAnimator().apply { supportsChangeAnimations = false }
             adapter = MergeAdapter(timelineAdapter, moreItemAdapter)
             addOnScrollListener(object : OnVerticalScrollWithPagingTouchSlopListener(context) {
                 override fun onScrolledToBottom() {
