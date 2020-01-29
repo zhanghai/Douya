@@ -28,7 +28,7 @@ object TimelineRepository {
         var refresh = suspend {}
         var loadMore = suspend {}
 
-        refresh = refresh@ {
+        refresh = refresh@{
             offer(ResourceWithMore(Loading(resource.value.value), Deleted(null)))
             val timeline = try {
                 getHomeTimeline()
@@ -37,13 +37,15 @@ object TimelineRepository {
                 offer(ResourceWithMore(Error(resource.value.value, e, refresh), Deleted(null)))
                 return@refresh
             }
-            offer(ResourceWithMore(
-                Success(timeline, refresh),
-                if (timeline.isNotEmpty()) Success(null, loadMore) else Deleted(null)
-            ))
+            offer(
+                ResourceWithMore(
+                    Success(timeline, refresh),
+                    if (timeline.isNotEmpty()) Success(null, loadMore) else Deleted(null)
+                )
+            )
         }
 
-        loadMore = loadMore@ {
+        loadMore = loadMore@{
             offer(resource.copy(more = Loading(null)))
             val timeline = resource.value.value!!
             val moreTimeline = try {
@@ -53,15 +55,17 @@ object TimelineRepository {
                 offer(resource.copy(more = Error(null, e, loadMore)))
                 return@loadMore
             }
-            offer(ResourceWithMore(
-                Success(timeline + moreTimeline, refresh),
-                if (moreTimeline.isNotEmpty()) Success(null, loadMore) else Deleted(null)
-            ))
+            offer(
+                ResourceWithMore(
+                    Success(timeline + moreTimeline, refresh),
+                    if (moreTimeline.isNotEmpty()) Success(null, loadMore) else Deleted(null)
+                )
+            )
         }
 
         refresh()
 
-        val statusObserver = statusObserver@ { status: Status ->
+        val statusObserver = statusObserver@{ status: Status ->
             val timeline = resource.value.value ?: return@statusObserver
             var changed = false
             val newTimeline = timeline.map {
@@ -72,15 +76,23 @@ object TimelineRepository {
                     }
                     it.content?.status?.parentStatus?.id == status.id -> {
                         changed = true
-                        it.copy(content = it.content.copy(status = it.content.status.copy(
-                            parentStatus = status
-                        )))
+                        it.copy(
+                            content = it.content.copy(
+                                status = it.content.status.copy(
+                                    parentStatus = status
+                                )
+                            )
+                        )
                     }
                     it.content?.status?.resharedStatus?.id == status.id -> {
                         changed = true
-                        it.copy(content = it.content.copy(status = it.content.status.copy(
-                            resharedStatus = status
-                        )))
+                        it.copy(
+                            content = it.content.copy(
+                                status = it.content.status.copy(
+                                    resharedStatus = status
+                                )
+                            )
+                        )
                     }
                     else -> it
                 }

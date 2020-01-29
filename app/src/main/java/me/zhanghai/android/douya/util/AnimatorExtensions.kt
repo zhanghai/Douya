@@ -15,9 +15,11 @@ suspend fun Animator.awaitEnd() = suspendCancellableCoroutine<Unit> { continuati
     continuation.invokeOnCancellation { cancel() }
     addListener(object : AnimatorListenerAdapter() {
         private var canceled = false
+
         override fun onAnimationCancel(animation: Animator) {
             canceled = true
         }
+
         override fun onAnimationEnd(animation: Animator) {
             removeListener(this)
             if (continuation.isActive) {
@@ -35,9 +37,11 @@ suspend fun ViewPropertyAnimator.awaitEnd() = suspendCancellableCoroutine<Unit> 
     continuation.invokeOnCancellation { cancel() }
     setListener(object : AnimatorListenerAdapter() {
         private var canceled = false
+
         override fun onAnimationCancel(animation: Animator) {
             canceled = true
         }
+
         override fun onAnimationEnd(animation: Animator) {
             setListener(null)
             if (continuation.isActive) {

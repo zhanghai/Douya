@@ -9,5 +9,5 @@ import android.accounts.AccountManager
 import androidx.core.content.ContextCompat
 
 val accountManager: AccountManager by lazy {
-    ContextCompat.getSystemService(appContext, AccountManager::class.java)!!
+    ContextCompat.getSystemService(application, AccountManager::class.java)!!
 }

@@ -8,16 +8,14 @@ package me.zhanghai.android.douya.app
 import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
-import android.content.Context
 import android.net.Uri
 
-lateinit var appContext: Context private set
+lateinit var application: Application private set
 
 class AppProvider : ContentProvider() {
     override fun onCreate(): Boolean {
-        appContext = context!!
-        val application = appContext as Application
-        appInitializers.forEach { it.init(application) }
+        application = context as Application
+        appInitializers.forEach { it() }
         return true
     }
 

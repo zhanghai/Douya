@@ -24,7 +24,7 @@ import me.zhanghai.android.douya.account.info.AuthenticatorMode
 import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.api.app.apiMessage
 import me.zhanghai.android.douya.app.accountManager
-import me.zhanghai.android.douya.app.appContext
+import me.zhanghai.android.douya.app.application
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.EventLiveData
 import timber.log.Timber
@@ -71,12 +71,12 @@ class AuthenticatorViewModel(
         val password = password.value
 
         _usernameError.value = if (username.isEmpty()) {
-            appContext.getString(R.string.authenticator_username_error_empty)
+            application.getString(R.string.authenticator_username_error_empty)
         } else {
             null
         }
         _passwordError.value = if (password.isEmpty()) {
-            appContext.getString(R.string.authenticator_password_error_empty)
+            application.getString(R.string.authenticator_password_error_empty)
         } else {
             null
         }

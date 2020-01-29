@@ -10,7 +10,7 @@ import com.squareup.moshi.JsonEncodingException
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.ErrorResponse
-import me.zhanghai.android.douya.app.appContext
+import me.zhanghai.android.douya.app.application
 import me.zhanghai.android.douya.network.AuthenticationException
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -31,20 +31,20 @@ val HttpException.errorResponse
 
 val ErrorResponse.message
     get() = localizedMessage
-        ?: ApiContract.Error.MESSAGES[code]?.let { appContext.getString(it) }
+        ?: ApiContract.Error.MESSAGES[code]?.let { application.getString(it) }
         ?: internalMessage
 
 // @see com.douban.frodo.network.ErrorMessageHelper
 val Exception.apiMessage: String
     get() = when (this) {
         is HttpException -> errorResponse?.message
-            ?: appContext.getString(R.string.api_error_parse)
+            ?: application.getString(R.string.api_error_parse)
         is JsonDataException, is JsonEncodingException, is KotlinNullPointerException ->
-            appContext.getString(R.string.api_error_parse)
+            application.getString(R.string.api_error_parse)
         is AuthenticationException ->
-            appContext.getString(R.string.api_error_authentication)
-        is SocketTimeoutException -> appContext.getString(R.string.api_error_timeout)
-        is UnknownHostException -> appContext.getString(R.string.api_error_no_connection)
-        is IOException -> appContext.getString(R.string.api_error_network)
+            application.getString(R.string.api_error_authentication)
+        is SocketTimeoutException -> application.getString(R.string.api_error_timeout)
+        is UnknownHostException -> application.getString(R.string.api_error_no_connection)
+        is IOException -> application.getString(R.string.api_error_network)
         else -> toString()
     }

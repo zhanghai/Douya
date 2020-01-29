@@ -24,9 +24,11 @@ import me.zhanghai.android.douya.util.showToast
 class TimelineFragment : Fragment() {
     private val timelineAdapter = TimelineAdapter()
 
-    private val viewModel: TimelineViewModel by viewModels {{
-        TimelineViewModel { timelineAdapter.createDiffCallback(it) }
-    }}
+    private val viewModel: TimelineViewModel by viewModels {
+        {
+            TimelineViewModel { timelineAdapter.createDiffCallback(it) }
+        }
+    }
 
     private lateinit var binding: TimelineFragmentBinding
 

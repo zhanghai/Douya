@@ -35,8 +35,10 @@ class EmptyObjectToNullJsonAdapter<T>(private val adapter: JsonAdapter<T>) : Jso
             annotations: MutableSet<out Annotation>,
             moshi: Moshi
         ): JsonAdapter<*>? {
-            val delegateAnnotations = Types.nextAnnotations(annotations,
-                EmptyObjectToNull::class.java) ?: return null
+            val delegateAnnotations = Types.nextAnnotations(
+                annotations,
+                EmptyObjectToNull::class.java
+            ) ?: return null
             return EmptyObjectToNullJsonAdapter(moshi.adapter<Any>(type, delegateAnnotations))
         }
     }

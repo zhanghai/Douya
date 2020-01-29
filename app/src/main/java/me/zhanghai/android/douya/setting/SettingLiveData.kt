@@ -14,7 +14,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.preference.PreferenceManager
-import me.zhanghai.android.douya.app.appContext
+import me.zhanghai.android.douya.app.application
 import me.zhanghai.android.douya.util.getBoolean
 import me.zhanghai.android.douya.util.getFloat
 import me.zhanghai.android.douya.util.getInteger
@@ -25,9 +25,9 @@ abstract class SettingLiveData<T>(
     @StringRes keyRes: Int,
     private val defaultValue: T
 ) : LiveData<T>() {
-    private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
+    private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
-    private val key = appContext.getString(keyRes)
+    private val key = application.getString(keyRes)
 
     // We need to keep a strong reference to the listener.
     private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
@@ -63,7 +63,7 @@ class NullableStringSettingLiveData(
     @StringRes keyRes: Int,
     @StringRes defaultValueRes: Int? = null
 ) : SettingLiveData<String?>(
-    keyRes, if (defaultValueRes != null) appContext.getString(defaultValueRes) else null
+    keyRes, if (defaultValueRes != null) application.getString(defaultValueRes) else null
 ) {
     override fun readValue(
         sharedPreferences: SharedPreferences,
@@ -81,7 +81,7 @@ class NullableStringSettingLiveData(
 class StringSettingLiveData(
     @StringRes keyRes: Int,
     @StringRes defaultValueRes: Int
-) : SettingLiveData<String>(keyRes, appContext.getString(defaultValueRes)) {
+) : SettingLiveData<String>(keyRes, application.getString(defaultValueRes)) {
     override fun readValue(
         sharedPreferences: SharedPreferences,
         key: String,
@@ -98,7 +98,7 @@ class StringSettingLiveData(
 class StringSetSettingLiveData(
     @StringRes keyRes: Int,
     @ArrayRes defaultValueRes: Int
-) : SettingLiveData<Set<String?>>(keyRes, appContext.getStringArray(defaultValueRes).toSet()) {
+) : SettingLiveData<Set<String?>>(keyRes, application.getStringArray(defaultValueRes).toSet()) {
     override fun readValue(
         sharedPreferences: SharedPreferences,
         key: String,
@@ -115,7 +115,7 @@ class StringSetSettingLiveData(
 class IntegerSettingLiveData(
     @StringRes keyRes: Int,
     @IntegerRes defaultValueRes: Int
-) : SettingLiveData<Int>(keyRes, appContext.getInteger(defaultValueRes)) {
+) : SettingLiveData<Int>(keyRes, application.getInteger(defaultValueRes)) {
     override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Int) =
         sharedPreferences.getInt(key, defaultValue)
 
@@ -126,7 +126,7 @@ class IntegerSettingLiveData(
 class LongSettingLiveData(
     @StringRes keyRes: Int,
     @StringRes defaultValueRes: Int
-) : SettingLiveData<Long>(keyRes, appContext.getString(defaultValueRes).toLong()) {
+) : SettingLiveData<Long>(keyRes, application.getString(defaultValueRes).toLong()) {
     override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Long) =
         sharedPreferences.getLong(key, defaultValue)
 
@@ -136,7 +136,7 @@ class LongSettingLiveData(
 
 class FloatSettingLiveData(
     @StringRes keyRes: Int, @DimenRes defaultValueRes: Int
-) : SettingLiveData<Float>(keyRes, appContext.getFloat(defaultValueRes)) {
+) : SettingLiveData<Float>(keyRes, application.getFloat(defaultValueRes)) {
     override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Float) =
         sharedPreferences.getFloat(key, defaultValue)
 
@@ -147,7 +147,7 @@ class FloatSettingLiveData(
 class BooleanSettingLiveData(
     @StringRes keyRes: Int,
     @BoolRes defaultValueRes: Int
-) : SettingLiveData<Boolean>(keyRes, appContext.getBoolean(defaultValueRes)) {
+) : SettingLiveData<Boolean>(keyRes, application.getBoolean(defaultValueRes)) {
     override fun readValue(
         sharedPreferences: SharedPreferences,
         key: String,
@@ -164,7 +164,7 @@ class EnumSettingLiveData<E : Enum<E>>(
     @StringRes defaultValueRes: Int,
     enumClass: KClass<E>
 ) : SettingLiveData<E>(
-    keyRes, enumClass.java.enumConstants!![appContext.getString(defaultValueRes).toInt()]
+    keyRes, enumClass.java.enumConstants!![application.getString(defaultValueRes).toInt()]
 ) {
     private val enumValues = enumClass.java.enumConstants!!
 
