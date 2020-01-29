@@ -14,15 +14,20 @@ import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import com.facebook.stetho.Stetho
+import com.jakewharton.threetenabp.AndroidThreeTen
 import me.zhanghai.android.douya.util.SimpleActivityLifecycleCallbacks
 import me.zhanghai.android.douya.util.layoutInNavigation
 import me.zhanghai.android.douya.util.layoutInStatusBar
 import timber.log.Timber
 
 val appInitializers = listOf(
-    ::initializeTimber, ::initializeStetho, ::initializeCoil, ::layoutActivityEdgeToEdge,
-    ::ensureActivitySubDecor
+    ::initializeThreeTen, ::initializeTimber, ::initializeStetho, ::initializeCoil,
+    ::layoutActivityEdgeToEdge, ::ensureActivitySubDecor
 )
+
+private fun initializeThreeTen() {
+    AndroidThreeTen.init(application)
+}
 
 private fun initializeTimber() {
     Timber.plant(Timber.DebugTree())

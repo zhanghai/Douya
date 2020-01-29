@@ -78,6 +78,7 @@ dependencies {
 
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     def moshi_version = '1.9.2'
     implementation "com.squareup.moshi:moshi:$moshi_version"
