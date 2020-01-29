@@ -89,6 +89,9 @@ dependencies {
     def insetter_version = '0.2.0'
     implementation "dev.chrisbanes:insetter-ktx:$insetter_version"
     implementation "dev.chrisbanes:insetter-dbx:$insetter_version"
+    def coil_version = '0.9.2'
+    implementation "io.coil-kt:coil:$coil_version"
+    implementation "io.coil-kt:coil-gif:$coil_version"
 }
 
 repositories {

@@ -10,21 +10,14 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import com.facebook.stetho.Stetho
-import me.zhanghai.android.douya.util.ensureActivitySubDecor
-import me.zhanghai.android.douya.util.layoutActivityEdgeToEdge
-import timber.log.Timber
 
 lateinit var appContext: Context private set
 
 class AppProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         appContext = context!!
-        Timber.plant(Timber.DebugTree())
-        Stetho.initializeWithDefaults(appContext)
         val application = appContext as Application
-        layoutActivityEdgeToEdge(application)
-        ensureActivitySubDecor(application)
+        appInitializers.forEach { it.init(application) }
         return true
     }
 
