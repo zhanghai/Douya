@@ -5,7 +5,9 @@
   ~ All Rights Reserved.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable name="timelineItem" type="me.zhanghai.android.douya.api.info.TimelineItem" />
@@ -13,11 +15,21 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/list_card_horizontal_margin"
+        android:paddingEnd="@dimen/list_card_horizontal_margin"
+        android:paddingTop="@dimen/list_card_vertical_margin"
+        android:paddingBottom="@dimen/list_card_vertical_margin">
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{timelineItem.toString()}" />
+            app:cardCornerRadius="@dimen/list_card_corner_radius">
+
+            <me.zhanghai.android.douya.status.StatusLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:status="@{timelineItem.content.status}" />
+        </com.google.android.material.card.MaterialCardView>
     </FrameLayout>
 </layout>

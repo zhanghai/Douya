@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2020 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="me.zhanghai.android.douya.status.StatusLayout.ViewModel" />
+    </data>
+
+    <merge>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/avatarImage"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/avatar_placeholder" />
+
+        <TextView
+            android:id="@+id/authorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/avatarImage"
+            app:layout_constraintTop_toTopOf="@id/avatarImage"
+            app:layout_constraintBottom_toTopOf="@id/timeText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.author}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            tools:text="梦断代码" />
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/authorText"
+            app:layout_constraintTop_toBottomOf="@id/authorText"
+            app:layout_constraintBottom_toBottomOf="@id/avatarImage"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.time}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            tools:text="刚刚" />
+
+        <TextView
+            android:id="@+id/timeActionSpace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/timeText"
+            app:layout_constraintBottom_toBottomOf="@id/timeText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/timeline_time_action_space"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary" />
+
+        <TextView
+            android:id="@+id/activityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/timeActionSpace"
+            app:layout_constraintBottom_toBottomOf="@id/timeText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.activity}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            tools:text="说" />
+
+        <TextView
+            android:id="@+id/textText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avatarImage"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:textOrGone="@{viewModel.text}"
+            tools:text="你好，世界！" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </merge>
+</layout>

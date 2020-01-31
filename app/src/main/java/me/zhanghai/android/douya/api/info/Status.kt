@@ -15,7 +15,7 @@ data class Status(
     //val adInfo: StatusAdInfo? = null,
     @Json(name = "allow_comment")
     val allowComment: Boolean = false,
-    val author: UserAbstract? = null,
+    val author: UserAbstract,
     @Json(name = "can_transfer_accessible")
     val canTransferAccessible: Boolean = false,
     @Json(name = "can_transfer_reply_limit")

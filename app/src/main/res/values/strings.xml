@@ -35,4 +35,5 @@
     <string name="select_account_title">选择账户</string>
 
     <string name="timeline_empty">没有广播</string>
+    <string name="timeline_time_action_space">" "</string>
 </resources>

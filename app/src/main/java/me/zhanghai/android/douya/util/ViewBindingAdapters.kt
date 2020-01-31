@@ -17,6 +17,8 @@ import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import me.zhanghai.android.douya.api.info.Status
+import me.zhanghai.android.douya.status.StatusLayout
 import java.util.WeakHashMap
 
 @BindingAdapter("visibleOrGone")
@@ -61,6 +63,11 @@ fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
 fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
     textView.text = text
     textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
+}
+
+@BindingAdapter("status")
+fun setStatusLayoutStatus(statusLayout: StatusLayout, status: Status) {
+    statusLayout.bind(status)
 }
 
 @BindingAdapter("progressOffset")

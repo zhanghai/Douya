@@ -8,4 +8,5 @@
 <resources>
     <dimen name="screen_edge_margin">24dp</dimen>
     <dimen name="list_bottom_padding_with_fab">104dp</dimen>
+    <dimen name="list_card_corner_radius">2dp</dimen>
 </resources>

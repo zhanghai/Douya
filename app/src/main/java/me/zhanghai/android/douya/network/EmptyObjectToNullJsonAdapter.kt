@@ -10,9 +10,11 @@ import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import java.io.IOException
 import java.lang.reflect.Type
 
 class EmptyObjectToNullJsonAdapter<T>(private val adapter: JsonAdapter<T>) : JsonAdapter<T>() {
+    @Throws(IOException::class)
     override fun fromJson(reader: JsonReader) =
         if (reader.peekJson().runCatching {
                 beginObject()
@@ -27,6 +29,7 @@ class EmptyObjectToNullJsonAdapter<T>(private val adapter: JsonAdapter<T>) : Jso
             adapter.fromJson(reader)
         }
 
+    @Throws(IOException::class)
     override fun toJson(writer: JsonWriter, value: T?) = adapter.toJson(writer, value)
 
     object Factory : JsonAdapter.Factory {
