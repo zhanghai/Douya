@@ -17,6 +17,16 @@
 
     <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
+        <me.zhanghai.android.douya.ui.OverlayBackgroundView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="?selectableItemBackground"
+            android:onClick="@{() -> viewModel.open()}" />
+
         <ImageView
             android:id="@+id/avatarImage"
             android:layout_width="@dimen/avatar_size"
@@ -124,7 +134,7 @@
             app:layout_constraintTop_toBottomOf="@id/textEndSpace"
             android:background="?dividerHorizontal" />
 
-        <View
+        <me.zhanghai.android.douya.ui.OverlayBackgroundView
             android:id="@+id/resharedBackgroundView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -132,7 +142,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
             app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
-            android:background="?selectableItemBackground" />
+            android:background="?selectableItemBackground"
+            android:onClick="@{() -> viewModel.openReshared()}" />
 
         <TextView
             android:id="@+id/resharedDeletedText"
@@ -244,7 +255,7 @@
             app:layout_constraintTop_toBottomOf="@id/resharedEndSpace"
             android:background="?dividerHorizontal" />
 
-        <View
+        <me.zhanghai.android.douya.ui.OverlayBackgroundView
             android:id="@+id/cardBackgroundView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -252,7 +263,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardDividerView"
             app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
-            android:background="?selectableItemBackground" />
+            android:background="?selectableItemBackground"
+            android:onClick="@{() -> viewModel.openCard()}" />
 
         <ImageView
             android:id="@+id/cardImage"

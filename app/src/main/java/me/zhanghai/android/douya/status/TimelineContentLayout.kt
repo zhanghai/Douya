@@ -129,5 +129,17 @@ class TimelineContentLayout : ConstraintLayout {
                 ?: contentStatus.images
             _imageCount.value = images.size
         }
+
+        fun open() {
+            // TODO
+        }
+
+        fun openReshared() {
+            // TODO
+        }
+
+        fun openCard() {
+            // TODO
+        }
     }
 }
