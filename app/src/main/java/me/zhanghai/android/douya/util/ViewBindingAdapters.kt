@@ -24,6 +24,11 @@ import me.zhanghai.android.douya.ui.TimeTextView
 import org.threeten.bp.ZonedDateTime
 import java.util.WeakHashMap
 
+@BindingAdapter("backgroundScrim")
+fun setViewBackgroundScrim(view: View, gravity: Int) {
+    view.background = Drawables.createScrim(gravity)
+}
+
 @BindingAdapter("visibleOrGone")
 fun setViewVisibleOrGone(view: View, visible: Boolean) {
     view.visibility = if (visible) View.VISIBLE else View.GONE
@@ -66,6 +71,30 @@ fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
 fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
     textView.text = text
     textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
+}
+
+@BindingAdapter(value = [
+    "textFormat", "textArg1", "textArg2", "textArg3", "textArg4", "textArg5", "textArg6",
+    "textArg7", "textArg8", "textArg9", "textArg10"
+], requireAll = false)
+fun setTextViewTextResourceAndArgs(
+    view: TextView,
+    textFormat: String?,
+    textArg1: Any?,
+    textArg2: Any?,
+    textArg3: Any?,
+    textArg4: Any?,
+    textArg5: Any?,
+    textArg6: Any?,
+    textArg7: Any?,
+    textArg8: Any?,
+    textArg9: Any?,
+    textArg10: Any?
+) {
+    view.text = textFormat?.format(
+        textArg1, textArg2, textArg3, textArg4, textArg5, textArg6, textArg7, textArg8, textArg9,
+        textArg10
+    )
 }
 
 @BindingAdapter("status")

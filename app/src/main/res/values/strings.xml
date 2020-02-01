@@ -47,5 +47,8 @@
     <string name="select_account_title">选择账户</string>
 
     <string name="timeline_empty">没有广播</string>
-    <string name="timeline_time_action_space">" "</string>
+
+    <string name="timeline_content_time_action_space">" "</string>
+    <string name="timeline_content_image_count_format">%1$d 张图片</string>
+    <string name="timeline_content_reshared_status_deleted">（广播已被删除）</string>
 </resources>

@@ -12,4 +12,7 @@
     <dimen name="list_card_vertical_margin">4dp</dimen>
     <dimen name="list_card_corner_radius">0dp</dimen>
     <dimen name="avatar_size">40dp</dimen>
+    <dimen name="horizontal_divider_height">1dp</dimen>
+    <!-- 3x toolbar height per Material Design Spec. -->
+    <dimen name="scrim_height">168dp</dimen>
 </resources>

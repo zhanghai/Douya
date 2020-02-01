@@ -11,6 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.Gravity" />
         <variable name="viewModel" type="me.zhanghai.android.douya.status.TimelineContentLayout.ViewModel" />
     </data>
 
@@ -31,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toEndOf="@id/avatarImage"
             app:layout_constraintTop_toTopOf="@id/avatarImage"
             app:layout_constraintBottom_toTopOf="@id/timeText"
@@ -63,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="@id/timeText"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/timeline_time_action_space"
+            android:text="@string/timeline_content_time_action_space"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:textColorSecondary" />
 
@@ -71,6 +73,7 @@
             android:id="@+id/activityText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toEndOf="@id/timeActionSpace"
             app:layout_constraintBottom_toBottomOf="@id/timeText"
             android:ellipsize="end"
@@ -81,8 +84,8 @@
             tools:text="说" />
 
         <TextView
-            android:id="@+id/titleText"
-            android:layout_width="match_parent"
+            android:id="@+id/textText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -91,22 +94,265 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarImage"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textStyle="bold"
-            app:textOrGone="@{viewModel.title}"
-            tools:text="Hello, World!" />
+            app:textOrGone="@{viewModel.text}"
+            tools:text="你好，世界！" />
 
-        <TextView
-            android:id="@+id/textText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <Space
+            android:id="@+id/textEndSpace"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textText" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/resharedGroup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText,resharedEndBarrier,resharedEndSpace"
+            app:visibleOrGone="@{viewModel.hasReshared}" />
+
+        <View
+            android:id="@+id/resharedDividerView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/horizontal_divider_height"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleText"
-            app:layout_goneMarginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/textEndSpace"
+            android:background="?dividerHorizontal" />
+
+        <View
+            android:id="@+id/resharedBackgroundView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
+            app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
+            android:background="?selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/resharedDeletedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
+            android:text="@string/timeline_content_reshared_status_deleted"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            app:textOrGone="@{viewModel.text}"
-            tools:text="你好，世界！" />
+            android:textColor="?android:textColorSecondary"
+            app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; viewModel.resharedDeleted}" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/resharedUndeletedGroup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText"
+            app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; !viewModel.resharedDeleted}" />
+
+        <TextView
+            android:id="@+id/resharedAuthorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.resharedAuthor}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            tools:text="豆芽" />
+
+        <TextView
+            android:id="@+id/resharedAuthorActivitySpace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/resharedAuthorText"
+            app:layout_constraintBottom_toBottomOf="@id/resharedAuthorText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/timeline_content_time_action_space"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary" />
+
+        <TextView
+            android:id="@+id/resharedActivityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toEndOf="@id/resharedAuthorActivitySpace"
+            app:layout_constraintBottom_toBottomOf="@id/resharedAuthorText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.resharedActivity}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            tools:text="说" />
+
+        <TextView
+            android:id="@+id/resharedTextText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resharedAuthorText"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:textOrGone="@{viewModel.resharedText}"
+            tools:text="Hello, World!" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/resharedEndBarrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="resharedDeletedText,resharedTextText" />
+
+        <Space
+            android:id="@+id/resharedEndSpace"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resharedEndBarrier" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/cardGroup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="cardDividerView,cardBackgroundView,cardImage,cardTitleText,cardEndBarrier,cardEndSpace"
+            app:visibleOrGone="@{viewModel.hasCard}" />
+
+        <View
+            android:id="@+id/cardDividerView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/horizontal_divider_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resharedEndSpace"
+            android:background="?dividerHorizontal" />
+
+        <View
+            android:id="@+id/cardBackgroundView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardDividerView"
+            app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
+            android:background="?selectableItemBackground" />
+
+        <ImageView
+            android:id="@+id/cardImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardDividerView"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/launcher_icon" />
+
+        <TextView
+            android:id="@+id/cardTitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toEndOf="@id/cardImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cardImage"
+            android:text="@{viewModel.cardTitle}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            tools:text="版本 v2.0.0-alpha.1" />
+
+        <TextView
+            android:id="@+id/cardTextText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/cardTitleText"
+            app:layout_constraintEnd_toEndOf="@id/cardTitleText"
+            app:layout_constraintTop_toBottomOf="@id/cardTitleText"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:textOrGone="@{viewModel.cardText}"
+            tools:text="使用 Jetpack 和 Kotlin 构建" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/cardEndBarrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="cardImage,cardTextText" />
+
+        <Space
+            android:id="@+id/cardEndSpace"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardEndBarrier" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/imageRecyclerGroup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="imageRecycler,imageRecyclerDescriptionScrim,imageRecyclerDescription"
+            app:visibleOrGone="@{viewModel.imageCount > 1}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imageRecycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardEndSpace"
+            app:layout_constraintDimensionRatio="6:5" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/imageRecyclerDescriptionGroup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="imageRecyclerDescriptionScrim,imageRecyclerDescription"
+            app:visibleOrGone="@{viewModel.imageCount > 1}" />
+
+        <View
+            android:id="@+id/imageRecyclerDescriptionScrim"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/scrim_height"
+            app:layout_constraintStart_toStartOf="@id/imageRecycler"
+            app:layout_constraintEnd_toEndOf="@id/imageRecycler"
+            app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
+            app:backgroundScrim="@{Gravity.BOTTOM}"
+            tools:background="#66000000" />
+
+        <TextView
+            android:id="@+id/imageRecyclerDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="@id/imageRecyclerDescriptionScrim"
+            app:layout_constraintBottom_toBottomOf="@id/imageRecyclerDescriptionScrim"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:theme="@style/ThemeOverlay.Douya.Dark"
+            app:textFormat="@{@string/timeline_content_image_count_format}"
+            app:textArg1="@{viewModel.imageCount}"
+            tools:text="9 张图片" />
     </merge>
 </layout>

@@ -25,4 +25,11 @@
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
     </style>
     <style name="Theme.Douya" parent="Base.Theme.Douya" />
+
+    <style name="ThemeOverlay.Douya.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
+
+        <item name="android:colorBackground">?colorSurface</item>
+
+        <item name="colorSurface">@color/color_surface_dark</item>
+    </style>
 </resources>

@@ -38,8 +38,7 @@ data class StatusCard(
     @Json(name = "owner_uri")
     val ownerUri: String = "",
     val rating: Rating? = null,
-    @Json(name = "image")
-    val sizedImage: SizedImage? = null,
+    val image: SizedImage? = null,
     @Json(name = "subtitle")
     val subTitle: String = "",
     @Json(name = "subject_label")

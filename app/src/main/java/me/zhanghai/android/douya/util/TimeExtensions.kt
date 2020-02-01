@@ -34,9 +34,9 @@ fun ZonedDateTimes.parseDouban(text: String): ZonedDateTime =
 
 fun ZonedDateTime.formatDouban(): String = toLocalDateTime().format(DOUBAN_DATE_TIME_FORMATTER)
 
-private val JUST_NOW_DURATION_RANGE = Duration.ZERO until Duration.ofMinutes(1)
-private val MINUTE_FORMAT_DURATION_RANGE = Duration.ofMinutes(1) until Duration.ofHours(1)
-private val HOUR_FORMAT_DURATION_RANGE = Duration.ofHours(1) until Duration.ofHours(2)
+private val JUST_NOW_DURATION_RANGE = Duration.ZERO comparableUntil Duration.ofMinutes(1)
+private val MINUTE_FORMAT_DURATION_RANGE = Duration.ofMinutes(1) comparableUntil Duration.ofHours(1)
+private val HOUR_FORMAT_DURATION_RANGE = Duration.ofHours(1) comparableUntil Duration.ofHours(2)
 
 fun ZonedDateTime.formatHumanFriendly(context: Context): String {
     val date = toLocalDate()

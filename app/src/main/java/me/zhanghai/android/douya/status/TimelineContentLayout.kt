@@ -76,17 +76,58 @@ class TimelineContentLayout : ConstraintLayout {
         private val _text = DistinctMutableLiveData("")
         val text: LiveData<String> = _text
 
+        private val _hasReshared = DistinctMutableLiveData(false)
+        val hasReshared: LiveData<Boolean> = _hasReshared
+
+        private val _resharedDeleted = DistinctMutableLiveData(false)
+        val resharedDeleted: LiveData<Boolean> = _resharedDeleted
+
+        private val _resharedAuthor = DistinctMutableLiveData("")
+        val resharedAuthor: LiveData<String> = _resharedAuthor
+
+        private val _resharedActivity = DistinctMutableLiveData("")
+        val resharedActivity: LiveData<String> = _resharedActivity
+
+        private val _resharedText = DistinctMutableLiveData("")
+        val resharedText: LiveData<String> = _resharedText
+
+        private val _hasCard = DistinctMutableLiveData(false)
+        val hasCard: LiveData<Boolean> = _hasCard
+
+        private val _cardImage = DistinctMutableLiveData("")
+        val cardImage: LiveData<String> = _cardImage
+
+        private val _cardTitle = DistinctMutableLiveData("")
+        val cardTitle: LiveData<String> = _cardTitle
+
+        private val _cardText = DistinctMutableLiveData("")
+        val cardText: LiveData<String> = _cardText
+
+        private val _imageCount = DistinctMutableLiveData(0)
+        val imageCount: LiveData<Int> = _imageCount
+
         fun bind(status: Status) {
-            if (status.deleted) {
-                // TODO
-                return
-            }
             _avatar.value = status.author!!.avatar
             _author.value = status.author.name
             _activity.value = status.activity
             _time.value = status.createTime
             _title.value = ""
             _text.value = status.text
+            _hasReshared.value = status.resharedStatus != null
+            _resharedDeleted.value = status.resharedStatus?.deleted ?: false
+            _resharedAuthor.value = status.resharedStatus?.author?.name ?: ""
+            _resharedActivity.value = status.resharedStatus?.activity ?: ""
+            _resharedText.value = status.resharedStatus?.text ?: ""
+            val contentStatus = status.resharedStatus ?: status
+            val card = contentStatus.card
+            _hasCard.value = card != null
+            // TODO
+            _cardImage.value = card?.image?.toString() ?: ""
+            _cardTitle.value = card?.title ?: ""
+            _cardText.value = card?.subTitle?.ifEmpty { null } ?: card?.url ?: ""
+            val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
+                ?: contentStatus.images
+            _imageCount.value = images.size
         }
     }
 }

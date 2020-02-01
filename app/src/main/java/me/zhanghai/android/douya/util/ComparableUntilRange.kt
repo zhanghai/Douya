@@ -15,7 +15,8 @@ interface UntilRange<T : Comparable<T>> {
     fun isEmpty(): Boolean = start >= endExclusive
 }
 
-infix fun <T: Comparable<T>> T.until(that: T): UntilRange<T> = ComparableUntilRange(this, that)
+infix fun <T: Comparable<T>> T.comparableUntil(that: T): UntilRange<T> =
+    ComparableUntilRange(this, that)
 
 private class ComparableUntilRange<T : Comparable<T>>(
     override val start: T,
