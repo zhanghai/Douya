@@ -7,4 +7,6 @@
 
 <resources>
     <string name="pref_key_active_account_name">active_account_name</string>
+    <string name="pref_key_show_long_url">show_long_url</string>
+    <bool name="pref_default_value_show_long_url">true</bool>
 </resources>

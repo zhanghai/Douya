@@ -9,12 +9,14 @@ import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import coil.Coil
 import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
+import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment
 import me.zhanghai.android.douya.util.SimpleActivityLifecycleCallbacks
 import me.zhanghai.android.douya.util.layoutInNavigation
 import me.zhanghai.android.douya.util.layoutInStatusBar
@@ -22,7 +24,7 @@ import timber.log.Timber
 
 val appInitializers = listOf(
     ::initializeThreeTen, ::initializeTimber, ::initializeStetho, ::initializeCoil,
-    ::layoutActivityEdgeToEdge, ::ensureActivitySubDecor
+    ::layoutActivityEdgeToEdge, ::ensureActivitySubDecor, ::bindCustomTabsService
 )
 
 private fun initializeThreeTen() {
@@ -75,3 +77,10 @@ private fun ensureActivitySubDecor() {
     })
 }
 
+private fun bindCustomTabsService() {
+    application.registerActivityLifecycleCallbacks(object : SimpleActivityLifecycleCallbacks() {
+        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+            CustomTabsHelperFragment.attachTo(activity as FragmentActivity)
+        }
+    })
+}

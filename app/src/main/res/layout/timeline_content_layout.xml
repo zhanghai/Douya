@@ -104,6 +104,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarImage"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:spanClickable="@{true}"
             app:textOrGone="@{viewModel.text}"
             tools:text="你好，世界！" />
 
@@ -218,6 +219,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedAuthorText"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:spanClickable="@{true}"
             app:textOrGone="@{viewModel.resharedText}"
             tools:text="Hello, World!" />
 
@@ -299,6 +301,7 @@
             app:layout_constraintEnd_toEndOf="@id/cardTitleText"
             app:layout_constraintTop_toBottomOf="@id/cardTitleText"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:spanClickable="@{true}"
             app:textOrGone="@{viewModel.cardText}"
             tools:text="使用 Jetpack 和 Kotlin 构建" />
 

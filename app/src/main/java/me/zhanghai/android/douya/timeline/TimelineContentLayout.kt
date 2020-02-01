@@ -16,6 +16,7 @@ import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
+import me.zhanghai.android.douya.link.withEntities
 import me.zhanghai.android.douya.util.layoutInflater
 import org.threeten.bp.ZonedDateTime
 
@@ -73,8 +74,8 @@ class TimelineContentLayout : ConstraintLayout {
         private val _title = DistinctMutableLiveData("")
         val title: LiveData<String> = _title
 
-        private val _text = DistinctMutableLiveData("")
-        val text: LiveData<String> = _text
+        private val _text = DistinctMutableLiveData<CharSequence>("")
+        val text: LiveData<CharSequence> = _text
 
         private val _hasReshared = DistinctMutableLiveData(false)
         val hasReshared: LiveData<Boolean> = _hasReshared
@@ -88,8 +89,8 @@ class TimelineContentLayout : ConstraintLayout {
         private val _resharedActivity = DistinctMutableLiveData("")
         val resharedActivity: LiveData<String> = _resharedActivity
 
-        private val _resharedText = DistinctMutableLiveData("")
-        val resharedText: LiveData<String> = _resharedText
+        private val _resharedText = DistinctMutableLiveData<CharSequence>("")
+        val resharedText: LiveData<CharSequence> = _resharedText
 
         private val _hasCard = DistinctMutableLiveData(false)
         val hasCard: LiveData<Boolean> = _hasCard
@@ -100,8 +101,8 @@ class TimelineContentLayout : ConstraintLayout {
         private val _cardTitle = DistinctMutableLiveData("")
         val cardTitle: LiveData<String> = _cardTitle
 
-        private val _cardText = DistinctMutableLiveData("")
-        val cardText: LiveData<String> = _cardText
+        private val _cardText = DistinctMutableLiveData<CharSequence>("")
+        val cardText: LiveData<CharSequence> = _cardText
 
         private val _imageCount = DistinctMutableLiveData(0)
         val imageCount: LiveData<Int> = _imageCount
@@ -112,19 +113,22 @@ class TimelineContentLayout : ConstraintLayout {
             _activity.value = status.activity
             _time.value = status.createTime
             _title.value = ""
-            _text.value = status.text
+            _text.value = status.text.withEntities(status.entities)
             _hasReshared.value = status.resharedStatus != null
             _resharedDeleted.value = status.resharedStatus?.deleted ?: false
             _resharedAuthor.value = status.resharedStatus?.author?.name ?: ""
             _resharedActivity.value = status.resharedStatus?.activity ?: ""
-            _resharedText.value = status.resharedStatus?.text ?: ""
+            _resharedText.value = status.resharedStatus?.text?.withEntities(
+                status.resharedStatus.entities
+            ) ?: ""
             val contentStatus = status.resharedStatus ?: status
             val card = contentStatus.card
             _hasCard.value = card != null
             // TODO
             _cardImage.value = card?.image?.toString() ?: ""
             _cardTitle.value = card?.title ?: ""
-            _cardText.value = card?.subTitle?.ifEmpty { null } ?: card?.url ?: ""
+            _cardText.value = card?.subTitle?.withEntities(card.entities)?.ifEmpty { null }
+                ?: card?.url ?: ""
             val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
                 ?: contentStatus.images
             _imageCount.value = images.size

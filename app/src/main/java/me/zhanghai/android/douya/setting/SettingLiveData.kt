@@ -42,6 +42,9 @@ abstract class SettingLiveData<T>(
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     }
 
+    @Suppress("UNCHECKED_CAST")
+    override fun getValue(): T = super.getValue() as T
+
     private fun loadValue() {
         value = readValue(sharedPreferences, key, defaultValue)
     }

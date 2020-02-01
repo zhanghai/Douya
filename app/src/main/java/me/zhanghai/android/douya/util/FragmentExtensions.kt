@@ -12,7 +12,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import me.zhanghai.android.douya.R
 
-fun Fragment.startActivitySafely(intent: Intent, options: Bundle? = null) {
+fun Fragment.showToast(textRes: Int, duration: Int = Toast.LENGTH_SHORT) =
+    requireContext().showToast(textRes, duration)
+
+fun Fragment.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
+    requireContext().showToast(text, duration)
+
+fun Fragment.startActivitySafe(intent: Intent, options: Bundle? = null) {
     try {
         startActivity(intent, options)
     } catch (e: ActivityNotFoundException) {
@@ -20,20 +26,10 @@ fun Fragment.startActivitySafely(intent: Intent, options: Bundle? = null) {
     }
 }
 
-fun Fragment.startActivityForResultSafely(
-    intent: Intent,
-    requestCode: Int,
-    options: Bundle? = null
-) {
+fun Fragment.startActivityForResultSafe(intent: Intent, requestCode: Int, options: Bundle? = null) {
     try {
         startActivityForResult(intent, requestCode, options)
     } catch (e: ActivityNotFoundException) {
         showToast(R.string.activity_not_found)
     }
 }
-
-fun Fragment.showToast(textRes: Int, duration: Int = Toast.LENGTH_SHORT) =
-    requireContext().showToast(textRes, duration)
-
-fun Fragment.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
-    requireContext().showToast(text, duration)

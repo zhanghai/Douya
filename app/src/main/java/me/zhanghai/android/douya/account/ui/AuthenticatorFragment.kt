@@ -23,7 +23,7 @@ import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.AuthenticatorFragmentBinding
 import me.zhanghai.android.douya.util.fadeIn
 import me.zhanghai.android.douya.util.fadeOut
-import me.zhanghai.android.douya.util.startActivitySafely
+import me.zhanghai.android.douya.util.startActivitySafe
 
 class AuthenticatorFragment : Fragment() {
     companion object {
@@ -69,7 +69,7 @@ class AuthenticatorFragment : Fragment() {
             }
         }
         viewModel.signUpEvent.observe(this) {
-            startActivitySafely(Intent(Intent.ACTION_VIEW, SIGN_UP_URI))
+            startActivitySafe(Intent(Intent.ACTION_VIEW, SIGN_UP_URI))
         }
         viewModel.sendResultAndFinishEvent.observe(this) { result ->
             args.response?.onResult(result.extras)

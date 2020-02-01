@@ -49,59 +49,6 @@ fun setViewVisibleOrInvisibleAnimated(view: View, visible: Boolean) {
     GlobalScope.launch(Dispatchers.Main.immediate) { view.fadeToVisibility(visible) }
 }
 
-private val textViewInitialInputTypes = WeakHashMap<TextView, Int>()
-
-@BindingAdapter("android:editable")
-fun setTextViewEditable(textView: TextView, editable: Boolean) {
-    val initialInputType = textViewInitialInputTypes.getOrPut(textView) { textView.inputType }
-    if (editable) {
-        textView.inputType = initialInputType
-    } else {
-        textView.keyListener = null
-    }
-}
-
-@BindingAdapter("textOrGone")
-fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
-    textView.text = text
-    textView.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
-}
-
-@BindingAdapter("textOrInvisible")
-fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
-    textView.text = text
-    textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
-}
-
-@BindingAdapter(value = [
-    "textFormat", "textArg1", "textArg2", "textArg3", "textArg4", "textArg5", "textArg6",
-    "textArg7", "textArg8", "textArg9", "textArg10"
-], requireAll = false)
-fun setTextViewTextResourceAndArgs(
-    view: TextView,
-    textFormat: String?,
-    textArg1: Any?,
-    textArg2: Any?,
-    textArg3: Any?,
-    textArg4: Any?,
-    textArg5: Any?,
-    textArg6: Any?,
-    textArg7: Any?,
-    textArg8: Any?,
-    textArg9: Any?,
-    textArg10: Any?
-) {
-    view.text = textFormat?.format(
-        textArg1, textArg2, textArg3, textArg4, textArg5, textArg6, textArg7, textArg8, textArg9,
-        textArg10
-    )
-}
-
-@BindingAdapter("status")
-fun setTimelineContentLayoutStatus(timelineContentLayout: TimelineContentLayout, status: Status) {
-    timelineContentLayout.bind(status)
-}
-
 @BindingAdapter("progressOffset")
 fun setSwipeRefreshLayoutProgressOffset(
     swipeRefreshLayout: MaterialSwipeRefreshLayout,
@@ -159,7 +106,67 @@ fun setSwipeRefreshLayoutOnRefreshListener(
     }
 }
 
+private val textViewInitialInputTypes = WeakHashMap<TextView, Int>()
+
+@BindingAdapter("android:editable")
+fun setTextViewEditable(textView: TextView, editable: Boolean) {
+    val initialInputType = textViewInitialInputTypes.getOrPut(textView) { textView.inputType }
+    if (editable) {
+        textView.inputType = initialInputType
+    } else {
+        textView.keyListener = null
+    }
+}
+
+@BindingAdapter("spanClickable")
+fun setTextViewSpanClickable(textView: TextView, spanClickable: Boolean) {
+    if (spanClickable) {
+        textView.setSpanClickable()
+    }
+}
+
+@BindingAdapter("textOrGone")
+fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
+    textView.text = text
+    textView.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
+}
+
+@BindingAdapter("textOrInvisible")
+fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
+    textView.text = text
+    textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
+}
+
+@BindingAdapter(value = [
+    "textFormat", "textArg1", "textArg2", "textArg3", "textArg4", "textArg5", "textArg6",
+    "textArg7", "textArg8", "textArg9", "textArg10"
+], requireAll = false)
+fun setTextViewTextFormatAndArgs(
+    view: TextView,
+    textFormat: String?,
+    textArg1: Any?,
+    textArg2: Any?,
+    textArg3: Any?,
+    textArg4: Any?,
+    textArg5: Any?,
+    textArg6: Any?,
+    textArg7: Any?,
+    textArg8: Any?,
+    textArg9: Any?,
+    textArg10: Any?
+) {
+    view.text = textFormat?.format(
+        textArg1, textArg2, textArg3, textArg4, textArg5, textArg6, textArg7, textArg8, textArg9,
+        textArg10
+    )
+}
+
 @BindingAdapter("time")
 fun setTimeTextViewTime(timeTextView: TimeTextView, time: ZonedDateTime?) {
     timeTextView.time = time
+}
+
+@BindingAdapter("status")
+fun setTimelineContentLayoutStatus(timelineContentLayout: TimelineContentLayout, status: Status) {
+    timelineContentLayout.bind(status)
 }

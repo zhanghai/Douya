@@ -5,8 +5,13 @@
 
 package me.zhanghai.android.douya.util
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
 import android.content.res.Resources
+import android.os.Bundle
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -23,6 +28,19 @@ import androidx.annotation.StyleRes
 import androidx.annotation.StyleableRes
 import androidx.appcompat.widget.TintTypedArray
 import androidx.core.content.res.ResourcesCompat
+import me.zhanghai.android.douya.R
+
+val Context.activity: Activity?
+    get() {
+        var context = this
+        while (true) {
+            when (context) {
+                is Activity -> return context
+                is ContextWrapper -> context = context.baseContext
+                else -> return null
+            }
+        }
+    }
 
 fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
 
@@ -112,3 +130,11 @@ fun Context.showToast(textRes: Int, duration: Int = Toast.LENGTH_SHORT) =
 
 fun Context.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, text, duration).show()
+
+fun Context.startActivitySafe(intent: Intent, options: Bundle? = null) {
+    try {
+        startActivity(intent, options)
+    } catch (e: ActivityNotFoundException) {
+        showToast(R.string.activity_not_found)
+    }
+}
