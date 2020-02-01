@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.status
+package me.zhanghai.android.douya.timeline
 
 import android.content.Context
 import android.util.AttributeSet

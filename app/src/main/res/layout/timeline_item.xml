@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/list_card_corner_radius">
 
-            <me.zhanghai.android.douya.status.TimelineContentLayout
+            <me.zhanghai.android.douya.timeline.TimelineContentLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:status="@{timelineItem.content.status}" />

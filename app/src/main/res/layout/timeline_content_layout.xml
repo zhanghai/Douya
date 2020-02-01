@@ -12,7 +12,7 @@
 
     <data>
         <import type="android.view.Gravity" />
-        <variable name="viewModel" type="me.zhanghai.android.douya.status.TimelineContentLayout.ViewModel" />
+        <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineContentLayout.ViewModel" />
     </data>
 
     <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">

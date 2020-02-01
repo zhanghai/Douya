@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.api.info.Status
-import me.zhanghai.android.douya.status.TimelineContentLayout
+import me.zhanghai.android.douya.timeline.TimelineContentLayout
 import me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
 import me.zhanghai.android.douya.ui.TimeTextView
 import org.threeten.bp.ZonedDateTime
