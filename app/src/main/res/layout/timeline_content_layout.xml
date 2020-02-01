@@ -11,14 +11,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="me.zhanghai.android.douya.status.StatusLayout.ViewModel" />
+        <variable name="viewModel" type="me.zhanghai.android.douya.status.TimelineContentLayout.ViewModel" />
     </data>
 
-    <merge>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
         <ImageView
             android:id="@+id/avatarImage"
@@ -45,7 +41,7 @@
             android:textStyle="bold"
             tools:text="梦断代码" />
 
-        <TextView
+        <me.zhanghai.android.douya.ui.TimeTextView
             android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,9 +50,9 @@
             app:layout_constraintBottom_toBottomOf="@id/avatarImage"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{viewModel.time}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:textColorSecondary"
+            app:time="@{viewModel.time}"
             tools:text="刚刚" />
 
         <TextView
@@ -85,7 +81,7 @@
             tools:text="说" />
 
         <TextView
-            android:id="@+id/textText"
+            android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -95,9 +91,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarImage"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            app:textOrGone="@{viewModel.title}"
+            tools:text="Hello, World!" />
+
+        <TextView
+            android:id="@+id/textText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText"
+            app:layout_goneMarginTop="16dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:textOrGone="@{viewModel.text}"
             tools:text="你好，世界！" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </merge>
 </layout>

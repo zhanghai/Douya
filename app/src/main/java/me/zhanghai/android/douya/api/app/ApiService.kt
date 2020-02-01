@@ -11,10 +11,12 @@ import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.AuthenticationResponse
 import me.zhanghai.android.douya.api.info.ErrorResponse
 import me.zhanghai.android.douya.api.info.Timeline
+import me.zhanghai.android.douya.network.DoubanZonedDateTimeAdapter
 import me.zhanghai.android.douya.network.EmptyObjectToNullJsonAdapter
 import me.zhanghai.android.douya.network.NullToEmptyStringOrCollectionJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
+import org.threeten.bp.ZonedDateTime
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -29,6 +31,7 @@ object ApiService {
         Moshi.Builder()
             .add(NullToEmptyStringOrCollectionJsonAdapterFactory)
             .add(EmptyObjectToNullJsonAdapter.Factory)
+            .add(ZonedDateTime::class.java, DoubanZonedDateTimeAdapter)
             .build()
     )
         .withNullSerialization()

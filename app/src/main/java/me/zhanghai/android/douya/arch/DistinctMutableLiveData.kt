@@ -5,10 +5,7 @@
 
 package me.zhanghai.android.douya.arch
 
-class DistinctMutableLiveData<T> : MutableLiveData<T> {
-    constructor() : super()
-
-    constructor(value: T) : super(value)
+class DistinctMutableLiveData<T>(value: T) : MutableLiveData<T>(value) {
 
     override fun setValue(value: T) {
         if (getValue() != value) {

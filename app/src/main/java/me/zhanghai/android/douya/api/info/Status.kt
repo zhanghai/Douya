@@ -7,6 +7,7 @@ package me.zhanghai.android.douya.api.info
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import org.threeten.bp.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
 data class Status(
@@ -15,7 +16,7 @@ data class Status(
     //val adInfo: StatusAdInfo? = null,
     @Json(name = "allow_comment")
     val allowComment: Boolean = false,
-    val author: UserAbstract,
+    val author: UserAbstract? = null,
     @Json(name = "can_transfer_accessible")
     val canTransferAccessible: Boolean = false,
     @Json(name = "can_transfer_reply_limit")
@@ -28,7 +29,7 @@ data class Status(
     @Json(name = "comments_count")
     val commentsCount: Int = 0,
     @Json(name = "create_time")
-    val createTime: String = "",
+    val createTime: ZonedDateTime? = null,
     val deleted: Boolean = false,
     val entities: List<CommentAtEntity> = emptyList(),
     @Json(name = "forbid_reshare_and_comment")

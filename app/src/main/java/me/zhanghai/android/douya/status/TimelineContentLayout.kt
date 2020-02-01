@@ -15,12 +15,13 @@ import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
-import me.zhanghai.android.douya.databinding.StatusLayoutBinding
+import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
 import me.zhanghai.android.douya.util.layoutInflater
+import org.threeten.bp.ZonedDateTime
 
-class StatusLayout : ConstraintLayout {
+class TimelineContentLayout : ConstraintLayout {
 
-    private val binding = StatusLayoutBinding.inflate(context.layoutInflater, this, true)
+    private val binding = TimelineContentLayoutBinding.inflate(context.layoutInflater, this, true)
 
     val viewModel = ViewModel()
 
@@ -57,26 +58,34 @@ class StatusLayout : ConstraintLayout {
 
     class ViewModel {
 
-        private val _avatar = DistinctMutableLiveData<String>()
+        private val _avatar = DistinctMutableLiveData("")
         val avatar: LiveData<String> = _avatar
 
-        private val _author = DistinctMutableLiveData<String>()
+        private val _author = DistinctMutableLiveData("")
         val author: LiveData<String> = _author
 
-        private val _time = DistinctMutableLiveData<String>()
-        val time: LiveData<String> = _time
+        private val _time = DistinctMutableLiveData<ZonedDateTime?>(null)
+        val time: LiveData<ZonedDateTime?> = _time
 
-        private val _activity = DistinctMutableLiveData<String>()
+        private val _activity = DistinctMutableLiveData("")
         val activity: LiveData<String> = _activity
 
-        private val _text = DistinctMutableLiveData<String>()
+        private val _title = DistinctMutableLiveData("")
+        val title: LiveData<String> = _title
+
+        private val _text = DistinctMutableLiveData("")
         val text: LiveData<String> = _text
 
         fun bind(status: Status) {
-            _avatar.value = status.author.avatar
+            if (status.deleted) {
+                // TODO
+                return
+            }
+            _avatar.value = status.author!!.avatar
             _author.value = status.author.name
             _activity.value = status.activity
             _time.value = status.createTime
+            _title.value = ""
             _text.value = status.text
         }
     }

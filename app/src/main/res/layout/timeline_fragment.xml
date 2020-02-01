@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.zhanghai.android.douya.util.MaterialSwipeRefreshLayout
+        <me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:progressOffsetSizeAttr="@{R.attr.actionBarSize}"
@@ -41,7 +41,7 @@
                 app:paddingRightSystemWindowInsets="@{true}"
                 app:paddingTopSystemWindowInsets="@{true}"
                 app:paddingBottomSystemWindowInsets="@{true}" />
-        </me.zhanghai.android.douya.util.MaterialSwipeRefreshLayout>
+        </me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout>
 
         <TextView
             android:layout_width="wrap_content"

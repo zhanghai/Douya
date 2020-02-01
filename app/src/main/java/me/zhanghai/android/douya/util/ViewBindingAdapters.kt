@@ -18,7 +18,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.api.info.Status
-import me.zhanghai.android.douya.status.StatusLayout
+import me.zhanghai.android.douya.status.TimelineContentLayout
+import me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
+import me.zhanghai.android.douya.ui.TimeTextView
+import org.threeten.bp.ZonedDateTime
 import java.util.WeakHashMap
 
 @BindingAdapter("visibleOrGone")
@@ -66,8 +69,8 @@ fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
 }
 
 @BindingAdapter("status")
-fun setStatusLayoutStatus(statusLayout: StatusLayout, status: Status) {
-    statusLayout.bind(status)
+fun setTimelineContentLayoutStatus(timelineContentLayout: TimelineContentLayout, status: Status) {
+    timelineContentLayout.bind(status)
 }
 
 @BindingAdapter("progressOffset")
@@ -125,4 +128,9 @@ fun setSwipeRefreshLayoutOnRefreshListener(
         listener?.onRefresh()
         refreshingAttrChanged?.onChange()
     }
+}
+
+@BindingAdapter("time")
+fun setTimeTextViewTime(timeTextView: TimeTextView, time: ZonedDateTime?) {
+    timeTextView.time = time
 }

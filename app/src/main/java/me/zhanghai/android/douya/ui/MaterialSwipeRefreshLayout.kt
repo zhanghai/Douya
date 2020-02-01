@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.util
+package me.zhanghai.android.douya.ui
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,6 +11,9 @@ import androidx.annotation.Dimension
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.elevation.ElevationOverlayProvider
 import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.util.dpToDimension
+import me.zhanghai.android.douya.util.dpToDimensionPixelOffset
+import me.zhanghai.android.douya.util.getColorByAttr
 
 class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
     companion object {
@@ -34,7 +37,9 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
             field = value
             val start = value - progressCircleDiameter
             setProgressViewOffset(
-                false, start, start + context.dpToDimensionPixelOffset(PROGRESS_END_DP)
+                false, start, start + context.dpToDimensionPixelOffset(
+                PROGRESS_END_DP
+            )
             )
         }
 
@@ -42,7 +47,9 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
         setColorSchemeColors(context.getColorByAttr(R.attr.colorSecondary))
         setProgressBackgroundColorSchemeColor(
             ElevationOverlayProvider(context).compositeOverlayWithThemeSurfaceColorIfNeeded(
-                context.dpToDimension(ELEVATION_DP)
+                context.dpToDimension(
+                    ELEVATION_DP
+                )
             )
         )
     }

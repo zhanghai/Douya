@@ -11,6 +11,18 @@
 
     <string name="cancel">@android:string/cancel</string>
 
+    <string name="just_now">刚刚</string>
+    <string name="minute_format">%1$d分钟前</string>
+    <string name="hour_format">%1$d小时前</string>
+    <string name="today_hour_minute_pattern">今天 HH:mm</string>
+    <string name="yesterday_hour_minute_pattern">昨天 HH:mm</string>
+    <string name="month_day_hour_minute_pattern">M月d日 HH:mm</string>
+    <string name="date_hour_minute_pattern">y年M月d日 HH:mm</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="month_day_pattern">M月d日</string>
+    <string name="date_pattern">y年M月d日</string>
+
     <string name="activity_not_found">未找到可处理此操作的应用</string>
 
     <string name="api_error_parse">解析错误</string>
