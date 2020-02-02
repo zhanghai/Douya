@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.util
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.Dimension
@@ -13,10 +14,14 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import coil.api.clear
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.timeline.TimelineContentLayout
 import me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
@@ -47,6 +52,27 @@ fun setViewVisibleOrGoneAnimated(view: View, visible: Boolean) {
 @BindingAdapter("visibleOrInvisibleAnimated")
 fun setViewVisibleOrInvisibleAnimated(view: View, visible: Boolean) {
     GlobalScope.launch(Dispatchers.Main.immediate) { view.fadeToVisibility(visible) }
+}
+
+@BindingAdapter("src")
+fun setImageViewSrc(imageView: ImageView, src: String?) {
+    if (src != null) {
+        imageView.load(src)
+    } else {
+        imageView.clear()
+    }
+}
+
+@BindingAdapter("srcAvatar")
+fun setImageViewSrcAvatar(imageView: ImageView, srcAvatar: String?) {
+    if (srcAvatar != null) {
+        imageView.load(srcAvatar) {
+            placeholder(R.drawable.avatar_placeholder)
+            transformations(CircleCropTransformation())
+        }
+    } else {
+        imageView.clear()
+    }
 }
 
 @BindingAdapter("progressOffset")

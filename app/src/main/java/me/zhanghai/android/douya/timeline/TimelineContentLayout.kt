@@ -16,6 +16,7 @@ import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
+import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.link.withEntities
 import me.zhanghai.android.douya.util.layoutInflater
 import org.threeten.bp.ZonedDateTime
@@ -29,13 +30,6 @@ class TimelineContentLayout : ConstraintLayout {
     init {
         binding.lifecycleOwner = ResumedLifecycleOwner()
         binding.viewModel = viewModel
-
-        viewModel.avatar.observeForever {
-            binding.avatarImage.load(it) {
-                placeholder(R.drawable.avatar_placeholder)
-                transformations(CircleCropTransformation())
-            }
-        }
     }
 
     constructor(context: Context) : super(context)
@@ -59,7 +53,7 @@ class TimelineContentLayout : ConstraintLayout {
         viewModel.bind(status)
     }
 
-    class ViewModel {
+    inner class ViewModel {
 
         private val _avatar = DistinctMutableLiveData("")
         val avatar: LiveData<String> = _avatar
@@ -112,6 +106,8 @@ class TimelineContentLayout : ConstraintLayout {
         private val _cardText = DistinctMutableLiveData<CharSequence>("")
         val cardText: LiveData<CharSequence> = _cardText
 
+        var cardUri = ""
+
         private val _imageCount = DistinctMutableLiveData(0)
         val imageCount: LiveData<Int> = _imageCount
 
@@ -132,13 +128,13 @@ class TimelineContentLayout : ConstraintLayout {
             val contentStatus = status.resharedStatus ?: status
             val card = contentStatus.card
             _hasCard.value = card != null
-            // TODO
             _cardOwner.value = card?.ownerName ?: ""
             _cardActivity.value = card?.activity ?: ""
-            _cardImage.value = card?.image?.toString() ?: ""
+            _cardImage.value = card?.image?.normal?.url ?: ""
             _cardTitle.value = card?.title ?: ""
             _cardText.value = card?.subTitle?.withEntities(card.entities)?.ifEmpty { null }
                 ?: card?.url ?: ""
+            cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: ""
             val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
                 ?: contentStatus.images
             _imageCount.value = images.size
@@ -153,7 +149,9 @@ class TimelineContentLayout : ConstraintLayout {
         }
 
         fun openCard() {
-            // TODO
+            if (cardUri.isNotEmpty()) {
+                UriHandler.open(cardUri, context)
+            }
         }
     }
 }
