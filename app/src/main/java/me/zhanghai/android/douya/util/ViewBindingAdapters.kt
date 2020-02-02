@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
-import androidx.annotation.Dimension
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -18,18 +17,10 @@ import coil.api.clear
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.SizedImage
-import me.zhanghai.android.douya.api.info.Status
-import me.zhanghai.android.douya.timeline.TimelineContentLayout
 import me.zhanghai.android.douya.ui.ImageLayout
 import me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
-import me.zhanghai.android.douya.ui.RatioImageView
-import me.zhanghai.android.douya.ui.TimeTextView
-import org.threeten.bp.ZonedDateTime
 import java.util.WeakHashMap
 
 @BindingAdapter("backgroundScrim")
@@ -83,27 +74,14 @@ fun setImageViewSrcAvatar(imageView: ImageView, srcAvatar: String?) {
     }
 }
 
-@BindingAdapter("ratio")
-fun setRatioImageViewRatio(ratioImageView: RatioImageView, ratio: Float) {
-    ratioImageView.ratio = ratio
-}
-
-@BindingAdapter("progressOffset")
-fun setSwipeRefreshLayoutProgressOffset(
-    swipeRefreshLayout: MaterialSwipeRefreshLayout,
-    @Dimension progressOffset: Int
-) {
-    swipeRefreshLayout.progressOffset = progressOffset
-}
-
 @BindingAdapter("progressOffsetSizeAttr")
 fun setSwipeRefreshLayoutProgressOffsetSizeAttr(
     swipeRefreshLayout: MaterialSwipeRefreshLayout,
     @AttrRes progressOffsetSizeAttr: Int
-) = setSwipeRefreshLayoutProgressOffset(
-    swipeRefreshLayout,
-    swipeRefreshLayout.context.getDimensionPixelSizeByAttr(progressOffsetSizeAttr)
-)
+) {
+    swipeRefreshLayout.progressOffset =
+        swipeRefreshLayout.context.getDimensionPixelSizeByAttr(progressOffsetSizeAttr)
+}
 
 private val swipeRefreshLayoutInitialProgressOffset = WeakHashMap<MaterialSwipeRefreshLayout, Int>()
 
@@ -122,11 +100,6 @@ fun setSwipeRefreshLayoutProgressOffsetSystemWindowInsets(
             initialProgressOffset
         }
     }
-}
-
-@BindingAdapter("refreshing")
-fun setSwipeRefreshLayoutRefreshing(swipeRefreshLayout: SwipeRefreshLayout, refreshing: Boolean) {
-    swipeRefreshLayout.isRefreshing = refreshing
 }
 
 @InverseBindingAdapter(attribute = "refreshing", event = "refreshingAttrChanged")
@@ -162,9 +135,4 @@ fun setTextViewSpanClickable(textView: TextView, spanClickable: Boolean) {
     if (spanClickable) {
         textView.setSpanClickable()
     }
-}
-
-@BindingAdapter("time")
-fun setTimeTextViewTime(timeTextView: TimeTextView, time: ZonedDateTime?) {
-    timeTextView.time = time
 }
