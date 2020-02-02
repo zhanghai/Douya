@@ -247,7 +247,7 @@
             android:id="@+id/cardGroup"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:constraint_referenced_ids="cardDividerView,cardBackgroundView,cardImage,cardTitleText,cardEndBarrier,cardEndSpace"
+            app:constraint_referenced_ids="cardDividerView,cardBackgroundView,cardTitleText,cardEndBarrier,cardEndSpace"
             app:visibleOrGone="@{viewModel.hasCard}" />
 
         <View
@@ -321,10 +321,9 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardOwnerText"
-            app:layout_goneMarginTop="16dp"
             android:scaleType="centerCrop"
             app:src="@{viewModel.cardImage}"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardImage)}"
@@ -339,6 +338,7 @@
             app:layout_constraintStart_toEndOf="@id/cardImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/cardImage"
+            app:layout_goneMarginTop="16dp"
             android:text="@{viewModel.cardTitle}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             tools:text="版本 v2.0.0-alpha.1" />
