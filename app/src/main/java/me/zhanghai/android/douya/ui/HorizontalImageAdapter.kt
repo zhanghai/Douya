@@ -40,7 +40,6 @@ class HorizontalImageAdapter
     class ViewHolder(
         private val binding: HorizontalImageItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(image: SizedImage) {
             binding.imageLayout.bind(image)
         }

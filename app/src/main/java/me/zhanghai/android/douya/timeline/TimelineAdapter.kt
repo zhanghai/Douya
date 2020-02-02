@@ -48,20 +48,8 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(timelineItem: TimelineItem) {
             // TODO
-            var timelineItem = timelineItem
-            if (timelineItem.content?.status == null) {
-                timelineItem = TimelineItem(
-                    content = CommonContent(
-                        status = Status(
-                            author = UserAbstract()
-                        )
-                    )
-                )
-            }
-            binding.run {
-                this.timelineItem = timelineItem
-                executePendingBindings()
-            }
+            val status = timelineItem.content?.status ?: Status(author = UserAbstract())
+            binding.timelineContentLayout.bind(status)
         }
     }
 }

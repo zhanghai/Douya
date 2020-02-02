@@ -168,8 +168,3 @@ fun setTextViewSpanClickable(textView: TextView, spanClickable: Boolean) {
 fun setTimeTextViewTime(timeTextView: TimeTextView, time: ZonedDateTime?) {
     timeTextView.time = time
 }
-
-@BindingAdapter("status")
-fun setTimelineContentLayoutStatus(timelineContentLayout: TimelineContentLayout, status: Status) {
-    timelineContentLayout.bind(status)
-}
