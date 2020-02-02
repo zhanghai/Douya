@@ -124,7 +124,7 @@
             android:id="@+id/resharedGroup"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText,resharedEndBarrier,resharedEndSpace"
+            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText,resharedDeletedTextBarrier,resharedEndSpace"
             app:visibleOrGone="@{viewModel.hasReshared}" />
 
         <View
@@ -228,7 +228,7 @@
             tools:text="Hello, World!" />
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/resharedEndBarrier"
+            android:id="@+id/resharedDeletedTextBarrier"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:barrierDirection="bottom"
@@ -241,13 +241,13 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedEndBarrier" />
+            app:layout_constraintTop_toBottomOf="@id/resharedDeletedTextBarrier" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/cardGroup"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:constraint_referenced_ids="cardDividerView,cardBackgroundView,cardTitleText,cardEndBarrier,cardEndSpace"
+            app:constraint_referenced_ids="cardDividerView,cardBackgroundView,cardTitleText,cardImageTextBarrier,cardEndSpace"
             app:visibleOrGone="@{viewModel.hasCard}" />
 
         <View
@@ -358,7 +358,7 @@
             tools:text="使用 Jetpack 和 Kotlin 构建" />
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/cardEndBarrier"
+            android:id="@+id/cardImageTextBarrier"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:barrierDirection="bottom"
@@ -371,7 +371,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardEndBarrier" />
+            app:layout_constraintTop_toBottomOf="@id/cardImageTextBarrier" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/imageRecyclerGroup"
