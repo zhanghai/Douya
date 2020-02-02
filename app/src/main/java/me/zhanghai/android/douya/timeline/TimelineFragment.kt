@@ -12,8 +12,13 @@ import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
+<<<<<<< Updated upstream
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+=======
+import androidx.recyclerview.widget.InitialPrefetchStaggeredGridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+>>>>>>> Stashed changes
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.arch.observe
 import me.zhanghai.android.douya.arch.viewModels
@@ -52,7 +57,10 @@ class TimelineFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.timelineRecycler.run {
-            layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
+            layoutManager = InitialPrefetchStaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
+                .apply {
+                    initialPrefetchItemCount = 3
+                }
             itemAnimator = DefaultItemAnimator().apply { supportsChangeAnimations = false }
             adapter = MergeAdapter(timelineAdapter, moreItemAdapter)
             addOnScrollListener(object : OnVerticalScrollWithPagingTouchSlopListener(context) {
