@@ -125,30 +125,6 @@ fun setTextViewSpanClickable(textView: TextView, spanClickable: Boolean) {
     }
 }
 
-@BindingAdapter(value = [
-    "textFormat", "textArg1", "textArg2", "textArg3", "textArg4", "textArg5", "textArg6",
-    "textArg7", "textArg8", "textArg9", "textArg10"
-], requireAll = false)
-fun setTextViewTextFormatAndArgs(
-    view: TextView,
-    textFormat: String?,
-    textArg1: Any?,
-    textArg2: Any?,
-    textArg3: Any?,
-    textArg4: Any?,
-    textArg5: Any?,
-    textArg6: Any?,
-    textArg7: Any?,
-    textArg8: Any?,
-    textArg9: Any?,
-    textArg10: Any?
-) {
-    view.text = textFormat?.format(
-        textArg1, textArg2, textArg3, textArg4, textArg5, textArg6, textArg7, textArg8, textArg9,
-        textArg10
-    )
-}
-
 @BindingAdapter("time")
 fun setTimeTextViewTime(timeTextView: TimeTextView, time: ZonedDateTime?) {
     timeTextView.time = time

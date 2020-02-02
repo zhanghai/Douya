@@ -413,10 +413,9 @@
             app:layout_constraintBottom_toBottomOf="@id/imageRecyclerDescriptionScrim"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="@{String.format(@string/timeline_content_image_count_format, viewModel.imageCount)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:theme="@style/ThemeOverlay.Douya.Dark"
-            app:textFormat="@{@string/timeline_content_image_count_format}"
-            app:textArg1="@{viewModel.imageCount}"
             tools:text="9 张图片" />
     </merge>
 </layout>
