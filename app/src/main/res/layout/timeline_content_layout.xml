@@ -386,13 +386,6 @@
             app:src="@{viewModel.image}"
             app:visibleOrGone="@{viewModel.image != null}" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/imageRecyclerGroup"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="imageRecycler,imageRecyclerDescriptionScrim,imageRecyclerDescription"
-            app:visibleOrGone="@{viewModel.imageCount > 1}" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imageRecycler"
             android:layout_width="0dp"
@@ -400,13 +393,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageLayout"
-            app:layout_constraintDimensionRatio="6:5" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/imageRecyclerDescriptionGroup"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="imageRecyclerDescriptionScrim,imageRecyclerDescription"
+            app:layout_constraintDimensionRatio="6:5"
             app:visibleOrGone="@{viewModel.imageCount > 1}" />
 
         <View
@@ -417,10 +404,11 @@
             app:layout_constraintEnd_toEndOf="@id/imageRecycler"
             app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
             app:backgroundScrim="@{Gravity.BOTTOM}"
+            app:visibleOrGone="@{viewModel.imageCount > 1}"
             tools:background="#66000000" />
 
         <TextView
-            android:id="@+id/imageRecyclerDescription"
+            android:id="@+id/imageRecyclerDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -432,6 +420,7 @@
             android:text="@{String.format(@string/timeline_content_image_count_format, viewModel.imageCount)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:theme="@style/ThemeOverlay.Douya.Dark"
+            app:visibleOrGone="@{viewModel.imageCount > 1}"
             tools:text="9 张图片" />
     </merge>
 </layout>

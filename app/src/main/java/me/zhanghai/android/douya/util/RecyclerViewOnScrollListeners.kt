@@ -9,6 +9,28 @@ import android.content.Context
 import android.view.ViewConfiguration
 import androidx.recyclerview.widget.RecyclerView
 
+abstract class OnHorizontalScrollListener : RecyclerView.OnScrollListener() {
+    final override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        if (!recyclerView.canScrollHorizontally(-1)) {
+            onScrolledToLeft()
+        } else if (!recyclerView.canScrollHorizontally(1)) {
+            onScrolledToRight()
+        } else if (dx < 0) {
+            onScrolledLeft()
+        } else if (dx > 0) {
+            onScrolledRight()
+        }
+    }
+
+    open fun onScrolledLeft() {}
+
+    open fun onScrolledRight() {}
+
+    open fun onScrolledToLeft() {}
+
+    open fun onScrolledToRight() {}
+}
+
 abstract class OnVerticalScrollListener : RecyclerView.OnScrollListener() {
     final override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         if (!recyclerView.canScrollVertically(-1)) {

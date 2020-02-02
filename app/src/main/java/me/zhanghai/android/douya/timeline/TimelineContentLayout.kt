@@ -9,6 +9,8 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.util.normalOrClosest
@@ -18,14 +20,25 @@ import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
 import me.zhanghai.android.douya.link.UriHandler
+import me.zhanghai.android.douya.ui.HorizontalImageAdapter
+import me.zhanghai.android.douya.util.GutterItemDecoration
+import me.zhanghai.android.douya.util.OnHorizontalScrollListener
+import me.zhanghai.android.douya.util.dpToDimensionPixelSize
+import me.zhanghai.android.douya.util.fadeInUnsafe
+import me.zhanghai.android.douya.util.fadeOutUnsafe
 import me.zhanghai.android.douya.util.layoutInflater
 import org.threeten.bp.ZonedDateTime
 
 class TimelineContentLayout : ConstraintLayout {
+    companion object {
+        private const val IMAGE_RECYCLER_GUTTER_SIZE_DP = 2
+    }
 
     private val binding = TimelineContentLayoutBinding.inflate(context.layoutInflater, this, true)
 
     val viewModel = ViewModel()
+
+    private val imageAdapter = HorizontalImageAdapter()
 
     constructor(context: Context) : super(context)
 
@@ -47,6 +60,31 @@ class TimelineContentLayout : ConstraintLayout {
     init {
         binding.lifecycleOwner = ResumedLifecycleOwner()
         binding.viewModel = viewModel
+        binding.imageRecycler.apply {
+            layoutManager = LinearLayoutManager(null, RecyclerView.HORIZONTAL, false)
+            val gutterSize = context.dpToDimensionPixelSize(IMAGE_RECYCLER_GUTTER_SIZE_DP)
+            addItemDecoration(GutterItemDecoration(gutterSize))
+            adapter = imageAdapter
+            addOnScrollListener(object : OnHorizontalScrollListener() {
+                private var scrollingLeft = true
+                override fun onScrolledLeft() {
+                    if (imageAdapter.itemCount == 0 || scrollingLeft) {
+                        return
+                    }
+                    scrollingLeft = true
+                    binding.imageRecyclerDescriptionScrim.fadeInUnsafe()
+                    binding.imageRecyclerDescriptionText.fadeInUnsafe()
+                }
+                override fun onScrolledRight() {
+                    if (imageAdapter.itemCount == 0 || !scrollingLeft) {
+                        return
+                    }
+                    scrollingLeft = false
+                    binding.imageRecyclerDescriptionScrim.fadeOutUnsafe()
+                    binding.imageRecyclerDescriptionText.fadeOutUnsafe()
+                }
+            })
+        }
     }
 
     fun bind(status: Status) = viewModel.bind(status)
@@ -137,6 +175,7 @@ class TimelineContentLayout : ConstraintLayout {
             cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: ""
             _image.value = if (images.size == 1) images.first() else null
             _imageCount.value = images.size
+            imageAdapter.submitList(if (images.size > 1) images else emptyList())
         }
 
         fun open() {

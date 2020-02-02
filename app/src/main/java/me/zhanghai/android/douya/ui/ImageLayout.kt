@@ -49,7 +49,7 @@ class ImageLayout : FrameLayout {
         super.onAttachedToWindow()
 
         val layoutParams = layoutParams
-        binding.image.updateLayoutParams {
+        binding.imageImage.updateLayoutParams {
             width = layoutParams.width
             height = layoutParams.height
         }

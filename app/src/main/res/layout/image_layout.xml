@@ -19,16 +19,15 @@
 
         <!-- LayoutParams will be set the same as parent after inflation. -->
         <me.zhanghai.android.douya.ui.RatioImageView
-            android:id="@+id/image"
-            android:layout_width="0dp"
+            android:id="@+id/imageImage"
+            android:layout_width="match_parent"
             android:minWidth="@dimen/image_min_width"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:maxHeight="@dimen/image_max_height"
             app:ratio="@{viewModel.ratio}"
             app:src="@{viewModel.image}" />
 
         <ImageView
-            android:id="@+id/gifImage"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_margin="16dp"

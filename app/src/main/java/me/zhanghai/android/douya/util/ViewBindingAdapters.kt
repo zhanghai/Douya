@@ -49,12 +49,12 @@ fun setViewVisibleOrInvisible(view: View, visible: Boolean) {
 
 @BindingAdapter("visibleOrGoneAnimated")
 fun setViewVisibleOrGoneAnimated(view: View, visible: Boolean) {
-    GlobalScope.launch(Dispatchers.Main.immediate) { view.fadeToVisibility(visible, gone = true) }
+    view.fadeToVisibilityUnsafe(visible, gone = true)
 }
 
 @BindingAdapter("visibleOrInvisibleAnimated")
 fun setViewVisibleOrInvisibleAnimated(view: View, visible: Boolean) {
-    GlobalScope.launch(Dispatchers.Main.immediate) { view.fadeToVisibility(visible) }
+    view.fadeToVisibilityUnsafe(visible)
 }
 
 @BindingAdapter("src")

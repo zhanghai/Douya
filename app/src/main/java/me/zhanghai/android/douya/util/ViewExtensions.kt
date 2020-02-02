@@ -6,6 +6,9 @@
 package me.zhanghai.android.douya.util
 
 import android.view.View
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 var View.layoutInStatusBar: Boolean
     get() = systemUiVisibility.hasBits(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
@@ -54,6 +57,12 @@ suspend fun View.fadeIn(force: Boolean = false) {
     }
 }
 
+fun View.fadeInUnsafe(force: Boolean = false) {
+    GlobalScope.launch(Dispatchers.Main.immediate) {
+        fadeIn(force)
+    }
+}
+
 suspend fun View.fadeOut(force: Boolean = false, gone: Boolean = false) {
     animate().run {
         alpha(0f)
@@ -69,10 +78,22 @@ suspend fun View.fadeOut(force: Boolean = false, gone: Boolean = false) {
     setVisible(false, gone)
 }
 
+fun View.fadeOutUnsafe(force: Boolean = false, gone: Boolean = false) {
+    GlobalScope.launch(Dispatchers.Main.immediate) {
+        fadeOut(force, gone)
+    }
+}
+
 suspend fun View.fadeToVisibility(visible: Boolean, force: Boolean = false, gone: Boolean = false) {
     if (visible) {
         fadeIn(force)
     } else {
         fadeOut(force, gone)
+    }
+}
+
+fun View.fadeToVisibilityUnsafe(visible: Boolean, force: Boolean = false, gone: Boolean = false) {
+    GlobalScope.launch(Dispatchers.Main.immediate) {
+        fadeToVisibility(force, gone)
     }
 }
