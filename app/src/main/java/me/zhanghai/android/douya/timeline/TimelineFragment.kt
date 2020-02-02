@@ -64,6 +64,11 @@ class TimelineFragment : Fragment() {
             diffResult.dispatchUpdatesTo(timelineAdapter)
             moreItemAdapter.available = timeline.isNotEmpty()
         }
+        viewModel.refreshing.observe(viewLifecycleOwner) {
+            if (!it) {
+                binding.timelineRecycler.smoothScrollToPosition(0)
+            }
+        }
         viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
         viewModel.moreErrorEvent.observe(viewLifecycleOwner) { showToast(it) }
     }
