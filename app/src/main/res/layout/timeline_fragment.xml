@@ -10,6 +10,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.text.TextUtils" />
         <import type="me.zhanghai.android.douya.R" />
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineViewModel" />
     </data>
@@ -63,12 +64,13 @@
             android:layout_gravity="center"
             android:drawableTop="@drawable/cloud_off_icon_control_normal_200dp"
             android:gravity="center_horizontal"
+            android:text="@{viewModel.error}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_marginLeftSystemWindowInsets="@{true}"
             app:layout_marginRightSystemWindowInsets="@{true}"
             app:layout_marginTopSystemWindowInsets="@{true}"
             app:layout_marginBottomSystemWindowInsets="@{true}"
-            app:textOrGone="@{viewModel.error}" />
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.error)}" />
 
         <ProgressBar
             android:layout_width="wrap_content"

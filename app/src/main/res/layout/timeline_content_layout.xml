@@ -104,9 +104,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarImage"
+            android:text="@{viewModel.text}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:spanClickable="@{true}"
-            app:textOrGone="@{viewModel.text}"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.text)}"
             tools:text="你好，世界！" />
 
         <Space
@@ -219,9 +220,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedAuthorText"
+            android:text="@{viewModel.resharedText}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:spanClickable="@{true}"
-            app:textOrGone="@{viewModel.resharedText}"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedText)}"
             tools:text="Hello, World!" />
 
         <androidx.constraintlayout.widget.Barrier
@@ -346,9 +348,10 @@
             app:layout_constraintStart_toStartOf="@id/cardTitleText"
             app:layout_constraintEnd_toEndOf="@id/cardTitleText"
             app:layout_constraintTop_toBottomOf="@id/cardTitleText"
+            android:text="@{viewModel.cardText}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             app:spanClickable="@{true}"
-            app:textOrGone="@{viewModel.cardText}"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardText)}"
             tools:text="使用 Jetpack 和 Kotlin 构建" />
 
         <androidx.constraintlayout.widget.Barrier

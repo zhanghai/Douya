@@ -125,18 +125,6 @@ fun setTextViewSpanClickable(textView: TextView, spanClickable: Boolean) {
     }
 }
 
-@BindingAdapter("textOrGone")
-fun setTextViewTextOrGone(textView: TextView, text: CharSequence?) {
-    textView.text = text
-    textView.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
-}
-
-@BindingAdapter("textOrInvisible")
-fun setTextViewTextOrInvisible(textView: TextView, text: CharSequence?) {
-    textView.text = text
-    textView.visibility = if (text.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
-}
-
 @BindingAdapter(value = [
     "textFormat", "textArg1", "textArg2", "textArg3", "textArg4", "textArg5", "textArg6",
     "textArg7", "textArg8", "textArg9", "textArg10"
