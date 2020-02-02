@@ -8,14 +8,13 @@ package me.zhanghai.android.douya.api.info
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import me.zhanghai.android.douya.network.EmptyObjectToNull
+import org.threeten.bp.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
 data class TimelineItem(
     // BaseFeedableItem
     @Json(name = "abstract")
     override val abstractString: String = "",
-    @Json(name = "url")
-    override val alt: String = "",
     @Json(name = "cover_url")
     override val coverUrl: String = "",
     override val id: String = "",
@@ -24,6 +23,7 @@ data class TimelineItem(
     override val title: String = "",
     override val type: String = "",
     override val uri: String = "",
+    override val url: String = "",
 
     val action: String = "",
     //@Json(name = "ad_info")
@@ -34,7 +34,7 @@ data class TimelineItem(
     @EmptyObjectToNull
     val content: CommonContent? = null,
     @Json(name = "created_time")
-    val createTime: String = "",
+    val createTime: ZonedDateTime?,
     @Json(name = "fold_key")
     val foldKey: String = "",
     val layout: Int = 0,

@@ -13,8 +13,6 @@ data class Photo(
     // BaseFeedableItem
     @Json(name = "abstract")
     override val abstractString: String = "",
-    @Json(name = "url")
-    override val alt: String = "",
     @Json(name = "cover_url")
     override val coverUrl: String = "",
     override val id: String = "",
@@ -23,6 +21,7 @@ data class Photo(
     override val title: String = "",
     override val type: String = "",
     override val uri: String = "",
+    override val url: String = "",
 
     val author: UserAbstract? = null,
     @Json(name = "collections_count")

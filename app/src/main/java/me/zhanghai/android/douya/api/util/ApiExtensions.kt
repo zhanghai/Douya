@@ -10,13 +10,26 @@ import android.text.Spanned
 import android.util.Patterns
 import android.webkit.URLUtil
 import me.zhanghai.android.douya.api.info.CommentAtEntity
+import me.zhanghai.android.douya.api.info.IBaseFeedableItem
+import me.zhanghai.android.douya.api.info.IUserAbstract
 import me.zhanghai.android.douya.api.info.ImageItem
+import me.zhanghai.android.douya.api.info.Owner
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.info.StatusCard
+import me.zhanghai.android.douya.api.info.Tag
 import me.zhanghai.android.douya.link.UriSpan
 import me.zhanghai.android.douya.setting.Settings
 import timber.log.Timber
+
+val IBaseFeedableItem.uriOrUrl: String
+    get() = uri.ifEmpty { url }
+
+val IUserAbstract.uriOrUrl: String
+    get() = uri.ifEmpty { url }
+
+val Owner.uriOrUrl: String
+    get() = uri.ifEmpty { url }
 
 val SizedImage.smallOrClosest: ImageItem?
     get() = small ?: normal ?: large ?: raw
@@ -72,3 +85,9 @@ private fun String.withEntities(entities: List<CommentAtEntity>): CharSequence {
         }
     }
 }
+
+val StatusCard.uriOrUrl: String
+    get() = uri.ifEmpty { url }
+
+val Tag.uriOrUrl: String
+    get() = uri.ifEmpty { url }

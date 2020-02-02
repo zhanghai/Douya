@@ -7,11 +7,11 @@ package me.zhanghai.android.douya.api.info
 
 interface IBaseFeedableItem {
     val abstractString: String
-    val alt: String
     val coverUrl: String
     val id: String
     val sharingUrl: String
     val title: String
     val type: String
     val uri: String
+    val url: String
 }

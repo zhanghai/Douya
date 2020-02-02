@@ -13,8 +13,6 @@ data class CommonContent(
     // BaseFeedableItem
     @Json(name = "abstract")
     override val abstractString: String = "",
-    @Json(name = "url")
-    override val alt: String = "",
     @Json(name = "cover_url")
     override val coverUrl: String = "",
     override val id: String = "",
@@ -23,6 +21,7 @@ data class CommonContent(
     override val title: String = "",
     override val type: String = "",
     override val uri: String = "",
+    override val url: String = "",
 
     @Json(name = "album_privacy")
     val albumPrivacy: String = "",
@@ -37,7 +36,7 @@ data class CommonContent(
     @Json(name = "more_photos_uri")
     val morePhotosUri: String = "",
     val photo: Photo? = null,
-    val photos: List<Photo>? = emptyList(),
+    val photos: List<Photo> = emptyList(),
     @Json(name = "photos_count")
     val photosCount: Int = 0,
     val status: Status? = null,

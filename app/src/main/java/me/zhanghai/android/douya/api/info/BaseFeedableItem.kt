@@ -12,8 +12,6 @@ import com.squareup.moshi.JsonClass
 data class BaseFeedableItem(
     @Json(name = "abstract")
     override val abstractString: String = "",
-    @Json(name = "url")
-    override val alt: String = "",
     @Json(name = "cover_url")
     override val coverUrl: String = "",
     override val id: String = "",
@@ -21,5 +19,6 @@ data class BaseFeedableItem(
     override val sharingUrl: String = "",
     override val title: String = "",
     override val type: String = "",
-    override val uri: String = ""
+    override val uri: String = "",
+    override val url: String = ""
 ) : IBaseFeedableItem

@@ -12,13 +12,13 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.SizedImage
-import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.api.util.normalOrClosest
 import me.zhanghai.android.douya.api.util.subtitleWithEntities
 import me.zhanghai.android.douya.api.util.textWithEntities
-import me.zhanghai.android.douya.arch.DistinctMutableLiveData
+import me.zhanghai.android.douya.api.util.uriOrUrl
 import me.zhanghai.android.douya.arch.EventLiveData
+import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
@@ -41,9 +41,9 @@ class TimelineContentLayout : ConstraintLayout {
 
     private val binding = TimelineContentLayoutBinding.inflate(context.layoutInflater, this, true)
 
-    val viewModel = ViewModel()
-
     private val imageAdapter = HorizontalImageAdapter()
+
+    val viewModel = ViewModel()
 
     constructor(context: Context) : super(context)
 
@@ -70,6 +70,7 @@ class TimelineContentLayout : ConstraintLayout {
             adapter = imageAdapter
             addOnScrollListener(object : OnHorizontalScrollListener() {
                 private var scrollingLeft = true
+
                 override fun onScrolledLeft() {
                     if (imageAdapter.itemCount == 0 || scrollingLeft) {
                         return
@@ -78,6 +79,7 @@ class TimelineContentLayout : ConstraintLayout {
                     binding.imageRecyclerDescriptionScrim.fadeInUnsafe()
                     binding.imageRecyclerDescriptionText.fadeInUnsafe()
                 }
+
                 override fun onScrolledRight() {
                     if (imageAdapter.itemCount == 0 || !scrollingLeft) {
                         return
@@ -95,15 +97,12 @@ class TimelineContentLayout : ConstraintLayout {
         viewModel.openUriEvent.observe(lifecycleOwner) { UriHandler.open(it, context) }
     }
 
-    fun setTimelineItem(timelineItem: TimelineItem) {
-        // TODO
-        val status = timelineItem.content?.status ?: Status()
-        viewModel.bind(status)
+    fun setTimelineItem(timelineItem: TimelineItem?) {
+        viewModel.setTimelineItem(timelineItem)
         binding.executePendingBindings()
     }
 
     class ViewModel {
-
         data class State(
             val avatarUrl: String,
             val author: String,
@@ -127,7 +126,7 @@ class TimelineContentLayout : ConstraintLayout {
             val imageList: List<SizedImage>
         )
 
-        private val state = DistinctMutableLiveData(
+        private val state = MutableLiveData(
             State(
                 avatarUrl = "",
                 author = "",
@@ -173,34 +172,70 @@ class TimelineContentLayout : ConstraintLayout {
 
         val openUriEvent = EventLiveData<String>()
 
-        fun bind(status: Status) {
-            val contentStatus = status.resharedStatus ?: status
-            val card = contentStatus.card
-            val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
-                ?: contentStatus.images
-            state.value = State(
-                avatarUrl = status.author?.avatar ?: "",
-                author = status.author?.name ?: "",
-                authorUri = status.author?.uri ?: "",
-                activity = status.activity,
-                time = status.createTime,
-                text = status.textWithEntities,
-                hasReshared = status.resharedStatus != null,
-                resharedDeleted = status.resharedStatus?.deleted ?: false,
-                resharedAuthor = status.resharedStatus?.author?.name ?: "",
-                resharedActivity = status.resharedStatus?.activity ?: "",
-                resharedText = status.resharedStatus?.textWithEntities ?: "",
-                hasCard = card != null,
-                cardOwner = card?.ownerName ?: "",
-                cardActivity = card?.activity ?: "",
-                cardImageUrl = (if (images.isEmpty()) card?.image?.normalOrClosest?.url else null)
-                    ?: "",
-                cardTitle = card?.title ?: "",
-                cardText = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: "",
-                cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: "",
-                image = if (images.size == 1) images.first() else null,
-                imageList = if (images.size > 1) images else emptyList()
-            )
+        fun setTimelineItem(timelineItem: TimelineItem?) {
+            val status = timelineItem?.content?.status
+            state.value = if (status != null) {
+                val contentStatus = status.resharedStatus ?: status
+                val card = contentStatus.card
+                val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
+                    ?: contentStatus.images
+                State(
+                    avatarUrl = status.author?.avatar ?: "",
+                    author = status.author?.name ?: "",
+                    authorUri = status.author?.uriOrUrl ?: "",
+                    activity = status.activity,
+                    time = status.createTime,
+                    text = status.textWithEntities,
+                    hasReshared = status.resharedStatus != null,
+                    resharedDeleted = status.resharedStatus?.deleted ?: false,
+                    resharedAuthor = status.resharedStatus?.author?.name ?: "",
+                    resharedActivity = status.resharedStatus?.activity ?: "",
+                    resharedText = status.resharedStatus?.textWithEntities ?: "",
+                    hasCard = card != null,
+                    cardOwner = card?.ownerName ?: "",
+                    cardActivity = card?.activity ?: "",
+                    cardImageUrl = (if (images.isEmpty()) {
+                        card?.image?.normalOrClosest?.url
+                    } else {
+                        null
+                    }) ?: "",
+                    cardTitle = card?.title ?: "",
+                    cardText = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: "",
+                    cardUri = card?.uriOrUrl ?: "",
+                    image = if (images.size == 1) images.first() else null,
+                    imageList = if (images.size > 1) images else emptyList()
+                )
+            } else {
+                val images = (timelineItem?.content?.photos?.ifEmpty {
+                    listOfNotNull(timelineItem.content.photo)
+                } ?: emptyList()).map { it.image!! }
+                State(
+                    avatarUrl = timelineItem?.owner?.avatar ?: "",
+                    author = timelineItem?.owner?.name ?: "",
+                    authorUri = timelineItem?.owner?.uriOrUrl ?: "",
+                    activity = timelineItem?.action ?: "",
+                    time = null,
+                    text = "",
+                    hasReshared = false,
+                    resharedDeleted = false,
+                    resharedAuthor = "",
+                    resharedActivity = "",
+                    resharedText = "",
+                    hasCard = true,
+                    cardOwner = "",
+                    cardActivity = "",
+                    cardImageUrl = (if (images.size == 1) {
+                        images.first().normalOrClosest?.url
+                    } else {
+                        null
+                    }) ?: "",
+                    cardTitle = timelineItem?.content?.title ?: "",
+                    cardText = timelineItem?.content?.abstractString ?: "",
+                    cardUri = timelineItem?.content?.uriOrUrl ?: "",
+                    image = null,
+                    imageList = if (images.size > 1) images else emptyList()
+                )
+            }
         }
 
         fun open() {
