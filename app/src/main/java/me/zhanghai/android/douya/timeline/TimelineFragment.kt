@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnNextLayout
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -67,7 +67,7 @@ class TimelineFragment : Fragment() {
         }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             if (!it) {
-                binding.timelineRecycler.doOnNextLayout {
+                binding.timelineRecycler.doOnPreDraw {
                     binding.timelineRecycler.smoothScrollToPosition(0)
                 }
             }
