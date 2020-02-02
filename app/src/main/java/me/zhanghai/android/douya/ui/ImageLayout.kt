@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.ui
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.core.view.doOnAttach
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LiveData
 import me.zhanghai.android.douya.api.info.SizedImage
@@ -43,15 +44,13 @@ class ImageLayout : FrameLayout {
     init {
         binding.lifecycleOwner = ResumedLifecycleOwner()
         binding.viewModel = viewModel
-    }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-
-        val layoutParams = layoutParams
-        binding.imageImage.updateLayoutParams {
-            width = layoutParams.width
-            height = layoutParams.height
+        doOnAttach {
+            val layoutParams = layoutParams
+            binding.imageImage.updateLayoutParams {
+                width = layoutParams.width
+                height = layoutParams.height
+            }
         }
     }
 
