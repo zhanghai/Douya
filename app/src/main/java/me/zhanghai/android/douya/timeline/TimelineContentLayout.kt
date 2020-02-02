@@ -94,8 +94,8 @@ class TimelineContentLayout : ConstraintLayout {
 
     inner class ViewModel {
 
-        private val _avatar = DistinctMutableLiveData("")
-        val avatar: LiveData<String> = _avatar
+        private val _avatarUrl = DistinctMutableLiveData("")
+        val avatarUrl: LiveData<String> = _avatarUrl
 
         private val _author = DistinctMutableLiveData("")
         val author: LiveData<String> = _author
@@ -138,8 +138,8 @@ class TimelineContentLayout : ConstraintLayout {
         private val _cardActivity = DistinctMutableLiveData("")
         val cardActivity: LiveData<String> = _cardActivity
 
-        private val _cardImage = DistinctMutableLiveData("")
-        val cardImage: LiveData<String> = _cardImage
+        private val _cardImageUrl = DistinctMutableLiveData("")
+        val cardImageUrl: LiveData<String> = _cardImageUrl
 
         private val _cardTitle = DistinctMutableLiveData("")
         val cardTitle: LiveData<String> = _cardTitle
@@ -156,7 +156,7 @@ class TimelineContentLayout : ConstraintLayout {
         val imageCount: LiveData<Int> = _imageCount
 
         fun bind(status: Status) {
-            _avatar.value = status.author?.avatar ?: ""
+            _avatarUrl.value = status.author?.avatar ?: ""
             _author.value = status.author?.name ?: ""
             authorUri = status.author?.uri ?: ""
             _activity.value = status.activity
@@ -175,7 +175,8 @@ class TimelineContentLayout : ConstraintLayout {
             _cardActivity.value = card?.activity ?: ""
             val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
                 ?: contentStatus.images
-            _cardImage.value = if (images.isEmpty()) card?.image?.normalOrClosest?.url ?: "" else ""
+            _cardImageUrl.value =
+                (if (images.isEmpty()) card?.image?.normalOrClosest?.url else null) ?: ""
             _cardTitle.value = card?.title ?: ""
             _cardText.value = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: ""
             cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: ""

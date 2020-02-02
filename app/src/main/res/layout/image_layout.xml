@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:maxHeight="@dimen/image_max_height"
             app:ratio="@{viewModel.ratio}"
-            app:src="@{viewModel.image}" />
+            app:url="@{viewModel.url}" />
 
         <ImageView
             android:layout_width="36dp"

@@ -18,8 +18,6 @@ import coil.api.load
 import coil.transform.CircleCropTransformation
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import me.zhanghai.android.douya.R
-import me.zhanghai.android.douya.api.info.SizedImage
-import me.zhanghai.android.douya.ui.ImageLayout
 import me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
 import java.util.WeakHashMap
 
@@ -48,24 +46,19 @@ fun setViewVisibleOrInvisibleAnimated(view: View, visible: Boolean) {
     view.fadeToVisibilityUnsafe(visible)
 }
 
-@BindingAdapter("src")
-fun setImageLayoutSrc(imageLayout: ImageLayout, src: SizedImage?) {
-    imageLayout.bind(src)
-}
-
-@BindingAdapter("src")
-fun setImageViewSrc(imageView: ImageView, src: String?) {
-    if (src != null) {
-        imageView.load(src)
+@BindingAdapter("url")
+fun setImageViewUrl(imageView: ImageView, url: String?) {
+    if (!url.isNullOrEmpty()) {
+        imageView.load(url)
     } else {
         imageView.clear()
     }
 }
 
-@BindingAdapter("srcAvatar")
-fun setImageViewSrcAvatar(imageView: ImageView, srcAvatar: String?) {
-    if (srcAvatar != null) {
-        imageView.load(srcAvatar) {
+@BindingAdapter("avatarUrl")
+fun setImageViewAvatarUrl(imageView: ImageView, avatarUrl: String?) {
+    if (!avatarUrl.isNullOrEmpty()) {
+        imageView.load(avatarUrl) {
             placeholder(R.drawable.avatar_placeholder)
             transformations(CircleCropTransformation())
         }

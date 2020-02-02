@@ -54,7 +54,7 @@ class ImageLayout : FrameLayout {
         }
     }
 
-    fun bind(image: SizedImage?) {
+    fun setImage(image: SizedImage?) {
         viewModel.bind(image)
         binding.executePendingBindings()
     }
@@ -64,8 +64,8 @@ class ImageLayout : FrameLayout {
         private val _ratio = DistinctMutableLiveData(1f)
         val ratio: LiveData<Float> = _ratio
 
-        private val _image = DistinctMutableLiveData("")
-        val image: LiveData<String> = _image
+        private val _url = DistinctMutableLiveData("")
+        val url: LiveData<String> = _url
 
         private val _isGif = DistinctMutableLiveData(false)
         val isGif: LiveData<Boolean> = _isGif
@@ -73,7 +73,7 @@ class ImageLayout : FrameLayout {
         fun bind(image: SizedImage?) {
             val imageItem = image?.normalOrClosest
             _ratio.value = imageItem?.let { it.width.toFloat() / it.height } ?: 1f
-            _image.value = imageItem?.url ?: ""
+            _url.value = imageItem?.url ?: ""
             _isGif.value = image?.isAnimated ?: false
         }
 

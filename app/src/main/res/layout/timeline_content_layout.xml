@@ -36,7 +36,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcAvatar="@{viewModel.avatar}"
+            app:avatarUrl="@{viewModel.avatarUrl}"
             android:onClick="@{() -> viewModel.openAuthor()}"
             tools:src="@drawable/avatar_placeholder" />
 
@@ -326,8 +326,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardOwnerText"
             android:scaleType="centerCrop"
-            app:src="@{viewModel.cardImage}"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardImage)}"
+            app:url="@{viewModel.cardImageUrl}"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardImageUrl)}"
             tools:src="@mipmap/launcher_icon" />
 
         <TextView
@@ -384,7 +384,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardEndSpace"
-            app:src="@{viewModel.image}"
+            app:image="@{viewModel.image}"
             app:visibleOrGone="@{viewModel.image != null}" />
 
         <androidx.recyclerview.widget.RecyclerView
