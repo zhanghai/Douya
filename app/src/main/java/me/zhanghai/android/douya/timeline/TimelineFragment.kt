@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.arch.observe
@@ -51,7 +52,7 @@ class TimelineFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.timelineRecycler.run {
-            layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
             itemAnimator = DefaultItemAnimator().apply { supportsChangeAnimations = false }
             adapter = MergeAdapter(timelineAdapter, moreItemAdapter)
             addOnScrollListener(object : OnVerticalScrollWithPagingTouchSlopListener(context) {
