@@ -373,6 +373,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardImageTextBarrier" />
 
+        <me.zhanghai.android.douya.ui.ImageLayout
+            android:id="@+id/imageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardEndSpace"
+            app:src="@{viewModel.image}"
+            app:visibleOrGone="@{viewModel.image != null}" />
+
         <androidx.constraintlayout.widget.Group
             android:id="@+id/imageRecyclerGroup"
             android:layout_width="0dp"
@@ -386,7 +396,7 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardEndSpace"
+            app:layout_constraintTop_toBottomOf="@id/imageLayout"
             app:layout_constraintDimensionRatio="6:5" />
 
         <androidx.constraintlayout.widget.Group

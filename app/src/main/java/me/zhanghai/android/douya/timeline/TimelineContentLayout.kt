@@ -9,15 +9,15 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
-import coil.api.load
-import coil.transform.CircleCropTransformation
-import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.Status
+import me.zhanghai.android.douya.api.util.normalOrClosest
+import me.zhanghai.android.douya.api.util.subtitleWithEntities
+import me.zhanghai.android.douya.api.util.textWithEntities
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
 import me.zhanghai.android.douya.link.UriHandler
-import me.zhanghai.android.douya.link.withEntities
 import me.zhanghai.android.douya.util.layoutInflater
 import org.threeten.bp.ZonedDateTime
 
@@ -26,11 +26,6 @@ class TimelineContentLayout : ConstraintLayout {
     private val binding = TimelineContentLayoutBinding.inflate(context.layoutInflater, this, true)
 
     val viewModel = ViewModel()
-
-    init {
-        binding.lifecycleOwner = ResumedLifecycleOwner()
-        binding.viewModel = viewModel
-    }
 
     constructor(context: Context) : super(context)
 
@@ -49,9 +44,12 @@ class TimelineContentLayout : ConstraintLayout {
         defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
-    fun bind(status: Status) {
-        viewModel.bind(status)
+    init {
+        binding.lifecycleOwner = ResumedLifecycleOwner()
+        binding.viewModel = viewModel
     }
+
+    fun bind(status: Status) = viewModel.bind(status)
 
     inner class ViewModel {
 
@@ -108,6 +106,9 @@ class TimelineContentLayout : ConstraintLayout {
 
         var cardUri = ""
 
+        private val _image = DistinctMutableLiveData<SizedImage?>(null)
+        val image: LiveData<SizedImage?> = _image
+
         private val _imageCount = DistinctMutableLiveData(0)
         val imageCount: LiveData<Int> = _imageCount
 
@@ -117,26 +118,24 @@ class TimelineContentLayout : ConstraintLayout {
             _activity.value = status.activity
             _time.value = status.createTime
             _title.value = ""
-            _text.value = status.text.withEntities(status.entities)
+            _text.value = status.textWithEntities
             _hasReshared.value = status.resharedStatus != null
             _resharedDeleted.value = status.resharedStatus?.deleted ?: false
             _resharedAuthor.value = status.resharedStatus?.author?.name ?: ""
             _resharedActivity.value = status.resharedStatus?.activity ?: ""
-            _resharedText.value = status.resharedStatus?.text?.withEntities(
-                status.resharedStatus.entities
-            ) ?: ""
+            _resharedText.value = status.resharedStatus?.textWithEntities ?: ""
             val contentStatus = status.resharedStatus ?: status
             val card = contentStatus.card
             _hasCard.value = card != null
             _cardOwner.value = card?.ownerName ?: ""
             _cardActivity.value = card?.activity ?: ""
-            _cardImage.value = card?.image?.normal?.url ?: ""
-            _cardTitle.value = card?.title ?: ""
-            _cardText.value = card?.subTitle?.withEntities(card.entities)?.ifEmpty { null }
-                ?: card?.url ?: ""
-            cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: ""
             val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
                 ?: contentStatus.images
+            _cardImage.value = if (images.isEmpty()) card?.image?.normalOrClosest?.url ?: "" else ""
+            _cardTitle.value = card?.title ?: ""
+            _cardText.value = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: ""
+            cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: ""
+            _image.value = if (images.size == 1) images.first() else null
             _imageCount.value = images.size
         }
 

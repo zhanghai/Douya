@@ -3,17 +3,40 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.douya.link
+package me.zhanghai.android.douya.api.util
 
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.util.Patterns
 import android.webkit.URLUtil
 import me.zhanghai.android.douya.api.info.CommentAtEntity
+import me.zhanghai.android.douya.api.info.ImageItem
+import me.zhanghai.android.douya.api.info.SizedImage
+import me.zhanghai.android.douya.api.info.Status
+import me.zhanghai.android.douya.api.info.StatusCard
+import me.zhanghai.android.douya.link.UriSpan
 import me.zhanghai.android.douya.setting.Settings
 import timber.log.Timber
 
-fun String.withEntities(entities: List<CommentAtEntity>): CharSequence {
+val SizedImage.smallOrClosest: ImageItem?
+    get() = small ?: normal ?: large ?: raw
+
+val SizedImage.normalOrClosest: ImageItem?
+    get() = normal ?: large ?: raw ?: small
+
+val SizedImage.largeOrClosest: ImageItem?
+    get() = large ?: raw ?: normal ?: small
+
+val SizedImage.rawOrClosest: ImageItem?
+    get() = raw ?: large ?: normal ?: small
+
+val Status.textWithEntities: CharSequence
+    get() = text.withEntities(entities)
+
+val StatusCard.subtitleWithEntities: CharSequence
+    get() = subtitle.withEntities(entities)
+
+private fun String.withEntities(entities: List<CommentAtEntity>): CharSequence {
     if (isEmpty() || entities.isEmpty()) {
         return this
     }

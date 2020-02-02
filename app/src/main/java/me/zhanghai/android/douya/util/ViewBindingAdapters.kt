@@ -22,9 +22,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.timeline.TimelineContentLayout
+import me.zhanghai.android.douya.ui.ImageLayout
 import me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
+import me.zhanghai.android.douya.ui.RatioImageView
 import me.zhanghai.android.douya.ui.TimeTextView
 import org.threeten.bp.ZonedDateTime
 import java.util.WeakHashMap
@@ -55,6 +58,11 @@ fun setViewVisibleOrInvisibleAnimated(view: View, visible: Boolean) {
 }
 
 @BindingAdapter("src")
+fun setImageLayoutSrc(imageLayout: ImageLayout, src: SizedImage?) {
+    imageLayout.bind(src)
+}
+
+@BindingAdapter("src")
 fun setImageViewSrc(imageView: ImageView, src: String?) {
     if (src != null) {
         imageView.load(src)
@@ -73,6 +81,11 @@ fun setImageViewSrcAvatar(imageView: ImageView, srcAvatar: String?) {
     } else {
         imageView.clear()
     }
+}
+
+@BindingAdapter("ratio")
+fun setRatioImageViewRatio(ratioImageView: RatioImageView, ratio: Float) {
+    ratioImageView.ratio = ratio
 }
 
 @BindingAdapter("progressOffset")

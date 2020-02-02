@@ -15,12 +15,6 @@ class OverlayBackgroundView : View {
 
     private val overlay: Drawable
 
-    init {
-        setWillNotDraw(true)
-        overlay = background
-        background = null
-    }
-
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -37,6 +31,12 @@ class OverlayBackgroundView : View {
         defStyleAttr: Int,
         defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes)
+
+    init {
+        setWillNotDraw(true)
+        overlay = background
+        background = null
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

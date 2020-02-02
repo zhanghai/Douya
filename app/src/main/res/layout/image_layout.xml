@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2020 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.TextUtils" />
+        <variable name="viewModel" type="me.zhanghai.android.douya.ui.ImageLayout.ViewModel" />
+    </data>
+
+    <merge tools:parentTag="FrameLayout">
+
+        <!-- LayoutParams will be set the same as parent after inflation. -->
+        <me.zhanghai.android.douya.ui.RatioImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:minWidth="@dimen/image_min_width"
+            android:layout_height="0dp"
+            android:maxHeight="@dimen/image_max_height"
+            app:ratio="@{viewModel.ratio}"
+            app:src="@{viewModel.image}" />
+
+        <ImageView
+            android:id="@+id/gifImage"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="16dp"
+            android:layout_gravity="start|bottom"
+            android:background="@color/system_window_scrim_compat"
+            android:src="@drawable/gif_icon_text_primary_36dp"
+            android:theme="@style/ThemeOverlay.Douya.Dark"
+            app:visibleOrGone="@{viewModel.isGif}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackground"
+            android:onClick="@{() -> viewModel.open()}" />
+    </merge>
+</layout>

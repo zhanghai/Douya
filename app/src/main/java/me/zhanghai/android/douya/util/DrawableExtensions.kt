@@ -36,7 +36,7 @@ fun Drawables.createScrim(
     val blue = Color.blue(color)
     val stopColors = (0 until stopCount).map {
         val x = it * 1f / (stopCount - 1)
-        val opacity = x.pow(3f).coerceIn(0f..1f)
+        val opacity = x.pow(3f).coerceIn(0f, 1f)
         Color.argb((opacity * alpha).roundToInt(), red, green, blue)
     }.toIntArray()
     shaderFactory = object : ShaderFactory() {

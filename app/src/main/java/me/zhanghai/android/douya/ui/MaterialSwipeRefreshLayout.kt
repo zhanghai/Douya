@@ -43,6 +43,10 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
             )
         }
 
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+
     init {
         setColorSchemeColors(context.getColorByAttr(R.attr.colorSecondary))
         setProgressBackgroundColorSchemeColor(
@@ -53,8 +57,4 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
             )
         )
     }
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 }

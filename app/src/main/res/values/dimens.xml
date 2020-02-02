@@ -15,4 +15,7 @@
     <dimen name="horizontal_divider_height">1dp</dimen>
     <!-- 3x toolbar height per Material Design Spec. -->
     <dimen name="scrim_height">168dp</dimen>
+
+    <dimen name="image_min_width">240dp</dimen>
+    <dimen name="image_max_height">640dp</dimen>
 </resources>
