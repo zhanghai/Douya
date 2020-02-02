@@ -8,16 +8,19 @@ package me.zhanghai.android.douya.timeline
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.Status
+import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.api.util.normalOrClosest
 import me.zhanghai.android.douya.api.util.subtitleWithEntities
 import me.zhanghai.android.douya.api.util.textWithEntities
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
+import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
+import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
 import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter
@@ -33,6 +36,8 @@ class TimelineContentLayout : ConstraintLayout {
     companion object {
         private const val IMAGE_RECYCLER_GUTTER_SIZE_DP = 2
     }
+
+    private val lifecycleOwner = ResumedLifecycleOwner()
 
     private val binding = TimelineContentLayoutBinding.inflate(context.layoutInflater, this, true)
 
@@ -58,8 +63,6 @@ class TimelineContentLayout : ConstraintLayout {
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        binding.lifecycleOwner = ResumedLifecycleOwner()
-        binding.viewModel = viewModel
         binding.imageRecycler.apply {
             layoutManager = LinearLayoutManager(null, RecyclerView.HORIZONTAL, false)
             val gutterSize = context.dpToDimensionPixelSize(IMAGE_RECYCLER_GUTTER_SIZE_DP)
@@ -85,104 +88,119 @@ class TimelineContentLayout : ConstraintLayout {
                 }
             })
         }
+
+        binding.lifecycleOwner = lifecycleOwner
+        binding.viewModel = viewModel
+        viewModel.imageList.observe(lifecycleOwner) { imageAdapter.submitList(it) }
+        viewModel.openUriEvent.observe(lifecycleOwner) { UriHandler.open(it, context) }
     }
 
-    fun bind(status: Status) {
+    fun setTimelineItem(timelineItem: TimelineItem) {
+        // TODO
+        val status = timelineItem.content?.status ?: Status()
         viewModel.bind(status)
         binding.executePendingBindings()
     }
 
-    inner class ViewModel {
+    class ViewModel {
 
-        private val _avatarUrl = DistinctMutableLiveData("")
-        val avatarUrl: LiveData<String> = _avatarUrl
+        data class State(
+            val avatarUrl: String,
+            val author: String,
+            val authorUri: String,
+            val time: ZonedDateTime?,
+            val activity: String,
+            val text: CharSequence,
+            val hasReshared: Boolean,
+            val resharedDeleted: Boolean,
+            val resharedAuthor: String,
+            val resharedActivity: String,
+            val resharedText: CharSequence,
+            val hasCard: Boolean,
+            val cardOwner: String,
+            val cardActivity: String,
+            val cardImageUrl: String,
+            val cardTitle: String,
+            val cardText: CharSequence,
+            val cardUri: String,
+            val image: SizedImage?,
+            val imageList: List<SizedImage>
+        )
 
-        private val _author = DistinctMutableLiveData("")
-        val author: LiveData<String> = _author
+        private val state = DistinctMutableLiveData(
+            State(
+                avatarUrl = "",
+                author = "",
+                authorUri = "",
+                time = null,
+                activity = "",
+                text = "",
+                hasReshared = false,
+                resharedDeleted = false,
+                resharedAuthor = "",
+                resharedActivity = "",
+                resharedText = "",
+                hasCard = false,
+                cardOwner = "",
+                cardActivity = "",
+                cardImageUrl = "",
+                cardTitle = "",
+                cardText = "",
+                cardUri = "",
+                image = null,
+                imageList = emptyList()
+            )
+        )
 
-        private var authorUri = ""
+        val avatarUrl = state.mapDistinct { it.avatarUrl }
+        val author = state.mapDistinct { it.author }
+        val time = state.mapDistinct { it.time }
+        val activity = state.mapDistinct { it.activity }
+        val text = state.mapDistinct { it.text }
+        val hasReshared = state.mapDistinct { it.hasReshared }
+        val resharedDeleted = state.mapDistinct { it.resharedDeleted }
+        val resharedAuthor = state.mapDistinct { it.resharedAuthor }
+        val resharedActivity = state.mapDistinct { it.resharedActivity }
+        val resharedText = state.mapDistinct { it.resharedText }
+        val hasCard = state.mapDistinct { it.hasCard }
+        val cardOwner = state.mapDistinct { it.cardOwner }
+        val cardActivity = state.mapDistinct { it.cardActivity }
+        val cardImageUrl = state.mapDistinct { it.cardImageUrl }
+        val cardTitle = state.mapDistinct { it.cardTitle }
+        val cardText = state.mapDistinct { it.cardText }
+        val image = state.mapDistinct { it.image }
+        val imageList = state.mapDistinct { it.imageList }
 
-        private val _time = DistinctMutableLiveData<ZonedDateTime?>(null)
-        val time: LiveData<ZonedDateTime?> = _time
-
-        private val _activity = DistinctMutableLiveData("")
-        val activity: LiveData<String> = _activity
-
-        private val _title = DistinctMutableLiveData("")
-        val title: LiveData<String> = _title
-
-        private val _text = DistinctMutableLiveData<CharSequence>("")
-        val text: LiveData<CharSequence> = _text
-
-        private val _hasReshared = DistinctMutableLiveData(false)
-        val hasReshared: LiveData<Boolean> = _hasReshared
-
-        private val _resharedDeleted = DistinctMutableLiveData(false)
-        val resharedDeleted: LiveData<Boolean> = _resharedDeleted
-
-        private val _resharedAuthor = DistinctMutableLiveData("")
-        val resharedAuthor: LiveData<String> = _resharedAuthor
-
-        private val _resharedActivity = DistinctMutableLiveData("")
-        val resharedActivity: LiveData<String> = _resharedActivity
-
-        private val _resharedText = DistinctMutableLiveData<CharSequence>("")
-        val resharedText: LiveData<CharSequence> = _resharedText
-
-        private val _hasCard = DistinctMutableLiveData(false)
-        val hasCard: LiveData<Boolean> = _hasCard
-
-        private val _cardOwner = DistinctMutableLiveData("")
-        val cardOwner: LiveData<String> = _cardOwner
-
-        private val _cardActivity = DistinctMutableLiveData("")
-        val cardActivity: LiveData<String> = _cardActivity
-
-        private val _cardImageUrl = DistinctMutableLiveData("")
-        val cardImageUrl: LiveData<String> = _cardImageUrl
-
-        private val _cardTitle = DistinctMutableLiveData("")
-        val cardTitle: LiveData<String> = _cardTitle
-
-        private val _cardText = DistinctMutableLiveData<CharSequence>("")
-        val cardText: LiveData<CharSequence> = _cardText
-
-        private var cardUri = ""
-
-        private val _image = DistinctMutableLiveData<SizedImage?>(null)
-        val image: LiveData<SizedImage?> = _image
-
-        private val _imageCount = DistinctMutableLiveData(0)
-        val imageCount: LiveData<Int> = _imageCount
+        val openUriEvent = EventLiveData<String>()
 
         fun bind(status: Status) {
-            _avatarUrl.value = status.author?.avatar ?: ""
-            _author.value = status.author?.name ?: ""
-            authorUri = status.author?.uri ?: ""
-            _activity.value = status.activity
-            _time.value = status.createTime
-            _title.value = ""
-            _text.value = status.textWithEntities
-            _hasReshared.value = status.resharedStatus != null
-            _resharedDeleted.value = status.resharedStatus?.deleted ?: false
-            _resharedAuthor.value = status.resharedStatus?.author?.name ?: ""
-            _resharedActivity.value = status.resharedStatus?.activity ?: ""
-            _resharedText.value = status.resharedStatus?.textWithEntities ?: ""
             val contentStatus = status.resharedStatus ?: status
             val card = contentStatus.card
-            _hasCard.value = card != null
-            _cardOwner.value = card?.ownerName ?: ""
-            _cardActivity.value = card?.activity ?: ""
             val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
                 ?: contentStatus.images
-            _cardImageUrl.value =
-                (if (images.isEmpty()) card?.image?.normalOrClosest?.url else null) ?: ""
-            _cardTitle.value = card?.title ?: ""
-            _cardText.value = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: ""
-            cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: ""
-            _image.value = if (images.size == 1) images.first() else null
-            _imageCount.value = images.size
-            imageAdapter.submitList(if (images.size > 1) images else emptyList())
+            state.value = State(
+                avatarUrl = status.author?.avatar ?: "",
+                author = status.author?.name ?: "",
+                authorUri = status.author?.uri ?: "",
+                activity = status.activity,
+                time = status.createTime,
+                text = status.textWithEntities,
+                hasReshared = status.resharedStatus != null,
+                resharedDeleted = status.resharedStatus?.deleted ?: false,
+                resharedAuthor = status.resharedStatus?.author?.name ?: "",
+                resharedActivity = status.resharedStatus?.activity ?: "",
+                resharedText = status.resharedStatus?.textWithEntities ?: "",
+                hasCard = card != null,
+                cardOwner = card?.ownerName ?: "",
+                cardActivity = card?.activity ?: "",
+                cardImageUrl = (if (images.isEmpty()) card?.image?.normalOrClosest?.url else null)
+                    ?: "",
+                cardTitle = card?.title ?: "",
+                cardText = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: "",
+                cardUri = card?.uri?.ifEmpty { null } ?: card?.url ?: "",
+                image = if (images.size == 1) images.first() else null,
+                imageList = if (images.size > 1) images else emptyList()
+            )
         }
 
         fun open() {
@@ -190,8 +208,9 @@ class TimelineContentLayout : ConstraintLayout {
         }
 
         fun openAuthor() {
+            val authorUri = state.value.authorUri
             if (authorUri.isNotEmpty()) {
-                UriHandler.open(authorUri, context)
+                openUriEvent.value = authorUri
             }
         }
 
@@ -200,8 +219,9 @@ class TimelineContentLayout : ConstraintLayout {
         }
 
         fun openCard() {
+            val cardUri = state.value.cardUri
             if (cardUri.isNotEmpty()) {
-                UriHandler.open(cardUri, context)
+                openUriEvent.value = cardUri
             }
         }
     }

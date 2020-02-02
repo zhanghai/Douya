@@ -397,7 +397,7 @@
             app:layout_constraintDimensionRatio="6:5"
             android:focusableInTouchMode="false"
             app:hasFixedSize="@{true}"
-            app:visibleOrGone="@{viewModel.imageCount > 1}" />
+            app:visibleOrGone="@{!viewModel.imageList.isEmpty()}" />
 
         <View
             android:id="@+id/imageRecyclerDescriptionScrim"
@@ -407,7 +407,7 @@
             app:layout_constraintEnd_toEndOf="@id/imageRecycler"
             app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
             app:backgroundScrim="@{Gravity.BOTTOM}"
-            app:visibleOrGone="@{viewModel.imageCount > 1}"
+            app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
             tools:background="#66000000" />
 
         <TextView
@@ -420,10 +420,10 @@
             app:layout_constraintBottom_toBottomOf="@id/imageRecyclerDescriptionScrim"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{String.format(@string/timeline_content_image_count_format, viewModel.imageCount)}"
+            android:text="@{String.format(@string/timeline_content_image_count_format, viewModel.imageList.size())}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:theme="@style/ThemeOverlay.Douya.Dark"
-            app:visibleOrGone="@{viewModel.imageCount > 1}"
+            app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
             tools:text="9 张图片" />
     </merge>
 </layout>

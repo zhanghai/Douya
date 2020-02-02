@@ -15,10 +15,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.account.info.AuthenticatorMode
-import me.zhanghai.android.douya.arch.observe
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.AuthenticatorFragmentBinding
 import me.zhanghai.android.douya.util.fadeIn

@@ -8,10 +8,8 @@ package me.zhanghai.android.douya.timeline
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import me.zhanghai.android.douya.api.info.CommonContent
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.info.TimelineItem
-import me.zhanghai.android.douya.api.info.UserAbstract
 import me.zhanghai.android.douya.databinding.TimelineItemBinding
 import me.zhanghai.android.douya.util.ListAdapter
 import me.zhanghai.android.douya.util.layoutInflater
@@ -47,9 +45,7 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
         private val binding: TimelineItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(timelineItem: TimelineItem) {
-            // TODO
-            val status = timelineItem.content?.status ?: Status()
-            binding.timelineContentLayout.bind(status)
+            binding.timelineContentLayout.setTimelineItem(timelineItem)
         }
     }
 }

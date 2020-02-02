@@ -10,6 +10,20 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CommonContent(
+    // BaseFeedableItem
+    @Json(name = "abstract")
+    override val abstractString: String = "",
+    @Json(name = "url")
+    override val alt: String = "",
+    @Json(name = "cover_url")
+    override val coverUrl: String = "",
+    override val id: String = "",
+    @Json(name = "sharing_url")
+    override val sharingUrl: String = "",
+    override val title: String = "",
+    override val type: String = "",
+    override val uri: String = "",
+
     @Json(name = "album_privacy")
     val albumPrivacy: String = "",
     @Json(name = "alter_author_string")
@@ -33,4 +47,4 @@ data class CommonContent(
     val text: String = "",
     @Json(name = "video_info")
     val videoInfo: VideoInfo? = null
-)
+) : IBaseFeedableItem

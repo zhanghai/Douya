@@ -11,11 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.zhanghai.android.douya.R
-import me.zhanghai.android.douya.arch.observe
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.TimelineFragmentBinding
 import me.zhanghai.android.douya.util.MergeAdapter
