@@ -37,6 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcAvatar="@{viewModel.avatar}"
+            android:onClick="@{() -> viewModel.openAuthor()}"
             tools:src="@drawable/avatar_placeholder" />
 
         <TextView

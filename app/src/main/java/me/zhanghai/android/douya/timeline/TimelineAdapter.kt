@@ -48,7 +48,7 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(timelineItem: TimelineItem) {
             // TODO
-            val status = timelineItem.content?.status ?: Status(author = UserAbstract())
+            val status = timelineItem.content?.status ?: Status()
             binding.timelineContentLayout.bind(status)
         }
     }

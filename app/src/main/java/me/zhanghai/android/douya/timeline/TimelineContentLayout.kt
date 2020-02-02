@@ -100,6 +100,8 @@ class TimelineContentLayout : ConstraintLayout {
         private val _author = DistinctMutableLiveData("")
         val author: LiveData<String> = _author
 
+        private var authorUri = ""
+
         private val _time = DistinctMutableLiveData<ZonedDateTime?>(null)
         val time: LiveData<ZonedDateTime?> = _time
 
@@ -145,7 +147,7 @@ class TimelineContentLayout : ConstraintLayout {
         private val _cardText = DistinctMutableLiveData<CharSequence>("")
         val cardText: LiveData<CharSequence> = _cardText
 
-        var cardUri = ""
+        private var cardUri = ""
 
         private val _image = DistinctMutableLiveData<SizedImage?>(null)
         val image: LiveData<SizedImage?> = _image
@@ -154,8 +156,9 @@ class TimelineContentLayout : ConstraintLayout {
         val imageCount: LiveData<Int> = _imageCount
 
         fun bind(status: Status) {
-            _avatar.value = status.author!!.avatar
-            _author.value = status.author.name
+            _avatar.value = status.author?.avatar ?: ""
+            _author.value = status.author?.name ?: ""
+            authorUri = status.author?.uri ?: ""
             _activity.value = status.activity
             _time.value = status.createTime
             _title.value = ""
@@ -183,6 +186,12 @@ class TimelineContentLayout : ConstraintLayout {
 
         fun open() {
             // TODO
+        }
+
+        fun openAuthor() {
+            if (authorUri.isNotEmpty()) {
+                UriHandler.open(authorUri, context)
+            }
         }
 
         fun openReshared() {
