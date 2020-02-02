@@ -94,6 +94,6 @@ suspend fun View.fadeToVisibility(visible: Boolean, force: Boolean = false, gone
 
 fun View.fadeToVisibilityUnsafe(visible: Boolean, force: Boolean = false, gone: Boolean = false) {
     GlobalScope.launch(Dispatchers.Main.immediate) {
-        fadeToVisibility(force, gone)
+        fadeToVisibility(visible, force, gone)
     }
 }
