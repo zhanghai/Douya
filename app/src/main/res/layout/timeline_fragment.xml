@@ -41,7 +41,8 @@
                 app:paddingLeftSystemWindowInsets="@{true}"
                 app:paddingRightSystemWindowInsets="@{true}"
                 app:paddingTopSystemWindowInsets="@{true}"
-                app:paddingBottomSystemWindowInsets="@{true}" />
+                app:paddingBottomSystemWindowInsets="@{true}"
+                app:hasFixedSize="@{true}" />
         </me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout>
 
         <TextView

@@ -396,6 +396,7 @@
             app:layout_constraintTop_toBottomOf="@id/imageLayout"
             app:layout_constraintDimensionRatio="6:5"
             android:focusableInTouchMode="false"
+            app:hasFixedSize="@{true}"
             app:visibleOrGone="@{viewModel.imageCount > 1}" />
 
         <View
