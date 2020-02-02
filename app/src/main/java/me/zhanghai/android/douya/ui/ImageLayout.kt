@@ -55,7 +55,10 @@ class ImageLayout : FrameLayout {
         }
     }
 
-    fun bind(image: SizedImage?) = viewModel.bind(image)
+    fun bind(image: SizedImage?) {
+        viewModel.bind(image)
+        binding.executePendingBindings()
+    }
 
     inner class ViewModel {
 

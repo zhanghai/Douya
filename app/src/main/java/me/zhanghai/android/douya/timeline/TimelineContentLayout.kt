@@ -87,7 +87,10 @@ class TimelineContentLayout : ConstraintLayout {
         }
     }
 
-    fun bind(status: Status) = viewModel.bind(status)
+    fun bind(status: Status) {
+        viewModel.bind(status)
+        binding.executePendingBindings()
+    }
 
     inner class ViewModel {
 
