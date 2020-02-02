@@ -11,6 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.text.TextUtils" />
         <import type="android.view.Gravity" />
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineContentLayout.ViewModel" />
     </data>
@@ -268,14 +269,59 @@
             android:background="?selectableItemBackground"
             android:onClick="@{() -> viewModel.openCard()}" />
 
+        <TextView
+            android:id="@+id/cardOwnerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardDividerView"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.cardOwner}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner)}"
+            tools:text="豆芽" />
+
+        <TextView
+            android:id="@+id/cardOwnerActivitySpace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/cardOwnerText"
+            app:layout_constraintBottom_toBottomOf="@id/cardOwnerText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/timeline_content_time_action_space"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}" />
+
+        <TextView
+            android:id="@+id/cardActivityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toEndOf="@id/cardOwnerActivitySpace"
+            app:layout_constraintBottom_toBottomOf="@id/cardOwnerText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.cardActivity}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}"
+            tools:text="的日记" />
+
         <ImageView
             android:id="@+id/cardImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardDividerView"
+            app:layout_constraintTop_toBottomOf="@id/cardOwnerText"
+            app:layout_goneMarginTop="16dp"
             android:scaleType="centerCrop"
             tools:src="@mipmap/launcher_icon" />
 

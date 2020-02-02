@@ -97,6 +97,12 @@ class TimelineContentLayout : ConstraintLayout {
         private val _hasCard = DistinctMutableLiveData(false)
         val hasCard: LiveData<Boolean> = _hasCard
 
+        private val _cardOwner = DistinctMutableLiveData("")
+        val cardOwner: LiveData<String> = _cardOwner
+
+        private val _cardActivity = DistinctMutableLiveData("")
+        val cardActivity: LiveData<String> = _cardActivity
+
         private val _cardImage = DistinctMutableLiveData("")
         val cardImage: LiveData<String> = _cardImage
 
@@ -127,6 +133,8 @@ class TimelineContentLayout : ConstraintLayout {
             val card = contentStatus.card
             _hasCard.value = card != null
             // TODO
+            _cardOwner.value = card?.ownerName ?: ""
+            _cardActivity.value = card?.activity ?: ""
             _cardImage.value = card?.image?.toString() ?: ""
             _cardTitle.value = card?.title ?: ""
             _cardText.value = card?.subTitle?.withEntities(card.entities)?.ifEmpty { null }
