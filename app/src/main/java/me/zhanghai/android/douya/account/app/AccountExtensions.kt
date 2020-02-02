@@ -25,22 +25,28 @@ fun Account.peekAuthToken(): String? =
 fun Account.blockingGetAuthToken(notifyAuthFailure: Boolean): String? =
     accountManager.blockingGetAuthToken(this, AccountContract.AUTH_TOKEN_TYPE, notifyAuthFailure)
 
-fun Account.setAuthToken(authToken: String) =
+fun Account.setAuthToken(authToken: String) {
     accountManager.setAuthToken(this, AccountContract.AUTH_TOKEN_TYPE, authToken)
+}
 
-fun Account.invalidateAuthToken(authToken: String) =
+fun Account.invalidateAuthToken(authToken: String) {
     accountManager.invalidateAuthToken(type, authToken)
+}
 
 var Account.refreshToken: String?
     get() = accountManager.getUserData(this, AccountContract.USER_DATA_KEY_REFRESH_TOKEN)
-    set(value) =
+    set(value) {
         accountManager.setUserData(this, AccountContract.USER_DATA_KEY_REFRESH_TOKEN, value)
+    }
 
 var Account.userId: Long?
     get() = accountManager.getUserData(this, AccountContract.USER_DATA_KEY_USER_ID)?.toLongOrNull()
-    set(value) =
+    set(value) {
         accountManager.setUserData(this, AccountContract.USER_DATA_KEY_USER_ID, value?.toString())
+    }
 
 var Account.userName: String?
     get() = accountManager.getUserData(this, AccountContract.USER_DATA_KEY_USER_NAME)
-    set(value) = accountManager.setUserData(this, AccountContract.USER_DATA_KEY_USER_NAME, value)
+    set(value) {
+        accountManager.setUserData(this, AccountContract.USER_DATA_KEY_USER_NAME, value)
+    }

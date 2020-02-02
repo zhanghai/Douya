@@ -12,8 +12,6 @@ open class MutableLiveData<T> : MutableLiveData<T> {
 
     constructor(value: T) : super(value)
 
-    override fun getValue(): T {
-        @Suppress("UNCHECKED_CAST")
-        return super.getValue() as T
-    }
+    @Suppress("UNCHECKED_CAST")
+    override fun getValue(): T = super.getValue() as T
 }

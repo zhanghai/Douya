@@ -5,6 +5,6 @@
 
 package me.zhanghai.android.douya.util
 
-fun Int.hasBits(bits: Int) = this and bits == bits
+fun Int.hasBits(bits: Int): Boolean = this and bits == bits
 
-infix fun Int.andInv(other: Int) = this and other.inv()
+infix fun Int.andInv(other: Int): Int = this and other.inv()

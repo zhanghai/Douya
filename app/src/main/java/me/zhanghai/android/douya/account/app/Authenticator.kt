@@ -26,8 +26,10 @@ import retrofit2.HttpException
 import timber.log.Timber
 
 class Authenticator(private val context: Context) : AbstractAccountAuthenticator(context) {
-    override fun editProperties(response: AccountAuthenticatorResponse, accountType: String) =
-        throw UnsupportedOperationException()
+    override fun editProperties(
+        response: AccountAuthenticatorResponse,
+        accountType: String
+    ): Bundle? = throw UnsupportedOperationException()
 
     @Throws(NetworkErrorException::class)
     override fun addAccount(
@@ -36,14 +38,14 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         authTokenType: String?,
         requiredFeatures: Array<String>?,
         options: Bundle
-    ) = createAuthenticationBundle(AuthenticatorMode.ADD, null, response)
+    ): Bundle? = createAuthenticationBundle(AuthenticatorMode.ADD, null, response)
 
     @Throws(NetworkErrorException::class)
     override fun confirmCredentials(
         response: AccountAuthenticatorResponse,
         account: Account,
         options: Bundle?
-    ) = createAuthenticationBundle(AuthenticatorMode.CONFIRM, account, response)
+    ): Bundle? = createAuthenticationBundle(AuthenticatorMode.CONFIRM, account, response)
 
     @Throws(NetworkErrorException::class)
     override fun getAuthToken(
@@ -51,7 +53,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         account: Account,
         authTokenType: String,
         options: Bundle
-    ): Bundle {
+    ): Bundle? {
         if (account.type != AccountContract.ACCOUNT_TYPE) {
             return createErrorBundle(
                 AccountManager.ERROR_CODE_BAD_ARGUMENTS,
@@ -141,18 +143,18 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         account: Account,
         authTokenType: String?,
         options: Bundle?
-    ) = createAuthenticationBundle(AuthenticatorMode.UPDATE, account, response)
+    ): Bundle? = createAuthenticationBundle(AuthenticatorMode.UPDATE, account, response)
 
     @Throws(NetworkErrorException::class)
     override fun hasFeatures(
         response: AccountAuthenticatorResponse,
         account: Account,
         features: Array<String>
-    ) = Bundle().apply {
+    ): Bundle? = Bundle().apply {
         putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false)
     }
 
-    private fun createIntentBundle(intent: Intent) = Bundle().apply {
+    private fun createIntentBundle(intent: Intent): Bundle = Bundle().apply {
         putParcelable(AccountManager.KEY_INTENT, intent)
     }
 
@@ -160,11 +162,11 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         mode: AuthenticatorMode,
         account: Account?,
         response: AccountAuthenticatorResponse?
-    ) = createIntentBundle(Intent(context, AuthenticatorActivity::class.java).apply {
+    ): Bundle = createIntentBundle(Intent(context, AuthenticatorActivity::class.java).apply {
         putExtras(AuthenticatorFragmentArgs(mode.ordinal, account?.name, response).toBundle())
     })
 
-    private fun createErrorBundle(code: Int, message: String) = Bundle().apply {
+    private fun createErrorBundle(code: Int, message: String): Bundle = Bundle().apply {
         putInt(AccountManager.KEY_ERROR_CODE, code)
         putString(AccountManager.KEY_ERROR_MESSAGE, message)
     }

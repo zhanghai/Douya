@@ -15,7 +15,7 @@ interface UntilRange<T : Comparable<T>> {
     fun isEmpty(): Boolean = start >= endExclusive
 }
 
-infix fun <T: Comparable<T>> T.comparableUntil(that: T): UntilRange<T> =
+infix fun <T : Comparable<T>> T.comparableUntil(that: T): UntilRange<T> =
     ComparableUntilRange(this, that)
 
 private class ComparableUntilRange<T : Comparable<T>>(
@@ -23,13 +23,12 @@ private class ComparableUntilRange<T : Comparable<T>>(
     override val endExclusive: T
 ) : UntilRange<T> {
 
-    override fun equals(other: Any?): Boolean {
-        return other is ComparableUntilRange<*> && (isEmpty() && other.isEmpty() || (start == other.start && endExclusive == other.endExclusive))
-    }
+    override fun equals(other: Any?): Boolean =
+        other is ComparableUntilRange<*> && (isEmpty() && other.isEmpty() ||
+            (start == other.start && endExclusive == other.endExclusive))
 
-    override fun hashCode(): Int {
-        return if (isEmpty()) -1 else 31 * start.hashCode() + endExclusive.hashCode()
-    }
+    override fun hashCode(): Int =
+        if (isEmpty()) -1 else 31 * start.hashCode() + endExclusive.hashCode()
 
     override fun toString(): String = "$start until $endExclusive"
 }

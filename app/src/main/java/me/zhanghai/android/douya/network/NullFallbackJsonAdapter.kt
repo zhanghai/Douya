@@ -15,7 +15,7 @@ class NullFallbackJsonAdapter<T>(
     private val fallbackValue: T
 ) : JsonAdapter<T>() {
     @Throws(IOException::class)
-    override fun fromJson(reader: JsonReader) =
+    override fun fromJson(reader: JsonReader): T? =
         if (reader.peek() === JsonReader.Token.NULL) {
             reader.nextNull<Nothing>()
             fallbackValue
@@ -24,6 +24,7 @@ class NullFallbackJsonAdapter<T>(
         }
 
     @Throws(IOException::class)
-    override fun toJson(writer: JsonWriter, value: T?) =
+    override fun toJson(writer: JsonWriter, value: T?) {
         delegateAdapter.toJson(writer, value ?: fallbackValue)
+    }
 }

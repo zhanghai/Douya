@@ -19,17 +19,18 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-fun ResponseBody.toErrorResponse() = try {
-    ApiService.errorResponseConverter.convert(this)
-} catch (e: Exception) {
-    Timber.e(e)
-    null
-}
+fun ResponseBody.toErrorResponse(): ErrorResponse? =
+    try {
+        ApiService.errorResponseConverter.convert(this)
+    } catch (e: Exception) {
+        Timber.e(e)
+        null
+    }
 
-val HttpException.errorResponse
+val HttpException.errorResponse: ErrorResponse?
     get() = response()?.errorBody()?.toErrorResponse()
 
-val ErrorResponse.message
+val ErrorResponse.message: String
     get() = localizedMessage
         ?: ApiContract.Error.MESSAGES[code]?.let { application.getString(it) }
         ?: internalMessage

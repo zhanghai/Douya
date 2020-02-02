@@ -10,6 +10,7 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.account.app.Account
@@ -62,64 +63,66 @@ class AuthenticatorViewModel(
         _passwordError.value = null
     }
 
-    fun onSignIn() = viewModelScope.launch {
-        if (_authenticating.value) {
-            return@launch
-        }
-
-        val username = if (mode == AuthenticatorMode.ADD) username.value else initialUsername
-        val password = password.value
-
-        _usernameError.value = if (username.isEmpty()) {
-            application.getString(R.string.authenticator_username_error_empty)
-        } else {
-            null
-        }
-        _passwordError.value = if (password.isEmpty()) {
-            application.getString(R.string.authenticator_password_error_empty)
-        } else {
-            null
-        }
-        if (_usernameError.value != null || _passwordError.value != null) {
-            return@launch
-        }
-
-        _authenticating.value = true
-        try {
-            val response = try {
-                ApiService.authenticate(username, password)
-            } catch (e: Exception) {
-                Timber.e(e)
-                _passwordError.value = e.apiMessage
+    fun onSignIn() {
+        viewModelScope.launch {
+            if (_authenticating.value) {
                 return@launch
             }
 
-            val account = Account(username)
-            when (mode) {
-                AuthenticatorMode.ADD -> {
-                    accountManager.addAccountExplicitly(account, password)
-                    if (accountManager.ownAccounts.size == 1) {
-                        accountManager.activeAccount = account
+            val username = if (mode == AuthenticatorMode.ADD) username.value else initialUsername
+            val password = password.value
+
+            _usernameError.value = if (username.isEmpty()) {
+                application.getString(R.string.authenticator_username_error_empty)
+            } else {
+                null
+            }
+            _passwordError.value = if (password.isEmpty()) {
+                application.getString(R.string.authenticator_password_error_empty)
+            } else {
+                null
+            }
+            if (_usernameError.value != null || _passwordError.value != null) {
+                return@launch
+            }
+
+            _authenticating.value = true
+            try {
+                val response = try {
+                    ApiService.authenticate(username, password)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    _passwordError.value = e.apiMessage
+                    return@launch
+                }
+
+                val account = Account(username)
+                when (mode) {
+                    AuthenticatorMode.ADD -> {
+                        accountManager.addAccountExplicitly(account, password)
+                        if (accountManager.ownAccounts.size == 1) {
+                            accountManager.activeAccount = account
+                        }
+                    }
+                    AuthenticatorMode.UPDATE, AuthenticatorMode.CONFIRM ->
+                        accountManager.setPassword(account, password)
+                }
+                account.setAuthToken(response.accessToken)
+                account.refreshToken = response.refreshToken
+                account.userId = response.userId
+                account.userName = response.userName
+                _sendResultAndFinishEvent.value = when (mode) {
+                    AuthenticatorMode.ADD, AuthenticatorMode.UPDATE -> Intent().apply {
+                        putExtra(AccountManager.KEY_ACCOUNT_NAME, account.name)
+                        putExtra(AccountManager.KEY_ACCOUNT_TYPE, account.type)
+                    }
+                    AuthenticatorMode.CONFIRM -> Intent().apply {
+                        putExtra(AccountManager.KEY_BOOLEAN_RESULT, true)
                     }
                 }
-                AuthenticatorMode.UPDATE, AuthenticatorMode.CONFIRM ->
-                    accountManager.setPassword(account, password)
+            } finally {
+                _authenticating.value = false
             }
-            account.setAuthToken(response.accessToken)
-            account.refreshToken = response.refreshToken
-            account.userId = response.userId
-            account.userName = response.userName
-            _sendResultAndFinishEvent.value = when (mode) {
-                AuthenticatorMode.ADD, AuthenticatorMode.UPDATE -> Intent().apply {
-                    putExtra(AccountManager.KEY_ACCOUNT_NAME, account.name)
-                    putExtra(AccountManager.KEY_ACCOUNT_TYPE, account.type)
-                }
-                AuthenticatorMode.CONFIRM -> Intent().apply {
-                    putExtra(AccountManager.KEY_BOOLEAN_RESULT, true)
-                }
-            }
-        } finally {
-            _authenticating.value = false
         }
     }
 

@@ -40,31 +40,27 @@ class ApiSignatureInterceptor : Interceptor {
         return chain.proceed(request)
     }
 
-    private fun createTimestamp(): String {
-        return (System.currentTimeMillis() / 1000).toString()
-    }
+    private fun createTimestamp(): String = (System.currentTimeMillis() / 1000).toString()
 
     private fun createSignature(request: Request, timestamp: String): String {
-        return hmacSha1(
-            ApiContract.Credential.SECRET,
-            StringBuilder()
-                .apply {
-                    append(request.method)
-                    var path = request.url.encodedPath
-                    path = Uri.decode(path)
-                    if (path.endsWith("/")) {
-                        path = path.dropLast(1)
-                    }
-                    path = Uri.encode(path)
-                    append("&").append(path)
-                    val authToken = request.header(Http.Headers.AUTHORIZATION)?.drop(7)
-                    if (!authToken.isNullOrEmpty()) {
-                        append("&").append(authToken)
-                    }
-                    append("&").append(timestamp)
+        val input = StringBuilder()
+            .apply {
+                append(request.method)
+                var path = request.url.encodedPath
+                path = Uri.decode(path)
+                if (path.endsWith("/")) {
+                    path = path.dropLast(1)
                 }
-                .toString()
-        )
+                path = Uri.encode(path)
+                append("&").append(path)
+                val authToken = request.header(Http.Headers.AUTHORIZATION)?.drop(7)
+                if (!authToken.isNullOrEmpty()) {
+                    append("&").append(authToken)
+                }
+                append("&").append(timestamp)
+            }
+            .toString()
+        return hmacSha1(ApiContract.Credential.SECRET, input)
     }
 
     // Would have used getBytes(StandardCharsetsCompat.UTF_8) if not conforming to Frodo.

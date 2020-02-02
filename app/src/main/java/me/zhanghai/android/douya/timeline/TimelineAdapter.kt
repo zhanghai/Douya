@@ -21,25 +21,27 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
         setHasStableIds(true)
     }
 
-    fun createDiffCallback(newItems: List<TimelineItem>) = object : DiffUtil.Callback() {
-        override fun getOldListSize() = itemCount
+    fun createDiffCallback(newItems: List<TimelineItem>): DiffUtil.Callback =
+        object : DiffUtil.Callback() {
+            override fun getOldListSize() = itemCount
 
-        override fun getNewListSize() = newItems.size
+            override fun getNewListSize() = newItems.size
 
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-            items[oldItemPosition].uid == newItems[newItemPosition].uid
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                items[oldItemPosition].uid == newItems[newItemPosition].uid
 
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-            items[oldItemPosition] == newItems[newItemPosition]
-    }
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                items[oldItemPosition] == newItems[newItemPosition]
+        }
 
-    override fun getItemId(position: Int) = items[position].uid.hashCode().toLong()
+    override fun getItemId(position: Int): Long = items[position].uid.hashCode().toLong()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(TimelineItemBinding.inflate(parent.context.layoutInflater, parent, false))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+    }
 
     class ViewHolder(
         private val binding: TimelineItemBinding

@@ -72,13 +72,11 @@ class NullableStringSettingLiveData(
         sharedPreferences: SharedPreferences,
         key: String,
         defaultValue: String?
-    ) = sharedPreferences.getString(key, defaultValue)
+    ): String? = sharedPreferences.getString(key, defaultValue)
 
-    override fun writeValue(
-        sharedPreferences: SharedPreferences,
-        key: String,
-        value: String?
-    ) = sharedPreferences.edit { putString(key, value) }
+    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: String?) {
+        sharedPreferences.edit { putString(key, value) }
+    }
 }
 
 class StringSettingLiveData(
@@ -89,13 +87,15 @@ class StringSettingLiveData(
         sharedPreferences: SharedPreferences,
         key: String,
         defaultValue: String
-    ) = sharedPreferences.getString(key, defaultValue)!!
+    ): String = sharedPreferences.getString(key, defaultValue)!!
 
     override fun writeValue(
         sharedPreferences: SharedPreferences,
         key: String,
         value: String
-    ) = sharedPreferences.edit { putString(key, value) }
+    ) {
+        sharedPreferences.edit { putString(key, value) }
+    }
 }
 
 class StringSetSettingLiveData(
@@ -112,39 +112,53 @@ class StringSetSettingLiveData(
         sharedPreferences: SharedPreferences,
         key: String,
         value: Set<String?>
-    ) = sharedPreferences.edit { putStringSet(key, value) }
+    ) {
+        sharedPreferences.edit { putStringSet(key, value) }
+    }
 }
 
 class IntegerSettingLiveData(
     @StringRes keyRes: Int,
     @IntegerRes defaultValueRes: Int
 ) : SettingLiveData<Int>(keyRes, application.getInteger(defaultValueRes)) {
-    override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Int) =
-        sharedPreferences.getInt(key, defaultValue)
+    override fun readValue(
+        sharedPreferences: SharedPreferences,
+        key: String,
+        defaultValue: Int
+    ): Int = sharedPreferences.getInt(key, defaultValue)
 
-    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Int) =
+    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Int) {
         sharedPreferences.edit { putInt(key, value) }
+    }
 }
 
 class LongSettingLiveData(
     @StringRes keyRes: Int,
     @StringRes defaultValueRes: Int
 ) : SettingLiveData<Long>(keyRes, application.getString(defaultValueRes).toLong()) {
-    override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Long) =
-        sharedPreferences.getLong(key, defaultValue)
+    override fun readValue(
+        sharedPreferences: SharedPreferences,
+        key: String,
+        defaultValue: Long
+    ): Long = sharedPreferences.getLong(key, defaultValue)
 
-    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Long) =
+    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Long) {
         sharedPreferences.edit { putLong(key, value) }
+    }
 }
 
 class FloatSettingLiveData(
     @StringRes keyRes: Int, @DimenRes defaultValueRes: Int
 ) : SettingLiveData<Float>(keyRes, application.getFloat(defaultValueRes)) {
-    override fun readValue(sharedPreferences: SharedPreferences, key: String, defaultValue: Float) =
-        sharedPreferences.getFloat(key, defaultValue)
+    override fun readValue(
+        sharedPreferences: SharedPreferences,
+        key: String,
+        defaultValue: Float
+    ): Float = sharedPreferences.getFloat(key, defaultValue)
 
-    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Float) =
+    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Float) {
         sharedPreferences.edit { putFloat(key, value) }
+    }
 }
 
 class BooleanSettingLiveData(
@@ -155,10 +169,11 @@ class BooleanSettingLiveData(
         sharedPreferences: SharedPreferences,
         key: String,
         defaultValue: Boolean
-    ) = sharedPreferences.getBoolean(key, defaultValue)
+    ): Boolean = sharedPreferences.getBoolean(key, defaultValue)
 
-    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Boolean) =
+    override fun writeValue(sharedPreferences: SharedPreferences, key: String, value: Boolean) {
         sharedPreferences.edit { putBoolean(key, value) }
+    }
 }
 
 // Use string resource for default value so that we can support ListPreference.
@@ -179,7 +194,7 @@ class EnumSettingLiveData<E : Enum<E>>(
     override fun writeValue(
         sharedPreferences: SharedPreferences, key: String,
         value: E
-    ) = sharedPreferences.edit {
-        putString(key, value.ordinal.toString())
+    ) {
+        sharedPreferences.edit { putString(key, value.ordinal.toString()) }
     }
 }

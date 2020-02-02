@@ -91,7 +91,7 @@ fun setSwipeRefreshLayoutRefreshing(swipeRefreshLayout: SwipeRefreshLayout, refr
 }
 
 @InverseBindingAdapter(attribute = "refreshing", event = "refreshingAttrChanged")
-fun getSwipeRefreshLayoutRefreshing(swipeRefreshLayout: SwipeRefreshLayout) =
+fun getSwipeRefreshLayoutRefreshing(swipeRefreshLayout: SwipeRefreshLayout): Boolean =
     swipeRefreshLayout.isRefreshing
 
 @BindingAdapter(value = ["onRefresh", "refreshingAttrChanged"], requireAll = false)

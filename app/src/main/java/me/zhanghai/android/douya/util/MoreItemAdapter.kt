@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 class MoreItemAdapter(
     @LayoutRes private val layoutRes: Int
 ) : RecyclerView.Adapter<MoreItemAdapter.ViewHolder>() {
-    var available: Boolean = false
+    var available = false
         set(value) {
             if (field == value) {
                 return
@@ -26,7 +26,7 @@ class MoreItemAdapter(
             }
         }
 
-    var loading: Boolean = false
+    var loading = false
         set(value) {
             if (field == value) {
                 return
@@ -48,9 +48,9 @@ class MoreItemAdapter(
         setHasStableIds(true)
     }
 
-    override fun getItemCount() = if (available) 1 else 0
+    override fun getItemCount(): Int = if (available) 1 else 0
 
-    override fun getItemId(position: Int) = 0L
+    override fun getItemId(position: Int): Long = 0L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(parent.context.layoutInflater.inflate(layoutRes, parent, false)).also {

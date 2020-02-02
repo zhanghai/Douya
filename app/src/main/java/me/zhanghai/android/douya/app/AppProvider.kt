@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.app
 import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.database.Cursor
 import android.net.Uri
 
 lateinit var application: Application private set
@@ -19,7 +20,8 @@ class AppProvider : ContentProvider() {
         return true
     }
 
-    override fun insert(uri: Uri, values: ContentValues?) = throw UnsupportedOperationException()
+    override fun insert(uri: Uri, values: ContentValues?): Uri? =
+        throw UnsupportedOperationException()
 
     override fun query(
         uri: Uri,
@@ -27,17 +29,17 @@ class AppProvider : ContentProvider() {
         selection: String?,
         selectionArgs: Array<out String>?,
         sortOrder: String?
-    ) = throw UnsupportedOperationException()
+    ): Cursor? = throw UnsupportedOperationException()
 
     override fun update(
         uri: Uri,
         values: ContentValues?,
         selection: String?,
         selectionArgs: Array<out String>?
-    ) = throw UnsupportedOperationException()
+    ): Int = throw UnsupportedOperationException()
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?) =
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int =
         throw UnsupportedOperationException()
 
-    override fun getType(uri: Uri) = throw UnsupportedOperationException()
+    override fun getType(uri: Uri): String? = throw UnsupportedOperationException()
 }

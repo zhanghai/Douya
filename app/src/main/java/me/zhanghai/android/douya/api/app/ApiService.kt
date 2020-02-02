@@ -68,22 +68,25 @@ object ApiService {
         .build()
         .create(ApiService::class.java)
 
-    fun cancelApiRequests() = apiHttpClient.dispatcher.cancelAll()
+    fun cancelApiRequests() {
+        apiHttpClient.dispatcher.cancelAll()
+    }
 
-    suspend fun authenticate(username: String, password: String) =
+    suspend fun authenticate(username: String, password: String): AuthenticationResponse =
         authenticationService.authenticate(
             ApiContract.Credential.KEY, ApiContract.Credential.SECRET,
             ApiContract.Authentication.REDIRECT_URI, false,
             ApiContract.Authentication.GrantTypes.PASSWORD, username, password
         )
 
-    suspend fun authenticate(refreshToken: String) = authenticationService.authenticate(
-        ApiContract.Credential.KEY, ApiContract.Credential.SECRET,
-        ApiContract.Authentication.REDIRECT_URI, false,
-        ApiContract.Authentication.GrantTypes.REFRESH_TOKEN, refreshToken
-    )
+    suspend fun authenticate(refreshToken: String): AuthenticationResponse =
+        authenticationService.authenticate(
+            ApiContract.Credential.KEY, ApiContract.Credential.SECRET,
+            ApiContract.Authentication.REDIRECT_URI, false,
+            ApiContract.Authentication.GrantTypes.REFRESH_TOKEN, refreshToken
+        )
 
-    suspend fun getHomeTimeline(maxId: String? = null) = apiService.getHomeTimeline(maxId)
+    suspend fun getHomeTimeline(maxId: String? = null): Timeline = apiService.getHomeTimeline(maxId)
 
     private interface AuthenticationService {
         @POST(ApiContract.Authentication.URL)

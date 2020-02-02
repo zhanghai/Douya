@@ -55,7 +55,9 @@ class TimelineContentLayout : ConstraintLayout {
         defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
-    fun bind(status: Status) = viewModel.bind(status)
+    fun bind(status: Status) {
+        viewModel.bind(status)
+    }
 
     class ViewModel {
 

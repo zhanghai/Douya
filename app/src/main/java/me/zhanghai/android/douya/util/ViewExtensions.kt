@@ -7,7 +7,7 @@ package me.zhanghai.android.douya.util
 
 import android.view.View
 
-var View.layoutInStatusBar
+var View.layoutInStatusBar: Boolean
     get() = systemUiVisibility.hasBits(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     set(value) {
         systemUiVisibility = if (value) {
@@ -18,7 +18,7 @@ var View.layoutInStatusBar
         }
     }
 
-var View.layoutInNavigation
+var View.layoutInNavigation: Boolean
     get() = systemUiVisibility.hasBits(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
     set(value) {
         systemUiVisibility = if (value) {

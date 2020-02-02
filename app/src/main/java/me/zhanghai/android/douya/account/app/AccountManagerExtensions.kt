@@ -20,7 +20,7 @@ import timber.log.Timber
 val AccountManager.ownAccounts: Array<Account>
     get() = getAccountsByType(AccountContract.ACCOUNT_TYPE)
 
-fun AccountManager.getAccountByName(name: String) = ownAccounts.find { it.name == name }
+fun AccountManager.getAccountByName(name: String): Account? = ownAccounts.find { it.name == name }
 
 fun AccountManager.addAccountExplicitly(account: Account, password: String) =
     addAccountExplicitly(account, password, null)

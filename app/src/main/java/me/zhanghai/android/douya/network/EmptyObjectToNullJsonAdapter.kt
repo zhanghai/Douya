@@ -15,7 +15,7 @@ import java.lang.reflect.Type
 
 class EmptyObjectToNullJsonAdapter<T>(private val adapter: JsonAdapter<T>) : JsonAdapter<T>() {
     @Throws(IOException::class)
-    override fun fromJson(reader: JsonReader) =
+    override fun fromJson(reader: JsonReader): T? =
         if (reader.peekJson().runCatching {
                 beginObject()
                 endObject()
@@ -30,7 +30,9 @@ class EmptyObjectToNullJsonAdapter<T>(private val adapter: JsonAdapter<T>) : Jso
         }
 
     @Throws(IOException::class)
-    override fun toJson(writer: JsonWriter, value: T?) = adapter.toJson(writer, value)
+    override fun toJson(writer: JsonWriter, value: T?) {
+        adapter.toJson(writer, value)
+    }
 
     object Factory : JsonAdapter.Factory {
         override fun create(

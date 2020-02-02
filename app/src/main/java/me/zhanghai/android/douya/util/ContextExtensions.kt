@@ -10,6 +10,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.AttributeSet
@@ -52,45 +53,46 @@ fun Context.getInterpolator(@InterpolatorRes id: Int) = AnimationUtils.loadInter
 
 fun Context.getStringArray(@ArrayRes id: Int) = resources.getStringArray(id)
 
-fun Context.getColorByAttr(@AttrRes attr: Int) = getColorStateListByAttr(attr).defaultColor
+fun Context.getColorByAttr(@AttrRes attr: Int): Int = getColorStateListByAttr(attr).defaultColor
 
-fun Context.getColorStateListByAttr(@AttrRes attr: Int) =
-    obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use { it.getColorStateList(0) }
+fun Context.getColorStateListByAttr(@AttrRes attr: Int): ColorStateList =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getColorStateList(0) }
         ?: attributeNotFound(attr)
 
-fun Context.getDimensionByAttr(@AttrRes attr: Int) =
-    obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use { it.getDimension(0, 0f) }
+fun Context.getDimensionByAttr(@AttrRes attr: Int): Float =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDimension(0, 0f) }
 
-fun Context.getDimensionPixelOffsetByAttr(@AttrRes attr: Int) =
-    obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use {
+fun Context.getDimensionPixelOffsetByAttr(@AttrRes attr: Int): Int =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use {
         it.getDimensionPixelOffset(0, 0)
     }
 
-fun Context.getDimensionPixelSizeByAttr(@AttrRes attr: Int) =
-    obtainAppCompatStyledAttributes(attrs = intArrayOf(attr)).use { it.getDimensionPixelSize(0, 0) }
+fun Context.getDimensionPixelSizeByAttr(@AttrRes attr: Int): Int =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDimensionPixelSize(0, 0) }
 
-fun Context.obtainAppCompatStyledAttributes(
+fun Context.obtainStyledAttributesCompat(
     set: AttributeSet? = null,
     @StyleableRes attrs: IntArray,
     @StyleRes defStyleRes: Int = 0,
     @AttrRes defStyleAttr: Int = 0
-) = TintTypedArray.obtainStyledAttributes(this, set, attrs, defStyleAttr, defStyleRes)
+): TintTypedArray =
+    TintTypedArray.obtainStyledAttributes(this, set, attrs, defStyleAttr, defStyleRes)
 
-private inline fun <R> TintTypedArray.use(block: (TintTypedArray) -> R) =
+private inline fun <R> TintTypedArray.use(block: (TintTypedArray) -> R): R =
     AutoCloseable { recycle() }.use { block(this) }
 
 private fun attributeNotFound(@AttrRes attr: Int): Nothing =
     throw Resources.NotFoundException("Attribute resource ID #0x${Integer.toHexString(attr)}")
 
 @Dimension
-fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Float) =
+fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Float): Float =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
 
 @Dimension
 fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Int) = dpToDimension(dp.toFloat())
 
 @Dimension
-fun Context.dpToDimensionPixelOffset(@Dimension(unit = Dimension.DP) dp: Float) =
+fun Context.dpToDimensionPixelOffset(@Dimension(unit = Dimension.DP) dp: Float): Int =
     dpToDimension(dp).toInt()
 
 @Dimension
@@ -113,23 +115,25 @@ fun Context.dpToDimensionPixelSize(@Dimension(unit = Dimension.DP) dp: Float): I
 fun Context.dpToDimensionPixelSize(@Dimension(unit = Dimension.DP) dp: Int) =
     dpToDimensionPixelSize(dp.toFloat())
 
-val Context.shortAnimTime
+val Context.shortAnimTime: Long
     get() = getInteger(android.R.integer.config_shortAnimTime).toLong()
 
-val Context.mediumAnimTime
+val Context.mediumAnimTime: Long
     get() = getInteger(android.R.integer.config_mediumAnimTime).toLong()
 
-val Context.longAnimTime
+val Context.longAnimTime: Long
     get() = getInteger(android.R.integer.config_longAnimTime).toLong()
 
 val Context.layoutInflater
     get() = LayoutInflater.from(this)
 
-fun Context.showToast(textRes: Int, duration: Int = Toast.LENGTH_SHORT) =
+fun Context.showToast(textRes: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, textRes, duration).show()
+}
 
-fun Context.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
+fun Context.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, text, duration).show()
+}
 
 fun Context.startActivitySafe(intent: Intent, options: Bundle? = null) {
     try {

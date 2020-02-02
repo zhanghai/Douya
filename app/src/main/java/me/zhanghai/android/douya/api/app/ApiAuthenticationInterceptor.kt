@@ -27,9 +27,8 @@ class ApiAuthenticationInterceptor : AuthenticationInterceptor(ApiContract.Api.M
     }
 
     private object NoOpAuthenticator : Authenticator {
-        override fun authenticate(request: Request) = request
+        override fun authenticate(request: Request): Request = request
 
-        @Suppress("ImplicitNullableNothingType")
-        override fun retryAuthentication(response: Response) = null
+        override fun retryAuthentication(response: Response): Request? = null
     }
 }

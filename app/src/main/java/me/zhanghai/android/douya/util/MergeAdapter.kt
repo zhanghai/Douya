@@ -30,12 +30,12 @@ open class MergeAdapter(
         return adapters.sumBy { it.itemCount }
     }
 
-    override fun getItemId(position: Int) =
+    override fun getItemId(position: Int): Long =
         findAdapter(position) { adapterIndex, adapter, adapterPosition ->
             31 * adapterIndex + adapter.getItemId(adapterPosition)
         }
 
-    override fun getItemViewType(position: Int) =
+    override fun getItemViewType(position: Int): Int =
         findAdapter(position) { adapterIndex, adapter, adapterPosition ->
             ((adapterIndex shl Int.SIZE_BITS / 2) + adapter.getItemViewType(adapterPosition)).also {
                 viewTypeToAdapterIndex[it] = adapterIndex
@@ -48,17 +48,20 @@ open class MergeAdapter(
         return adapters[adapterIndex].onCreateViewHolder(parent, adapterViewType)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         findAdapter(position) { _, adapter, adapterPosition ->
             adapter.onBindViewHolder(holder, adapterPosition)
         }
+    }
 
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int,
         payloads: List<Any>
-    ) = findAdapter(position) { _, adapter, adapterPosition ->
-        adapter.onBindViewHolder(holder, adapterPosition, payloads)
+    ) {
+        findAdapter(position) { _, adapter, adapterPosition ->
+            adapter.onBindViewHolder(holder, adapterPosition, payloads)
+        }
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
@@ -66,20 +69,22 @@ open class MergeAdapter(
         adapters[adapterIndex].onViewRecycled(holder)
     }
 
-    override fun onFailedToRecycleView(holder: RecyclerView.ViewHolder) =
+    override fun onFailedToRecycleView(holder: RecyclerView.ViewHolder): Boolean =
         findAdapter(holder.adapterPosition) { _, adapter, _ ->
             adapter.onFailedToRecycleView(holder)
         }
 
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) =
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         findAdapter(holder.adapterPosition) { _, adapter, _ ->
             adapter.onViewAttachedToWindow(holder)
         }
+    }
 
-    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) =
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         findAdapter(holder.adapterPosition) { _, adapter, _ ->
             adapter.onViewDetachedFromWindow(holder)
         }
+    }
 
     private inline fun <T> findAdapter(
         position: Int,
@@ -104,9 +109,8 @@ open class MergeAdapter(
         adapters.forEach { it.onDetachedFromRecyclerView(recyclerView) }
     }
 
-    private fun getAdapterIndexForViewType(viewType: Int): Int {
-        return viewTypeToAdapterIndex[viewType] ?: error("Unknown viewType: $viewType")
-    }
+    private fun getAdapterIndexForViewType(viewType: Int): Int =
+        viewTypeToAdapterIndex[viewType] ?: error("Unknown viewType: $viewType")
 
     private inner class AdapterDataObserver(
         private val adapter: RecyclerView.Adapter<*>
@@ -136,8 +140,7 @@ open class MergeAdapter(
             notifyItemMoved(getItemPosition(fromPosition), getItemPosition(toPosition))
         }
 
-        private fun getItemPosition(position: Int): Int {
-            return adapters.takeWhile { it !== adapter }.sumBy { it.itemCount } + position
-        }
+        private fun getItemPosition(position: Int): Int =
+            adapters.takeWhile { it !== adapter }.sumBy { it.itemCount } + position
     }
 }

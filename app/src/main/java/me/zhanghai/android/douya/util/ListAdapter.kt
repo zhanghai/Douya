@@ -16,5 +16,5 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
             addAll(value)
         }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount(): Int = items.size
 }

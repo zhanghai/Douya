@@ -17,5 +17,5 @@ class ResumedLifecycleOwner : LifecycleOwner {
         lifecycle.currentState = Lifecycle.State.RESUMED
     }
 
-    override fun getLifecycle() = lifecycle
+    override fun getLifecycle(): Lifecycle = lifecycle
 }

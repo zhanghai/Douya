@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.timeline
 
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.api.info.Status
@@ -19,7 +20,7 @@ import me.zhanghai.android.douya.status.StatusRepository
 import timber.log.Timber
 
 object TimelineRepository {
-    fun observeHomeTimeline() = callbackFlow<ResourceWithMore<List<TimelineItem>>> {
+    fun observeHomeTimeline(): Flow<ResourceWithMore<List<TimelineItem>>> = callbackFlow {
         var resource = ResourceWithMore<List<TimelineItem>>(Deleted(null), Deleted(null))
         val offer = { newResource: ResourceWithMore<List<TimelineItem>> ->
             resource = newResource
@@ -106,7 +107,7 @@ object TimelineRepository {
         awaitClose { StatusRepository.removeObserver(statusObserver) }
     }
 
-    private suspend fun getHomeTimeline(maxId: String? = null) =
+    private suspend fun getHomeTimeline(maxId: String? = null): List<TimelineItem> =
         ApiService.getHomeTimeline(maxId).items.filter { it.type.isNotEmpty() }.also {
             it.forEach { it.content?.status?.let { StatusRepository.putStatus(it) } }
         }

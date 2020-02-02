@@ -11,46 +11,50 @@ import android.view.ViewPropertyAnimator
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-suspend fun Animator.awaitEnd() = suspendCancellableCoroutine<Unit> { continuation ->
-    continuation.invokeOnCancellation { cancel() }
-    addListener(object : AnimatorListenerAdapter() {
-        private var canceled = false
+suspend fun Animator.awaitEnd() {
+    suspendCancellableCoroutine<Unit> { continuation ->
+        continuation.invokeOnCancellation { cancel() }
+        addListener(object : AnimatorListenerAdapter() {
+            private var canceled = false
 
-        override fun onAnimationCancel(animation: Animator) {
-            canceled = true
-        }
+            override fun onAnimationCancel(animation: Animator) {
+                canceled = true
+            }
 
-        override fun onAnimationEnd(animation: Animator) {
-            removeListener(this)
-            if (continuation.isActive) {
-                if (canceled) {
-                    continuation.cancel()
-                } else {
-                    continuation.resume(Unit)
+            override fun onAnimationEnd(animation: Animator) {
+                removeListener(this)
+                if (continuation.isActive) {
+                    if (canceled) {
+                        continuation.cancel()
+                    } else {
+                        continuation.resume(Unit)
+                    }
                 }
             }
-        }
-    })
+        })
+    }
 }
 
-suspend fun ViewPropertyAnimator.awaitEnd() = suspendCancellableCoroutine<Unit> { continuation ->
-    continuation.invokeOnCancellation { cancel() }
-    setListener(object : AnimatorListenerAdapter() {
-        private var canceled = false
+suspend fun ViewPropertyAnimator.awaitEnd() {
+    suspendCancellableCoroutine<Unit> { continuation ->
+        continuation.invokeOnCancellation { cancel() }
+        setListener(object : AnimatorListenerAdapter() {
+            private var canceled = false
 
-        override fun onAnimationCancel(animation: Animator) {
-            canceled = true
-        }
+            override fun onAnimationCancel(animation: Animator) {
+                canceled = true
+            }
 
-        override fun onAnimationEnd(animation: Animator) {
-            setListener(null)
-            if (continuation.isActive) {
-                if (canceled) {
-                    continuation.cancel()
-                } else {
-                    continuation.resume(Unit)
+            override fun onAnimationEnd(animation: Animator) {
+                setListener(null)
+                if (continuation.isActive) {
+                    if (canceled) {
+                        continuation.cancel()
+                    } else {
+                        continuation.resume(Unit)
+                    }
                 }
             }
-        }
-    })
+        })
+    }
 }

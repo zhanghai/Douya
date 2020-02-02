@@ -13,5 +13,7 @@ class DistinctMutableLiveData<T>(value: T) : MutableLiveData<T>(value) {
         }
     }
 
-    fun forceValue(value: T) = super.setValue(value)
+    fun forceValue(value: T) {
+        super.setValue(value)
+    }
 }

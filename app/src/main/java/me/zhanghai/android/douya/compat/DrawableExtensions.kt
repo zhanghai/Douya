@@ -10,4 +10,6 @@ import androidx.core.graphics.drawable.DrawableCompat
 
 var Drawable.layoutDirectionCompat: Int
     get() = DrawableCompat.getLayoutDirection(this)
-    set(value) { DrawableCompat.setLayoutDirection(this, value) }
+    set(value) {
+        DrawableCompat.setLayoutDirection(this, value)
+    }

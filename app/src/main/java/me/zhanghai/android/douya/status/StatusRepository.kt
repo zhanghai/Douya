@@ -17,7 +17,11 @@ object StatusRepository {
         observers.forEach { it(status) }
     }
 
-    fun addObserver(observer: (Status) -> Unit) = observers.add(observer)
+    fun addObserver(observer: (Status) -> Unit) {
+        observers.add(observer)
+    }
 
-    fun removeObserver(observer: (Status) -> Unit) = observers.remove(observer)
+    fun removeObserver(observer: (Status) -> Unit) {
+        observers.remove(observer)
+    }
 }

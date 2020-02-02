@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -70,11 +71,15 @@ class TimelineViewModel(
         }
     }
 
-    fun refresh() = viewModelScope.launch {
-        resource.value.refresh?.invoke()
+    fun refresh() {
+        viewModelScope.launch {
+            resource.value.refresh?.invoke()
+        }
     }
 
-    fun loadMore() = viewModelScope.launch {
-        resource.more.refresh?.invoke()
+    fun loadMore() {
+        viewModelScope.launch {
+            resource.more.refresh?.invoke()
+        }
     }
 }
