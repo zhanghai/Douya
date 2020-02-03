@@ -62,6 +62,9 @@ fun Context.getInterpolator(@InterpolatorRes id: Int): Interpolator =
 
 fun Context.getStringArray(@ArrayRes id: Int): Array<String> = resources.getStringArray(id)
 
+fun Context.getBooleanByAttr(@AttrRes attr: Int): Boolean =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getBoolean(0, false) }
+
 fun Context.getColorByAttr(@AttrRes attr: Int): Int =
     getColorStateListByAttr(attr).defaultColor
 
