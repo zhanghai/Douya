@@ -19,6 +19,7 @@ import me.zhanghai.android.douya.api.util.activityCompat
 import me.zhanghai.android.douya.api.util.normalOrClosest
 import me.zhanghai.android.douya.api.util.subtitleWithEntities
 import me.zhanghai.android.douya.api.util.textWithEntities
+import me.zhanghai.android.douya.api.util.textWithEntitiesAndParent
 import me.zhanghai.android.douya.api.util.uriOrUrl
 import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
@@ -112,7 +113,7 @@ class TimelineItemLayout : ConstraintLayout {
             val authorUri: String,
             val time: ZonedDateTime?,
             val activity: String,
-            val text: CharSequence,
+            val text: ((Context) -> CharSequence)?,
             val hasReshared: Boolean,
             val resharedDeleted: Boolean,
             val resharedAuthor: String,
@@ -136,7 +137,7 @@ class TimelineItemLayout : ConstraintLayout {
                 authorUri = "",
                 time = null,
                 activity = "",
-                text = "",
+                text = null,
                 hasReshared = false,
                 resharedDeleted = false,
                 resharedAuthor = "",
@@ -188,7 +189,7 @@ class TimelineItemLayout : ConstraintLayout {
                     authorUri = status.author?.uriOrUrl ?: "",
                     activity = status.activityCompat,
                     time = status.createTime,
-                    text = status.textWithEntities,
+                    text = status::textWithEntitiesAndParent,
                     hasReshared = status.resharedStatus != null,
                     resharedDeleted = status.resharedStatus?.deleted ?: false,
                     resharedAuthor = status.resharedStatus?.author?.name ?: "",
@@ -218,7 +219,7 @@ class TimelineItemLayout : ConstraintLayout {
                     authorUri = timelineItem?.owner?.uriOrUrl ?: "",
                     activity = timelineItem?.action ?: "",
                     time = null,
-                    text = "",
+                    text = null,
                     hasReshared = false,
                     resharedDeleted = false,
                     resharedAuthor = "",

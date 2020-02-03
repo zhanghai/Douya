@@ -13,6 +13,7 @@
     <data>
         <import type="android.text.TextUtils" />
         <import type="android.view.Gravity" />
+        <import type="me.zhanghai.android.douya.R" />
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineItemLayout.ViewModel" />
     </data>
 
@@ -108,10 +109,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarImage"
-            android:text="@{viewModel.text}"
+            android:text="@{viewModel.text.invoke(context)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:spanClickable="@{true}"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.text)}"
+            app:visibleOrGone="@{viewModel.text != null}"
             tools:text="你好，世界！" />
 
         <Space
@@ -422,7 +423,7 @@
             app:layout_constraintBottom_toBottomOf="@id/imageRecyclerDescriptionScrim"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{String.format(@string/timeline_item_image_count_format, viewModel.imageList.size())}"
+            android:text="@{context.getString(R.string.timeline_item_image_count_format, viewModel.imageList.size())}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:theme="@style/ThemeOverlay.Douya.Dark"
             app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"

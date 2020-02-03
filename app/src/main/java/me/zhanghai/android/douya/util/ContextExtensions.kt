@@ -12,6 +12,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -23,13 +24,18 @@ import androidx.annotation.AttrRes
 import androidx.annotation.BoolRes
 import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
+import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.InterpolatorRes
 import androidx.annotation.StyleRes
 import androidx.annotation.StyleableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.TintTypedArray
 import androidx.core.content.res.ResourcesCompat
 import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.compat.getFloatCompat
+import me.zhanghai.android.douya.compat.obtainStyledAttributesCompat
+import me.zhanghai.android.douya.compat.use
 
 val Context.activity: Activity?
     get() {
@@ -45,7 +51,7 @@ val Context.activity: Activity?
 
 fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
 
-fun Context.getFloat(@DimenRes id: Int) = ResourcesCompat.getFloat(resources, id)
+fun Context.getFloat(@DimenRes id: Int) = resources.getFloatCompat(id)
 
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)
 
@@ -53,11 +59,11 @@ fun Context.getInterpolator(@InterpolatorRes id: Int) = AnimationUtils.loadInter
 
 fun Context.getStringArray(@ArrayRes id: Int) = resources.getStringArray(id)
 
-fun Context.getColorByAttr(@AttrRes attr: Int): Int = getColorStateListByAttr(attr).defaultColor
+fun Context.getColorByAttr(@AttrRes attr: Int): Int =
+    getColorStateListByAttr(attr)?.defaultColor ?: Color.BLACK
 
-fun Context.getColorStateListByAttr(@AttrRes attr: Int): ColorStateList =
+fun Context.getColorStateListByAttr(@AttrRes attr: Int): ColorStateList? =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getColorStateList(0) }
-        ?: attributeNotFound(attr)
 
 fun Context.getDimensionByAttr(@AttrRes attr: Int): Float =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDimension(0, 0f) }
@@ -69,20 +75,6 @@ fun Context.getDimensionPixelOffsetByAttr(@AttrRes attr: Int): Int =
 
 fun Context.getDimensionPixelSizeByAttr(@AttrRes attr: Int): Int =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDimensionPixelSize(0, 0) }
-
-fun Context.obtainStyledAttributesCompat(
-    set: AttributeSet? = null,
-    @StyleableRes attrs: IntArray,
-    @StyleRes defStyleRes: Int = 0,
-    @AttrRes defStyleAttr: Int = 0
-): TintTypedArray =
-    TintTypedArray.obtainStyledAttributes(this, set, attrs, defStyleAttr, defStyleRes)
-
-private inline fun <R> TintTypedArray.use(block: (TintTypedArray) -> R): R =
-    AutoCloseable { recycle() }.use { block(this) }
-
-private fun attributeNotFound(@AttrRes attr: Int): Nothing =
-    throw Resources.NotFoundException("Attribute resource ID #0x${Integer.toHexString(attr)}")
 
 @Dimension
 fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Float): Float =

@@ -49,6 +49,8 @@
     <string name="timeline_empty">没有广播</string>
     <string name="timeline_item_reshared_by_format">由 %1$s 转播 ↴</string>
     <string name="timeline_item_time_action_space">" "</string>
-    <string name="timeline_item_image_count_format">%1$d 张图片</string>
+    <string name="timeline_item_text_resharer_format">%1$s：</string>
+    <string name="timeline_item_text_more_reshares">更多转播…</string>
     <string name="timeline_item_reshared_status_deleted">（广播已被删除）</string>
+    <string name="timeline_item_image_count_format">%1$d 张图片</string>
 </resources>
