@@ -23,7 +23,7 @@ import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.arch.valueCompat
-import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
+import me.zhanghai.android.douya.databinding.TimelineItemLayoutBinding
 import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter
 import me.zhanghai.android.douya.util.GutterItemDecoration
@@ -34,18 +34,18 @@ import me.zhanghai.android.douya.util.fadeOutUnsafe
 import me.zhanghai.android.douya.util.layoutInflater
 import org.threeten.bp.ZonedDateTime
 
-class TimelineContentLayout : ConstraintLayout {
+class TimelineItemLayout : ConstraintLayout {
     companion object {
         private const val IMAGE_RECYCLER_GUTTER_SIZE_DP = 2
     }
 
     private val lifecycleOwner = ResumedLifecycleOwner()
 
-    private val binding = TimelineContentLayoutBinding.inflate(context.layoutInflater, this, true)
+    private val binding = TimelineItemLayoutBinding.inflate(context.layoutInflater, this, true)
 
     private val imageAdapter = HorizontalImageAdapter()
 
-    val viewModel = ViewModel()
+    private val viewModel = ViewModel()
 
     constructor(context: Context) : super(context)
 

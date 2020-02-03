@@ -13,7 +13,7 @@
     <data>
         <import type="android.text.TextUtils" />
         <import type="android.view.Gravity" />
-        <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineContentLayout.ViewModel" />
+        <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineItemLayout.ViewModel" />
     </data>
 
     <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
@@ -78,7 +78,7 @@
             app:layout_constraintBottom_toBottomOf="@id/activityText"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/timeline_content_time_action_space"
+            android:text="@string/timeline_item_time_action_space"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:visibleOrGone="@{viewModel.time != null}"
             android:textColor="?android:textColorSecondary" />
@@ -161,7 +161,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
-            android:text="@string/timeline_content_reshared_status_deleted"
+            android:text="@string/timeline_item_reshared_status_deleted"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:textColorSecondary"
             app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; viewModel.resharedDeleted}" />
@@ -196,7 +196,7 @@
             app:layout_constraintBottom_toBottomOf="@id/resharedAuthorText"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/timeline_content_time_action_space"
+            android:text="@string/timeline_item_time_action_space"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:textColorSecondary" />
 
@@ -299,7 +299,7 @@
             app:layout_constraintBottom_toBottomOf="@id/cardOwnerText"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/timeline_content_time_action_space"
+            android:text="@string/timeline_item_time_action_space"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:textColorSecondary"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}" />
@@ -422,7 +422,7 @@
             app:layout_constraintBottom_toBottomOf="@id/imageRecyclerDescriptionScrim"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{String.format(@string/timeline_content_image_count_format, viewModel.imageList.size())}"
+            android:text="@{String.format(@string/timeline_item_image_count_format, viewModel.imageList.size())}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:theme="@style/ThemeOverlay.Douya.Dark"
             app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"

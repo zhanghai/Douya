@@ -7,30 +7,49 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.text.TextUtils" />
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineAdapter.ViewHolder.ViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/list_card_horizontal_margin"
-        android:paddingEnd="@dimen/list_card_horizontal_margin"
-        android:paddingTop="@dimen/list_card_vertical_margin"
-        android:paddingBottom="@dimen/list_card_vertical_margin">
+        android:paddingStart="@dimen/list_card_horizontal_margin_half"
+        android:paddingEnd="@dimen/list_card_horizontal_margin_half"
+        android:paddingTop="@dimen/list_card_vertical_margin_half"
+        android:paddingBottom="@dimen/list_card_vertical_margin_half"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/resharerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            android:text="@{String.format(@string/timeline_item_reshared_by_format, viewModel.resharer)}"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharer)}"
+            android:onClick="@{() -> viewModel.openResharer()}"
+            tools:text="由 豆芽 转播 ↴" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/list_card_corner_radius">
 
-            <me.zhanghai.android.douya.timeline.TimelineContentLayout
+            <me.zhanghai.android.douya.timeline.TimelineItemLayout
                 android:id="@+id/timelineContentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:timelineItem="@{viewModel.timelineItem}" />
         </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+    </LinearLayout>
 </layout>

@@ -23,7 +23,7 @@ class ImageLayout : FrameLayout {
 
     private val binding = ImageLayoutBinding.inflate(context.layoutInflater, this, true)
 
-    val viewModel = ViewModel()
+    private val viewModel = ViewModel()
 
     constructor(context: Context) : super(context)
 

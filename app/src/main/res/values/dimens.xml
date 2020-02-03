@@ -8,8 +8,8 @@
 <resources>
     <dimen name="screen_edge_margin">16dp</dimen>
     <dimen name="list_bottom_padding_with_fab">88dp</dimen>
-    <dimen name="list_card_horizontal_margin">0dp</dimen>
-    <dimen name="list_card_vertical_margin">4dp</dimen>
+    <dimen name="list_card_horizontal_margin_half">0dp</dimen>
+    <dimen name="list_card_vertical_margin_half">8dp</dimen>
     <dimen name="list_card_corner_radius">0dp</dimen>
     <dimen name="avatar_size">40dp</dimen>
     <dimen name="horizontal_divider_height">1dp</dimen>

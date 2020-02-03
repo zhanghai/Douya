@@ -6,13 +6,19 @@
 package me.zhanghai.android.douya.timeline
 
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.TimelineItem
+import me.zhanghai.android.douya.api.util.uriOrUrl
+import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
+import me.zhanghai.android.douya.arch.valueCompat
 import me.zhanghai.android.douya.databinding.TimelineItemBinding
+import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.util.ListAdapter
 import me.zhanghai.android.douya.util.layoutInflater
 
@@ -53,6 +59,10 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
         init {
             binding.lifecycleOwner = lifecycleOwner
             binding.viewModel = viewModel
+
+            viewModel.openUriEvent.observe(lifecycleOwner) {
+                UriHandler.open(it, binding.root.context)
+            }
         }
 
         fun setTimelineItem(timelineItem: TimelineItem?) {
@@ -62,20 +72,37 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
 
         class ViewModel {
             data class State(
+                val resharer: String,
+                val resharerUri: String,
                 val timelineItem: TimelineItem?
             )
 
             private val state = MutableLiveData(
                 State(
+                    resharer = "",
+                    resharerUri = "",
                     timelineItem = null
                 )
             )
+            val resharer = state.mapDistinct { it.resharer }
             val timelineItem = state.mapDistinct { it.timelineItem }
+
+            private val _openUriEvent = EventLiveData<String>()
+            val openUriEvent: LiveData<String> = _openUriEvent
 
             fun setTimelineItem(timelineItem: TimelineItem?) {
                 state.value = State(
+                    resharer = timelineItem?.resharer?.name ?: "",
+                    resharerUri = timelineItem?.resharer?.uriOrUrl ?: "",
                     timelineItem = timelineItem
                 )
+            }
+
+            fun openResharer() {
+                val resharerUri = state.valueCompat.resharerUri
+                if (resharerUri.isNotEmpty()) {
+                    _openUriEvent.value = resharerUri
+                }
             }
         }
     }
