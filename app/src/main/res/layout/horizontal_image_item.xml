@@ -5,10 +5,17 @@
   ~ All Rights Reserved.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="viewModel" type="me.zhanghai.android.douya.ui.HorizontalImageAdapter.ViewHolder.ViewModel" />
+    </data>
 
     <me.zhanghai.android.douya.ui.ImageLayout
         android:id="@+id/imageLayout"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:image="@{viewModel.image}" />
 </layout>

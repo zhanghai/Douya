@@ -10,7 +10,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="timelineItem" type="me.zhanghai.android.douya.api.info.TimelineItem" />
+        <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineAdapter.ViewHolder.ViewModel" />
     </data>
 
     <FrameLayout
@@ -29,7 +29,8 @@
             <me.zhanghai.android.douya.timeline.TimelineContentLayout
                 android:id="@+id/timelineContentLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:timelineItem="@{viewModel.timelineItem}" />
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>
 </layout>

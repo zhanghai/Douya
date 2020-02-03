@@ -8,8 +8,10 @@ package me.zhanghai.android.douya.timeline
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.info.TimelineItem
+import me.zhanghai.android.douya.arch.MutableLiveData
+import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
+import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.TimelineItemBinding
 import me.zhanghai.android.douya.util.ListAdapter
 import me.zhanghai.android.douya.util.layoutInflater
@@ -38,14 +40,44 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
         ViewHolder(TimelineItemBinding.inflate(parent.context.layoutInflater, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.setTimelineItem(items[position])
     }
 
     class ViewHolder(
         private val binding: TimelineItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(timelineItem: TimelineItem) {
-            binding.timelineContentLayout.setTimelineItem(timelineItem)
+        private val lifecycleOwner = ResumedLifecycleOwner()
+
+        private val viewModel = ViewModel()
+
+        init {
+            binding.lifecycleOwner = lifecycleOwner
+            binding.viewModel = viewModel
+        }
+
+        fun setTimelineItem(timelineItem: TimelineItem?) {
+            viewModel.setTimelineItem(timelineItem)
+            binding.executePendingBindings()
+        }
+
+        class ViewModel {
+            data class State(
+                val timelineItem: TimelineItem?
+            )
+
+            private val state = MutableLiveData(
+                State(
+                    timelineItem = null
+                )
+            )
+
+            val timelineItem = state.mapDistinct { it.timelineItem }
+
+            fun setTimelineItem(timelineItem: TimelineItem?) {
+                state.value = State(
+                    timelineItem = timelineItem
+                )
+            }
         }
     }
 }

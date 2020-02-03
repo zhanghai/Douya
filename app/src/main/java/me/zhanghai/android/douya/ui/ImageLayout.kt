@@ -10,15 +10,16 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.view.doOnAttach
 import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.LiveData
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.util.normalOrClosest
-import me.zhanghai.android.douya.arch.DistinctMutableLiveData
+import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
+import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.ImageLayoutBinding
 import me.zhanghai.android.douya.util.layoutInflater
 
 class ImageLayout : FrameLayout {
+    private val lifecycleOwner = ResumedLifecycleOwner()
 
     private val binding = ImageLayoutBinding.inflate(context.layoutInflater, this, true)
 
@@ -42,9 +43,6 @@ class ImageLayout : FrameLayout {
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        binding.lifecycleOwner = ResumedLifecycleOwner()
-        binding.viewModel = viewModel
-
         doOnAttach {
             val layoutParams = layoutParams
             binding.imageImage.updateLayoutParams {
@@ -52,29 +50,42 @@ class ImageLayout : FrameLayout {
                 height = layoutParams.height
             }
         }
+
+        binding.lifecycleOwner = lifecycleOwner
+        binding.viewModel = viewModel
     }
 
     fun setImage(image: SizedImage?) {
-        viewModel.bind(image)
+        viewModel.setImage(image)
         binding.executePendingBindings()
     }
 
-    inner class ViewModel {
+    class ViewModel {
+        data class State(
+            val ratio: Float,
+            val url: String,
+            val isGif: Boolean
+        )
 
-        private val _ratio = DistinctMutableLiveData(1f)
-        val ratio: LiveData<Float> = _ratio
+        private val state = MutableLiveData(
+            State(
+                ratio = 1f,
+                url = "",
+                isGif = false
+            )
+        )
 
-        private val _url = DistinctMutableLiveData("")
-        val url: LiveData<String> = _url
+        val ratio = state.mapDistinct { it.ratio }
+        val url = state.mapDistinct { it.url }
+        val isGif = state.mapDistinct { it.isGif }
 
-        private val _isGif = DistinctMutableLiveData(false)
-        val isGif: LiveData<Boolean> = _isGif
-
-        fun bind(image: SizedImage?) {
+        fun setImage(image: SizedImage?) {
             val imageItem = image?.normalOrClosest
-            _ratio.value = imageItem?.let { it.width.toFloat() / it.height } ?: 1f
-            _url.value = imageItem?.url ?: ""
-            _isGif.value = image?.isAnimated ?: false
+            state.value = State(
+                ratio = imageItem?.let { it.width.toFloat() / it.height } ?: 1f,
+                url = imageItem?.url ?: "",
+                isGif = image?.isAnimated ?: false
+            )
         }
 
         fun open() {

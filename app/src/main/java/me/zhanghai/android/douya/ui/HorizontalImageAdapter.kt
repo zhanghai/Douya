@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.util.rawOrClosest
+import me.zhanghai.android.douya.arch.MutableLiveData
+import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
+import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.HorizontalImageItemBinding
 import me.zhanghai.android.douya.util.layoutInflater
 
@@ -34,14 +37,44 @@ class HorizontalImageAdapter
         ViewHolder(HorizontalImageItemBinding.inflate(parent.context.layoutInflater, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.setImage(getItem(position))
     }
 
     class ViewHolder(
         private val binding: HorizontalImageItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(image: SizedImage) {
-            binding.imageLayout.setImage(image)
+        private val lifecycleOwner = ResumedLifecycleOwner()
+
+        private val viewModel = ViewModel()
+
+        init {
+            binding.lifecycleOwner = lifecycleOwner
+            binding.viewModel = viewModel
+        }
+
+        fun setImage(image: SizedImage?) {
+            viewModel.setImage(image)
+            binding.executePendingBindings()
+        }
+
+        class ViewModel {
+            data class State(
+                val image: SizedImage?
+            )
+
+            private val state = MutableLiveData(
+                State(
+                    image = null
+                )
+            )
+
+            val image = state.mapDistinct { it.image }
+
+            fun setImage(image: SizedImage?) {
+                state.value = State(
+                    image = image
+                )
+            }
         }
     }
 }
