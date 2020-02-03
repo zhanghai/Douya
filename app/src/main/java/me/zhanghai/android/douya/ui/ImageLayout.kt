@@ -11,11 +11,13 @@ import android.widget.FrameLayout
 import androidx.core.view.doOnAttach
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
+import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.util.normalOrClosest
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.ImageLayoutBinding
+import me.zhanghai.android.douya.util.getDrawableByAttr
 import me.zhanghai.android.douya.util.layoutInflater
 
 class ImageLayout : FrameLayout {
@@ -43,6 +45,8 @@ class ImageLayout : FrameLayout {
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
+        foreground = context.getDrawableByAttr(R.attr.selectableItemBackground)
+        setOnClickListener { viewModel.open() }
         doOnAttach {
             val layoutParams = layoutParams
             binding.imageImage.updateLayoutParams {

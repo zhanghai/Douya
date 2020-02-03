@@ -36,11 +36,5 @@
             android:src="@drawable/gif_icon_text_primary_36dp"
             android:theme="@style/ThemeOverlay.Douya.Dark"
             app:visibleOrGone="@{viewModel.isGif}" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?selectableItemBackground"
-            android:onClick="@{() -> viewModel.open()}" />
     </merge>
 </layout>

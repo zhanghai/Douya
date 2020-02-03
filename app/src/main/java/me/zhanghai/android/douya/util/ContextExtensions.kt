@@ -13,11 +13,13 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
+import android.view.animation.Interpolator
 import android.widget.Toast
 import androidx.annotation.ArrayRes
 import androidx.annotation.AttrRes
@@ -55,14 +57,15 @@ fun Context.getFloat(@DimenRes id: Int) = resources.getFloatCompat(id)
 
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)
 
-fun Context.getInterpolator(@InterpolatorRes id: Int) = AnimationUtils.loadInterpolator(this, id)
+fun Context.getInterpolator(@InterpolatorRes id: Int): Interpolator =
+    AnimationUtils.loadInterpolator(this, id)
 
-fun Context.getStringArray(@ArrayRes id: Int) = resources.getStringArray(id)
+fun Context.getStringArray(@ArrayRes id: Int): Array<String> = resources.getStringArray(id)
 
 fun Context.getColorByAttr(@AttrRes attr: Int): Int =
-    getColorStateListByAttr(attr)?.defaultColor ?: Color.BLACK
+    getColorStateListByAttr(attr).defaultColor
 
-fun Context.getColorStateListByAttr(@AttrRes attr: Int): ColorStateList? =
+fun Context.getColorStateListByAttr(@AttrRes attr: Int): ColorStateList =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getColorStateList(0) }
 
 fun Context.getDimensionByAttr(@AttrRes attr: Int): Float =
@@ -75,6 +78,9 @@ fun Context.getDimensionPixelOffsetByAttr(@AttrRes attr: Int): Int =
 
 fun Context.getDimensionPixelSizeByAttr(@AttrRes attr: Int): Int =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDimensionPixelSize(0, 0) }
+
+fun Context.getDrawableByAttr(@AttrRes attr: Int): Drawable =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDrawable(0) }
 
 @Dimension
 fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Float): Float =

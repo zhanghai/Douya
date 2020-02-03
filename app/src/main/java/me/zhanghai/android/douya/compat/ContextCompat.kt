@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.compat
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
@@ -14,7 +15,8 @@ import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.TintTypedArray
 
-fun Context.getDrawableCompat(@DrawableRes id: Int) = AppCompatResources.getDrawable(this, id)
+fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable =
+    AppCompatResources.getDrawable(this, id)!!
 
 fun Context.obtainStyledAttributesCompat(
     set: AttributeSet? = null,

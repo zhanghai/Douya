@@ -82,7 +82,7 @@ fun Status.textWithEntitiesAndParent(context: Context): CharSequence {
             val parentIconStartIndex = it.length
             it.append(" ")
             val parentIconEndIndex = it.length
-            val icon = context.getDrawableCompat(R.drawable.reshare_icon_18dp)!!
+            val icon = context.getDrawableCompat(R.drawable.reshare_icon_18dp)
                 .apply {
                     setTint(
                         context.getColorByAttr(
