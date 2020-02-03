@@ -21,11 +21,11 @@ import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.info.StatusCard
 import me.zhanghai.android.douya.api.info.Tag
-import me.zhanghai.android.douya.compat.ImageSpanCompat
 import me.zhanghai.android.douya.compat.getDrawableCompat
 import me.zhanghai.android.douya.link.FrodoUris
 import me.zhanghai.android.douya.link.UriSpan
 import me.zhanghai.android.douya.setting.Settings
+import me.zhanghai.android.douya.util.DrawableSpan
 import me.zhanghai.android.douya.util.SpaceSpan
 import me.zhanghai.android.douya.util.getColorByAttr
 import timber.log.Timber
@@ -95,8 +95,8 @@ fun Status.textWithEntitiesAndParent(context: Context): CharSequence {
                     )
                 }
             it.setSpan(
-                ImageSpanCompat(icon, ImageSpanCompat.ALIGN_CENTER), parentIconStartIndex,
-                parentIconEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                DrawableSpan(icon), parentIconStartIndex, parentIconEndIndex,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
             if (parentStatus.deleted) {
