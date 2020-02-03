@@ -112,7 +112,7 @@
             android:text="@{viewModel.text.invoke(context)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:spanClickable="@{true}"
-            app:visibleOrGone="@{viewModel.text != null}"
+            app:visibleOrGone="@{viewModel.hasText}"
             tools:text="你好，世界！" />
 
         <Space

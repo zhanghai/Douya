@@ -113,7 +113,8 @@ class TimelineItemLayout : ConstraintLayout {
             val authorUri: String,
             val time: ZonedDateTime?,
             val activity: String,
-            val text: ((Context) -> CharSequence)?,
+            val hasText: Boolean,
+            val text: (Context) -> CharSequence,
             val hasReshared: Boolean,
             val resharedDeleted: Boolean,
             val resharedAuthor: String,
@@ -137,7 +138,8 @@ class TimelineItemLayout : ConstraintLayout {
                 authorUri = "",
                 time = null,
                 activity = "",
-                text = null,
+                hasText = false,
+                text = { "" },
                 hasReshared = false,
                 resharedDeleted = false,
                 resharedAuthor = "",
@@ -158,6 +160,7 @@ class TimelineItemLayout : ConstraintLayout {
         val author = state.mapDistinct { it.author }
         val time = state.mapDistinct { it.time }
         val activity = state.mapDistinct { it.activity }
+        val hasText = state.mapDistinct { it.hasText }
         val text = state.mapDistinct { it.text }
         val hasReshared = state.mapDistinct { it.hasReshared }
         val resharedDeleted = state.mapDistinct { it.resharedDeleted }
@@ -189,6 +192,7 @@ class TimelineItemLayout : ConstraintLayout {
                     authorUri = status.author?.uriOrUrl ?: "",
                     activity = status.activityCompat,
                     time = status.createTime,
+                    hasText = status.text.isNotEmpty(),
                     text = status::textWithEntitiesAndParent,
                     hasReshared = status.resharedStatus != null,
                     resharedDeleted = status.resharedStatus?.deleted ?: false,
@@ -219,7 +223,8 @@ class TimelineItemLayout : ConstraintLayout {
                     authorUri = timelineItem?.owner?.uriOrUrl ?: "",
                     activity = timelineItem?.action ?: "",
                     time = null,
-                    text = null,
+                    hasText = false,
+                    text = { "" },
                     hasReshared = false,
                     resharedDeleted = false,
                     resharedAuthor = "",
