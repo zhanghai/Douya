@@ -377,8 +377,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardEndSpace"
-            app:image="@{viewModel.image}"
-            app:visibleOrGone="@{viewModel.image != null}" />
+            app:imageOrVideo="@{viewModel.video != null ? viewModel.video : viewModel.image}"
+            app:visibleOrGone="@{viewModel.image != null || viewModel.video != null}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imageRecycler"

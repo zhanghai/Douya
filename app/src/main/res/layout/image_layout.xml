@@ -36,5 +36,15 @@
             android:src="@drawable/gif_icon_text_primary_36dp"
             android:theme="@style/ThemeOverlay.Douya.Dark"
             app:visibleOrGone="@{viewModel.isGif}" />
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:background="@drawable/play_icon_background"
+            android:scaleType="center"
+            android:src="@drawable/play_icon_text_primary_36dp"
+            android:theme="@style/ThemeOverlay.Douya.Dark"
+            app:visibleOrGone="@{viewModel.isVideo}" />
     </merge>
 </layout>

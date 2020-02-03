@@ -13,6 +13,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.SizedImage
+import me.zhanghai.android.douya.api.info.VideoInfo
 import me.zhanghai.android.douya.api.util.normalOrClosest
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
@@ -64,30 +65,56 @@ class ImageLayout : FrameLayout {
         binding.executePendingBindings()
     }
 
+    fun setVideo(video: VideoInfo?) {
+        viewModel.setVideo(video)
+        binding.executePendingBindings()
+    }
+
+    fun setImageOrVideo(imageOrVideo: Any?) {
+        when (imageOrVideo) {
+            is SizedImage -> setImage(imageOrVideo)
+            is VideoInfo -> setVideo(imageOrVideo)
+            else -> setImage(null)
+        }
+    }
+
     class ViewModel {
         data class State(
             val ratio: Float,
             val url: String,
-            val isGif: Boolean
+            val isGif: Boolean,
+            val isVideo: Boolean
         )
 
         private val state = MutableLiveData(
             State(
                 ratio = 1f,
                 url = "",
-                isGif = false
+                isGif = false,
+                isVideo = false
             )
         )
         val ratio = state.mapDistinct { it.ratio }
         val url = state.mapDistinct { it.url }
         val isGif = state.mapDistinct { it.isGif }
+        val isVideo = state.mapDistinct { it.isVideo }
 
         fun setImage(image: SizedImage?) {
             val imageItem = image?.normalOrClosest
             state.value = State(
                 ratio = imageItem?.let { it.width.toFloat() / it.height } ?: 1f,
                 url = imageItem?.url ?: "",
-                isGif = image?.isAnimated ?: false
+                isGif = image?.isAnimated ?: false,
+                isVideo = false
+            )
+        }
+
+        fun setVideo(video: VideoInfo?) {
+            state.value = State(
+                ratio = video?.let { it.videoWidth.toFloat() / it.videoHeight } ?: 1f,
+                url = video?.coverUrl ?: "",
+                isGif = false,
+                isVideo = true
             )
         }
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.TimelineItem
+import me.zhanghai.android.douya.api.info.VideoInfo
 import me.zhanghai.android.douya.api.util.activityCompat
 import me.zhanghai.android.douya.api.util.normalOrClosest
 import me.zhanghai.android.douya.api.util.subtitleWithEntities
@@ -129,7 +130,8 @@ class TimelineItemLayout : ConstraintLayout {
             val cardText: CharSequence,
             val cardUri: String,
             val image: SizedImage?,
-            val imageList: List<SizedImage>
+            val imageList: List<SizedImage>,
+            val video: VideoInfo?
         )
 
         private val state = MutableLiveData(
@@ -155,7 +157,8 @@ class TimelineItemLayout : ConstraintLayout {
                 cardText = "",
                 cardUri = "",
                 image = null,
-                imageList = emptyList()
+                imageList = emptyList(),
+                video = null
             )
         )
         val avatarUrl = state.mapDistinct { it.avatarUrl }
@@ -177,6 +180,7 @@ class TimelineItemLayout : ConstraintLayout {
         val cardText = state.mapDistinct { it.cardText }
         val image = state.mapDistinct { it.image }
         val imageList = state.mapDistinct { it.imageList }
+        val video = state.mapDistinct { it.video }
 
         private val _openUriEvent = EventLiveData<String>()
         val openUriEvent: LiveData<String> = _openUriEvent
@@ -188,6 +192,7 @@ class TimelineItemLayout : ConstraintLayout {
                 val card = contentStatus.card
                 val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
                     ?: contentStatus.images
+                val video = contentStatus.videoInfo
                 State(
                     avatarUrl = status.author?.avatar ?: "",
                     author = status.author?.name ?: "",
@@ -213,13 +218,15 @@ class TimelineItemLayout : ConstraintLayout {
                     cardTitle = card?.title ?: "",
                     cardText = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: "",
                     cardUri = card?.uriOrUrl ?: "",
-                    image = if (images.size == 1) images.first() else null,
-                    imageList = if (images.size > 1) images else emptyList()
+                    image = if (video == null) images.singleOrNull() else null,
+                    imageList = if (video == null && images.size > 1) images else emptyList(),
+                    video = video
                 )
             } else {
                 val images = (timelineItem?.content?.photos?.ifEmpty {
-                    listOfNotNull(timelineItem.content.photo)
+                    timelineItem.content.photo?.let { listOf(it) }
                 } ?: emptyList()).map { it.image!! }
+                val video = timelineItem?.content?.videoInfo
                 State(
                     avatarUrl = timelineItem?.owner?.avatar ?: "",
                     author = timelineItem?.owner?.name ?: "",
@@ -237,16 +244,13 @@ class TimelineItemLayout : ConstraintLayout {
                     hasCard = true,
                     cardOwner = "",
                     cardActivity = "",
-                    cardImageUrl = (if (images.size == 1) {
-                        images.first().normalOrClosest?.url
-                    } else {
-                        null
-                    }) ?: "",
+                    cardImageUrl = images.singleOrNull()?.normalOrClosest?.url ?: "",
                     cardTitle = timelineItem?.content?.title ?: "",
                     cardText = timelineItem?.content?.abstractString ?: "",
                     cardUri = timelineItem?.content?.uriOrUrl ?: "",
                     image = null,
-                    imageList = if (images.size > 1) images else emptyList()
+                    imageList = if (video == null && images.size > 1) images else emptyList(),
+                    video = video
                 )
             }
         }
