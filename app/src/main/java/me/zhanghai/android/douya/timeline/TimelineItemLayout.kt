@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.TimelineItem
+import me.zhanghai.android.douya.api.util.activityCompat
 import me.zhanghai.android.douya.api.util.normalOrClosest
 import me.zhanghai.android.douya.api.util.subtitleWithEntities
 import me.zhanghai.android.douya.api.util.textWithEntities
@@ -185,13 +186,13 @@ class TimelineItemLayout : ConstraintLayout {
                     avatarUrl = status.author?.avatar ?: "",
                     author = status.author?.name ?: "",
                     authorUri = status.author?.uriOrUrl ?: "",
-                    activity = status.activity,
+                    activity = status.activityCompat,
                     time = status.createTime,
                     text = status.textWithEntities,
                     hasReshared = status.resharedStatus != null,
                     resharedDeleted = status.resharedStatus?.deleted ?: false,
                     resharedAuthor = status.resharedStatus?.author?.name ?: "",
-                    resharedActivity = status.resharedStatus?.activity ?: "",
+                    resharedActivity = status.resharedStatus?.activityCompat ?: "",
                     resharedText = status.resharedStatus?.textWithEntities ?: "",
                     hasCard = card != null,
                     cardOwner = card?.ownerName ?: "",

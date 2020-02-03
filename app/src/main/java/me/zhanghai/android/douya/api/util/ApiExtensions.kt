@@ -43,6 +43,9 @@ val SizedImage.largeOrClosest: ImageItem?
 val SizedImage.rawOrClosest: ImageItem?
     get() = raw ?: large ?: normal ?: small
 
+val Status.activityCompat: String
+    get() = activity.replace("转发", "转播")
+
 val Status.textWithEntities: CharSequence
     get() = text.withEntities(entities)
 
