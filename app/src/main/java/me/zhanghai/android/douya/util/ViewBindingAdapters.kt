@@ -67,15 +67,6 @@ fun setImageViewAvatarUrl(imageView: ImageView, avatarUrl: String?) {
     }
 }
 
-@BindingAdapter("progressOffsetSizeAttr")
-fun setSwipeRefreshLayoutProgressOffsetSizeAttr(
-    swipeRefreshLayout: MaterialSwipeRefreshLayout,
-    @AttrRes progressOffsetSizeAttr: Int
-) {
-    swipeRefreshLayout.progressOffset =
-        swipeRefreshLayout.context.getDimensionPixelSizeByAttr(progressOffsetSizeAttr)
-}
-
 private val swipeRefreshLayoutInitialProgressOffset = WeakHashMap<MaterialSwipeRefreshLayout, Int>()
 
 @BindingAdapter("progressOffsetSystemWindowInsets")

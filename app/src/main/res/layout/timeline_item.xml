@@ -12,6 +12,7 @@
 
     <data>
         <import type="android.text.TextUtils" />
+        <import type="me.zhanghai.android.douya.R" />
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineAdapter.ViewHolder.ViewModel" />
     </data>
 
@@ -35,7 +36,7 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:textColorSecondary"
-            android:text="@{String.format(@string/timeline_item_reshared_by_format, viewModel.resharer)}"
+            android:text="@{context.getString(R.string.timeline_item_reshared_by_format, viewModel.resharer)}"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharer)}"
             android:onClick="@{() -> viewModel.openResharer()}"
             tools:text="由 豆芽 转播 ↴" />
