@@ -8,6 +8,9 @@
 <resources>
     <dimen name="screen_edge_margin">24dp</dimen>
     <dimen name="list_bottom_padding_with_fab">104dp</dimen>
+    <integer name="list_card_column_count">2</integer>
+    <dimen name="list_card_horizontal_margin_half">12dp</dimen>
+    <dimen name="list_card_vertical_margin_half">12dp</dimen>
     <dimen name="list_card_corner_radius">2dp</dimen>
     <dimen name="scrim_height">192dp</dimen>
 </resources>

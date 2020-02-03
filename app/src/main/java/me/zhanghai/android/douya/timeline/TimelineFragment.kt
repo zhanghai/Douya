@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.util.MergeAdapter
 import me.zhanghai.android.douya.util.MoreItemAdapter
 import me.zhanghai.android.douya.util.OnVerticalScrollWithPagingTouchSlopListener
 import me.zhanghai.android.douya.util.getBooleanByAttr
+import me.zhanghai.android.douya.util.getInteger
 import me.zhanghai.android.douya.util.showToast
 
 class TimelineFragment : Fragment() {
@@ -57,7 +58,9 @@ class TimelineFragment : Fragment() {
             activity.window.setBackgroundDrawableResource(R.color.material_grey_100)
         }
         binding.timelineRecycler.run {
-            layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(
+                activity.getInteger(R.integer.list_card_column_count), RecyclerView.VERTICAL
+            )
             itemAnimator = DefaultItemAnimator().apply { supportsChangeAnimations = false }
             adapter = MergeAdapter(timelineAdapter, moreItemAdapter)
             addOnScrollListener(object : OnVerticalScrollWithPagingTouchSlopListener(context) {
