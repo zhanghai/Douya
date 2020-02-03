@@ -60,8 +60,12 @@ class TimelineViewModel(
         viewModelScope.launch {
             TimelineRepository.observeHomeTimeline().collect { resource ->
                 val timeline = resource.value.value ?: emptyList()
-                val diffResult = withContext(Dispatchers.Default) {
-                    DiffUtil.calculateDiff(diffCallbackFactory(timeline), false)
+                val diffResult = if (!refreshing.value) {
+                    withContext(Dispatchers.Default) {
+                        DiffUtil.calculateDiff(diffCallbackFactory(timeline), false)
+                    }
+                } else {
+                    null
                 }
                 val loading = resource.value is Loading
                 val empty = timeline.isEmpty()
