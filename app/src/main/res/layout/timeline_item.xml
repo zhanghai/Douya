@@ -23,6 +23,7 @@
         android:paddingEnd="@dimen/list_card_horizontal_margin_half"
         android:paddingTop="@dimen/list_card_vertical_margin_half"
         android:paddingBottom="@dimen/list_card_vertical_margin_half"
+        android:clipToPadding="false"
         android:orientation="vertical">
 
         <TextView
