@@ -60,13 +60,6 @@ class TimelineItemLayout : ConstraintLayout {
         defStyleAttr: Int
     ) : super(context, attrs, defStyleAttr)
 
-    constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes)
-
     init {
         binding.imageRecycler.apply {
             layoutManager = LinearLayoutManager(null, RecyclerView.HORIZONTAL, false)
