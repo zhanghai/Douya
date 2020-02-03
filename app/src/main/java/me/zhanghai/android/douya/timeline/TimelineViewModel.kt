@@ -6,11 +6,11 @@
 package me.zhanghai.android.douya.timeline
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,30 +20,38 @@ import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.Error
 import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.Loading
-import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResourceWithMore
+import me.zhanghai.android.douya.arch.mapDistinct
 
 class TimelineViewModel(
     private val diffCallbackFactory: (List<TimelineItem>) -> DiffUtil.Callback
 ) : ViewModel() {
     private lateinit var resource: ResourceWithMore<List<TimelineItem>>
 
-    private val _timeline = MutableLiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>>()
-    val timeline: LiveData<Pair<List<TimelineItem>, DiffUtil.DiffResult>> = _timeline
+    data class State(
+        val timeline: Pair<List<TimelineItem>, DiffUtil.DiffResult?>,
+        val loading: Boolean,
+        val empty: Boolean,
+        val error: String,
+        val moreLoading: Boolean
+    )
+
+    private val state = MutableLiveData(
+        State(
+            timeline = Pair(emptyList(), null),
+            loading = false,
+            empty = false,
+            error = "",
+            moreLoading = false
+        )
+    )
+    val timeline = state.mapDistinct { it.timeline }
+    val loading = state.mapDistinct { it.loading }
+    val empty = state.mapDistinct { it.empty }
+    val error = state.mapDistinct { it.error }
+    val moreLoading = state.mapDistinct { it.moreLoading }
 
     val refreshing = DistinctMutableLiveData(false)
-
-    private val _loading = DistinctMutableLiveData(false)
-    val loading: LiveData<Boolean> = _loading
-
-    private val _empty = DistinctMutableLiveData(false)
-    val empty: LiveData<Boolean> = _empty
-
-    private val _error = DistinctMutableLiveData<String?>(null)
-    val error: LiveData<String?> = _error
-
-    private val _moreLoading = DistinctMutableLiveData(false)
-    val moreLoading: LiveData<Boolean> = _moreLoading
 
     private val _moreErrorEvent = EventLiveData<String>()
     val moreErrorEvent: LiveData<String> = _moreErrorEvent
@@ -55,17 +63,18 @@ class TimelineViewModel(
                 val diffResult = withContext(Dispatchers.Default) {
                     DiffUtil.calculateDiff(diffCallbackFactory(timeline), false)
                 }
-                _timeline.value = Pair(timeline, diffResult)
                 val loading = resource.value is Loading
                 val empty = timeline.isEmpty()
-                val error = (resource.value as? Error)?.exception?.apiMessage
+                val error = (resource.value as? Error)?.exception?.apiMessage ?: ""
+                state.value = State(
+                    timeline = Pair(timeline, diffResult),
+                    loading = loading && empty,
+                    empty = empty && !loading && error.isEmpty(),
+                    error = error,
+                    moreLoading = resource.more is Loading
+                )
                 refreshing.value = loading && !empty
-                _loading.value = loading && empty
-                _empty.value = empty && !loading && error == null
-                _error.value = error
-                _moreLoading.value = resource.more is Loading
-                val moreError = (resource.more as? Error)?.exception?.apiMessage
-                moreError?.let { _moreErrorEvent.value = it }
+                (resource.more as? Error)?.exception?.apiMessage?.let { _moreErrorEvent.value = it }
                 this@TimelineViewModel.resource = resource
             }
         }

@@ -8,9 +8,9 @@ package me.zhanghai.android.douya.account.ui
 import android.accounts.AccountManager
 import android.content.Intent
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.account.app.Account
@@ -28,26 +28,36 @@ import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.app.application
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.EventLiveData
+import me.zhanghai.android.douya.arch.mapDistinct
+import me.zhanghai.android.douya.arch.valueCompat
 import timber.log.Timber
 
 class AuthenticatorViewModel(
     private val mode: AuthenticatorMode,
     private val initialUsername: String
 ) : ViewModel() {
+    data class State(
+        val usernameEditable: Boolean,
+        val usernameError: String,
+        val passwordError: String,
+        val authenticating: Boolean
+    )
+
+    private val state = MutableLiveData(
+        State(
+            usernameEditable = mode == AuthenticatorMode.ADD,
+            usernameError = "",
+            passwordError = "",
+            authenticating = false
+        )
+    )
+    val usernameEditable = state.mapDistinct { it.usernameEditable }
+    val usernameError = state.mapDistinct { it.usernameError }
+    val passwordError = state.mapDistinct { it.passwordError }
+    val authenticating = state.mapDistinct { it.authenticating }
+
     val username = DistinctMutableLiveData(initialUsername)
-
-    val usernameEditable = mode == AuthenticatorMode.ADD
-
-    private val _usernameError = DistinctMutableLiveData<String?>(null)
-    val usernameError: LiveData<String?> = _usernameError
-
     val password = DistinctMutableLiveData("")
-
-    private val _passwordError = DistinctMutableLiveData<String?>(null)
-    val passwordError: LiveData<String?> = _passwordError
-
-    private val _authenticating = DistinctMutableLiveData(false)
-    val authenticating: LiveData<Boolean> = _authenticating
 
     private val _signUpEvent = EventLiveData<Unit>()
     val signUpEvent: LiveData<Unit> = _signUpEvent
@@ -56,43 +66,53 @@ class AuthenticatorViewModel(
     val sendResultAndFinishEvent: LiveData<Intent> = _sendResultAndFinishEvent
 
     fun onUsernameChanged() {
-        _usernameError.value = null
+        state.value = state.valueCompat.copy(
+            usernameError = ""
+        )
     }
 
     fun onPasswordChanged() {
-        _passwordError.value = null
+        state.value = state.valueCompat.copy(
+            passwordError = ""
+        )
     }
 
     fun onSignIn() {
         viewModelScope.launch {
-            if (_authenticating.value) {
+            if (authenticating.valueCompat) {
                 return@launch
             }
 
             val username = if (mode == AuthenticatorMode.ADD) username.value else initialUsername
             val password = password.value
 
-            _usernameError.value = if (username.isEmpty()) {
-                application.getString(R.string.authenticator_username_error_empty)
-            } else {
-                null
-            }
-            _passwordError.value = if (password.isEmpty()) {
-                application.getString(R.string.authenticator_password_error_empty)
-            } else {
-                null
-            }
-            if (_usernameError.value != null || _passwordError.value != null) {
+            state.value = state.valueCompat.copy(
+                usernameError = if (username.isEmpty()) {
+                    application.getString(R.string.authenticator_username_error_empty)
+                } else {
+                    ""
+                },
+                passwordError = if (password.isEmpty()) {
+                    application.getString(R.string.authenticator_password_error_empty)
+                } else {
+                    ""
+                }
+            )
+            if (usernameError.valueCompat.isNotEmpty() || passwordError.valueCompat.isNotEmpty()) {
                 return@launch
             }
 
-            _authenticating.value = true
+            state.value = state.valueCompat.copy(
+                authenticating = true
+            )
             try {
                 val response = try {
                     ApiService.authenticate(username, password)
                 } catch (e: Exception) {
                     Timber.e(e)
-                    _passwordError.value = e.apiMessage
+                    state.value = state.valueCompat.copy(
+                        passwordError = e.apiMessage
+                    )
                     return@launch
                 }
 
@@ -121,7 +141,9 @@ class AuthenticatorViewModel(
                     }
                 }
             } finally {
-                _authenticating.value = false
+                state.value = state.valueCompat.copy(
+                    authenticating = false
+                )
             }
         }
     }

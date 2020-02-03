@@ -63,11 +63,11 @@ class TimelineFragment : Fragment() {
         }
         viewModel.timeline.observe(viewLifecycleOwner) { (timeline, diffResult) ->
             timelineAdapter.items = timeline
-            diffResult.dispatchUpdatesTo(timelineAdapter)
+            diffResult?.dispatchUpdatesTo(timelineAdapter)
             moreItemAdapter.available = timeline.isNotEmpty()
         }
-        viewModel.refreshing.observe(viewLifecycleOwner) {
-            if (!it) {
+        viewModel.refreshing.observe(viewLifecycleOwner) { refreshing ->
+            if (!refreshing) {
                 binding.timelineRecycler.doOnPreDraw {
                     binding.timelineRecycler.smoothScrollToPosition(0)
                 }

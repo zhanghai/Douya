@@ -6,12 +6,12 @@
 package me.zhanghai.android.douya.ui
 
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.util.rawOrClosest
-import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.HorizontalImageItemBinding
@@ -67,7 +67,6 @@ class HorizontalImageAdapter
                     image = null
                 )
             )
-
             val image = state.mapDistinct { it.image }
 
             fun setImage(image: SizedImage?) {

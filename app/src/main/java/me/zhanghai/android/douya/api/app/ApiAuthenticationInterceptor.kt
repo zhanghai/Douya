@@ -23,7 +23,7 @@ class ApiAuthenticationInterceptor : AuthenticationInterceptor(ApiContract.Api.M
 
     private fun updateAuthenticator() {
         val account = accountManager.activeAccount
-        authenticator = if (account != null) ApiAuthenticator(account) else NoOpAuthenticator
+        authenticator = account?.let { ApiAuthenticator(it) } ?: NoOpAuthenticator
     }
 
     private object NoOpAuthenticator : Authenticator {

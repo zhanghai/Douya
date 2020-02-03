@@ -6,10 +6,10 @@
 package me.zhanghai.android.douya.timeline
 
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.TimelineItem
-import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.TimelineItemBinding
@@ -70,7 +70,6 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
                     timelineItem = null
                 )
             )
-
             val timelineItem = state.mapDistinct { it.timelineItem }
 
             fun setTimelineItem(timelineItem: TimelineItem?) {

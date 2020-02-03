@@ -6,6 +6,7 @@
 package me.zhanghai.android.douya.arch
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
 class EventLiveData<T> : MutableLiveData<T>() {
@@ -30,6 +31,9 @@ class EventLiveData<T> : MutableLiveData<T>() {
             super.removeObserver(eventObserver)
         }
     }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun getValue(): T = super.getValue() as T
 
     override fun setValue(value: T) {
         eventObservers.values.forEach { it.expectValue() }

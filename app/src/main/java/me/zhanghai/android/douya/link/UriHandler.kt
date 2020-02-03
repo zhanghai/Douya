@@ -30,9 +30,8 @@ object UriHandler {
 
         when (uri.scheme) {
             "http", "https", "ftp" -> {
-                val activity = context.activity
-                if (activity != null) {
-                    openWithCustomTabs(uri, activity)
+                context.activity?.let {
+                    openWithCustomTabs(uri, it)
                     return
                 }
             }

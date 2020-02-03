@@ -66,7 +66,7 @@ class NullableStringSettingLiveData(
     @StringRes keyRes: Int,
     @StringRes defaultValueRes: Int? = null
 ) : SettingLiveData<String?>(
-    keyRes, if (defaultValueRes != null) application.getString(defaultValueRes) else null
+    keyRes, defaultValueRes?.let { application.getString(defaultValueRes) }
 ) {
     override fun readValue(
         sharedPreferences: SharedPreferences,

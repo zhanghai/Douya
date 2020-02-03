@@ -8,6 +8,8 @@ package me.zhanghai.android.douya.timeline
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,9 +20,9 @@ import me.zhanghai.android.douya.api.util.subtitleWithEntities
 import me.zhanghai.android.douya.api.util.textWithEntities
 import me.zhanghai.android.douya.api.util.uriOrUrl
 import me.zhanghai.android.douya.arch.EventLiveData
-import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
+import me.zhanghai.android.douya.arch.valueCompat
 import me.zhanghai.android.douya.databinding.TimelineContentLayoutBinding
 import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.ui.HorizontalImageAdapter
@@ -150,7 +152,6 @@ class TimelineContentLayout : ConstraintLayout {
                 imageList = emptyList()
             )
         )
-
         val avatarUrl = state.mapDistinct { it.avatarUrl }
         val author = state.mapDistinct { it.author }
         val time = state.mapDistinct { it.time }
@@ -170,7 +171,8 @@ class TimelineContentLayout : ConstraintLayout {
         val image = state.mapDistinct { it.image }
         val imageList = state.mapDistinct { it.imageList }
 
-        val openUriEvent = EventLiveData<String>()
+        private val _openUriEvent = EventLiveData<String>()
+        val openUriEvent: LiveData<String> = _openUriEvent
 
         fun setTimelineItem(timelineItem: TimelineItem?) {
             val status = timelineItem?.content?.status
@@ -243,9 +245,9 @@ class TimelineContentLayout : ConstraintLayout {
         }
 
         fun openAuthor() {
-            val authorUri = state.value.authorUri
+            val authorUri = state.valueCompat.authorUri
             if (authorUri.isNotEmpty()) {
-                openUriEvent.value = authorUri
+                _openUriEvent.value = authorUri
             }
         }
 
@@ -254,9 +256,9 @@ class TimelineContentLayout : ConstraintLayout {
         }
 
         fun openCard() {
-            val cardUri = state.value.cardUri
+            val cardUri = state.valueCompat.cardUri
             if (cardUri.isNotEmpty()) {
-                openUriEvent.value = cardUri
+                _openUriEvent.value = cardUri
             }
         }
     }

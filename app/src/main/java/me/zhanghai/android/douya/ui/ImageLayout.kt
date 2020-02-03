@@ -10,9 +10,9 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.view.doOnAttach
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.MutableLiveData
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.util.normalOrClosest
-import me.zhanghai.android.douya.arch.MutableLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.databinding.ImageLayoutBinding
@@ -74,7 +74,6 @@ class ImageLayout : FrameLayout {
                 isGif = false
             )
         )
-
         val ratio = state.mapDistinct { it.ratio }
         val url = state.mapDistinct { it.url }
         val isGif = state.mapDistinct { it.isGif }
