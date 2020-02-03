@@ -74,14 +74,16 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
             data class State(
                 val resharer: String,
                 val resharerUri: String,
-                val timelineItem: TimelineItem?
+                val timelineItem: TimelineItem?,
+                val uri: String
             )
 
             private val state = MutableLiveData(
                 State(
                     resharer = "",
                     resharerUri = "",
-                    timelineItem = null
+                    timelineItem = null,
+                    uri = ""
                 )
             )
             val resharer = state.mapDistinct { it.resharer }
@@ -94,7 +96,8 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
                 state.value = State(
                     resharer = timelineItem?.resharer?.name ?: "",
                     resharerUri = timelineItem?.resharer?.uriOrUrl ?: "",
-                    timelineItem = timelineItem
+                    timelineItem = timelineItem,
+                    uri = timelineItem?.uriOrUrl ?: ""
                 )
             }
 
@@ -102,6 +105,13 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
                 val resharerUri = state.valueCompat.resharerUri
                 if (resharerUri.isNotEmpty()) {
                     _openUriEvent.value = resharerUri
+                }
+            }
+
+            fun open() {
+                val uri = state.valueCompat.uri
+                if (uri.isNotEmpty()) {
+                    _openUriEvent.value = uri
                 }
             }
         }

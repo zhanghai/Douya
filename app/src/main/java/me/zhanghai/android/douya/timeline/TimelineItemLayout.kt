@@ -120,6 +120,7 @@ class TimelineItemLayout : ConstraintLayout {
             val resharedAuthor: String,
             val resharedActivity: String,
             val resharedText: CharSequence,
+            val resharedUri: String,
             val hasCard: Boolean,
             val cardOwner: String,
             val cardActivity: String,
@@ -145,6 +146,7 @@ class TimelineItemLayout : ConstraintLayout {
                 resharedAuthor = "",
                 resharedActivity = "",
                 resharedText = "",
+                resharedUri = "",
                 hasCard = false,
                 cardOwner = "",
                 cardActivity = "",
@@ -199,6 +201,7 @@ class TimelineItemLayout : ConstraintLayout {
                     resharedAuthor = status.resharedStatus?.author?.name ?: "",
                     resharedActivity = status.resharedStatus?.activityCompat ?: "",
                     resharedText = status.resharedStatus?.textWithEntities ?: "",
+                    resharedUri = status.resharedStatus?.uri ?: "",
                     hasCard = card != null,
                     cardOwner = card?.ownerName ?: "",
                     cardActivity = card?.activity ?: "",
@@ -230,6 +233,7 @@ class TimelineItemLayout : ConstraintLayout {
                     resharedAuthor = "",
                     resharedActivity = "",
                     resharedText = "",
+                    resharedUri = "",
                     hasCard = true,
                     cardOwner = "",
                     cardActivity = "",
@@ -247,10 +251,6 @@ class TimelineItemLayout : ConstraintLayout {
             }
         }
 
-        fun open() {
-            // TODO
-        }
-
         fun openAuthor() {
             val authorUri = state.valueCompat.authorUri
             if (authorUri.isNotEmpty()) {
@@ -259,7 +259,10 @@ class TimelineItemLayout : ConstraintLayout {
         }
 
         fun openReshared() {
-            // TODO
+            val resharedUri = state.valueCompat.resharedUri
+            if (resharedUri.isNotEmpty()) {
+                _openUriEvent.value = resharedUri
+            }
         }
 
         fun openCard() {
