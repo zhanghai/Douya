@@ -12,9 +12,26 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 class MoreItemAdapter(
+    adapter: RecyclerView.Adapter<*>,
     @LayoutRes private val layoutRes: Int
 ) : RecyclerView.Adapter<MoreItemAdapter.ViewHolder>() {
-    var available = false
+    var loading = false
+        set(value) {
+            if (field == value) {
+                return
+            }
+            field = value
+            if (hasItem) {
+                val holder = holder
+                if (holder != null) {
+                    onBindViewHolder(holder, 0)
+                } else {
+                    notifyItemChanged(0)
+                }
+            }
+        }
+
+    private var hasItem = false
         set(value) {
             if (field == value) {
                 return
@@ -27,29 +44,19 @@ class MoreItemAdapter(
             }
         }
 
-    var loading = false
-        set(value) {
-            if (field == value) {
-                return
-            }
-            field = value
-            if (available) {
-                val holder = holder
-                if (holder != null) {
-                    onBindViewHolder(holder, 0)
-                } else {
-                    notifyItemChanged(0)
-                }
-            }
-        }
-
     private var holder: ViewHolder? = null
 
     init {
         setHasStableIds(true)
+
+        adapter.registerAdapterDataObserver(object : AdapterDataChangeObserver() {
+            override fun onChanged() {
+                hasItem = adapter.itemCount > 0
+            }
+        })
     }
 
-    override fun getItemCount(): Int = if (available) 1 else 0
+    override fun getItemCount(): Int = if (hasItem) 1 else 0
 
     override fun getItemId(position: Int): Long = 0L
 

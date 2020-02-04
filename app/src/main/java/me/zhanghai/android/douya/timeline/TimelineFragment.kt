@@ -35,7 +35,7 @@ class TimelineFragment : Fragment() {
 
     private lateinit var binding: TimelineFragmentBinding
 
-    private val moreItemAdapter = MoreItemAdapter(R.layout.timeline_more_item)
+    private val moreItemAdapter = MoreItemAdapter(timelineAdapter, R.layout.timeline_more_item)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,7 +85,6 @@ class TimelineFragment : Fragment() {
                     binding.timelineRecycler.scrollToPosition(0)
                 }
             }
-            moreItemAdapter.available = timeline.isNotEmpty()
         }
         viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
         viewModel.moreErrorEvent.observe(viewLifecycleOwner) { showToast(it) }
