@@ -81,6 +81,7 @@ class TimelineFragment : Fragment() {
                     binding.timelineRecycler.scrollBy(0, 0)
                     timelineAdapter.items = timeline
                     timelineAdapter.notifyDataSetChanged()
+                    binding.timelineRecycler.scrollBy(0, 0)
                     binding.timelineRecycler.scrollToPosition(0)
                 }
             }
