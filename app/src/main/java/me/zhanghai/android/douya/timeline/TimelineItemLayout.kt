@@ -97,6 +97,10 @@ class TimelineItemLayout : ConstraintLayout {
         viewModel.openUriEvent.observe(lifecycleOwner) { UriHandler.open(it, context) }
     }
 
+    fun setImageRecyclerViewPool(imageRecyclerViewPool: RecyclerView.RecycledViewPool) {
+        binding.imageRecycler.setRecycledViewPool(imageRecyclerViewPool)
+    }
+
     fun setTimelineItem(timelineItem: TimelineItem?) {
         viewModel.setTimelineItem(timelineItem)
         binding.executePendingBindings()

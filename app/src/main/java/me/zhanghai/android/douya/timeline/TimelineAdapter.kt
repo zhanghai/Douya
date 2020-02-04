@@ -23,6 +23,8 @@ import me.zhanghai.android.douya.util.ListAdapter
 import me.zhanghai.android.douya.util.layoutInflater
 
 class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() {
+    private val imageRecyclerViewPool = RecyclerView.RecycledViewPool()
+
     init {
         setHasStableIds(true)
     }
@@ -43,23 +45,28 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
     override fun getItemId(position: Int): Long = items[position].uid.hashCode().toLong()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(TimelineItemBinding.inflate(parent.context.layoutInflater, parent, false))
+        ViewHolder(
+            TimelineItemBinding.inflate(parent.context.layoutInflater, parent, false),
+            imageRecyclerViewPool
+        )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setTimelineItem(items[position])
     }
 
     class ViewHolder(
-        private val binding: TimelineItemBinding
+        private val binding: TimelineItemBinding,
+        imageRecyclerViewPool: RecyclerView.RecycledViewPool
     ) : RecyclerView.ViewHolder(binding.root) {
         private val lifecycleOwner = ResumedLifecycleOwner()
 
         private val viewModel = ViewModel()
 
         init {
+            binding.timelineItemLayout.setImageRecyclerViewPool(imageRecyclerViewPool)
+
             binding.lifecycleOwner = lifecycleOwner
             binding.viewModel = viewModel
-
             viewModel.openUriEvent.observe(lifecycleOwner) {
                 UriHandler.open(it, binding.root.context)
             }

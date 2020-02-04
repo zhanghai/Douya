@@ -27,7 +27,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/resharerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -50,6 +49,7 @@
             android:onClick="@{() -> viewModel.open()}">
 
             <me.zhanghai.android.douya.timeline.TimelineItemLayout
+                android:id="@+id/timelineItemLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:timelineItem="@{viewModel.timelineItem}" />
