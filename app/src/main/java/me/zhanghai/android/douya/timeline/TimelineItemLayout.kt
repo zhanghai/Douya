@@ -35,6 +35,7 @@ import me.zhanghai.android.douya.util.dpToDimensionPixelSize
 import me.zhanghai.android.douya.util.fadeInUnsafe
 import me.zhanghai.android.douya.util.fadeOutUnsafe
 import me.zhanghai.android.douya.util.layoutInflater
+import me.zhanghai.android.douya.util.takeIfNotEmpty
 import org.threeten.bp.ZonedDateTime
 
 class TimelineItemLayout : ConstraintLayout {
@@ -183,7 +184,7 @@ class TimelineItemLayout : ConstraintLayout {
             state.value = if (status != null) {
                 val contentStatus = status.resharedStatus ?: status
                 val card = contentStatus.card
-                val images = card?.imageBlock?.images?.map { it.image!! }?.ifEmpty { null }
+                val images = card?.imageBlock?.images?.takeIfNotEmpty()?.map { it.image!! }
                     ?: contentStatus.images
                 val video = contentStatus.videoInfo
                 State(
@@ -203,22 +204,19 @@ class TimelineItemLayout : ConstraintLayout {
                     hasCard = card != null,
                     cardOwner = card?.ownerName ?: "",
                     cardActivity = card?.activity ?: "",
-                    cardImageUrl = (if (images.isEmpty()) {
-                        card?.image?.normalOrClosest?.url
-                    } else {
-                        null
-                    }) ?: "",
+                    cardImageUrl = card?.image?.normalOrClosest?.url?.takeIf { images.isEmpty() }
+                        ?: "",
                     cardTitle = card?.title ?: "",
-                    cardText = card?.subtitleWithEntities?.ifEmpty { null } ?: card?.url ?: "",
+                    cardText = card?.subtitleWithEntities?.takeIfNotEmpty() ?: card?.url ?: "",
                     cardUri = card?.uriOrUrl ?: "",
-                    image = if (video == null) images.singleOrNull() else null,
-                    imageList = if (video == null && images.size > 1) images else emptyList(),
+                    image = images.singleOrNull()?.takeIf { video == null },
+                    imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
                     video = video
                 )
             } else {
-                val images = (timelineItem?.content?.photos?.ifEmpty {
+                val images = timelineItem?.content?.photos?.ifEmpty {
                     timelineItem.content.photo?.let { listOf(it) }
-                } ?: emptyList()).map { it.image!! }
+                }?.map { it.image!! } ?: emptyList()
                 val video = timelineItem?.content?.videoInfo
                 State(
                     avatarUrl = timelineItem?.owner?.avatar ?: "",
@@ -242,7 +240,7 @@ class TimelineItemLayout : ConstraintLayout {
                     cardText = timelineItem?.content?.abstractString ?: "",
                     cardUri = timelineItem?.content?.uriOrUrl ?: "",
                     image = null,
-                    imageList = if (video == null && images.size > 1) images else emptyList(),
+                    imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
                     video = video
                 )
             }

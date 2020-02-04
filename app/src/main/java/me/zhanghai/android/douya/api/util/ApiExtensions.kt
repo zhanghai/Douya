@@ -28,6 +28,7 @@ import me.zhanghai.android.douya.setting.Settings
 import me.zhanghai.android.douya.util.DrawableSpan
 import me.zhanghai.android.douya.util.SpaceSpan
 import me.zhanghai.android.douya.util.getColorByAttr
+import me.zhanghai.android.douya.util.takeIfNotEmpty
 import timber.log.Timber
 
 val IBaseFeedableItem.uriOrUrl: String
@@ -55,7 +56,7 @@ val Status.activityCompat: String
     get() = activity.replace("转发", "转播")
 
 val Status.parentStatusId: String
-    get() = parentStatus?.id?.ifEmpty { null } ?: parentId
+    get() = parentStatus?.id?.takeIfNotEmpty() ?: parentId
 
 val Status.textWithEntities: CharSequence
     get() = text.withEntities(entities)
