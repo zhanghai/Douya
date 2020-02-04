@@ -51,8 +51,10 @@ class ImageLayout : FrameLayout {
         doOnAttach {
             val layoutParams = layoutParams
             binding.imageImage.updateLayoutParams {
-                width = layoutParams.width
-                height = layoutParams.height
+                width = layoutParams.width.takeIf { it == LayoutParams.WRAP_CONTENT }
+                    ?: LayoutParams.MATCH_PARENT
+                height = layoutParams.height.takeIf { it == LayoutParams.WRAP_CONTENT }
+                    ?: LayoutParams.MATCH_PARENT
             }
         }
 
