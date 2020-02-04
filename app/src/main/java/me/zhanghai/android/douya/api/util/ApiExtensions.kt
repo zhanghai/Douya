@@ -127,6 +127,10 @@ fun Status.textWithEntitiesAndParent(context: Context): CharSequence {
             }
         }
 
+        if (parentStatusId == resharedStatus?.id) {
+            parentStatusId = ""
+        }
+
         if (parentStatusId.isNotEmpty()) {
             val parentSpaceStartIndex = it.length
             if (parentSpaceStartIndex > 0) {
