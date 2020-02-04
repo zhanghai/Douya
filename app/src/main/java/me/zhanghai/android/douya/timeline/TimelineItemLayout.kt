@@ -66,6 +66,7 @@ class TimelineItemLayout : ConstraintLayout {
             layoutManager = LinearLayoutManager(null, RecyclerView.HORIZONTAL, false)
             val gutterSize = context.dpToDimensionPixelSize(IMAGE_RECYCLER_GUTTER_SIZE_DP)
             addItemDecoration(GutterItemDecoration(gutterSize))
+            itemAnimator = null
             adapter = imageAdapter
             addOnScrollListener(object : OnHorizontalScrollListener() {
                 private var scrollingLeft = true
