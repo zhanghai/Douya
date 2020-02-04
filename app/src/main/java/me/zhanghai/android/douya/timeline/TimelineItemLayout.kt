@@ -110,11 +110,15 @@ class TimelineItemLayout : ConstraintLayout {
             val activity: String,
             val hasText: Boolean,
             val text: (Context) -> CharSequence,
+            val topic: String,
+            val topicUri: String,
             val hasReshared: Boolean,
             val resharedDeleted: Boolean,
             val resharedAuthor: String,
             val resharedActivity: String,
             val resharedText: CharSequence,
+            val resharedTopic: String,
+            val resharedTopicUri: String,
             val resharedUri: String,
             val hasCard: Boolean,
             val cardOwner: String,
@@ -122,6 +126,8 @@ class TimelineItemLayout : ConstraintLayout {
             val cardImageUrl: String,
             val cardTitle: String,
             val cardText: CharSequence,
+            val cardTopic: String,
+            val cardTopicUri: String,
             val cardUri: String,
             val image: SizedImage?,
             val imageList: List<SizedImage>,
@@ -137,11 +143,15 @@ class TimelineItemLayout : ConstraintLayout {
                 activity = "",
                 hasText = false,
                 text = { "" },
+                topic = "",
+                topicUri = "",
                 hasReshared = false,
                 resharedDeleted = false,
                 resharedAuthor = "",
                 resharedActivity = "",
                 resharedText = "",
+                resharedTopic = "",
+                resharedTopicUri = "",
                 resharedUri = "",
                 hasCard = false,
                 cardOwner = "",
@@ -149,6 +159,8 @@ class TimelineItemLayout : ConstraintLayout {
                 cardImageUrl = "",
                 cardTitle = "",
                 cardText = "",
+                cardTopic = "",
+                cardTopicUri = "",
                 cardUri = "",
                 image = null,
                 imageList = emptyList(),
@@ -161,17 +173,20 @@ class TimelineItemLayout : ConstraintLayout {
         val activity = state.mapDistinct { it.activity }
         val hasText = state.mapDistinct { it.hasText }
         val text = state.mapDistinct { it.text }
+        val topic = state.mapDistinct { it.topic }
         val hasReshared = state.mapDistinct { it.hasReshared }
         val resharedDeleted = state.mapDistinct { it.resharedDeleted }
         val resharedAuthor = state.mapDistinct { it.resharedAuthor }
         val resharedActivity = state.mapDistinct { it.resharedActivity }
         val resharedText = state.mapDistinct { it.resharedText }
+        val resharedTopic = state.mapDistinct { it.resharedTopic }
         val hasCard = state.mapDistinct { it.hasCard }
         val cardOwner = state.mapDistinct { it.cardOwner }
         val cardActivity = state.mapDistinct { it.cardActivity }
         val cardImageUrl = state.mapDistinct { it.cardImageUrl }
         val cardTitle = state.mapDistinct { it.cardTitle }
         val cardText = state.mapDistinct { it.cardText }
+        val cardTopic = state.mapDistinct { it.cardTopic }
         val image = state.mapDistinct { it.image }
         val imageList = state.mapDistinct { it.imageList }
         val video = state.mapDistinct { it.video }
@@ -195,11 +210,15 @@ class TimelineItemLayout : ConstraintLayout {
                     time = status.createTime,
                     hasText = status.text.isNotEmpty(),
                     text = status::textWithEntitiesAndParent,
+                    topic = status.topic?.name ?: "",
+                    topicUri = status.topic?.uriOrUrl ?: "",
                     hasReshared = status.resharedStatus != null,
                     resharedDeleted = status.resharedStatus?.deleted ?: false,
                     resharedAuthor = status.resharedStatus?.author?.name ?: "",
                     resharedActivity = status.resharedStatus?.activityCompat ?: "",
                     resharedText = status.resharedStatus?.textWithEntities ?: "",
+                    resharedTopic = status.resharedStatus?.topic?.name ?: "",
+                    resharedTopicUri = status.resharedStatus?.topic?.uriOrUrl ?: "",
                     resharedUri = status.resharedStatus?.uri ?: "",
                     hasCard = card != null,
                     cardOwner = card?.ownerName ?: "",
@@ -208,6 +227,8 @@ class TimelineItemLayout : ConstraintLayout {
                         ?: "",
                     cardTitle = card?.title ?: "",
                     cardText = card?.subtitleWithEntities?.takeIfNotEmpty() ?: card?.url ?: "",
+                    cardTopic = card?.topic?.name ?: "",
+                    cardTopicUri = card?.topic?.uriOrUrl ?: "",
                     cardUri = card?.uriOrUrl ?: "",
                     image = images.singleOrNull()?.takeIf { video == null },
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
@@ -226,11 +247,15 @@ class TimelineItemLayout : ConstraintLayout {
                     time = null,
                     hasText = false,
                     text = { "" },
+                    topic = "",
+                    topicUri = "",
                     hasReshared = false,
                     resharedDeleted = false,
                     resharedAuthor = "",
                     resharedActivity = "",
                     resharedText = "",
+                    resharedTopic = "",
+                    resharedTopicUri = "",
                     resharedUri = "",
                     hasCard = true,
                     cardOwner = "",
@@ -238,6 +263,8 @@ class TimelineItemLayout : ConstraintLayout {
                     cardImageUrl = images.singleOrNull()?.normalOrClosest?.url ?: "",
                     cardTitle = timelineItem?.content?.title ?: "",
                     cardText = timelineItem?.content?.abstractString ?: "",
+                    cardTopic = timelineItem?.topic?.name ?: "",
+                    cardTopicUri = timelineItem?.topic?.uriOrUrl ?: "",
                     cardUri = timelineItem?.content?.uriOrUrl ?: "",
                     image = null,
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
@@ -253,6 +280,13 @@ class TimelineItemLayout : ConstraintLayout {
             }
         }
 
+        fun openTopic() {
+            val topicUri = state.valueCompat.topicUri
+            if (topicUri.isNotEmpty()) {
+                _openUriEvent.value = topicUri
+            }
+        }
+
         fun openReshared() {
             val resharedUri = state.valueCompat.resharedUri
             if (resharedUri.isNotEmpty()) {
@@ -260,10 +294,24 @@ class TimelineItemLayout : ConstraintLayout {
             }
         }
 
+        fun openResharedTopic() {
+            val resharedTopicUri = state.valueCompat.resharedTopicUri
+            if (resharedTopicUri.isNotEmpty()) {
+                _openUriEvent.value = resharedTopicUri
+            }
+        }
+
         fun openCard() {
             val cardUri = state.valueCompat.cardUri
             if (cardUri.isNotEmpty()) {
                 _openUriEvent.value = cardUri
+            }
+        }
+
+        fun openCardTopic() {
+            val cardTopicUri = state.valueCompat.cardTopicUri
+            if (cardTopicUri.isNotEmpty()) {
+                _openUriEvent.value = cardTopicUri
             }
         }
     }

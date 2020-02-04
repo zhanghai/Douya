@@ -20,6 +20,7 @@ import me.zhanghai.android.douya.api.info.Owner
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.info.StatusCard
+import me.zhanghai.android.douya.api.info.StatusGalleryTopic
 import me.zhanghai.android.douya.api.info.Tag
 import me.zhanghai.android.douya.compat.getDrawableCompat
 import me.zhanghai.android.douya.link.FrodoUris
@@ -83,7 +84,7 @@ fun Status.textWithEntitiesAndParent(context: Context): CharSequence {
             val parentIconStartIndex = it.length
             it.append(" ")
             val parentIconEndIndex = it.length
-            val icon = context.getDrawableCompat(R.drawable.reshare_icon_18dp)
+            val icon = context.getDrawableCompat(R.drawable.reshare_icon_black_18dp)
                 .apply {
                     setTint(
                         context.getColorByAttr(
@@ -193,6 +194,9 @@ private fun String.withEntities(entities: List<CommentAtEntity>): CharSequence {
 }
 
 val StatusCard.uriOrUrl: String
+    get() = uri.ifEmpty { url }
+
+val StatusGalleryTopic.uriOrUrl: String
     get() = uri.ifEmpty { url }
 
 val Tag.uriOrUrl: String

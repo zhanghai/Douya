@@ -105,20 +105,40 @@
             app:visibleOrGone="@{viewModel.hasText}"
             tools:text="你好，世界！" />
 
+        <TextView
+            android:id="@+id/topicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textText"
+            android:drawableStart="@drawable/topic_icon_text_link_18dp"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.topic}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorLink"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.topic)}"
+            android:onClick="@{() -> viewModel.openTopic()}"
+            tools:text="瓣我同行" />
+
         <Space
-            android:id="@+id/textEndSpace"
+            android:id="@+id/topicEndSpace"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textText" />
+            app:layout_constraintTop_toBottomOf="@id/topicText" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/resharedGroup"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText,resharedDeletedTextBarrier,resharedEndSpace"
+            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText,resharedDeletedTopicBarrier,resharedEndSpace"
             app:visibleOrGone="@{viewModel.hasReshared}" />
 
         <View
@@ -129,7 +149,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textEndSpace"
+            app:layout_constraintTop_toBottomOf="@id/topicEndSpace"
             android:background="?dividerHorizontal" />
 
         <me.zhanghai.android.douya.ui.OverlayBackgroundView
@@ -221,12 +241,32 @@
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedText)}"
             tools:text="Hello, World!" />
 
+        <TextView
+            android:id="@+id/resharedTopicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resharedTextText"
+            android:drawableStart="@drawable/topic_icon_text_link_18dp"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.resharedTopic}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorLink"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedTopic)}"
+            android:onClick="@{() -> viewModel.openResharedTopic()}"
+            tools:text="豆瓣" />
+
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/resharedDeletedTextBarrier"
+            android:id="@+id/resharedDeletedTopicBarrier"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="resharedDeletedText,resharedTextText" />
+            app:constraint_referenced_ids="resharedDeletedText,resharedTopicText" />
 
         <Space
             android:id="@+id/resharedEndSpace"
@@ -235,7 +275,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedDeletedTextBarrier" />
+            app:layout_constraintTop_toBottomOf="@id/resharedDeletedTopicBarrier" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/cardGroup"
@@ -361,6 +401,26 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="cardImage,cardTextText" />
 
+        <TextView
+            android:id="@+id/cardTopicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardImageTextBarrier"
+            android:drawableStart="@drawable/topic_icon_text_link_18dp"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.cardTopic}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorLink"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardTopic)}"
+            android:onClick="@{() -> viewModel.openCardTopic()}"
+            tools:text="豆瓣广播" />
+
         <Space
             android:id="@+id/cardEndSpace"
             android:layout_width="0dp"
@@ -368,7 +428,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardImageTextBarrier" />
+            app:layout_constraintTop_toBottomOf="@id/cardTopicText" />
 
         <me.zhanghai.android.douya.ui.ImageLayout
             android:id="@+id/imageLayout"
@@ -407,7 +467,6 @@
             android:id="@+id/imageRecyclerDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:layout_margin="16dp"
             app:layout_constraintStart_toStartOf="@id/imageRecyclerDescriptionScrim"
             app:layout_constraintBottom_toBottomOf="@id/imageRecyclerDescriptionScrim"

@@ -57,5 +57,6 @@ data class StatusGalleryTopic(
     val topicLabelTextColor: String = "",
     @Json(name = "tail_icon")
     val topicTail: TopicTail? = null,
+    val uri: String = "",
     val url: String = ""
 )
