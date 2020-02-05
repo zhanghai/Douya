@@ -65,25 +65,4 @@ data class TimelineItem(
     @Json(name = "type_cn")
     val typeCn: String = "",
     val uid: String = ""
-) : IBaseFeedableItem {
-    companion object {
-        const val LAYOUT_AD_CONTENT = 15
-        const val LAYOUT_AD_FOUR_IMAGES = 21
-        const val LAYOUT_AD_ONE_LARGE_IMAGE = 6
-        const val LAYOUT_AD_VIDEO = 5
-        const val LAYOUT_ALBUM = 3
-        const val LAYOUT_ALBUM_DEFAULT = 11
-        const val LAYOUT_BANNER = 17
-        const val LAYOUT_DEFAULT_CONTENT_RECTANGLE = 2
-        const val LAYOUT_DEFAULT_CONTENT_SQUARE = 2
-        const val LAYOUT_FOLD_PHOTO = 4
-        const val LAYOUT_NAV_TAB = 13
-        const val LAYOUT_ONE_LARGE_IMAGE = 9
-        const val LAYOUT_RECOMMEND_GROUPS_LAYOUT = 12
-        const val LAYOUT_RECOMMEND_TOPICS = 7
-        const val LAYOUT_STATUS = 1
-        const val LAYOUT_SUBJECT_LAYOUT = 10
-        const val LAYOUT_TOPIC_CARD = 16
-        const val LAYOUT_VIDEO_DEFAULT = 8
-    }
-}
+) : IBaseFeedableItem
