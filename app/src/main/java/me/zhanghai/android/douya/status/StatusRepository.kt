@@ -13,11 +13,11 @@ object StatusRepository {
     private val observers = mutableSetOf<(Status) -> Unit>()
 
     fun putStatus(status: Status) {
-        if (statuses[status.id]?.get() == status) {
-            return
-        }
+        val changed = statuses[status.id]?.get() != status
         statuses[status.id] = WeakReference(status)
-        observers.forEach { it(status) }
+        if (changed) {
+            observers.forEach { it(status) }
+        }
     }
 
     fun addObserver(observer: (Status) -> Unit) {
