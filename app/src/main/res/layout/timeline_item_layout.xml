@@ -108,6 +108,7 @@
         <Button
             android:id="@+id/topicButton"
             android:layout_width="wrap_content"
+            android:minWidth="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -253,6 +254,7 @@
         <Button
             android:id="@+id/resharedTopicButton"
             android:layout_width="wrap_content"
+            android:minWidth="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -413,6 +415,7 @@
         <Button
             android:id="@+id/cardTopicButton"
             android:layout_width="wrap_content"
+            android:minWidth="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
