@@ -47,23 +47,25 @@ fun setViewVisibleOrInvisibleAnimated(view: View, visible: Boolean) {
 }
 
 @BindingAdapter("url")
-fun setImageViewUrl(imageView: ImageView, url: String?) {
-    if (!url.isNullOrEmpty()) {
-        imageView.load(url)
-    } else {
+fun setImageViewUrl(imageView: ImageView, oldUrl: String?, newUrl: String?) {
+    if (newUrl != oldUrl) {
         imageView.clear()
+    }
+    if (!newUrl.isNullOrEmpty()) {
+        imageView.load(newUrl)
     }
 }
 
 @BindingAdapter("avatarUrl")
-fun setImageViewAvatarUrl(imageView: ImageView, avatarUrl: String?) {
-    if (!avatarUrl.isNullOrEmpty()) {
-        imageView.load(avatarUrl) {
+fun setImageViewAvatarUrl(imageView: ImageView, oldAvatarUrl: String?, newAvatarUrl: String?) {
+    if (newAvatarUrl != oldAvatarUrl) {
+        imageView.clear()
+    }
+    if (!newAvatarUrl.isNullOrEmpty()) {
+        imageView.load(newAvatarUrl) {
             placeholder(R.drawable.avatar_placeholder)
             transformations(CircleCropTransformation())
         }
-    } else {
-        imageView.clear()
     }
 }
 
