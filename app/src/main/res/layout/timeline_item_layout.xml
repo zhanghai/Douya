@@ -43,7 +43,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.author}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textStyle="bold"
             tools:text="梦断代码" />
 
@@ -55,7 +55,7 @@
             app:layout_constraintTop_toTopOf="@id/activityText"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
             app:time="@{viewModel.time}"
             app:visibleOrGone="@{viewModel.time != null}"
@@ -70,7 +70,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/timeline_item_time_action_space"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             app:visibleOrGone="@{viewModel.time != null}"
             android:textColor="?android:textColorSecondary" />
 
@@ -85,7 +85,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.activity}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
             tools:text="转播" />
 
@@ -100,7 +100,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarImage"
             android:text="@{viewModel.text.invoke(context)}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             app:spanClickable="@{true}"
             app:visibleOrGone="@{viewModel.hasText}"
             tools:text="你好，世界！" />
@@ -118,7 +118,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.topic}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             app:icon="@drawable/chat_icon_black_18dp"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.topic)}"
             style="?borderlessButtonStyle"
@@ -174,7 +174,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
             android:text="@string/timeline_item_reshared_status_deleted"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
             app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; viewModel.resharedDeleted}" />
 
@@ -205,7 +205,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.resharedAuthor}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textStyle="bold"
             tools:text="豆芽" />
 
@@ -218,7 +218,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/timeline_item_time_action_space"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary" />
 
         <TextView
@@ -231,7 +231,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.resharedActivity}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
             tools:text="转播" />
 
@@ -246,7 +246,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedAuthorText"
             android:text="@{viewModel.resharedText}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             app:spanClickable="@{true}"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedText)}"
             tools:text="Hello, World!" />
@@ -264,7 +264,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.resharedTopic}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             app:icon="@drawable/chat_icon_black_18dp"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedTopic)}"
             style="?borderlessButtonStyle"
@@ -328,7 +328,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.cardOwner}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textStyle="bold"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner)}"
             tools:text="豆芽" />
@@ -342,7 +342,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/timeline_item_time_action_space"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}" />
 
@@ -356,7 +356,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.cardActivity}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}"
             tools:text="的日记" />
@@ -385,7 +385,7 @@
             app:layout_constraintTop_toTopOf="@id/cardImage"
             app:layout_goneMarginTop="16dp"
             android:text="@{viewModel.cardTitle}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textAppearance="?textAppearanceSubtitle1"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardTitle)}"
             tools:text="版本 v2.0.0-alpha.1" />
 
@@ -400,7 +400,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardTitleText"
             android:text="@{viewModel.cardText}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textAppearance="?textAppearanceCaption"
             app:spanClickable="@{true}"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardText)}"
             tools:text="使用 Jetpack 和 Kotlin 构建" />
@@ -425,7 +425,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.cardTopic}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             app:icon="@drawable/chat_icon_black_18dp"
             app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardTopic)}"
             style="?borderlessButtonStyle"
@@ -485,7 +485,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{context.getString(R.string.timeline_item_image_count_format, viewModel.imageList.size())}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?textAppearanceBody2"
             android:theme="@style/ThemeOverlay.Douya.Dark"
             app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
             tools:text="9 张图片" />
