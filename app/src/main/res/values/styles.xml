@@ -21,10 +21,10 @@
         <item name="android:textAppearance">?textAppearanceCaption</item>
         <item name="android:textColor">?android:textColorSecondary</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="backgroundTint">@color/background_icon_button_background_tint</item>
+        <item name="backgroundTint">@color/icon_background_button_background_tint</item>
         <item name="elevation">0dp</item>
         <item name="iconPadding">0dp</item>
-        <item name="iconTint">@color/background_icon_button_icon_tint</item>
+        <item name="iconTint">@color/icon_background_button_icon_tint</item>
         <item name="rippleColor">?colorControlHighlight</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton</item>
     </style>
