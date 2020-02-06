@@ -131,13 +131,15 @@ class AuthenticatorViewModel(
                 account.refreshToken = response.refreshToken
                 account.userId = response.userId
                 account.userName = response.userName
-                _sendResultAndFinishEvent.value = when (mode) {
-                    AuthenticatorMode.ADD, AuthenticatorMode.UPDATE -> Intent().apply {
-                        putExtra(AccountManager.KEY_ACCOUNT_NAME, account.name)
-                        putExtra(AccountManager.KEY_ACCOUNT_TYPE, account.type)
-                    }
-                    AuthenticatorMode.CONFIRM -> Intent().apply {
-                        putExtra(AccountManager.KEY_BOOLEAN_RESULT, true)
+                _sendResultAndFinishEvent.value = Intent().apply {
+                    when (mode) {
+                        AuthenticatorMode.ADD, AuthenticatorMode.UPDATE -> {
+                            putExtra(AccountManager.KEY_ACCOUNT_NAME, account.name)
+                            putExtra(AccountManager.KEY_ACCOUNT_TYPE, account.type)
+                        }
+                        AuthenticatorMode.CONFIRM -> {
+                            putExtra(AccountManager.KEY_BOOLEAN_RESULT, true)
+                        }
                     }
                 }
             } finally {
