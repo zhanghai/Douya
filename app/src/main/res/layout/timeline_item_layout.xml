@@ -489,5 +489,36 @@
             android:theme="@style/ThemeOverlay.Douya.Dark"
             app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
             tools:text="9 张图片" />
+
+        <me.zhanghai.android.douya.ui.IconBackgroundButton
+            android:id="@+id/likeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageRecycler"
+            app:icon="@drawable/thumb_up_icon_black_18dp"
+            style="@style/Widget.Douya.IconBackgroundButton"
+            tools:text="1" />
+
+        <me.zhanghai.android.douya.ui.IconBackgroundButton
+            android:id="@+id/reshareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/likeButton"
+            app:icon="@drawable/repeat_icon_black_18dp"
+            style="@style/Widget.Douya.IconBackgroundButton" />
+
+        <me.zhanghai.android.douya.ui.IconBackgroundButton
+            android:id="@+id/commentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/reshareButton"
+            app:layout_constraintTop_toTopOf="@id/likeButton"
+            app:icon="@drawable/comment_icon_black_18dp"
+            style="@style/Widget.Douya.IconBackgroundButton"
+            tools:text="2" />
     </merge>
 </layout>

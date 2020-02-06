@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2020 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <style name="Widget.Douya.IconBackgroundButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:minWidth">52dp</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:insetLeft">9dp</item>
+        <item name="android:insetRight">9dp</item>
+        <item name="android:insetTop">9dp</item>
+        <item name="android:insetBottom">9dp</item>
+        <item name="android:textAppearance">?textAppearanceCaption</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">@color/background_icon_button_background_tint</item>
+        <item name="elevation">0dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconTint">@color/background_icon_button_icon_tint</item>
+        <item name="rippleColor">?colorControlHighlight</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton</item>
+    </style>
+</resources>
