@@ -294,45 +294,27 @@ class TimelineItemLayout : ConstraintLayout {
         }
 
         fun openAuthor() {
-            val authorUri = state.valueCompat.authorUri
-            if (authorUri.isNotEmpty()) {
-                _openUriEvent.value = authorUri
-            }
+            state.valueCompat.authorUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
         }
 
         fun openTopic() {
-            val topicUri = state.valueCompat.topicUri
-            if (topicUri.isNotEmpty()) {
-                _openUriEvent.value = topicUri
-            }
+            state.valueCompat.topicUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
         }
 
         fun openReshared() {
-            val resharedUri = state.valueCompat.resharedUri
-            if (resharedUri.isNotEmpty()) {
-                _openUriEvent.value = resharedUri
-            }
+            state.valueCompat.resharedUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
         }
 
         fun openResharedTopic() {
-            val resharedTopicUri = state.valueCompat.resharedTopicUri
-            if (resharedTopicUri.isNotEmpty()) {
-                _openUriEvent.value = resharedTopicUri
-            }
+            state.valueCompat.resharedTopicUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
         }
 
         fun openCard() {
-            val cardUri = state.valueCompat.cardUri
-            if (cardUri.isNotEmpty()) {
-                _openUriEvent.value = cardUri
-            }
+            state.valueCompat.cardUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
         }
 
         fun openCardTopic() {
-            val cardTopicUri = state.valueCompat.cardTopicUri
-            if (cardTopicUri.isNotEmpty()) {
-                _openUriEvent.value = cardTopicUri
-            }
+            state.valueCompat.cardTopicUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
         }
     }
 }

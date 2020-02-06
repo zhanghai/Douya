@@ -21,6 +21,7 @@ import me.zhanghai.android.douya.databinding.TimelineItemBinding
 import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.util.ListAdapter
 import me.zhanghai.android.douya.util.layoutInflater
+import me.zhanghai.android.douya.util.takeIfNotEmpty
 
 class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() {
     private val imageRecyclerViewPool = RecyclerView.RecycledViewPool()
@@ -109,17 +110,11 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
             }
 
             fun openResharer() {
-                val resharerUri = state.valueCompat.resharerUri
-                if (resharerUri.isNotEmpty()) {
-                    _openUriEvent.value = resharerUri
-                }
+                state.valueCompat.resharerUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
             }
 
             fun open() {
-                val uri = state.valueCompat.uri
-                if (uri.isNotEmpty()) {
-                    _openUriEvent.value = uri
-                }
+                state.valueCompat.uri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
             }
         }
     }
