@@ -7,6 +7,6 @@
 
 <resources>
     <integer name="list_card_column_count">2</integer>
-    <dimen name="list_card_corner_radius">2dp</dimen>
+    <dimen name="list_card_corner_radius">4dp</dimen>
     <dimen name="list_card_horizontal_margin_half">8dp</dimen>
 </resources>
