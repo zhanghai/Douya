@@ -490,13 +490,23 @@
             app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
             tools:text="9 张图片" />
 
+        <Space
+            android:id="@+id/imageBottomSpace"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageRecycler"
+            app:visibleOrGone="@{viewModel.image != null || viewModel.video != null || !viewModel.imageList.isEmpty()}" />
+
         <me.zhanghai.android.douya.ui.IconBackgroundButton
             android:id="@+id/likeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageRecycler"
+            app:layout_constraintTop_toBottomOf="@id/imageBottomSpace"
             app:icon="@drawable/thumb_up_icon_black_18dp"
             style="@style/Widget.Douya.IconBackgroundButton"
             tools:text="1" />
