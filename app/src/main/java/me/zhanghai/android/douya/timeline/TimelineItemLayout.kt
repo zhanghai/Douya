@@ -136,7 +136,10 @@ class TimelineItemLayout : ConstraintLayout {
             val cardUri: String,
             val image: SizedImage?,
             val imageList: List<SizedImage>,
-            val video: VideoInfo?
+            val video: VideoInfo?,
+            val likeCount: Int,
+            val commentCount: Int,
+            val reshareCount: Int
         )
 
         private val state = MutableLiveData(
@@ -169,7 +172,10 @@ class TimelineItemLayout : ConstraintLayout {
                 cardUri = "",
                 image = null,
                 imageList = emptyList(),
-                video = null
+                video = null,
+                likeCount = 0,
+                commentCount = 0,
+                reshareCount = 0
             )
         )
         val avatarUrl = state.mapDistinct { it.avatarUrl }
@@ -195,6 +201,9 @@ class TimelineItemLayout : ConstraintLayout {
         val image = state.mapDistinct { it.image }
         val imageList = state.mapDistinct { it.imageList }
         val video = state.mapDistinct { it.video }
+        val likeCount = state.mapDistinct { it.likeCount }
+        val commentCount = state.mapDistinct { it.commentCount }
+        val reshareCount = state.mapDistinct { it.reshareCount }
 
         private val _openUriEvent = EventLiveData<String>()
         val openUriEvent: LiveData<String> = _openUriEvent
@@ -237,7 +246,10 @@ class TimelineItemLayout : ConstraintLayout {
                     cardUri = card?.uriOrUrl ?: "",
                     image = images.singleOrNull()?.takeIf { video == null },
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
-                    video = video
+                    video = video,
+                    likeCount = status.likeCount,
+                    commentCount = status.commentsCount,
+                    reshareCount = status.resharesCount
                 )
             } else {
                 val images = timelineItem?.content?.photos?.ifEmpty {
@@ -273,7 +285,10 @@ class TimelineItemLayout : ConstraintLayout {
                     cardUri = timelineItem?.content?.uriOrUrl ?: "",
                     image = null,
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
-                    video = video
+                    video = video,
+                    likeCount = timelineItem?.reactionsCount ?: 0,
+                    commentCount = timelineItem?.commentsCount ?: 0,
+                    reshareCount = timelineItem?.resharesCount ?: 0
                 )
             }
         }
