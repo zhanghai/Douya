@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.api.info.Status
 import me.zhanghai.android.douya.api.info.StatusCard
 import me.zhanghai.android.douya.api.info.StatusGalleryTopic
 import me.zhanghai.android.douya.api.info.Tag
+import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.compat.getDrawableCompat
 import me.zhanghai.android.douya.link.FrodoUris
 import me.zhanghai.android.douya.link.UriSpan
@@ -54,7 +55,7 @@ val SizedImage.rawOrClosest: ImageItem?
     get() = raw ?: large ?: normal ?: small
 
 val Status.activityCompat: String
-    get() = activity.replace("转发", "转播")
+    get() = toActivityCompat(activity)
 
 val Status.parentStatusId: String
     get() = parentStatus?.id?.takeIfNotEmpty() ?: parentId
@@ -153,6 +154,9 @@ fun Status.textWithEntitiesAndParent(context: Context): CharSequence {
     }
 }
 
+val StatusCard.activityCompat: String
+    get() = toActivityCompat(activity)
+
 val StatusCard.subtitleWithEntities: CharSequence
     get() = subtitle.withEntities(entities)
 
@@ -201,3 +205,8 @@ val StatusGalleryTopic.uriOrUrl: String
 
 val Tag.uriOrUrl: String
     get() = uri.ifEmpty { url }
+
+val TimelineItem.actionCompat: String
+    get() = toActivityCompat(action)
+
+private fun toActivityCompat(activity: String): String = activity.replace("转发", "转播")
