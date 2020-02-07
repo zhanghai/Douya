@@ -33,8 +33,8 @@
             android:layout_margin="16dp"
             android:layout_gravity="start|bottom"
             android:background="@color/system_window_scrim_compat"
-            android:src="@drawable/gif_icon_text_primary_36dp"
             android:theme="@style/ThemeOverlay.Douya.Dark"
+            app:srcCompat="@drawable/gif_icon_text_primary_36dp"
             app:visibleOrGone="@{viewModel.isGif}" />
 
         <ImageView
@@ -43,8 +43,8 @@
             android:layout_gravity="center"
             android:background="@drawable/play_icon_background"
             android:scaleType="center"
-            android:src="@drawable/play_icon_text_primary_36dp"
             android:theme="@style/ThemeOverlay.Douya.Dark"
+            app:srcCompat="@drawable/play_icon_text_primary_36dp"
             app:visibleOrGone="@{viewModel.isVideo}" />
     </merge>
 </layout>
