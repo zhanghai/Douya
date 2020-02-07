@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         // TODO
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                add<TimelineFragment>(android.R.id.content)
+                add<MainFragment>(android.R.id.content)
             }
         }
     }

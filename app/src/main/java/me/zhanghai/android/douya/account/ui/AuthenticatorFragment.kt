@@ -27,7 +27,7 @@ import me.zhanghai.android.douya.util.startActivitySafe
 
 class AuthenticatorFragment : Fragment() {
     companion object {
-        val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
+        private val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
     }
 
     private val args: AuthenticatorFragmentArgs by navArgs()
@@ -44,10 +44,9 @@ class AuthenticatorFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = AuthenticatorFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View? = AuthenticatorFragmentBinding.inflate(inflater, container, false)
+        .also { binding = it }
+        .root
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

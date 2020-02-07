@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2020 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="me.zhanghai.android.douya.main.MainViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/timelineFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/timeline_fragment" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_marginBottomSystemWindowInsets="@{true}"
+            app:paddingLeftSystemWindowInsets="@{true}"
+            app:paddingRightSystemWindowInsets="@{true}"
+            app:paddingTopSystemWindowInsets="@{true}"
+            android:background="?colorSurface"
+            android:theme="?actionBarTheme">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:navigationIcon="@drawable/menu_icon_control_normal_24dp"
+                app:popupTheme="?actionBarPopupTheme"
+                app:title="@string/app_name" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sendFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/screen_edge_margin"
+            app:layout_marginLeftSystemWindowInsets="@{true}"
+            app:layout_marginRightSystemWindowInsets="@{true}"
+            app:layout_marginTopSystemWindowInsets="@{true}"
+            app:layout_marginBottomSystemWindowInsets="@{true}"
+            app:srcCompat="@drawable/edit_icon_black_24dp"
+            android:onClick="@{() -> viewModel.send()}" />
+    </FrameLayout>
+</layout>

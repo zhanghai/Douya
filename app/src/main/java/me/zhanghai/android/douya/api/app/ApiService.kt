@@ -24,6 +24,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 object ApiService {
@@ -88,6 +89,9 @@ object ApiService {
 
     suspend fun getHomeTimeline(maxId: String? = null): Timeline = apiService.getHomeTimeline(maxId)
 
+    suspend fun getUserTimeline(userId: String, maxId: String? = null): Timeline =
+        apiService.getUserTimeline(userId, maxId = maxId)
+
     private interface AuthenticationService {
         @POST(ApiContract.Authentication.URL)
         @FormUrlEncoded
@@ -120,6 +124,13 @@ object ApiService {
             @Query("count") count: Int = 20,
             @Query("last_visit_id") lastVisitId: String? = null,
             @Query("ad_ids") adIds: String? = null
+        ): Timeline
+
+        @GET("elendil/user/{userId}/timeline")
+        suspend fun getUserTimeline(
+            @Path("userId") userId: String,
+            @Query("count") count: Int = 15,
+            @Query("max_id") maxId: String? = null
         ): Timeline
     }
 }

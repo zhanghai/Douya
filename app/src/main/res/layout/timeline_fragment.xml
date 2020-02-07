@@ -11,8 +11,6 @@
 
     <data>
         <import type="android.text.TextUtils" />
-        <import type="me.zhanghai.android.douya.R" />
-        <import type="me.zhanghai.android.douya.util.ContextExtensionsKt" />
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineViewModel" />
     </data>
 
@@ -21,9 +19,9 @@
         android:layout_height="match_parent">
 
         <me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:progressOffset="@{ContextExtensionsKt.getDimensionPixelSizeByAttr(context, R.attr.actionBarSize)}"
             app:progressOffsetSystemWindowInsets="@{true}"
             app:refreshing="@={viewModel.refreshing}"
             app:onRefresh="@{() -> viewModel.refresh()}">

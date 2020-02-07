@@ -25,6 +25,7 @@ import me.zhanghai.android.douya.arch.mapDistinct
 import me.zhanghai.android.douya.util.takeIfNotEmpty
 
 class TimelineViewModel(
+    userId: String?,
     private val diffCallbackFactory: (List<TimelineItem>) -> DiffUtil.Callback
 ) : ViewModel() {
     private lateinit var resource: ResourceWithMore<List<TimelineItem>>
@@ -59,7 +60,7 @@ class TimelineViewModel(
 
     init {
         viewModelScope.launch {
-            TimelineRepository.observeHomeTimeline().collect { resource ->
+            TimelineRepository.observeTimeline(userId).collect { resource ->
                 val timeline = resource.value.value ?: emptyList()
                 val diffResult = if (!refreshing.value) {
                     withContext(Dispatchers.Default) {
