@@ -86,6 +86,6 @@ class TimelineFragment : Fragment() {
             }
         }
         viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
-        viewModel.moreErrorEvent.observe(viewLifecycleOwner) { showToast(it) }
+        viewModel.errorEvent.observe(viewLifecycleOwner) { showToast(it) }
     }
 }

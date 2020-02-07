@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.Loading
 import me.zhanghai.android.douya.arch.ResourceWithMore
 import me.zhanghai.android.douya.arch.mapDistinct
+import me.zhanghai.android.douya.util.takeIfNotEmpty
 
 class TimelineViewModel(
     private val diffCallbackFactory: (List<TimelineItem>) -> DiffUtil.Callback
@@ -53,8 +54,8 @@ class TimelineViewModel(
 
     val refreshing = DistinctMutableLiveData(false)
 
-    private val _moreErrorEvent = EventLiveData<String>()
-    val moreErrorEvent: LiveData<String> = _moreErrorEvent
+    private val _errorEvent = EventLiveData<String>()
+    val errorEvent: LiveData<String> = _errorEvent
 
     init {
         viewModelScope.launch {
@@ -74,11 +75,13 @@ class TimelineViewModel(
                     timeline = Pair(timeline, diffResult),
                     loading = loading && empty,
                     empty = empty && !loading && error.isEmpty(),
-                    error = error,
+                    error = error.takeIf { empty } ?: "",
                     moreLoading = resource.more is Loading
                 )
                 refreshing.value = loading && !empty
-                (resource.more as? Error)?.exception?.apiMessage?.let { _moreErrorEvent.value = it }
+                error.takeIfNotEmpty()?.let { _errorEvent.value = it }
+                val moreError = (resource.more as? Error)?.exception?.apiMessage ?: ""
+                moreError.takeIfNotEmpty()?.let { _errorEvent.value = it }
                 this@TimelineViewModel.resource = resource
             }
         }
