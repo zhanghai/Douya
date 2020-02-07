@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -69,20 +70,18 @@ class TimelineFragment : Fragment() {
             })
         }
         viewModel.timeline.observe(viewLifecycleOwner) { (timeline, diffResult) ->
+            timelineAdapter.items = timeline
             if (diffResult != null) {
-                timelineAdapter.items = timeline
                 diffResult.dispatchUpdatesTo(timelineAdapter)
             } else {
-                timelineAdapter.items = emptyList()
                 timelineAdapter.notifyDataSetChanged()
                 if (timeline.isNotEmpty()) {
-                    binding.timelineRecycler.stopScroll()
-                    // Calls RecyclerView.consumePendingUpdateOperations().
-                    binding.timelineRecycler.scrollBy(0, 0)
-                    timelineAdapter.items = timeline
-                    timelineAdapter.notifyDataSetChanged()
-                    binding.timelineRecycler.scrollBy(0, 0)
-                    binding.timelineRecycler.scrollToPosition(0)
+                    binding.timelineRecycler.run {
+                        stopScroll()
+                        doOnPreDraw {
+                            smoothScrollToPosition(0)
+                        }
+                    }
                 }
             }
         }
