@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.updatePaddingRelative
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
@@ -105,19 +104,7 @@ class TimelineFragment : Fragment() {
         }
         viewModel.timeline.observe(viewLifecycleOwner) { (timeline, diffResult) ->
             timelineAdapter.items = timeline
-            if (diffResult != null) {
-                diffResult.dispatchUpdatesTo(timelineAdapter)
-            } else {
-                timelineAdapter.notifyDataSetChanged()
-                if (timeline.isNotEmpty()) {
-                    binding.timelineRecycler.run {
-                        stopScroll()
-                        doOnPreDraw {
-                            smoothScrollToPosition(0)
-                        }
-                    }
-                }
-            }
+            diffResult?.dispatchUpdatesTo(timelineAdapter)
         }
         viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
         viewModel.errorEvent.observe(viewLifecycleOwner) { showToast(it) }
