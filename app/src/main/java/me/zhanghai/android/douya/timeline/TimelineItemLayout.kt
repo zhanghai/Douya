@@ -7,7 +7,7 @@ package me.zhanghai.android.douya.timeline
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.LinearLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.observe
@@ -39,7 +39,7 @@ import me.zhanghai.android.douya.util.layoutInflater
 import me.zhanghai.android.douya.util.takeIfNotEmpty
 import org.threeten.bp.ZonedDateTime
 
-class TimelineItemLayout : ConstraintLayout {
+class TimelineItemLayout : LinearLayout {
     companion object {
         private const val IMAGE_RECYCLER_GUTTER_SIZE_DP = 2
     }
@@ -63,6 +63,7 @@ class TimelineItemLayout : ConstraintLayout {
     ) : super(context, attrs, defStyleAttr)
 
     init {
+        orientation = VERTICAL
         binding.imageRecycler.apply {
             layoutManager = LinearLayoutManager(null, RecyclerView.HORIZONTAL, false)
             val gutterSize = context.dpToDimensionPixelSize(IMAGE_RECYCLER_GUTTER_SIZE_DP)

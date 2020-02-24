@@ -17,88 +17,89 @@
         <variable name="viewModel" type="me.zhanghai.android.douya.timeline.TimelineItemLayout.ViewModel" />
     </data>
 
-    <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    <merge
+        tools:parentTag="LinearLayout"
+        tools:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/avatarImage"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"
-            android:layout_marginStart="16dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:avatarUrl="@{viewModel.avatarUrl}"
-            android:onClick="@{() -> viewModel.openAuthor()}"
-            tools:src="@drawable/avatar_placeholder" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size"
+                app:avatarUrl="@{viewModel.avatarUrl}"
+                android:onClick="@{() -> viewModel.openAuthor()}"
+                tools:src="@drawable/avatar_placeholder" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{viewModel.author}"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textStyle="bold"
+                    tools:text="梦断代码" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <me.zhanghai.android.douya.ui.TimeTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textColor="?android:textColorSecondary"
+                        app:time="@{viewModel.time}"
+                        app:visibleOrGone="@{viewModel.time != null}"
+                        tools:text="刚刚" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/timeline_item_time_action_space"
+                        android:textAppearance="?textAppearanceBody2"
+                        app:visibleOrGone="@{viewModel.time != null}"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{viewModel.activity}"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textColor="?android:textColorSecondary"
+                        tools:text="转播" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/authorText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toEndOf="@id/avatarImage"
-            app:layout_constraintTop_toTopOf="@id/avatarImage"
-            app:layout_constraintBottom_toTopOf="@id/activityText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.author}"
-            android:textAppearance="?textAppearanceBody2"
-            android:textStyle="bold"
-            tools:text="梦断代码" />
-
-        <me.zhanghai.android.douya.ui.TimeTextView
-            android:id="@+id/timeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/authorText"
-            app:layout_constraintTop_toTopOf="@id/activityText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary"
-            app:time="@{viewModel.time}"
-            app:visibleOrGone="@{viewModel.time != null}"
-            tools:text="刚刚" />
-
-        <TextView
-            android:id="@+id/timeActivitySpace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/timeText"
-            app:layout_constraintTop_toTopOf="@id/activityText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/timeline_item_time_action_space"
-            android:textAppearance="?textAppearanceBody2"
-            app:visibleOrGone="@{viewModel.time != null}"
-            android:textColor="?android:textColorSecondary" />
-
-        <TextView
-            android:id="@+id/activityText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toEndOf="@id/timeActivitySpace"
-            app:layout_constraintTop_toBottomOf="@id/authorText"
-            app:layout_constraintBottom_toBottomOf="@id/avatarImage"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.activity}"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary"
-            tools:text="转播" />
-
-        <TextView
-            android:id="@+id/textText"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatarImage"
             android:text="@{viewModel.text.invoke(context)}"
             android:textAppearance="?textAppearanceBody2"
             app:spanClickable="@{true}"
@@ -106,15 +107,13 @@
             tools:text="你好，世界！" />
 
         <Button
-            android:id="@+id/topicButton"
             android:layout_width="wrap_content"
             android:minWidth="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textText"
+            android:layout_marginBottom="2dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.topic}"
@@ -126,403 +125,329 @@
             tools:text="瓣我同行" />
 
         <Space
-            android:id="@+id/topicBottomSpace"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topicButton"
-            app:layout_goneMarginTop="16dp" />
+            android:layout_height="16dp"
+            app:visibleOrGone="@{TextUtils.isEmpty(viewModel.topic)}"
+            tools:visibility="gone" />
 
         <View
-            android:id="@+id/resharedDividerView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/horizontal_divider_height"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topicBottomSpace"
             android:background="?dividerHorizontal"
             app:visibleOrGone="@{viewModel.hasReshared}" />
 
-        <me.zhanghai.android.douya.ui.OverlayBackgroundView
-            android:id="@+id/resharedBackgroundView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
-            app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
-            android:background="?selectableItemBackground"
-            app:visibleOrGone="@{viewModel.hasReshared}"
-            android:onClick="@{() -> viewModel.openReshared()}" />
-
-        <TextView
-            android:id="@+id/resharedDeletedText"
-            android:layout_width="wrap_content"
+        <me.zhanghai.android.foregroundcompat.ForegroundLinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
-            android:text="@string/timeline_item_reshared_status_deleted"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary"
-            app:visibleOrGone="@{viewModel.resharedDeleted}" />
+            android:foreground="?selectableItemBackground"
+            android:orientation="vertical"
+            android:onClick="@{() -> viewModel.openReshared()}"
+            tools:ignore="UnusedAttribute">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/timeline_item_reshared_status_deleted"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="?android:textColorSecondary"
+                app:visibleOrGone="@{viewModel.resharedDeleted}"
+                tools:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; !viewModel.resharedDeleted}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{viewModel.resharedAuthor}"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textStyle="bold"
+                    tools:text="豆芽" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/timeline_item_time_action_space"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textColor="?android:textColorSecondary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{viewModel.resharedActivity}"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textColor="?android:textColorSecondary"
+                    tools:text="转播" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@{viewModel.resharedText}"
+                android:textAppearance="?textAppearanceBody2"
+                app:spanClickable="@{true}"
+                app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedText)}"
+                tools:text="Hello, World!" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:minWidth="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{viewModel.resharedTopic}"
+                android:textAppearance="?textAppearanceBody2"
+                app:icon="@drawable/chat_icon_black_18dp"
+                app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedTopic)}"
+                style="?borderlessButtonStyle"
+                android:onClick="@{() -> viewModel.openResharedTopic()}"
+                tools:text="豆瓣" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; !viewModel.resharedDeleted &amp;&amp; TextUtils.isEmpty(viewModel.resharedTopic)}"
+                tools:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/horizontal_divider_height"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?dividerHorizontal"
+                app:visibleOrGone="@{viewModel.hasCard}" />
+
+            <me.zhanghai.android.foregroundcompat.ForegroundLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?selectableItemBackground"
+                android:orientation="vertical"
+                android:onClick="@{() -> viewModel.openCard()}"
+                tools:ignore="UnusedAttribute">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) || !TextUtils.isEmpty(viewModel.cardActivity)}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{viewModel.cardOwner}"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textStyle="bold"
+                        app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner)}"
+                        tools:text="豆芽" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/timeline_item_time_action_space"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textColor="?android:textColorSecondary"
+                        app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{viewModel.cardActivity}"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textColor="?android:textColorSecondary"
+                        app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}"
+                        tools:text="的日记" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:orientation="horizontal"
+                    app:visibleOrGone="@{viewModel.hasCard}">
+
+                    <ImageView
+                        android:id="@+id/cardImage"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginEnd="16dp"
+                        android:scaleType="centerCrop"
+                        app:url="@{viewModel.cardImageUrl}"
+                        app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardImageUrl)}"
+                        tools:src="@mipmap/launcher_icon" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.cardTitle}"
+                            android:textAppearance="?textAppearanceSubtitle1"
+                            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardTitle)}"
+                            tools:text="版本 v2.0.0-alpha.1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@{viewModel.cardText}"
+                            android:textAppearance="?textAppearanceCaption"
+                            app:spanClickable="@{true}"
+                            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardText)}"
+                            tools:text="使用 Jetpack 和 Kotlin 构建" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:minWidth="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{viewModel.cardTopic}"
+                    android:textAppearance="?textAppearanceBody2"
+                    app:icon="@drawable/chat_icon_black_18dp"
+                    app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardTopic)}"
+                    style="?borderlessButtonStyle"
+                    android:onClick="@{() -> viewModel.openCardTopic()}"
+                    tools:text="豆瓣广播" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    app:visibleOrGone="@{viewModel.hasCard &amp;&amp; TextUtils.isEmpty(viewModel.cardTopic)}"
+                    tools:visibility="gone" />
+
+                <me.zhanghai.android.douya.ui.ImageLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:imageOrVideo="@{viewModel.video != null ? viewModel.video : viewModel.image}"
+                    app:visibleOrGone="@{viewModel.image != null || viewModel.video != null}" />
+
+                <me.zhanghai.android.douya.ui.RatioFrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ratio="@{1.2f}"
+                    app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
+                    tools:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/imageRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusableInTouchMode="false"
+                        app:hasFixedSize="@{true}" />
+
+                    <View
+                        android:id="@+id/imageRecyclerDescriptionScrim"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/scrim_height"
+                        android:layout_gravity="bottom"
+                        app:backgroundScrim="@{Gravity.BOTTOM}"
+                        tools:background="#66000000" />
+
+                    <TextView
+                        android:id="@+id/imageRecyclerDescriptionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_margin="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{context.getString(R.string.timeline_item_image_count_format, viewModel.imageList.size())}"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:theme="@style/ThemeOverlay.Douya.Dark"
+                        tools:text="9 张图片" />
+                </me.zhanghai.android.douya.ui.RatioFrameLayout>
+            </me.zhanghai.android.foregroundcompat.ForegroundLinearLayout>
+        </me.zhanghai.android.foregroundcompat.ForegroundLinearLayout>
 
         <Space
-            android:id="@+id/resharedDeletedBottomSpace"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedDeletedText"
-            app:visibleOrGone="@{viewModel.resharedDeleted}}" />
-
-        <TextView
-            android:id="@+id/resharedAuthorText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.resharedAuthor}"
-            android:textAppearance="?textAppearanceBody2"
-            android:textStyle="bold"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedAuthor)}"
-            tools:text="豆芽" />
-
-        <TextView
-            android:id="@+id/resharedAuthorActivitySpace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/resharedAuthorText"
-            app:layout_constraintTop_toTopOf="@id/resharedAuthorText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/timeline_item_time_action_space"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedAuthor) &amp;&amp; !TextUtils.isEmpty(viewModel.resharedActivity)}" />
-
-        <TextView
-            android:id="@+id/resharedActivityText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toEndOf="@id/resharedAuthorActivitySpace"
-            app:layout_constraintTop_toTopOf="@id/resharedAuthorText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.resharedActivity}"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedActivity)}"
-            tools:text="转播" />
-
-        <TextView
-            android:id="@+id/resharedTextText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedAuthorText"
-            android:text="@{viewModel.resharedText}"
-            android:textAppearance="?textAppearanceBody2"
-            app:spanClickable="@{true}"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedText)}"
-            tools:text="Hello, World!" />
-
-        <Button
-            android:id="@+id/resharedTopicButton"
-            android:layout_width="wrap_content"
-            android:minWidth="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedTextText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.resharedTopic}"
-            android:textAppearance="?textAppearanceBody2"
-            app:icon="@drawable/chat_icon_black_18dp"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedTopic)}"
-            style="?borderlessButtonStyle"
-            android:onClick="@{() -> viewModel.openResharedTopic()}"
-            tools:text="豆瓣" />
-
-        <Space
-            android:id="@+id/resharedTopicBottomSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedTopicButton"
-            app:layout_goneMarginTop="16dp"
-            app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; !viewModel.resharedDeleted}" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/resharedBottomBarrier"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="resharedDeletedBottomSpace,resharedTopicBottomSpace"
-            app:visibleOrGone="@{viewModel.hasReshared}" />
-
-        <View
-            android:id="@+id/cardDividerView"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/horizontal_divider_height"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedBottomBarrier"
-            android:background="?dividerHorizontal"
-            app:visibleOrGone="@{viewModel.hasCard}" />
-
-        <me.zhanghai.android.douya.ui.OverlayBackgroundView
-            android:id="@+id/cardBackgroundView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardDividerView"
-            app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
-            android:background="?selectableItemBackground"
-            app:visibleOrGone="@{viewModel.hasCard}"
-            android:onClick="@{() -> viewModel.openCard()}" />
-
-        <TextView
-            android:id="@+id/cardOwnerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardDividerView"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.cardOwner}"
-            android:textAppearance="?textAppearanceBody2"
-            android:textStyle="bold"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner)}"
-            tools:text="豆芽" />
-
-        <TextView
-            android:id="@+id/cardOwnerActivitySpace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/cardOwnerText"
-            app:layout_constraintTop_toTopOf="@id/cardOwnerText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/timeline_item_time_action_space"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}" />
-
-        <TextView
-            android:id="@+id/cardActivityText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toEndOf="@id/cardOwnerActivitySpace"
-            app:layout_constraintTop_toTopOf="@id/cardOwnerText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.cardActivity}"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardOwner) &amp;&amp; !TextUtils.isEmpty(viewModel.cardActivity)}"
-            tools:text="的日记" />
-
-        <ImageView
-            android:id="@+id/cardImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardOwnerText"
-            android:scaleType="centerCrop"
-            app:url="@{viewModel.cardImageUrl}"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardImageUrl)}"
-            tools:src="@mipmap/launcher_icon" />
-
-        <TextView
-            android:id="@+id/cardTitleText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toEndOf="@id/cardImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cardImage"
-            app:layout_goneMarginTop="16dp"
-            android:text="@{viewModel.cardTitle}"
-            android:textAppearance="?textAppearanceSubtitle1"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardTitle)}"
-            tools:text="版本 v2.0.0-alpha.1" />
-
-        <TextView
-            android:id="@+id/cardTextText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@id/cardImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardTitleText"
-            android:text="@{viewModel.cardText}"
-            android:textAppearance="?textAppearanceCaption"
-            app:spanClickable="@{true}"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardText)}"
-            tools:text="使用 Jetpack 和 Kotlin 构建" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/cardImageTextBarrier"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="cardImage,cardTextText"
-            app:visibleOrGone="@{viewModel.hasCard}" />
-
-        <Button
-            android:id="@+id/cardTopicButton"
-            android:layout_width="wrap_content"
-            android:minWidth="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardImageTextBarrier"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.cardTopic}"
-            android:textAppearance="?textAppearanceBody2"
-            app:icon="@drawable/chat_icon_black_18dp"
-            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.cardTopic)}"
-            style="?borderlessButtonStyle"
-            android:onClick="@{() -> viewModel.openCardTopic()}"
-            tools:text="豆瓣广播" />
-
-        <Space
-            android:id="@+id/cardBottomSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardTopicButton"
-            app:layout_goneMarginTop="16dp"
-            app:visibleOrGone="@{viewModel.hasCard}" />
-
-        <me.zhanghai.android.douya.ui.ImageLayout
-            android:id="@+id/imageLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardBottomSpace"
-            app:imageOrVideo="@{viewModel.video != null ? viewModel.video : viewModel.image}"
-            app:visibleOrGone="@{viewModel.image != null || viewModel.video != null}" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imageRecycler"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageLayout"
-            app:layout_constraintDimensionRatio="6:5"
-            android:focusableInTouchMode="false"
-            app:hasFixedSize="@{true}"
-            app:visibleOrGone="@{!viewModel.imageList.isEmpty()}" />
-
-        <View
-            android:id="@+id/imageRecyclerDescriptionScrim"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/scrim_height"
-            app:layout_constraintStart_toStartOf="@id/imageRecycler"
-            app:layout_constraintEnd_toEndOf="@id/imageRecycler"
-            app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
-            app:backgroundScrim="@{Gravity.BOTTOM}"
-            app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
-            tools:background="#66000000" />
-
-        <TextView
-            android:id="@+id/imageRecyclerDescriptionText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:layout_constraintStart_toStartOf="@id/imageRecyclerDescriptionScrim"
-            app:layout_constraintBottom_toBottomOf="@id/imageRecyclerDescriptionScrim"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{context.getString(R.string.timeline_item_image_count_format, viewModel.imageList.size())}"
-            android:textAppearance="?textAppearanceBody2"
-            android:theme="@style/ThemeOverlay.Douya.Dark"
-            app:visibleOrGone="@{!viewModel.imageList.isEmpty()}"
-            tools:text="9 张图片" />
-
-        <Space
-            android:id="@+id/imageBottomSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageRecycler"
+            android:layout_height="8dp"
             app:visibleOrGone="@{viewModel.image != null || viewModel.video != null || !viewModel.imageList.isEmpty()}" />
 
-        <me.zhanghai.android.douya.ui.IconBackgroundButton
-            android:id="@+id/likeButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageBottomSpace"
-            android:text="@{viewModel.likeCount > 0 ? Integer.toString(viewModel.likeCount) : &quot;&quot;}"
-            app:icon="@drawable/thumb_up_icon_black_18dp"
-            style="@style/Widget.Douya.IconBackgroundButton"
-            tools:text="1" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <me.zhanghai.android.douya.ui.IconBackgroundButton
-            android:id="@+id/reshareButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/likeButton"
-            android:text="@{viewModel.reshareCount > 0 ? Integer.toString(viewModel.reshareCount) : &quot;&quot;}"
-            app:icon="@drawable/repeat_icon_black_18dp"
-            style="@style/Widget.Douya.IconBackgroundButton" />
+            <me.zhanghai.android.douya.ui.IconBackgroundButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.likeCount > 0 ? Integer.toString(viewModel.likeCount) : &quot;&quot;}"
+                app:icon="@drawable/thumb_up_icon_black_18dp"
+                style="@style/Widget.Douya.IconBackgroundButton"
+                tools:text="1" />
 
-        <me.zhanghai.android.douya.ui.IconBackgroundButton
-            android:id="@+id/commentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/reshareButton"
-            app:layout_constraintTop_toTopOf="@id/likeButton"
-            android:text="@{viewModel.commentCount > 0 ? Integer.toString(viewModel.commentCount) : &quot;&quot;}"
-            app:icon="@drawable/comment_icon_black_18dp"
-            style="@style/Widget.Douya.IconBackgroundButton"
-            tools:text="2" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <me.zhanghai.android.douya.ui.IconBackgroundButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.commentCount > 0 ? Integer.toString(viewModel.commentCount) : &quot;&quot;}"
+                app:icon="@drawable/comment_icon_black_18dp"
+                style="@style/Widget.Douya.IconBackgroundButton"
+                tools:text="2" />
+
+            <me.zhanghai.android.douya.ui.IconBackgroundButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@{viewModel.reshareCount > 0 ? Integer.toString(viewModel.reshareCount) : &quot;&quot;}"
+                app:icon="@drawable/repeat_icon_black_18dp"
+                style="@style/Widget.Douya.IconBackgroundButton" />
+        </LinearLayout>
     </merge>
 </layout>
