@@ -139,7 +139,7 @@
             android:id="@+id/resharedGroup"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedDeletedBottomSpace,resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText,resharedTopicBottomSpace,resharedBottomBarrier"
+            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedDeletedBottomSpace,resharedTopicBottomSpace,resharedBottomBarrier"
             app:visibleOrGone="@{viewModel.hasReshared}" />
 
         <View
