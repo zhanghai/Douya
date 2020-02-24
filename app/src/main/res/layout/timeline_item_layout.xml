@@ -135,13 +135,6 @@
             app:layout_constraintTop_toBottomOf="@id/topicButton"
             app:layout_goneMarginTop="16dp" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/resharedGroup"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="resharedDividerView,resharedBackgroundView,resharedDeletedBottomSpace,resharedTopicBottomSpace,resharedBottomBarrier"
-            app:visibleOrGone="@{viewModel.hasReshared}" />
-
         <View
             android:id="@+id/resharedDividerView"
             android:layout_width="0dp"
@@ -151,7 +144,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topicBottomSpace"
-            android:background="?dividerHorizontal" />
+            android:background="?dividerHorizontal"
+            app:visibleOrGone="@{viewModel.hasReshared}" />
 
         <me.zhanghai.android.douya.ui.OverlayBackgroundView
             android:id="@+id/resharedBackgroundView"
@@ -162,6 +156,7 @@
             app:layout_constraintTop_toBottomOf="@id/resharedDividerView"
             app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
             android:background="?selectableItemBackground"
+            app:visibleOrGone="@{viewModel.hasReshared}"
             android:onClick="@{() -> viewModel.openReshared()}" />
 
         <TextView
@@ -176,7 +171,7 @@
             android:text="@string/timeline_item_reshared_status_deleted"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
-            app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; viewModel.resharedDeleted}" />
+            app:visibleOrGone="@{viewModel.resharedDeleted}" />
 
         <Space
             android:id="@+id/resharedDeletedBottomSpace"
@@ -185,14 +180,8 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resharedDeletedText" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/resharedUndeletedGroup"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="resharedAuthorText,resharedAuthorActivitySpace,resharedActivityText"
-            app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; !viewModel.resharedDeleted}" />
+            app:layout_constraintTop_toBottomOf="@id/resharedDeletedText"
+            app:visibleOrGone="@{viewModel.resharedDeleted}}" />
 
         <TextView
             android:id="@+id/resharedAuthorText"
@@ -207,6 +196,7 @@
             android:text="@{viewModel.resharedAuthor}"
             android:textAppearance="?textAppearanceBody2"
             android:textStyle="bold"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedAuthor)}"
             tools:text="豆芽" />
 
         <TextView
@@ -219,7 +209,8 @@
             android:maxLines="1"
             android:text="@string/timeline_item_time_action_space"
             android:textAppearance="?textAppearanceBody2"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="?android:textColorSecondary"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedAuthor) &amp;&amp; !TextUtils.isEmpty(viewModel.resharedActivity)}" />
 
         <TextView
             android:id="@+id/resharedActivityText"
@@ -233,6 +224,7 @@
             android:text="@{viewModel.resharedActivity}"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="?android:textColorSecondary"
+            app:visibleOrGone="@{!TextUtils.isEmpty(viewModel.resharedActivity)}"
             tools:text="转播" />
 
         <TextView
@@ -279,21 +271,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedTopicButton"
-            app:layout_goneMarginTop="16dp" />
+            app:layout_goneMarginTop="16dp"
+            app:visibleOrGone="@{viewModel.hasReshared &amp;&amp; !viewModel.resharedDeleted}" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/resharedBottomBarrier"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="resharedDeletedBottomSpace,resharedTopicBottomSpace" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/cardGroup"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="cardDividerView,cardBackgroundView,cardImageTextBarrier,cardBottomSpace"
-            app:visibleOrGone="@{viewModel.hasCard}" />
+            app:constraint_referenced_ids="resharedDeletedBottomSpace,resharedTopicBottomSpace"
+            app:visibleOrGone="@{viewModel.hasReshared}" />
 
         <View
             android:id="@+id/cardDividerView"
@@ -304,7 +291,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resharedBottomBarrier"
-            android:background="?dividerHorizontal" />
+            android:background="?dividerHorizontal"
+            app:visibleOrGone="@{viewModel.hasCard}" />
 
         <me.zhanghai.android.douya.ui.OverlayBackgroundView
             android:id="@+id/cardBackgroundView"
@@ -315,6 +303,7 @@
             app:layout_constraintTop_toBottomOf="@id/cardDividerView"
             app:layout_constraintBottom_toBottomOf="@id/imageRecycler"
             android:background="?selectableItemBackground"
+            app:visibleOrGone="@{viewModel.hasCard}"
             android:onClick="@{() -> viewModel.openCard()}" />
 
         <TextView
@@ -410,7 +399,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="cardImage,cardTextText" />
+            app:constraint_referenced_ids="cardImage,cardTextText"
+            app:visibleOrGone="@{viewModel.hasCard}" />
 
         <Button
             android:id="@+id/cardTopicButton"
@@ -440,7 +430,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardTopicButton"
-            app:layout_goneMarginTop="16dp" />
+            app:layout_goneMarginTop="16dp"
+            app:visibleOrGone="@{viewModel.hasCard}" />
 
         <me.zhanghai.android.douya.ui.ImageLayout
             android:id="@+id/imageLayout"
