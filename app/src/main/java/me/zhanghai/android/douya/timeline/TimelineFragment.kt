@@ -35,16 +35,11 @@ class TimelineFragment : Fragment() {
 
     private val args: TimelineFragmentArgs by navArgs()
 
-    private val timelineAdapter = TimelineAdapter()
-
-    private val viewModel: TimelineViewModel by viewModels {
-        {
-            TimelineViewModel(args.userId) { timelineAdapter.createDiffCallback(it) }
-        }
-    }
+    private val viewModel: TimelineViewModel by viewModels { { TimelineViewModel(args.userId) } }
 
     private lateinit var binding: TimelineFragmentBinding
 
+    private val timelineAdapter = TimelineAdapter()
     private val moreItemAdapter = MoreItemAdapter(timelineAdapter, R.layout.timeline_more_item)
 
     override fun onCreateView(
@@ -102,7 +97,7 @@ class TimelineFragment : Fragment() {
                 }
             })
         }
-        viewModel.timeline.observe(viewLifecycleOwner) { (timeline, diffResult) ->
+        viewModel.timelineAndDiffResult.observe(viewLifecycleOwner) { (timeline, diffResult) ->
             timelineAdapter.items = timeline
             diffResult?.dispatchUpdatesTo(timelineAdapter)
         }

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.api.util.uriOrUrl
@@ -29,19 +28,6 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
     init {
         setHasStableIds(true)
     }
-
-    fun createDiffCallback(newItems: List<TimelineItem>): DiffUtil.Callback =
-        object : DiffUtil.Callback() {
-            override fun getOldListSize() = itemCount
-
-            override fun getNewListSize() = newItems.size
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                items[oldItemPosition].uid == newItems[newItemPosition].uid
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                items[oldItemPosition] == newItems[newItemPosition]
-        }
 
     override fun getItemId(position: Int): Long = items[position].uid.hashCode().toLong()
 

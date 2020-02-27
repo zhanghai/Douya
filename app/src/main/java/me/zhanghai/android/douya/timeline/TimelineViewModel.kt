@@ -22,16 +22,16 @@ import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.Loading
 import me.zhanghai.android.douya.arch.ResourceWithMore
 import me.zhanghai.android.douya.arch.mapDistinct
+import me.zhanghai.android.douya.arch.valueCompat
 import me.zhanghai.android.douya.util.takeIfNotEmpty
 
 class TimelineViewModel(
-    userId: String?,
-    private val diffCallbackFactory: (List<TimelineItem>) -> DiffUtil.Callback
+    userId: String?
 ) : ViewModel() {
     private lateinit var resource: ResourceWithMore<List<TimelineItem>>
 
     data class State(
-        val timeline: Pair<List<TimelineItem>, DiffUtil.DiffResult?>,
+        val timelineAndDiffResult: Pair<List<TimelineItem>, DiffUtil.DiffResult?>,
         val loading: Boolean,
         val empty: Boolean,
         val error: String,
@@ -40,14 +40,14 @@ class TimelineViewModel(
 
     private val state = MutableLiveData(
         State(
-            timeline = Pair(emptyList(), null),
+            timelineAndDiffResult = Pair(emptyList(), null),
             loading = false,
             empty = false,
             error = "",
             moreLoading = false
         )
     )
-    val timeline = state.mapDistinct { it.timeline }
+    val timelineAndDiffResult = state.mapDistinct { it.timelineAndDiffResult }
     val loading = state.mapDistinct { it.loading }
     val empty = state.mapDistinct { it.empty }
     val error = state.mapDistinct { it.error }
@@ -62,14 +62,15 @@ class TimelineViewModel(
         viewModelScope.launch {
             TimelineRepository.observeTimeline(userId).collect { resource ->
                 val timeline = resource.value.value ?: emptyList()
+                val oldTimeline = state.valueCompat.timelineAndDiffResult.first
                 val diffResult = withContext(Dispatchers.Default) {
-                    DiffUtil.calculateDiff(diffCallbackFactory(timeline), false)
+                    DiffUtil.calculateDiff(TimelineDiffCallback(oldTimeline, timeline), false)
                 }
                 val loading = resource.value is Loading
                 val empty = timeline.isEmpty()
                 val error = (resource.value as? Error)?.exception?.apiMessage ?: ""
                 state.value = State(
-                    timeline = Pair(timeline, diffResult),
+                    timelineAndDiffResult = Pair(timeline, diffResult),
                     loading = loading && empty,
                     empty = empty && !loading && error.isEmpty(),
                     error = error.takeIf { empty } ?: "",
@@ -94,5 +95,24 @@ class TimelineViewModel(
         viewModelScope.launch {
             resource.more.refresh?.invoke()
         }
+    }
+
+    private class TimelineDiffCallback(
+        private val oldTimeline: List<TimelineItem>,
+        private val newTimeline: List<TimelineItem>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize() = oldTimeline.size
+
+        override fun getNewListSize() = newTimeline.size
+
+        override fun areItemsTheSame(
+            oldItemPosition: Int,
+            newItemPosition: Int
+        ) = oldTimeline[oldItemPosition].uid == newTimeline[newItemPosition].uid
+
+        override fun areContentsTheSame(
+            oldItemPosition: Int,
+            newItemPosition: Int
+        ) = oldTimeline[oldItemPosition] == newTimeline[newItemPosition]
     }
 }
