@@ -496,9 +496,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageBottomSpace"
+            android:padding="8dp"
+            app:activated="@{viewModel.liked}"
             android:onClick="@{() -> null}">
 
             <me.zhanghai.android.douya.ui.ActionChip
@@ -518,9 +519,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/likeButton"
+            android:padding="8dp"
             android:onClick="@{() -> null}">
 
             <me.zhanghai.android.douya.ui.ActionChip
@@ -538,9 +539,9 @@
             android:id="@+id/commentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@id/reshareButton"
             app:layout_constraintTop_toTopOf="@id/likeButton"
+            android:padding="8dp"
             android:onClick="@{() -> null}">
 
             <me.zhanghai.android.douya.ui.ActionChip

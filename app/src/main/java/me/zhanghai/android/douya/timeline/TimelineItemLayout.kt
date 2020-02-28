@@ -138,6 +138,7 @@ class TimelineItemLayout : ConstraintLayout {
             val image: SizedImage?,
             val imageList: List<SizedImage>,
             val video: VideoInfo?,
+            val liked: Boolean,
             val likeCount: Int,
             val commentCount: Int,
             val reshareCount: Int
@@ -174,6 +175,7 @@ class TimelineItemLayout : ConstraintLayout {
                 image = null,
                 imageList = emptyList(),
                 video = null,
+                liked = false,
                 likeCount = 0,
                 commentCount = 0,
                 reshareCount = 0
@@ -202,6 +204,7 @@ class TimelineItemLayout : ConstraintLayout {
         val image = state.mapDistinct { it.image }
         val imageList = state.mapDistinct { it.imageList }
         val video = state.mapDistinct { it.video }
+        val liked = state.mapDistinct { it.liked }
         val likeCount = state.mapDistinct { it.likeCount }
         val commentCount = state.mapDistinct { it.commentCount }
         val reshareCount = state.mapDistinct { it.reshareCount }
@@ -248,6 +251,7 @@ class TimelineItemLayout : ConstraintLayout {
                     image = images.singleOrNull()?.takeIf { video == null },
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
                     video = video,
+                    liked = status.liked,
                     likeCount = status.likeCount,
                     commentCount = status.commentsCount,
                     reshareCount = status.resharesCount
@@ -287,6 +291,7 @@ class TimelineItemLayout : ConstraintLayout {
                     image = null,
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
                     video = video,
+                    liked = timelineItem?.reactionType ?: 0 > 0,
                     likeCount = timelineItem?.reactionsCount ?: 0,
                     commentCount = timelineItem?.commentsCount ?: 0,
                     reshareCount = timelineItem?.resharesCount ?: 0
