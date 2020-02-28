@@ -531,6 +531,7 @@
                 android:duplicateParentState="true"
                 android:focusable="false"
                 android:text="@{viewModel.reshareCount > 0 ? Integer.toString(viewModel.reshareCount) : &quot;&quot;}"
+                app:activated="@{viewModel.reshared}"
                 app:chipIcon="@drawable/repeat_icon_black_18dp"
                 style="@style/Widget.Douya.Chip.Action" />
         </FrameLayout>

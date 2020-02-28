@@ -13,6 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import me.zhanghai.android.douya.account.app.activeAccount
+import me.zhanghai.android.douya.account.app.userId
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.api.info.VideoInfo
@@ -23,6 +25,7 @@ import me.zhanghai.android.douya.api.util.subtitleWithEntities
 import me.zhanghai.android.douya.api.util.textWithEntities
 import me.zhanghai.android.douya.api.util.textWithEntitiesAndParent
 import me.zhanghai.android.douya.api.util.uriOrUrl
+import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
@@ -141,46 +144,51 @@ class TimelineItemLayout : ConstraintLayout {
             val liked: Boolean,
             val likeCount: Int,
             val commentCount: Int,
+            val reshared: Boolean,
             val reshareCount: Int
-        )
+        ) {
+            companion object {
+                val INITIAL = State(
+                    avatarUrl = "",
+                    author = "",
+                    authorUri = "",
+                    time = null,
+                    activity = "",
+                    hasText = false,
+                    text = { "" },
+                    topic = "",
+                    topicUri = "",
+                    hasReshared = false,
+                    resharedDeleted = false,
+                    resharedAuthor = "",
+                    resharedActivity = "",
+                    resharedText = "",
+                    resharedTopic = "",
+                    resharedTopicUri = "",
+                    resharedUri = "",
+                    hasCard = false,
+                    cardOwner = "",
+                    cardActivity = "",
+                    cardImageUrl = "",
+                    cardTitle = "",
+                    cardText = "",
+                    cardTopic = "",
+                    cardTopicUri = "",
+                    cardUri = "",
+                    image = null,
+                    imageList = emptyList(),
+                    video = null,
+                    liked = false,
+                    likeCount = 0,
+                    commentCount = 0,
+                    reshared = false,
+                    reshareCount = 0
+                )
+            }
+        }
 
-        private val state = MutableLiveData(
-            State(
-                avatarUrl = "",
-                author = "",
-                authorUri = "",
-                time = null,
-                activity = "",
-                hasText = false,
-                text = { "" },
-                topic = "",
-                topicUri = "",
-                hasReshared = false,
-                resharedDeleted = false,
-                resharedAuthor = "",
-                resharedActivity = "",
-                resharedText = "",
-                resharedTopic = "",
-                resharedTopicUri = "",
-                resharedUri = "",
-                hasCard = false,
-                cardOwner = "",
-                cardActivity = "",
-                cardImageUrl = "",
-                cardTitle = "",
-                cardText = "",
-                cardTopic = "",
-                cardTopicUri = "",
-                cardUri = "",
-                image = null,
-                imageList = emptyList(),
-                video = null,
-                liked = false,
-                likeCount = 0,
-                commentCount = 0,
-                reshareCount = 0
-            )
-        )
+        private val state = MutableLiveData(State.INITIAL)
+
         val avatarUrl = state.mapDistinct { it.avatarUrl }
         val author = state.mapDistinct { it.author }
         val time = state.mapDistinct { it.time }
@@ -207,6 +215,7 @@ class TimelineItemLayout : ConstraintLayout {
         val liked = state.mapDistinct { it.liked }
         val likeCount = state.mapDistinct { it.likeCount }
         val commentCount = state.mapDistinct { it.commentCount }
+        val reshared = state.mapDistinct { it.reshared }
         val reshareCount = state.mapDistinct { it.reshareCount }
 
         private val _openUriEvent = EventLiveData<String>()
@@ -254,18 +263,19 @@ class TimelineItemLayout : ConstraintLayout {
                     liked = status.liked,
                     likeCount = status.likeCount,
                     commentCount = status.commentsCount,
+                    reshared = timelineItem.resharer?.id == accountManager.activeAccount!!.userId,
                     reshareCount = status.resharesCount
                 )
-            } else {
-                val images = timelineItem?.content?.photos?.ifEmpty {
+            } else if (timelineItem != null) {
+                val images = timelineItem.content?.photos?.ifEmpty {
                     timelineItem.content.photo?.let { listOf(it) }
                 }?.map { it.image!! } ?: emptyList()
-                val video = timelineItem?.content?.videoInfo
+                val video = timelineItem.content?.videoInfo
                 State(
-                    avatarUrl = timelineItem?.owner?.avatar ?: "",
-                    author = timelineItem?.owner?.name ?: "",
-                    authorUri = timelineItem?.owner?.uriOrUrl ?: "",
-                    activity = timelineItem?.actionCompat ?: "",
+                    avatarUrl = timelineItem.owner?.avatar ?: "",
+                    author = timelineItem.owner?.name ?: "",
+                    authorUri = timelineItem.owner?.uriOrUrl ?: "",
+                    activity = timelineItem.actionCompat,
                     time = null,
                     hasText = false,
                     text = { "" },
@@ -283,19 +293,22 @@ class TimelineItemLayout : ConstraintLayout {
                     cardOwner = "",
                     cardActivity = "",
                     cardImageUrl = images.singleOrNull()?.normalOrClosest?.url ?: "",
-                    cardTitle = timelineItem?.content?.title ?: "",
-                    cardText = timelineItem?.content?.abstractString ?: "",
-                    cardTopic = timelineItem?.topic?.name ?: "",
-                    cardTopicUri = timelineItem?.topic?.uriOrUrl ?: "",
-                    cardUri = timelineItem?.content?.uriOrUrl ?: "",
+                    cardTitle = timelineItem.content?.title ?: "",
+                    cardText = timelineItem.content?.abstractString ?: "",
+                    cardTopic = timelineItem.topic?.name ?: "",
+                    cardTopicUri = timelineItem.topic?.uriOrUrl ?: "",
+                    cardUri = timelineItem.content?.uriOrUrl ?: "",
                     image = null,
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
                     video = video,
-                    liked = timelineItem?.reactionType ?: 0 > 0,
-                    likeCount = timelineItem?.reactionsCount ?: 0,
-                    commentCount = timelineItem?.commentsCount ?: 0,
-                    reshareCount = timelineItem?.resharesCount ?: 0
+                    liked = timelineItem.reactionType > 0,
+                    likeCount = timelineItem.reactionsCount,
+                    commentCount = timelineItem.commentsCount,
+                    reshared = timelineItem.resharer?.id == accountManager.activeAccount!!.userId,
+                    reshareCount = timelineItem.resharesCount
                 )
+            } else {
+                State.INITIAL
             }
         }
 

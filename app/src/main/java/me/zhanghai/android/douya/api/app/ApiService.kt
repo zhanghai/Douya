@@ -8,7 +8,7 @@ package me.zhanghai.android.douya.api.app
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.squareup.moshi.Moshi
 import me.zhanghai.android.douya.api.info.ApiContract
-import me.zhanghai.android.douya.api.info.AuthenticationResponse
+import me.zhanghai.android.douya.api.info.Session
 import me.zhanghai.android.douya.api.info.ErrorResponse
 import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.network.DoubanZonedDateTimeAdapter
@@ -73,14 +73,14 @@ object ApiService {
         apiHttpClient.dispatcher.cancelAll()
     }
 
-    suspend fun authenticate(username: String, password: String): AuthenticationResponse =
+    suspend fun authenticate(username: String, password: String): Session =
         authenticationService.authenticate(
             ApiContract.Credential.KEY, ApiContract.Credential.SECRET,
             ApiContract.Authentication.REDIRECT_URI, false,
             ApiContract.Authentication.GrantTypes.PASSWORD, username, password
         )
 
-    suspend fun authenticate(refreshToken: String): AuthenticationResponse =
+    suspend fun authenticate(refreshToken: String): Session =
         authenticationService.authenticate(
             ApiContract.Credential.KEY, ApiContract.Credential.SECRET,
             ApiContract.Authentication.REDIRECT_URI, false,
@@ -103,7 +103,7 @@ object ApiService {
             @Field("grant_type") grantType: String,
             @Field("username") username: String,
             @Field("password") password: String
-        ): AuthenticationResponse
+        ): Session
 
         @POST(ApiContract.Authentication.URL)
         @FormUrlEncoded
@@ -114,7 +114,7 @@ object ApiService {
             @Field("disable_account_create") disableAccountCreation: Boolean,
             @Field("grant_type") grantType: String,
             @Field("refresh_token") refreshToken: String
-        ): AuthenticationResponse
+        ): Session
     }
 
     private interface ApiService {

@@ -73,16 +73,16 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         if (authToken == null) {
             do {
                 val refreshToken: String = account.refreshToken ?: break
-                val authenticationResponse = try {
+                val session = try {
                     runBlocking { ApiService.authenticate(refreshToken) }
                 } catch (e: Exception) {
                     Timber.e(e.toString())
                     break
                 }
-                authToken = authenticationResponse.accessToken
-                account.refreshToken = authenticationResponse.refreshToken
-                account.userId = authenticationResponse.userId
-                account.userName = authenticationResponse.userName
+                authToken = session.accessToken
+                account.refreshToken = session.refreshToken
+                account.userId = session.userId
+                account.userName = session.userName
             } while (false)
         }
 
@@ -91,7 +91,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                 AccountManager.ERROR_CODE_BAD_AUTHENTICATION,
                 "AccountManager.getPassword() returned null"
             )
-            val authenticationResponse = try {
+            val session = try {
                 runBlocking { ApiService.authenticate(account.name, password) }
             } catch (e: Exception) {
                 Timber.e(e.toString())
@@ -122,10 +122,10 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
                     createErrorBundle(AccountManager.ERROR_CODE_NETWORK_ERROR, e)
                 }
             }
-            authToken = authenticationResponse.accessToken
-            account.refreshToken = authenticationResponse.refreshToken
-            account.userId = authenticationResponse.userId
-            account.userName = authenticationResponse.userName
+            authToken = session.accessToken
+            account.refreshToken = session.refreshToken
+            account.userId = session.userId
+            account.userName = session.userName
         }
 
         return Bundle().apply {

@@ -39,10 +39,10 @@ var Account.refreshToken: String?
         accountManager.setUserData(this, AccountContract.USER_DATA_KEY_REFRESH_TOKEN, value)
     }
 
-var Account.userId: Long?
-    get() = accountManager.getUserData(this, AccountContract.USER_DATA_KEY_USER_ID)?.toLongOrNull()
+var Account.userId: String?
+    get() = accountManager.getUserData(this, AccountContract.USER_DATA_KEY_USER_ID)
     set(value) {
-        accountManager.setUserData(this, AccountContract.USER_DATA_KEY_USER_ID, value?.toString())
+        accountManager.setUserData(this, AccountContract.USER_DATA_KEY_USER_ID, value)
     }
 
 var Account.userName: String?

@@ -9,13 +9,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class AuthenticationResponse(
+data class Session(
     @Json(name = "access_token")
     val accessToken: String,
     @Json(name = "douban_user_name")
     val userName: String,
     @Json(name = "douban_user_id")
-    val userId: Long,
+    val userId: String,
     @Json(name = "expires_in")
     val accessTokenExpiresIn: Long,
     @Json(name = "refresh_token")

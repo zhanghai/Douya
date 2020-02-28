@@ -106,7 +106,7 @@ class AuthenticatorViewModel(
                 authenticating = true
             )
             try {
-                val response = try {
+                val session = try {
                     ApiService.authenticate(username, password)
                 } catch (e: Exception) {
                     Timber.e(e)
@@ -127,10 +127,10 @@ class AuthenticatorViewModel(
                     AuthenticatorMode.UPDATE, AuthenticatorMode.CONFIRM ->
                         accountManager.setPassword(account, password)
                 }
-                account.setAuthToken(response.accessToken)
-                account.refreshToken = response.refreshToken
-                account.userId = response.userId
-                account.userName = response.userName
+                account.setAuthToken(session.accessToken)
+                account.refreshToken = session.refreshToken
+                account.userId = session.userId
+                account.userName = session.userName
                 _sendResultAndFinishEvent.value = Intent().apply {
                     when (mode) {
                         AuthenticatorMode.ADD, AuthenticatorMode.UPDATE -> {
