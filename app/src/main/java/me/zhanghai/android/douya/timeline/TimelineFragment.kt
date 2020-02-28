@@ -16,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.TimelineFragmentBinding
@@ -28,7 +29,7 @@ import me.zhanghai.android.douya.util.hasFirstItemReachedTop
 import me.zhanghai.android.douya.util.showToast
 
 class TimelineFragment : Fragment() {
-    var appBarLayout: ViewGroup? = null
+    var appBarLayout: AppBarLayout? = null
 
     var fab: View? = null
 
@@ -70,6 +71,7 @@ class TimelineFragment : Fragment() {
                     if (hasFirstItemReachedTop) {
                         onShow()
                     }
+                    appBarLayout?.setLifted(canScrollVertically(-1))
                 }
 
                 override fun onScrolledUp() {

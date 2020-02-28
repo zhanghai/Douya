@@ -33,6 +33,7 @@
             app:paddingRightSystemWindowInsets="@{true}"
             app:paddingTopSystemWindowInsets="@{true}"
             android:background="?colorSurface"
+            app:liftOnScroll="true"
             android:theme="?actionBarTheme">
 
             <androidx.appcompat.widget.Toolbar
