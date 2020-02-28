@@ -41,16 +41,19 @@ class AuthenticatorViewModel(
         val usernameError: String,
         val passwordError: String,
         val authenticating: Boolean
-    )
+    ) {
+        companion object {
+            fun initial(mode: AuthenticatorMode): State = State(
+                usernameEditable = mode == AuthenticatorMode.ADD,
+                usernameError = "",
+                passwordError = "",
+                authenticating = false
+            )
+        }
+    }
 
-    private val state = MutableLiveData(
-        State(
-            usernameEditable = mode == AuthenticatorMode.ADD,
-            usernameError = "",
-            passwordError = "",
-            authenticating = false
-        )
-    )
+    private val state = MutableLiveData(State.initial(mode))
+
     val usernameEditable = state.mapDistinct { it.usernameEditable }
     val usernameError = state.mapDistinct { it.usernameError }
     val passwordError = state.mapDistinct { it.passwordError }

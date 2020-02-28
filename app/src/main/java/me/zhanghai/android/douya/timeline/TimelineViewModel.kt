@@ -36,17 +36,20 @@ class TimelineViewModel(
         val empty: Boolean,
         val error: String,
         val moreLoading: Boolean
-    )
+    ) {
+        companion object {
+            val INITIAL = State(
+                timelineAndDiffResult = Pair(emptyList(), null),
+                loading = false,
+                empty = false,
+                error = "",
+                moreLoading = false
+            )
+        }
+    }
 
-    private val state = MutableLiveData(
-        State(
-            timelineAndDiffResult = Pair(emptyList(), null),
-            loading = false,
-            empty = false,
-            error = "",
-            moreLoading = false
-        )
-    )
+    private val state = MutableLiveData(State.INITIAL)
+
     val timelineAndDiffResult = state.mapDistinct { it.timelineAndDiffResult }
     val loading = state.mapDistinct { it.loading }
     val empty = state.mapDistinct { it.empty }

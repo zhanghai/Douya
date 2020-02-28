@@ -84,38 +84,49 @@ class ImageLayout : FrameLayout {
             val url: String,
             val isGif: Boolean,
             val isVideo: Boolean
-        )
+        ) {
+            companion object {
+                val INITIAL = State(
+                    ratio = 1f,
+                    url = "",
+                    isGif = false,
+                    isVideo = false
+                )
+            }
+        }
 
-        private val state = MutableLiveData(
-            State(
-                ratio = 1f,
-                url = "",
-                isGif = false,
-                isVideo = false
-            )
-        )
+        private val state = MutableLiveData(State.INITIAL)
+
         val ratio = state.mapDistinct { it.ratio }
         val url = state.mapDistinct { it.url }
         val isGif = state.mapDistinct { it.isGif }
         val isVideo = state.mapDistinct { it.isVideo }
 
         fun setImage(image: SizedImage?) {
-            val imageItem = image?.normalOrClosest
-            state.value = State(
-                ratio = imageItem?.let { it.width.toFloat() / it.height } ?: 1f,
-                url = imageItem?.url ?: "",
-                isGif = image?.isAnimated ?: false,
-                isVideo = false
-            )
+            state.value = if (image != null) {
+                val imageItem = image.normalOrClosest
+                State(
+                    ratio = imageItem?.let { it.width.toFloat() / it.height } ?: 1f,
+                    url = imageItem?.url ?: "",
+                    isGif = image.isAnimated,
+                    isVideo = false
+                )
+            } else {
+                State.INITIAL
+            }
         }
 
         fun setVideo(video: VideoInfo?) {
-            state.value = State(
-                ratio = video?.let { it.videoWidth.toFloat() / it.videoHeight } ?: 1f,
-                url = video?.coverUrl ?: "",
-                isGif = false,
-                isVideo = true
-            )
+            state.value = if (video != null ) {
+                State(
+                    ratio = video.let { it.videoWidth.toFloat() / it.videoHeight },
+                    url = video.coverUrl,
+                    isGif = false,
+                    isVideo = true
+                )
+            } else {
+                State.INITIAL
+            }
         }
 
         fun open() {

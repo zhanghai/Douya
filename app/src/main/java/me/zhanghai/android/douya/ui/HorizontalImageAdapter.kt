@@ -60,19 +60,26 @@ class HorizontalImageAdapter
         class ViewModel {
             data class State(
                 val image: SizedImage?
-            )
+            ) {
+                companion object {
+                    val INITIAL = State(
+                        image = null
+                    )
+                }
+            }
 
-            private val state = MutableLiveData(
-                State(
-                    image = null
-                )
-            )
+            private val state = MutableLiveData(State.INITIAL)
+
             val image = state.mapDistinct { it.image }
 
             fun setImage(image: SizedImage?) {
-                state.value = State(
-                    image = image
-                )
+                state.value = if (image != null) {
+                    State(
+                        image = image
+                    )
+                } else {
+                    State.INITIAL
+                }
             }
         }
     }

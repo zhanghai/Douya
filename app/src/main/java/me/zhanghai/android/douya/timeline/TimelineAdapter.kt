@@ -70,16 +70,19 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
                 val resharerUri: String,
                 val timelineItem: TimelineItem?,
                 val uri: String
-            )
+            ) {
+                companion object {
+                    val INITIAL = State(
+                        resharer = "",
+                        resharerUri = "",
+                        timelineItem = null,
+                        uri = ""
+                    )
+                }
+            }
 
-            private val state = MutableLiveData(
-                State(
-                    resharer = "",
-                    resharerUri = "",
-                    timelineItem = null,
-                    uri = ""
-                )
-            )
+            private val state = MutableLiveData(State.INITIAL)
+
             val resharer = state.mapDistinct { it.resharer }
             val timelineItem = state.mapDistinct { it.timelineItem }
 
@@ -87,12 +90,16 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
             val openUriEvent: LiveData<String> = _openUriEvent
 
             fun setTimelineItem(timelineItem: TimelineItem?) {
-                state.value = State(
-                    resharer = timelineItem?.resharer?.name ?: "",
-                    resharerUri = timelineItem?.resharer?.uriOrUrl ?: "",
-                    timelineItem = timelineItem,
-                    uri = timelineItem?.uriOrUrl ?: ""
-                )
+                state.value = if (timelineItem != null) {
+                    State(
+                        resharer = timelineItem.resharer?.name ?: "",
+                        resharerUri = timelineItem.resharer?.uriOrUrl ?: "",
+                        timelineItem = timelineItem,
+                        uri = timelineItem.uriOrUrl
+                    )
+                } else {
+                    State.INITIAL
+                }
             }
 
             fun openResharer() {
