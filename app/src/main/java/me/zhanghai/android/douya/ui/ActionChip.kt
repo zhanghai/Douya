@@ -25,6 +25,10 @@ class ActionChip : Chip {
     }
 
     private fun updateTextStartPadding() {
-        textStartPadding = if (!text.isNullOrEmpty()) chipEndPadding else 0f
+        textStartPadding = if (text.isNotEmpty()) chipEndPadding else 0f
+        // Work around bug in Chip.updatePaddingInternal().
+        if (text.isEmpty()) {
+            setPaddingRelative(0, 0, 0, 0)
+        }
     }
 }
