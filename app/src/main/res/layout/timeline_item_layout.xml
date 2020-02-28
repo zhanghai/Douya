@@ -485,44 +485,54 @@
             android:id="@+id/imageBottomSpace"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageRecycler"
             app:visibleOrGone="@{viewModel.image != null || viewModel.video != null || !viewModel.imageList.isEmpty()}" />
 
-        <me.zhanghai.android.douya.ui.IconBackgroundButton
+        <me.zhanghai.android.douya.ui.ActionChip
             android:id="@+id/likeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageBottomSpace"
             android:text="@{viewModel.likeCount > 0 ? Integer.toString(viewModel.likeCount) : &quot;&quot;}"
-            app:icon="@drawable/thumb_up_icon_black_18dp"
-            style="@style/Widget.Douya.IconBackgroundButton"
-            tools:text="1" />
+            app:chipIcon="@drawable/thumb_up_icon_black_18dp"
+            tools:text="1"
+            style="@style/Widget.Douya.Chip.Action" />
 
-        <me.zhanghai.android.douya.ui.IconBackgroundButton
+        <me.zhanghai.android.douya.ui.ActionChip
             android:id="@+id/reshareButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/likeButton"
             android:text="@{viewModel.reshareCount > 0 ? Integer.toString(viewModel.reshareCount) : &quot;&quot;}"
-            app:icon="@drawable/repeat_icon_black_18dp"
-            style="@style/Widget.Douya.IconBackgroundButton" />
+            app:chipIcon="@drawable/repeat_icon_black_18dp"
+            style="@style/Widget.Douya.Chip.Action" />
 
-        <me.zhanghai.android.douya.ui.IconBackgroundButton
+        <me.zhanghai.android.douya.ui.ActionChip
             android:id="@+id/commentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toStartOf="@id/reshareButton"
             app:layout_constraintTop_toTopOf="@id/likeButton"
             android:text="@{viewModel.commentCount > 0 ? Integer.toString(viewModel.commentCount) : &quot;&quot;}"
-            app:icon="@drawable/comment_icon_black_18dp"
-            style="@style/Widget.Douya.IconBackgroundButton"
+            app:chipIcon="@drawable/comment_icon_black_18dp"
+            style="@style/Widget.Douya.Chip.Action"
             tools:text="2" />
+
+        <Space
+            android:id="@+id/buttonBottomSpace"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/likeButton" />
     </merge>
 </layout>

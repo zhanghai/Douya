@@ -9,5 +9,5 @@
     <item android:state_enabled="false" android:state_activated="true" android:alpha="0.87" android:color="?colorControlActivated" />
     <item android:state_enabled="false" android:alpha="0.54" android:color="?colorControlActivated" />
     <item android:state_activated="true" android:color="?colorControlActivated" />
-    <item android:alpha="0.08" android:color="?colorControlNormal" />
+    <item android:color="?colorOnSurface" />
 </selector>

@@ -7,25 +7,22 @@
 
 <resources>
 
-    <style name="Widget.Douya.IconBackgroundButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:minWidth">52dp</item>
-        <item name="android:minHeight">52dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:insetLeft">9dp</item>
-        <item name="android:insetRight">9dp</item>
-        <item name="android:insetTop">9dp</item>
-        <item name="android:insetBottom">9dp</item>
+    <style name="Widget.Douya.Chip.Action" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:textAppearance">?textAppearanceCaption</item>
         <item name="android:textColor">?android:textColorSecondary</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="backgroundTint">@color/icon_background_button_background_tint</item>
-        <item name="elevation">0dp</item>
-        <item name="iconPadding">0dp</item>
-        <item name="iconTint">@color/icon_background_button_icon_tint</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipBackgroundColor">@android:color/transparent</item>
+        <item name="chipIconSize">18dp</item>
+        <item name="chipIconTint">@color/action_chip_icon_tint</item>
+        <item name="chipMinHeight">36dp</item>
+        <item name="chipStartPadding">9dp</item>
+        <item name="chipEndPadding">9dp</item>
+        <item name="chipStrokeColor">@color/mtrl_btn_stroke_color_selector</item>
+        <item name="chipStrokeWidth">@dimen/mtrl_btn_stroke_size</item>
+        <item name="ensureMinTouchTargetSize">false</item>
         <item name="rippleColor">?colorControlHighlight</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton</item>
+        <item name="textStartPadding">0dp</item>
+        <item name="textEndPadding">0dp</item>
     </style>
 </resources>
