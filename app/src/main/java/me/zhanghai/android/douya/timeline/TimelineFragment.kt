@@ -22,7 +22,6 @@ import me.zhanghai.android.douya.databinding.TimelineFragmentBinding
 import me.zhanghai.android.douya.util.MergeAdapter
 import me.zhanghai.android.douya.util.MoreItemAdapter
 import me.zhanghai.android.douya.util.OnVerticalScrollWithPagingTouchSlopListener
-import me.zhanghai.android.douya.util.getBooleanByAttr
 import me.zhanghai.android.douya.util.getDimensionPixelSizeByAttr
 import me.zhanghai.android.douya.util.getInteger
 import me.zhanghai.android.douya.util.hasFirstItemReachedTop
@@ -56,16 +55,13 @@ class TimelineFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val activity = requireActivity()
-        if (activity.getBooleanByAttr(R.attr.isLightTheme)) {
-            activity.window.setBackgroundDrawableResource(R.color.material_grey_100)
-        }
-        val actionBarSize = activity.getDimensionPixelSizeByAttr(R.attr.actionBarSize)
+        val context = requireContext()
+        val actionBarSize = context.getDimensionPixelSizeByAttr(R.attr.actionBarSize)
         binding.swipeRefreshLayout.progressOffset = actionBarSize
         binding.timelineRecycler.run {
             updatePaddingRelative(top = paddingTop + actionBarSize)
             layoutManager = StaggeredGridLayoutManager(
-                activity.getInteger(R.integer.list_card_column_count), RecyclerView.VERTICAL
+                context.getInteger(R.integer.list_card_column_count), RecyclerView.VERTICAL
             )
             itemAnimator = DefaultItemAnimator().apply { supportsChangeAnimations = false }
             adapter = MergeAdapter(timelineAdapter, moreItemAdapter)
