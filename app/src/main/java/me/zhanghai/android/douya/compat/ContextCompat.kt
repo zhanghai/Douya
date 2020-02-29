@@ -6,14 +6,21 @@
 package me.zhanghai.android.douya.compat
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
 import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.TintTypedArray
+
+fun Context.getColorCompat(@ColorRes id: Int): Int = getColorStateListCompat(id).defaultColor
+
+fun Context.getColorStateListCompat(@ColorRes id: Int): ColorStateList =
+    AppCompatResources.getColorStateList(this, id)!!
 
 fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable =
     AppCompatResources.getDrawable(this, id)!!
