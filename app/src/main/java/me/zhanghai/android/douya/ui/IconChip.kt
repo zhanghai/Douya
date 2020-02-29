@@ -9,7 +9,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.chip.Chip
 
-class ActionChip : Chip {
+class IconChip : Chip {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)

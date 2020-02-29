@@ -502,7 +502,7 @@
             app:activated="@{viewModel.liked}"
             android:onClick="@{() -> null}">
 
-            <me.zhanghai.android.douya.ui.ActionChip
+            <me.zhanghai.android.douya.ui.IconChip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
@@ -525,7 +525,7 @@
             app:activated="@{viewModel.reshared}"
             android:onClick="@{() -> null}">
 
-            <me.zhanghai.android.douya.ui.ActionChip
+            <me.zhanghai.android.douya.ui.IconChip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
@@ -545,7 +545,7 @@
             android:padding="8dp"
             android:onClick="@{() -> null}">
 
-            <me.zhanghai.android.douya.ui.ActionChip
+            <me.zhanghai.android.douya.ui.IconChip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
