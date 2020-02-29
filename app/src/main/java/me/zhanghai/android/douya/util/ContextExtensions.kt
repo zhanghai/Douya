@@ -53,6 +53,12 @@ val Context.activity: Activity?
 
 fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
 
+fun Context.getDimension(@DimenRes id: Int) = resources.getDimension(id)
+
+fun Context.getDimensionPixelOffset(@DimenRes id: Int) = resources.getDimensionPixelOffset(id)
+
+fun Context.getDimensionPixelSize(@DimenRes id: Int) = resources.getDimensionPixelSize(id)
+
 fun Context.getFloat(@DimenRes id: Int) = resources.getFloatCompat(id)
 
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)

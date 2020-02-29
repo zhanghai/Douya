@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             tools:layout="@layout/timeline_fragment" />
 
-        <com.google.android.material.appbar.AppBarLayout
+        <me.zhanghai.android.douya.ui.OutlinedAppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 app:navigationIcon="@drawable/menu_icon_control_normal_24dp"
                 app:popupTheme="?actionBarPopupTheme"
                 app:title="@string/app_name" />
-        </com.google.android.material.appbar.AppBarLayout>
+        </me.zhanghai.android.douya.ui.OutlinedAppBarLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendFab"
