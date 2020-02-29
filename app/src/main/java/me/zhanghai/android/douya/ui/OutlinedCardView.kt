@@ -12,11 +12,16 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import com.google.android.material.card.MaterialCardView
+import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.compat.getColorStateListCompat
+import me.zhanghai.android.douya.util.getDimensionPixelSize
 
-class FullWidthCardView : MaterialCardView {
+class OutlinedCardView : MaterialCardView {
 
-    private val outlineStrokeColor: ColorStateList?
-    private val outlineStrokeWidth: Int
+    private val outlineStrokeColor =
+        context.getColorStateListCompat(R.color.mtrl_btn_stroke_color_selector)
+    private val outlineStrokeWidth =
+        context.getDimensionPixelSize(R.dimen.mtrl_btn_stroke_size)
     private val outlineStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
     }
@@ -30,21 +35,18 @@ class FullWidthCardView : MaterialCardView {
     )
 
     init {
-        if (radius == 0f) {
-            outlineStrokeColor = strokeColorStateList
-            outlineStrokeWidth = strokeWidth
-            strokeColor = Color.TRANSPARENT
-            strokeWidth = 0
-        } else {
-            outlineStrokeColor = null
-            outlineStrokeWidth = 0
+        setCardBackgroundColor(Color.TRANSPARENT)
+        cardElevation = 0f
+        if (radius != 0f) {
+            setStrokeColor(outlineStrokeColor)
+            strokeWidth = outlineStrokeWidth
         }
     }
 
     override fun onDrawForeground(canvas: Canvas) {
         super.onDrawForeground(canvas)
 
-        if (outlineStrokeColor != null && outlineStrokeWidth != 0) {
+        if (radius == 0f) {
             outlineStrokePaint.color = outlineStrokeColor.getColorForState(
                 drawableState, Color.TRANSPARENT
             )
