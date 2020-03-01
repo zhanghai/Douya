@@ -97,6 +97,7 @@ class TimelineItemLayout : ConstraintLayout {
 
         binding.lifecycleOwner = lifecycleOwner
         binding.viewModel = viewModel
+
         viewModel.imageList.observe(lifecycleOwner) { imageAdapter.submitList(it) }
         viewModel.openUriEvent.observe(lifecycleOwner) { UriHandler.open(it, context) }
     }

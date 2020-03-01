@@ -10,16 +10,23 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.view.doOnAttach
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.observe
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.api.info.SizedImage
 import me.zhanghai.android.douya.api.info.VideoInfo
+import me.zhanghai.android.douya.api.util.largeOrClosest
 import me.zhanghai.android.douya.api.util.normalOrClosest
+import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
 import me.zhanghai.android.douya.arch.mapDistinct
+import me.zhanghai.android.douya.arch.valueCompat
 import me.zhanghai.android.douya.databinding.ImageLayoutBinding
+import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.util.getDrawableByAttr
 import me.zhanghai.android.douya.util.layoutInflater
+import me.zhanghai.android.douya.util.takeIfNotEmpty
 
 class ImageLayout : FrameLayout {
     private val lifecycleOwner = ResumedLifecycleOwner()
@@ -58,6 +65,8 @@ class ImageLayout : FrameLayout {
 
         binding.lifecycleOwner = lifecycleOwner
         binding.viewModel = viewModel
+
+        viewModel.openUriEvent.observe(lifecycleOwner) { UriHandler.open(it, context) }
     }
 
     fun setImage(image: SizedImage?) {
@@ -83,14 +92,16 @@ class ImageLayout : FrameLayout {
             val ratio: Float,
             val url: String,
             val isGif: Boolean,
-            val isVideo: Boolean
+            val isVideo: Boolean,
+            val uri: String
         ) {
             companion object {
                 val INITIAL = State(
                     ratio = 1f,
                     url = "",
                     isGif = false,
-                    isVideo = false
+                    isVideo = false,
+                    uri = ""
                 )
             }
         }
@@ -102,6 +113,9 @@ class ImageLayout : FrameLayout {
         val isGif = state.mapDistinct { it.isGif }
         val isVideo = state.mapDistinct { it.isVideo }
 
+        private val _openUriEvent = EventLiveData<String>()
+        val openUriEvent: LiveData<String> = _openUriEvent
+
         fun setImage(image: SizedImage?) {
             state.value = if (image != null) {
                 val imageItem = image.normalOrClosest
@@ -109,7 +123,8 @@ class ImageLayout : FrameLayout {
                     ratio = imageItem?.let { it.width.toFloat() / it.height } ?: 1f,
                     url = imageItem?.url ?: "",
                     isGif = image.isAnimated,
-                    isVideo = false
+                    isVideo = false,
+                    uri = image.largeOrClosest?.url ?: ""
                 )
             } else {
                 State.INITIAL
@@ -122,7 +137,8 @@ class ImageLayout : FrameLayout {
                     ratio = video.let { it.videoWidth.toFloat() / it.videoHeight },
                     url = video.coverUrl,
                     isGif = false,
-                    isVideo = true
+                    isVideo = true,
+                    uri = video.videoUrl
                 )
             } else {
                 State.INITIAL
@@ -130,7 +146,7 @@ class ImageLayout : FrameLayout {
         }
 
         fun open() {
-            // TODO
+            state.valueCompat.uri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
         }
     }
 }
