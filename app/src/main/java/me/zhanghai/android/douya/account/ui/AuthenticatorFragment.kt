@@ -56,7 +56,7 @@ class AuthenticatorFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewModel.authenticating.observe(this) { authenticating ->
+        viewModel.authenticating.observe(viewLifecycleOwner) { authenticating ->
             viewLifecycleOwner.lifecycleScope.launch {
                 if (authenticating) {
                     binding.formLayout.fadeOut()
@@ -67,10 +67,10 @@ class AuthenticatorFragment : Fragment() {
                 }
             }
         }
-        viewModel.signUpEvent.observe(this) {
+        viewModel.signUpEvent.observe(viewLifecycleOwner) {
             startActivitySafe(Intent(Intent.ACTION_VIEW, SIGN_UP_URI))
         }
-        viewModel.sendResultAndFinishEvent.observe(this) { result ->
+        viewModel.sendResultAndFinishEvent.observe(viewLifecycleOwner) { result ->
             args.response?.onResult(result.extras)
             resultSent = true
             requireActivity().run {
