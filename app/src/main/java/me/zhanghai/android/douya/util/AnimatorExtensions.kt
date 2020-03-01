@@ -11,8 +11,8 @@ import android.view.ViewPropertyAnimator
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-suspend fun Animator.awaitEnd() {
-    suspendCancellableCoroutine<Unit> { continuation ->
+suspend fun Animator.awaitEnd(): Unit =
+    suspendCancellableCoroutine { continuation ->
         continuation.invokeOnCancellation { cancel() }
         addListener(object : AnimatorListenerAdapter() {
             private var canceled = false
@@ -33,10 +33,9 @@ suspend fun Animator.awaitEnd() {
             }
         })
     }
-}
 
-suspend fun ViewPropertyAnimator.awaitEnd() {
-    suspendCancellableCoroutine<Unit> { continuation ->
+suspend fun ViewPropertyAnimator.awaitEnd(): Unit =
+    suspendCancellableCoroutine { continuation ->
         continuation.invokeOnCancellation { cancel() }
         setListener(object : AnimatorListenerAdapter() {
             private var canceled = false
@@ -57,4 +56,3 @@ suspend fun ViewPropertyAnimator.awaitEnd() {
             }
         })
     }
-}

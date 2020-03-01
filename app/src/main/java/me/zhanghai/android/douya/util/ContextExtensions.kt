@@ -131,7 +131,7 @@ val Context.mediumAnimTime: Long
 val Context.longAnimTime: Long
     get() = getInteger(android.R.integer.config_longAnimTime).toLong()
 
-val Context.layoutInflater
+val Context.layoutInflater: LayoutInflater
     get() = LayoutInflater.from(this)
 
 fun Context.showToast(textRes: Int, duration: Int = Toast.LENGTH_SHORT) {
