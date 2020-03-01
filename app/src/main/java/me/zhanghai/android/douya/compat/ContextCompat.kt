@@ -28,8 +28,8 @@ fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable =
 fun Context.obtainStyledAttributesCompat(
     set: AttributeSet? = null,
     @StyleableRes attrs: IntArray,
-    @StyleRes defStyleRes: Int = 0,
-    @AttrRes defStyleAttr: Int = 0
+    @AttrRes defStyleAttr: Int = 0,
+    @StyleRes defStyleRes: Int = 0
 ): TintTypedArray =
     TintTypedArray.obtainStyledAttributes(this, set, attrs, defStyleAttr, defStyleRes)
 

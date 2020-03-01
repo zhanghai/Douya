@@ -11,11 +11,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
@@ -26,14 +23,8 @@ import androidx.annotation.AttrRes
 import androidx.annotation.BoolRes
 import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
-import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.InterpolatorRes
-import androidx.annotation.StyleRes
-import androidx.annotation.StyleableRes
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.TintTypedArray
-import androidx.core.content.res.ResourcesCompat
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.compat.getFloatCompat
 import me.zhanghai.android.douya.compat.obtainStyledAttributesCompat
