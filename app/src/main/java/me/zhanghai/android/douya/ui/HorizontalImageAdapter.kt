@@ -29,10 +29,6 @@ class HorizontalImageAdapter
         }
     }
 
-    init {
-        setHasStableIds(true)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(HorizontalImageItemBinding.inflate(parent.context.layoutInflater, parent, false))
 
