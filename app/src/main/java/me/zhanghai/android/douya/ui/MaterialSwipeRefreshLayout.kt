@@ -37,9 +37,7 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
             field = value
             val start = value - progressCircleDiameter
             setProgressViewOffset(
-                false, start, start + context.dpToDimensionPixelOffset(
-                PROGRESS_END_DP
-            )
+                false, start, start + context.dpToDimensionPixelOffset(PROGRESS_END_DP)
             )
         }
 

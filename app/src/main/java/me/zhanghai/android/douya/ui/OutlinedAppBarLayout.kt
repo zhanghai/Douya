@@ -15,7 +15,7 @@ import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.compat.getColorStateListCompat
 import me.zhanghai.android.douya.util.getDimensionPixelSize
 
-class OutlinedAppBarLayout : AppBarLayout {
+open class OutlinedAppBarLayout : AppBarLayout {
 
     private val outlineStrokeColor =
         context.getColorStateListCompat(R.color.mtrl_btn_stroke_color_selector)
