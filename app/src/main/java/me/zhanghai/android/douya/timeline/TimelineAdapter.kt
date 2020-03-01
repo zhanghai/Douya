@@ -25,12 +25,6 @@ import me.zhanghai.android.douya.util.takeIfNotEmpty
 class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() {
     private val imageRecyclerViewPool = RecyclerView.RecycledViewPool()
 
-    init {
-        setHasStableIds(true)
-    }
-
-    override fun getItemId(position: Int): Long = items[position].uid.hashCode().toLong()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             TimelineItemBinding.inflate(parent.context.layoutInflater, parent, false),

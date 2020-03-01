@@ -17,8 +17,7 @@ open class MergeAdapter(
     private val viewTypeToAdapterIndex = mutableMapOf<Int, Int>()
 
     init {
-        adapters.forEach { require(it.hasStableIds()) { "Not all adapters have stable ids: $it" } }
-        super.setHasStableIds(true)
+        super.setHasStableIds(adapters.all { it.hasStableIds() })
         adapters.forEach { it.registerAdapterDataObserver(AdapterDataObserver(it)) }
     }
 
@@ -32,7 +31,9 @@ open class MergeAdapter(
 
     override fun getItemId(position: Int): Long =
         findAdapter(position) { adapterIndex, adapter, adapterPosition ->
-            31 * adapterIndex + adapter.getItemId(adapterPosition)
+            adapter.getItemId(adapterPosition).let {
+                if (it == RecyclerView.NO_ID) it else 31 * adapterIndex + it
+            }
         }
 
     override fun getItemViewType(position: Int): Int =
