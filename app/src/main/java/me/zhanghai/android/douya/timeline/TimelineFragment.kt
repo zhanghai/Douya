@@ -62,8 +62,13 @@ class TimelineFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.timelineAndDiffResult.observe(viewLifecycleOwner) { (timeline, diffResult) ->
+            val wasEmpty = timelineAdapter.items.isEmpty()
             timelineAdapter.items = timeline
-            diffResult?.dispatchUpdatesTo(timelineAdapter)
+            if (wasEmpty) {
+                timelineAdapter.notifyItemRangeInserted(0, timeline.size)
+            } else {
+                diffResult!!.dispatchUpdatesTo(timelineAdapter)
+            }
         }
         viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
         viewModel.errorEvent.observe(viewLifecycleOwner) { showToast(it) }
