@@ -22,6 +22,8 @@
         <item name="colorSecondaryVariant">?colorSecondary</item>
         <item name="colorSurface">@color/color_surface_daynight</item>
 
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Douya.MediumComponent</item>
+        <item name="materialCardViewStyle">@style/Widget.Douya.CardView</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
     </style>
     <style name="Theme.Douya" parent="Base.Theme.Douya" />

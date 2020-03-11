@@ -7,6 +7,19 @@
 
 <resources>
 
+    <style name="ShapeAppearance.Douya.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="Widget.Douya.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardElevation">0dp</item>
+        <item name="rippleColor">?colorControlHighlight</item>
+        <item name="strokeColor">@color/mtrl_btn_stroke_color_selector</item>
+        <item name="strokeWidth">@dimen/mtrl_btn_stroke_size</item>
+    </style>
+
     <style name="Widget.Douya.Chip.Action" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:textAppearance">?textAppearanceCaption</item>
         <item name="android:textColor">?android:textColorSecondary</item>

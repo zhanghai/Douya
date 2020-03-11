@@ -41,10 +41,9 @@
             android:onClick="@{() -> viewModel.openResharer()}"
             tools:text="由 豆芽 转播 ↴" />
 
-        <me.zhanghai.android.douya.ui.OutlinedCardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:rippleColor="?colorControlHighlight"
             android:onClick="@{() -> viewModel.open()}">
 
             <me.zhanghai.android.douya.timeline.TimelineItemLayout
@@ -52,6 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:timelineItem="@{viewModel.timelineItem}" />
-        </me.zhanghai.android.douya.ui.OutlinedCardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>
