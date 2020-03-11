@@ -17,15 +17,6 @@ import me.zhanghai.android.douya.compat.getColorStateListCompat
 import me.zhanghai.android.douya.util.getDimensionPixelSize
 
 class OutlinedCardView : MaterialCardView {
-
-    private val outlineStrokeColor =
-        context.getColorStateListCompat(R.color.mtrl_btn_stroke_color_selector)
-    private val outlineStrokeWidth =
-        context.getDimensionPixelSize(R.dimen.mtrl_btn_stroke_size)
-    private val outlineStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.FILL
-    }
-
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -37,26 +28,7 @@ class OutlinedCardView : MaterialCardView {
     init {
         setCardBackgroundColor(Color.TRANSPARENT)
         cardElevation = 0f
-        if (radius != 0f) {
-            setStrokeColor(outlineStrokeColor)
-            strokeWidth = outlineStrokeWidth
-        }
-    }
-
-    override fun onDrawForeground(canvas: Canvas) {
-        super.onDrawForeground(canvas)
-
-        if (radius == 0f) {
-            outlineStrokePaint.color = outlineStrokeColor.getColorForState(
-                drawableState, Color.TRANSPARENT
-            )
-            canvas.drawRect(
-                0f, 0f, width.toFloat(), outlineStrokeWidth.toFloat(), outlineStrokePaint
-            )
-            canvas.drawRect(
-                0f, (height - outlineStrokeWidth).toFloat(), width.toFloat(), height.toFloat(),
-                outlineStrokePaint
-            )
-        }
+        setStrokeColor(context.getColorStateListCompat(R.color.mtrl_btn_stroke_color_selector))
+        strokeWidth = context.getDimensionPixelSize(R.dimen.mtrl_btn_stroke_size)
     }
 }

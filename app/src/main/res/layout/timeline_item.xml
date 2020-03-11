@@ -44,7 +44,6 @@
         <me.zhanghai.android.douya.ui.OutlinedCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/list_card_corner_radius"
             app:rippleColor="?colorControlHighlight"
             android:onClick="@{() -> viewModel.open()}">
 
