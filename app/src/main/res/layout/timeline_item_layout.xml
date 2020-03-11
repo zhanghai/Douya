@@ -518,8 +518,7 @@
                 android:focusable="false"
                 android:text="@{viewModel.likeCount > 0 ? Integer.toString(viewModel.likeCount) : &quot;&quot;}"
                 app:chipIcon="@drawable/thumb_up_icon_black_18dp"
-                tools:text="1"
-                style="@style/Widget.Douya.Chip.Action" />
+                tools:text="1" />
         </FrameLayout>
 
         <FrameLayout
@@ -540,8 +539,7 @@
                 android:duplicateParentState="true"
                 android:focusable="false"
                 android:text="@{viewModel.reshareCount > 0 ? Integer.toString(viewModel.reshareCount) : &quot;&quot;}"
-                app:chipIcon="@drawable/repeat_icon_black_18dp"
-                style="@style/Widget.Douya.Chip.Action" />
+                app:chipIcon="@drawable/repeat_icon_black_18dp" />
         </FrameLayout>
 
         <FrameLayout
@@ -561,7 +559,6 @@
                 android:focusable="false"
                 android:text="@{viewModel.commentCount > 0 ? Integer.toString(viewModel.commentCount) : &quot;&quot;}"
                 app:chipIcon="@drawable/comment_icon_black_18dp"
-                style="@style/Widget.Douya.Chip.Action"
                 tools:text="2" />
         </FrameLayout>
 

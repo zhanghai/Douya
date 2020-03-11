@@ -23,6 +23,7 @@
         <item name="colorSurface">@color/color_surface_daynight</item>
 
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Douya.MediumComponent</item>
+        <item name="chipStyle">@style/Widget.Douya.Chip.Action</item>
         <item name="materialCardViewStyle">@style/Widget.Douya.CardView</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
     </style>
