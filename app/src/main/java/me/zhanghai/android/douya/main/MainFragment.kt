@@ -17,8 +17,12 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.account.app.activeAccount
+import me.zhanghai.android.douya.account.app.userId
+import me.zhanghai.android.douya.app.accountManager
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.MainFragmentBinding
+import me.zhanghai.android.douya.link.UriHandler
 import me.zhanghai.android.douya.timeline.TimelineFragment
 import me.zhanghai.android.douya.timeline.TimelineFragmentArgs
 import me.zhanghai.android.douya.ui.MaterialSwipeRefreshLayout
@@ -33,7 +37,9 @@ class MainFragment : Fragment() {
 
     private lateinit var timelineFragment: TimelineFragment
 
-    private val viewModel: MainViewModel by viewModels { { MainViewModel() } }
+    private val viewModel: MainViewModel by viewModels {
+        { MainViewModel(accountManager.activeAccount!!.userId!!) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,7 +91,7 @@ class MainFragment : Fragment() {
 
                     private fun setShowing(showing: Boolean) {
                         binding.appBarLayout.showing = showing
-                        binding.sendFab.showing = showing
+                        binding.sendStatusFab.showing = showing
                     }
                 })
             }
@@ -94,7 +100,10 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewModel.sendEvent.observe(viewLifecycleOwner) {
+        viewModel.openUriEvent.observe(viewLifecycleOwner) {
+            UriHandler.open(it, requireContext())
+        }
+        viewModel.sendStatusEvent.observe(viewLifecycleOwner) {
             // TODO
         }
     }

@@ -8,8 +8,8 @@ package me.zhanghai.android.douya.api.app
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.squareup.moshi.Moshi
 import me.zhanghai.android.douya.api.info.ApiContract
-import me.zhanghai.android.douya.api.info.Session
 import me.zhanghai.android.douya.api.info.ErrorResponse
+import me.zhanghai.android.douya.api.info.Session
 import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.api.info.User
 import me.zhanghai.android.douya.network.DoubanZonedDateTimeAdapter

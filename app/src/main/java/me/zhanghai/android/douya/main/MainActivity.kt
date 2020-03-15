@@ -11,7 +11,6 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import me.zhanghai.android.douya.account.app.ensureActiveAccount
 import me.zhanghai.android.douya.app.accountManager
-import me.zhanghai.android.douya.timeline.TimelineFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

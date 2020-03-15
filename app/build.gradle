@@ -35,7 +35,10 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += '-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi'
+        freeCompilerArgs += [
+                '-Xopt-in=kotlin.RequiresOptIn',
+                '-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi'
+        ]
     }
 
     dataBinding {

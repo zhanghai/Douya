@@ -8,8 +8,10 @@ package me.zhanghai.android.douya.util
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.AttrRes
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
+import androidx.databinding.BindingMethod
+import androidx.databinding.BindingMethods
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -63,8 +65,8 @@ fun setImageViewAvatarUrl(imageView: ImageView, oldAvatarUrl: String?, newAvatar
     }
     if (!newAvatarUrl.isNullOrEmpty()) {
         imageView.load(newAvatarUrl) {
-            placeholder(R.drawable.avatar_placeholder)
             transformations(CircleCropTransformation())
+            placeholder(R.drawable.avatar_placeholder)
         }
     }
 }
@@ -120,5 +122,33 @@ fun setTextViewEditable(textView: TextView, editable: Boolean) {
 fun setTextViewSpanClickable(textView: TextView, spanClickable: Boolean) {
     if (spanClickable) {
         textView.setSpanClickable()
+    }
+}
+
+@BindingMethods(
+    BindingMethod(
+        type = Toolbar::class, attribute = "onNavigationClick",
+        method = "setNavigationOnClickListener"
+    )
+)
+class ToolbarBindingAdapter
+
+@BindingAdapter("navigationAvatarUrl")
+fun setToolbarNavigationAvatarUrl(
+    toolbar: Toolbar,
+    oldNavigationAvatarUrl: String?,
+    newNavigationAvatarUrl: String?
+) {
+    if (newNavigationAvatarUrl != oldNavigationAvatarUrl) {
+        toolbar.clear()
+    }
+    if (!newNavigationAvatarUrl.isNullOrEmpty()) {
+        toolbar.loadNavigationIcon(newNavigationAvatarUrl) {
+            transformations(CircleCropTransformation())
+            size(toolbar.context.getDimensionPixelSize(R.dimen.navigation_avatar_size))
+            placeholder(R.drawable.navigation_avatar_placeholder)
+        }
+    } else {
+        toolbar.setNavigationIcon(R.drawable.navigation_avatar_placeholder)
     }
 }

@@ -11,6 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.text.TextUtils" />
         <variable name="viewModel" type="me.zhanghai.android.douya.main.MainViewModel" />
     </data>
 
@@ -39,13 +40,15 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:navigationIcon="@drawable/menu_icon_control_normal_24dp"
+                app:navigationAvatarUrl="@{viewModel.userAvatarUrl}"
+                app:navigationContentDescription="@{viewModel.userName}"
                 app:popupTheme="?actionBarPopupTheme"
-                app:title="@string/app_name" />
+                app:title="@string/app_name"
+                app:onNavigationClick="@{() -> viewModel.openUser()}" />
         </me.zhanghai.android.douya.ui.QuickReturnAppBarLayout>
 
         <me.zhanghai.android.douya.ui.QuickReturnFloatingActionButton
-            android:id="@+id/sendFab"
+            android:id="@+id/sendStatusFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
@@ -55,6 +58,6 @@
             app:layout_marginTopSystemWindowInsets="@{true}"
             app:layout_marginBottomSystemWindowInsets="@{true}"
             app:srcCompat="@drawable/edit_icon_black_24dp"
-            android:onClick="@{() -> viewModel.send()}" />
+            android:onClick="@{() -> viewModel.sendStatus()}" />
     </FrameLayout>
 </layout>
