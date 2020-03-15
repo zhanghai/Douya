@@ -5,29 +5,37 @@
 
 package me.zhanghai.android.douya.arch
 
-sealed class Resource<out T> {
+sealed class Resource<T> {
     abstract val value: T?
     abstract val refresh: (suspend () -> Unit)?
+
+    fun copyWithValue(value: T?): Resource<T> =
+        when (this) {
+            is Loading -> copy(value = value)
+            is Success -> copy(value = value)
+            is Error -> copy(value = value)
+            is Deleted -> copy(value = value)
+        }
 }
 
-data class Loading<out T>(
+data class Loading<T>(
     override val value: T?
 ) : Resource<T>() {
     override val refresh = null
 }
 
-data class Success<out T>(
+data class Success<T>(
     override val value: T?,
     override val refresh: suspend () -> Unit
 ) : Resource<T>()
 
-data class Error<out T>(
+data class Error<T>(
     override val value: T?,
     val exception: Exception,
     override val refresh: suspend () -> Unit
 ) : Resource<T>()
 
-data class Deleted<out T>(
+data class Deleted<T>(
     override val value: T?
 ) : Resource<T>() {
     override val refresh = null

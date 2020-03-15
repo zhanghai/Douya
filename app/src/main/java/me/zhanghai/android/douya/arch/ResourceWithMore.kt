@@ -5,7 +5,7 @@
 
 package me.zhanghai.android.douya.arch
 
-data class ResourceWithMore<out T>(
+data class ResourceWithMore<T>(
     val value: Resource<T>,
     val more: Resource<Nothing>
 )

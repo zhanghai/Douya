@@ -9,12 +9,12 @@ import me.zhanghai.android.douya.api.info.Status
 import java.lang.ref.WeakReference
 
 object StatusRepository {
-    private val statuses = mutableMapOf<String, WeakReference<Status>>()
+    private val cachedStatuses = mutableMapOf<String, WeakReference<Status>>()
     private val observers = mutableSetOf<(Status) -> Unit>()
 
-    fun putStatus(status: Status) {
-        val changed = statuses[status.id]?.get() != status
-        statuses[status.id] = WeakReference(status)
+    fun putCachedStatus(status: Status) {
+        val changed = cachedStatuses[status.id]?.get() != status
+        cachedStatuses[status.id] = WeakReference(status)
         if (changed) {
             observers.forEach { it(status) }
         }

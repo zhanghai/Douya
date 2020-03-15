@@ -18,7 +18,6 @@ import me.zhanghai.android.douya.arch.ResourceWithMore
 import me.zhanghai.android.douya.arch.Success
 import me.zhanghai.android.douya.status.StatusRepository
 import timber.log.Timber
-import kotlin.math.max
 
 object TimelineRepository {
     fun observeTimeline(userId: String?): Flow<ResourceWithMore<List<TimelineItem>>> =
@@ -66,8 +65,6 @@ object TimelineRepository {
                 )
             }
 
-            refresh()
-
             val statusObserver = statusObserver@{ status: Status ->
                 val timeline = resource.value.value ?: return@statusObserver
                 var changed = false
@@ -101,11 +98,12 @@ object TimelineRepository {
                     }
                 }
                 if (changed) {
-                    offer(resource.copy(value = Success(newTimeline, refresh)))
+                    offer(resource.copy(value = resource.value.copyWithValue(newTimeline)))
                 }
             }
-            StatusRepository.addObserver(statusObserver)
 
+            refresh()
+            StatusRepository.addObserver(statusObserver)
             awaitClose { StatusRepository.removeObserver(statusObserver) }
         }
 
@@ -116,7 +114,7 @@ object TimelineRepository {
             ApiService.getUserTimeline(userId, maxId)
         }
         return timeline.items.filter { it.type.isNotEmpty() }.also {
-            it.forEach { it.content?.status?.let { StatusRepository.putStatus(it) } }
+            it.forEach { it.content?.status?.let { StatusRepository.putCachedStatus(it) } }
         }
     }
 }
