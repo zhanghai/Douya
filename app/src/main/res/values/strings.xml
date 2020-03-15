@@ -46,6 +46,10 @@
     <string name="authenticator_sign_up">没有账户？现在注册</string>
     <string name="select_account_title">选择账户</string>
 
+    <string name="main_search">搜索</string>
+    <string name="main_notification">提醒</string>
+    <string name="main_doumail">豆邮</string>
+
     <string name="timeline_empty">没有广播</string>
     <string name="timeline_item_reshared_by_format">由 %1$s 转播 ↴</string>
     <string name="timeline_item_time_action_space">" "</string>

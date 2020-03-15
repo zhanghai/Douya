@@ -7,8 +7,12 @@ package me.zhanghai.android.douya.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updatePaddingRelative
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -41,6 +45,12 @@ class MainFragment : Fragment() {
         { MainViewModel(accountManager.activeAccount!!.userId!!) }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +62,8 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val activity = requireActivity() as AppCompatActivity
+        activity.setSupportActionBar(binding.toolbar)
         if (savedInstanceState == null) {
             timelineFragment = TimelineFragment().apply {
                 arguments = TimelineFragmentArgs(null).toBundle()
@@ -101,10 +113,33 @@ class MainFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.openUriEvent.observe(viewLifecycleOwner) {
-            UriHandler.open(it, requireContext())
+            UriHandler.open(it, activity)
         }
         viewModel.sendStatusEvent.observe(viewLifecycleOwner) {
             // TODO
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.main, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.search -> {
+                // TODO
+                true
+            }
+            R.id.notification -> {
+                // TODO
+                true
+            }
+            R.id.doumail -> {
+                // TODO
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }
