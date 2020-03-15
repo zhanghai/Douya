@@ -9,10 +9,14 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Image(
+data class ProfileImage(
     // IImage
     @Json(name = "is_animated")
     override val isAnimated: Boolean = false,
     override val large: String = "",
-    override val normal: String = ""
+    override val normal: String = "",
+
+    val color: String = "",
+    @Json(name = "is_default")
+    val isDefault: Boolean = false
 ) : IImage

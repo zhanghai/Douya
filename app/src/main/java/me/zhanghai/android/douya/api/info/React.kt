@@ -11,10 +11,10 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class React(
     @Json(name = "reaction_type")
-    var reactionType: String = "",
-    var text: String = "",
-    var time: String = "",
-    var user: UserAbstract? = null
+    val reactionType: String = "",
+    val text: String = "",
+    val time: String = "",
+    val user: UserAbstract? = null
 ) {
     companion object {
         const val TYPE_CANCEL_VOTE = "0"

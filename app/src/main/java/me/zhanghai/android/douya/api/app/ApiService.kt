@@ -11,6 +11,7 @@ import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.Session
 import me.zhanghai.android.douya.api.info.ErrorResponse
 import me.zhanghai.android.douya.api.info.Timeline
+import me.zhanghai.android.douya.api.info.User
 import me.zhanghai.android.douya.network.DoubanZonedDateTimeAdapter
 import me.zhanghai.android.douya.network.EmptyObjectToNullJsonAdapter
 import me.zhanghai.android.douya.network.NullToEmptyStringOrCollectionJsonAdapterFactory
@@ -89,6 +90,8 @@ object ApiService {
 
     suspend fun getHomeTimeline(maxId: String? = null): Timeline = apiService.getHomeTimeline(maxId)
 
+    suspend fun getUser(userId: String): User = apiService.getUser(userId)
+
     suspend fun getUserTimeline(userId: String, maxId: String? = null): Timeline =
         apiService.getUserTimeline(userId, maxId = maxId)
 
@@ -125,6 +128,9 @@ object ApiService {
             @Query("last_visit_id") lastVisitId: String? = null,
             @Query("ad_ids") adIds: String? = null
         ): Timeline
+
+        @GET("user/{userId}")
+        suspend fun getUser(@Path("userId") userId: String): User
 
         @GET("elendil/user/{userId}/timeline")
         suspend fun getUserTimeline(
