@@ -22,32 +22,33 @@ object UserRepository {
     private val cachedUsers = mutableMapOf<String, WeakReference<User>>()
     private val observers = mutableSetOf<(User) -> Unit>()
 
-    fun observeUser(userId: String): Flow<Resource<User>> = callbackFlow {
-        var resource: Resource<User> = Deleted(getCachedUser(userId))
-        val offer = { newResource: Resource<User> ->
-            resource = newResource
-            channel.offer(resource)
-        }
-        var refresh = suspend {}
-
-        refresh = refresh@{
-            offer(Loading(resource.value))
-            val user = try {
-                getUser(userId)
-            } catch (e: Exception) {
-                Timber.e(e)
-                offer(Error(resource.value, e, refresh))
-                return@refresh
+    fun observeUser(userId: String): Flow<Resource<User>> =
+        callbackFlow {
+            var resource: Resource<User> = Deleted(getCachedUser(userId))
+            val offer = { newResource: Resource<User> ->
+                resource = newResource
+                channel.offer(resource)
             }
-            offer(Success(user, refresh))
+            var refresh = suspend {}
+
+            refresh = refresh@{
+                offer(Loading(resource.value))
+                val user = try {
+                    getUser(userId)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    offer(Error(resource.value, e, refresh))
+                    return@refresh
+                }
+                offer(Success(user, refresh))
+            }
+
+            val observer: (User) -> Unit = { offer(resource.copyWithValue(it)) }
+
+            refresh()
+            addObserver(observer)
+            awaitClose { removeObserver(observer) }
         }
-
-        val observer: (User) -> Unit = { offer(resource.copyWithValue(it)) }
-
-        refresh()
-        addObserver(observer)
-        awaitClose { removeObserver(observer) }
-    }
 
     private suspend fun getUser(userId: String): User =
         ApiService.getUser(userId).also { putCachedUser(it) }
