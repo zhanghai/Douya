@@ -9,12 +9,14 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.squareup.moshi.Moshi
 import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.ErrorResponse
+import me.zhanghai.android.douya.api.info.React
 import me.zhanghai.android.douya.api.info.Session
 import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.api.info.User
 import me.zhanghai.android.douya.network.DoubanZonedDateTimeAdapter
 import me.zhanghai.android.douya.network.EmptyObjectToNullJsonAdapter
 import me.zhanghai.android.douya.network.NullToEmptyStringOrCollectionJsonAdapterFactory
+import me.zhanghai.android.douya.network.UnknownEnumToNullJsonAdapter
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import org.threeten.bp.ZonedDateTime
@@ -32,6 +34,7 @@ object ApiService {
     private val converterFactory = MoshiConverterFactory.create(
         Moshi.Builder()
             .add(NullToEmptyStringOrCollectionJsonAdapterFactory)
+            .add(UnknownEnumToNullJsonAdapter.Factory)
             .add(EmptyObjectToNullJsonAdapter.Factory)
             .add(ZonedDateTime::class.java, DoubanZonedDateTimeAdapter)
             .build()
@@ -95,6 +98,9 @@ object ApiService {
     suspend fun getUserTimeline(userId: String, maxId: String? = null): Timeline =
         apiService.getUserTimeline(userId, maxId = maxId)
 
+    suspend fun react(uri: String, reactionType: React.ReactionType?): React =
+        apiService.react(uri, reactionType)
+
     private interface AuthenticationService {
         @POST(ApiContract.Authentication.URL)
         @FormUrlEncoded
@@ -138,5 +144,12 @@ object ApiService {
             @Query("count") count: Int = 15,
             @Query("max_id") maxId: String? = null
         ): Timeline
+
+        @FormUrlEncoded
+        @POST("{uri}/react")
+        suspend fun react(
+            @Path("uri") uri: String,
+            @Field("reaction_type") reactionType: React.ReactionType?
+        ): React
     }
 }
