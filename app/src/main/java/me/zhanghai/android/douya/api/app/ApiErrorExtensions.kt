@@ -12,6 +12,7 @@ import me.zhanghai.android.douya.api.info.ApiContract
 import me.zhanghai.android.douya.api.info.ErrorResponse
 import me.zhanghai.android.douya.app.application
 import me.zhanghai.android.douya.network.AuthenticationException
+import me.zhanghai.android.douya.util.takeIfNotEmpty
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import timber.log.Timber
@@ -31,7 +32,7 @@ val HttpException.errorResponse: ErrorResponse?
     get() = response()?.errorBody()?.toErrorResponse()
 
 val ErrorResponse.message: String
-    get() = localizedMessage
+    get() = localizedMessage?.takeIfNotEmpty()
         ?: ApiContract.Error.MESSAGES[code]?.let { application.getString(it) }
         ?: internalMessage
 

@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.zhanghai.android.douya.api.app.apiMessage
-import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.arch.DistinctMutableLiveData
 import me.zhanghai.android.douya.arch.Error
 import me.zhanghai.android.douya.arch.EventLiveData
@@ -28,10 +27,10 @@ import me.zhanghai.android.douya.util.takeIfNotEmpty
 class TimelineViewModel(
     userId: String?
 ) : ViewModel() {
-    private lateinit var resource: ResourceWithMore<List<TimelineItem>>
+    private lateinit var resource: ResourceWithMore<List<TimelineItemWithState>>
 
     data class State(
-        val timelineAndDiffResult: Pair<List<TimelineItem>, DiffUtil.DiffResult?>,
+        val timelineAndDiffResult: Pair<List<TimelineItemWithState>, DiffUtil.DiffResult?>,
         val loading: Boolean,
         val empty: Boolean,
         val error: String,
@@ -101,8 +100,8 @@ class TimelineViewModel(
     }
 
     private class TimelineDiffCallback(
-        private val oldTimeline: List<TimelineItem>,
-        private val newTimeline: List<TimelineItem>
+        private val oldTimeline: List<TimelineItemWithState>,
+        private val newTimeline: List<TimelineItemWithState>
     ) : DiffUtil.Callback() {
         override fun getOldListSize() = oldTimeline.size
 
@@ -111,7 +110,8 @@ class TimelineViewModel(
         override fun areItemsTheSame(
             oldItemPosition: Int,
             newItemPosition: Int
-        ) = oldTimeline[oldItemPosition].uid == newTimeline[newItemPosition].uid
+        ) = oldTimeline[oldItemPosition].timelineItem.uid ==
+            newTimeline[newItemPosition].timelineItem.uid
 
         override fun areContentsTheSame(
             oldItemPosition: Int,

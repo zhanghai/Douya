@@ -5,4 +5,4 @@
 
 package me.zhanghai.android.douya.util
 
-fun <T> Collection<T>.takeIfNotEmpty(): Collection<T>? = if (isNotEmpty()) this else null
+fun <C: Collection<*>> C.takeIfNotEmpty(): C? = if (isNotEmpty()) this else null

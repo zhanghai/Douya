@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
-import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.api.util.uriOrUrl
 import me.zhanghai.android.douya.arch.EventLiveData
 import me.zhanghai.android.douya.arch.ResumedLifecycleOwner
@@ -22,7 +21,7 @@ import me.zhanghai.android.douya.util.ListAdapter
 import me.zhanghai.android.douya.util.layoutInflater
 import me.zhanghai.android.douya.util.takeIfNotEmpty
 
-class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() {
+class TimelineAdapter : ListAdapter<TimelineItemWithState, TimelineAdapter.ViewHolder>() {
     private val imageRecyclerViewPool = RecyclerView.RecycledViewPool()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -53,7 +52,7 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
             }
         }
 
-        fun setTimelineItem(timelineItem: TimelineItem?) {
+        fun setTimelineItem(timelineItem: TimelineItemWithState?) {
             viewModel.setTimelineItem(timelineItem)
             binding.executePendingBindings()
         }
@@ -62,7 +61,7 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
             data class State(
                 val resharer: String,
                 val resharerUri: String,
-                val timelineItem: TimelineItem?,
+                val timelineItem: TimelineItemWithState?,
                 val uri: String
             ) {
                 companion object {
@@ -83,12 +82,13 @@ class TimelineAdapter : ListAdapter<TimelineItem, TimelineAdapter.ViewHolder>() 
             private val _openUriEvent = EventLiveData<String>()
             val openUriEvent: LiveData<String> = _openUriEvent
 
-            fun setTimelineItem(timelineItem: TimelineItem?) {
-                state.value = if (timelineItem != null) {
+            fun setTimelineItem(timelineItemWithState: TimelineItemWithState?) {
+                state.value = if (timelineItemWithState != null) {
+                    val timelineItem = timelineItemWithState.timelineItem
                     State(
                         resharer = timelineItem.resharer?.name ?: "",
                         resharerUri = timelineItem.resharer?.uriOrUrl ?: "",
-                        timelineItem = timelineItem,
+                        timelineItem = timelineItemWithState,
                         uri = timelineItem.uriOrUrl
                     )
                 } else {

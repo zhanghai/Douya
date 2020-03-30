@@ -46,7 +46,7 @@ data class TimelineItem(
     val ownerAlterLabel: OwnerAlterLabel? = null,
     val rating: Rating? = null,
     @Json(name = "reaction_type")
-    val reactionType: Int = 0,
+    val reactionType: React.ReactionType? = null,
     @Json(name = "reactions_count")
     val reactionsCount: Int = 0,
     //@Json(name = "rec_info")

@@ -5,12 +5,13 @@
 
 package me.zhanghai.android.douya.timeline
 
+import android.net.Uri
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import me.zhanghai.android.douya.api.app.ApiService
+import me.zhanghai.android.douya.api.info.React
 import me.zhanghai.android.douya.api.info.Status
-import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.arch.Deleted
 import me.zhanghai.android.douya.arch.Error
 import me.zhanghai.android.douya.arch.Loading
@@ -18,12 +19,18 @@ import me.zhanghai.android.douya.arch.ResourceWithMore
 import me.zhanghai.android.douya.arch.Success
 import me.zhanghai.android.douya.status.StatusRepository
 import timber.log.Timber
+import java.lang.ref.WeakReference
 
 object TimelineRepository {
-    fun observeTimeline(userId: String?): Flow<ResourceWithMore<List<TimelineItem>>> =
+    private val timelineItems = mutableMapOf<String, WeakReference<TimelineItemWithState>>()
+    private val observers = mutableSetOf<(TimelineItemWithState) -> Unit>()
+
+    fun observeTimeline(userId: String?): Flow<ResourceWithMore<List<TimelineItemWithState>>> =
         callbackFlow {
-            var resource = ResourceWithMore<List<TimelineItem>>(Deleted(null), Deleted(null))
-            val offer = { newResource: ResourceWithMore<List<TimelineItem>> ->
+            var resource = ResourceWithMore<List<TimelineItemWithState>>(
+                Deleted(null), Deleted(null)
+            )
+            val offer = { newResource: ResourceWithMore<List<TimelineItemWithState>> ->
                 resource = newResource
                 channel.offer(resource)
             }
@@ -33,7 +40,7 @@ object TimelineRepository {
             refresh = refresh@{
                 offer(ResourceWithMore(Loading(resource.value.value), Deleted(null)))
                 val timeline = try {
-                    getTimeline(userId)
+                    fetchTimeline(userId)
                 } catch (e: Exception) {
                     Timber.e(e)
                     offer(ResourceWithMore(Error(resource.value.value, e, refresh), Deleted(null)))
@@ -51,7 +58,7 @@ object TimelineRepository {
                 offer(resource.copy(more = Loading(null)))
                 val timeline = resource.value.value!!
                 val moreTimeline = try {
-                    getTimeline(userId, timeline.last().uid)
+                    fetchTimeline(userId, timeline.last().timelineItem.uid)
                 } catch (e: Exception) {
                     Timber.e(e)
                     offer(resource.copy(more = Error(null, e, loadMore)))
@@ -65,36 +72,35 @@ object TimelineRepository {
                 )
             }
 
+            val observer = observer@{ timelineItem: TimelineItemWithState ->
+                val timeline = resource.value.value ?: return@observer
+                var changed = false
+                val newTimeline = timeline.map {
+                    if (it.timelineItem.uid == timelineItem.timelineItem.uid) {
+                        changed = true
+                        timelineItem
+                    } else {
+                        it
+                    }
+                }
+                if (changed) {
+                    offer(resource.copy(value = resource.value.copyWithValue(newTimeline)))
+                }
+            }
+
             val statusObserver = statusObserver@{ status: Status ->
                 val timeline = resource.value.value ?: return@statusObserver
                 var changed = false
                 val newTimeline = timeline.map {
-                    when {
-                        it.content?.status?.id == status.id -> {
-                            changed = true
-                            it.copy(content = it.content.copy(status = status))
-                        }
-                        it.content?.status?.parentStatus?.id == status.id -> {
-                            changed = true
-                            it.copy(
-                                content = it.content.copy(
-                                    status = it.content.status.copy(
-                                        parentStatus = status
-                                    )
-                                )
+                    if (it.timelineItem.content?.status?.id == status.id) {
+                        changed = true
+                        it.copy(
+                            timelineItem = it.timelineItem.copy(
+                                content = it.timelineItem.content.copy(status = status)
                             )
-                        }
-                        it.content?.status?.resharedStatus?.id == status.id -> {
-                            changed = true
-                            it.copy(
-                                content = it.content.copy(
-                                    status = it.content.status.copy(
-                                        resharedStatus = status
-                                    )
-                                )
-                            )
-                        }
-                        else -> it
+                        )
+                    } else {
+                        it
                     }
                 }
                 if (changed) {
@@ -103,18 +109,77 @@ object TimelineRepository {
             }
 
             refresh()
+            observers.add(observer)
             StatusRepository.addObserver(statusObserver)
-            awaitClose { StatusRepository.removeObserver(statusObserver) }
+            awaitClose {
+                observers.remove(observer)
+                StatusRepository.removeObserver(statusObserver)
+            }
         }
 
-    private suspend fun getTimeline(userId: String?, maxId: String? = null): List<TimelineItem> {
+    private suspend fun fetchTimeline(
+        userId: String?,
+        maxId: String? = null
+    ): List<TimelineItemWithState> {
         val timeline = if (userId == null) {
             ApiService.getHomeTimeline(maxId)
         } else {
             ApiService.getUserTimeline(userId, maxId)
         }
-        return timeline.items.filter { it.type.isNotEmpty() }.also {
-            it.forEach { it.content?.status?.let { StatusRepository.putCachedStatus(it) } }
+        return timeline.items.filter { it.type.isNotEmpty() }.map {
+            timelineItems[it.uid]?.get()?.copy(timelineItem = it) ?: TimelineItemWithState(it)
+        }.also {
+            it.forEach { putTimelineItem(it) }
+        }
+    }
+
+    suspend fun likeTimelineItem(timelineItemWithState: TimelineItemWithState, liked: Boolean) {
+        val timelineItem = timelineItemWithState.timelineItem
+        val reactionType = if (liked) React.ReactionType.VOTE else React.ReactionType.CANCEL_VOTE
+        setTimelineItemIsLiking(timelineItem.uid, true)
+        val react = try {
+            ApiService.react(Uri.parse(timelineItem.uri).path!!, reactionType)
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw e
+        } finally {
+            setTimelineItemIsLiking(timelineItem.uid, false)
+        }
+        setTimelineItemReactionType(timelineItem.uid, react.reactionType!!)
+    }
+
+    private fun setTimelineItemIsLiking(uid: String, isLiking: Boolean) {
+        val timelineItem = timelineItems[uid]?.get() ?: return
+        if (timelineItem.isLiking == isLiking) {
+            return
+        }
+        putTimelineItem(timelineItem.copy(isLiking = isLiking))
+    }
+
+    private fun setTimelineItemReactionType(uid: String, reactionType: React.ReactionType) {
+        val timelineItem = timelineItems[uid]?.get() ?: return
+        if (timelineItem.timelineItem.reactionType == reactionType) {
+            return
+        }
+        putTimelineItem(
+            timelineItem.copy(
+                timelineItem = timelineItem.timelineItem.copy(
+                    reactionType = reactionType
+                )
+            )
+        )
+    }
+
+    private fun putTimelineItem(timelineItemWithState: TimelineItemWithState) {
+        val timelineItem = timelineItemWithState.timelineItem
+        val changed = timelineItems[timelineItem.uid]?.get() != timelineItemWithState
+        timelineItems[timelineItem.uid] = WeakReference(timelineItemWithState)
+        if (changed) {
+            observers.forEach { it(timelineItemWithState) }
+        }
+
+        timelineItem.content?.status?.let {
+            StatusRepository.putStatus(it)
         }
     }
 }

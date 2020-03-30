@@ -507,8 +507,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/buttonTopNegativeSpace"
             android:padding="8dp"
+            android:enabled="@{!viewModel.isLiking}"
             app:activated="@{viewModel.liked}"
-            android:onClick="@{() -> null}">
+            android:onClick="@{() -> viewModel.like()}">
 
             <me.zhanghai.android.douya.ui.IconChip
                 android:layout_width="wrap_content"
@@ -529,8 +530,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/likeButton"
             android:padding="8dp"
+            android:enabled="@{!viewModel.isResharing}"
             app:activated="@{viewModel.reshared}"
-            android:onClick="@{() -> null}">
+            android:onClick="@{() -> viewModel.reshare()}">
 
             <me.zhanghai.android.douya.ui.IconChip
                 android:layout_width="wrap_content"

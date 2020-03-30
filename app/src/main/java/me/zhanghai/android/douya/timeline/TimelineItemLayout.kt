@@ -13,10 +13,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.account.app.activeAccount
 import me.zhanghai.android.douya.account.app.userId
+import me.zhanghai.android.douya.api.app.apiMessage
+import me.zhanghai.android.douya.api.info.React
 import me.zhanghai.android.douya.api.info.SizedImage
-import me.zhanghai.android.douya.api.info.TimelineItem
 import me.zhanghai.android.douya.api.info.VideoInfo
 import me.zhanghai.android.douya.api.util.actionCompat
 import me.zhanghai.android.douya.api.util.activityCompat
@@ -39,8 +43,10 @@ import me.zhanghai.android.douya.util.dpToDimensionPixelSize
 import me.zhanghai.android.douya.util.fadeInUnsafe
 import me.zhanghai.android.douya.util.fadeOutUnsafe
 import me.zhanghai.android.douya.util.layoutInflater
+import me.zhanghai.android.douya.util.showToast
 import me.zhanghai.android.douya.util.takeIfNotEmpty
 import org.threeten.bp.ZonedDateTime
+import java.lang.Exception
 
 class TimelineItemLayout : ConstraintLayout {
     companion object {
@@ -100,13 +106,22 @@ class TimelineItemLayout : ConstraintLayout {
 
         viewModel.imageList.observe(lifecycleOwner) { imageAdapter.submitList(it) }
         viewModel.openUriEvent.observe(lifecycleOwner) { UriHandler.open(it, context) }
+        viewModel.likeEvent.observe(lifecycleOwner) { (timelineItem, liked) ->
+            GlobalScope.launch(Dispatchers.Main.immediate) {
+                try {
+                    TimelineRepository.likeTimelineItem(timelineItem, liked)
+                } catch (e: Exception) {
+                    context.showToast(e.apiMessage)
+                }
+            }
+        }
     }
 
     fun setImageRecyclerViewPool(imageRecyclerViewPool: RecyclerView.RecycledViewPool) {
         binding.imageRecycler.setRecycledViewPool(imageRecyclerViewPool)
     }
 
-    fun setTimelineItem(timelineItem: TimelineItem?) {
+    fun setTimelineItem(timelineItem: TimelineItemWithState?) {
         viewModel.setTimelineItem(timelineItem)
         binding.executePendingBindings()
     }
@@ -143,10 +158,13 @@ class TimelineItemLayout : ConstraintLayout {
             val imageList: List<SizedImage>,
             val video: VideoInfo?,
             val liked: Boolean,
+            val isLiking: Boolean,
             val likeCount: Int,
             val commentCount: Int,
             val reshared: Boolean,
-            val reshareCount: Int
+            val isResharing: Boolean,
+            val reshareCount: Int,
+            val timelineItem: TimelineItemWithState?
         ) {
             companion object {
                 val INITIAL = State(
@@ -180,10 +198,13 @@ class TimelineItemLayout : ConstraintLayout {
                     imageList = emptyList(),
                     video = null,
                     liked = false,
+                    isLiking = false,
                     likeCount = 0,
                     commentCount = 0,
                     reshared = false,
-                    reshareCount = 0
+                    isResharing = false,
+                    reshareCount = 0,
+                    timelineItem = null
                 )
             }
         }
@@ -214,15 +235,22 @@ class TimelineItemLayout : ConstraintLayout {
         val imageList = state.mapDistinct { it.imageList }
         val video = state.mapDistinct { it.video }
         val liked = state.mapDistinct { it.liked }
+        val isLiking = state.mapDistinct { it.isLiking }
         val likeCount = state.mapDistinct { it.likeCount }
         val commentCount = state.mapDistinct { it.commentCount }
         val reshared = state.mapDistinct { it.reshared }
+        val isResharing = state.mapDistinct { it.isResharing }
         val reshareCount = state.mapDistinct { it.reshareCount }
 
         private val _openUriEvent = EventLiveData<String>()
         val openUriEvent: LiveData<String> = _openUriEvent
+        private val _likeEvent = EventLiveData<Pair<TimelineItemWithState, Boolean>>()
+        val likeEvent: LiveData<Pair<TimelineItemWithState, Boolean>> = _likeEvent
+        private val _reshareEvent = EventLiveData<TimelineItemWithState>()
+        val reshareEvent: LiveData<TimelineItemWithState> = _reshareEvent
 
-        fun setTimelineItem(timelineItem: TimelineItem?) {
+        fun setTimelineItem(timelineItemWithState: TimelineItemWithState?) {
+            val timelineItem = timelineItemWithState?.timelineItem
             val status = timelineItem?.content?.status
             state.value = if (status != null) {
                 val contentStatus = status.resharedStatus ?: status
@@ -262,10 +290,13 @@ class TimelineItemLayout : ConstraintLayout {
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
                     video = video,
                     liked = status.liked,
+                    isLiking = timelineItemWithState.isLiking,
                     likeCount = status.likeCount,
                     commentCount = status.commentsCount,
                     reshared = timelineItem.resharer?.id == accountManager.activeAccount!!.userId,
-                    reshareCount = status.resharesCount
+                    isResharing = timelineItemWithState.isResharing,
+                    reshareCount = status.resharesCount,
+                    timelineItem = timelineItemWithState
                 )
             } else if (timelineItem != null) {
                 val images = timelineItem.content?.photos?.ifEmpty {
@@ -302,11 +333,14 @@ class TimelineItemLayout : ConstraintLayout {
                     image = null,
                     imageList = images.takeIf { video == null && it.size > 1 } ?: emptyList(),
                     video = video,
-                    liked = timelineItem.reactionType > 0,
+                    liked = timelineItem.reactionType == React.ReactionType.VOTE,
+                    isLiking = timelineItemWithState.isLiking,
                     likeCount = timelineItem.reactionsCount,
                     commentCount = timelineItem.commentsCount,
                     reshared = timelineItem.resharer?.id == accountManager.activeAccount!!.userId,
-                    reshareCount = timelineItem.resharesCount
+                    isResharing = timelineItemWithState.isResharing,
+                    reshareCount = timelineItem.resharesCount,
+                    timelineItem = timelineItemWithState
                 )
             } else {
                 State.INITIAL
@@ -335,6 +369,16 @@ class TimelineItemLayout : ConstraintLayout {
 
         fun openCardTopic() {
             state.valueCompat.cardTopicUri.takeIfNotEmpty()?.let { _openUriEvent.value = it }
+        }
+
+        fun like() {
+            state.valueCompat.timelineItem?.let {
+                _likeEvent.value = Pair(it, !state.valueCompat.liked)
+            }
+        }
+
+        fun reshare() {
+            state.valueCompat.timelineItem?.let { _reshareEvent.value = it }
         }
     }
 }
