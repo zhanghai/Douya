@@ -15,6 +15,7 @@ import me.zhanghai.android.douya.api.info.Timeline
 import me.zhanghai.android.douya.api.info.User
 import me.zhanghai.android.douya.network.DoubanZonedDateTimeAdapter
 import me.zhanghai.android.douya.network.EmptyObjectToNullJsonAdapter
+import me.zhanghai.android.douya.network.EnumStringConverter
 import me.zhanghai.android.douya.network.NullToEmptyStringOrCollectionJsonAdapterFactory
 import me.zhanghai.android.douya.network.UnknownEnumToNullJsonAdapter
 import okhttp3.OkHttpClient
@@ -56,6 +57,7 @@ object ApiService {
         )
         .baseUrl(ApiContract.Authentication.BASE_URL)
         .addConverterFactory(converterFactory)
+        .addConverterFactory(EnumStringConverter.Factory)
         .build()
         .create(AuthenticationService::class.java)
 
@@ -70,6 +72,7 @@ object ApiService {
         .client(apiHttpClient)
         .baseUrl(ApiContract.Api.BASE_URL)
         .addConverterFactory(converterFactory)
+        .addConverterFactory(EnumStringConverter.Factory)
         .build()
         .create(ApiService::class.java)
 
