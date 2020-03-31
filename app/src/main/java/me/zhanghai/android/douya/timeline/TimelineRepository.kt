@@ -117,7 +117,8 @@ object TimelineRepository {
             }
 
             if (userId == null) {
-                offer(ResourceWithMore<List<TimelineItemWithState>>(Loading(null), Deleted(null)))
+                // HACK: Don't show the loading state for better UX.
+                //offer(ResourceWithMore<List<TimelineItemWithState>>(Loading(null), Deleted(null)))
                 getCachedHomeTimeline()?.let {
                     offer(
                         ResourceWithMore(
