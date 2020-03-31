@@ -127,7 +127,7 @@ object TimelineRepository {
             ApiService.getUserTimeline(userId, maxId)
         }
         return timeline.items.filter { it.type.isNotEmpty() }.map {
-            timelineItems[it.uid]?.get()?.copy(timelineItem = it) ?: TimelineItemWithState(it)
+            getTimelineItem(it.uid)?.copy(timelineItem = it) ?: TimelineItemWithState(it)
         }.also {
             it.forEach { putTimelineItem(it) }
         }
@@ -149,7 +149,7 @@ object TimelineRepository {
     }
 
     private fun updateTimelineItemIsLiking(uid: String, isLiking: Boolean) {
-        val timelineItem = timelineItems[uid]?.get() ?: return
+        val timelineItem = getTimelineItem(uid) ?: return
         if (timelineItem.isLiking == isLiking) {
             return
         }
@@ -157,7 +157,7 @@ object TimelineRepository {
     }
 
     private fun updateTimelineItemForReaction(uid: String, reactionType: React.ReactionType) {
-        val timelineItemWithState = timelineItems[uid]?.get() ?: return
+        val timelineItemWithState = getTimelineItem(uid) ?: return
         val timelineItem = timelineItemWithState.timelineItem
         if (timelineItem.reactionType == reactionType) {
             return
@@ -188,9 +188,11 @@ object TimelineRepository {
         )
     }
 
+    private fun getTimelineItem(uid: String): TimelineItemWithState? = timelineItems[uid]?.get()
+
     private fun putTimelineItem(timelineItemWithState: TimelineItemWithState) {
         val timelineItem = timelineItemWithState.timelineItem
-        val changed = timelineItems[timelineItem.uid]?.get() != timelineItemWithState
+        val changed = getTimelineItem(timelineItem.uid) != timelineItemWithState
         timelineItems[timelineItem.uid] = WeakReference(timelineItemWithState)
         if (changed) {
             observers.forEach { it(timelineItemWithState) }

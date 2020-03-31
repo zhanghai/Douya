@@ -19,12 +19,12 @@ import timber.log.Timber
 import java.lang.ref.WeakReference
 
 object UserRepository {
-    private val cachedUsers = mutableMapOf<String, WeakReference<User>>()
+    private val users = mutableMapOf<String, WeakReference<User>>()
     private val observers = mutableSetOf<(User) -> Unit>()
 
-    fun observeUser(userId: String): Flow<Resource<User>> =
+    fun observeUser(id: String): Flow<Resource<User>> =
         callbackFlow {
-            var resource: Resource<User> = Deleted(getCachedUser(userId))
+            var resource: Resource<User> = Deleted(getUser(id))
             val offer = { newResource: Resource<User> ->
                 resource = newResource
                 channel.offer(resource)
@@ -34,7 +34,7 @@ object UserRepository {
             refresh = refresh@{
                 offer(Loading(resource.value))
                 val user = try {
-                    getUser(userId)
+                    fetchUser(id)
                 } catch (e: Exception) {
                     Timber.e(e)
                     offer(Error(resource.value, e, refresh))
@@ -46,29 +46,21 @@ object UserRepository {
             val observer: (User) -> Unit = { offer(resource.copyWithValue(it)) }
 
             refresh()
-            addObserver(observer)
-            awaitClose { removeObserver(observer) }
+            observers.add(observer)
+            awaitClose { observers.remove(observer) }
         }
 
-    private suspend fun getUser(userId: String): User =
-        ApiService.getUser(userId).also { putCachedUser(it) }
+    private suspend fun fetchUser(id: String): User =
+        ApiService.getUser(id).also { putUser(it) }
 
-    fun getCachedUser(userId: String): User? =
-        cachedUsers[userId]?.get()
+    private fun getUser(id: String): User? =
+        users[id]?.get()
 
-    fun putCachedUser(user: User) {
-        val changed = cachedUsers[user.id]?.get() != user
-        cachedUsers[user.id] = WeakReference(user)
+    private fun putUser(user: User) {
+        val changed = getUser(user.id) != user
+        users[user.id] = WeakReference(user)
         if (changed) {
             observers.forEach { it(user) }
         }
-    }
-
-    fun addObserver(observer: (User) -> Unit) {
-        observers.add(observer)
-    }
-
-    fun removeObserver(observer: (User) -> Unit) {
-        observers.remove(observer)
     }
 }
