@@ -162,6 +162,7 @@ object TimelineRepository {
         if (timelineItem.reactionType == reactionType) {
             return
         }
+        val status = timelineItem.content?.status
         putTimelineItem(
             timelineItemWithState.copy(
                 timelineItem = timelineItem.copy(
@@ -169,7 +170,19 @@ object TimelineRepository {
                     reactionsCount = timelineItem.reactionsCount + when(reactionType) {
                         React.ReactionType.VOTE -> 1
                         React.ReactionType.CANCEL_VOTE -> -1
-                    }
+                    },
+                    content = timelineItem.content?.copy(
+                        status = status?.copy(
+                            liked = when (reactionType) {
+                                React.ReactionType.VOTE -> true
+                                React.ReactionType.CANCEL_VOTE -> false
+                            },
+                            likeCount = status.likeCount + when(reactionType) {
+                                React.ReactionType.VOTE -> 1
+                                React.ReactionType.CANCEL_VOTE -> -1
+                            }
+                        )
+                    )
                 )
             )
         )
