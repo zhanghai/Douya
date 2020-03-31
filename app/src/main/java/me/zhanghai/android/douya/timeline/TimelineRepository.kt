@@ -136,19 +136,19 @@ object TimelineRepository {
     suspend fun likeTimelineItem(timelineItemWithState: TimelineItemWithState, liked: Boolean) {
         val timelineItem = timelineItemWithState.timelineItem
         val reactionType = if (liked) React.ReactionType.VOTE else React.ReactionType.CANCEL_VOTE
-        setTimelineItemIsLiking(timelineItem.uid, true)
+        updateTimelineItemIsLiking(timelineItem.uid, true)
         val react = try {
             ApiService.react(Uri.parse(timelineItem.uri).path!!, reactionType)
         } catch (e: Exception) {
             Timber.e(e)
             throw e
         } finally {
-            setTimelineItemIsLiking(timelineItem.uid, false)
+            updateTimelineItemIsLiking(timelineItem.uid, false)
         }
-        setTimelineItemReactionType(timelineItem.uid, react.reactionType!!)
+        updateTimelineItemForReaction(timelineItem.uid, react.reactionType!!)
     }
 
-    private fun setTimelineItemIsLiking(uid: String, isLiking: Boolean) {
+    private fun updateTimelineItemIsLiking(uid: String, isLiking: Boolean) {
         val timelineItem = timelineItems[uid]?.get() ?: return
         if (timelineItem.isLiking == isLiking) {
             return
@@ -156,15 +156,20 @@ object TimelineRepository {
         putTimelineItem(timelineItem.copy(isLiking = isLiking))
     }
 
-    private fun setTimelineItemReactionType(uid: String, reactionType: React.ReactionType) {
-        val timelineItem = timelineItems[uid]?.get() ?: return
-        if (timelineItem.timelineItem.reactionType == reactionType) {
+    private fun updateTimelineItemForReaction(uid: String, reactionType: React.ReactionType) {
+        val timelineItemWithState = timelineItems[uid]?.get() ?: return
+        val timelineItem = timelineItemWithState.timelineItem
+        if (timelineItem.reactionType == reactionType) {
             return
         }
         putTimelineItem(
-            timelineItem.copy(
-                timelineItem = timelineItem.timelineItem.copy(
-                    reactionType = reactionType
+            timelineItemWithState.copy(
+                timelineItem = timelineItem.copy(
+                    reactionType = reactionType,
+                    reactionsCount = timelineItem.reactionsCount + when(reactionType) {
+                        React.ReactionType.VOTE -> 1
+                        React.ReactionType.CANCEL_VOTE -> -1
+                    }
                 )
             )
         )
