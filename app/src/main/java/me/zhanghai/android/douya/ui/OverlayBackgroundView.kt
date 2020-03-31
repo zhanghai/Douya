@@ -78,7 +78,7 @@ class OverlayBackgroundView : View {
     override fun drawableHotspotChanged(x: Float, y: Float) {
         super.drawableHotspotChanged(x, y)
 
-        overlay.setHotspot(x, y)
+        overlay.setHotspot(left + x, top + y)
     }
 
     override fun jumpDrawablesToCurrentState() {
