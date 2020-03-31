@@ -32,14 +32,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 object ApiService {
-    private val converterFactory = MoshiConverterFactory.create(
-        Moshi.Builder()
-            .add(NullToEmptyStringOrCollectionJsonAdapterFactory)
-            .add(UnknownEnumToNullJsonAdapter.Factory)
-            .add(EmptyObjectToNullJsonAdapter.Factory)
-            .add(ZonedDateTime::class.java, DoubanZonedDateTimeAdapter)
-            .build()
-    )
+    private val converterFactory = MoshiConverterFactory.create(moshi)
         .withNullSerialization()
 
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "UNCHECKED_CAST")
