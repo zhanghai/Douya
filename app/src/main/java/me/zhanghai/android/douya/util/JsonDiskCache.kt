@@ -38,18 +38,20 @@ object JsonDiskCache {
 
     suspend inline fun <reified T> get(key: String) = get<T>(key, T::class.java)
 
-    suspend fun <T: Any> put(key: String, value: T?) {
+    suspend fun <T> put(key: String, value: T?, type: Type) {
         if (value == null) {
             remove(key)
             return
         }
         withContext(Dispatchers.IO) {
-            val json = moshi.adapter<T>(value.javaClass).toJson(value)
+            val json = moshi.adapter<T>(type).toJson(value)
             synchronized(cache) {
                 cache.edit(CacheKeys.get(key)) { set(0, json) }
             }
         }
     }
+
+    suspend inline fun <reified T> put(key: String, value: T?) = put(key, value, T::class.java)
 
     fun DiskLruCache.edit(key: String, block: DiskLruCache.Editor.() -> Unit) {
         edit(key).apply {

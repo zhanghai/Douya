@@ -15,6 +15,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.TimelineFragmentBinding
@@ -23,6 +26,7 @@ import me.zhanghai.android.douya.util.MoreItemAdapter
 import me.zhanghai.android.douya.util.OnVerticalScrollListener
 import me.zhanghai.android.douya.util.getInteger
 import me.zhanghai.android.douya.util.showToast
+import me.zhanghai.android.douya.util.takeIfNotEmpty
 
 class TimelineFragment : Fragment() {
     private val args: TimelineFragmentArgs by navArgs()
@@ -72,5 +76,17 @@ class TimelineFragment : Fragment() {
         }
         viewModel.moreLoading.observe(viewLifecycleOwner) { moreItemAdapter.loading = it }
         viewModel.errorEvent.observe(viewLifecycleOwner) { showToast(it) }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (args.userId == null) {
+            viewModel.timelineAndDiffResult.value?.first?.takeIfNotEmpty()?.let {
+                GlobalScope.launch(Dispatchers.Main.immediate) {
+                    TimelineRepository.putCachedHomeTimeline(it)
+                }
+            }
+        }
     }
 }
