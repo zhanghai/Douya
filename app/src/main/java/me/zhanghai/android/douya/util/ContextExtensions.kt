@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -59,26 +60,32 @@ fun Context.getInterpolator(@InterpolatorRes id: Int): Interpolator =
 
 fun Context.getStringArray(@ArrayRes id: Int): Array<String> = resources.getStringArray(id)
 
+@SuppressLint("RestrictedApi")
 fun Context.getBooleanByAttr(@AttrRes attr: Int): Boolean =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getBoolean(0, false) }
 
 fun Context.getColorByAttr(@AttrRes attr: Int): Int =
     getColorStateListByAttr(attr).defaultColor
 
+@SuppressLint("RestrictedApi")
 fun Context.getColorStateListByAttr(@AttrRes attr: Int): ColorStateList =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getColorStateList(0) }
 
+@SuppressLint("RestrictedApi")
 fun Context.getDimensionByAttr(@AttrRes attr: Int): Float =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDimension(0, 0f) }
 
+@SuppressLint("RestrictedApi")
 fun Context.getDimensionPixelOffsetByAttr(@AttrRes attr: Int): Int =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use {
         it.getDimensionPixelOffset(0, 0)
     }
 
+@SuppressLint("RestrictedApi")
 fun Context.getDimensionPixelSizeByAttr(@AttrRes attr: Int): Int =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDimensionPixelSize(0, 0) }
 
+@SuppressLint("RestrictedApi")
 fun Context.getDrawableByAttr(@AttrRes attr: Int): Drawable =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDrawable(0) }
 

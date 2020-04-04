@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.douya.compat
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -25,6 +26,7 @@ fun Context.getColorStateListCompat(@ColorRes id: Int): ColorStateList =
 fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable =
     AppCompatResources.getDrawable(this, id)!!
 
+@SuppressLint("RestrictedApi")
 fun Context.obtainStyledAttributesCompat(
     set: AttributeSet? = null,
     @StyleableRes attrs: IntArray,
@@ -33,5 +35,6 @@ fun Context.obtainStyledAttributesCompat(
 ): TintTypedArray =
     TintTypedArray.obtainStyledAttributes(this, set, attrs, defStyleAttr, defStyleRes)
 
+@SuppressLint("RestrictedApi")
 inline fun <R> TintTypedArray.use(block: (TintTypedArray) -> R): R =
     AutoCloseable { recycle() }.use { block(this) }
