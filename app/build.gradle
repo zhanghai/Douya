@@ -15,7 +15,6 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: '../signing.gradle'
 
 android {
-
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
 
@@ -56,7 +55,6 @@ android {
 }
 
 dependencies {
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
