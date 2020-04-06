@@ -65,7 +65,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0-alpha03'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"
-    def androidx_core_version = '1.3.0-alpha02'
+    def androidx_core_version = '1.3.0-beta01'
     implementation "androidx.core:core:$androidx_core_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
     def androidx_fragment_version = '1.2.3'
