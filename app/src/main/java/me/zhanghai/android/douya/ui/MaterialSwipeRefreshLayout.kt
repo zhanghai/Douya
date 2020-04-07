@@ -16,18 +16,6 @@ import me.zhanghai.android.douya.util.dpToDimensionPixelOffset
 import me.zhanghai.android.douya.util.getColorByAttr
 
 class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
-    companion object {
-        /**
-         * @see androidx.swiperefreshlayout.widget.CircleImageView.SHADOW_ELEVATION
-         */
-        private const val ELEVATION_DP = 4
-
-        /**
-         * @see androidx.swiperefreshlayout.widget.SwipeRefreshLayout.DEFAULT_CIRCLE_TARGET
-         */
-        private const val PROGRESS_END_DP = 64
-    }
-
     @Dimension
     var progressOffset = 0
         set(value) {
@@ -54,5 +42,17 @@ class MaterialSwipeRefreshLayout : SwipeRefreshLayout {
                 )
             )
         )
+    }
+
+    companion object {
+        /**
+         * @see androidx.swiperefreshlayout.widget.CircleImageView.SHADOW_ELEVATION
+         */
+        private const val ELEVATION_DP = 4
+
+        /**
+         * @see androidx.swiperefreshlayout.widget.SwipeRefreshLayout.DEFAULT_CIRCLE_TARGET
+         */
+        private const val PROGRESS_END_DP = 64
     }
 }

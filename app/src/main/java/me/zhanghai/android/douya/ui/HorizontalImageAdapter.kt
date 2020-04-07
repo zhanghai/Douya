@@ -19,6 +19,13 @@ import me.zhanghai.android.douya.util.layoutInflater
 
 class HorizontalImageAdapter
     : ListAdapter<SizedImage, HorizontalImageAdapter.ViewHolder>(DIFF_CALLBACK) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(HorizontalImageItemBinding.inflate(parent.context.layoutInflater, parent, false))
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.setImage(getItem(position))
+    }
+
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SizedImage>() {
             override fun areItemsTheSame(oldItem: SizedImage, newItem: SizedImage): Boolean =
@@ -27,13 +34,6 @@ class HorizontalImageAdapter
             override fun areContentsTheSame(oldItem: SizedImage, newItem: SizedImage): Boolean =
                 oldItem == newItem
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(HorizontalImageItemBinding.inflate(parent.context.layoutInflater, parent, false))
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setImage(getItem(position))
     }
 
     class ViewHolder(

@@ -26,10 +26,6 @@ import me.zhanghai.android.douya.util.fadeOut
 import me.zhanghai.android.douya.util.startActivitySafe
 
 class AuthenticatorFragment : Fragment() {
-    companion object {
-        private val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
-    }
-
     private val args: AuthenticatorFragmentArgs by navArgs()
 
     private val viewModel: AuthenticatorViewModel by viewModels {
@@ -84,5 +80,9 @@ class AuthenticatorFragment : Fragment() {
         if (!resultSent) {
             args.response?.onError(AccountManager.ERROR_CODE_CANCELED, "canceled")
         }
+    }
+
+    companion object {
+        private val SIGN_UP_URI = Uri.parse("https://accounts.douban.com/passport/login")
     }
 }

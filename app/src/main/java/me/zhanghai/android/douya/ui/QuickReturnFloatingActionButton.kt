@@ -16,11 +16,6 @@ import com.google.android.material.stateful.ExtendableSavedState
 import me.zhanghai.android.douya.util.slideToVisibilityUnsafe
 
 class QuickReturnFloatingActionButton : FloatingActionButton {
-    companion object {
-        private val STATE_KEY = QuickReturnFloatingActionButton::class.java.name
-        private const val STATE_SHOWING = "SHOWING"
-    }
-
     var showing = true
         set(value) {
             if (field == value) {
@@ -60,5 +55,10 @@ class QuickReturnFloatingActionButton : FloatingActionButton {
         doOnPreDraw {
             showing = state.extendableStates[STATE_KEY]!!.getBoolean(STATE_SHOWING)
         }
+    }
+
+    companion object {
+        private val STATE_KEY = QuickReturnFloatingActionButton::class.java.name
+        private const val STATE_SHOWING = "SHOWING"
     }
 }

@@ -49,10 +49,6 @@ import org.threeten.bp.ZonedDateTime
 import java.lang.Exception
 
 class TimelineItemLayout : ConstraintLayout {
-    companion object {
-        private const val IMAGE_RECYCLER_GUTTER_SIZE_DP = 2
-    }
-
     private val lifecycleOwner = ResumedLifecycleOwner()
 
     private val binding = TimelineItemLayoutBinding.inflate(context.layoutInflater, this, true)
@@ -124,6 +120,10 @@ class TimelineItemLayout : ConstraintLayout {
     fun setTimelineItem(timelineItem: TimelineItemWithState?) {
         viewModel.setTimelineItem(timelineItem)
         binding.executePendingBindings()
+    }
+
+    companion object {
+        private const val IMAGE_RECYCLER_GUTTER_SIZE_DP = 2
     }
 
     class ViewModel {

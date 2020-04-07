@@ -13,10 +13,6 @@ import org.threeten.bp.Duration
 import org.threeten.bp.ZonedDateTime
 
 class TimeTextView : MaterialTextView {
-    companion object {
-        private val UPDATE_TEXT_INTERVAL_MILLIS = Duration.ofSeconds(30).toMillis()
-    }
-
     private val updateTextRunnable = Runnable { updateText() }
 
     constructor(context: Context) : super(context)
@@ -60,5 +56,9 @@ class TimeTextView : MaterialTextView {
         if (time != null) {
             postDelayed(updateTextRunnable, UPDATE_TEXT_INTERVAL_MILLIS)
         }
+    }
+
+    companion object {
+        private val UPDATE_TEXT_INTERVAL_MILLIS = Duration.ofSeconds(30).toMillis()
     }
 }

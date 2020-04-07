@@ -22,11 +22,6 @@ import org.xmlpull.v1.XmlPullParser
 
 @Suppress("DEPRECATION", "UsePropertyAccessSyntax")
 open class DrawableWrapper : Drawable, Drawable.Callback {
-    companion object {
-        private val CREATOR: (ConstantState, Resources?, Resources.Theme?) -> DrawableWrapper =
-            ::DrawableWrapper
-    }
-
     protected open val creator
         get() = CREATOR
 
@@ -218,5 +213,10 @@ open class DrawableWrapper : Drawable, Drawable.Callback {
         override fun newDrawable(): Drawable = drawable
 
         override fun getChangingConfigurations(): Int = 0
+    }
+
+    companion object {
+        private val CREATOR: (ConstantState, Resources?, Resources.Theme?) -> DrawableWrapper =
+            ::DrawableWrapper
     }
 }

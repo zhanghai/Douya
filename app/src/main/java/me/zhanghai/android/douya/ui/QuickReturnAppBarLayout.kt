@@ -14,13 +14,7 @@ import androidx.core.view.doOnPreDraw
 import com.google.android.material.stateful.ExtendableSavedState
 import me.zhanghai.android.douya.util.slideToVisibilityUnsafe
 
-
 class QuickReturnAppBarLayout : OutlinedAppBarLayout {
-    companion object {
-        private val STATE_KEY = QuickReturnAppBarLayout::class.java.name
-        private const val STATE_SHOWING = "SHOWING"
-    }
-
     var showing = true
         set(value) {
             if (field == value) {
@@ -60,5 +54,10 @@ class QuickReturnAppBarLayout : OutlinedAppBarLayout {
         doOnPreDraw {
             showing = state.extendableStates[STATE_KEY]!!.getBoolean(STATE_SHOWING)
         }
+    }
+
+    companion object {
+        private val STATE_KEY = QuickReturnAppBarLayout::class.java.name
+        private const val STATE_SHOWING = "SHOWING"
     }
 }
