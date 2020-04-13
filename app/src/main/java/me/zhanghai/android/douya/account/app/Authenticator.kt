@@ -22,6 +22,7 @@ import me.zhanghai.android.douya.api.app.ApiService
 import me.zhanghai.android.douya.api.app.errorResponse
 import me.zhanghai.android.douya.api.app.message
 import me.zhanghai.android.douya.api.info.ApiContract
+import me.zhanghai.android.douya.util.createIntent
 import retrofit2.HttpException
 import timber.log.Timber
 
@@ -162,7 +163,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
         mode: AuthenticatorMode,
         account: Account?,
         response: AccountAuthenticatorResponse?
-    ): Bundle = createIntentBundle(Intent(context, AuthenticatorActivity::class.java).apply {
+    ): Bundle = createIntentBundle(AuthenticatorActivity::class.createIntent().apply {
         putExtras(AuthenticatorFragmentArgs(mode.ordinal, account?.name, response).toBundle())
     })
 

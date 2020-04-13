@@ -41,7 +41,7 @@ class MainFragment : Fragment() {
 
     private lateinit var timelineFragment: TimelineFragment
 
-    private val viewModel: MainViewModel by viewModels {
+    private val viewModel by viewModels {
         { MainViewModel(accountManager.activeAccount!!.userId!!) }
     }
 
@@ -68,9 +68,7 @@ class MainFragment : Fragment() {
             timelineFragment = TimelineFragment().apply {
                 arguments = TimelineFragmentArgs(null).toBundle()
             }
-            childFragmentManager.commit {
-                add(R.id.timelineFragment, timelineFragment)
-            }
+            childFragmentManager.commit { add(R.id.timelineFragment, timelineFragment) }
         } else {
             timelineFragment = childFragmentManager.findFragmentById(
                 R.id.timelineFragment

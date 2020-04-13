@@ -7,12 +7,12 @@ package me.zhanghai.android.douya.link
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.util.activity
+import me.zhanghai.android.douya.util.createViewIntent
 import me.zhanghai.android.douya.util.getColorByAttr
 import me.zhanghai.android.douya.util.startActivitySafe
 import org.chromium.customtabsclient.CustomTabsActivityHelper
@@ -52,6 +52,6 @@ object UriHandler {
     }
 
     private fun openWithIntent(uri: Uri, context: Context) {
-        context.startActivitySafe(Intent(Intent.ACTION_VIEW, uri))
+        context.startActivitySafe(uri.createViewIntent())
     }
 }

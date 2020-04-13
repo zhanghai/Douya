@@ -29,9 +29,9 @@ import me.zhanghai.android.douya.util.showToast
 import me.zhanghai.android.douya.util.takeIfNotEmpty
 
 class TimelineFragment : Fragment() {
-    private val args: TimelineFragmentArgs by navArgs()
+    private val args by navArgs<TimelineFragmentArgs>()
 
-    private val viewModel: TimelineViewModel by viewModels { { TimelineViewModel(args.userId) } }
+    private val viewModel by viewModels { { TimelineViewModel(args.userId) } }
 
     private lateinit var binding: TimelineFragmentBinding
 

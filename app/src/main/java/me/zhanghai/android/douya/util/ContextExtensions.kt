@@ -16,9 +16,11 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
 import android.widget.Toast
+import androidx.annotation.AnimRes
 import androidx.annotation.ArrayRes
 import androidx.annotation.AttrRes
 import androidx.annotation.BoolRes
@@ -26,6 +28,10 @@ import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
 import androidx.annotation.IntegerRes
 import androidx.annotation.InterpolatorRes
+import androidx.annotation.PluralsRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.content.res.ResourcesCompat
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.compat.getFloatCompat
 import me.zhanghai.android.douya.compat.obtainStyledAttributesCompat
@@ -43,6 +49,8 @@ val Context.activity: Activity?
         }
     }
 
+fun Context.getAnimation(@AnimRes id: Int): Animation = AnimationUtils.loadAnimation(this, id)
+
 fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
 
 fun Context.getDimension(@DimenRes id: Int) = resources.getDimension(id)
@@ -57,6 +65,15 @@ fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)
 
 fun Context.getInterpolator(@InterpolatorRes id: Int): Interpolator =
     AnimationUtils.loadInterpolator(this, id)
+
+fun Context.getQuantityString(@PluralsRes id: Int, quantity: Int): String =
+    resources.getQuantityString(id, quantity)
+
+fun Context.getQuantityString(@PluralsRes id: Int, quantity: Int, vararg formatArgs: Any?): String =
+    resources.getQuantityString(id, quantity, *formatArgs)
+
+fun Context.getQuantityText(@PluralsRes id: Int, quantity: Int): CharSequence =
+    resources.getQuantityText(id, quantity)
 
 fun Context.getStringArray(@ArrayRes id: Int): Array<String> = resources.getStringArray(id)
 
@@ -88,6 +105,14 @@ fun Context.getDimensionPixelSizeByAttr(@AttrRes attr: Int): Int =
 @SuppressLint("RestrictedApi")
 fun Context.getDrawableByAttr(@AttrRes attr: Int): Drawable =
     obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getDrawable(0) }
+
+@SuppressLint("RestrictedApi")
+fun Context.getFloatByAttr(@AttrRes attr: Int): Float =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getFloat(0, 0f) }
+
+@SuppressLint("RestrictedApi")
+fun Context.getResourceIdByAttr(@AttrRes attr: Int): Int =
+    obtainStyledAttributesCompat(attrs = intArrayOf(attr)).use { it.getResourceId(0, 0) }
 
 @Dimension
 fun Context.dpToDimension(@Dimension(unit = Dimension.DP) dp: Float): Float =
@@ -147,3 +172,6 @@ fun Context.startActivitySafe(intent: Intent, options: Bundle? = null) {
         showToast(R.string.activity_not_found)
     }
 }
+
+fun Context.withTheme(@StyleRes themeRes: Int): Context =
+    if (themeRes != 0) ContextThemeWrapper(this, themeRes) else this

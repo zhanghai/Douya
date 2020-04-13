@@ -9,6 +9,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.annotation.AnimRes
 import androidx.annotation.ArrayRes
 import androidx.annotation.AttrRes
 import androidx.annotation.BoolRes
@@ -16,8 +17,11 @@ import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
 import androidx.annotation.IntegerRes
 import androidx.annotation.InterpolatorRes
+import androidx.annotation.PluralsRes
 import androidx.fragment.app.Fragment
 import me.zhanghai.android.douya.R
+
+fun Fragment.getAnimation(@AnimRes id: Int) = requireContext().getAnimation(id)
 
 fun Fragment.getBoolean(@BoolRes id: Int) = requireContext().getBoolean(id)
 
@@ -33,6 +37,18 @@ fun Fragment.getFloat(@DimenRes id: Int) = requireContext().getFloat(id)
 fun Fragment.getInteger(@IntegerRes id: Int) = requireContext().getInteger(id)
 
 fun Fragment.getInterpolator(@InterpolatorRes id: Int) = requireContext().getInterpolator(id)
+
+fun Fragment.getQuantityString(@PluralsRes id: Int, quantity: Int): String =
+    requireContext().getQuantityString(id, quantity)
+
+fun Fragment.getQuantityString(
+    @PluralsRes id: Int,
+    quantity: Int,
+    vararg formatArgs: Any?
+): String = requireContext().getQuantityString(id, quantity, *formatArgs)
+
+fun Fragment.getQuantityText(@PluralsRes id: Int, quantity: Int): CharSequence =
+    requireContext().getQuantityText(id, quantity)
 
 fun Fragment.getStringArray(@ArrayRes id: Int) = requireContext().getStringArray(id)
 
@@ -51,8 +67,12 @@ fun Fragment.getDimensionPixelOffsetByAttr(@AttrRes attr: Int) =
 fun Fragment.getDimensionPixelSizeByAttr(@AttrRes attr: Int): Int =
     requireContext().getDimensionPixelSizeByAttr(attr)
 
-fun Fragment.getDrawableByAttr(@AttrRes attr: Int) =
-    requireContext().getDrawableByAttr(attr)
+fun Fragment.getDrawableByAttr(@AttrRes attr: Int) = requireContext().getDrawableByAttr(attr)
+
+fun Fragment.getFloatByAttr(@AttrRes attr: Int) = requireContext().getFloatByAttr(attr)
+
+fun Fragment.getResourceIdByAttr(@AttrRes attr: Int): Int =
+    requireContext().getResourceIdByAttr(attr)
 
 @Dimension
 fun Fragment.dpToDimension(@Dimension(unit = Dimension.DP) dp: Float) =

@@ -17,6 +17,8 @@ import androidx.annotation.StyleRes
 import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.TintTypedArray
+import androidx.core.content.ContextCompat
+import java.util.concurrent.Executor
 
 fun Context.getColorCompat(@ColorRes id: Int): Int = getColorStateListCompat(id).defaultColor
 
@@ -38,3 +40,9 @@ fun Context.obtainStyledAttributesCompat(
 @SuppressLint("RestrictedApi")
 inline fun <R> TintTypedArray.use(block: (TintTypedArray) -> R): R =
     AutoCloseable { recycle() }.use { block(this) }
+
+val Context.mainExecutorCompat: Executor
+    get() = ContextCompat.getMainExecutor(this)
+
+fun <T> Context.getSystemServiceCompat(serviceClass: Class<T>):T =
+    ContextCompat.getSystemService(this, serviceClass)!!

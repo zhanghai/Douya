@@ -8,6 +8,7 @@ package me.zhanghai.android.douya.util
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
@@ -61,18 +62,16 @@ class MoreItemAdapter(
     override fun getItemId(position: Int): Long = 0L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(parent.context.layoutInflater.inflate(layoutRes, parent, false))
-            .apply {
-                (itemView.layoutParams as? StaggeredGridLayoutManager.LayoutParams)?.let {
-                    it.isFullSpan = true
-                }
+        ViewHolder(parent.context.layoutInflater.inflate(layoutRes, parent, false)).apply {
+            (itemView.layoutParams as? StaggeredGridLayoutManager.LayoutParams)?.let {
+                it.isFullSpan = true
             }
-            .also {
-                holder = it
-            }
+        }.also {
+            holder = it
+        }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.setVisible(loading)
+        holder.itemView.isInvisible = !loading
     }
 
     override fun onViewRecycled(holder: ViewHolder) {

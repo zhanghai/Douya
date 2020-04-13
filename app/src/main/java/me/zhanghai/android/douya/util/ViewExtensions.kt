@@ -9,10 +9,15 @@ import android.annotation.SuppressLint
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.children
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import me.zhanghai.android.douya.app.inputMethodManager
 
 inline fun <reified T : View> View.findViewByClass(): T? = findViewByClass(T::class.java)
 
@@ -51,21 +56,18 @@ var View.layoutInNavigation: Boolean
         }
     }
 
-val View.visible: Boolean
-    get() = visibility == View.VISIBLE
-
 fun View.setVisible(visible: Boolean, gone: Boolean = false) {
     visibility = if (visible) View.VISIBLE else if (gone) View.GONE else View.INVISIBLE
 }
 
 suspend fun View.fadeIn(force: Boolean = false) {
-    if (!visible) {
+    if (!isVisible) {
         alpha = 0f
     }
-    setVisible(true)
+    isVisible = true
     animate().run {
         alpha(1f)
-        if (!(isLaidOut || force) || (visible && alpha == 1f)) {
+        if (!(isLaidOut || force) || (isVisible && alpha == 1f)) {
             duration = 0
         } else {
             duration = context.shortAnimTime
@@ -85,7 +87,7 @@ fun View.fadeInUnsafe(force: Boolean = false) {
 suspend fun View.fadeOut(force: Boolean = false, gone: Boolean = false) {
     animate().run {
         alpha(0f)
-        if (!(isLaidOut || force) || (!visible || alpha == 0f)) {
+        if (!(isLaidOut || force) || (!isVisible || alpha == 0f)) {
             duration = 0
         } else {
             duration = context.shortAnimTime
@@ -94,7 +96,11 @@ suspend fun View.fadeOut(force: Boolean = false, gone: Boolean = false) {
         start()
         awaitEnd()
     }
-    setVisible(false, gone)
+    if (gone) {
+        isGone = true
+    } else {
+        isInvisible = true
+    }
 }
 
 fun View.fadeOutUnsafe(force: Boolean = false, gone: Boolean = false) {
@@ -119,7 +125,7 @@ fun View.fadeToVisibilityUnsafe(visible: Boolean, force: Boolean = false, gone: 
 
 @SuppressLint("RtlHardcoded")
 suspend fun View.slideIn(gravity: Int, force: Boolean = false) {
-    setVisible(true)
+    isVisible = true
     animate().run {
         when (Gravity.getAbsoluteGravity(gravity, layoutDirection)) {
             Gravity.LEFT, Gravity.RIGHT -> translationX(0f)
@@ -160,7 +166,11 @@ suspend fun View.slideOut(gravity: Int, force: Boolean = false, gone: Boolean = 
         start()
         awaitEnd()
     }
-    setVisible(false, gone)
+    if (gone) {
+        isGone = true
+    } else {
+        isInvisible = true
+    }
 }
 
 fun View.slideOutUnsafe(gravity: Int, force: Boolean = false, gone: Boolean = false) {
@@ -191,4 +201,12 @@ fun View.slideToVisibilityUnsafe(
     GlobalScope.launch(Dispatchers.Main.immediate) {
         slideToVisibility(gravity, visible, force, gone)
     }
+}
+
+fun View.showSoftInput() {
+    inputMethodManager.showSoftInput(this, 0)
+}
+
+fun View.hideSoftInput() {
+    inputMethodManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 }

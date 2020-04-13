@@ -7,7 +7,6 @@ package me.zhanghai.android.douya.account.ui
 
 import android.accounts.AccountManager
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,14 +20,15 @@ import kotlinx.coroutines.launch
 import me.zhanghai.android.douya.account.info.AuthenticatorMode
 import me.zhanghai.android.douya.arch.viewModels
 import me.zhanghai.android.douya.databinding.AuthenticatorFragmentBinding
+import me.zhanghai.android.douya.util.createViewIntent
 import me.zhanghai.android.douya.util.fadeIn
 import me.zhanghai.android.douya.util.fadeOut
 import me.zhanghai.android.douya.util.startActivitySafe
 
 class AuthenticatorFragment : Fragment() {
-    private val args: AuthenticatorFragmentArgs by navArgs()
+    private val args by navArgs<AuthenticatorFragmentArgs>()
 
-    private val viewModel: AuthenticatorViewModel by viewModels {
+    private val viewModel by viewModels {
         { AuthenticatorViewModel(AuthenticatorMode.values()[args.mode], args.username ?: "") }
     }
 
@@ -64,7 +64,7 @@ class AuthenticatorFragment : Fragment() {
             }
         }
         viewModel.signUpEvent.observe(viewLifecycleOwner) {
-            startActivitySafe(Intent(Intent.ACTION_VIEW, SIGN_UP_URI))
+            startActivitySafe(SIGN_UP_URI.createViewIntent())
         }
         viewModel.sendResultAndFinishEvent.observe(viewLifecycleOwner) { result ->
             args.response?.onResult(result.extras)

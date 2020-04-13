@@ -6,8 +6,13 @@
 package me.zhanghai.android.douya.app
 
 import android.accounts.AccountManager
-import androidx.core.content.ContextCompat
+import android.view.inputmethod.InputMethodManager
+import me.zhanghai.android.douya.compat.getSystemServiceCompat
 
 val accountManager: AccountManager by lazy {
-    ContextCompat.getSystemService(application, AccountManager::class.java)!!
+    application.getSystemServiceCompat(AccountManager::class.java)
+}
+
+val inputMethodManager: InputMethodManager by lazy {
+    application.getSystemServiceCompat(InputMethodManager::class.java)
 }
