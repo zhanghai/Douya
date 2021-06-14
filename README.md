@@ -7,6 +7,7 @@
 另一个 Material Design 的豆瓣客户端。
 
 ![Travis CI](https://travis-ci.org/zhanghai/Douya.svg)
+[![Maintainability](https://cloud.quality-gate.com/dashboard/api/badge?projectName=zhanghai_Douya&branchName=master)](https://cloud.quality-gate.com/dashboard/branches/315083#overview)
 
 <!--<a href="https://play.google.com/store/apps/details?id=me.zhanghai.android.douya" target="_blank"><img alt="Google Play" height="90" src="https://play.google.com/intl/zh_CN/badges/images/generic/zh-cn_badge_web_generic.png"/></a>-->
 
