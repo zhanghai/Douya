@@ -13,17 +13,26 @@ import androidx.annotation.AnimRes
 import androidx.annotation.ArrayRes
 import androidx.annotation.AttrRes
 import androidx.annotation.BoolRes
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
+import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.InterpolatorRes
 import androidx.annotation.PluralsRes
 import androidx.fragment.app.Fragment
 import me.zhanghai.android.douya.R
+import me.zhanghai.android.douya.compat.getColorCompat
+import me.zhanghai.android.douya.compat.getColorStateListCompat
+import me.zhanghai.android.douya.compat.getDrawableCompat
 
 fun Fragment.getAnimation(@AnimRes id: Int) = requireContext().getAnimation(id)
 
 fun Fragment.getBoolean(@BoolRes id: Int) = requireContext().getBoolean(id)
+
+fun Fragment.getColor(@ColorRes id: Int) = requireContext().getColorCompat(id)
+
+fun Fragment.getColorStateList(@ColorRes id: Int) = requireContext().getColorStateListCompat(id)
 
 fun Fragment.getDimension(@DimenRes id: Int) = requireContext().getDimension(id)
 
@@ -31,6 +40,8 @@ fun Fragment.getDimensionPixelOffset(@DimenRes id: Int) =
     requireContext().getDimensionPixelOffset(id)
 
 fun Fragment.getDimensionPixelSize(@DimenRes id: Int) = requireContext().getDimensionPixelSize(id)
+
+fun Fragment.getDrawable(@DrawableRes id: Int) = requireContext().getDrawableCompat(id)
 
 fun Fragment.getFloat(@DimenRes id: Int) = requireContext().getFloat(id)
 

@@ -39,7 +39,7 @@ fun Context.obtainStyledAttributesCompat(
 
 @SuppressLint("RestrictedApi")
 inline fun <R> TintTypedArray.use(block: (TintTypedArray) -> R): R =
-    AutoCloseable { recycle() }.use { block(this) }
+    block(this).also { recycle() }
 
 val Context.mainExecutorCompat: Executor
     get() = ContextCompat.getMainExecutor(this)

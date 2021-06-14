@@ -12,8 +12,10 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Looper
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.animation.Animation
@@ -31,9 +33,9 @@ import androidx.annotation.InterpolatorRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.content.res.ResourcesCompat
 import me.zhanghai.android.douya.R
 import me.zhanghai.android.douya.compat.getFloatCompat
+import me.zhanghai.android.douya.compat.mainExecutorCompat
 import me.zhanghai.android.douya.compat.obtainStyledAttributesCompat
 import me.zhanghai.android.douya.compat.use
 
@@ -145,23 +147,61 @@ fun Context.dpToDimensionPixelSize(@Dimension(unit = Dimension.DP) dp: Float): I
 fun Context.dpToDimensionPixelSize(@Dimension(unit = Dimension.DP) dp: Int) =
     dpToDimensionPixelSize(dp.toFloat())
 
-val Context.shortAnimTime: Long
-    get() = getInteger(android.R.integer.config_shortAnimTime).toLong()
+val Context.shortAnimTime: Int
+    get() = getInteger(android.R.integer.config_shortAnimTime)
 
-val Context.mediumAnimTime: Long
-    get() = getInteger(android.R.integer.config_mediumAnimTime).toLong()
+val Context.mediumAnimTime: Int
+    get() = getInteger(android.R.integer.config_mediumAnimTime)
 
-val Context.longAnimTime: Long
-    get() = getInteger(android.R.integer.config_longAnimTime).toLong()
+val Context.longAnimTime: Int
+    get() = getInteger(android.R.integer.config_longAnimTime)
+
+val Context.displayWidth: Int
+    get() = resources.displayMetrics.widthPixels
+
+val Context.displayHeight: Int
+    get() = resources.displayMetrics.heightPixels
+
+fun Context.hasSwDp(@Dimension(unit = Dimension.DP) dp: Int): Boolean =
+    resources.configuration.smallestScreenWidthDp >= dp
+
+val Context.hasSw600Dp: Boolean
+    get() = hasSwDp(600)
+
+fun Context.hasWDp(@Dimension(unit = Dimension.DP) dp: Int): Boolean =
+    resources.configuration.screenWidthDp >= dp
+
+val Context.hasW600Dp: Boolean
+    get() = hasWDp(600)
+
+val Context.hasW960Dp: Boolean
+    get() = hasWDp(960)
+
+val Context.isOrientationLandscape: Boolean
+    get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+val Context.isOrientationPortrait: Boolean
+    get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+val Context.isLightTheme: Boolean
+    get() = getBooleanByAttr(R.attr.isLightTheme)
 
 val Context.layoutInflater: LayoutInflater
     get() = LayoutInflater.from(this)
 
 fun Context.showToast(textRes: Int, duration: Int = Toast.LENGTH_SHORT) {
+    if (Looper.myLooper() != Looper.getMainLooper()) {
+        mainExecutorCompat.execute { showToast(textRes, duration) }
+        return
+    }
     Toast.makeText(this, textRes, duration).show()
 }
 
 fun Context.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
+    if (Looper.myLooper() != Looper.getMainLooper()) {
+        mainExecutorCompat.execute { showToast(text, duration) }
+        return
+    }
     Toast.makeText(this, text, duration).show()
 }
 
